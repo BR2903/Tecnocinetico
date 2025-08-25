@@ -1,0 +1,112 @@
+🛠️ PLAN DE DESARROLLO MOD "TECNOCINETICO" – Minecraft 1.21.1 (NeoForge)
+
+Autor: Bryan Omar Amaya Montoya
+
+──────────────────────────────
+🔹 Fase 0 – Configuración del entorno
+──────────────────────────────
+• Instalar IntelliJ IDEA Ultimate (licencia educativa JetBrains).
+• Configurar NeoForge MDK 1.21.1 en el IDE.
+• Agregar dependencias: Create, su extensión para FE, JEI/REI, curios y The One Probe.
+• Definir modid, nombre, descripción y logo.
+• Crear ItemGroup personalizado y texturas dummy.
+• Inicializar repositorio en GitHub y configurar GitHub Actions para builds automáticos.
+• Configurar Figma/Canva para diseño de UI y assets.
+
+──────────────────────────────
+🔹 Fase 1 – Pre-Alfa (prototipo jugable y mecánicas básicas)
+──────────────────────────────
+• NUEVOS MINERALES: Zentharita, Cobre, Estaño, Níquel, Titanio, Litio, Uranio (con generación en el mundo).
+• ALEACIONES: Acero, Bronce, **Obsidianita** (nombre para la aleación de Acero + Obsidiana: Obsidianita, superaleación oscura y ultra resistente para componentes extremos y armaduras).
+• ÍTEMS BÁSICOS: Polvos, lingotes, placas, chips, cables.
+• MÁQUINAS ESENCIALES:
+    - Prensa eléctrica (pulveriza minerales)
+    - Fundidora de Inducción (usa FE, funde aleaciones convencionales)
+    - **Procesador Avanzado de Materiales** (procesa materiales especiales como Titanio y Uranio, necesarios para aleaciones y componentes high-tech)
+    - **Nanoensamblador** (fabrica chips y componentes electrónicos avanzados)
+    - **Laboratorio Químico** (proceso de síntesis y manipulación de compuestos químicos básicos y avanzados, como ácidos, plásticos y reactivos industriales)
+• ARMAS TIER 1: Pistola de tubos, Escopeta de doble cañón, Subfusil de chatarra.
+• ARMADURA TIER 1: Kevlar.
+• SISTEMA DE LOGROS personalizados y primeros avances tecnológicos.
+• PRIMER MOB: "Chatarrobot" (mob hostil básico).
+• DOCUMENTACIÓN dentro del mod accesible (página básica en JEI y libro básico).
+
+──────────────────────────────
+🔹 Fase 2 – Alfa (contenido intermedio y progresión)
+──────────────────────────────
+• SINTETIZADOR QUÍMICO (plásticos, refrigerantes, lubricantes).
+• ENSAMBLADORA DE COMPONENTES (automatización avanzada).
+• ARMAMENTO TIER 2: Rifle Vanguardia, Rifle de precisión “Ojo de Halcón”, Ametralladora “Devastador”.
+• ARMADURA TIER 2: Servoarmadura Coloso Mk I.
+• MOBS: Ciborgs Fallidos, Drones voladores.
+• ESTRUCTURAS: Búnkeres subterráneos, puestos de escucha generados.
+• SISTEMA DE AVANCES/TECNOLOGÍA visual tipo árbol (árbol tecnológico in-game).
+• PRIMERAS CINEMÁTICAS usando Blockbuster para ambientar.
+
+──────────────────────────────
+🔹 Fase 3 – Beta (vehículos, módulos, mobs avanzados)
+──────────────────────────────
+• SISTEMA DE MÓDULOS: Jetpack, servomotores, escudo, oxígeno, visores (slots de equipo, efectos y upgrades).
+• VEHÍCULO INTERMEDIO: Hoverbike (modelo, física simple, controlable).
+• DIMENSIÓN ZENTHARIS: terreno alienígena, menas únicas, primer boss (El Guardián de la Cripta).
+• MOBS: Enjambre Tecno-Orgánico (enemigos tipo swarm con IA avanzada).
+• SISTEMA DE SOBRECALENTAMIENTO de armas y química avanzada.
+• INTEGRACIÓN AVANZADA con JEI/REI, curios y The One Probe.
+• MÚSICA y sonidos originales (BandLab u otros DAW de acceso educativo).
+
+──────────────────────────────
+🔹 Fase 4 – Release Candidate (contenido endgame)
+──────────────────────────────
+• VEHÍCULO VOLADOR: Cañonera “Halcón” VTOL (con artillería y transporte interplanetario).
+• ARMAMENTO TIER 3 y 4: Armas cinéticas de railgun, armas de energía pura (láser/plasma).
+• ARMADURA TIER 3: Paladín Mk III (con módulos intercambiables).
+• DIMENSIÓN VACÍO ESTELAR: mundo de gravedad baja, facción Eclipse, recursos únicos.
+• BOSS FINAL: Coloso de Batalla (con fases, habilidades y mecánicas únicas).
+• **MECÁNICA DE VIAJE ENTRE PLANETAS/DIMENSIONES:**
+    - Acceso inicial a otras dimensiones/planetas mediante un **Portador de Salto Planetario** (maquinaria avanzada, no portal tradicional, requiere recursos, energía y componentes especiales para activarse).
+    - Una vez construido el Halcón VTOL, el jugador puede viajar libremente entre los planetas/dimensiones descubiertas, simulando exploración espacial tecnológica, sin portales mágicos clásicos.
+• SISTEMA DE MISIONES con recompensas (misiones diarias y principales).
+
+──────────────────────────────
+🔹 Fase 5 – Polishing y Lore
+──────────────────────────────
+• HISTORIA: Terminales, grabaciones, textos de lore, cinemáticas.
+• PANTALLAS HOLOGRÁFICAS, efectos visuales con shaders y partículas avanzadas.
+• BALANCE final de armas, armaduras, máquinas y progresión.
+• COMPATIBILIDAD completa con mods populares.
+• ÁRBOL TECNOLÓGICO visible y navegable para el jugador.
+• SISTEMA DE CONFIGURACIÓN in-game (ajustes de dificultad, accesibilidad).
+• DOCUMENTACIÓN avanzada: Wiki, archivos PDF, tutoriales en video y Discord para la comunidad.
+• LOGROS de Steam/Minecraft y estadísticas.
+
+──────────────────────────────
+🌟 Mejoras e ideas extra (opcional/futuro)
+──────────────────────────────
+• INTEGRACIÓN CON SERVIDORES MULTIJUGADOR (desafíos cooperativos).
+• SOPORTE PARA EVENTOS temporales y drops aleatorios de loot.
+• SISTEMA DE ECONOMÍA y comercio con NPCs.
+• SOPORTE PARA MODDING DENTRO DEL MOD (API propia para que otros creen contenido).
+• APLICACIÓN WEB con Notion o GitHub Pages para seguimiento y feedback de la comunidad.
+• CONCURSOS de construcción y skins con premios digitales.
+
+──────────────────────────────
+🛠️ Herramientas recomendadas (GitHub Student Pack):
+──────────────────────────────
+- JetBrains IntelliJ IDEA Ultimate (IDE principal Java)
+- Blockbench (modelado 3D)
+- Figma/Canva Pro (diseño UI/assets)
+- GitHub Copilot (asistente de código)
+- Notion (documentación y organización)
+- Discord (comunidad y testers)
+- GitHub Actions (automatización de builds)
+- BandLab (creación de música/sonidos)
+
+──────────────────────────────
+Notas finales:
+──────────────────────────────
+- Documenta cada fase y sube commits ordenados a GitHub.
+- Crea issues/tareas para cada nueva función o bug.
+- Comparte avances y busca feedback en Discord y foros especializados.
+- ¡Diviértete y aprende al máximo en el proceso!
+
+──────────────────────────────
