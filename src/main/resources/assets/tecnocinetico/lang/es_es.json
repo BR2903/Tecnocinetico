@@ -1,0 +1,13 @@
+{
+  "item.tecnocinetico.resistor_330_ohm": "Resistor 330Ω",
+  "item.tecnocinetico.raw_cinetrite": "Cinetrita en Bruto",
+  "item.tecnocinetico.cinetrite_ingot": "Cristal de Cinetrita",
+
+  "block.tecnocinetico.ancient_alloy_block": "Cubierta de Aleación Antigua",
+  "block.tecnocinetico.ancient_alloy_tl": "Glifo Rúnico Zyr",
+  "block.tecnocinetico.ancient_alloy_tr": "Glifo Rúnico Vex",
+  "block.tecnocinetico.ancient_alloy_bl": "Glifo Rúnico Kael",
+  "block.tecnocinetico.ancient_alloy_br": "Glifo Rúnico Oth",
+  "block.tecnocinetico.cinetrite_ore": "Mineral de Cinetrita",
+  "block.tecnocinetico.deepslate_cinetrite_ore": "Mineral de Cinetrita Profunda"
+}

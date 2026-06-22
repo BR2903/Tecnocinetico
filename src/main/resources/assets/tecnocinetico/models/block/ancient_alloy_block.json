@@ -1,0 +1,24 @@
+{
+	"parent": "minecraft:block/block",
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "tecnocinetico:block/ancient_alloy_plating",
+		"particle": "tecnocinetico:block/ancient_alloy_particle"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 5.875, 4, 9.875], "texture": "#0"},
+				"east": {"uv": [0, 5.875, 4, 9.875], "texture": "#0"},
+				"south": {"uv": [12, 5.875, 16, 9.875], "texture": "#0"},
+				"west": {"uv": [12, 5.875, 16, 9.875], "texture": "#0"},
+				"up": {"uv": [15.95313, 5.47656, 11.95313, 1.47656], "texture": "#0"},
+				"down": {"uv": [4.40625, 0.33594, 0.40625, 4.33594], "texture": "#0"}
+			}
+		}
+	]
+}

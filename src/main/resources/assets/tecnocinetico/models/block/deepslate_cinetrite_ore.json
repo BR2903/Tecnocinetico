@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "tecnocinetico:block/deepslate_cinetrite_ore"
+  }
+}

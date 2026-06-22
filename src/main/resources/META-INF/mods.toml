@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="tecnocinetico"
+version="1.0.0"
+displayName="Tecnocinético"
+authors="Bryan Amaya"
+description='''
+Un mundo destruido por una IA avanzada, combinando automatización industrial de alto nivel y armamento tecnológico.
+'''
+
+[[dependencies.tecnocinetico]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.tecnocinetico]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="BOTH"
