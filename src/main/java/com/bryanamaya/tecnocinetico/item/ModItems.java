@@ -23,6 +23,10 @@ public class ModItems {
     public static final RegistryObject<Item> RESISTOR_330_OHM = ITEMS.register("resistor_330_ohm",
             () -> new Item(new Item.Properties()));
 
+    // --- EL MARTILLO DE INICIO ---
+    public static final RegistryObject<Item> KINETIC_HAMMER = ITEMS.register("kinetic_hammer",
+            () -> new Item(new Item.Properties().stacksTo(1).defaultDurability(256)));
+
     // --- COMPONENTES TIER 1 (Prensa Manual) ---
     public static final RegistryObject<Item> PIEZO_TRANSDUCER = ITEMS.register("piezo_transducer",
             () -> new Item(new Item.Properties()));

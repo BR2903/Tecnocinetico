@@ -1,7 +1,10 @@
 package com.bryanamaya.tecnocinetico.block.custom;
 
 import com.bryanamaya.tecnocinetico.block.entity.KineticAssemblyPressBlockEntity;
+import com.bryanamaya.tecnocinetico.item.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -28,45 +31,55 @@ public class KineticAssemblyPressBlock extends Block implements EntityBlock {
                 .sound(SoundType.ANVIL));
     }
 
-    // 1. VINCULAR LA CARCASA CON LA MEMORIA RAM
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new KineticAssemblyPressBlockEntity(pPos, pState);
     }
 
-    // 2. LÓGICA DE INTERACCIÓN (CLIC DERECHO)
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide()) { // Solo ejecutamos cálculos en el servidor
+        if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
 
             if (entity instanceof KineticAssemblyPressBlockEntity pressEntity) {
-                // Buscamos el inventario interno
-                pressEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                    ItemStack itemInHand = pPlayer.getItemInHand(pHand);
+                ItemStack itemInHand = pPlayer.getItemInHand(pHand);
 
+                // ACCIÓN ESPECIAL: ¿El jugador está usando el martillo cinético?
+                if (itemInHand.is(ModItems.KINETIC_HAMMER.get())) {
+                    // Ejecutar golpe en el cerebro de la mesa
+                    pressEntity.attemptCraft(pLevel, pPos);
+
+                    // Reproducir el sonido metálico de impacto
+                    pLevel.playSound(null, pPos, SoundEvents.ANVIL_PLACE, SoundSource.BLOCKS, 0.5f, 1.5f);
+
+                    if (!pPlayer.isCreative()) {
+                        itemInHand.hurtAndBreak(1, pPlayer, (player) -> player.broadcastBreakEvent(pHand));
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+
+                // ACCIÓN NORMAL: Colocar o extraer materiales si no es un martillo
+                pressEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                     if (!itemInHand.isEmpty()) {
-                        // OPCIÓN A: Intentar meter 1 ítem en el primer hueco vacío
                         for (int i = 0; i < handler.getSlots(); i++) {
                             if (handler.getStackInSlot(i).isEmpty()) {
                                 ItemStack toInsert = itemInHand.copy();
-                                toInsert.setCount(1); // Solo metemos 1 a la vez
+                                toInsert.setCount(1);
                                 handler.insertItem(i, toInsert, false);
 
                                 if (!pPlayer.isCreative()) {
-                                    itemInHand.shrink(1); // Le quitamos 1 al jugador
+                                    itemInHand.shrink(1);
                                 }
-                                break; // Ya metimos el ítem, salimos del ciclo
+                                break;
                             }
                         }
                     } else {
-                        // OPCIÓN B: Si la mano está vacía, sacamos el último ítem que metimos
                         for (int i = handler.getSlots() - 1; i >= 0; i--) {
                             if (!handler.getStackInSlot(i).isEmpty()) {
                                 ItemStack extracted = handler.extractItem(i, 1, false);
                                 pPlayer.setItemInHand(pHand, extracted);
-                                break; // Ya sacamos el ítem, salimos del ciclo
+                                break;
                             }
                         }
                     }
@@ -76,7 +89,6 @@ public class KineticAssemblyPressBlock extends Block implements EntityBlock {
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
-    // 3. FÍSICAS DE DESTRUCCIÓN (VOMITAR ÍTEMS AL ROMPER)
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (pState.getBlock() != pNewState.getBlock()) {

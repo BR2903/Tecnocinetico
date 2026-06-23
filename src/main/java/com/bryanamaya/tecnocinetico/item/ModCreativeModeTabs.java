@@ -37,6 +37,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModBlocks.ANCIENT_ALLOY_BL.get());
                         pOutput.accept(ModBlocks.ANCIENT_ALLOY_BR.get());
                         pOutput.accept(ModBlocks.KINETIC_ASSEMBLY_PRESS.get());
+                        pOutput.accept(ModItems.KINETIC_HAMMER.get());
 
                     })
                     .build());

@@ -1,0 +1,22 @@
+{
+	"parent": "minecraft:block/block",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "tecnocinetico:block/kinetic_assembly_press",
+		"particle": "tecnocinetico:block/kinetic_assembly_press"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [13.78931, 0, 15.91195, 16], "texture": "#0"},
+				"east": {"uv": [5.75157, 0, 7.95597, 16], "texture": "#0"},
+				"south": {"uv": [11.18553, 0, 13.26415, 16], "texture": "#0"},
+				"west": {"uv": [2.99371, 0, 5.25786, 16], "texture": "#0"},
+				"up": {"uv": [0, 0, 2.49686, 16], "texture": "#0"},
+				"down": {"uv": [8.4434, 0, 10.74214, 16], "texture": "#0"}
+			}
+		}
+	]
+}
