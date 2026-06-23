@@ -3,11 +3,11 @@
   "values": [
     "tecnocinetico:cinetrite_ore",
     "tecnocinetico:deepslate_cinetrite_ore",
-
     "tecnocinetico:ancient_alloy_block",
     "tecnocinetico:ancient_alloy_tl",
     "tecnocinetico:ancient_alloy_tr",
     "tecnocinetico:ancient_alloy_bl",
-    "tecnocinetico:ancient_alloy_br"
+    "tecnocinetico:ancient_alloy_br",
+    "tecnocinetico:kinetic_assembly_press"
   ]
 }

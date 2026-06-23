@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "A": { "item": "tecnocinetico:ancient_alloy_block" },
+    "S": { "item": "minecraft:iron_block" }
+  },
+  "result": {
+    "item": "tecnocinetico:kinetic_assembly_press",
+    "count": 1
+  }
+}
