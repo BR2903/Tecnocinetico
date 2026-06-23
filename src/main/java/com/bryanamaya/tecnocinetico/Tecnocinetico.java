@@ -1,5 +1,5 @@
 package com.bryanamaya.tecnocinetico;
-
+import com.bryanamaya.tecnocinetico.block.entity.ModBlockEntities;
 import com.bryanamaya.tecnocinetico.block.ModBlocks;
 import com.bryanamaya.tecnocinetico.item.ModCreativeModeTabs;
 import com.bryanamaya.tecnocinetico.item.ModItems;
@@ -28,6 +28,7 @@ public class Tecnocinetico {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
