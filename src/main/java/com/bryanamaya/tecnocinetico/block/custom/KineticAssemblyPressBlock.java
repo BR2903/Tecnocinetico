@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter; // IMPORTANTE
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -23,6 +24,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext; // IMPORTANTE
+import net.minecraft.world.phys.shapes.VoxelShape; // IMPORTANTE
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,9 +39,16 @@ public class KineticAssemblyPressBlock extends Block implements EntityBlock {
                 .mapColor(MapColor.METAL)
                 .requiresCorrectToolForDrops()
                 .strength(5.0f, 6.0f)
-                .sound(SoundType.ANVIL));
+                .sound(SoundType.ANVIL)
+                .noOcclusion()); // <--- AQUI ARREGLAMOS EL SUELO TRANSPARENTE
         // ESTADO INICIAL: Que apunte al norte por defecto
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    // HITBOX: Definimos una caja de colisión personalizada para que abrace al yunque
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return Block.box(1, 0, 1, 15, 16, 15);
     }
 
     // LÓGICA DE ROTACIÓN: Cuando el jugador lo pone, el bloque lo mira de frente
