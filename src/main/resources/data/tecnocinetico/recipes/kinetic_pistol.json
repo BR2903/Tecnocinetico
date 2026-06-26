@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ACT",
+    " S ",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    },
+    "C": {
+      "item": "tecnocinetico:cinetrite_ingot"
+    },
+    "T": {
+      "item": "tecnocinetico:piezo_transducer"
+    },
+    "S": {
+      "item": "tecnocinetico:deepslate_logic_substrate"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:kinetic_pistol",
+    "count": 1
+  }
+}

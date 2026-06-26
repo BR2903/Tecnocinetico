@@ -8,12 +8,13 @@
   "block.tecnocinetico.ancient_alloy_tr": "Glifo Rúnico Vex",
   "block.tecnocinetico.ancient_alloy_bl": "Glifo Rúnico Kael",
   "block.tecnocinetico.ancient_alloy_br": "Glifo Rúnico Oth",
-  "block.tecnocinetico.cinetrite_ore": "Mineral de Cinetrita",
+  "item.tecnocinetico.cinetrite_shard": "Fragmento de Cinetrita",  "block.tecnocinetico.cinetrite_shard": "Mineral de Cinetrita",
   "block.tecnocinetico.deepslate_cinetrite_ore": "Mineral de Cinetrita Profunda",
   "block.tecnocinetico.kinetic_assembly_press": "Prensa de Ensamblaje Cinético",
   "item.tecnocinetico.kinetic_hammer": "Martillo Cinético",
   "item.tecnocinetico.piezo_transducer": "Transductor Piezo-Cúprico",
   "item.tecnocinetico.deepslate_logic_substrate": "Sustrato Lógico de Pizarra",
   "item.tecnocinetico.crude_kinetic_coupler": "Acoplador Cinético Bruto",
-  "creativetab.tecnocinetico_tab": "Tecnocinético"
+  "creativetab.tecnocinetico_tab": "Tecnocinético",
+  "item.tecnocinetico.kinetic_pistol": "Pistola Cinética"
 }

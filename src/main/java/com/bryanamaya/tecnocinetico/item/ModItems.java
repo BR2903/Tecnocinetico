@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.item;
 
+import com.bryanamaya.tecnocinetico.item.custom.KineticPistolItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -36,6 +37,10 @@ public class ModItems {
 
     public static final RegistryObject<Item> CRUDE_KINETIC_COUPLER = ITEMS.register("crude_kinetic_coupler",
             () -> new Item(new Item.Properties()));
+
+    // --- ARMAMENTO CINÉTICO TIER 1 ---
+    public static final RegistryObject<Item> KINETIC_PISTOL = ITEMS.register("kinetic_pistol",
+            () -> new KineticPistolItem(new Item.Properties().stacksTo(1).defaultDurability(500)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "ICI",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "tecnocinetico:cinetrite_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:ancient_alloy_block",
+    "count": 1
+  }
+}
