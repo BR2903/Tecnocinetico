@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "tecnocinetico:raw_cinetrite"
+  },
+  "result": "tecnocinetico:cinetrite_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
+}

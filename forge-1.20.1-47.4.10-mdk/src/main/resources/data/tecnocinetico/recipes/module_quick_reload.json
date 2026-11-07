@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "KRK",
+    " P "
+  ],
+  "key": {
+    "K": {
+      "item": "minecraft:copper_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "tecnocinetico:piezo_transducer"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:module_quick_reload",
+    "count": 1
+  }
+}

@@ -1,0 +1,14 @@
+# Ajustes locales de los asistentes de IA (no se comparten)
+.claude/
+
+# Python (scripts de tools/)
+__pycache__/
+*.pyc
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Datos generados por Forge en desarrollo
+forge-1.20.1-47.4.10-mdk/run-data/

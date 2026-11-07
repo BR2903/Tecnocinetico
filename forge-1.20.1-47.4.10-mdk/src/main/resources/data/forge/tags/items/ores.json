@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "tecnocinetico:cinetrite_ore",
+    "tecnocinetico:deepslate_cinetrite_ore",
+    "tecnocinetico:inercita_ore",
+    "tecnocinetico:deepslate_inercita_ore"
+  ]
+}

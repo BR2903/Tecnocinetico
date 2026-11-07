@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    " P ",
+    " C "
+  ],
+  "key": {
+    "I": { "item": "tecnocinetico:inercita_ingot" },
+    "P": { "item": "tecnocinetico:kinetic_assembly_press" },
+    "C": { "item": "tecnocinetico:crude_kinetic_coupler" }
+  },
+  "result": {
+    "item": "tecnocinetico:auto_kinetic_press",
+    "count": 1
+  }
+}

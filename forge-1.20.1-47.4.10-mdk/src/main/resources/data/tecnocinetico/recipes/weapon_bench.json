@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NCN",
+    "IPI",
+    "I I"
+  ],
+  "key": {
+    "N": {
+      "item": "tecnocinetico:inercita_ingot"
+    },
+    "C": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:piezo_transducer"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:weapon_bench",
+    "count": 1
+  }
+}

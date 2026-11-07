@@ -1,0 +1,19 @@
+{
+ "variants": {
+  "facing=north": {
+   "model": "tecnocinetico:block/weapon_bench"
+  },
+  "facing=east": {
+   "model": "tecnocinetico:block/weapon_bench",
+   "y": 90
+  },
+  "facing=south": {
+   "model": "tecnocinetico:block/weapon_bench",
+   "y": 180
+  },
+  "facing=west": {
+   "model": "tecnocinetico:block/weapon_bench",
+   "y": 270
+  }
+ }
+}

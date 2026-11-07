@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " G ",
+    "IPI",
+    " C "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:piezo_transducer"
+    },
+    "C": {
+      "item": "tecnocinetico:cinetrite_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:module_optic",
+    "count": 1
+  }
+}

@@ -1,0 +1,670 @@
+{
+ "parent": "tecnocinetico:item/kinetic_pistol_3d",
+ "overrides": [
+  {
+   "predicate": {
+    "tecnocinetico:modules": 0,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 0,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 0,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 0,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 0,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 1,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 1,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m1_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 1,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m1_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 1,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m1_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 1,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m1_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 1,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 2,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 2,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m2_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 2,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m2_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 2,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m2_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 2,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m2_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 2,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 3,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 3,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m3_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 3,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m3_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 3,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m3_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 3,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m3_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 3,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 4,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 4,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m4_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 4,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m4_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 4,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m4_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 4,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m4_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 4,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 5,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m5_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 5,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m5_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 5,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m5_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 5,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m5_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 5,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m5_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 5,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m5_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 6,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m6_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 6,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m6_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 6,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m6_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 6,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m6_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 6,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m6_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 6,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m6_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 7,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m7_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 7,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m7_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 7,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m7_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 7,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m7_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 7,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m7_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 7,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m7_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 8,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m8_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 8,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m8_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 8,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m8_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 8,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m8_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 8,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m8_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 8,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m8_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 9,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m9_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 9,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m9_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 9,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m9_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 9,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m9_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 9,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m9_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 9,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m9_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 10,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m10_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 10,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m10_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 10,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m10_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 10,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m10_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 10,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m10_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 10,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m10_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 11,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m11_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 11,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m11_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 11,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m11_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 11,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m11_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 11,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m11_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 11,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m11_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 12,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m12_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 12,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m12_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 12,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m12_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 12,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m12_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 12,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m12_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 12,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m12_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 13,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m13_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 13,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m13_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 13,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m13_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 13,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m13_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 13,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m13_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 13,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m13_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 14,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m14_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 14,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m14_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 14,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m14_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 14,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m14_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 14,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m14_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 14,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m14_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 15,
+    "tecnocinetico:reload": 0
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m15_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 15,
+    "tecnocinetico:reload": 0.01
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m15_reload_1_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 15,
+    "tecnocinetico:reload": 0.25
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m15_reload_2_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 15,
+    "tecnocinetico:reload": 0.5
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m15_reload_3_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 15,
+    "tecnocinetico:reload": 0.72
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m15_reload_4_3d"
+  },
+  {
+   "predicate": {
+    "tecnocinetico:modules": 15,
+    "tecnocinetico:reload": 0.9
+   },
+   "model": "tecnocinetico:item/kinetic_pistol_m15_3d"
+  }
+ ]
+}

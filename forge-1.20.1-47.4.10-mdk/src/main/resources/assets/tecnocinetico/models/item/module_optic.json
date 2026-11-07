@@ -1,0 +1,248 @@
+{
+ "credit": "Tecnocinetico - pistol_gen.py",
+ "texture_size": [
+  128,
+  128
+ ],
+ "textures": {
+  "0": "tecnocinetico:item/kinetic_pistol",
+  "particle": "tecnocinetico:item/kinetic_pistol"
+ },
+ "elements": [
+  {
+   "name": "optic_mount",
+   "from": [
+    7.35,
+    7.075,
+    6.85
+   ],
+   "to": [
+    8.65,
+    7.325,
+    9.15
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      9.625,
+      12.75,
+      10.25,
+      12.875
+     ],
+     "texture": "#0"
+    },
+    "south": {
+     "uv": [
+      10.25,
+      12.75,
+      10.875,
+      12.875
+     ],
+     "texture": "#0"
+    },
+    "east": {
+     "uv": [
+      3.875,
+      12.75,
+      5.0,
+      12.875
+     ],
+     "texture": "#0"
+    },
+    "west": {
+     "uv": [
+      5.0,
+      12.75,
+      6.125,
+      12.875
+     ],
+     "texture": "#0"
+    },
+    "up": {
+     "uv": [
+      12.25,
+      8.75,
+      12.875,
+      9.875
+     ],
+     "texture": "#0"
+    },
+    "down": {
+     "uv": [
+      12.875,
+      8.75,
+      13.5,
+      9.875
+     ],
+     "texture": "#0"
+    }
+   }
+  },
+  {
+   "name": "optic_body",
+   "from": [
+    7.15,
+    7.325,
+    7.15
+   ],
+   "to": [
+    8.85,
+    8.925,
+    8.85
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      9.25,
+      10.0,
+      10.125,
+      10.75
+     ],
+     "texture": "#0"
+    },
+    "south": {
+     "uv": [
+      10.125,
+      10.0,
+      11.0,
+      10.75
+     ],
+     "texture": "#0"
+    },
+    "east": {
+     "uv": [
+      11.0,
+      10.0,
+      11.875,
+      10.75
+     ],
+     "texture": "#0"
+    },
+    "west": {
+     "uv": [
+      11.875,
+      10.0,
+      12.75,
+      10.75
+     ],
+     "texture": "#0"
+    },
+    "up": {
+     "uv": [
+      7.5,
+      10.0,
+      8.375,
+      10.875
+     ],
+     "texture": "#0"
+    },
+    "down": {
+     "uv": [
+      8.375,
+      10.0,
+      9.25,
+      10.875
+     ],
+     "texture": "#0"
+    }
+   }
+  }
+ ],
+ "display": {
+  "thirdperson_righthand": {
+   "translation": [
+    0,
+    2,
+    1
+   ],
+   "scale": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  "thirdperson_lefthand": {
+   "translation": [
+    0,
+    2,
+    1
+   ],
+   "scale": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  "firstperson_righthand": {
+   "rotation": [
+    0,
+    -90,
+    0
+   ],
+   "translation": [
+    1,
+    3,
+    0
+   ],
+   "scale": [
+    0.6,
+    0.6,
+    0.6
+   ]
+  },
+  "firstperson_lefthand": {
+   "rotation": [
+    0,
+    -90,
+    0
+   ],
+   "translation": [
+    1,
+    3,
+    0
+   ],
+   "scale": [
+    0.6,
+    0.6,
+    0.6
+   ]
+  },
+  "ground": {
+   "translation": [
+    0,
+    2,
+    0
+   ],
+   "scale": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  "fixed": {
+   "rotation": [
+    0,
+    90,
+    0
+   ]
+  },
+  "gui": {
+   "rotation": [
+    -150.0,
+    -45.0,
+    -180.0
+   ],
+   "translation": [
+    -0.0,
+    0.071,
+    0
+   ],
+   "scale": [
+    4.0,
+    4.0,
+    4.0
+   ]
+  }
+ },
+ "gui_light": "front"
+}

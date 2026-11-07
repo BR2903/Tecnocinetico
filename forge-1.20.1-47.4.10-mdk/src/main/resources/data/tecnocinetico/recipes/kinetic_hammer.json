@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "ICI",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "C": { "item": "tecnocinetico:cinetrite_ingot" },
+    "S": { "item": "minecraft:stick" }
+  },
+  "result": {
+    "item": "tecnocinetico:kinetic_hammer",
+    "count": 1
+  }
+}
