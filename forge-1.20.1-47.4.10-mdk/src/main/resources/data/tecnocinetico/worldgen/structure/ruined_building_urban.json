@@ -1,0 +1,22 @@
+{
+  "type": "tecnocinetico:ruined_building",
+  "biomes": "#tecnocinetico:has_structure/ruined_building_urban",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "beard_thin",
+  "floors": {
+    "type": "minecraft:uniform",
+    "value": {
+      "min_inclusive": 1,
+      "max_inclusive": 3
+    }
+  },
+  "width": {
+    "type": "minecraft:uniform",
+    "value": {
+      "min_inclusive": 7,
+      "max_inclusive": 11
+    }
+  },
+  "style": "urban"
+}

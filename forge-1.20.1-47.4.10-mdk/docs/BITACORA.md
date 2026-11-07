@@ -138,3 +138,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 ## 2026-11-07 — Claude — Comando /tpbioma
 - `/tpbioma <bioma>` (operador): busca el bioma más cercano (hasta 6400 bloques) y teletransporta a la superficie, o a un hueco de cueva en los biomas subterráneos. Sin namespace se entiende `tecnocinetico:`; autocompleta los biomas del mod. Código: `command/TpBiomeCommand`.
 
+## 2026-11-07 — Claude — Fase 4: edificios en ruinas + GameTest de generación
+- Estructura por código (sin NBT) `ruined_building` (`worldgen/structure/`): planta rectangular, 1-6 pisos de 4 bloques, derrumbe diagonal desde una esquina intacta, ventanas rotas (alguna rejilla), forjados con agujero de derrumbe, vigas oxidadas, escombros/pedazos dentro, cofre (`chests/ruined_building`, botín escaso: chatarra, pepitas, cobre; raro: piezas y módulos). Estilos urban/overgrown (musgo, enredaderas)/frozen (nieve).
+- 4 variantes (`tools/world_structures_gen.py`): Megaciudad (2-6 pisos, muy densa), urbana (Praderas, Tierras Fracturadas, Taiga de Ceniza), invadida (Ruinas Invadidas, Selva Industrial), helada (Tundra).
+- **Primer GameTest** (`gametest/WorldgenGameTests`): genera de verdad las 4 variantes en el servidor de prueba (que usa el Overworld del mod) y vuelca sus bloques a `run/gametest_dump/`; `tools/render_dump.py` los dibuja en isométrico para revisar el aspecto sin abrir el juego. Ajustado el derrumbe tras verlo (era demasiado destructivo en edificios bajos).
+- Importante para quien siga: en `postProcess` los aleatorios NO pueden depender del mundo (cada chunk dibuja su parte del mismo edificio); por eso `RuinedBuildingPiece` usa aleatorios por posición.

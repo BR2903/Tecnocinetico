@@ -75,6 +75,13 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `datagen/ModDataGenerators`: `gradlew runData` escribe biomas, ruido y etiquetas de biomas en `src/generated/resources` (**se sube a git**; volver a ejecutarlo tras tocar `worldgen/`).
 - Etiquetas: todos en `#minecraft:is_overworld` (minerales del mod/Create, Cuerpo de Enjambre, fortalezas), minas abandonadas, y algunas de comportamiento. **No** se añaden a `is_forest`, `is_ocean`, etc. a propósito: esas etiquetas activan estructuras vanilla (naufragios, templos, portales en ruinas...).
 
+### Estructuras (`worldgen/structure/`)
+- `ModStructures`: tipos de estructura y de pieza. `RuinedBuildingStructure` (busca terreno llano y seco) + `RuinedBuildingPiece` (construye el edificio por código; aleatorios por posición para que todos los chunks coincidan). Datos por `tools/world_structures_gen.py`.
+
+### Comandos (`command/`) y pruebas (`gametest/`)
+- `TpBiomeCommand`: `/tpbioma <bioma>`.
+- `WorldgenGameTests`: GameTest que genera las estructuras y vuelca sus bloques (ver `docs/HERRAMIENTAS.md`, render_dump).
+
 ### Compatibilidad (`compat/jei/`)
 - `TecnocineticoJeiPlugin` (categoría de la prensa, información de módulos/banco, oculta la fuente creativa) y `PressRecipeCategory`. JEI es dependencia solo de compilación/desarrollo; el mod funciona sin él.
 

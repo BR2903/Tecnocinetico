@@ -64,3 +64,11 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## world_features_gen.py (detalles del terreno)
 - `python tools/world_features_gen.py` genera `worldgen/configured_feature`, `worldgen/placed_feature` y `forge/biome_modifier/features/` (montones de escombros/chatarra y pedazos por bioma). Cada placed_feature va en un único biome_modifier para evitar "Feature order cycle".
+
+## world_structures_gen.py (estructuras)
+- `python tools/world_structures_gen.py` genera `worldgen/structure`, `worldgen/structure_set`, etiquetas `has_structure/*` y botín `loot_tables/chests/`.
+
+## render_dump.py (ver estructuras sin abrir el juego)
+- `runGameTestServer` genera las estructuras del mod y vuelca sus bloques en `run/gametest_dump/<nombre>.txt`.
+- `python tools/render_dump.py salida.png run/gametest_dump/a.txt [b.txt ...]` las dibuja en isométrico (colores aproximados; bloques sin color = magenta, añádelos a `COLORS`).
+- `tools/empty_template_gen.py` creó `structures/empty.nbt` (plantilla vacía de los GameTests); no hace falta volver a ejecutarlo.

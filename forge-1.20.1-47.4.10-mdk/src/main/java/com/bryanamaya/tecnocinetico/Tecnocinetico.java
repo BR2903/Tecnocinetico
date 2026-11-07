@@ -59,6 +59,7 @@ public class Tecnocinetico {
         ModSounds.register(modEventBus);
         ModMenus.register(modEventBus);
         com.bryanamaya.tecnocinetico.worldgen.ModWorldgen.register(modEventBus);
+        com.bryanamaya.tecnocinetico.worldgen.structure.ModStructures.register(modEventBus);
         ModNetwork.register();
     }
 
