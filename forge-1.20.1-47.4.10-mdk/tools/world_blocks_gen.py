@@ -209,15 +209,90 @@ def t_concrete():
     return concrete_base(10)
 
 
-def t_cracked_concrete():
-    img = concrete_base(20)
-    draw_crack(img, 21, (6, 0), 15, CONC[0], CONC[5])
-    draw_crack(img, 22, (12, 6), 7, CONC[0], CONC[5], branch=False)
-    for (x, y) in [(1, 13), (2, 13), (1, 14), (2, 14), (3, 14)]:   # esquina desconchada (se ve el árido)
-        put(img, x, y, (112, 104, 94))
-    put(img, 1, 12, CONC[1])
-    put(img, 3, 13, CONC[1])
+def fracture_path(r, a, b, depth=4, rough=2.6):
+    """Trazado irregular entre dos puntos (desplazamiento del punto medio): parece una fractura real."""
+    if depth == 0:
+        return [a, b]
+    mx, my = (a[0] + b[0]) / 2, (a[1] + b[1]) / 2
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    length = math.hypot(dx, dy) or 1
+    off = r.uniform(-rough, rough) * length / 12
+    mid = (mx - dy / length * off, my + dx / length * off)
+    return fracture_path(r, a, mid, depth - 1, rough)[:-1] + fracture_path(r, mid, b, depth - 1, rough)
+
+
+def raster(points):
+    """Convierte la polilínea en píxeles consecutivos."""
+    out = []
+    for (x0, y0), (x1, y1) in zip(points, points[1:]):
+        n = int(max(abs(x1 - x0), abs(y1 - y0))) + 1
+        for i in range(n):
+            px = round(x0 + (x1 - x0) * i / n)
+            py = round(y0 + (y1 - y0) * i / n)
+            if not out or out[-1] != (px, py):
+                out.append((px, py))
+    return out
+
+
+def cracked_variant(seed):
+    """Hormigón fracturado: grieta principal irregular (ancha en el centro), ramas secundarias y un desconchón."""
+    img = concrete_base(seed)
+    r = random.Random(seed + 100)
+    deep, dark, light = (52, 50, 47), CONC[0], CONC[5]
+    # extremos en bordes opuestos (cruza el bloque y continúa en el vecino)
+    if r.random() < 0.5:
+        a, b = (r.uniform(2, 13), -1), (r.uniform(2, 13), 16)
+    else:
+        a, b = (-1, r.uniform(2, 13)), (16, r.uniform(2, 13))
+    path = raster(fracture_path(r, a, b))
+    n = len(path)
+    # 1) borde iluminado (cara inferior-derecha de la grieta)
+    for (x, y) in path:
+        if 0 <= x < S and 0 <= y < S:
+            put(img, x + 1, y + 1, light)
+    # 2) grieta: 2 px en el tramo central, 1 px en los extremos
+    for i, (x, y) in enumerate(path):
+        if not (0 <= x < S and 0 <= y < S):
+            continue
+        central = 0.25 * n < i < 0.75 * n
+        put(img, x, y, deep if central else dark)
+        if central:
+            put(img, x + (1 if abs(b[1] - a[1]) > abs(b[0] - a[0]) else 0),
+                y + (0 if abs(b[1] - a[1]) > abs(b[0] - a[0]) else 1), dark)
+    # 3) ramas secundarias finas
+    for _ in range(r.randint(2, 3)):
+        sx, sy = path[r.randrange(n // 5, 4 * n // 5)]
+        ang = r.uniform(0, 2 * math.pi)
+        end = (sx + math.cos(ang) * r.uniform(3, 6), sy + math.sin(ang) * r.uniform(3, 6))
+        for (x, y) in raster(fracture_path(r, (sx, sy), end, depth=2, rough=1.5))[1:]:
+            if 0 <= x < S and 0 <= y < S:
+                put(img, x, y, CONC[1])
+    # 4) desconchón junto a la grieta: hueco con árido visible (bisel invertido: sombra arriba-izquierda)
+    cx, cy = path[r.randrange(n // 3, 2 * n // 3)]
+    cx += r.choice([-2, 2])
+    blob = {(cx + dx, cy + dy) for dx in range(-1, 2) for dy in range(-1, 2) if r.random() < 0.85} | {(cx, cy)}
+    for (x, y) in blob:
+        if 0 <= x < S and 0 <= y < S:
+            put(img, x, y, (104, 98, 90) if (x + y) % 2 else (118, 110, 100))
+    for (x, y) in blob:
+        if (x, y - 1) not in blob:
+            put(img, x, y - 1, CONC[1])                                   # sombra del borde superior del hueco
+        if (x, y + 1) not in blob:
+            put(img, x, y + 1, light)                                     # luz en el borde inferior
     return img
+
+
+def t_cracked_concrete():
+    return cracked_variant(20)
+
+
+def t_cracked_concrete_1():
+    return cracked_variant(23)
+
+
+def t_cracked_concrete_2():
+    return cracked_variant(27)
+
 
 
 MOSS = [(52, 74, 34), (72, 100, 44), (94, 126, 54), (122, 152, 70)]
@@ -698,7 +773,8 @@ def t_dead_log_side():
 
 
 TEXTURES = {
-    "block/concrete": t_concrete, "block/cracked_concrete": t_cracked_concrete, "block/mossy_concrete": t_mossy_concrete,
+    "block/concrete": t_concrete, "block/cracked_concrete": t_cracked_concrete, "block/cracked_concrete_1": t_cracked_concrete_1,
+    "block/cracked_concrete_2": t_cracked_concrete_2, "block/mossy_concrete": t_mossy_concrete,
     "block/rubble": t_rubble, "block/asphalt": t_asphalt, "block/cracked_asphalt": t_cracked_asphalt,
     "block/asphalt_road_line": t_road_line, "block/rusted_metal_sheet": t_metal_sheet,
     "block/rusted_metal_beam": t_beam_side, "block/rusted_metal_beam_top": t_beam_end, "block/rusted_grate": t_grate,
@@ -867,6 +943,13 @@ def main():
     for name in ("concrete", "cracked_concrete", "mossy_concrete", "rubble", "asphalt", "cracked_asphalt",
                  "rusted_metal_sheet", "scrap_pile", "vitrified_sand", "dead_planks"):
         simple(name)
+    for v in (1, 2):
+        model(f"cracked_concrete_{v}", {"parent": "minecraft:block/cube_all",
+                                        "textures": {"all": rl(f"block/cracked_concrete_{v}")}})
+    blockstate("cracked_concrete", {"variants": {"": [
+        {"model": rl("block/cracked_concrete")},
+        {"model": rl("block/cracked_concrete_1")},
+        {"model": rl("block/cracked_concrete_2")}]}})
     simple("ash_block", "ash")
     simple("vitrified_glass", render_type="minecraft:translucent")
     simple("rusted_grate", render_type="minecraft:cutout")

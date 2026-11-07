@@ -1,7 +1,15 @@
 {
   "variants": {
-    "": {
-      "model": "tecnocinetico:block/cracked_concrete"
-    }
+    "": [
+      {
+        "model": "tecnocinetico:block/cracked_concrete"
+      },
+      {
+        "model": "tecnocinetico:block/cracked_concrete_1"
+      },
+      {
+        "model": "tecnocinetico:block/cracked_concrete_2"
+      }
+    ]
   }
 }
