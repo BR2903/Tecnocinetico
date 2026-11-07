@@ -1,0 +1,43 @@
+{
+  "type": "tecnocinetico:ruin_wall",
+  "config": {
+    "wall": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 3,
+          "data": {
+            "Name": "tecnocinetico:concrete"
+          }
+        },
+        {
+          "weight": 4,
+          "data": {
+            "Name": "tecnocinetico:cracked_concrete"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "tecnocinetico:mossy_concrete"
+          }
+        }
+      ]
+    },
+    "height": {
+      "type": "minecraft:uniform",
+      "value": {
+        "min_inclusive": 2,
+        "max_inclusive": 5
+      }
+    },
+    "length": {
+      "type": "minecraft:uniform",
+      "value": {
+        "min_inclusive": 3,
+        "max_inclusive": 6
+      }
+    },
+    "vines": false
+  }
+}

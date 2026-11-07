@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:scrap_meadows",
+  "features": [
+    "tecnocinetico:scrap_meadows/ruin_wall_concrete"
+  ],
+  "step": "surface_structures"
+}

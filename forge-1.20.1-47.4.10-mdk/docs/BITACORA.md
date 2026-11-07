@@ -129,3 +129,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - El usuario: "al hacerlo bloque pierde esa característica de parecer chatarra o escombro". `rubble` y `scrap_pile` ahora son `PileBlock`: montones 3D de 1-4 trozos (crecen al colocar más, como los pepinos de mar), necesitan suelo firme, pueden estar bajo el agua, sueltan tantos objetos como trozos. Modelos con trozos rotados (hormigón, ladrillo, varilla, asfalto / chapa oxidada, galvanizada, pintada, tubo, cobre) generados por `world_blocks_gen.py` (`PILE_RUBBLE`, `PILE_SCRAP`); textura = atlas de 4 zonas.
 - "Capa de Escombros" → **Pedazos de Escombro**: trocitos sueltos sobre el suelo (sigue siendo alfombra).
 - Ya no forman parte del suelo (reglas de superficie → grava/roca). Aparecen esparcidos como features (inicio de la fase 3): nuevo `tools/world_features_gen.py` (random_patch + biome_modifier por bioma; también en el lecho de mares y río).
+
+## 2026-11-07 — Claude — Fase 3: detalles del terreno
+- Features con código propio (`worldgen/feature/`, registradas en `ModWorldgen.FEATURES`): `crater` (cuenco con fondo y borde configurables; no se genera junto al agua), `ruin_wall` (muro roto recto o en L, vigas oxidadas, escombros al pie, enredaderas opcionales), `dead_tree` (tronco seco con ramas desnudas).
+- JSON por `tools/world_features_gen.py`: cráteres vitrificados/de ceniza/chamuscados, muros de hormigón/invadidos/helados, árboles muertos, capas de ceniza, cristales de cinetrita en suelo y techo de las Cuevas de Cinetrita; un biome_modifier por bioma y paso de generación.
+- Validado con `runGameTestServer` (los JSON se leen bien). La generación real la prueba el usuario en un mundo nuevo.

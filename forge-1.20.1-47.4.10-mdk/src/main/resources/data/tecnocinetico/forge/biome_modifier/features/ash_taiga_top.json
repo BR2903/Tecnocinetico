@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:ash_taiga",
+  "features": [
+    "tecnocinetico:ash_taiga/ash_layers"
+  ],
+  "step": "top_layer_modification"
+}

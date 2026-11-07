@@ -2,7 +2,8 @@
   "type": "forge:add_features",
   "biomes": "tecnocinetico:fractured_lands",
   "features": [
-    "tecnocinetico:fractured_lands/rubble_piles"
+    "tecnocinetico:fractured_lands/rubble_piles",
+    "tecnocinetico:fractured_lands/dead_tree"
   ],
   "step": "vegetal_decoration"
 }

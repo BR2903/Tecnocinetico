@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:dead_megacity",
+  "features": [
+    "tecnocinetico:dead_megacity/crater_scorched"
+  ],
+  "step": "local_modifications"
+}

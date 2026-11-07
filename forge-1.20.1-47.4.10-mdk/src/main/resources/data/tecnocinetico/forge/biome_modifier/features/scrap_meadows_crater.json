@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:scrap_meadows",
+  "features": [
+    "tecnocinetico:scrap_meadows/crater_scorched"
+  ],
+  "step": "local_modifications"
+}

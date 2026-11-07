@@ -1,0 +1,23 @@
+{
+  "type": "tecnocinetico:dead_tree",
+  "config": {
+    "log": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {
+            "Name": "tecnocinetico:dead_log"
+          }
+        }
+      ]
+    },
+    "height": {
+      "type": "minecraft:uniform",
+      "value": {
+        "min_inclusive": 2,
+        "max_inclusive": 4
+      }
+    }
+  }
+}

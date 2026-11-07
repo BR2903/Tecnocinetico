@@ -1,0 +1,52 @@
+{
+  "type": "tecnocinetico:crater",
+  "config": {
+    "radius": {
+      "type": "minecraft:uniform",
+      "value": {
+        "min_inclusive": 3,
+        "max_inclusive": 6
+      }
+    },
+    "floor": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 2,
+          "data": {
+            "Name": "minecraft:coarse_dirt"
+          }
+        },
+        {
+          "weight": 2,
+          "data": {
+            "Name": "minecraft:gravel"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "tecnocinetico:ash_block"
+          }
+        }
+      ]
+    },
+    "rim": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 2,
+          "data": {
+            "Name": "minecraft:coarse_dirt"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "minecraft:dirt"
+          }
+        }
+      ]
+    }
+  }
+}

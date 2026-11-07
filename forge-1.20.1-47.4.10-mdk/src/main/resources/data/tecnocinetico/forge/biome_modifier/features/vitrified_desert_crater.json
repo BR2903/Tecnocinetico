@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:vitrified_desert",
+  "features": [
+    "tecnocinetico:vitrified_desert/crater_vitrified"
+  ],
+  "step": "local_modifications"
+}

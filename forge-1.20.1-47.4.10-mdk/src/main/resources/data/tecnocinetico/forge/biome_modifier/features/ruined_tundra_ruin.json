@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:ruined_tundra",
+  "features": [
+    "tecnocinetico:ruined_tundra/ruin_wall_frozen"
+  ],
+  "step": "surface_structures"
+}

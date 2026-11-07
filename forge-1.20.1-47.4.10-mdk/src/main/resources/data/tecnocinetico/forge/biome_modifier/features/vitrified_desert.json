@@ -2,7 +2,8 @@
   "type": "forge:add_features",
   "biomes": "tecnocinetico:vitrified_desert",
   "features": [
-    "tecnocinetico:vitrified_desert/scrap_piles"
+    "tecnocinetico:vitrified_desert/scrap_piles",
+    "tecnocinetico:vitrified_desert/dead_tree_short"
   ],
   "step": "vegetal_decoration"
 }

@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:cinetrite_caves",
+  "features": [
+    "tecnocinetico:cinetrite_caves/crystal_floor",
+    "tecnocinetico:cinetrite_caves/crystal_ceiling"
+  ],
+  "step": "underground_decoration"
+}

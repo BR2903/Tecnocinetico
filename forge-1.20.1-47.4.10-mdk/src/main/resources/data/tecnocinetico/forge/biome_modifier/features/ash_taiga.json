@@ -2,7 +2,8 @@
   "type": "forge:add_features",
   "biomes": "tecnocinetico:ash_taiga",
   "features": [
-    "tecnocinetico:ash_taiga/scrap_piles"
+    "tecnocinetico:ash_taiga/scrap_piles",
+    "tecnocinetico:ash_taiga/dead_tree"
   ],
   "step": "vegetal_decoration"
 }

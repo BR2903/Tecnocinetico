@@ -1,0 +1,46 @@
+{
+  "type": "tecnocinetico:crater",
+  "config": {
+    "radius": {
+      "type": "minecraft:uniform",
+      "value": {
+        "min_inclusive": 4,
+        "max_inclusive": 8
+      }
+    },
+    "floor": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 5,
+          "data": {
+            "Name": "tecnocinetico:vitrified_sand"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "tecnocinetico:vitrified_glass"
+          }
+        }
+      ]
+    },
+    "rim": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 3,
+          "data": {
+            "Name": "minecraft:sand"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "tecnocinetico:vitrified_sand"
+          }
+        }
+      ]
+    }
+  }
+}

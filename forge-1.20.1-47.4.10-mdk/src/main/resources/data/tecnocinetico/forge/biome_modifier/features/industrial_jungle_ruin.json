@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:industrial_jungle",
+  "features": [
+    "tecnocinetico:industrial_jungle/ruin_wall_overgrown"
+  ],
+  "step": "surface_structures"
+}

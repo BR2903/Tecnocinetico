@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:overgrown_ruins",
+  "features": [
+    "tecnocinetico:overgrown_ruins/ruin_wall_overgrown"
+  ],
+  "step": "surface_structures"
+}
