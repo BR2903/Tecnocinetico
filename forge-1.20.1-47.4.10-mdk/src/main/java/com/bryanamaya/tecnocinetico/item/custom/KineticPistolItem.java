@@ -285,7 +285,7 @@ public class KineticPistolItem extends Item {
         boolean hitSomething = blockHit == null || blockHit.getType() == HitResult.Type.BLOCK;
         if (hitSomething) {
             server.playSound(null, end.x, end.y, end.z, ModSounds.PISTOL_IMPACT.get(), SoundSource.PLAYERS,
-                    0.7F, 0.9F + server.random.nextFloat() * 0.2F);
+                    1.0F, 0.9F + server.random.nextFloat() * 0.2F);
         }
         // Impacto: onda expansiva + chispas + el fragmento de cinetrita haciéndose añicos
         server.sendParticles(ModParticles.KINETIC_BURST.get(), end.x, end.y, end.z, 0, 1.0, 0, 0, 1);
