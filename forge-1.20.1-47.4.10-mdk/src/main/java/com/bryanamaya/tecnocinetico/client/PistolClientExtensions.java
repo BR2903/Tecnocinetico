@@ -2,6 +2,7 @@ package com.bryanamaya.tecnocinetico.client;
 
 import com.bryanamaya.tecnocinetico.item.custom.GunAnimState;
 import com.bryanamaya.tecnocinetico.item.custom.KineticPistolItem;
+import com.bryanamaya.tecnocinetico.item.custom.WeaponModule;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.HumanoidModel;
@@ -26,6 +27,10 @@ public class PistolClientExtensions implements IClientItemExtensions {
     private static final float AIM_X_LEFT = 0.031F;
     private static final float AIM_Y = -0.43F;          // la línea de miras (y≈15/16 del modelo) a la altura de los ojos
     private static final float AIM_Z = -0.50F;          // más cerca de la cara que en la cadera
+    // Con la Mira de Puntería Cinética: el ojo mira por el centro de su ventana (y=15.55/16 del modelo)
+    // y el arma se acerca para que la ventana se vea más grande.
+    private static final float AIM_Y_OPTIC = -0.472F;
+    private static final float AIM_Z_OPTIC = -0.36F;
 
     @Override
     public HumanoidModel.ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
@@ -48,7 +53,10 @@ public class PistolClientExtensions implements IClientItemExtensions {
         float hipX = side * 0.56F, hipY = -0.52F + equip * -0.6F, hipZ = -0.72F;
         // Al apuntar: compensa el desplazamiento del modelo (display firstperson) para centrar las miras
         float aimX = side > 0 ? AIM_X_RIGHT : AIM_X_LEFT;
-        pose.translate(Mth.lerp(aim, hipX, aimX), Mth.lerp(aim, hipY, AIM_Y), Mth.lerp(aim, hipZ, AIM_Z));
+        boolean optic = WeaponModule.has(stack, WeaponModule.OPTIC);
+        float aimY = optic ? AIM_Y_OPTIC : AIM_Y;
+        float aimZ = optic ? AIM_Z_OPTIC : AIM_Z;
+        pose.translate(Mth.lerp(aim, hipX, aimX), Mth.lerp(aim, hipY, aimY), Mth.lerp(aim, hipZ, aimZ));
 
         // --- Recarga ---
         float progress = KineticPistolItem.getReloadProgress(stack, partialTick);

@@ -1,5 +1,6 @@
 {
  "credit": "Tecnocinetico - pistol_gen.py",
+ "render_type": "minecraft:translucent",
  "texture_size": [
   128,
   128

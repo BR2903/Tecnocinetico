@@ -355,6 +355,25 @@ def m_optic(f, x, y):
     return shaded(STEEL_BLK, STEEL_HI, STEEL_LO, f, x, y)
 
 
+def m_optic_frame(f, x, y):
+    """Marco de la mira holográfica: acero oscuro con un filo cian."""
+    if f.name == "up" and abs(f.uf(x) - 0.5) < 0.12:
+        return col(CYAN, 0.8)
+    return shaded(STEEL_BLK, STEEL_HI, STEEL_LO, f, x, y)
+
+
+def m_optic_glass(f, x, y):
+    """Cristal de la mira: cian muy tenue y TRANSLÚCIDO (se ve a través), con un reflejo diagonal."""
+    if (x - y) % 9 == 0:
+        return (170, 235, 245, 70)     # reflejo
+    return (90, 200, 220, 38)          # tinte casi transparente
+
+
+def m_reticle(f, x, y):
+    """Punto de la retícula (luminoso)."""
+    return col(CYAN_HI)
+
+
 def m_comp_inercita(f, x, y):
     """Cañón de Inercita: compensador largo con cuatro ranuras de energía."""
     if f.name == "north":
@@ -385,7 +404,8 @@ MATERIALS = {"slide": m_slide, "frame": m_frame, "grip": m_grip, "barrel": m_bar
              "poly": m_poly, "steel": m_steel, "sight": m_sight, "cell": m_cell,
              "comp": m_comp, "coupler": m_coupler, "substrate": m_substrate, "copper": m_copper,
              "inercita": m_inercita, "rearplate": m_rearplate, "mag_window": m_mag_window,
-             "optic": m_optic, "comp_inercita": m_comp_inercita, "magwell": m_magwell}
+             "optic": m_optic, "comp_inercita": m_comp_inercita, "magwell": m_magwell,
+             "optic_frame": m_optic_frame, "optic_glass": m_optic_glass, "reticle": m_reticle}
 
 # Bits de los módulos (deben coincidir con el orden de WeaponModule.java)
 OPTIC, EXTENDED_MAG, INERCITA_BARREL, QUICK_RELOAD = 1, 2, 4, 8
@@ -427,7 +447,14 @@ ELEMENTS = [
     {"name": "mag_base", "group": "mag", "mat": "poly", "from": [7.1, 5.0, 9.15], "to": [8.9, 5.6, 12.65], "rotation": GRIP_ROT, "unless": EXTENDED_MAG},
     # --- MÓDULOS DE MEJORA (solo aparecen si están instalados) ---
     {"name": "optic_mount", "group": "slide", "mat": "steel", "from": [7.35, 14.5, 8.6], "to": [8.65, 14.75, 10.9], "if": OPTIC},
-    {"name": "optic_body", "group": "slide", "mat": "optic", "from": [7.15, 14.75, 8.9], "to": [8.85, 16.35, 10.6], "if": OPTIC},
+    # Mira holográfica: marco hueco (se ve a través), cristal translúcido delante y punto de retícula.
+    # Centro de la ventana: x=8, y=15.55 (lo usa PistolClientExtensions para centrar la vista al apuntar).
+    {"name": "optic_base", "group": "slide", "mat": "optic_frame", "from": [7.15, 14.75, 8.9], "to": [8.85, 15.0, 10.6], "if": OPTIC},
+    {"name": "optic_top", "group": "slide", "mat": "optic_frame", "from": [7.15, 16.1, 8.9], "to": [8.85, 16.35, 10.6], "if": OPTIC},
+    {"name": "optic_left", "group": "slide", "mat": "optic_frame", "from": [7.15, 15.0, 8.9], "to": [7.4, 16.1, 10.6], "if": OPTIC},
+    {"name": "optic_right", "group": "slide", "mat": "optic_frame", "from": [8.6, 15.0, 8.9], "to": [8.85, 16.1, 10.6], "if": OPTIC},
+    {"name": "optic_glass", "group": "slide", "mat": "optic_glass", "from": [7.4, 15.0, 9.0], "to": [8.6, 16.1, 9.05], "if": OPTIC},
+    {"name": "optic_reticle", "group": "slide", "mat": "reticle", "from": [7.96, 15.51, 8.96], "to": [8.04, 15.59, 9.0], "if": OPTIC, "glow": True},
     {"name": "mag_ext", "group": "mag", "mat": "mag_window", "from": [7.25, 2.9, 9.5], "to": [8.75, 5.65, 12.0], "rotation": GRIP_ROT, "if": EXTENDED_MAG},
     {"name": "mag_base_ext", "group": "mag", "mat": "inercita", "from": [7.1, 2.3, 9.15], "to": [8.9, 2.9, 12.65], "rotation": GRIP_ROT, "if": EXTENDED_MAG},
     {"name": "inercita_barrel", "mat": "comp_inercita", "from": [7.1, 12.15, -1.8], "to": [8.9, 14.35, 1.6], "if": INERCITA_BARREL},
@@ -491,6 +518,8 @@ def element_json(i, el, offset=(0, 0, 0)):
            "faces": {f: {"uv": uv[(i, f)], "texture": "#0"} for f in FACES}}
     if "rotation" in el:
         out["rotation"] = el["rotation"]
+    if el.get("glow"):
+        out["forge_data"] = {"block_light": 15, "sky_light": 15}   # brilla siempre (retícula)
     return out
 
 
@@ -518,7 +547,7 @@ def model(mag_offset=None, slide_back=0.0, display=None, mask=0):
             els.append(element_json(i, el, (0, 0, slide_back)))
         else:
             els.append(element_json(i, el))
-    return {"credit": "Tecnocinetico - pistol_gen.py", "texture_size": [SIZE, SIZE],
+    return {"credit": "Tecnocinetico - pistol_gen.py", "render_type": "minecraft:translucent", "texture_size": [SIZE, SIZE],
             "textures": {"0": "tecnocinetico:item/kinetic_pistol", "particle": "tecnocinetico:item/kinetic_pistol"},
             "elements": els, "display": display or DISPLAY}
 
@@ -589,7 +618,7 @@ for bit, mid in MODULE_IDS.items():
         if "rotation" in e:
             e["rotation"] = dict(e["rotation"], origin=[round(e["rotation"]["origin"][k] + delta[k], 4) for k in range(3)])
         els.append(e)
-    write(f"module_{mid}", {"credit": "Tecnocinetico - pistol_gen.py", "texture_size": [SIZE, SIZE],
+    write(f"module_{mid}", {"credit": "Tecnocinetico - pistol_gen.py", "render_type": "minecraft:translucent", "texture_size": [SIZE, SIZE],
                             "textures": {"0": "tecnocinetico:item/kinetic_pistol",
                                          "particle": "tecnocinetico:item/kinetic_pistol"},
                             "elements": els, "display": MODULE_DISPLAY})
