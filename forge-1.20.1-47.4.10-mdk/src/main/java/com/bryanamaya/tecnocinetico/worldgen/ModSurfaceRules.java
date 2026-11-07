@@ -55,32 +55,32 @@ public final class ModSurfaceRules {
                 biome(ModBiomes.FRACTURED_LANDS, SurfaceRules.ifTrue(dry, SurfaceRules.sequence(
                         SurfaceRules.ifTrue(noise(1.6), block(ModWorldBlocks.ASH_BLOCK.get())),
                         SurfaceRules.ifTrue(noiseBelow(-1.6), block(Blocks.GRAVEL))))),
-                // Megaciudad Muerta: suelo de calles (asfalto con bordes agrietados) y escombros
+                // Megaciudad Muerta: suelo de calles (asfalto con bordes agrietados), hormigón y grava
                 biome(ModBiomes.DEAD_MEGACITY, SurfaceRules.ifTrue(dry, SurfaceRules.sequence(
                         SurfaceRules.ifTrue(noise(1.0), block(ModWorldBlocks.ASPHALT.get())),
                         SurfaceRules.ifTrue(noise(0.5), block(ModWorldBlocks.CRACKED_ASPHALT.get())),
                         SurfaceRules.ifTrue(noiseBelow(-2.0), block(ModWorldBlocks.CRACKED_CONCRETE.get())),
-                        SurfaceRules.ifTrue(noiseBelow(-1.4), block(ModWorldBlocks.RUBBLE.get()))))),
+                        SurfaceRules.ifTrue(noiseBelow(-1.4), block(Blocks.GRAVEL))))),
                 // Ruinas Invadidas y Selva Industrial: losas de hormigón cubiertas de musgo
                 biome(ModBiomes.OVERGROWN_RUINS, SurfaceRules.ifTrue(dry, mossySlabs())),
                 biome(ModBiomes.INDUSTRIAL_JUNGLE, SurfaceRules.ifTrue(dry, mossySlabs())),
-                // Praderas de Chatarra: tierra removida y escombros
+                // Praderas de Chatarra: tierra removida y grava
                 biome(ModBiomes.SCRAP_MEADOWS, SurfaceRules.ifTrue(dry, SurfaceRules.sequence(
                         SurfaceRules.ifTrue(noise(2.2), block(Blocks.COARSE_DIRT)),
-                        SurfaceRules.ifTrue(noiseBelow(-2.6), block(ModWorldBlocks.RUBBLE.get()))))),
+                        SurfaceRules.ifTrue(noiseBelow(-2.6), block(Blocks.GRAVEL))))),
                 // Tundra en Ruinas: hormigón agrietado bajo la nieve
                 biome(ModBiomes.RUINED_TUNDRA, SurfaceRules.ifTrue(dry,
                         SurfaceRules.ifTrue(noise(2.0), block(ModWorldBlocks.CRACKED_CONCRETE.get())))),
-                // Costa de Chatarra: montones de chatarra y escombros
+                // Costa de Chatarra: grava y roca (los montones de chatarra van encima como features)
                 biome(ModBiomes.SCRAP_COAST, SurfaceRules.sequence(
-                        SurfaceRules.ifTrue(noise(1.4), block(ModWorldBlocks.SCRAP_PILE.get())),
-                        SurfaceRules.ifTrue(noiseBelow(-1.0), block(ModWorldBlocks.RUBBLE.get())))),
-                // Mares y río: lecho de escombros
+                        SurfaceRules.ifTrue(noise(1.4), block(Blocks.GRAVEL)),
+                        SurfaceRules.ifTrue(noiseBelow(-1.0), block(Blocks.COBBLESTONE)))),
+                // Mares y río: lecho de grava y roca (los escombros van encima como features)
                 SurfaceRules.ifTrue(SurfaceRules.isBiome(ModBiomes.DEBRIS_SEA, ModBiomes.DEEP_DEBRIS_SEA,
                                 ModBiomes.FROZEN_DEBRIS_SEA, ModBiomes.POLLUTED_RIVER),
                         SurfaceRules.ifTrue(SurfaceRules.not(dry), SurfaceRules.sequence(
-                                SurfaceRules.ifTrue(noise(0.8), block(ModWorldBlocks.RUBBLE.get())),
-                                SurfaceRules.ifTrue(noiseBelow(-2.0), block(ModWorldBlocks.SCRAP_PILE.get())))))
+                                SurfaceRules.ifTrue(noise(0.8), block(Blocks.GRAVEL)),
+                                SurfaceRules.ifTrue(noiseBelow(-2.0), block(Blocks.COBBLESTONE)))))
         ));
     }
 

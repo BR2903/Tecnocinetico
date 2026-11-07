@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:ruined_tundra",
+  "features": [
+    "tecnocinetico:ruined_tundra/rubble_piles",
+    "tecnocinetico:ruined_tundra/debris_bits"
+  ],
+  "step": "vegetal_decoration"
+}

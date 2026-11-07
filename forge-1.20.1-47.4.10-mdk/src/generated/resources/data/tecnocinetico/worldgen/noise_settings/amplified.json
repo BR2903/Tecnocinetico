@@ -628,7 +628,7 @@
                         "then_run": {
                           "type": "minecraft:block",
                           "result_state": {
-                            "Name": "tecnocinetico:rubble"
+                            "Name": "minecraft:gravel"
                           }
                         }
                       }
@@ -787,7 +787,7 @@
                         "then_run": {
                           "type": "minecraft:block",
                           "result_state": {
-                            "Name": "tecnocinetico:rubble"
+                            "Name": "minecraft:gravel"
                           }
                         }
                       }
@@ -850,7 +850,7 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "tecnocinetico:scrap_pile"
+                          "Name": "minecraft:gravel"
                         }
                       }
                     },
@@ -865,7 +865,7 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "tecnocinetico:rubble"
+                          "Name": "minecraft:cobblestone"
                         }
                       }
                     }
@@ -908,7 +908,7 @@
                         "then_run": {
                           "type": "minecraft:block",
                           "result_state": {
-                            "Name": "tecnocinetico:rubble"
+                            "Name": "minecraft:gravel"
                           }
                         }
                       },
@@ -923,7 +923,7 @@
                         "then_run": {
                           "type": "minecraft:block",
                           "result_state": {
-                            "Name": "tecnocinetico:scrap_pile"
+                            "Name": "minecraft:cobblestone"
                           }
                         }
                       }

@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "tecnocinetico:debris_sea",
+    "tecnocinetico:deep_debris_sea",
+    "tecnocinetico:frozen_debris_sea",
+    "tecnocinetico:polluted_river"
+  ],
+  "features": [
+    "tecnocinetico:seabed/rubble_piles",
+    "tecnocinetico:seabed/scrap_piles"
+  ],
+  "step": "vegetal_decoration"
+}

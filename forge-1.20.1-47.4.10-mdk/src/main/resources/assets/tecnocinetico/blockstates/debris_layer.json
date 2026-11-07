@@ -1,7 +1,22 @@
 {
   "variants": {
-    "": {
-      "model": "tecnocinetico:block/debris_layer"
-    }
+    "": [
+      {
+        "model": "tecnocinetico:block/debris_layer",
+        "y": 0
+      },
+      {
+        "model": "tecnocinetico:block/debris_layer",
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/debris_layer",
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/debris_layer",
+        "y": 270
+      }
+    ]
   }
 }

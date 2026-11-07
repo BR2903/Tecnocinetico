@@ -1,7 +1,76 @@
 {
   "variants": {
-    "": {
-      "model": "tecnocinetico:block/rubble"
-    }
+    "pieces=1": [
+      {
+        "model": "tecnocinetico:block/rubble_1",
+        "y": 0
+      },
+      {
+        "model": "tecnocinetico:block/rubble_1",
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/rubble_1",
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/rubble_1",
+        "y": 270
+      }
+    ],
+    "pieces=2": [
+      {
+        "model": "tecnocinetico:block/rubble_2",
+        "y": 0
+      },
+      {
+        "model": "tecnocinetico:block/rubble_2",
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/rubble_2",
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/rubble_2",
+        "y": 270
+      }
+    ],
+    "pieces=3": [
+      {
+        "model": "tecnocinetico:block/rubble_3",
+        "y": 0
+      },
+      {
+        "model": "tecnocinetico:block/rubble_3",
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/rubble_3",
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/rubble_3",
+        "y": 270
+      }
+    ],
+    "pieces=4": [
+      {
+        "model": "tecnocinetico:block/rubble_4",
+        "y": 0
+      },
+      {
+        "model": "tecnocinetico:block/rubble_4",
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/rubble_4",
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/rubble_4",
+        "y": 270
+      }
+    ]
   }
 }

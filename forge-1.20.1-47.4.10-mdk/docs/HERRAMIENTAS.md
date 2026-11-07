@@ -61,3 +61,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## sync_lang.py (idiomas)
 - `python tools/sync_lang.py` copia `es_es.json` a es_ar, es_cl, es_ec, es_mx, es_uy y es_ve. Ejecutar tras editar los textos en español (world_blocks_gen.py ya lo hace al final).
+
+## world_features_gen.py (detalles del terreno)
+- `python tools/world_features_gen.py` genera `worldgen/configured_feature`, `worldgen/placed_feature` y `forge/biome_modifier/features/` (montones de escombros/chatarra y pedazos por bioma). Cada placed_feature va en un único biome_modifier para evitar "Feature order cycle".

@@ -611,125 +611,175 @@ def polygon_chunks(seed, n):
     return cells(seed, n)
 
 
-GAP = (70, 66, 62)
+# ---------------------------------------------------------------- montones (escombros / chatarra): hojas de trozos
+# Cada textura es un "atlas" de 4 zonas de 8x8 que usan los trozos del modelo 3D (ver PILE_* más abajo).
+
+def _region(img, x0, y0, w, h, fn):
+    for y in range(h):
+        for x in range(w):
+            put(img, x0 + x, y0 + y, fn(x, y, w, h))
 
 
-def thin_cells(seed, n, width):
-    r = random.Random(seed)
-    pts = [(r.uniform(0, S), r.uniform(0, S)) for _ in range(n)]
-    cid = [[0] * S for _ in range(S)]
-    edge = [[False] * S for _ in range(S)]
-    for y in range(S):
-        for x in range(S):
-            ds = sorted((min(abs(x + .5 - px), S - abs(x + .5 - px)) ** 2 + min(abs(y + .5 - py), S - abs(y + .5 - py)) ** 2, i)
-                        for i, (px, py) in enumerate(pts))
-            cid[y][x] = ds[0][1]
-            edge[y][x] = math.sqrt(ds[1][0]) - math.sqrt(ds[0][0]) < width
-    return cid, edge
-
-
-def t_rubble(seed=71):
-    """Escombros: trozos angulosos de hormigón (y algo de ladrillo) bien apretados, juntas finas grises."""
+def t_rubble():
+    """Zonas: hormigón (cara exterior) | hormigón roto (interior con árido) | ladrillo | varilla + asfalto."""
     img = new()
-    cid, edge = thin_cells(seed, 12, 0.55)
-    r = random.Random(seed + 1)
-    pals = {}
-    for c in range(12):
-        k = r.random()
-        if k < 0.18:
-            pals[c] = BRICK[0:5]
-        elif k < 0.28:
-            pals[c] = ramp((70, 68, 66), (136, 134, 130), 5)       # trozo de asfalto/piedra oscura
-        else:
-            off = r.choice([0, 0, 1])
-            pals[c] = CONC[off:off + 5] if off + 5 <= len(CONC) else CONC[1:6]
-    base_i = {c: r.choice([2, 2, 2, 3]) for c in range(12)}
-    for y in range(S):
-        for x in range(S):
-            if edge[y][x]:
-                put(img, x, y, GAP)
-                continue
-            c = cid[y][x]
-            pal = pals[c]
-            up = edge[(y - 1) % S][x] or cid[(y - 1) % S][x] != c
-            left = edge[y][(x - 1) % S] or cid[y][(x - 1) % S] != c
-            down = edge[(y + 1) % S][x] or cid[(y + 1) % S][x] != c
-            right = edge[y][(x + 1) % S] or cid[y][(x + 1) % S] != c
-            if up or left:
-                i = 3 if base_i[c] == 2 else 4
-            elif down or right:
-                i = 1
-            else:
-                i = base_i[c]
-                if (x * 5 + y * 3 + c) % 13 == 0:
-                    i -= 1                                        # poro / árido
-            put(img, x, y, pal[i])
-    # piedrecitas en algunas juntas para que no se lea como "red"
-    for _ in range(5):
-        x, y = r.randrange(S), r.randrange(S)
-        if edge[y][x]:
-            put(img, x, y, CONC[2])
-    # un trocito de varilla oxidada corto (no diagonal larga)
-    x0, y0 = 11, 4
-    put(img, x0, y0, RUSTR[3]); put(img, x0 + 1, y0, RUSTR[2]); put(img, x0 + 2, y0, RUSTR[1])
+    r = random.Random(71)
+
+    def conc(x, y, w, h):
+        if y == 0 or x == 0:
+            return CONC[4]
+        if y == h - 1 or x == w - 1:
+            return CONC[1]
+        return CONC[2] if (x * 5 + y * 3) % 7 == 0 else CONC[3]
+
+    def broken(x, y, w, h):
+        v = r.random()
+        return CONC[1] if v < 0.25 else (118, 110, 100) if v < 0.4 else CONC[2]
+
+    def brick(x, y, w, h):
+        if y % 4 == 3:
+            return (150, 144, 134)                                # mortero
+        if (x + (4 if (y // 4) % 2 else 0)) % 8 == 7:
+            return (150, 144, 134)
+        return BRICK[3] if y % 4 == 0 else BRICK[2] if (x + y) % 5 else BRICK[1]
+
+    def rebar_asphalt(x, y, w, h):
+        if y < 4:
+            return [RUSTR[3], RUSTR[2], RUSTR[1], (60, 30, 18)][y] if x % 3 else RUSTR[1]
+        return ASPH[3] if (x * 3 + y) % 5 == 0 else ASPH[2] if y > 4 else ASPH[4]
+
+    _region(img, 0, 0, 8, 8, conc)
+    _region(img, 8, 0, 8, 8, broken)
+    _region(img, 0, 8, 8, 8, brick)
+    _region(img, 8, 8, 8, 8, rebar_asphalt)
     return img
 
 
-METALS = {
-    "rust": RUSTR,
-    "steel": STEEL[1:5],
-    "galv": [(78, 84, 86), (106, 112, 114), (132, 138, 138), (166, 172, 170)],
-    "teal": [(42, 62, 60), (58, 84, 80), (74, 104, 96), (104, 132, 120)],
-    "yellow": [(98, 80, 38), (132, 108, 52), (160, 134, 66), (190, 166, 96)],
-    "copper": [(92, 56, 34), (140, 84, 48), (184, 116, 66), (220, 156, 102)],
-}
-
-
-def t_scrap_pile(seed=110):
-    """Fardo de chatarra prensada: capas de chapa aplastada (óxido, acero, pintura vieja), arrugadas y con cantos."""
+def t_scrap_pile():
+    """Zonas: chapa oxidada | chapa galvanizada ondulada | panel pintado (verde azulado) | tubo + cobre."""
     img = new()
-    for y in range(S):
-        for x in range(S):
-            put(img, x, y, (40, 36, 32))
-    r = random.Random(seed)
-    order = ["rust", "steel", "rust", "galv", "rust", "teal", "rust", "steel", "rust", "yellow"]
-    heights = []
-    while sum(heights) < S:
-        heights.append(r.choice([3, 3, 4, 4, 5]))
-    heights[-1] -= sum(heights) - S
-    if heights[-1] < 2:
-        heights[-2] += heights.pop()
-    y0 = 0
-    for bi, h in enumerate(heights):
-        pal = METALS[order[(bi * 3 + seed) % len(order)]]
-        ph = r.uniform(0, 2 * math.pi)
-        amp = r.choice([0.0, 0.6, 0.6])
-        corrug = r.random() < 0.4
-        cuts = {r.randrange(S) for _ in range(r.randint(1, 2))}   # extremos de chapa dentro de la capa
-        for x in range(S):
-            wave = round(amp * math.sin(2 * math.pi * x / S * r.choice([1]) + ph))
-            for k in range(h):
-                y = y0 + k + wave
-                if k == 0:
-                    c = pal[3]                                    # canto superior iluminado
-                elif k == h - 1:
-                    c = (40, 36, 32)                              # junta / sombra entre capas
-                elif k == h - 2:
-                    c = pal[0]
-                else:
-                    c = pal[1] if (corrug and x % 3 == 0) else pal[2]
-                if x in cuts and 0 < k < h - 1:
-                    c = (40, 36, 32)
-                elif (x - 1) % S in cuts and 0 < k < h - 1:
-                    c = pal[3]
-                put(img, x, y, c)
-        y0 += h
-    # óxido que come la pintura
-    for _ in range(10):
-        x, y = r.randrange(S), r.randrange(S)
-        if img.getpixel((x, y))[:3] != (40, 36, 32):
-            put(img, x, y, RUSTR[r.choice([1, 2])])
+    r = random.Random(110)
+
+    def rust(x, y, w, h):
+        v = r.random()
+        base = RUSTR[2] if v < 0.55 else RUSTR[1] if v < 0.8 else STEEL[2]
+        return RUSTR[3] if y == 0 else base
+
+    def galv(x, y, w, h):
+        g = [(78, 84, 86), (106, 112, 114), (132, 138, 138), (166, 172, 170)]
+        c = g[[3, 2, 1, 2][x % 4]]
+        return RUSTR[1] if (y == h - 1 and x % 3 == 0) else c
+
+    def teal(x, y, w, h):
+        t = [(42, 62, 60), (58, 84, 80), (74, 104, 96), (104, 132, 120)]
+        if r.random() < 0.15:
+            return RUSTR[r.choice([1, 2])]                        # pintura desconchada
+        return t[3] if y == 0 else t[2] if y < h - 1 else t[1]
+
+    def pipe_copper(x, y, w, h):
+        if x < 4:
+            if y % 4 == 0:
+                return STEEL[1]                                   # junta del tubo
+            return [STEEL[4], STEEL[3], STEEL[2], STEEL[1]][x]
+        cu = [(92, 56, 34), (140, 84, 48), (184, 116, 66), (220, 156, 102)]
+        return cu[3] if y == 0 else cu[2] if (x + y) % 4 else cu[1]
+
+    _region(img, 0, 0, 8, 8, rust)
+    _region(img, 8, 0, 8, 8, galv)
+    _region(img, 0, 8, 8, 8, teal)
+    _region(img, 8, 8, 8, 8, pipe_copper)
     return img
+
+
+# zonas del atlas: (u0, v0, ancho, alto)
+RUB = {"conc": (0, 0, 8, 8), "broken": (8, 0, 8, 8), "brick": (0, 8, 8, 8), "rebar": (8, 8, 8, 4), "asph": (8, 12, 8, 4)}
+SCR = {"rust": (0, 0, 8, 8), "galv": (8, 0, 8, 8), "teal": (0, 8, 8, 8), "pipe": (8, 8, 4, 8), "copper": (12, 8, 4, 8)}
+
+# Trozos: (desde, hasta, zona de arriba, zona de los lados, rotación (eje, ángulo) o None).
+# Cada número de trozos añade elementos al anterior (el montón crece).
+PILE_RUBBLE = [
+    [((4, 0, 5), (10, 4, 10), "conc", "broken", ("y", 22.5)),
+     ((10, 0, 9), (13, 2, 12), "brick", "brick", ("y", -22.5))],
+    [((2, 0, 9), (6, 3, 13), "broken", "broken", ("y", 45)),
+     ((6, 1, 2), (12, 3, 6), "conc", "broken", ("x", 22.5))],
+    [((5, 4, 6), (9, 7, 9), "brick", "brick", ("y", -22.5)),
+     ((7.5, 1, 1), (8.5, 2, 15), "rebar", "rebar", ("y", 45)),
+     ((11, 0, 3), (15, 2, 7), "asph", "asph", None)],
+    [((6, 7, 5), (10, 9, 9), "conc", "broken", ("z", 22.5)),
+     ((1, 0, 2), (5, 2, 6), "brick", "brick", ("y", 22.5)),
+     ((11, 2, 9), (14, 5, 13), "conc", "broken", ("y", 22.5))],
+]
+PILE_SCRAP = [
+    [((3, 0, 4), (12, 1, 12), "rust", "rust", ("x", 22.5)),
+     ((7, 0, 1), (9, 2, 15), "pipe", "pipe", ("y", 22.5))],
+    [((4, 1.5, 3), (13, 2.5, 11), "galv", "galv", ("z", -22.5)),
+     ((10, 0, 10), (14, 3, 14), "teal", "teal", ("y", 22.5))],
+    [((4, 0, 3), (5, 8, 11), "rust", "rust", ("z", 22.5)),
+     ((8, 3, 6), (12, 4, 10), "copper", "copper", ("y", 45))],
+    [((2, 3, 6), (14, 5, 8), "galv", "galv", ("y", -22.5)),
+     ((6, 5, 8), (13, 6, 14), "teal", "teal", ("x", -22.5)),
+     ((11, 0, 2), (13, 9, 4), "pipe", "pipe", ("x", 22.5))],
+]
+# Pedazos de escombro: trocitos planos sueltos
+DEBRIS_BITS = [((2, 0, 2), (5, 1, 4), "conc", "broken", ("y", 22.5)),
+               ((9, 0, 3), (11, 1.5, 6), "brick", "brick", ("y", -22.5)),
+               ((5, 0, 9), (8, 1, 11), "broken", "broken", None),
+               ((12, 0, 10), (14, 1, 13), "conc", "broken", ("y", 45)),
+               ((2, 0, 12), (4, 2, 14), "conc", "broken", None),
+               ((7, 0, 6), (9, 1, 7), "asph", "asph", ("y", 22.5)),
+               ((11, 0, 1), (14, 0.5, 2), "rebar", "rebar", ("y", -22.5))]
+
+
+def _uv(zone, w, h):
+    u0, v0, zw, zh = zone
+    return [u0, v0, u0 + min(w, zw), v0 + min(h, zh)]
+
+
+def pile_elements(parts, zones):
+    els = []
+    for (f, t, top, side, rot) in parts:
+        dx, dy, dz = t[0] - f[0], t[1] - f[1], t[2] - f[2]
+        faces = {
+            "up": {"uv": _uv(zones[top], dx, dz), "texture": "#0"},
+            "down": {"uv": _uv(zones[side], dx, dz), "texture": "#0"},
+            "north": {"uv": _uv(zones[side], dx, dy), "texture": "#0"},
+            "south": {"uv": _uv(zones[side], dx, dy), "texture": "#0"},
+            "east": {"uv": _uv(zones[side], dz, dy), "texture": "#0"},
+            "west": {"uv": _uv(zones[side], dz, dy), "texture": "#0"},
+        }
+        el = {"from": list(f), "to": list(t), "faces": faces}
+        if rot:
+            el["rotation"] = {"axis": rot[0], "angle": rot[1],
+                              "origin": [(f[0] + t[0]) / 2, (f[1] + t[1]) / 2, (f[2] + t[2]) / 2]}
+        els.append(el)
+    return els
+
+
+def pile_models(name, layers, zones):
+    tex = rl(f"block/{name}")
+    for n in range(1, 5):
+        parts = [p for layer in layers[:n] for p in layer]
+        model(f"{name}_{n}", {"parent": "minecraft:block/block", "ambientocclusion": False,
+                              "textures": {"0": tex, "particle": tex}, "elements": pile_elements(parts, zones)})
+    blockstate(name, {"variants": {
+        f"pieces={n}": [{"model": rl(f"block/{name}_{n}"), "y": y} for y in (0, 90, 180, 270)] for n in range(1, 5)}})
+    item_model(name, rl(f"block/{name}_3"))
+
+
+def loot_pile(name, item, per_piece=None, silk_self=False):
+    """Suelta tantos objetos como trozos tenga el montón (o per_piece(n) si se da)."""
+    def counted(it, fn):
+        return {"type": "minecraft:item", "name": it, "functions": [
+            {"function": "minecraft:set_count", "count": fn(n), "add": False,
+             "conditions": [{"condition": "minecraft:block_state_property", "block": rl(name),
+                             "properties": {"pieces": str(n)}}]} for n in range(1, 5)] +
+            [{"function": "minecraft:explosion_decay"}]}
+    if silk_self:
+        entry = {"type": "minecraft:alternatives", "children": [
+            dict(counted(rl(name), lambda n: n), conditions=[SILK]), counted(item, per_piece)]}
+    else:
+        entry = counted(item, per_piece or (lambda n: n))
+    loot(name, [{"rolls": 1, "entries": [entry]}])
 
 
 def t_asphalt(seed=50):
@@ -1006,9 +1056,11 @@ def main():
         images[path] = img
 
     # --- modelos y blockstates
-    for name in ("concrete", "cracked_concrete", "mossy_concrete", "rubble", "asphalt", "cracked_asphalt",
-                 "rusted_metal_sheet", "scrap_pile", "vitrified_sand", "dead_planks"):
+    for name in ("concrete", "cracked_concrete", "mossy_concrete", "asphalt", "cracked_asphalt",
+                 "rusted_metal_sheet", "vitrified_sand", "dead_planks"):
         simple(name)
+    pile_models("rubble", PILE_RUBBLE, RUB)
+    pile_models("scrap_pile", PILE_SCRAP, SCR)
     for v in (1, 2):
         model(f"cracked_concrete_{v}", {"parent": "minecraft:block/cube_all",
                                         "textures": {"all": rl(f"block/cracked_concrete_{v}")}})
@@ -1033,8 +1085,11 @@ def main():
     item_model("asphalt_road_line", rl("block/asphalt_road_line"))
 
     # capa de escombros (como una alfombra)
-    model("debris_layer", {"parent": "minecraft:block/carpet", "textures": {"wool": rl("block/rubble")}})
-    blockstate("debris_layer", {"variants": {"": {"model": rl("block/debris_layer")}}})
+    model("debris_layer", {"parent": "minecraft:block/block", "ambientocclusion": False,
+                           "textures": {"0": rl("block/rubble"), "particle": rl("block/rubble")},
+                           "elements": pile_elements(DEBRIS_BITS, RUB)})
+    blockstate("debris_layer", {"variants": {"": [{"model": rl("block/debris_layer"), "y": y}
+                                                  for y in (0, 90, 180, 270)]}})
     item_model("debris_layer", rl("block/debris_layer"))
 
     # capa de ceniza (1-8 capas, plantillas de nieve)
@@ -1062,7 +1117,7 @@ def main():
     item_model("scrap_metal", layer=rl("item/scrap_metal"))
 
     # --- loot tables
-    for name in ("concrete", "cracked_concrete", "mossy_concrete", "rubble", "debris_layer", "asphalt", "cracked_asphalt",
+    for name in ("concrete", "cracked_concrete", "mossy_concrete", "debris_layer", "asphalt", "cracked_asphalt",
                  "asphalt_road_line", "rusted_metal_sheet", "rusted_metal_beam", "rusted_grate", "ash_block",
                  "vitrified_sand", "dead_log", "dead_planks"):
         loot_self(name)
@@ -1072,13 +1127,9 @@ def main():
         loot_self(f"{base}_wall")
     loot("vitrified_glass", [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": rl("vitrified_glass")}],
                               "conditions": [SILK]}])
-    loot("scrap_pile", [{"rolls": 1, "entries": [{"type": "minecraft:alternatives", "children": [
-        {"type": "minecraft:item", "name": rl("scrap_pile"), "conditions": [SILK]},
-        {"type": "minecraft:item", "name": rl("scrap_metal"), "functions": [
-            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 2, "max": 4}},
-            {"function": "minecraft:apply_bonus", "enchantment": "minecraft:fortune", "formula": "minecraft:uniform_bonus_count",
-             "parameters": {"bonusMultiplier": 1}},
-            {"function": "minecraft:explosion_decay"}]}]}]}])
+    loot_pile("rubble", rl("rubble"))
+    loot_pile("scrap_pile", rl("scrap_metal"), per_piece=lambda n: {"type": "minecraft:uniform", "min": n, "max": 2 * n},
+              silk_self=True)
     loot("cinetrite_cluster", [{"rolls": 1, "entries": [{"type": "minecraft:alternatives", "children": [
         {"type": "minecraft:item", "name": rl("cinetrite_cluster"), "conditions": [SILK]},
         {"type": "minecraft:item", "name": rl("cinetrite_shard"), "conditions": [
@@ -1149,7 +1200,7 @@ def main():
     names = {
         "concrete": ("Hormigón", "Concrete"), "cracked_concrete": ("Hormigón Agrietado", "Cracked Concrete"),
         "mossy_concrete": ("Hormigón Musgoso", "Mossy Concrete"),
-        "rubble": ("Escombros", "Rubble"), "debris_layer": ("Capa de Escombros", "Debris"),
+        "rubble": ("Escombros", "Rubble"), "debris_layer": ("Pedazos de Escombro", "Debris Bits"),
         "asphalt": ("Asfalto", "Asphalt"), "cracked_asphalt": ("Asfalto Agrietado", "Cracked Asphalt"),
         "asphalt_road_line": ("Asfalto con Línea", "Road Line Asphalt"),
         "rusted_metal_sheet": ("Chapa Oxidada", "Rusted Metal Sheet"), "rusted_metal_beam": ("Viga Oxidada", "Rusted Beam"),

@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:industrial_jungle",
+  "features": [
+    "tecnocinetico:industrial_jungle/rubble_piles",
+    "tecnocinetico:industrial_jungle/scrap_piles"
+  ],
+  "step": "vegetal_decoration"
+}

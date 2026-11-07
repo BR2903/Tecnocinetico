@@ -10,6 +10,67 @@
             {
               "type": "minecraft:item",
               "name": "tecnocinetico:scrap_pile",
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 1,
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "tecnocinetico:scrap_pile",
+                      "properties": {
+                        "pieces": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "function": "minecraft:set_count",
+                  "count": 2,
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "tecnocinetico:scrap_pile",
+                      "properties": {
+                        "pieces": "2"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "function": "minecraft:set_count",
+                  "count": 3,
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "tecnocinetico:scrap_pile",
+                      "properties": {
+                        "pieces": "3"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "function": "minecraft:set_count",
+                  "count": 4,
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "tecnocinetico:scrap_pile",
+                      "properties": {
+                        "pieces": "4"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "function": "minecraft:explosion_decay"
+                }
+              ],
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
@@ -34,17 +95,73 @@
                   "function": "minecraft:set_count",
                   "count": {
                     "type": "minecraft:uniform",
-                    "min": 2,
-                    "max": 4
-                  }
+                    "min": 1,
+                    "max": 2
+                  },
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "tecnocinetico:scrap_pile",
+                      "properties": {
+                        "pieces": "1"
+                      }
+                    }
+                  ]
                 },
                 {
-                  "function": "minecraft:apply_bonus",
-                  "enchantment": "minecraft:fortune",
-                  "formula": "minecraft:uniform_bonus_count",
-                  "parameters": {
-                    "bonusMultiplier": 1
-                  }
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "min": 2,
+                    "max": 4
+                  },
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "tecnocinetico:scrap_pile",
+                      "properties": {
+                        "pieces": "2"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "min": 3,
+                    "max": 6
+                  },
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "tecnocinetico:scrap_pile",
+                      "properties": {
+                        "pieces": "3"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "min": 4,
+                    "max": 8
+                  },
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "tecnocinetico:scrap_pile",
+                      "properties": {
+                        "pieces": "4"
+                      }
+                    }
+                  ]
                 },
                 {
                   "function": "minecraft:explosion_decay"

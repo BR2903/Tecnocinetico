@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:scrap_coast",
+  "features": [
+    "tecnocinetico:scrap_coast/scrap_piles",
+    "tecnocinetico:scrap_coast/rubble_piles"
+  ],
+  "step": "vegetal_decoration"
+}

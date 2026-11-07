@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:dead_megacity",
+  "features": [
+    "tecnocinetico:dead_megacity/rubble_piles",
+    "tecnocinetico:dead_megacity/debris_bits",
+    "tecnocinetico:dead_megacity/scrap_piles"
+  ],
+  "step": "vegetal_decoration"
+}

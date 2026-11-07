@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:scrap_meadows",
+  "features": [
+    "tecnocinetico:scrap_meadows/rubble_piles",
+    "tecnocinetico:scrap_meadows/debris_bits",
+    "tecnocinetico:scrap_meadows/scrap_piles"
+  ],
+  "step": "vegetal_decoration"
+}

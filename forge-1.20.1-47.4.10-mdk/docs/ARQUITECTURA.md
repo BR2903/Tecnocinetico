@@ -66,6 +66,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `SwarmBodyEntity` (IA + `KineticLeapGoal`), `SwarmBodyModel` (modelo en código, animaciones), `SwarmBodyRenderer` (+ capa luminosa `EyesLayer`).
 
 ### Mundo / Overworld (`worldgen/`, `datagen/`)
+- Bloques del mundo en `block/ModWorldBlocks`; `block/custom/PileBlock` = montones de 1-4 trozos (escombros, chatarra), anegables. Features del terreno generadas por `tools/world_features_gen.py`.
 - `ModBiomes`: 19 biomas (claves, `bootstrap` para datagen y `VANILLA_TO_MOD`, el mapa bioma vanilla → bioma del mod). Cada bioma copia clima, generación y animales de su equivalente vanilla y cambia cielo/niebla/agua/hierba/partículas.
 - `RemappedBiomeSource` (tipo `tecnocinetico:remapped`, registrado en `ModWorldgen`): envuelve la fuente multi-ruido vanilla y sustituye cada bioma → mismo relieve vanilla, biomas nuevos.
 - `ModSurfaceRules`: reglas propias (parches de asfalto, ceniza, arena vitrificada, escombros...) + las reglas vanilla con sus condiciones de bioma traducidas (serializa a JSON, cambia `biome_is`, vuelve a leer).

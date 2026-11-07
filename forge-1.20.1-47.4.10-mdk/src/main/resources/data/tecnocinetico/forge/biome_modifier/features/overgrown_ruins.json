@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:overgrown_ruins",
+  "features": [
+    "tecnocinetico:overgrown_ruins/rubble_piles",
+    "tecnocinetico:overgrown_ruins/debris_bits"
+  ],
+  "step": "vegetal_decoration"
+}

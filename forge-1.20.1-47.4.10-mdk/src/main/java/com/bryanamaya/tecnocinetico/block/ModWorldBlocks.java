@@ -1,5 +1,7 @@
 package com.bryanamaya.tecnocinetico.block;
 
+import com.bryanamaya.tecnocinetico.block.custom.PileBlock;
+import net.minecraft.world.level.material.PushReaction;
 import com.bryanamaya.tecnocinetico.block.custom.AshLayerBlock;
 import com.bryanamaya.tecnocinetico.block.custom.RoadLineBlock;
 import com.bryanamaya.tecnocinetico.item.ModItems;
@@ -51,7 +53,8 @@ public final class ModWorldBlocks {
 
     // ------------------------------------------------------------------ escombros
     public static final RegistryObject<Block> RUBBLE = block("rubble",
-            () -> new SandBlock(0x6E6A64, Properties.copy(Blocks.GRAVEL).mapColor(MapColor.STONE)));
+            () -> new PileBlock(Properties.copy(Blocks.GRAVEL).mapColor(MapColor.STONE).strength(0.4F)
+                    .sound(SoundType.STONE).noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> DEBRIS_LAYER = block("debris_layer",
             () -> new CarpetBlock(Properties.copy(Blocks.GRAVEL).strength(0.2F).noOcclusion()));
 
@@ -71,8 +74,9 @@ public final class ModWorldBlocks {
             .isViewBlocking((s, l, p) -> false)));
 
     // ------------------------------------------------------------------ chatarra
-    public static final RegistryObject<Block> SCRAP_PILE = block("scrap_pile", () -> new Block(Properties.of()
-            .mapColor(MapColor.TERRACOTTA_BROWN).strength(2.0F, 4.0F).sound(SoundType.CHAIN).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> SCRAP_PILE = block("scrap_pile", () -> new PileBlock(Properties.of()
+            .mapColor(MapColor.TERRACOTTA_BROWN).strength(1.0F, 3.0F).sound(SoundType.CHAIN).requiresCorrectToolForDrops()
+            .noOcclusion().pushReaction(PushReaction.DESTROY)));
 
     // ------------------------------------------------------------------ ceniza
     public static final RegistryObject<Block> ASH_BLOCK = block("ash_block",
