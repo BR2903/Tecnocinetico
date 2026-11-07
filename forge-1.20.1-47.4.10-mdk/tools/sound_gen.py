@@ -223,17 +223,25 @@ def save(name, x, folder, peak=0.8, drive=1.0):
 
 # =================================================================== Pistola Cinética (arma real)
 def gunshot(i):
+    """Disparo: estallido MUY seco y fuerte + cola de reverberación continua.
+    Sin ecos discretos ni graves largos (sonaban a "pelota que rebota")."""
     seed = 1000 + 17 * i
-    n = n_of(0.35)
-    blast = np.tanh(band(noise(0.35, seed), 250, 6000) * decay(n, 0.0028 + 0.0004 * i) * 5) * 0.55  # onda de choque saturada
-    powder = low(noise(0.35, seed + 1), 1400) * decay(n, 0.03) * 1.3              # gases de la pólvora
-    boom = low(noise(0.35, seed + 2), 160, order=6) * decay(n, 0.09) * 7.0        # retumbe grave (ruido, no tono)
-    crackle = sparks(0.08, seed + 3, rate=260) * 0.25                             # sello cinético muy sutil
-    action = mix(0.12, (clank(0.06, 2100 + 90 * i, seed + 4, q=(30, 60)), 0.0, 1.0),
-                 (clank(0.06, 1700 + 60 * i, seed + 5, q=(30, 60)), 0.045, 0.8))   # corredera atrás y adelante
-    shot = mix(0.4, (blast, 0, 1.0), (powder, 0, 0.9), (boom, 0, 1.0), (crackle, 0.002, 1.0), (action, 0.012, 0.12))
-    shot = slap_echo(shot, [(0.16 + 0.02 * i, 0.22), (0.41, 0.12)], lp=1300)       # rebote en el entorno
-    return reverb(shot, seed + 6, tail=1.3, wet=0.22, damp=3500, predelay=0.02)
+    n = n_of(0.2)
+    r = rng_of(seed)
+    # Onda de choque (N-wave): subida instantánea, ~1,5 ms, banda ancha
+    crack = high(noise(0.2, seed), 800) * decay(n, 0.0012) * 2.0
+    # Fogonazo: ráfaga de ruido muy saturada (como una grabación real que satura el micro)
+    blast = np.tanh(low(noise(0.2, seed + 1), 4000) * decay(n, 0.012) * 9) * 0.8
+    # Cuerpo: medios-graves CORTOS (nada de "boom" largo)
+    body = band(noise(0.2, seed + 2), 70, 500) * decay(n, 0.028) * 2.2
+    # Mecanismo, muy discreto
+    action = clank(0.05, 2200 + 80 * i, seed + 3, tau=0.0008, q=(30, 60)) * 0.08
+    shot = mix(0.2, (crack, 0, 1.0), (blast, 0, 1.0), (body, 0, 1.0), (action, 0.01, 1.0))
+    # Cola de exterior: ruido difuso que se apaga (reverberación continua, sin repeticiones)
+    tail_n = n_of(0.9)
+    tail = band(noise(0.9, seed + 4), 250, 2500) * np.exp(-np.arange(tail_n) / (SR * 0.18)) * 0.22
+    tail *= np.clip(np.arange(tail_n) / n_of(0.012), 0, 1)            # entra suave tras el estallido
+    return mix(1.0, (shot, 0, 1.0), (tail, 0.006 + r.uniform(0, 0.004), 1.0))
 
 
 def bullet_impact():
@@ -301,7 +309,7 @@ def slide_rack():
 
 def generate_pistol():
     for i in range(3):
-        save(f"fire{i + 1}", gunshot(i), "pistol", peak=0.85, drive=1.2)
+        save(f"fire{i + 1}", gunshot(i), "pistol", peak=0.9, drive=1.6)
     save("impact", bullet_impact(), "pistol")
     save("hit", hit_confirm(), "pistol")
     save("dry_fire", dry_fire(), "pistol")

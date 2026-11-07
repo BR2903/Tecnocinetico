@@ -86,3 +86,7 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 ## 2026-11-07 — Claude — Sonidos realistas (menos "arcade")
 - El usuario encontró los sonidos muy arcade. `tools/sound_gen.py` reescrito: nada de tonos puros/barridos; todo con ruido + resonadores (modos metálicos), texturas granulares, servos con engranajes, siseos neumáticos, voces de máquina por tubo resonante (filtro peine), eco de exterior y reverberación sintética. Estilo de máquinas orgánico-mecánicas (inspiración Horizon Zero Dawn, sin copiar sonidos).
 - Disparo: estallido saturado + pólvora + retumbe grave + mecanismo + eco; brillo medio ~1,8 kHz (antes ~6 kHz). Se recorta el silencio final de cada archivo.
+
+## 2026-11-07 — Claude — Disparo sin efecto "pelota"
+- El disparo sonaba a pelota que rebota: lo causaban los ecos discretos (`slap_echo`) y un retumbe grave largo. Nuevo `gunshot`: onda de choque de ~1,5 ms + fogonazo saturado + cuerpo corto + cola de reverberación continua; ~90% de la energía en los primeros 30 ms.
+- Para máximo realismo se propuso al usuario usar grabaciones reales CC0 en lugar de síntesis.
