@@ -10,6 +10,7 @@ Guía para cualquier agente de IA (Codex, Claude, etc.) que continúe este proye
 | `docs/HERRAMIENTAS.md` | Scripts Python que generan modelos/texturas/interfaces y cómo usarlos |
 | `docs/BITACORA.md` | Historial de lo que se ha hecho, en orden |
 | `docs/PENDIENTES.md` | Ideas propuestas, tareas abiertas y limitaciones conocidas |
+| `docs/PLAN_MUNDO.md` | Plan del Overworld post-apocalíptico (biomas, estructuras, enfoque técnico, fases) |
 
 Al terminar una tarea, **añade una entrada a `docs/BITACORA.md`** y actualiza los demás documentos si cambiaste algo que describen.
 
