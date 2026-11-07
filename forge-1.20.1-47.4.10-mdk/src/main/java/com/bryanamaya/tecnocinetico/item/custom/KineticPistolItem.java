@@ -5,6 +5,7 @@ import com.bryanamaya.tecnocinetico.item.ModItems;
 import com.bryanamaya.tecnocinetico.skill.PlayerSkills;
 import com.bryanamaya.tecnocinetico.skill.Skill;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import com.bryanamaya.tecnocinetico.particle.ModParticles;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -144,46 +145,75 @@ public class KineticPistolItem extends Item {
 
     // ------------------------------------------------------------------ disparo
 
+    /**
+     * Clic derecho = apuntar. Eso lo gestiona el cliente (PistolInputHandler) mientras se mantiene el botón;
+     * aquí solo se evita cualquier otra acción. FAIL no reinicia la animación de la mano ni prueba la otra mano.
+     */
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack pistol = player.getItemInHand(hand);
-        if (isReloading(pistol)) {
-            return InteractionResultHolder.fail(pistol);
-        }
+        return InteractionResultHolder.fail(player.getItemInHand(hand));
+    }
 
+    /** ¿El cliente puede mostrar ya el disparo (retroceso)? Debe coincidir con lo que comprobará el servidor. */
+    public static boolean canFireNow(Player player, ItemStack pistol) {
+        return pistol.getItem() instanceof KineticPistolItem
+                && !player.getCooldowns().isOnCooldown(pistol.getItem())
+                && !isReloading(pistol)
+                && (player.getAbilities().instabuild || getAmmo(pistol) > 0);
+    }
+
+    public static float shotCooldownTicks() {
+        return SHOT_COOLDOWN;
+    }
+
+    /**
+     * Clic izquierdo (llega por red desde el cliente): dispara con la pistola de la mano principal.
+     * Si el cargador está vacío, recarga automáticamente.
+     */
+    public static void tryFire(ServerPlayer player) {
+        ItemStack pistol = player.getMainHandItem();
+        if (!(pistol.getItem() instanceof KineticPistolItem item)
+                || player.getCooldowns().isOnCooldown(item) || isReloading(pistol)) {
+            return;
+        }
+        Level level = player.level();
         boolean creative = player.getAbilities().instabuild;
+
         if (!creative && getAmmo(pistol) <= 0) {
-            level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.DISPENSER_FAIL, SoundSource.PLAYERS, 1.0F, 1.2F);
-            if (!level.isClientSide()) {
-                player.displayClientMessage(Component.translatable("message.tecnocinetico.empty_mag",
-                        Component.keybind("key.tecnocinetico.reload")).withStyle(ChatFormatting.YELLOW), true);
-            }
-            player.getCooldowns().addCooldown(this, SHOT_COOLDOWN);
-            return InteractionResultHolder.fail(pistol);
+            startReload(player, pistol); // recarga automática (avisa si no hay fragmentos)
+            return;
         }
 
-        if (level.isClientSide()) {
-            // Retroceso: cuanto más Manejo de Armas, menos sube la mira
-            float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING));
-            player.setXRot(player.getXRot() - BASE_PITCH_KICK * mult);
-            player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * BASE_YAW_KICK * mult);
-            GunAnimState.onShot(level.getGameTime(), mult, player.getRandom().nextFloat() * 2.0F - 1.0F);
-        } else {
-            fire(level, player, hand, pistol);
-            if (!creative) {
-                setAmmo(pistol, getAmmo(pistol) - 1);
-                pistol.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
-            }
-            level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.7F, 2.0F);
-            level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.PLAYERS, 0.5F, 1.8F);
+        fire(level, player, InteractionHand.MAIN_HAND, pistol);
+        if (!creative) {
+            setAmmo(pistol, getAmmo(pistol) - 1);
+            pistol.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(InteractionHand.MAIN_HAND));
         }
+        level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.7F, 2.0F);
+        level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.PLAYERS, 0.5F, 1.8F);
+        player.getCooldowns().addCooldown(item, SHOT_COOLDOWN);
+        player.awardStat(Stats.ITEM_USED.get(item));
+    }
 
-        player.getCooldowns().addCooldown(this, SHOT_COOLDOWN);
-        player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.consume(pistol);
+    /** Cuánto sube la cámara al disparar (el cliente lo aplica). */
+    public static float pitchKick() {
+        return BASE_PITCH_KICK;
+    }
+
+    public static float yawKick() {
+        return BASE_YAW_KICK;
+    }
+
+    /** Zoom al apuntar: 1 = sin zoom. La mira de puntería amplía más. */
+    public static float aimZoom(ItemStack stack) {
+        return WeaponModule.has(stack, WeaponModule.OPTIC) ? 0.65F : 0.85F;
+    }
+
+    @Override
+    public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
+        return false; // con la pistola en la mano no se rompen bloques
     }
 
     private static void fire(Level level, Player player, InteractionHand hand, ItemStack pistol) {

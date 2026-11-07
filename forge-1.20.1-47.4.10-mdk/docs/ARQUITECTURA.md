@@ -37,6 +37,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `GunAnimState` — último disparo (para la animación de retroceso). Solo datos.
 - `WeaponModule` (enum, máscara de bits en NBT `Modules`) + `WeaponModuleItem`.
 - `KineticHammerItem` — `PickaxeItem` de nivel hierro con velocidad ×0,7.
+- `client/PistolInputHandler` — controles: intercepta el clic izquierdo (`InteractionKeyMappingTriggered`) → `FirePistolPacket` (el servidor llama a `KineticPistolItem.tryFire`, que dispara o recarga), calcula el progreso de apuntar (`GunAnimState.aim`), zoom (`ComputeFovModifierEvent`) y oculta el punto de mira.
 - `client/PistolClientExtensions` — `applyForgeHandTransform` (animación de recarga y retroceso en 1ª persona) y `getArmPose` (apuntar en 3ª persona).
 - **Fotogramas de recarga y módulos** = modelos JSON distintos elegidos por overrides (`tecnocinetico:modules` 0-15 × `tecnocinetico:reload` 0-1). 80 modelos generados por `tools/pistol_gen.py`.
 

@@ -30,7 +30,7 @@
   "message.tecnocinetico.no_shards": "You have no Cinetrite Shards to reload",
   "tooltip.tecnocinetico.ammo": "Ammo: %s/%s",
   "tooltip.tecnocinetico.durability": "Durability: %s/%s",
-  "tooltip.tecnocinetico.pistol_help": "Right-click: fire · [%s]: reload",
+  "tooltip.tecnocinetico.pistol_help": "Left-click: fire · Right-click: aim · [%s]: reload",
   "tooltip.tecnocinetico.kinetic_hammer": "Strike the Assembly Press 3 times to craft",
   "skill.tecnocinetico.weapon_handling": "Weapon Handling",
   "message.tecnocinetico.skill_level_up": "%s reached level %s!",

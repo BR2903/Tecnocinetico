@@ -21,6 +21,12 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
  */
 public class PistolClientExtensions implements IClientItemExtensions {
 
+    // Posición del arma al apuntar (ajustable): miras alineadas con el centro de la pantalla
+    private static final float AIM_X_RIGHT = 0.0625F;   // compensa la traslación x del display firstperson_righthand
+    private static final float AIM_X_LEFT = 0.031F;
+    private static final float AIM_Y = -0.43F;          // la línea de miras (y≈15/16 del modelo) a la altura de los ojos
+    private static final float AIM_Z = -0.50F;          // más cerca de la cara que en la cadera
+
     @Override
     public HumanoidModel.ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
         return HumanoidModel.ArmPose.CROSSBOW_HOLD;
@@ -37,8 +43,12 @@ public class PistolClientExtensions implements IClientItemExtensions {
         boolean recoiling = t >= 0 && t < GunAnimState.RECOIL_TICKS;
         float equip = recoiling ? 0.0F : equipProcess;
 
-        // Posición base del arma en la mano (la misma que usa vanilla)
-        pose.translate(side * 0.56F, -0.52F + equip * -0.6F, -0.72F);
+        // Posición base del arma: de la cadera (vanilla) a la posición de apuntar (miras en el centro de la pantalla)
+        float aim = smooth(GunAnimState.aim(partialTick));
+        float hipX = side * 0.56F, hipY = -0.52F + equip * -0.6F, hipZ = -0.72F;
+        // Al apuntar: compensa el desplazamiento del modelo (display firstperson) para centrar las miras
+        float aimX = side > 0 ? AIM_X_RIGHT : AIM_X_LEFT;
+        pose.translate(Mth.lerp(aim, hipX, aimX), Mth.lerp(aim, hipY, AIM_Y), Mth.lerp(aim, hipZ, AIM_Z));
 
         // --- Recarga ---
         float progress = KineticPistolItem.getReloadProgress(stack, partialTick);

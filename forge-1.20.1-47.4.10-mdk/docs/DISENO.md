@@ -33,7 +33,8 @@ Pendientes del lore: Piroxita, Nulita, Radionita, Crioprisma, drones, Núcleo Di
 ## Sistemas de juego actuales (valores)
 
 ### Pistola Cinética
-- Hitscan, 8 de daño, 25 bloques, cargador de 6, cooldown 8 ticks. Munición: **Fragmentos de Cinetrita**. Recarga con **R** (1,5 s base).
+- **Controles (decididos por el usuario):** clic **izquierdo** = disparar (semiautomática), clic **derecho mantenido** = apuntar con la mira (arma centrada, zoom ×0,85 o ×0,65 con la mira de puntería, sin punto de mira, retroceso ×0,6). Con el cargador vacío, el clic izquierdo **recarga automáticamente**; **R** recarga cuando se quiera. Con la pistola en la mano no se golpea ni se rompen bloques.
+- Hitscan, 8 de daño, 25 bloques, cargador de 6, cooldown 8 ticks. Munición: **Fragmentos de Cinetrita**. Recarga 1,5 s base.
 - Retroceso de cámara (2,5° vertical) reducido por Manejo de Armas.
 - Barra del objeto = munición (cian; naranja recargando). Reparación: Lingote de Inercita.
 

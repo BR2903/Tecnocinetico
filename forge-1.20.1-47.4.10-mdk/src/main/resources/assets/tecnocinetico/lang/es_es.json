@@ -30,7 +30,7 @@
   "message.tecnocinetico.no_shards": "No tienes Fragmentos de Cinetrita para recargar",
   "tooltip.tecnocinetico.ammo": "Munición: %s/%s",
   "tooltip.tecnocinetico.durability": "Durabilidad: %s/%s",
-  "tooltip.tecnocinetico.pistol_help": "Clic derecho: disparar · [%s]: recargar",
+  "tooltip.tecnocinetico.pistol_help": "Clic izq.: disparar · Clic der.: apuntar · [%s]: recargar",
   "tooltip.tecnocinetico.kinetic_hammer": "Golpea 3 veces la Prensa de Ensamblaje para fabricar",
   "skill.tecnocinetico.weapon_handling": "Manejo de Armas",
   "message.tecnocinetico.skill_level_up": "¡%s sube a nivel %s!",

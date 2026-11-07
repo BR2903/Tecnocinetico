@@ -32,9 +32,32 @@ public final class ModNetwork {
         CHANNEL.registerMessage(0, ReloadPistolPacket.class,
                 ReloadPistolPacket::encode, ReloadPistolPacket::decode, ReloadPistolPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(2, FirePistolPacket.class,
+                FirePistolPacket::encode, FirePistolPacket::decode, FirePistolPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
                 SyncSkillsPacket::encode, SyncSkillsPacket::decode, SyncSkillsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+    }
+
+    /** Clic izquierdo con la pistola: "dispara" (o recarga si está vacía). El servidor lo comprueba todo. */
+    public record FirePistolPacket() {
+
+        public static void encode(FirePistolPacket msg, FriendlyByteBuf buf) {}
+
+        public static FirePistolPacket decode(FriendlyByteBuf buf) {
+            return new FirePistolPacket();
+        }
+
+        public static void handle(FirePistolPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer player = ctx.get().getSender();
+                if (player != null) {
+                    KineticPistolItem.tryFire(player);
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
     }
 
     /** El servidor envía al cliente las habilidades del jugador (para retroceso, descripciones...). */

@@ -17,7 +17,15 @@ public final class GunAnimState {
     /** Giro lateral de este disparo (-1..1), distinto en cada tiro. */
     public static float roll = 0.0F;
 
+    /** Progreso de apuntar con la mira (0 = cadera, 1 = apuntando) en este tick y en el anterior (para suavizar). */
+    public static float aim = 0.0F;
+    public static float prevAim = 0.0F;
+
     private GunAnimState() {}
+
+    public static float aim(float partialTick) {
+        return prevAim + (aim - prevAim) * partialTick;
+    }
 
     public static void onShot(long gameTime, float strength, float randomRoll) {
         lastShotTick = gameTime;
