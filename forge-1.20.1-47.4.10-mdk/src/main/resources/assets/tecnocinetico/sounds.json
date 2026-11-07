@@ -48,6 +48,10 @@
       {
         "name": "tecnocinetico:pistol/fire3",
         "attenuation_distance": 48
+      },
+      {
+        "name": "tecnocinetico:pistol/fire4",
+        "attenuation_distance": 48
       }
     ]
   },

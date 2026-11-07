@@ -309,14 +309,10 @@ def slide_rack():
 
 
 def generate_pistol():
-    for i in range(3):
-        save(f"fire{i + 1}", gunshot(i), "pistol", peak=0.95, drive=2.6)   # compresión fuerte = más sonoridad
+    # Disparo, cargador, corredera y clic en vacío son GRABACIONES REALES (tools/import_sounds.py).
+    # Aquí solo se sintetizan el impacto (con el cristal de cinetrita) y la confirmación de acierto.
     save("impact", bullet_impact(), "pistol")
     save("hit", hit_confirm(), "pistol")
-    save("dry_fire", dry_fire(), "pistol")
-    save("mag_out", mag_out(), "pistol")
-    save("mag_in", mag_in(), "pistol")
-    save("slide", slide_rack(), "pistol")
 
 
 # =================================================================== Cuerpo de Enjambre (máquina orgánica)
