@@ -170,7 +170,7 @@ public class KineticPistolItem extends Item {
      * Clic izquierdo (llega por red desde el cliente): dispara con la pistola de la mano principal.
      * Si el cargador está vacío, recarga automáticamente.
      */
-    public static void tryFire(ServerPlayer player) {
+    public static void tryFire(ServerPlayer player, boolean aiming) {
         ItemStack pistol = player.getMainHandItem();
         if (!(pistol.getItem() instanceof KineticPistolItem item)
                 || player.getCooldowns().isOnCooldown(item) || isReloading(pistol)) {
@@ -184,7 +184,7 @@ public class KineticPistolItem extends Item {
             return;
         }
 
-        fire(level, player, InteractionHand.MAIN_HAND, pistol);
+        fire(level, player, InteractionHand.MAIN_HAND, pistol, aiming);
         if (!creative) {
             setAmmo(pistol, getAmmo(pistol) - 1);
             pistol.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(InteractionHand.MAIN_HAND));
@@ -216,7 +216,7 @@ public class KineticPistolItem extends Item {
         return false; // con la pistola en la mano no se rompen bloques
     }
 
-    private static void fire(Level level, Player player, InteractionHand hand, ItemStack pistol) {
+    private static void fire(Level level, Player player, InteractionHand hand, ItemStack pistol, boolean aiming) {
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
         Vec3 end = eye.add(look.scale(getRange(pistol)));
@@ -249,7 +249,7 @@ public class KineticPistolItem extends Item {
         }
 
         if (level instanceof ServerLevel server) {
-            spawnShotEffects(server, player, hand, look, end, entityHit == null ? blockHit : null);
+            spawnShotEffects(server, player, hand, look, end, entityHit == null ? blockHit : null, aiming);
         }
     }
 
@@ -259,14 +259,16 @@ public class KineticPistolItem extends Item {
      * chispas, el fragmento haciéndose añicos y, si da en un bloque, polvo de ese bloque.
      */
     private static void spawnShotEffects(ServerLevel server, Player player, InteractionHand hand, Vec3 look,
-                                         Vec3 end, @Nullable BlockHitResult blockHit) {
+                                         Vec3 end, @Nullable BlockHitResult blockHit, boolean aiming) {
         // Boca del cañón: delante de los ojos, desplazada hacia la mano que sujeta el arma
         boolean rightHand = (hand == InteractionHand.MAIN_HAND) == (player.getMainArm() == HumanoidArm.RIGHT);
         Vec3 right = Vec3.directionFromRotation(0, player.getYRot() + 90.0F); // vale también mirando arriba/abajo
+        // Apuntando, el arma está centrada bajo la vista: el disparo sale del centro, no de la cadera
+        double side = aiming ? 0.0D : (rightHand ? 0.26D : -0.26D);
         Vec3 muzzle = player.getEyePosition()
                 .add(look.scale(1.0D))
-                .add(right.scale(rightHand ? 0.26D : -0.26D))
-                .add(0, -0.08D, 0); // a la altura del cañón en primera persona
+                .add(right.scale(side))
+                .add(0, aiming ? -0.06D : -0.08D, 0); // a la altura del cañón en primera persona
 
         // Fogonazo
         server.sendParticles(ModParticles.KINETIC_BURST.get(), muzzle.x, muzzle.y, muzzle.z, 0, 0.35, 0, 0, 1);

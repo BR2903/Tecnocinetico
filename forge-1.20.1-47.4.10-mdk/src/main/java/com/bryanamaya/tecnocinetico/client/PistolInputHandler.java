@@ -71,7 +71,7 @@ public final class PistolInputHandler {
             player.getCooldowns().addCooldown(pistol.getItem(), (int) KineticPistolItem.shotCooldownTicks());
         }
         // El servidor dispara, o recarga automáticamente si el cargador está vacío
-        ModNetwork.CHANNEL.sendToServer(new ModNetwork.FirePistolPacket());
+        ModNetwork.CHANNEL.sendToServer(new ModNetwork.FirePistolPacket(GunAnimState.aim > 0.5F));
     }
 
     @SubscribeEvent

@@ -19,6 +19,7 @@ import com.bryanamaya.tecnocinetico.client.WeaponBenchScreen;
 import com.bryanamaya.tecnocinetico.menu.ModMenus;
 import net.minecraft.client.gui.screens.MenuScreens;
 import com.bryanamaya.tecnocinetico.particle.ModParticles;
+import com.bryanamaya.tecnocinetico.sound.ModSounds;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -53,6 +54,7 @@ public class Tecnocinetico {
         ModEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModParticles.register(modEventBus);
+        ModSounds.register(modEventBus);
         ModMenus.register(modEventBus);
         ModNetwork.register();
     }

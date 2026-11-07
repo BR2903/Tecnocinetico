@@ -1,0 +1,37 @@
+{
+  "entity.swarm_body.ambient": {
+    "subtitle": "subtitles.tecnocinetico.swarm_body.ambient",
+    "sounds": [
+      "tecnocinetico:swarm_body/ambient1",
+      "tecnocinetico:swarm_body/ambient2",
+      "tecnocinetico:swarm_body/ambient3"
+    ]
+  },
+  "entity.swarm_body.hurt": {
+    "subtitle": "subtitles.tecnocinetico.swarm_body.hurt",
+    "sounds": [
+      "tecnocinetico:swarm_body/hurt1",
+      "tecnocinetico:swarm_body/hurt2"
+    ]
+  },
+  "entity.swarm_body.death": {
+    "subtitle": "subtitles.tecnocinetico.swarm_body.death",
+    "sounds": [
+      "tecnocinetico:swarm_body/death"
+    ]
+  },
+  "entity.swarm_body.step": {
+    "subtitle": "subtitles.tecnocinetico.swarm_body.step",
+    "sounds": [
+      "tecnocinetico:swarm_body/step1",
+      "tecnocinetico:swarm_body/step2",
+      "tecnocinetico:swarm_body/step3"
+    ]
+  },
+  "entity.swarm_body.leap": {
+    "subtitle": "subtitles.tecnocinetico.swarm_body.leap",
+    "sounds": [
+      "tecnocinetico:swarm_body/leap"
+    ]
+  }
+}

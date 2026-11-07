@@ -76,5 +76,10 @@
   "skill.tecnocinetico.effect.strikes": "Press strikes per item: %s",
   "skill.tecnocinetico.effect.hammer_save": "%s%% of strikes don't wear the hammer",
   "skill.tecnocinetico.effect.mining_speed": "Hammer speed +%s%%",
-  "gui.tecnocinetico.skills.max": "Max"
+  "gui.tecnocinetico.skills.max": "Max",
+  "subtitles.tecnocinetico.swarm_body.ambient": "Swarm Body growls",
+  "subtitles.tecnocinetico.swarm_body.hurt": "Swarm Body hurts",
+  "subtitles.tecnocinetico.swarm_body.death": "Swarm Body powers down",
+  "subtitles.tecnocinetico.swarm_body.step": "Metallic footsteps",
+  "subtitles.tecnocinetico.swarm_body.leap": "Swarm Body leaps"
 }

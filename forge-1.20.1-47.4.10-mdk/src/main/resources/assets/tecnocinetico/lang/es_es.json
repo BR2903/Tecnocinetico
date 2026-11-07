@@ -76,5 +76,10 @@
   "skill.tecnocinetico.effect.strikes": "Golpes por pieza en la prensa: %s",
   "skill.tecnocinetico.effect.hammer_save": "%s%% de golpes sin desgastar el martillo",
   "skill.tecnocinetico.effect.mining_speed": "Velocidad del martillo +%s%%",
-  "gui.tecnocinetico.skills.max": "Máximo"
+  "gui.tecnocinetico.skills.max": "Máximo",
+  "subtitles.tecnocinetico.swarm_body.ambient": "Cuerpo de Enjambre gruñe",
+  "subtitles.tecnocinetico.swarm_body.hurt": "Cuerpo de Enjambre herido",
+  "subtitles.tecnocinetico.swarm_body.death": "Cuerpo de Enjambre se apaga",
+  "subtitles.tecnocinetico.swarm_body.step": "Pasos metálicos",
+  "subtitles.tecnocinetico.swarm_body.leap": "Cuerpo de Enjambre salta"
 }

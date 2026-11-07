@@ -40,20 +40,25 @@ public final class ModNetwork {
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
-    /** Clic izquierdo con la pistola: "dispara" (o recarga si está vacía). El servidor lo comprueba todo. */
-    public record FirePistolPacket() {
+    /**
+     * Clic izquierdo con la pistola: "dispara" (o recarga si está vacía). El servidor lo comprueba todo.
+     * aiming: si el jugador apunta con la mira (el disparo sale del centro y no de la cadera).
+     */
+    public record FirePistolPacket(boolean aiming) {
 
-        public static void encode(FirePistolPacket msg, FriendlyByteBuf buf) {}
+        public static void encode(FirePistolPacket msg, FriendlyByteBuf buf) {
+            buf.writeBoolean(msg.aiming);
+        }
 
         public static FirePistolPacket decode(FriendlyByteBuf buf) {
-            return new FirePistolPacket();
+            return new FirePistolPacket(buf.readBoolean());
         }
 
         public static void handle(FirePistolPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> {
                 ServerPlayer player = ctx.get().getSender();
                 if (player != null) {
-                    KineticPistolItem.tryFire(player);
+                    KineticPistolItem.tryFire(player, msg.aiming());
                 }
             });
             ctx.get().setPacketHandled(true);

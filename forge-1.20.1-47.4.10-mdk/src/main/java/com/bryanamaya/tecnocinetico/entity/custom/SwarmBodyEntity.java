@@ -25,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import com.bryanamaya.tecnocinetico.sound.ModSounds;
 
 import java.util.EnumSet;
 
@@ -70,25 +71,25 @@ public class SwarmBodyEntity extends Monster {
         return false;
     }
 
-    // --- Sonidos: mezcla de insecto y metal ---
+    // --- Sonidos propios (sintetizados con tools/sound_gen.py): mezcla orgánica y mecánica ---
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.SPIDER_AMBIENT;
+        return ModSounds.SWARM_BODY_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource pDamageSource) {
-        return SoundEvents.IRON_GOLEM_HURT;
+        return ModSounds.SWARM_BODY_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.IRON_GOLEM_DEATH;
+        return ModSounds.SWARM_BODY_DEATH.get();
     }
 
     @Override
     protected void playStepSound(BlockPos pPos, BlockState pState) {
-        this.playSound(SoundEvents.SPIDER_STEP, 0.15F, 0.8F);
+        this.playSound(ModSounds.SWARM_BODY_STEP.get(), 0.35F, 0.9F + this.random.nextFloat() * 0.2F);
     }
 
     @Override
@@ -148,7 +149,7 @@ public class SwarmBodyEntity extends Monster {
             mob.setDeltaMovement(dir.x, 0.55D, dir.z);
             mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
             mob.level().playSound(null, mob.getX(), mob.getY(), mob.getZ(),
-                    SoundEvents.PISTON_EXTEND, SoundSource.HOSTILE, 1.0F, 0.6F);
+                    ModSounds.SWARM_BODY_LEAP.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
             if (mob.level() instanceof ServerLevel server) {
                 server.sendParticles(ParticleTypes.ELECTRIC_SPARK, mob.getX(), mob.getY() + 0.2, mob.getZ(),
                         12, 0.4, 0.1, 0.4, 0.15);
