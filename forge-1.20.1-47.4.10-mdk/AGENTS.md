@@ -40,7 +40,7 @@ cmd /c ".\gradlew.bat build 2>&1"                 # genera build/libs/tecnocinet
 
 1. **Compila** tras cada cambio.
 2. Si tocaste datos (recetas, loot, tags, worldgen) o registros: **`runGameTestServer`** y busca en el log `Exception`, `Parsing error`, `Couldn't parse`, `ClassNotFound`. Si termina con `All 0 required tests passed` y `BUILD SUCCESSFUL`, el mod carga bien (y además prueba que no hay código de cliente filtrado al servidor).
-3. **Abre el juego (`runClient`) para que el usuario lo pruebe** — él verifica visualmente. Revisa después el log del cliente buscando errores con `tecnocinetico`.
+3. **No abras el juego tú** (gasta tokens del usuario). El usuario lo ejecuta desde **IntelliJ IDEA** con la configuración **`runClient`** (ya generada con `gradlew genIntellijRuns`; si faltara, vuelve a ejecutar esa tarea). Cuando termines, dile qué probar. Si te pasa un error o log, revísalo (`run/logs/latest.log`).
 4. Para cambios visuales: genera con los scripts de `tools/` y **previsualiza con `tools/render_model.py`** antes de pedir al usuario que lo pruebe (ver `docs/HERRAMIENTAS.md`).
 5. Cuando haya varias opciones visuales, al usuario le gusta **elegir viéndolas en el juego** (p. ej. objetos de prueba temporales en la pestaña creativa) o en una imagen comparativa. Luego se borran.
 6. Para cambios con riesgo de duplicar objetos (menús/inventarios) conviene una **revisión independiente** del código.

@@ -54,3 +54,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-07 — Claude — Git
 - Repositorio creado y subido a https://github.com/BR2903/Tecnocinetico (rama `main`). Sección "Git" añadida a `AGENTS.md` con el flujo de trabajo entre agentes.
+
+## 2026-11-07 — Claude — IntelliJ
+- Configuraciones de ejecución de IntelliJ generadas (`genIntellijRuns`). El usuario ejecuta `runClient` desde IntelliJ; los agentes no deben abrir el juego.
