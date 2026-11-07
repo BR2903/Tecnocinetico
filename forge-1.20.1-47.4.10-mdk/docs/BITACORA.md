@@ -121,3 +121,7 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Técnica: fuente de biomas `tecnocinetico:remapped` (envuelve la multi-ruido vanilla) + datagen (`gradlew runData`) para biomas, ajustes de ruido y etiquetas. Estructuras vanilla desactivadas salvo minas abandonadas y fortalezas.
 - Validado: compila, `runData` y `runGameTestServer` sin errores. **Solo funciona en mundos nuevos.** Pendiente: que el usuario lo pruebe en el juego.
 
+## 2026-11-07 — Claude — Escombros y chatarra rehechos; textos en todas las variantes de español
+- Al usuario no le gustaban nada `rubble` ni `scrap_pile` al verlos en el mundo. Escombros: grava de trozos de hormigón (algo de ladrillo y asfalto) con juntas finas, sin la varilla diagonal que marcaba el patrón. Montón de chatarra: fardo de chapa prensada en capas (óxido, acero, pintura vieja).
+- El juego del usuario está en **es_ec**: los textos salían en inglés porque solo existía `es_es`. Nuevo `tools/sync_lang.py` copia `es_es` a es_ar/es_cl/es_ec/es_mx/es_uy/es_ve.
+

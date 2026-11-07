@@ -62,7 +62,7 @@ cmd /c ".\gradlew.bat runData 2>&1"               # regenera src/generated/resou
 - Código solo-cliente en `client/` y referenciado solo desde suscriptores `Dist.CLIENT` o `initializeClient`. Clases "de datos" compartidas (p. ej. `ClientSkillData`, `GunAnimState`) **no** importan clases de cliente.
 - Texturas: **potencia de 2 y ≤128 px** (las grandes o raras rompen los mipmaps de todo el juego). Los originales grandes están en `../texturas_originales_backup/`.
 - Modelos de armas/herramientas: **el inventario muestra el modelo 3D** (vista `gui` calculada con `tools/gui_fit.py`), **no** iconos planos — el usuario los rechazó.
-- Textos nuevos: añadir clave en `es_es.json` **y** `en_us.json`.
+- Textos nuevos: añadir clave en `es_es.json` **y** `en_us.json`, y luego `python tools/sync_lang.py` (copia `es_es` a `es_mx`, `es_ec`, `es_ar`…; el usuario juega en **es_ec** y Minecraft no usa `es_es` como respaldo: sin la copia ve el inglés). `world_blocks_gen.py` ya lo ejecuta al final.
 - **Recursos de terceros** (sonidos, texturas, modelos): solo con licencia que lo permita (CC0, CC-BY…), comprobando también el archivo de licencia dentro del paquete descargado. Registrar origen, autor y licencia en `CREDITOS_SONIDOS.md` (y en `credits` de `mods.toml` si es CC-BY). **No usar recursos de otros mods** (p. ej. Techguns: su licencia no lo permite).
 - `gradle.properties` se lee como ISO-8859-1: los acentos deben ir como `é`.
 

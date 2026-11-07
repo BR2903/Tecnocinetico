@@ -58,3 +58,6 @@ En `pistol_gen.py`:
 4. Regenerar, ejecutar `gui_fit`, previsualizar.
 
 Los resultados de los scripts actuales son reproducibles (semillas aleatorias fijas): regenerar sin cambios produce archivos idénticos.
+
+## sync_lang.py (idiomas)
+- `python tools/sync_lang.py` copia `es_es.json` a es_ar, es_cl, es_ec, es_mx, es_uy y es_ve. Ejecutar tras editar los textos en español (world_blocks_gen.py ya lo hace al final).

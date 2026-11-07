@@ -611,58 +611,124 @@ def polygon_chunks(seed, n):
     return cells(seed, n)
 
 
-def t_rubble():
+GAP = (70, 66, 62)
+
+
+def thin_cells(seed, n, width):
+    r = random.Random(seed)
+    pts = [(r.uniform(0, S), r.uniform(0, S)) for _ in range(n)]
+    cid = [[0] * S for _ in range(S)]
+    edge = [[False] * S for _ in range(S)]
+    for y in range(S):
+        for x in range(S):
+            ds = sorted((min(abs(x + .5 - px), S - abs(x + .5 - px)) ** 2 + min(abs(y + .5 - py), S - abs(y + .5 - py)) ** 2, i)
+                        for i, (px, py) in enumerate(pts))
+            cid[y][x] = ds[0][1]
+            edge[y][x] = math.sqrt(ds[1][0]) - math.sqrt(ds[0][0]) < width
+    return cid, edge
+
+
+def t_rubble(seed=71):
+    """Escombros: trozos angulosos de hormigón (y algo de ladrillo) bien apretados, juntas finas grises."""
     img = new()
-    cid, edge = polygon_chunks(40, 5)
-    r = random.Random(41)
-    pal = {c: (BRICK[1:5] if r.random() < 0.25 else CONC[1:5]) for c in range(5)}
+    cid, edge = thin_cells(seed, 12, 0.55)
+    r = random.Random(seed + 1)
+    pals = {}
+    for c in range(12):
+        k = r.random()
+        if k < 0.18:
+            pals[c] = BRICK[0:5]
+        elif k < 0.28:
+            pals[c] = ramp((70, 68, 66), (136, 134, 130), 5)       # trozo de asfalto/piedra oscura
+        else:
+            off = r.choice([0, 0, 1])
+            pals[c] = CONC[off:off + 5] if off + 5 <= len(CONC) else CONC[1:6]
+    base_i = {c: r.choice([2, 2, 2, 3]) for c in range(12)}
     for y in range(S):
         for x in range(S):
             if edge[y][x]:
-                put(img, x, y, OUTLINE)
+                put(img, x, y, GAP)
                 continue
             c = cid[y][x]
+            pal = pals[c]
             up = edge[(y - 1) % S][x] or cid[(y - 1) % S][x] != c
             left = edge[y][(x - 1) % S] or cid[y][(x - 1) % S] != c
             down = edge[(y + 1) % S][x] or cid[(y + 1) % S][x] != c
             right = edge[y][(x + 1) % S] or cid[y][(x + 1) % S] != c
-            i = 3 if (up or left) else 0 if (down or right) else 2
-            if i == 2 and (x * 7 + y * 3) % 11 == 0:
-                i = 1                                             # poros del hormigón
-            put(img, x, y, pal[c][i])
-    for k in range(7):                                            # varilla de acero oxidada asomando
-        x, y = 3 + k, 12 - k
-        put(img, x, y, RUSTR[3]); put(img, x + 1, y, RUSTR[1]); put(img, x, y + 1, OUTLINE)
+            if up or left:
+                i = 3 if base_i[c] == 2 else 4
+            elif down or right:
+                i = 1
+            else:
+                i = base_i[c]
+                if (x * 5 + y * 3 + c) % 13 == 0:
+                    i -= 1                                        # poro / árido
+            put(img, x, y, pal[i])
+    # piedrecitas en algunas juntas para que no se lea como "red"
+    for _ in range(5):
+        x, y = r.randrange(S), r.randrange(S)
+        if edge[y][x]:
+            put(img, x, y, CONC[2])
+    # un trocito de varilla oxidada corto (no diagonal larga)
+    x0, y0 = 11, 4
+    put(img, x0, y0, RUSTR[3]); put(img, x0 + 1, y0, RUSTR[2]); put(img, x0 + 2, y0, RUSTR[1])
     return img
 
 
-def t_scrap_pile():
+METALS = {
+    "rust": RUSTR,
+    "steel": STEEL[1:5],
+    "galv": [(78, 84, 86), (106, 112, 114), (132, 138, 138), (166, 172, 170)],
+    "teal": [(42, 62, 60), (58, 84, 80), (74, 104, 96), (104, 132, 120)],
+    "yellow": [(98, 80, 38), (132, 108, 52), (160, 134, 66), (190, 166, 96)],
+    "copper": [(92, 56, 34), (140, 84, 48), (184, 116, 66), (220, 156, 102)],
+}
+
+
+def t_scrap_pile(seed=110):
+    """Fardo de chatarra prensada: capas de chapa aplastada (óxido, acero, pintura vieja), arrugadas y con cantos."""
     img = new()
     for y in range(S):
         for x in range(S):
-            put(img, x, y, (28, 26, 24))
-    r = random.Random(110)
-    plates = [STEEL[1:5], RUSTR, [(96, 58, 34), (150, 92, 54), (196, 128, 80), (226, 164, 112)],
-              [(46, 74, 70), (64, 104, 98), (88, 136, 126), (130, 172, 160)],
-              [(122, 96, 30), (168, 136, 44), (206, 176, 70), (232, 210, 110)], RUSTR, STEEL[1:5]]
-    for i, pal in enumerate(plates):                              # placas superpuestas (de atrás hacia delante)
-        w, h = r.randint(6, 10), r.randint(4, 7)
-        x0, y0 = r.randrange(S), r.randrange(S)
-        skew = r.choice([-1, 0, 1])
-        for yy in range(h):
-            for xx in range(w):
-                x, y = x0 + xx + (yy * skew) // 3, y0 + yy
-                edge_ = xx in (0, w - 1) or yy in (0, h - 1)
-                if edge_:
-                    c = OUTLINE
-                elif yy == 1:
+            put(img, x, y, (40, 36, 32))
+    r = random.Random(seed)
+    order = ["rust", "steel", "rust", "galv", "rust", "teal", "rust", "steel", "rust", "yellow"]
+    heights = []
+    while sum(heights) < S:
+        heights.append(r.choice([3, 3, 4, 4, 5]))
+    heights[-1] -= sum(heights) - S
+    if heights[-1] < 2:
+        heights[-2] += heights.pop()
+    y0 = 0
+    for bi, h in enumerate(heights):
+        pal = METALS[order[(bi * 3 + seed) % len(order)]]
+        ph = r.uniform(0, 2 * math.pi)
+        amp = r.choice([0.0, 0.6, 0.6])
+        corrug = r.random() < 0.4
+        cuts = {r.randrange(S) for _ in range(r.randint(1, 2))}   # extremos de chapa dentro de la capa
+        for x in range(S):
+            wave = round(amp * math.sin(2 * math.pi * x / S * r.choice([1]) + ph))
+            for k in range(h):
+                y = y0 + k + wave
+                if k == 0:
                     c = pal[3]                                    # canto superior iluminado
-                elif yy == h - 2:
+                elif k == h - 1:
+                    c = (40, 36, 32)                              # junta / sombra entre capas
+                elif k == h - 2:
                     c = pal[0]
                 else:
-                    c = pal[2] if (xx + yy) % 5 else pal[1]
+                    c = pal[1] if (corrug and x % 3 == 0) else pal[2]
+                if x in cuts and 0 < k < h - 1:
+                    c = (40, 36, 32)
+                elif (x - 1) % S in cuts and 0 < k < h - 1:
+                    c = pal[3]
                 put(img, x, y, c)
-        put(img, x0 + 2, y0 + 2, (220, 220, 214))                  # remache/brillo
+        y0 += h
+    # óxido que come la pintura
+    for _ in range(10):
+        x, y = r.randrange(S), r.randrange(S)
+        if img.getpixel((x, y))[:3] != (40, 36, 32):
+            put(img, x, y, RUSTR[r.choice([1, 2])])
     return img
 
 
@@ -1123,3 +1189,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    import runpy  # copia es_es a es_mx, es_ec... (si no, esas variantes ven el inglés)
+    runpy.run_path(str(Path(__file__).with_name("sync_lang.py")), run_name="__main__")
