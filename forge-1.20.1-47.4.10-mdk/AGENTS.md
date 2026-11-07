@@ -32,6 +32,7 @@ cmd /c ".\gradlew.bat compileJava -q 2>&1"        # compilar (rápido, ~30 s)
 cmd /c ".\gradlew.bat runGameTestServer 2>&1"     # servidor de prueba: carga TODO el mod + datos y se cierra (~1-2 min)
 cmd /c ".\gradlew.bat runClient 2>&1"             # abre Minecraft con el mod, JEI, Create y Crafts & Additions
 cmd /c ".\gradlew.bat build 2>&1"                 # genera build/libs/tecnocinetico-1.0.0.jar
+cmd /c ".\gradlew.bat runData 2>&1"               # regenera src/generated/resources (biomas, ruido, etiquetas)
 ```
 
 - **No uses `--offline`** (falla: el plugin foojay no está en caché).

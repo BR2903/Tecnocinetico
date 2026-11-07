@@ -65,6 +65,15 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 ### Entidad (`entity/`)
 - `SwarmBodyEntity` (IA + `KineticLeapGoal`), `SwarmBodyModel` (modelo en código, animaciones), `SwarmBodyRenderer` (+ capa luminosa `EyesLayer`).
 
+### Mundo / Overworld (`worldgen/`, `datagen/`)
+- `ModBiomes`: 19 biomas (claves, `bootstrap` para datagen y `VANILLA_TO_MOD`, el mapa bioma vanilla → bioma del mod). Cada bioma copia clima, generación y animales de su equivalente vanilla y cambia cielo/niebla/agua/hierba/partículas.
+- `RemappedBiomeSource` (tipo `tecnocinetico:remapped`, registrado en `ModWorldgen`): envuelve la fuente multi-ruido vanilla y sustituye cada bioma → mismo relieve vanilla, biomas nuevos.
+- `ModSurfaceRules`: reglas propias (parches de asfalto, ceniza, arena vitrificada, escombros...) + las reglas vanilla con sus condiciones de bioma traducidas (serializa a JSON, cambia `biome_is`, vuelve a leer).
+- `ModWorldgen`: ajustes de ruido `tecnocinetico:overworld|large_biomes|amplified` (vanilla + nuestras superficies).
+- Presets sobrescritos a mano: `data/minecraft/worldgen/world_preset/{normal,large_biomes,amplified}.json`.
+- `datagen/ModDataGenerators`: `gradlew runData` escribe biomas, ruido y etiquetas de biomas en `src/generated/resources` (**se sube a git**; volver a ejecutarlo tras tocar `worldgen/`).
+- Etiquetas: todos en `#minecraft:is_overworld` (minerales del mod/Create, Cuerpo de Enjambre, fortalezas), minas abandonadas, y algunas de comportamiento. **No** se añaden a `is_forest`, `is_ocean`, etc. a propósito: esas etiquetas activan estructuras vanilla (naufragios, templos, portales en ruinas...).
+
 ### Compatibilidad (`compat/jei/`)
 - `TecnocineticoJeiPlugin` (categoría de la prensa, información de módulos/banco, oculta la fuente creativa) y `PressRecipeCategory`. JEI es dependencia solo de compilación/desarrollo; el mod funciona sin él.
 

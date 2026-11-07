@@ -80,7 +80,7 @@ Texturas 16×16 o 32×32 (potencia de 2), estilo coherente con el mod.
 
 ## Fases propuestas
 1. **Bloques del mundo** (paleta de la sección 5). ✅ Hecho (2026-11-07), falta el fluido refrigerante.
-2. **Biomas + sustitución del Overworld** (datagen del mapa de biomas, efectos, superficies, tags).
+2. **Biomas + sustitución del Overworld** (datagen del mapa de biomas, efectos, superficies, tags). ✅ Hecho (2026-11-07): 19 biomas (se añadieron Mar de Escombros Profundo y Helado); `mushroom_fields` → Praderas de Chatarra, `cherry_grove` → Ruinas Invadidas. Se mantienen minas abandonadas y fortalezas; el resto de estructuras vanilla ya no aparecen.
 3. **Detalles del terreno** (features): cráteres, chatarra, cristales, árboles muertos/invadidos, escombros.
 4. **Estructuras** empezando por Asentamiento de Supervivientes, ruinas y fábrica.
 5. **Ambiente** (partículas, sonidos, clima).
@@ -88,5 +88,4 @@ Texturas 16×16 o 32×32 (potencia de 2), estilo coherente con el mod.
 
 ## Pendiente de decidir
 - ¿Se mantienen los hostiles vanilla (zombis, esqueletos…) o se sustituyen por criaturas de la IA? (sugerencia: mantener algunos, reducirlos, y añadir drones/criaturas del mod).
-- ¿Qué hacer con `mushroom_fields`?
 - ¿Acceso al End: stronghold vanilla o una instalación propia?
