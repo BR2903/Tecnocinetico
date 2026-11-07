@@ -10,7 +10,9 @@ import com.bryanamaya.tecnocinetico.item.ModCreativeModeTabs;
 import com.bryanamaya.tecnocinetico.item.ModItems;
 import com.bryanamaya.tecnocinetico.network.ModNetwork;
 import com.bryanamaya.tecnocinetico.client.KineticParticle;
+import com.bryanamaya.tecnocinetico.item.custom.GunAnimState;
 import com.bryanamaya.tecnocinetico.item.custom.KineticPistolItem;
+import net.minecraft.client.Minecraft;
 import com.bryanamaya.tecnocinetico.item.custom.WeaponModule;
 import com.bryanamaya.tecnocinetico.client.AutoKineticPressScreen;
 import com.bryanamaya.tecnocinetico.client.WeaponBenchScreen;
@@ -87,7 +89,21 @@ public class Tecnocinetico {
                 MenuScreens.register(ModMenus.AUTO_KINETIC_PRESS.get(), AutoKineticPressScreen::new);
                 ItemProperties.register(ModItems.KINETIC_PISTOL.get(),
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
-                        (stack, level, entity, seed) -> KineticPistolItem.getReloadProgress(stack, 0.0F));
+                        (stack, level, entity, seed) -> {
+                            float reload = KineticPistolItem.getReloadProgress(stack, 0.0F);
+                            if (reload > 0.0F) {
+                                return reload;
+                            }
+                            // Retroceso de la corredera: justo después de disparar se usa el
+                            // fotograma "corredera atrás" de la recarga (umbral 0.72-0.9).
+                            if (entity != null && entity == Minecraft.getInstance().player
+                                    && entity.getMainHandItem() == stack
+                                    && GunAnimState.ticksSinceShot(entity.level().getGameTime(), 0)
+                                    < GunAnimState.SLIDE_BACK_TICKS) {
+                                return 0.75F;
+                            }
+                            return 0.0F;
+                        });
                 // Combinación de módulos instalados (máscara de bits 0-15): cambia el modelo del arma
                 ItemProperties.register(ModItems.KINETIC_PISTOL.get(),
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, "modules"),

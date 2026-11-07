@@ -168,7 +168,7 @@ public class KineticPistolItem extends Item {
             float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING));
             player.setXRot(player.getXRot() - BASE_PITCH_KICK * mult);
             player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * BASE_YAW_KICK * mult);
-            GunAnimState.onShot(level.getGameTime(), mult);
+            GunAnimState.onShot(level.getGameTime(), mult, player.getRandom().nextFloat() * 2.0F - 1.0F);
         } else {
             fire(level, player, hand, pistol);
             if (!creative) {

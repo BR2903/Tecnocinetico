@@ -31,8 +31,14 @@ public class PistolClientExtensions implements IClientItemExtensions {
                                            float partialTick, float equipProcess, float swingProcess) {
         int side = arm == HumanoidArm.RIGHT ? 1 : -1;
 
+        // Al usar un objeto, Minecraft reinicia la animación de "sacar el objeto" (el arma baja y sube).
+        // Justo después de disparar la ignoramos: el movimiento lo da el retroceso de abajo.
+        float t = GunAnimState.ticksSinceShot(player.level().getGameTime(), partialTick);
+        boolean recoiling = t >= 0 && t < GunAnimState.RECOIL_TICKS;
+        float equip = recoiling ? 0.0F : equipProcess;
+
         // Posición base del arma en la mano (la misma que usa vanilla)
-        pose.translate(side * 0.56F, -0.52F + equipProcess * -0.6F, -0.72F);
+        pose.translate(side * 0.56F, -0.52F + equip * -0.6F, -0.72F);
 
         // --- Recarga ---
         float progress = KineticPistolItem.getReloadProgress(stack, partialTick);
@@ -53,13 +59,26 @@ public class PistolClientExtensions implements IClientItemExtensions {
         }
 
         // --- Retroceso al disparar ---
-        float t = (player.level().getGameTime() - GunAnimState.lastShotTick) + partialTick;
-        if (t >= 0 && t < 10) {
-            float kick = (float) Math.exp(-t * 0.55F) * GunAnimState.kickStrength;
-            pose.translate(0, 0.015F * kick, 0.11F * kick);                   // empuja el arma hacia atrás
-            pose.mulPose(Axis.XP.rotationDegrees(9.0F * kick));               // y levanta la boca
+        // Golpe seco hacia atrás en el primer tick y vuelta suave a la posición (curva de muelle amortiguado).
+        if (recoiling) {
+            float kick = recoilCurve(t) * GunAnimState.kickStrength;
+            pose.translate(0, 0.035F * kick, 0.20F * kick);                          // el arma retrocede hacia el jugador
+            pose.mulPose(Axis.XP.rotationDegrees(13.0F * kick));                     // la boca del cañón sube
+            pose.mulPose(Axis.ZP.rotationDegrees(side * 3.0F * GunAnimState.roll * kick)); // leve giro lateral
         }
         return true;
+    }
+
+    /**
+     * Curva del retroceso: sube muy rápido (pico en ~0,8 ticks), vuelve con suavidad
+     * y pasa un poco por debajo de cero antes de asentarse (como un muelle).
+     */
+    private static float recoilCurve(float t) {
+        if (t < 0.8F) {
+            return t / 0.8F;
+        }
+        float s = t - 0.8F;
+        return (float) (Math.exp(-s * 0.55F) * Math.cos(s * 0.45F));
     }
 
     private static float smooth(float x) {
