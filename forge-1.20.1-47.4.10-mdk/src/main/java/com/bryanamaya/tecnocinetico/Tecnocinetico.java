@@ -1,6 +1,7 @@
 package com.bryanamaya.tecnocinetico;
 
 import com.bryanamaya.tecnocinetico.block.ModBlocks;
+import com.bryanamaya.tecnocinetico.block.ModWorldBlocks;
 import com.bryanamaya.tecnocinetico.block.entity.ModBlockEntities;
 import com.bryanamaya.tecnocinetico.entity.ModEntities;
 import com.bryanamaya.tecnocinetico.entity.client.SwarmBodyModel;
@@ -50,6 +51,7 @@ public class Tecnocinetico {
         // --- EL ÚNICO REGISTRO CIVIL DE TECNOCINÉTICO ---
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModWorldBlocks.init();   // bloques del mundo post-apocalíptico
         ModBlockEntities.register(modEventBus);
         ModEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);

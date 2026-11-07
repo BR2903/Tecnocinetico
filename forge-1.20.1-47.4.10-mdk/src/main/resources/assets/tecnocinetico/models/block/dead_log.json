@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "tecnocinetico:block/dead_log",
+    "end": "tecnocinetico:block/dead_log_top"
+  }
+}

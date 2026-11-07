@@ -12,6 +12,27 @@
     "tecnocinetico:ancient_alloy_br",
     "tecnocinetico:kinetic_assembly_press",
     "tecnocinetico:auto_kinetic_press",
-    "tecnocinetico:weapon_bench"
+    "tecnocinetico:weapon_bench",
+    "tecnocinetico:concrete",
+    "tecnocinetico:concrete_slab",
+    "tecnocinetico:concrete_stairs",
+    "tecnocinetico:concrete_wall",
+    "tecnocinetico:cracked_concrete",
+    "tecnocinetico:cracked_concrete_slab",
+    "tecnocinetico:cracked_concrete_stairs",
+    "tecnocinetico:cracked_concrete_wall",
+    "tecnocinetico:mossy_concrete",
+    "tecnocinetico:mossy_concrete_slab",
+    "tecnocinetico:mossy_concrete_stairs",
+    "tecnocinetico:mossy_concrete_wall",
+    "tecnocinetico:asphalt",
+    "tecnocinetico:cracked_asphalt",
+    "tecnocinetico:asphalt_road_line",
+    "tecnocinetico:rusted_metal_sheet",
+    "tecnocinetico:rusted_metal_beam",
+    "tecnocinetico:rusted_grate",
+    "tecnocinetico:scrap_pile",
+    "tecnocinetico:vitrified_sand",
+    "tecnocinetico:cinetrite_cluster"
   ]
 }

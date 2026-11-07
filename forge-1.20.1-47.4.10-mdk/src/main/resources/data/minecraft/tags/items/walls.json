@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "tecnocinetico:concrete_wall",
+    "tecnocinetico:cracked_concrete_wall",
+    "tecnocinetico:mossy_concrete_wall"
+  ]
+}

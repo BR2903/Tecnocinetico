@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": {
+    "item": "tecnocinetico:concrete"
+  },
+  "result": "tecnocinetico:cracked_concrete",
+  "experience": 0.1,
+  "cookingtime": 200
+}

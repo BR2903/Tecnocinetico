@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "tecnocinetico:block/cracked_concrete"
+  }
+}

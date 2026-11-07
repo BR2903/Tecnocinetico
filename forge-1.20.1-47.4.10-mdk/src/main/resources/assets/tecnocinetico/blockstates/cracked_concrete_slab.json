@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "tecnocinetico:block/cracked_concrete_slab"
+    },
+    "type=top": {
+      "model": "tecnocinetico:block/cracked_concrete_slab_top"
+    },
+    "type=double": {
+      "model": "tecnocinetico:block/cracked_concrete"
+    }
+  }
+}

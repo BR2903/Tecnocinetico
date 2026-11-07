@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "tecnocinetico:block/rusted_metal_beam",
+    "end": "tecnocinetico:block/rusted_metal_beam_top"
+  }
+}

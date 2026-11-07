@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "tecnocinetico:cracked_concrete"
+  },
+  "result": "tecnocinetico:cracked_concrete_stairs",
+  "count": 1
+}

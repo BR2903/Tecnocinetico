@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "tecnocinetico:mossy_concrete"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:mossy_concrete_slab",
+    "count": 6
+  }
+}

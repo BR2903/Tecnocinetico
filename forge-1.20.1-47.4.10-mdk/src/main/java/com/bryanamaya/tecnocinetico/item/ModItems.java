@@ -55,6 +55,11 @@ public class ModItems {
     public static final RegistryObject<Item> KINETIC_PISTOL = ITEMS.register("kinetic_pistol",
             () -> new KineticPistolItem(new Item.Properties().stacksTo(1).defaultDurability(500)));
 
+    // --- MUNDO POST-APOCALÍPTICO ---
+    /** Chatarra: sale de los Montones de Chatarra; se funde en pepitas de hierro (reciclaje). */
+    public static final RegistryObject<Item> SCRAP_METAL = ITEMS.register("scrap_metal",
+            () -> new Item(new Item.Properties()));
+
     // --- MÓDULOS DE MEJORA DE ARMAS ---
     public static final RegistryObject<Item> MODULE_OPTIC = module(WeaponModule.OPTIC);
     public static final RegistryObject<Item> MODULE_EXTENDED_MAG = module(WeaponModule.EXTENDED_MAG);

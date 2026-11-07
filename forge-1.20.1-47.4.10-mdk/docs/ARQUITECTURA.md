@@ -20,6 +20,8 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 | `particle/ModParticles` | `kinetic_tracer`, `kinetic_spark`, `kinetic_burst` |
 | `item/ModCreativeModeTabs` | pestaña creativa (orden de los objetos) |
 
+- `block/ModWorldBlocks` — bloques del mundo post-apocalíptico (hormigón y familia, escombros, asfalto, metal oxidado, chatarra, ceniza, vitrificado, racimo de cinetrita, madera muerta) y su lista `ALL` para la pestaña creativa "Mundo". Clases especiales: `AshLayerBlock` (capas que no se derriten), `RoadLineBlock` (línea orientable).
+
 ## Sistemas
 
 ### Prensas (`block/custom`, `block/entity`)

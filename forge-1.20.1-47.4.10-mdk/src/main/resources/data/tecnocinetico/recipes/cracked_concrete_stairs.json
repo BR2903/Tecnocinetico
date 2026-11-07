@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "tecnocinetico:cracked_concrete"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:cracked_concrete_stairs",
+    "count": 4
+  }
+}

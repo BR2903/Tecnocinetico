@@ -79,7 +79,7 @@ Texturas 16×16 o 32×32 (potencia de 2), estilo coherente con el mod.
 6. Mundos ya existentes: los chunks ya generados no cambian; probar siempre en **mundos nuevos**.
 
 ## Fases propuestas
-1. **Bloques del mundo** (paleta de la sección 5).
+1. **Bloques del mundo** (paleta de la sección 5). ✅ Hecho (2026-11-07), falta el fluido refrigerante.
 2. **Biomas + sustitución del Overworld** (datagen del mapa de biomas, efectos, superficies, tags).
 3. **Detalles del terreno** (features): cráteres, chatarra, cristales, árboles muertos/invadidos, escombros.
 4. **Estructuras** empezando por Asentamiento de Supervivientes, ruinas y fábrica.

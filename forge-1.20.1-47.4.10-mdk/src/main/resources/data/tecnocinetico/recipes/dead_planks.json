@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "tecnocinetico:dead_log"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:dead_planks",
+    "count": 4
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "tecnocinetico:ash_layer"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:ash_block",
+    "count": 1
+  }
+}

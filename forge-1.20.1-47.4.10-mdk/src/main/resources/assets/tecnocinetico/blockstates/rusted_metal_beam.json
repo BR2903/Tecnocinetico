@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "tecnocinetico:block/rusted_metal_beam"
+    },
+    "axis=z": {
+      "model": "tecnocinetico:block/rusted_metal_beam",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "tecnocinetico:block/rusted_metal_beam",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

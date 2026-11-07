@@ -2,6 +2,7 @@ package com.bryanamaya.tecnocinetico.item;
 
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.block.ModBlocks;
+import com.bryanamaya.tecnocinetico.block.ModWorldBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -52,6 +53,18 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.MODULE_INERCITA_BARREL.get());
                         pOutput.accept(ModItems.MODULE_QUICK_RELOAD.get());
                         pOutput.accept(ModItems.SWARM_BODY_SPAWN_EGG.get());
+                    })
+                    .build());
+
+    /** Pestaña de los bloques del mundo post-apocalíptico (hormigón, asfalto, metal oxidado, ceniza...). */
+    public static final RegistryObject<CreativeModeTab> WORLD_TAB = CREATIVE_MODE_TABS.register("tecnocinetico_world_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModWorldBlocks.CRACKED_CONCRETE.get()))
+                    .title(Component.translatable("creativetab.tecnocinetico_world_tab"))
+                    .withTabsBefore(TECNOCINETICO_TAB.getKey())
+                    .displayItems((params, output) -> {
+                        ModWorldBlocks.ALL.forEach(b -> output.accept(b.get()));
+                        output.accept(ModItems.SCRAP_METAL.get());
                     })
                     .build());
 

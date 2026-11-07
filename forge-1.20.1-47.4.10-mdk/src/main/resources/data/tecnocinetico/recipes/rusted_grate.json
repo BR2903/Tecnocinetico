@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " B ",
+    "BSB",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "S": {
+      "item": "tecnocinetico:scrap_metal"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:rusted_grate",
+    "count": 4
+  }
+}

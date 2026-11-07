@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "tecnocinetico:scrap_metal"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:rusted_metal_sheet",
+    "count": 1
+  }
+}

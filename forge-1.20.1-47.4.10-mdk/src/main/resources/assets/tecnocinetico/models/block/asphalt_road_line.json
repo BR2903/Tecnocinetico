@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "tecnocinetico:block/asphalt_road_line",
+    "bottom": "tecnocinetico:block/asphalt",
+    "side": "tecnocinetico:block/asphalt"
+  }
+}
