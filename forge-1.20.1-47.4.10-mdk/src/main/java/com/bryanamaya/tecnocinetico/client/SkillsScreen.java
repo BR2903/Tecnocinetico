@@ -8,14 +8,20 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** Pantalla de habilidades (tecla K): nivel, experiencia y bonificaciones de cada habilidad. */
 public class SkillsScreen extends Screen {
 
-    private static final int WIDTH = 236;
-    private static final int ROW_H = 54;
+    private static final int WIDTH = 280;
     private static final int HEADER = 26;
+    private static final int ROW_TOP = 24;   // nombre + barra de XP
+    private static final int LINE_H = 10;
+    private static final int ROW_GAP = 6;
 
     private static final int PANEL = 0xE8141820;
     private static final int BORDER = 0xFF46D7EB;
@@ -35,12 +41,38 @@ public class SkillsScreen extends Screen {
         };
     }
 
+    /** Texto de una habilidad ya partido en líneas que caben en el panel. */
+    private record Row(Skill skill, int xp, int level, List<FormattedCharSequence> effects,
+                       List<FormattedCharSequence> train) {
+        int height() {
+            return ROW_TOP + (effects.size() + train.size()) * LINE_H + ROW_GAP;
+        }
+    }
+
+    private List<Row> layout(int textWidth) {
+        List<Row> rows = new ArrayList<>();
+        for (Skill skill : Skill.values()) {
+            int xp = ClientSkillData.getXp(skill);
+            int level = skill.levelForXp(xp);
+            List<FormattedCharSequence> effects = new ArrayList<>();
+            for (Component effect : skill.effects(level)) {
+                effects.addAll(font.split(Component.literal("• ").append(effect), textWidth));
+            }
+            rows.add(new Row(skill, xp, level, effects, font.split(skill.howToTrain(), textWidth)));
+        }
+        return rows;
+    }
+
     @Override
     public void render(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
         renderBackground(g);
-        int height = HEADER + Skill.values().length * ROW_H + 6;
+        int textX = 32;                       // margen izquierdo del texto (deja sitio al icono)
+        int textWidth = WIDTH - textX - 10;   // ancho disponible: el texto largo pasa a la línea siguiente
+        List<Row> rows = layout(textWidth);
+
+        int height = HEADER + rows.stream().mapToInt(Row::height).sum() + 4;
         int left = (this.width - WIDTH) / 2;
-        int top = (this.height - height) / 2;
+        int top = Math.max(4, (this.height - height) / 2);
 
         // Panel con borde cian
         g.fill(left, top, left + WIDTH, top + height, PANEL);
@@ -49,37 +81,43 @@ public class SkillsScreen extends Screen {
         g.fill(left + 8, top + HEADER - 6, left + WIDTH - 8, top + HEADER - 5, 0x6046D7EB);
 
         int y = top + HEADER;
-        for (Skill skill : Skill.values()) {
-            int xp = ClientSkillData.getXp(skill);
-            int level = skill.levelForXp(xp);
-            boolean max = level >= skill.maxLevel();
+        for (Row row : rows) {
+            Skill skill = row.skill();
+            boolean max = row.level() >= skill.maxLevel();
+            int x = left + textX;
 
+            // Icono, nombre y nivel
             g.renderItem(iconFor(skill), left + 10, y + 2);
-            g.drawString(font, skill.displayName().copy().withStyle(ChatFormatting.BOLD), left + 32, y + 2, 0xFFFFFF);
-            Component lvl = Component.translatable("gui.tecnocinetico.skills.level", level, skill.maxLevel());
+            g.drawString(font, skill.displayName().copy().withStyle(ChatFormatting.BOLD), x, y + 2, 0xFFFFFF);
+            Component lvl = Component.translatable("gui.tecnocinetico.skills.level", row.level(), skill.maxLevel());
             g.drawString(font, lvl, left + WIDTH - 10 - font.width(lvl), y + 2, max ? 0xF0C040 : 0x9AE6F0);
 
-            // Barra de experiencia hacia el siguiente nivel
-            int barX = left + 32, barY = y + 13, barW = WIDTH - 42;
-            g.fill(barX, barY, barX + barW, barY + 5, BAR_BG);
+            // Barra de experiencia (el texto de XP va a su derecha, en la misma línea)
+            Component xpText = max ? Component.translatable("gui.tecnocinetico.skills.max")
+                    : Component.literal((row.xp() - Skill.totalXpForLevel(row.level())) + " / "
+                    + (Skill.totalXpForLevel(row.level() + 1) - Skill.totalXpForLevel(row.level())) + " XP");
+            int xpW = font.width(xpText);
+            int barY = y + 14, barW = textWidth - xpW - 6;
+            g.fill(x, barY, x + barW, barY + 5, BAR_BG);
             if (max) {
-                g.fill(barX, barY, barX + barW, barY + 5, BAR_MAX);
+                g.fill(x, barY, x + barW, barY + 5, BAR_MAX);
             } else {
-                int from = Skill.totalXpForLevel(level), to = Skill.totalXpForLevel(level + 1);
-                int fill = (int) ((long) (xp - from) * barW / Math.max(1, to - from));
-                g.fill(barX, barY, barX + fill, barY + 5, BAR_FILL);
-                Component xpText = Component.literal((xp - from) + " / " + (to - from) + " XP");
-                g.drawString(font, xpText, left + WIDTH - 10 - font.width(xpText), barY + 7, 0x707A86, false);
+                int from = Skill.totalXpForLevel(row.level()), to = Skill.totalXpForLevel(row.level() + 1);
+                g.fill(x, barY, x + (int) ((long) (row.xp() - from) * barW / Math.max(1, to - from)), barY + 5, BAR_FILL);
             }
+            g.drawString(font, xpText, left + WIDTH - 10 - xpW, barY - 1, max ? 0xF0C040 : 0x707A86, false);
 
-            // Bonificaciones actuales y cómo entrenarla
-            int ly = barY + 7;
-            for (Component effect : skill.effects(level)) {
-                g.drawString(font, Component.literal("• ").append(effect), left + 32, ly, 0xC8D0DA, false);
-                ly += 10;
+            // Bonificaciones actuales y cómo entrenarla (ya partidas en líneas)
+            int ly = y + ROW_TOP;
+            for (FormattedCharSequence line : row.effects()) {
+                g.drawString(font, line, x, ly, 0xC8D0DA, false);
+                ly += LINE_H;
             }
-            g.drawString(font, skill.howToTrain(), left + 32, ly, 0x6E7884, false);
-            y += ROW_H;
+            for (FormattedCharSequence line : row.train()) {
+                g.drawString(font, line, x, ly, 0x6E7884, false);
+                ly += LINE_H;
+            }
+            y += row.height();
         }
         super.render(g, mouseX, mouseY, partialTick);
     }

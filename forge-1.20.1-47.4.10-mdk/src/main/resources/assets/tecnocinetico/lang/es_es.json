@@ -75,5 +75,6 @@
   "skill.tecnocinetico.effect.reload": "Recarga en %s s",
   "skill.tecnocinetico.effect.strikes": "Golpes por pieza en la prensa: %s",
   "skill.tecnocinetico.effect.hammer_save": "%s%% de golpes sin desgastar el martillo",
-  "skill.tecnocinetico.effect.mining_speed": "Velocidad del martillo +%s%%"
+  "skill.tecnocinetico.effect.mining_speed": "Velocidad del martillo +%s%%",
+  "gui.tecnocinetico.skills.max": "Máximo"
 }

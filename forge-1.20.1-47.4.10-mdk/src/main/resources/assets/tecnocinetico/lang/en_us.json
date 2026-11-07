@@ -75,5 +75,6 @@
   "skill.tecnocinetico.effect.reload": "Reload in %s s",
   "skill.tecnocinetico.effect.strikes": "Press strikes per item: %s",
   "skill.tecnocinetico.effect.hammer_save": "%s%% of strikes don't wear the hammer",
-  "skill.tecnocinetico.effect.mining_speed": "Hammer speed +%s%%"
+  "skill.tecnocinetico.effect.mining_speed": "Hammer speed +%s%%",
+  "gui.tecnocinetico.skills.max": "Max"
 }
