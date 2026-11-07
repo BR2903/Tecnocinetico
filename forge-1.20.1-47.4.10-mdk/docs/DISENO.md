@@ -56,10 +56,10 @@ Automática: 20 000 FE, 40 FE/tick (4 000 FE por pieza, 5 s). Tolvas: entrada ar
 ### Habilidades (tecla K)
 | Habilidad | Entrena | Efecto |
 |---|---|---|
-| Manejo de Armas | acertar (+3) / matar (+12) mobs con la pistola | retroceso −6,5 %/nivel, recarga 30→20 ticks |
+| Manejo de Armas | acertar (+1) / matar (+4) mobs **hostiles** con la pistola | retroceso −6,5 %/nivel, recarga 30→20 ticks |
 | Ingeniería | fabricar en la prensa manual (+6) | golpes 3 (niv. 0-4) / 2 (5-9) / 1 (10); 5 %/nivel de no gastar martillo |
 | Minería Cinética | picar con el martillo (+1 bloque, +5 mineral) | +6 % velocidad/nivel |
-10 niveles; XP total para el nivel n = 40n + 10n(n−1). Se guardan en `PlayerPersisted` (sobreviven a la muerte).
+10 niveles; XP total para el nivel n = **100n + 40n(n−1)** (nivel 10 = 4.600 XP). **Progresión lenta a propósito: el usuario quiere que el mod sea difícil** (~750-800 bajas para maximizar Manejo de Armas). Se guardan en `PlayerPersisted` (sobreviven a la muerte).
 
 ### Cuerpo de Enjambre
 Monstruo del Overworld (peso 15, de noche/cuevas). 34 vida, 6 daño, 6 armadura. Salto cinético a 3-10 bloques. Núcleo y ojos brillan. Suelta fragmentos, a veces Inercita en bruto.

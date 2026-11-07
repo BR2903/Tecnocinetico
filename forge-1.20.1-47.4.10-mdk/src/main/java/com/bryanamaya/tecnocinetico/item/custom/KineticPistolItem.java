@@ -25,6 +25,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.Item;
@@ -89,8 +90,9 @@ public class KineticPistolItem extends Item {
     }
     private static final float BASE_PITCH_KICK = 2.5F;
     private static final float BASE_YAW_KICK = 1.2F;
-    private static final int XP_PER_HIT = 3;
-    private static final int XP_PER_KILL = 12;
+    // Progresión lenta: ~6 XP por mob hostil abatido (unas 750-800 bajas para el nivel 10)
+    private static final int XP_PER_HIT = 1;
+    private static final int XP_PER_KILL = 4;
 
     private static final String TAG_AMMO = "Ammo";
     private static final String TAG_RELOAD_LEFT = "ReloadTicks";   // ticks que faltan
@@ -240,8 +242,8 @@ public class KineticPistolItem extends Item {
             boolean hurt = target.hurt(level.damageSources().playerAttack(player), getShotDamage(pistol));
             player.playNotifySound(ModSounds.PISTOL_HIT.get(), SoundSource.PLAYERS, 0.5F, 1.0F);
 
-            // Práctica: solo cuenta disparar a criaturas (no a soportes de armadura ni a objetos)
-            if (hurt && target instanceof Mob && player instanceof ServerPlayer sp) {
+            // Práctica: solo cuentan los mobs HOSTILES (no animales, soportes de armadura ni objetos)
+            if (hurt && target instanceof Enemy && player instanceof ServerPlayer sp) {
                 int xp = XP_PER_HIT + (target.isAlive() ? 0 : XP_PER_KILL);
                 PlayerSkills.addXp(sp, Skill.WEAPON_HANDLING, xp);
             }

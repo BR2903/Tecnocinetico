@@ -42,9 +42,12 @@ public enum Skill {
         return Component.translatable("skill.tecnocinetico." + id + ".train");
     }
 
-    /** XP total necesaria para alcanzar un nivel: 40, 100, 180, 280... (cada nivel cuesta 20 más que el anterior). */
+    /**
+     * XP total necesaria para alcanzar un nivel. Progresión LENTA (el mod está pensado para ser difícil):
+     * nivel 1 = 100, 2 = 280, 3 = 540, 5 = 1.300, 10 = 4.600 (cada nivel cuesta 80 más que el anterior).
+     */
     public static int totalXpForLevel(int level) {
-        return 40 * level + 10 * level * (level - 1);
+        return 100 * level + 40 * level * (level - 1);
     }
 
     public int levelForXp(int xp) {

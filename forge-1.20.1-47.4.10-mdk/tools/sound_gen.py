@@ -231,12 +231,13 @@ def gunshot(i):
     # Onda de choque (N-wave): subida instantánea, ~1,5 ms, banda ancha
     crack = high(noise(0.2, seed), 800) * decay(n, 0.0012) * 2.0
     # Fogonazo: ráfaga de ruido muy saturada (como una grabación real que satura el micro)
-    blast = np.tanh(low(noise(0.2, seed + 1), 4000) * decay(n, 0.012) * 9) * 0.8
+    blast = np.tanh(low(noise(0.2, seed + 1), 3500) * decay(n, 0.018) * 12) * 0.9      # más grueso
     # Cuerpo: medios-graves CORTOS (nada de "boom" largo)
-    body = band(noise(0.2, seed + 2), 70, 500) * decay(n, 0.028) * 2.2
+    body = band(noise(0.2, seed + 2), 70, 500) * decay(n, 0.04) * 3.0
+    punch = np.tanh(band(noise(0.2, seed + 5), 100, 300, order=2) * decay(n, 0.05) * 6) * 0.9   # 'puñetazo' grave-medio
     # Mecanismo, muy discreto
     action = clank(0.05, 2200 + 80 * i, seed + 3, tau=0.0008, q=(30, 60)) * 0.08
-    shot = mix(0.2, (crack, 0, 1.0), (blast, 0, 1.0), (body, 0, 1.0), (action, 0.01, 1.0))
+    shot = mix(0.2, (crack, 0, 0.8), (blast, 0, 1.0), (body, 0, 1.0), (punch, 0, 1.0), (action, 0.01, 1.0))
     # Cola de exterior: ruido difuso que se apaga (reverberación continua, sin repeticiones)
     tail_n = n_of(0.9)
     tail = band(noise(0.9, seed + 4), 250, 2500) * np.exp(-np.arange(tail_n) / (SR * 0.18)) * 0.22
@@ -309,7 +310,7 @@ def slide_rack():
 
 def generate_pistol():
     for i in range(3):
-        save(f"fire{i + 1}", gunshot(i), "pistol", peak=0.9, drive=1.6)
+        save(f"fire{i + 1}", gunshot(i), "pistol", peak=0.95, drive=2.6)   # compresión fuerte = más sonoridad
     save("impact", bullet_impact(), "pistol")
     save("hit", hit_confirm(), "pistol")
     save("dry_fire", dry_fire(), "pistol")
