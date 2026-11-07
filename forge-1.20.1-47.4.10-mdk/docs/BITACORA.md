@@ -51,3 +51,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - `AGENTS.md` + `docs/` (diseño, arquitectura, herramientas, bitácora, pendientes).
 - Scripts generadores copiados de la carpeta temporal a `tools/` y verificados: reproducen exactamente las texturas actuales. `tools_gen.py` convertido en `hammer_gen.py` (el original también regeneraba la pistola antigua).
 - **Estado**: compila, `runGameTestServer` y `runClient` cargan sin errores. El usuario aún no ha probado a fondo la Prensa Automática con un alternador real de Crafts & Additions.
+
+## 2026-11-07 — Claude — Git
+- Repositorio creado y subido a https://github.com/BR2903/Tecnocinetico (rama `main`). Sección "Git" añadida a `AGENTS.md` con el flujo de trabajo entre agentes.

@@ -45,6 +45,14 @@ cmd /c ".\gradlew.bat build 2>&1"                 # genera build/libs/tecnocinet
 5. Cuando haya varias opciones visuales, al usuario le gusta **elegir viéndolas en el juego** (p. ej. objetos de prueba temporales en la pestaña creativa) o en una imagen comparativa. Luego se borran.
 6. Para cambios con riesgo de duplicar objetos (menús/inventarios) conviene una **revisión independiente** del código.
 
+## 3b. Git (repositorio compartido entre agentes)
+
+- Repositorio: **https://github.com/BR2903/Tecnocinetico** (rama `main`). La raíz del repo es la carpeta `Tecnocinetico/` (una por encima de esta).
+- **Al empezar**: `git pull` y lee las últimas entradas de `docs/BITACORA.md` (otro agente pudo cambiar cosas).
+- **Al terminar una tarea que compila y carga** (y que el usuario aprobó o pidió): añade la entrada en la bitácora, `git add -A`, commit con un mensaje en español que diga qué y por qué, y `git push`.
+- No subas `build/`, `run/`, `.gradle/` (ya están en `.gitignore`). No reescribas el historial (`push --force`) sin que el usuario lo pida.
+- Si algo se rompe, `git log` / `git diff` para ver qué cambió; `git revert` para deshacer un commit sin perder historial.
+
 ## 4. Reglas y convenciones
 
 - Registros con `DeferredRegister` y la constante `Tecnocinetico.MOD_ID` (no escribir `"tecnocinetico"` a mano).
