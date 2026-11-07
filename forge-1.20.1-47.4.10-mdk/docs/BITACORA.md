@@ -134,3 +134,7 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Features con código propio (`worldgen/feature/`, registradas en `ModWorldgen.FEATURES`): `crater` (cuenco con fondo y borde configurables; no se genera junto al agua), `ruin_wall` (muro roto recto o en L, vigas oxidadas, escombros al pie, enredaderas opcionales), `dead_tree` (tronco seco con ramas desnudas).
 - JSON por `tools/world_features_gen.py`: cráteres vitrificados/de ceniza/chamuscados, muros de hormigón/invadidos/helados, árboles muertos, capas de ceniza, cristales de cinetrita en suelo y techo de las Cuevas de Cinetrita; un biome_modifier por bioma y paso de generación.
 - Validado con `runGameTestServer` (los JSON se leen bien). La generación real la prueba el usuario en un mundo nuevo.
+
+## 2026-11-07 — Claude — Comando /tpbioma
+- `/tpbioma <bioma>` (operador): busca el bioma más cercano (hasta 6400 bloques) y teletransporta a la superficie, o a un hueco de cueva en los biomas subterráneos. Sin namespace se entiende `tecnocinetico:`; autocompleta los biomas del mod. Código: `command/TpBiomeCommand`.
+

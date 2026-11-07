@@ -137,5 +137,8 @@
   "biome.tecnocinetico.polluted_river": "Río Contaminado",
   "biome.tecnocinetico.cinetrite_caves": "Cuevas de Cinetrita",
   "biome.tecnocinetico.industrial_tunnels": "Túneles Industriales",
-  "biome.tecnocinetico.deep_facility": "Instalación Profunda"
+  "biome.tecnocinetico.deep_facility": "Instalación Profunda",
+  "commands.tecnocinetico.tpbioma.searching": "Buscando el bioma %s...",
+  "commands.tecnocinetico.tpbioma.done": "Teletransportado a %s en %s, %s, %s",
+  "commands.tecnocinetico.tpbioma.not_found": "No se encontró el bioma %s cerca"
 }
