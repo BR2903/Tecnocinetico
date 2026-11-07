@@ -9,6 +9,10 @@
     "type": "minecraft:random_spread",
     "spacing": 28,
     "separation": 10,
-    "salt": 74120932
+    "salt": 74120932,
+    "exclusion_zone": {
+      "other_set": "tecnocinetico:survivor_settlement",
+      "chunk_count": 3
+    }
   }
 }

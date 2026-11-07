@@ -76,7 +76,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - Etiquetas: todos en `#minecraft:is_overworld` (minerales del mod/Create, Cuerpo de Enjambre, fortalezas), minas abandonadas, y algunas de comportamiento. **No** se añaden a `is_forest`, `is_ocean`, etc. a propósito: esas etiquetas activan estructuras vanilla (naufragios, templos, portales en ruinas...).
 
 ### Estructuras (`worldgen/structure/`)
-- `ModStructures`: tipos de estructura y de pieza. `RuinedBuildingStructure` (busca terreno llano y seco) + `RuinedBuildingPiece` (construye el edificio por código; aleatorios por posición para que todos los chunks coincidan). Datos por `tools/world_structures_gen.py`.
+- `ModStructures`: tipos de estructura y de pieza. `RuinedBuildingStructure` (busca terreno llano y seco) + `RuinedBuildingPiece` (construye el edificio por código; aleatorios por posición para que todos los chunks coincidan). `SettlementStructure` + `SettlementPiece` (asentamiento; alturas del terreno guardadas por columna). Datos por `tools/world_structures_gen.py`.
 
 ### Comandos (`command/`) y pruebas (`gametest/`)
 - `TpBiomeCommand`: `/tpbioma <bioma>`.

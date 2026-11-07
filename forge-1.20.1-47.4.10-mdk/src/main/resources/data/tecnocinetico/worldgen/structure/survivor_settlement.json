@@ -1,0 +1,7 @@
+{
+  "type": "tecnocinetico:settlement",
+  "biomes": "#tecnocinetico:has_structure/survivor_settlement",
+  "step": "top_layer_modification",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

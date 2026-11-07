@@ -29,14 +29,16 @@ def biome_tag(name, biomes):
     write(DATA / NS / "tags/worldgen/biome/has_structure" / f"{name}.json", {"values": [rl(b) for b in biomes]})
 
 
-def structure(name, stype, biomes, extra, spacing, separation, salt, adaptation="beard_thin"):
+def structure(name, stype, biomes, extra, spacing, separation, salt, adaptation="beard_thin",
+              step="surface_structures", avoid=None):
     biome_tag(name, biomes)
     write(DATA / NS / "worldgen/structure" / f"{name}.json", {
-        "type": rl(stype), "biomes": f"#{rl('has_structure/' + name)}", "step": "surface_structures",
+        "type": rl(stype), "biomes": f"#{rl('has_structure/' + name)}", "step": step,
         "spawn_overrides": {}, "terrain_adaptation": adaptation, **extra})
     write(DATA / NS / "worldgen/structure_set" / f"{name}.json", {
         "structures": [{"structure": rl(name), "weight": 1}],
-        "placement": {"type": "minecraft:random_spread", "spacing": spacing, "separation": separation, "salt": salt}})
+        "placement": {"type": "minecraft:random_spread", "spacing": spacing, "separation": separation, "salt": salt,
+                      **({"exclusion_zone": {"other_set": rl(avoid), "chunk_count": 3}} if avoid else {})}})
 
 
 def item(name, weight, lo=1, hi=1):
@@ -54,13 +56,13 @@ def chest(name, pools):
 def main():
     # ------------------------------------------------ edificios en ruinas
     structure("ruined_building_megacity", "ruined_building", ["dead_megacity"],
-              {"floors": uniform(2, 6), "width": uniform(7, 13), "style": "urban"}, 9, 3, 74120931)
+              {"floors": uniform(2, 6), "width": uniform(7, 13), "style": "urban"}, 9, 3, 74120931, avoid="survivor_settlement")
     structure("ruined_building_urban", "ruined_building", ["scrap_meadows", "fractured_lands", "ash_taiga"],
-              {"floors": uniform(1, 3), "width": uniform(7, 11), "style": "urban"}, 28, 10, 74120932)
+              {"floors": uniform(1, 3), "width": uniform(7, 11), "style": "urban"}, 28, 10, 74120932, avoid="survivor_settlement")
     structure("ruined_building_overgrown", "ruined_building", ["overgrown_ruins", "industrial_jungle"],
-              {"floors": uniform(1, 3), "width": uniform(7, 11), "style": "overgrown"}, 20, 7, 74120933)
+              {"floors": uniform(1, 3), "width": uniform(7, 11), "style": "overgrown"}, 20, 7, 74120933, avoid="survivor_settlement")
     structure("ruined_building_frozen", "ruined_building", ["ruined_tundra"],
-              {"floors": uniform(1, 2), "width": uniform(6, 10), "style": "frozen"}, 24, 8, 74120934)
+              {"floors": uniform(1, 2), "width": uniform(6, 10), "style": "frozen"}, 24, 8, 74120934, avoid="survivor_settlement")
 
     # botín: sobre todo chatarra y materiales comunes; las piezas del mod son raras (mod difícil)
     chest("ruined_building", [
@@ -75,6 +77,30 @@ def main():
             item("raw_cinetrite", 4, 1, 2), item("module_optic", 1), item("module_extended_mag", 1),
             item("module_inercita_barrel", 1), item("module_quick_reload", 1)]},
     ])
+    # ------------------------------------------------ asentamiento de supervivientes (sustituye a las aldeas)
+    # paso top_layer_modification: se construye DESPUÉS de los árboles, así puede despejar los de dentro
+    structure("survivor_settlement", "settlement", ["scrap_meadows", "overgrown_ruins", "ash_taiga", "ruined_tundra"],
+              {}, 30, 10, 74120940, adaptation="none", step="top_layer_modification")
+    chest("settlement_home", [
+        {"rolls": {"type": "minecraft:uniform", "min": 3, "max": 6}, "entries": [
+            item("minecraft:bread", 12, 1, 3), item("minecraft:potato", 10, 1, 4), item("minecraft:carrot", 8, 1, 4),
+            item("minecraft:apple", 6, 1, 2), item("minecraft:cooked_mutton", 4, 1, 2), item("minecraft:torch", 8, 2, 6),
+            item("minecraft:coal", 8, 1, 4), item("minecraft:string", 5, 1, 3), item("minecraft:leather", 4, 1, 2),
+            item("minecraft:paper", 5, 1, 3), item("scrap_metal", 6, 1, 3), item("minecraft:wheat_seeds", 6, 2, 5)]}])
+    chest("settlement_workshop", [
+        {"rolls": {"type": "minecraft:uniform", "min": 3, "max": 6}, "entries": [
+            item("minecraft:iron_ingot", 6, 1, 3), item("minecraft:iron_nugget", 10, 3, 9), item("minecraft:copper_ingot", 10, 1, 4),
+            item("scrap_metal", 14, 2, 6), item("minecraft:redstone", 6, 1, 5), item("minecraft:coal", 8, 2, 5),
+            item("cinetrite_shard", 5, 1, 3), item("minecraft:stone_pickaxe", 3), item("minecraft:iron_shovel", 2)]},
+        {"rolls": 1, "entries": [
+            {"type": "minecraft:empty", "weight": 30},
+            item("crude_kinetic_coupler", 6), item("piezo_transducer", 4), item("cinetrite_ingot", 3, 1, 2),
+            item("module_quick_reload", 1), item("module_extended_mag", 1)]}])
+    chest("settlement_storage", [
+        {"rolls": {"type": "minecraft:uniform", "min": 2, "max": 5}, "entries": [
+            item("minecraft:wheat", 10, 2, 8), item("minecraft:potato", 8, 2, 6), item("minecraft:beetroot", 6, 2, 6),
+            item("minecraft:dried_kelp", 4, 2, 6), item("minecraft:spruce_log", 6, 2, 6), item("dead_log", 6, 2, 6),
+            item("minecraft:coal", 6, 1, 4), item("scrap_metal", 6, 1, 4), item("minecraft:glass_bottle", 4, 1, 3)]}])
     print("ok: estructuras del Overworld")
 
 

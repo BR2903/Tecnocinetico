@@ -20,9 +20,14 @@ COLORS = {
     "cobblestone": (110, 110, 110), "podzol": (100, 72, 40), "asphalt": (60, 60, 64), "cracked_asphalt": (70, 70, 72),
     "cracked_concrete_slab": (150, 148, 142), "spruce_log": (80, 60, 40), "spruce_leaves": (50, 80, 50),
     "birch_log": (210, 210, 200), "birch_leaves": (110, 150, 70), "mud": (70, 60, 56), "clay": (150, 155, 170),
-    "powder_snow": (240, 244, 248), "packed_ice": (150, 180, 230), "ice": (150, 180, 230), "terracotta": (150, 92, 66),
+    "dead_planks": (132, 118, 100), "rusted_metal_sheet": (146, 92, 58), "lantern": (250, 200, 90),
+    "campfire": (230, 120, 40), "farmland": (96, 66, 40), "wheat": (200, 180, 70), "potatoes": (110, 150, 60),
+    "carrots": (110, 150, 60), "beetroots": (110, 150, 60), "red_bed": (180, 40, 40), "spruce_door": (100, 76, 50),
+    "crafting_table": (150, 110, 70), "furnace": (100, 100, 100), "chipped_anvil": (70, 70, 74), "barrel": (130, 96, 60),
+    "hay_block": (200, 170, 60), "ladder": (150, 120, 80), "iron_bars": (150, 150, 155), "dirt_path": (150, 124, 80),
+    "sandstone": (200, 186, 140), "red_sand": (180, 100, 50), "powder_snow": (240, 244, 248), "packed_ice": (150, 180, 230), "ice": (150, 180, 230), "terracotta": (150, 92, 66),
 }
-SKIP = {"short_grass", "grass", "tall_grass", "fern", "large_fern", "dandelion", "poppy", "water"}
+SKIP = {"short_grass", "grass", "tall_grass", "fern", "large_fern", "dandelion", "poppy"}
 U = 6  # píxeles por media celda
 
 

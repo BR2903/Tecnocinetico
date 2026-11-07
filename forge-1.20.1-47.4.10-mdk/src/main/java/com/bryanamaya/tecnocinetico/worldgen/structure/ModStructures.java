@@ -25,6 +25,11 @@ public final class ModStructures {
     public static final RegistryObject<StructurePieceType> RUINED_BUILDING_PIECE =
             PIECES.register("ruined_building", () -> (StructurePieceType.ContextlessType) RuinedBuildingPiece::new);
 
+    public static final RegistryObject<StructureType<SettlementStructure>> SETTLEMENT =
+            TYPES.register("settlement", () -> () -> SettlementStructure.CODEC);
+    public static final RegistryObject<StructurePieceType> SETTLEMENT_PIECE =
+            PIECES.register("settlement", () -> (StructurePieceType.ContextlessType) SettlementPiece::new);
+
     private ModStructures() {}
 
     public static void register(IEventBus bus) {
