@@ -23,6 +23,15 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> SWARM_BODY_STEP = register("entity.swarm_body.step");
     public static final RegistryObject<SoundEvent> SWARM_BODY_LEAP = register("entity.swarm_body.leap");
 
+    // Pistola Cinética
+    public static final RegistryObject<SoundEvent> PISTOL_FIRE = register("item.kinetic_pistol.fire");
+    public static final RegistryObject<SoundEvent> PISTOL_IMPACT = register("item.kinetic_pistol.impact");
+    public static final RegistryObject<SoundEvent> PISTOL_HIT = register("item.kinetic_pistol.hit");
+    public static final RegistryObject<SoundEvent> PISTOL_DRY_FIRE = register("item.kinetic_pistol.dry_fire");
+    public static final RegistryObject<SoundEvent> PISTOL_MAG_OUT = register("item.kinetic_pistol.mag_out");
+    public static final RegistryObject<SoundEvent> PISTOL_MAG_IN = register("item.kinetic_pistol.mag_in");
+    public static final RegistryObject<SoundEvent> PISTOL_SLIDE = register("item.kinetic_pistol.slide");
+
     private ModSounds() {}
 
     private static RegistryObject<SoundEvent> register(String name) {

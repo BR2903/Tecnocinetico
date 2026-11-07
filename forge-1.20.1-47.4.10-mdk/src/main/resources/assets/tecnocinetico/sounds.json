@@ -33,5 +33,71 @@
     "sounds": [
       "tecnocinetico:swarm_body/leap"
     ]
+  },
+  "item.kinetic_pistol.fire": {
+    "subtitle": "subtitles.tecnocinetico.pistol.fire",
+    "sounds": [
+      {
+        "name": "tecnocinetico:pistol/fire1",
+        "attenuation_distance": 48
+      },
+      {
+        "name": "tecnocinetico:pistol/fire2",
+        "attenuation_distance": 48
+      },
+      {
+        "name": "tecnocinetico:pistol/fire3",
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "item.kinetic_pistol.impact": {
+    "subtitle": "subtitles.tecnocinetico.pistol.impact",
+    "sounds": [
+      {
+        "name": "tecnocinetico:pistol/impact",
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "item.kinetic_pistol.hit": {
+    "subtitle": "subtitles.tecnocinetico.pistol.hit",
+    "sounds": [
+      {
+        "name": "tecnocinetico:pistol/hit"
+      }
+    ]
+  },
+  "item.kinetic_pistol.dry_fire": {
+    "subtitle": "subtitles.tecnocinetico.pistol.dry_fire",
+    "sounds": [
+      {
+        "name": "tecnocinetico:pistol/dry_fire"
+      }
+    ]
+  },
+  "item.kinetic_pistol.mag_out": {
+    "subtitle": "subtitles.tecnocinetico.pistol.mag_out",
+    "sounds": [
+      {
+        "name": "tecnocinetico:pistol/mag_out"
+      }
+    ]
+  },
+  "item.kinetic_pistol.mag_in": {
+    "subtitle": "subtitles.tecnocinetico.pistol.mag_in",
+    "sounds": [
+      {
+        "name": "tecnocinetico:pistol/mag_in"
+      }
+    ]
+  },
+  "item.kinetic_pistol.slide": {
+    "subtitle": "subtitles.tecnocinetico.pistol.slide",
+    "sounds": [
+      {
+        "name": "tecnocinetico:pistol/slide"
+      }
+    ]
   }
 }

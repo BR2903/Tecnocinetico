@@ -81,5 +81,12 @@
   "subtitles.tecnocinetico.swarm_body.hurt": "Swarm Body hurts",
   "subtitles.tecnocinetico.swarm_body.death": "Swarm Body powers down",
   "subtitles.tecnocinetico.swarm_body.step": "Metallic footsteps",
-  "subtitles.tecnocinetico.swarm_body.leap": "Swarm Body leaps"
+  "subtitles.tecnocinetico.swarm_body.leap": "Swarm Body leaps",
+  "subtitles.tecnocinetico.pistol.fire": "Kinetic shot",
+  "subtitles.tecnocinetico.pistol.impact": "Kinetic impact",
+  "subtitles.tecnocinetico.pistol.hit": "Hit confirmed",
+  "subtitles.tecnocinetico.pistol.dry_fire": "Dry fire",
+  "subtitles.tecnocinetico.pistol.mag_out": "Magazine out",
+  "subtitles.tecnocinetico.pistol.mag_in": "Magazine in",
+  "subtitles.tecnocinetico.pistol.slide": "Slide racked"
 }

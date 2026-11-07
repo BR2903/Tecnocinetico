@@ -84,10 +84,11 @@ def finish(x, peak=0.8):
     return x / (np.max(np.abs(x)) + 1e-9) * peak
 
 
-def save(name, x):
-    OUT.mkdir(parents=True, exist_ok=True)
-    sf.write(OUT / f"{name}.ogg", finish(x).astype(np.float32), SR, format="OGG", subtype="VORBIS")
-    print(f"{name}.ogg  {len(x) / SR:.2f}s")
+def save(name, x, folder="swarm_body"):
+    out = OUT.parent / folder
+    out.mkdir(parents=True, exist_ok=True)
+    sf.write(out / f"{name}.ogg", finish(x).astype(np.float32), SR, format="OGG", subtype="VORBIS")
+    print(f"{folder}/{name}.ogg  {len(x) / SR:.2f}s")
 
 
 # ---------------------------------------------------------------- componentes
@@ -204,6 +205,115 @@ def leap():
     return mix(dur, (hiss, 0.0, 0.45), (charge, 0.0, 0.7), (metal_hit(0.3, 520, seed + 1), 0.0, 0.5))
 
 
+# ---------------------------------------------------------------- Pistola Cinética
+# Concepto: arma real (chasquido, golpe, mecanismo) + firma "cinética" (zumbido eléctrico que cae de tono)
+# y la cinetrita como cristal (tintineo al romperse el fragmento en el impacto).
+
+def crack(dur, seed, lo=2000, hi=10000, tau=0.008):
+    n = int(SR * dur)
+    return band(noise(dur, seed), lo, hi) * decay(n, tau)
+
+
+def thump(dur, f0, f1, tau):
+    n = int(SR * dur)
+    return np.sin(sweep(f0, f1, dur)) * decay(n, tau)
+
+
+def click(seed, pitch=4000, tau=0.003, dur=0.03):
+    n = int(SR * dur)
+    return band(noise(dur, seed), pitch * 0.7, min(pitch * 1.4, 20000)) * decay(n, tau)
+
+
+def scrape(dur, seed, lo=800, hi=2600):
+    n = int(SR * dur)
+    grain = 0.6 + 0.4 * np.sign(np.sin(2 * np.pi * 55 * t(dur)))          # textura rasposa
+    return band(noise(dur, seed), lo, hi) * grain * env(n, dur * 0.6, dur * 0.4)
+
+
+def tinkle(dur, seed, count=14):
+    """Cristal haciéndose añicos: muchos 'pings' agudos y cortos en momentos aleatorios."""
+    rng = np.random.default_rng(seed)
+    out = np.zeros(int(SR * dur))
+    for _ in range(count):
+        f = rng.uniform(3000, 7500)
+        d = rng.uniform(0.03, 0.09)
+        n = int(SR * d)
+        ping = np.sin(2 * np.pi * f * t(d)) * decay(n, d / 4)
+        s = int(SR * rng.uniform(0, dur * 0.7) ** 1.6 / (dur * 0.7) ** 0.6)
+        out[s:s + n] += ping[: len(out) - s] * rng.uniform(0.3, 1.0)
+    return out
+
+
+def pistol_fire(i):
+    seed = 600 + i * 7
+    dur = 0.9
+    tail_n = int(SR * 0.8)
+    tail = band(noise(0.8, seed + 4), 250, 3000) * decay(tail_n, 0.22)                    # eco corto
+    zap = np.sin(sweep(2400 + 150 * i, 280, 0.2) + 4 * np.sin(2 * np.pi * 610 * t(0.2)))         * decay(int(SR * 0.2), 0.06)                                                        # firma cinética
+    return mix(dur,
+               (crack(0.08, seed), 0.0, 1.0),
+               (thump(0.25, 90 - 6 * i, 38, 0.06), 0.0, 0.9),
+               (low(noise(0.2, seed + 1), 220) * decay(int(SR * 0.2), 0.05), 0.0, 0.7),
+               (zap, 0.005, 0.5),
+               (metal_hit(0.12, 950 + 40 * i, seed + 2), 0.035, 0.28),                         # corredera
+               (tail, 0.02, 0.3))
+
+
+def pistol_impact():
+    seed = 700
+    return mix(0.6,
+               (crack(0.06, seed, 1500, 8000, 0.01), 0.0, 0.8),
+               (thump(0.2, 140, 50, 0.05), 0.0, 0.6),
+               (tinkle(0.5, seed + 1), 0.01, 0.55))
+
+
+def pistol_hit():
+    tt = t(0.12)
+    ping = np.sin(2 * np.pi * 2200 * tt) + 0.4 * np.sin(2 * np.pi * 4400 * tt)
+    return ping * decay(len(tt), 0.035)
+
+
+def pistol_dry():
+    return mix(0.15, (click(800, 4500), 0.0, 1.0), (click(801, 2800, 0.004), 0.05, 0.7))
+
+
+def pistol_mag_out():
+    seed = 810
+    return mix(0.4,
+               (click(seed, 3600), 0.0, 1.0),                                              # retén
+               (scrape(0.18, seed + 1), 0.03, 0.6),                                         # sale el cargador
+               (metal_hit(0.15, 700, seed + 2), 0.2, 0.25))
+
+
+def pistol_mag_in():
+    seed = 820
+    return mix(0.35,
+               (scrape(0.1, seed, 900, 3000), 0.0, 0.5),
+               (metal_hit(0.2, 620, seed + 1), 0.1, 0.9),                                   # golpe de palma
+               (low(noise(0.1, seed + 2), 300) * decay(int(SR * 0.1), 0.03), 0.1, 0.8),
+               (click(seed + 3, 4200), 0.16, 0.7))                                          # encaja
+
+
+def pistol_slide():
+    seed = 830
+    return mix(0.45,
+               (click(seed, 3000, 0.004), 0.0, 0.7),
+               (scrape(0.12, seed + 1, 1200, 3500), 0.0, 0.5),                               # tirón atrás
+               (metal_hit(0.2, 820, seed + 2), 0.17, 1.0),                                   # cierra de golpe
+               (low(noise(0.1, seed + 3), 280) * decay(int(SR * 0.1), 0.025), 0.17, 0.7))
+
+
+def generate_pistol():
+    for i in range(3):
+        save(f"fire{i + 1}", pistol_fire(i), "pistol")
+    save("impact", pistol_impact(), "pistol")
+    save("hit", pistol_hit(), "pistol")
+    save("dry_fire", pistol_dry(), "pistol")
+    save("mag_out", pistol_mag_out(), "pistol")
+    save("mag_in", pistol_mag_in(), "pistol")
+    save("slide", pistol_slide(), "pistol")
+
+
 if __name__ == "__main__":
     for i in range(3):
         save(f"ambient{i + 1}", ambient(i))
@@ -212,3 +322,4 @@ if __name__ == "__main__":
         save(f"hurt{i + 1}", hurt(i))
     save("death", death())
     save("leap", leap())
+    generate_pistol()

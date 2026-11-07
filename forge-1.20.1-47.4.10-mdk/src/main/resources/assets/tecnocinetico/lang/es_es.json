@@ -81,5 +81,12 @@
   "subtitles.tecnocinetico.swarm_body.hurt": "Cuerpo de Enjambre herido",
   "subtitles.tecnocinetico.swarm_body.death": "Cuerpo de Enjambre se apaga",
   "subtitles.tecnocinetico.swarm_body.step": "Pasos metálicos",
-  "subtitles.tecnocinetico.swarm_body.leap": "Cuerpo de Enjambre salta"
+  "subtitles.tecnocinetico.swarm_body.leap": "Cuerpo de Enjambre salta",
+  "subtitles.tecnocinetico.pistol.fire": "Disparo cinético",
+  "subtitles.tecnocinetico.pistol.impact": "Impacto cinético",
+  "subtitles.tecnocinetico.pistol.hit": "Impacto confirmado",
+  "subtitles.tecnocinetico.pistol.dry_fire": "Percutor en vacío",
+  "subtitles.tecnocinetico.pistol.mag_out": "Cargador fuera",
+  "subtitles.tecnocinetico.pistol.mag_in": "Cargador dentro",
+  "subtitles.tecnocinetico.pistol.slide": "Corredera montada"
 }

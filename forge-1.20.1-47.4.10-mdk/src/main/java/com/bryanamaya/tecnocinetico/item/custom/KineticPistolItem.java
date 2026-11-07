@@ -7,6 +7,7 @@ import com.bryanamaya.tecnocinetico.skill.Skill;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import com.bryanamaya.tecnocinetico.particle.ModParticles;
+import com.bryanamaya.tecnocinetico.sound.ModSounds;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -190,9 +191,7 @@ public class KineticPistolItem extends Item {
             pistol.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(InteractionHand.MAIN_HAND));
         }
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.7F, 2.0F);
-        level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.PLAYERS, 0.5F, 1.8F);
+                ModSounds.PISTOL_FIRE.get(), SoundSource.PLAYERS, 1.0F, 0.95F + level.random.nextFloat() * 0.1F);
         player.getCooldowns().addCooldown(item, SHOT_COOLDOWN);
         player.awardStat(Stats.ITEM_USED.get(item));
     }
@@ -239,7 +238,7 @@ public class KineticPistolItem extends Item {
             // Sin esto, los disparos rápidos (cada 8 ticks) chocan con la invulnerabilidad de 10 ticks
             target.invulnerableTime = 0;
             boolean hurt = target.hurt(level.damageSources().playerAttack(player), getShotDamage(pistol));
-            player.playNotifySound(SoundEvents.ARROW_HIT_PLAYER, SoundSource.PLAYERS, 0.4F, 1.6F);
+            player.playNotifySound(ModSounds.PISTOL_HIT.get(), SoundSource.PLAYERS, 0.5F, 1.0F);
 
             // Práctica: solo cuenta disparar a criaturas (no a soportes de armadura ni a objetos)
             if (hurt && target instanceof Mob && player instanceof ServerPlayer sp) {
@@ -282,6 +281,12 @@ public class KineticPistolItem extends Item {
             server.sendParticles(ModParticles.KINETIC_TRACER.get(), p.x, p.y, p.z, 0, 0, 0, 0, 0);
         }
 
+        // Impacto: sonido del fragmento rompiéndose donde da la bala (solo si da en algo, no en el aire)
+        boolean hitSomething = blockHit == null || blockHit.getType() == HitResult.Type.BLOCK;
+        if (hitSomething) {
+            server.playSound(null, end.x, end.y, end.z, ModSounds.PISTOL_IMPACT.get(), SoundSource.PLAYERS,
+                    0.7F, 0.9F + server.random.nextFloat() * 0.2F);
+        }
         // Impacto: onda expansiva + chispas + el fragmento de cinetrita haciéndose añicos
         server.sendParticles(ModParticles.KINETIC_BURST.get(), end.x, end.y, end.z, 0, 1.0, 0, 0, 1);
         server.sendParticles(ModParticles.KINETIC_SPARK.get(), end.x, end.y, end.z, 10, 0.05, 0.05, 0.05, 0.22);
@@ -308,7 +313,7 @@ public class KineticPistolItem extends Item {
             player.displayClientMessage(Component.translatable("message.tecnocinetico.no_shards")
                     .withStyle(ChatFormatting.RED), true);
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.DISPENSER_FAIL, SoundSource.PLAYERS, 1.0F, 0.9F);
+                    ModSounds.PISTOL_DRY_FIRE.get(), SoundSource.PLAYERS, 0.8F, 1.0F);
             return;
         }
         int ticks = getReloadTicks(pistol, PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING));
@@ -318,7 +323,7 @@ public class KineticPistolItem extends Item {
         player.getCooldowns().addCooldown(pistol.getItem(), ticks);
         // Suelta el cargador vacío
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.IRON_TRAPDOOR_OPEN, SoundSource.PLAYERS, 0.6F, 1.6F);
+                ModSounds.PISTOL_MAG_OUT.get(), SoundSource.PLAYERS, 0.8F, 1.0F);
     }
 
     @Override
@@ -333,10 +338,10 @@ public class KineticPistolItem extends Item {
         // Sonidos sincronizados con los fotogramas de la animación
         if (left == Math.round(total * 0.5F)) {          // entra el cargador nuevo
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.CROSSBOW_LOADING_MIDDLE, SoundSource.PLAYERS, 1.0F, 0.9F);
+                    ModSounds.PISTOL_MAG_IN.get(), SoundSource.PLAYERS, 0.9F, 1.0F);
         } else if (left == Math.round(total * 0.28F)) {  // se tira de la corredera
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.CROSSBOW_LOADING_END, SoundSource.PLAYERS, 1.0F, 1.3F);
+                    ModSounds.PISTOL_SLIDE.get(), SoundSource.PLAYERS, 0.9F, 1.0F);
         }
         if (left > 0) {
             tag.putInt(TAG_RELOAD_LEFT, left);
@@ -348,8 +353,6 @@ public class KineticPistolItem extends Item {
         int needed = getMagSize(stack) - getAmmo(stack);
         int loaded = player.getAbilities().instabuild ? needed : consumeAmmoItems(player, needed);
         setAmmo(stack, getAmmo(stack) + loaded);
-        level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.IRON_DOOR_CLOSE, SoundSource.PLAYERS, 0.4F, 2.0F);
     }
 
     private static int countAmmoItems(Player player) {

@@ -58,7 +58,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - Tres tipos con brillo propio; texturas en `textures/particle/`, definiciones en `assets/tecnocinetico/particles/`.
 
 ### Sonidos (`sound/ModSounds`)
-- `SoundEvent`s propios declarados en `assets/tecnocinetico/sounds.json` (con subtítulos). Archivos en `sounds/swarm_body/`, generados por `tools/sound_gen.py`. Sonidos de la pistola: todavía vanilla.
+- `SoundEvent`s propios declarados en `assets/tecnocinetico/sounds.json` (con subtítulos). Archivos en `sounds/swarm_body/`, generados por `tools/sound_gen.py`. Pistola: disparo (atenuación 48 bloques), impacto (en el punto de impacto), acierto (solo el tirador), clic en vacío, cargador fuera/dentro y corredera (sincronizados con la animación de recarga).
 
 ### Entidad (`entity/`)
 - `SwarmBodyEntity` (IA + `KineticLeapGoal`), `SwarmBodyModel` (modelo en código, animaciones), `SwarmBodyRenderer` (+ capa luminosa `EyesLayer`).
