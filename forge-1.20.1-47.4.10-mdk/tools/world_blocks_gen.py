@@ -242,46 +242,11 @@ def t_mossy_concrete():
 BRICK = ramp((84, 44, 34), (176, 98, 72), 5)
 
 
-def t_rubble():
-    img = new()
-    cid, edge = cells(40, 8)
-    r = random.Random(41)
-    kinds = {c: ("brick" if r.random() < 0.22 else "conc") for c in range(8)}
-    shades = {c: r.uniform(0.9, 1.08) for c in range(8)}
-
-    def pal(c):
-        base = BRICK[1:5] if kinds[c] == "brick" else CONC[1:5]
-        return [shade(b, shades[c]) for b in base]
-    bevel_stones(img, cid, edge, pal, 42, (48, 46, 44))
-    return img
-
 
 # ---------------------------------------------------------------- asfalto
 ASPH = ramp((30, 30, 33), (104, 102, 100), 5)
 
 
-def t_asphalt(seed=50):
-    img = new()
-    field = tone_field(seed, 4, 2)
-    for y in range(S):
-        for x in range(S):
-            put(img, x, y, ASPH[1 + field[y][x]])
-    r = random.Random(seed + 1)
-    for _ in range(14):                                 # árido: grupitos de 1-2 px claros con sombra
-        x, y = r.randrange(S), r.randrange(S)
-        put(img, x, y, ASPH[4] if r.random() < 0.5 else ASPH[3])
-        if r.random() < 0.5:
-            put(img, x + 1, y, ASPH[3])
-        put(img, x, y + 1, ASPH[0])
-    return img
-
-
-def t_cracked_asphalt():
-    img = t_asphalt(60)
-    draw_crack(img, 61, (7, 0), 16, (16, 16, 18), ASPH[3])
-    for (x, y) in [(8, 9), (9, 9), (8, 8), (12, 13)]:   # hierba que asoma por la grieta
-        put(img, x, y, MOSS[2] if y != 8 else MOSS[3])
-    return img
 
 
 def t_road_line():
@@ -332,110 +297,14 @@ def rust_clumps(img, seed, amount, streaks=True):
     return img
 
 
-def t_metal_sheet():
-    img = new()
-    for y in range(S):
-        for x in range(S):
-            put(img, x, y, STEEL[[4, 3, 2, 1][x % 4]])  # chapa ondulada: cresta clara, valle oscuro
-    rust_clumps(img, 81, 0.42)
-    for x in (2, 6, 10, 14):                            # tornillos arriba y abajo
-        put(img, x, 1, STEEL[5])
-        put(img, x, 2, STEEL[0])
-        put(img, x, 13, STEEL[5])
-        put(img, x, 14, STEEL[0])
-    return img
 
 
-def t_beam_side():
-    img = new()
-    for y in range(S):
-        for x in range(S):
-            if x in (0, 15):
-                c = STEEL[1]
-            elif x in (1, 2, 13, 14):
-                c = STEEL[4] if x in (1, 13) else STEEL[3]      # alas con canto iluminado
-            elif x in (3, 12):
-                c = STEEL[0]                                      # sombra donde el alma se hunde
-            else:
-                c = STEEL[2] if x < 8 else STEEL[1]              # alma hundida
-            put(img, x, y, c)
-    for y in (0, 15):                                             # placa de unión con remaches
-        for x in range(3, 13):
-            put(img, x, y, STEEL[3] if y == 0 else STEEL[1])
-    for (x, y) in [(5, 1), (10, 1), (5, 14), (10, 14)]:
-        put(img, x, y, STEEL[5])
-        put(img, x + 1, y, STEEL[0])
-    rust_clumps(img, 91, 0.30)
-    return img
 
-
-def t_beam_end():
-    img = new()
-    hollow = (30, 29, 28)
-
-    def solid(x, y):
-        return (y in (1, 2, 13, 14) and 1 <= x <= 14) or (7 <= x <= 8 and 2 < y < 13)
-    for y in range(S):
-        for x in range(S):
-            if solid(x, y):
-                top_edge = y in (1, 13) or (7 <= x <= 8 and 2 < y < 13 and x == 7)
-                put(img, x, y, STEEL[4] if top_edge else STEEL[2])
-            else:
-                put(img, x, y, hollow)                            # hueco (sombra profunda)
-    rust_clumps(img, 92, 0.18, streaks=False)
-    for y in range(S):                                            # el óxido no cubre el hueco
-        for x in range(S):
-            if not solid(x, y):
-                put(img, x, y, hollow)
-    return img
-
-
-def t_grate():
-    img = new()
-    r = random.Random(100)
-    for y in range(S):
-        for x in range(S):
-            bar_x = x % 8 in (0, 1)
-            bar_y = y % 8 in (0, 1)
-            if bar_x or bar_y:
-                light = (bar_y and y % 8 == 0) or (bar_x and x % 8 == 0)
-                c = STEEL[4] if light else STEEL[2]
-                if r.random() < 0.28:
-                    c = RUSTR[2] if light else RUSTR[1]
-                put(img, x, y, c)
-    return img
-
-
-def t_scrap_pile():
-    img = new()
-    cid, edge = cells(110, 9)
-    r = random.Random(111)
-    mats = [STEEL[1:5], RUSTR, [(96, 58, 34), (150, 92, 54), (196, 128, 80), (226, 164, 112)],   # acero, óxido, cobre
-            [(46, 74, 70), (64, 104, 98), (88, 136, 126), (130, 172, 160)],                      # pintura verde
-            [(122, 96, 30), (168, 136, 44), (206, 176, 70), (232, 210, 110)]]                    # pintura amarilla
-    pick = {c: r.choice(mats[:3] * 2 + mats[3:]) for c in range(9)}
-    bevel_stones(img, cid, edge, lambda c: pick[c], 112, (26, 24, 22))
-    return img
 
 
 # ---------------------------------------------------------------- ceniza
 ASHR = ramp((112, 110, 106), (198, 196, 192), 5)
 
-
-def t_ash():
-    img = new()
-    field = tone_field(120, 4, 3)
-    for y in range(S):
-        for x in range(S):
-            put(img, x, y, ASHR[1 + field[y][x]])
-    r = random.Random(121)
-    for _ in range(8):                                   # grumos con luz y sombra
-        x, y = r.randrange(S), r.randrange(S)
-        put(img, x, y, ASHR[4])
-        put(img, x, y + 1, ASHR[0])
-    for (x, y) in [(5, 9), (12, 3)]:                     # brasas apagadas
-        put(img, x, y, (64, 58, 54))
-    return img
 
 
 # ---------------------------------------------------------------- vitrificado
@@ -443,39 +312,6 @@ SANDR = ramp((136, 100, 64), (214, 178, 124), 5)
 GLAZE = [(96, 58, 30), (150, 96, 48), (198, 142, 74), (240, 204, 140)]
 
 
-def t_vitrified_sand():
-    """Costra de arena fundida en vidrio y cuarteada: placas brillantes con su reflejo, grietas entre ellas."""
-    img = new()
-    cid, edge = cells(130, 7)
-    r = random.Random(131)
-    tone = {c: r.uniform(0.92, 1.08) for c in range(7)}
-    bevel_stones(img, cid, edge, lambda c: [shade(g, tone[c]) for g in (GLAZE[0], GLAZE[1], GLAZE[2], GLAZE[3])],
-                 132, (92, 62, 38))
-    done = set()
-    for y in range(S):                                          # un destello de cristal en cada placa
-        for x in range(S):
-            c = cid[y][x]
-            if c not in done and not edge[y][x] and not edge[(y + 1) % S][x] and not edge[y][(x + 1) % S]:
-                put(img, x + 1, y + 1, (252, 232, 190))
-                done.add(c)
-    return img
-
-
-def t_vitrified_glass():
-    img = new()
-    frame = (150, 104, 60)
-    for y in range(S):
-        for x in range(S):
-            if x in (0, 15) or y in (0, 15):
-                put(img, x, y, frame, 255)
-            else:
-                put(img, x, y, (196, 142, 82), 70)       # ámbar translúcido
-    for k in range(3):                                   # las dos rayas de reflejo (como el vidrio vanilla)
-        put(img, 2 + k, 4 - k, (246, 226, 184), 200)
-        put(img, 11 + k, 13 - k, (246, 226, 184), 200)
-    for (x, y) in [(6, 9), (9, 5), (12, 9)]:             # burbujas del vidrio fundido
-        put(img, x, y, (232, 196, 140), 150)
-    return img
 
 
 # ---------------------------------------------------------------- cinetrita
@@ -512,23 +348,6 @@ def t_cinetrite_cluster():
 # ---------------------------------------------------------------- madera muerta
 BARK = ramp((44, 40, 36), (138, 128, 116), 5)
 
-
-def t_dead_log_side():
-    img = new()
-    r = random.Random(150)
-    col = [r.choice([1, 2, 2, 3]) for _ in range(S)]
-    for x in range(S):
-        crack_col = x in (2, 7, 12)
-        offset = r.randrange(S)
-        for y in range(S):
-            if crack_col and (y + offset) % 9 != 0:
-                c = BARK[0]                               # surco profundo de la corteza
-            else:
-                c = BARK[col[x]]
-                if not crack_col and (x - 1) in (2, 7, 12):
-                    c = BARK[min(4, col[x] + 1)]          # canto iluminado junto al surco
-            put(img, x, y, c)
-    return img
 
 
 def t_dead_log_top():
@@ -602,6 +421,280 @@ def t_scrap_item():
                    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
                 out.putpixel((x, y), (30, 24, 20, 255))
     return out
+
+
+# ================================================================ texturas v3 (lenguaje visual inspirado en Create)
+# Formas limpias, contornos oscuros de 1 px, bisel (luz arriba-izquierda), poco ruido y acentos con intención.
+
+OUTLINE = (34, 33, 32)
+
+
+def frame(img, dark, light, shadow):
+    """Marco de panel: contorno oscuro exterior + bisel interior (luz arriba/izquierda, sombra abajo/derecha)."""
+    for i in range(S):
+        put(img, i, 0, dark)
+        put(img, i, 15, dark)
+        put(img, 0, i, dark)
+        put(img, 15, i, dark)
+    for i in range(1, 15):
+        put(img, i, 1, light)
+        put(img, 1, i, light)
+        put(img, i, 14, shadow)
+        put(img, 14, i, shadow)
+
+
+def bolt(img, x, y, light, dark):
+    put(img, x, y, light)
+    put(img, x + 1, y + 1, dark)
+
+
+def t_metal_sheet():
+    img = new()
+    for y in range(S):
+        for x in range(S):
+            put(img, x, y, STEEL[[3, 2, 2, 1][x % 4]])            # chapa ondulada limpia (3 tonos)
+    frame(img, OUTLINE, STEEL[4], STEEL[0])
+    for (x, y) in [(2, 2), (12, 2), (2, 12), (12, 12)]:
+        bolt(img, x, y, STEEL[5], STEEL[0])
+    r = random.Random(81)
+    for x in range(2, 14):                                       # óxido donde se acumula el agua: borde inferior
+        h = r.choice([0, 1, 1, 2, 3])
+        for k in range(h):
+            put(img, x, 13 - k, RUSTR[1] if k == h - 1 else RUSTR[2])
+        if h:
+            put(img, x, 13 - h, RUSTR[3])
+    for (x, y) in [(2, 2), (12, 2)]:                             # chorretón bajo los tornillos de arriba
+        for k in range(2, r.randrange(4, 7)):
+            put(img, x, y + k, RUSTR[2] if k < 4 else RUSTR[1])
+    return img
+
+
+def t_beam_side():
+    img = new()
+    flange = [OUTLINE, STEEL[4], STEEL[3], STEEL[1]]              # ala: contorno, canto iluminado, cara, sombra
+    for y in range(S):
+        for i, c in enumerate(flange):
+            put(img, i, y, c)
+            put(img, 15 - i, y, flange[3 - i] if i in (1, 2) else c)
+        for x in range(4, 12):
+            put(img, x, y, STEEL[1] if x in (4, 11) else STEEL[2])  # alma hundida
+    for y0 in (3, 11):                                           # pares de tornillos en el alma
+        for x0 in (6, 9):
+            bolt(img, x0, y0, STEEL[5], OUTLINE)
+    r = random.Random(91)
+    for (x0, y0) in [(6, 3), (9, 11)]:
+        for k in range(2, r.randrange(3, 6)):
+            put(img, x0, y0 + k, RUSTR[2] if k < 3 else RUSTR[1])
+    for y in range(12, 16):                                      # óxido al pie del alma
+        for x in range(5, 11):
+            if r.random() < (y - 11) * 0.22:
+                put(img, x, y, r.choice(RUSTR[1:3]))
+    return img
+
+
+def t_beam_end():
+    img = new()
+    hollow = (24, 23, 22)
+    for y in range(S):
+        for x in range(S):
+            put(img, x, y, hollow)
+    for x in range(1, 15):                                       # alas (arriba y abajo) con bisel
+        put(img, x, 1, STEEL[4]); put(img, x, 2, STEEL[2]); put(img, x, 3, STEEL[1])
+        put(img, x, 12, STEEL[4]); put(img, x, 13, STEEL[2]); put(img, x, 14, STEEL[1])
+    for y in range(4, 12):                                       # alma
+        put(img, 7, y, STEEL[3]); put(img, 8, y, STEEL[1])
+    for x in range(S):
+        put(img, x, 0, OUTLINE); put(img, x, 15, OUTLINE)
+    return img
+
+
+def t_grate():
+    img = new()
+    r = random.Random(100)
+    for y in range(S):
+        for x in range(S):
+            bx, by = x % 8, y % 8
+            if by in (0, 1) or bx in (0, 1):
+                if by == 0 or (bx == 0 and by > 1):
+                    c = STEEL[4]                                  # cara iluminada de la barra
+                elif by == 1 or bx == 1:
+                    c = STEEL[2]
+                else:
+                    c = STEEL[3]
+                if r.random() < 0.18:
+                    c = RUSTR[2] if c == STEEL[4] else RUSTR[1]
+                put(img, x, y, c)
+            elif bx == 2 or by == 2:
+                put(img, x, y, OUTLINE, 160)                       # sombra de la barra sobre el hueco
+    for (x, y) in [(0, 0), (8, 0), (0, 8), (8, 8)]:
+        bolt(img, x, y, STEEL[5], STEEL[0])                       # remache en cada cruce
+    return img
+
+
+def polygon_chunks(seed, n):
+    """Trozos angulosos grandes (para escombros/chatarra): celdas Voronoi con pocos puntos."""
+    return cells(seed, n)
+
+
+def t_rubble():
+    img = new()
+    cid, edge = polygon_chunks(40, 5)
+    r = random.Random(41)
+    pal = {c: (BRICK[1:5] if r.random() < 0.25 else CONC[1:5]) for c in range(5)}
+    for y in range(S):
+        for x in range(S):
+            if edge[y][x]:
+                put(img, x, y, OUTLINE)
+                continue
+            c = cid[y][x]
+            up = edge[(y - 1) % S][x] or cid[(y - 1) % S][x] != c
+            left = edge[y][(x - 1) % S] or cid[y][(x - 1) % S] != c
+            down = edge[(y + 1) % S][x] or cid[(y + 1) % S][x] != c
+            right = edge[y][(x + 1) % S] or cid[y][(x + 1) % S] != c
+            i = 3 if (up or left) else 0 if (down or right) else 2
+            if i == 2 and (x * 7 + y * 3) % 11 == 0:
+                i = 1                                             # poros del hormigón
+            put(img, x, y, pal[c][i])
+    for k in range(7):                                            # varilla de acero oxidada asomando
+        x, y = 3 + k, 12 - k
+        put(img, x, y, RUSTR[3]); put(img, x + 1, y, RUSTR[1]); put(img, x, y + 1, OUTLINE)
+    return img
+
+
+def t_scrap_pile():
+    img = new()
+    for y in range(S):
+        for x in range(S):
+            put(img, x, y, (28, 26, 24))
+    r = random.Random(110)
+    plates = [STEEL[1:5], RUSTR, [(96, 58, 34), (150, 92, 54), (196, 128, 80), (226, 164, 112)],
+              [(46, 74, 70), (64, 104, 98), (88, 136, 126), (130, 172, 160)],
+              [(122, 96, 30), (168, 136, 44), (206, 176, 70), (232, 210, 110)], RUSTR, STEEL[1:5]]
+    for i, pal in enumerate(plates):                              # placas superpuestas (de atrás hacia delante)
+        w, h = r.randint(6, 10), r.randint(4, 7)
+        x0, y0 = r.randrange(S), r.randrange(S)
+        skew = r.choice([-1, 0, 1])
+        for yy in range(h):
+            for xx in range(w):
+                x, y = x0 + xx + (yy * skew) // 3, y0 + yy
+                edge_ = xx in (0, w - 1) or yy in (0, h - 1)
+                if edge_:
+                    c = OUTLINE
+                elif yy == 1:
+                    c = pal[3]                                    # canto superior iluminado
+                elif yy == h - 2:
+                    c = pal[0]
+                else:
+                    c = pal[2] if (xx + yy) % 5 else pal[1]
+                put(img, x, y, c)
+        put(img, x0 + 2, y0 + 2, (220, 220, 214))                  # remache/brillo
+    return img
+
+
+def t_asphalt(seed=50):
+    img = new()
+    field = tone_field(seed, 3, 2)
+    for y in range(S):
+        for x in range(S):
+            put(img, x, y, ASPH[1 + field[y][x]])
+    r = random.Random(seed + 1)
+    for _ in range(7):                                            # piedrecitas 2x2 con luz y sombra
+        x, y = r.randrange(S), r.randrange(S)
+        put(img, x, y, ASPH[4]); put(img, x + 1, y, ASPH[3])
+        put(img, x, y + 1, ASPH[3]); put(img, x + 1, y + 1, ASPH[0])
+    for _ in range(6):
+        put(img, r.randrange(S), r.randrange(S), ASPH[3])
+    return img
+
+
+def t_cracked_asphalt():
+    img = t_asphalt(60)
+    r = random.Random(61)
+    x = 6
+    for y in range(S):                                            # grieta ancha (2 px) con borde iluminado
+        put(img, x, y, (14, 14, 16)); put(img, x + 1, y, (22, 22, 24)); put(img, x + 2, y, ASPH[4])
+        if r.random() < 0.4:
+            x += r.choice([-1, 1])
+    tuft = [(0, 0, 3), (-1, 1, 2), (1, 1, 2), (0, 1, 1), (-1, 2, 1), (1, 2, 0)]
+    for dx, dy, i in tuft:                                        # mata de hierba saliendo de la grieta
+        put(img, 7 + dx, 8 + dy, MOSS[i])
+    return img
+
+
+def t_ash():
+    img = new()
+    for y in range(S):
+        for x in range(S):
+            v = math.sin((x + y * 2) / 16 * 2 * math.pi * 2 + math.sin(y / 16 * 2 * math.pi) * 1.4)
+            i = 3 if v > 0.55 else 2 if v > -0.2 else 1           # dunas de ceniza en bandas diagonales
+            put(img, x, y, ASHR[i])
+    r = random.Random(121)
+    for _ in range(5):
+        x, y = r.randrange(S), r.randrange(S)
+        put(img, x, y, ASHR[0]); put(img, x + 1, y, ASHR[0])       # carboncillo
+    put(img, 11, 5, (150, 64, 40)); put(img, 4, 12, (120, 52, 36))  # brasas
+    return img
+
+
+def t_vitrified_sand():
+    img = new()
+    shard = [(108, 66, 34), (164, 108, 56), (206, 150, 84), (240, 200, 140), (255, 236, 196)]
+    for y in range(S):
+        for x in range(S):
+            d = (x + y) % 8                                       # facetas diagonales (como el cuarzo)
+            band = ((x - y) // 4) % 3
+            i = [1, 2, 3, 2, 2, 1, 1, 0][d]
+            i = max(0, min(4, i + (band - 1)))
+            put(img, x, y, shard[i])
+    for k in range(4):                                            # reflejos en las aristas
+        put(img, 2 + k, 1 + k, shard[4]); put(img, 10 + k, 9 + k, shard[4])
+    for (x, y) in [(6, 13), (13, 4)]:
+        put(img, x, y, (84, 52, 28))
+    return img
+
+
+def t_vitrified_glass():
+    img = new()
+    outer, inner_l, inner_d = (98, 64, 34), (226, 178, 112), (150, 104, 60)
+    for y in range(S):
+        for x in range(S):
+            if x in (0, 15) or y in (0, 15):
+                put(img, x, y, outer, 255)
+            elif x == 1 or y == 1:
+                put(img, x, y, inner_l, 255)
+            elif x == 14 or y == 14:
+                put(img, x, y, inner_d, 255)
+            else:
+                put(img, x, y, (196, 142, 82), 64)
+    for k in range(3):                                            # brillos en esquinas (estilo vidrio enmarcado)
+        put(img, 3 + k, 3, (252, 236, 200), 220)
+        put(img, 3, 3 + k, (252, 236, 200), 220)
+    put(img, 12, 12, (252, 236, 200), 200)
+    put(img, 11, 12, (252, 236, 200), 160)
+    return img
+
+
+def t_dead_log_side():
+    img = new()
+    r = random.Random(150)
+    x = 0
+    while x < S:                                                  # placas de corteza de 2-3 px separadas por surcos
+        w = r.choice([2, 3, 3])
+        tone = r.choice([2, 3])
+        breaks = {r.randrange(S) for _ in range(2)}
+        for xx in range(w):
+            for y in range(S):
+                c = BARK[tone + 1] if xx == 0 else BARK[tone]
+                if y in breaks:
+                    c = BARK[1]
+                put(img, x + xx, y, c)
+        for y in range(S):
+            put(img, x + w, y, BARK[0])                            # surco
+        x += w + 1
+    lichen = [(118, 130, 104), (146, 158, 128)]
+    for (lx, ly) in [(4, 3), (5, 3), (4, 4), (11, 10), (12, 10), (12, 11)]:   # líquenes
+        put(img, lx, ly, lichen[(lx + ly) % 2])
+    return img
 
 
 TEXTURES = {
