@@ -314,6 +314,14 @@ def block_item(name):
     jw(A / f"models/item/{name}.json", {"parent": f"tecnocinetico:block/{name}"})
 
 
+def vanilla_tinted(name, vanilla):
+    """Modelo con la textura vanilla (capa 0 = tintindex 0): el color lo pone client/MetalColors."""
+    jw(A / f"models/item/{name}.json", {"parent": "minecraft:item/generated", "textures": {"layer0": f"minecraft:item/{vanilla}"}})
+
+
+OLD_INGOTS = ["cinetrite", "inercita", "piroxite", "nullite"]   # lingotes del mod que también pasan al lingote vanilla teñido
+
+
 def gen_item(name):
     jw(A / f"models/item/{name}.json", {"parent": "minecraft:item/generated", "textures": {"layer0": f"tecnocinetico:item/{name}"}})
 
@@ -395,9 +403,10 @@ def main():
     for name, cfg in METALS.items():
         ramp = RAMPS[name]
         ore_overlay(name).save(T / f"block/{name}_ore_overlay.png")
-        raw_chunk(name).save(T / f"item/raw_{name}.png")              # pixel art 16x16 estilo vanilla
-        ingot_tex(name).save(T / f"item/{name}_ingot.png")
-        nugget(name).save(T / f"item/{name}_nugget.png")
+        # lingote, pepita y en bruto: la textura de hierro vanilla teñida (client/MetalColors), forma idéntica
+        for it, vanilla in ((f"raw_{name}", "raw_iron"), (f"{name}_ingot", "iron_ingot"), (f"{name}_nugget", "iron_nugget")):
+            (T / f"item/{it}.png").unlink(missing_ok=True)
+            vanilla_tinted(it, vanilla)
         metal_block(name).save(T / f"block/{name}_block.png")
         ore_model(f"{name}_ore", "minecraft:block/stone", f"tecnocinetico:block/{name}_ore_overlay")
         ore_model(f"deepslate_{name}_ore", "minecraft:block/deepslate", f"tecnocinetico:block/{name}_ore_overlay")
@@ -407,8 +416,6 @@ def main():
             block_item(b)
             pickaxe.append(f"tecnocinetico:{b}")
             (iron if cfg["tool"] == "iron" else stone).append(f"tecnocinetico:{b}")
-        for it in (f"raw_{name}", f"{name}_ingot", f"{name}_nugget"):
-            gen_item(it)
         ore_drop(f"{name}_ore", f"raw_{name}")
         ore_drop(f"deepslate_{name}_ore", f"raw_{name}")
         self_drop(f"{name}_block")
@@ -430,6 +437,8 @@ def main():
         for kind, item in (("raw_materials", f"raw_{name}"), ("ingots", f"{name}_ingot"), ("nuggets", f"{name}_nugget")):
             tag_add(D / f"forge/tags/items/{kind}/{name}.json", [f"tecnocinetico:{item}"])
             tag_add(D / f"forge/tags/items/{kind}.json", [f"#forge:{kind}/{name}"])
+    for name in OLD_INGOTS:
+        vanilla_tinted(f"{name}_ingot", "iron_ingot")
     for name in DUSTS:
         dust(name).save(T / f"item/{name}_dust.png")
         gen_item(f"{name}_dust")

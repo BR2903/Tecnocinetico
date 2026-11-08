@@ -172,6 +172,11 @@ public class Tecnocinetico {
         }
 
         @SubscribeEvent
+        public static void registerItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
+            com.bryanamaya.tecnocinetico.client.MetalColors.register(event);    // lingotes = el de hierro vanilla teñido
+        }
+
+        @SubscribeEvent
         public static void registerParticles(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ModParticles.FLAME_STREAM.get(), com.bryanamaya.tecnocinetico.client.FlameStreamParticle.Provider::new);
             event.registerSpriteSet(ModParticles.KINETIC_TRACER.get(),
