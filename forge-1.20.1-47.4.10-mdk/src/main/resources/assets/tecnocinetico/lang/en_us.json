@@ -240,5 +240,10 @@
   "item.tecnocinetico.module_polished_bolt": "Polished Bolt",
   "tooltip.tecnocinetico.module_polished_bolt": "+35% fire rate",
   "item.tecnocinetico.module_rifle_barrel": "Inercita Rifle Barrel",
-  "tooltip.tecnocinetico.module_rifle_barrel": "+6 damage and +20 blocks of range"
+  "tooltip.tecnocinetico.module_rifle_barrel": "+6 damage and +20 blocks of range",
+  "entity.tecnocinetico.drone": "Core Drone",
+  "item.tecnocinetico.drone_spawn_egg": "Core Drone Spawn Egg",
+  "subtitles.tecnocinetico.drone.hum": "Drone hums",
+  "subtitles.tecnocinetico.drone.scan": "Drone scans",
+  "subtitles.tecnocinetico.drone.alert": "Drone raises the alarm"
 }

@@ -196,6 +196,14 @@ def main():
                                     {"condition": "minecraft:random_chance_with_looting", "chance": 0.15,
                                      "looting_multiplier": 0.05}],
          "entries": [item("deepslate_logic_substrate", 1), item("piezo_transducer", 1)]}])
+    entity_loot("drone", [
+        {"rolls": 1, "entries": [item("scrap_metal", 1, 1, 3)]},
+        {"rolls": 1, "entries": [{"type": "minecraft:empty", "weight": 3}, item("minecraft:redstone", 2, 1, 3),
+                                 item("kinetic_round", 2, 2, 5)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
+                                    {"condition": "minecraft:random_chance_with_looting", "chance": 0.12,
+                                     "looting_multiplier": 0.04}],
+         "entries": [item("piezo_transducer", 1)]}])
     print("ok: estructuras del Overworld")
 
 

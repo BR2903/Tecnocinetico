@@ -162,5 +162,33 @@
     "sounds": [
       "tecnocinetico:jetpack/thrust"
     ]
+  },
+  "entity.drone.hum": {
+    "subtitle": "subtitles.tecnocinetico.drone.hum",
+    "sounds": [
+      {
+        "name": "tecnocinetico:drone/hum1",
+        "attenuation_distance": 20
+      },
+      {
+        "name": "tecnocinetico:drone/hum2",
+        "attenuation_distance": 20
+      }
+    ]
+  },
+  "entity.drone.scan": {
+    "subtitle": "subtitles.tecnocinetico.drone.scan",
+    "sounds": [
+      "tecnocinetico:drone/scan"
+    ]
+  },
+  "entity.drone.alert": {
+    "subtitle": "subtitles.tecnocinetico.drone.alert",
+    "sounds": [
+      {
+        "name": "tecnocinetico:drone/alert",
+        "attenuation_distance": 40
+      }
+    ]
   }
 }

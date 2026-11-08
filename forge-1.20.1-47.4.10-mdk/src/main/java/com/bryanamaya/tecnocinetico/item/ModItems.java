@@ -115,6 +115,8 @@ public class ModItems {
     /** Núcleo de Enjambre: lo suelta el Nodo de Colmena. Base de la futura mejora de puntería asistida. */
     public static final RegistryObject<Item> SWARM_CORE = ITEMS.register("swarm_core",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON).stacksTo(16)));
+    public static final RegistryObject<Item> DRONE_SPAWN_EGG = ITEMS.register("drone_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.DRONE, 0x2A2D34, 0x46D2E6, new Item.Properties()));
     public static final RegistryObject<Item> SENTRY_TURRET_SPAWN_EGG = ITEMS.register("sentry_turret_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SENTRY_TURRET, 0x26282E, 0xD6A828, new Item.Properties()));
     // Gadgets del Equipo Táctico (batería = durabilidad; ranuras: cara, espalda, pies)

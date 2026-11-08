@@ -74,6 +74,7 @@ public class Tecnocinetico {
             event.put(ModEntities.SWARM_WASP.get(), com.bryanamaya.tecnocinetico.entity.swarm.SwarmWaspEntity.createAttributes().build());
             event.put(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.swarm.HiveNodeEntity.createAttributes().build());
             event.put(ModEntities.SENTRY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.custom.SentryTurretEntity.createAttributes().build());
+            event.put(ModEntities.DRONE.get(), com.bryanamaya.tecnocinetico.entity.custom.DroneEntity.createAttributes().build());
             event.put(ModEntities.SURVIVOR.get(), com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity.createAttributes().build());
         }
 
@@ -153,6 +154,8 @@ public class Tecnocinetico {
             event.registerLayerDefinition(SwarmBodyModel.LAYER, SwarmBodyModel::createBodyLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SwarmWaspModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.SwarmWaspModel::createLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DroneModel.LAYER,
+                    com.bryanamaya.tecnocinetico.entity.client.DroneModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SentryTurretModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.SentryTurretModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.client.WornGearModel.LAYER,
@@ -179,6 +182,7 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.SWARM_WASP.get(), com.bryanamaya.tecnocinetico.entity.client.SwarmWaspRenderer::new);
             event.registerEntityRenderer(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.client.HiveNodeRenderer::new);
             event.registerEntityRenderer(ModEntities.SENTRY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.client.SentryTurretRenderer::new);
+            event.registerEntityRenderer(ModEntities.DRONE.get(), com.bryanamaya.tecnocinetico.entity.client.DroneRenderer::new);
             event.registerEntityRenderer(ModEntities.SURVIVOR.get(), com.bryanamaya.tecnocinetico.entity.client.SurvivorRenderer::new);
         }
     }

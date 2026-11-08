@@ -240,5 +240,10 @@
   "item.tecnocinetico.module_polished_bolt": "Cerrojo Pulido",
   "tooltip.tecnocinetico.module_polished_bolt": "+35 % de cadencia",
   "item.tecnocinetico.module_rifle_barrel": "Cañón de Inercita para Rifle",
-  "tooltip.tecnocinetico.module_rifle_barrel": "+6 de daño y +20 bloques de alcance"
+  "tooltip.tecnocinetico.module_rifle_barrel": "+6 de daño y +20 bloques de alcance",
+  "entity.tecnocinetico.drone": "Dron del Núcleo",
+  "item.tecnocinetico.drone_spawn_egg": "Huevo de Dron del Núcleo",
+  "subtitles.tecnocinetico.drone.hum": "Zumbido de dron",
+  "subtitles.tecnocinetico.drone.scan": "Dron escanea",
+  "subtitles.tecnocinetico.drone.alert": "Dron da la alarma"
 }

@@ -534,6 +534,54 @@ def generate_gadgets():
     save("thrust", jetpack_thrust(), "jetpack")
 
 
+# =================================================================== Dron del Núcleo
+def rotor_whir(dur, rate, seed):
+    """Un rotor: pulsos de aire al paso de cada aspa (no un tono) por un filtro de banda ancha."""
+    n = n_of(dur)
+    r = rng_of(seed)
+    drift = 1.0 + 0.02 * low(r.standard_normal(n), 2, order=2) * 8
+    phase = np.cumsum(rate * drift / SR) % 1.0
+    chop = 0.35 + 0.65 * np.clip(1.0 - phase * 2.0, 0, 1) ** 2
+    return band(noise(dur, seed + 1), 120, 5000) * chop
+
+
+def drone_hum(i):
+    seed = 3500 + 29 * i
+    dur = 2.0
+    rotors = sum(rotor_whir(dur, [88, 93, 97, 102][k] + 6 * i, seed + k) for k in range(4)) * 0.4
+    motor = resonate(band(noise(dur, seed + 9), 300, 3000, order=2), [(620 + 40 * i, 12, 0.5), (1240 + 80 * i, 14, 0.3)])
+    return reverb(mix(dur, (rotors, 0.0, 1.0), (motor, 0.0, 0.25)) * env(n_of(dur), 0.25, 0.25),
+                  seed + 10, tail=0.6, wet=0.2)
+
+
+def drone_scan():
+    """Barrido del escáner: servo que gira + tubo resonante que sube y baja suave (zumbido electrónico sucio)."""
+    seed = 3600
+    dur = 1.0
+    src = band(noise(dur, seed), 400, 6000)
+    up = comb_glide(src[:n_of(0.5)], 700, 1300, feedback=0.78)
+    down = comb_glide(src[n_of(0.5):], 1300, 800, feedback=0.78)
+    sweep = band(np.concatenate([up, down]), 500, 6000) * env(n_of(dur), 0.15, 0.3)
+    return reverb(mix(dur + 0.2, (sweep, 0.0, 0.6), (servo(0.6, 80, 140, seed + 1), 0.1, 0.8)),
+                  seed + 2, tail=0.4, wet=0.2)
+
+
+def drone_alert():
+    """Alarma: tres chasquidos de relé y una voz de máquina que sube con fuerza."""
+    seed = 3700
+    clicks = mix(0.4, *[(clank(0.08, 2400, seed + k, tau=0.0007), 0.09 * k, 1.0) for k in range(3)])
+    voice = machine_voice(0.7, 420, 1100, seed + 5, rasp_f=120)
+    return reverb(mix(1.1, (clicks, 0.0, 0.8), (voice, 0.25, 1.0), (sparks(0.4, seed + 6, rate=90), 0.25, 0.3)),
+                  seed + 7, tail=0.7, wet=0.25)
+
+
+def generate_drone():
+    for i in range(2):
+        save(f"hum{i + 1}", drone_hum(i), "drone")
+    save("scan", drone_scan(), "drone")
+    save("alert", drone_alert(), "drone")
+
+
 def generate_turret():
     save("charge", turret_charge(), "sentry_turret")
 
@@ -544,3 +592,4 @@ if __name__ == "__main__":
     generate_wasps()
     generate_turret()
     generate_gadgets()
+    generate_drone()

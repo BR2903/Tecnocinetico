@@ -75,6 +75,41 @@ public class WorldgenGameTests {
      * El enjambre ataca de verdad: Nodo + 4 aguijones en el aire, un cerdo inmóvil como objetivo forzado.
      * Tras 10 s el cerdo debe estar herido o muerto (prueba el bucle de vuelo, turnos de ataque y picadura).
      */
+    /**
+     * Dron del Núcleo: se le asigna un cerdo como objetivo; en 10 s debe haberlo herido con sus ráfagas
+     * (prueba el vuelo, la carga con aviso y el disparo con línea de visión).
+     */
+    @GameTest(template = "empty", timeoutTicks = 400)
+    public static void droneShootsTarget(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        BlockPos col = helper.absolutePos(BlockPos.ZERO);
+        level.getChunk(col);
+        BlockPos base = new BlockPos(col.getX(), level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
+                col.getX(), col.getZ()) + 10, col.getZ());
+        var drone = com.bryanamaya.tecnocinetico.entity.ModEntities.DRONE.get().create(level);
+        drone.moveTo(base.getX() + 0.5D, base.getY() + 3, base.getZ() + 0.5D, 0, 0);
+        drone.finalizeSpawn(level, level.getCurrentDifficultyAt(base), net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null, null);
+        level.addFreshEntity(drone);
+        var pig = net.minecraft.world.entity.EntityType.PIG.create(level);
+        pig.moveTo(base.getX() + 6.5D, base.getY(), base.getZ() + 0.5D, 0, 0);
+        pig.setNoAi(true);
+        pig.setNoGravity(true);
+        level.addFreshEntity(pig);
+        drone.engage(pig);
+        helper.runAfterDelay(200, () -> {
+            boolean hit = (!pig.isAlive() || pig.getHealth() < pig.getMaxHealth())
+                    && pig.getLastHurtByMob() instanceof com.bryanamaya.tecnocinetico.entity.custom.DroneEntity;
+            boolean alive = drone.isAlive();
+            Tecnocinetico.LOGGER.info("[GameTest] dron: cerdo {} (vida {}), dron vivo={} vida={} pos={}",
+                    hit ? "atacado" : "INTACTO", pig.getHealth(), alive, drone.getHealth(), drone.blockPosition());
+            drone.discard();
+            pig.discard();
+            helper.assertTrue(hit, "El dron no disparó al objetivo");
+            helper.assertTrue(alive, "El dron murió sin que nadie lo atacara");
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void swarmAttacksTarget(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();

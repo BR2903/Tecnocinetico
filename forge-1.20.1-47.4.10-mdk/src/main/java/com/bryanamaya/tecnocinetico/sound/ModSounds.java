@@ -35,6 +35,11 @@ public final class ModSounds {
     // Torreta Centinela
     public static final RegistryObject<SoundEvent> SENTRY_TURRET_CHARGE = register("entity.sentry_turret.charge");
 
+    // Dron del Núcleo Directriz
+    public static final RegistryObject<SoundEvent> DRONE_HUM = register("entity.drone.hum");
+    public static final RegistryObject<SoundEvent> DRONE_SCAN = register("entity.drone.scan");
+    public static final RegistryObject<SoundEvent> DRONE_ALERT = register("entity.drone.alert");
+
     // Gadgets del Equipo Táctico
     public static final RegistryObject<SoundEvent> JETPACK_THRUST = register("item.jetpack.thrust");
 

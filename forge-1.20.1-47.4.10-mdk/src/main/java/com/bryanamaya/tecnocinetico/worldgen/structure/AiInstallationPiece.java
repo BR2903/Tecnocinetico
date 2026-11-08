@@ -299,6 +299,12 @@ public class AiInstallationPiece extends StructurePiece {
         set(level, box, ex + 2, sy + 12, ez + 2, Blocks.LIGHTNING_ROD.defaultBlockState());
         set(level, box, ex + 1, sy + 9, ez + 2, ModWorldBlocks.RUSTED_GRATE.get().defaultBlockState());
         set(level, box, ex + 3, sy + 9, ez + 2, ModWorldBlocks.RUSTED_GRATE.get().defaultBlockState());
+        // drones de patrulla: rondan la antena (2, a veces 3)
+        spawn(level, box, ModEntities.DRONE.get(), ex - 4, sy + 10, ez);
+        spawn(level, box, ModEntities.DRONE.get(), ex + 5, sy + 13, ez + 4);
+        if (at(ex, sy, ez, 11).nextFloat() < 0.4F) {
+            spawn(level, box, ModEntities.DRONE.get(), ex, sy + 15, ez - 6);
+        }
     }
 
     // ------------------------------------------------------------------ salas

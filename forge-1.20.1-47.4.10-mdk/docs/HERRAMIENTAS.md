@@ -100,3 +100,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/check_models.py`: todos los modelos JSON del mod; avisa de elementos fuera de [-16, 32], rotaciones no válidas, texturas que faltan y overrides/padres inexistentes. Ejecutarlo siempre tras generar modelos.
 
 - `weapons_gen.py` genera además las 8 combinaciones de módulos de escopeta y rifle (`pipe_shotgun_m<n>`, `bolt_rifle_m<n>`, con su variante `_open` / `_bolt`) y los modelos de sus módulos. `gui_fit` por combinación: `"y-90;z25" <arma>_m<n> <arma>_m<n>_<open|bolt>`.
+
+## drone_texture.py
+- `python tools/drone_texture.py [preview.png]`: texturas del Dron del Núcleo (`drone.png`, `drone_glow.png`, `drone_alert.png`). Sonidos: `generate_drone()` de `sound_gen.py` (se puede llamar suelto importando el módulo).

@@ -1,6 +1,7 @@
 package com.bryanamaya.tecnocinetico.entity;
 
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
+import com.bryanamaya.tecnocinetico.entity.custom.DroneEntity;
 import com.bryanamaya.tecnocinetico.entity.custom.SentryTurretEntity;
 import com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity;
 import com.bryanamaya.tecnocinetico.entity.swarm.HiveNodeEntity;
@@ -51,6 +52,13 @@ public class ModEntities {
                     .fireImmune()
                     .clientTrackingRange(10)
                     .build("sentry_turret"));
+
+    // Dron del Núcleo Directriz: patrulla instalaciones y antenas, escanea y dispara ráfagas
+    public static final RegistryObject<EntityType<DroneEntity>> DRONE =
+            ENTITY_TYPES.register("drone", () -> EntityType.Builder.<DroneEntity>of(DroneEntity::new, MobCategory.MONSTER)
+                    .sized(1.0f, 0.7f)
+                    .clientTrackingRange(10)
+                    .build("drone"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

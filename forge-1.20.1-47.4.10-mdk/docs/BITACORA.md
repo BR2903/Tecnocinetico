@@ -240,3 +240,11 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-08 — Claude — Mira telescópica: pantalla negra
 - La textura del visor (catalejo vanilla) es negra con un círculo transparente; sin `RenderSystem.enableBlend()` el centro también salía negro. Activada la mezcla al dibujarla.
+
+## 2026-11-08 — Claude — Drones del Núcleo (IA)
+- Elegido por el usuario: enemigo volador que patrulla, escanea con un haz y dispara; ronda instalaciones y antenas.
+- `entity/custom/DroneEntity` (Monster, vuelo por "steering" sin rutas, como las avispas): patrulla en círculos alrededor de su punto de origen (`Home`, guardado en NBT) a 7-12 bloques sobre el suelo, barriendo el suelo con un haz de partículas cian. Detecta jugadores a <10 bloques o hasta 24 dentro de su cono de visión (con línea de visión), da la alarma y avisa a los drones en 32 bloques. En ataque orbita a 9 bloques por encima del objetivo, esquiva lateralmente cuando el jugador le apunta, carga 0,6 s con línea roja de aviso y dispara ráfagas de 3 tiros (dispersión 2,5°, daño 3) con 2,5 s de enfriamiento. Pierde al objetivo tras 10 s sin verlo. 16 de vida, 4 de armadura.
+- Modelo `DroneModel` (casco con cúpula, sensor, 4 brazos en X con rotores que giran, cañón que apunta con el pitch, antena) y `DroneRenderer` (brillo cian en patrulla, rojo en ataque, parpadeo al cargar). Textura: `tools/drone_texture.py` (reutiliza `turret_texture.py`).
+- Sonidos sintetizados (`sound_gen.py`, `generate_drone`): zumbido de rotores, barrido del escáner y alarma.
+- Aparecen 2-3 drones rondando la antena del búnker de la Instalación de la IA. Huevo en la pestaña creativa. Botín: chatarra, a veces redstone/balas, raro transductor piezoeléctrico.
+- GameTest `droneShootsTarget` (12 en total, todos pasan).

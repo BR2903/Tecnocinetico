@@ -64,6 +64,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 
 ### Entidad (`entity/`)
 - `SentryTurretEntity` (+ `client/SentryTurretModel`, `SentryTurretRenderer`): torreta anclada que carga y dispara un rayo esquivable.
+- `DroneEntity` (+ `client/DroneModel`, `DroneRenderer`): dron volador del Núcleo; patrulla alrededor de `Home`, escanea, alarma en grupo, ráfagas con carga de aviso. Modo sincronizado (0 patrulla, 1 ataque, 2 carga) para el brillo.
 - `swarm/`: Avispas del Enjambre (`SwarmWaspEntity`, `WaspRole`), `HiveNodeEntity` y `HiveMind` (la mente colmena que decide estados, turnos de ataque, refuerzos y adaptación). Render: `client/SwarmWaspModel`, `SwarmWaspRenderer`, `HiveNodeRenderer`. Colmena: `worldgen/structure/SwarmHive*`.
 - `SurvivorEntity` (+ `SurvivorTrades`, `client/SurvivorRenderer`): NPC comerciante de los asentamientos; oficios, ofertas con Chatarra, reposición diaria, casa en NBT.
 - `SwarmBodyEntity` (IA + `KineticLeapGoal`), `SwarmBodyModel` (modelo en código, animaciones), `SwarmBodyRenderer` (+ capa luminosa `EyesLayer`).

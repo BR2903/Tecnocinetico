@@ -24,3 +24,5 @@
 
 - Sonidos reales (CC0/CC-BY) para la escopeta y el rifle (ahora reutilizan los de la pistola con otro tono).
 - Ajustar en el juego la posición en primera persona de la escopeta y el rifle si hace falta (`LongGunClientExtensions`).
+
+- Drones: más adelante, que también ronden las futuras antenas/estaciones de retransmisión; ajustar en el juego dificultad (daño 3 por tiro, ráfagas de 3) si es mucho o poco.

@@ -91,6 +91,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.HIVE_NODE_SPAWN_EGG.get());
                         pOutput.accept(ModItems.SWARM_CORE.get());
                         pOutput.accept(ModItems.SENTRY_TURRET_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.DRONE_SPAWN_EGG.get());
                     })
                     .build());
 
