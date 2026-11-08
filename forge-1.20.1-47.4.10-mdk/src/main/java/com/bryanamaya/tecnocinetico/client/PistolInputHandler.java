@@ -142,7 +142,11 @@ public final class PistolInputHandler {
     private static void drawScope(net.minecraft.client.gui.GuiGraphics g, int w, int h) {
         int size = Math.min(w, h);
         int x = (w - size) / 2, y = (h - size) / 2;
+        // la textura es negra con un círculo TRANSPARENTE: sin mezcla de transparencia todo sale negro
+        com.mojang.blaze3d.systems.RenderSystem.enableBlend();
+        com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
         g.blit(SCOPE, x, y, -90, 0.0F, 0.0F, size, size, size, size);
+        com.mojang.blaze3d.systems.RenderSystem.disableBlend();
         g.fill(0, 0, w, y, -90, 0xFF000000);
         g.fill(0, y + size, w, h, -90, 0xFF000000);
         g.fill(0, y, x, y + size, -90, 0xFF000000);

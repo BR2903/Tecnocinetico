@@ -237,3 +237,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Escopeta: **Estrangulador** (-40 % dispersión), **Cañones Recortados** (+25 % daño, +50 % dispersión, -30 % alcance; no se combina con el estrangulador), **Cartuchera Rápida** (carga 40 % más rápida). Rifle: **Mira Telescópica** (zoom 0.22 + visor a pantalla completa con la textura del catalejo vanilla y sin dibujar el arma), **Cerrojo Pulido** (+35 % cadencia), **Cañón de Inercita para Rifle** (+6 daño, +20 alcance). Efectos en `LongGunItem` (`spread`, `damage`, `range`, `loadTicks`, `cooldown`, `zoom`).
 - Banco: acepta cualquier arma con módulos; solo se ven las ranuras del arma puesta (`ModuleSlot.isActive`); la pantalla dibuja el modelo 3D del arma en grande y el marco de cada ranura activa (textura sin silueta fija, sprite del marco en (200,0)).
 - Modelos (`weapons_gen.py`): 8 combinaciones x 2 fotogramas por arma (overrides `modules` + `reload`) y objetos de los 6 módulos. GameTest nuevo de módulos (11 en total).
+
+## 2026-11-08 — Claude — Mira telescópica: pantalla negra
+- La textura del visor (catalejo vanilla) es negra con un círculo transparente; sin `RenderSystem.enableBlend()` el centro también salía negro. Activada la mezcla al dibujarla.
