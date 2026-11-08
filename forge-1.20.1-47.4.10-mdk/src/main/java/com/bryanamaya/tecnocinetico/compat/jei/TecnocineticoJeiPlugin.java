@@ -38,12 +38,29 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new PressRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new AssemblerRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        // máquinas eléctricas
+        var gui = registration.getJeiHelpers().getGuiHelper();
+        for (var t : List.of(MachineRecipeCategory.REFINER, MachineRecipeCategory.CHARGER, MachineRecipeCategory.FABRICATOR, MachineRecipeCategory.REACTION)) {
+            registration.addRecipeCategories(new MachineRecipeCategory(gui, t, MachineRecipeCategory.block(t)));
+        }
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(PressRecipeCategory.TYPE, PressRecipes.all());
         registration.addRecipes(AssemblerRecipeCategory.TYPE, com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.all());
+        registration.addRecipes(MachineRecipeCategory.REFINER, MachineRecipeCategory.refiner());
+        registration.addRecipes(MachineRecipeCategory.CHARGER, MachineRecipeCategory.charger());
+        registration.addRecipes(MachineRecipeCategory.FABRICATOR, MachineRecipeCategory.fabricator());
+        registration.addRecipes(MachineRecipeCategory.REACTION, MachineRecipeCategory.reaction());
+        // titanio y uranio: solo en la Cámara de Reacción; el uranio es radiactivo
+        registration.addIngredientInfo(List.of(new ItemStack(ModItems.RAW_TITANIUM.get()), new ItemStack(ModItems.TITANIUM_DUST.get()),
+                        new ItemStack(ModBlocks.TITANIUM_ORE.get()), new ItemStack(ModBlocks.DEEPSLATE_TITANIUM_ORE.get())),
+                VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.titanium_info"));
+        registration.addIngredientInfo(List.of(new ItemStack(ModItems.RAW_URANIUM.get()), new ItemStack(ModItems.URANIUM_INGOT.get()),
+                        new ItemStack(ModBlocks.URANIUM_ORE.get()), new ItemStack(ModBlocks.DEEPSLATE_URANIUM_ORE.get()),
+                        new ItemStack(ModBlocks.URANIUM_BLOCK.get())),
+                VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.uranium_info"));
 
         // Información: cómo se montan los módulos
         List<ItemStack> stacks = new ArrayList<>();
@@ -68,5 +85,8 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModItems.KINETIC_HAMMER.get()), PressRecipeCategory.TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.AUTO_KINETIC_PRESS.get()), PressRecipeCategory.TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.WEAPON_ASSEMBLER.get()), AssemblerRecipeCategory.TYPE);
+        for (var t : List.of(MachineRecipeCategory.REFINER, MachineRecipeCategory.CHARGER, MachineRecipeCategory.FABRICATOR, MachineRecipeCategory.REACTION)) {
+            registration.addRecipeCatalyst(new ItemStack(MachineRecipeCategory.block(t)), t);
+        }
     }
 }

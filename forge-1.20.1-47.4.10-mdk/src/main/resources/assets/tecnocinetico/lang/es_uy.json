@@ -484,5 +484,13 @@
   "effect.tecnocinetico.radiation": "Radiación",
   "tooltip.tecnocinetico.radioactive": "☢ Radiactivo: no lo lleves encima mucho tiempo",
   "death.attack.tecnocinetico.radiation": "%1$s murió por radiación",
-  "death.attack.tecnocinetico.radiation.player": "%1$s murió por radiación mientras huía de %2$s"
+  "death.attack.tecnocinetico.radiation.player": "%1$s murió por radiación mientras huía de %2$s",
+  "jei.tecnocinetico.machine_time": "%s s · %s FE/t (%s FE)",
+  "jei.tecnocinetico.machine_chance": "Subproducto: %s%%",
+  "jei.tecnocinetico.fabricator_any_order": "Ingredientes en cualquier orden",
+  "jei.tecnocinetico.reaction_tuning": "Frecuencia %s · Intensidad %s",
+  "jei.tecnocinetico.charger_gadget": "%s FE por punto de batería",
+  "jei.tecnocinetico.charger_any": "También baterías FE de otros mods",
+  "jei.tecnocinetico.titanium_info": "El titanio no se funde ni se refina: solo se procesa en la Cámara de Reacción, ajustando la frecuencia y la intensidad correctas (ver sus recetas). El polvo de titanio sale del Refinador como subproducto del hierro.",
+  "jei.tecnocinetico.uranium_info": "Radiactivo: llevarlo encima o estar cerca de él daña (atraviesa la armadura) y da hambre; cuanto más, peor. Solo se procesa en la Cámara de Reacción."
 }

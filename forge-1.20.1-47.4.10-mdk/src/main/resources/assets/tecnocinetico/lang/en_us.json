@@ -484,5 +484,13 @@
   "effect.tecnocinetico.radiation": "Radiation",
   "tooltip.tecnocinetico.radioactive": "☢ Radioactive: don't carry it for long",
   "death.attack.tecnocinetico.radiation": "%1$s died of radiation poisoning",
-  "death.attack.tecnocinetico.radiation.player": "%1$s died of radiation poisoning whilst fleeing %2$s"
+  "death.attack.tecnocinetico.radiation.player": "%1$s died of radiation poisoning whilst fleeing %2$s",
+  "jei.tecnocinetico.machine_time": "%s s · %s FE/t (%s FE)",
+  "jei.tecnocinetico.machine_chance": "Byproduct: %s%%",
+  "jei.tecnocinetico.fabricator_any_order": "Ingredients in any order",
+  "jei.tecnocinetico.reaction_tuning": "Frequency %s · Intensity %s",
+  "jei.tecnocinetico.charger_gadget": "%s FE per battery point",
+  "jei.tecnocinetico.charger_any": "Also FE batteries from other mods",
+  "jei.tecnocinetico.titanium_info": "Titanium can't be smelted or refined: it is only processed in the Reaction Chamber, tuned to the right frequency and intensity (see its recipes). Titanium dust comes from the Refiner as an iron byproduct.",
+  "jei.tecnocinetico.uranium_info": "Radioactive: carrying it or standing near it hurts (bypasses armor) and drains hunger; the more, the worse. Only processed in the Reaction Chamber."
 }
