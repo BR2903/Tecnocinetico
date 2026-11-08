@@ -126,3 +126,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## ship_texture.py
 - `python tools/ship_texture.py [preview.png]`: textura 128x128 + brillo del Caza del Núcleo (UV = texOffs de `CoreFighterModel`). La miniatura del objeto (`core_fighter`) la genera `weapons_gen.py` con las mismas piezas escaladas.
+
+## siege_spider_texture.py
+- `python tools/siege_spider_texture.py [preview.png]`: Araña de Asedio (128x128 + brillos cian/rojo/blanco) y bloques de la arena (consola, barrera). Sonidos: `generate_siege()` de `sound_gen.py`.

@@ -360,5 +360,14 @@
   "hud.tecnocinetico.ship_missile_ready": "MISIL LISTO",
   "hud.tecnocinetico.ship_missile_wait": "MISIL CARGANDO",
   "hud.tecnocinetico.ship_lock": "FIJADO",
-  "hud.tecnocinetico.ship_keys": "W/S empuje · Espacio/Ctrl altura · J salto · F5 vista exterior"
+  "hud.tecnocinetico.ship_keys": "W/S empuje · Espacio/Ctrl altura · J salto · F5 vista exterior",
+  "entity.tecnocinetico.siege_spider": "Araña de Asedio",
+  "item.tecnocinetico.siege_spider_spawn_egg": "Huevo de Araña de Asedio",
+  "block.tecnocinetico.core_console": "Consola del Núcleo",
+  "block.tecnocinetico.core_barrier": "Barrera del Núcleo",
+  "message.tecnocinetico.console_wake": "El guardián de la instalación despierta...",
+  "message.tecnocinetico.console_active": "El guardián ya está despierto.",
+  "message.tecnocinetico.console_beaten": "La consola está apagada: el guardián ya cayó.",
+  "subtitles.tecnocinetico.siege_spider.roar": "Araña de Asedio ruge",
+  "subtitles.tecnocinetico.siege_spider.step": "Pisadas pesadas"
 }

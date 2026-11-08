@@ -129,6 +129,8 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntities.CORRUPTED_CREEPER, 0x384238, 0x46D2E6, new Item.Properties()));
     public static final RegistryObject<Item> ANCHOR_SPAWN_EGG = ITEMS.register("anchor_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ANCHOR, 0x40465A, 0x6E7CE6, new Item.Properties()));
+    public static final RegistryObject<Item> SIEGE_SPIDER_SPAWN_EGG = ITEMS.register("siege_spider_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SIEGE_SPIDER, 0x40465A, 0x46E3F5, new Item.Properties()));
     public static final RegistryObject<Item> DRONE_SPAWN_EGG = ITEMS.register("drone_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DRONE, 0x2A2D34, 0x46D2E6, new Item.Properties()));
     public static final RegistryObject<Item> SENTRY_TURRET_SPAWN_EGG = ITEMS.register("sentry_turret_spawn_egg",

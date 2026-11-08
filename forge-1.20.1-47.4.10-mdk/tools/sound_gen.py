@@ -688,6 +688,30 @@ def generate_ship():
     save("jump", ship_jump(), "core_fighter")
 
 
+# =================================================================== Araña de Asedio
+def siege_roar():
+    """Rugido de máquina: voz por tubo resonante que baja, golpe grave y chirrido metálico."""
+    seed = 4700
+    dur = 2.2
+    voice = machine_voice(dur, 180, 60, seed, rasp_f=40)
+    screech = band(comb_glide(band(noise(1.2, seed + 1), 600, 7000), 1400, 500, feedback=0.85), 400, 7000) * env(n_of(1.2), 0.05, 0.6)
+    thump = low(noise(0.6, seed + 2), 90, order=6) * decay(n_of(0.6), 0.15) * 4
+    return reverb(mix(dur + 0.4, (voice, 0.0, 1.0), (screech, 0.1, 0.45), (thump, 0.0, 0.8)), seed + 3, tail=1.6, wet=0.4, damp=2500)
+
+
+def siege_step(i):
+    seed = 4800 + 13 * i
+    hit = low(noise(0.35, seed), 140, order=6) * decay(n_of(0.35), 0.06) * 4
+    return reverb(mix(0.6, (hit, 0.0, 1.0), (clank(0.25, [220, 260][i], seed + 1, tau=0.003, q=(15, 40)), 0.0, 0.6),
+                      (servo(0.3, 90, 140, seed + 2), 0.05, 0.3)), seed + 3, tail=0.5, wet=0.2)
+
+
+def generate_siege():
+    save("roar", siege_roar(), "siege_spider")
+    for i in range(2):
+        save(f"step{i + 1}", siege_step(i), "siege_spider")
+
+
 def generate_turret():
     save("charge", turret_charge(), "sentry_turret")
 
@@ -701,3 +725,4 @@ if __name__ == "__main__":
     generate_drone()
     generate_anchor()
     generate_ship()
+    generate_siege()

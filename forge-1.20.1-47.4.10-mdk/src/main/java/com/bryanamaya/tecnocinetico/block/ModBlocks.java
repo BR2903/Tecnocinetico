@@ -73,6 +73,12 @@ public class ModBlocks {
     public static final RegistryObject<Block> AUTO_KINETIC_PRESS = registerBlock("auto_kinetic_press",
             () -> new AutoKineticPressBlock());
 
+    // Arena del guardián (Instalación de la IA): consola que lo despierta y barrera que sella la salida
+    public static final RegistryObject<Block> CORE_CONSOLE = registerBlock("core_console",
+            com.bryanamaya.tecnocinetico.block.custom.CoreConsoleBlock::new);
+    public static final RegistryObject<Block> CORE_BARRIER = registerBlock("core_barrier",
+            com.bryanamaya.tecnocinetico.block.custom.CoreBarrierBlock::new);
+
     public static final RegistryObject<Block> WEAPON_ASSEMBLER = registerBlock("weapon_assembler",
             () -> new com.bryanamaya.tecnocinetico.block.custom.WeaponAssemblerBlock());
 

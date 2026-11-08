@@ -34,7 +34,7 @@ public class AiInstallationStructure extends Structure {
         int y = gen.getFirstOccupiedHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, ctx.heightAccessor(), ctx.randomState());
         NoiseColumn col = gen.getBaseColumn(x, z, ctx.heightAccessor(), ctx.randomState());
         if (!col.getBlock(y).getFluidState().isEmpty() || y < gen.getSeaLevel() + 2
-                || y - AiInstallationPiece.DEPTH < ctx.heightAccessor().getMinBuildHeight() + 12) {
+                || y - AiInstallationPiece.DEPTH - AiInstallationPiece.ARENA_DEPTH < ctx.heightAccessor().getMinBuildHeight() + 6) {
             return Optional.empty();
         }
         long seed = ctx.random().nextLong();

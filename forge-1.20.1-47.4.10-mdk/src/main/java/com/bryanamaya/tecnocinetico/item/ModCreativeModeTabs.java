@@ -141,6 +141,8 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.SENTRY_TURRET_SPAWN_EGG.get());
                         pOutput.accept(ModItems.DRONE_SPAWN_EGG.get());
                         pOutput.accept(ModItems.ANCHOR_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.SIEGE_SPIDER_SPAWN_EGG.get());
+                        pOutput.accept(com.bryanamaya.tecnocinetico.block.ModBlocks.CORE_CONSOLE.get());
                         pOutput.accept(ModItems.CORRUPTED_SPAWN_EGG.get());
                         pOutput.accept(ModItems.CORRUPTED_GUNNER_SPAWN_EGG.get());
                         pOutput.accept(ModItems.CORRUPTED_SPIDER_SPAWN_EGG.get());

@@ -100,6 +100,9 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `RailRifleItem`, `GrenadeLauncherItem` (+ `entity/custom/KineticGrenadeEntity`), `PulseCannonItem`: heredan de `LongGunItem` y cambian `shoot`/`boxRefill`. Disparo cargado: `PistolInputHandler.railCharge` → `ModNetwork.FireChargedPacket`.
 - Ensamblador de Armas: `WeaponAssemblerBlock`/`BlockEntity`/`Menu`/`Screen` (energía sincronizada /10), recetas `AssemblerRecipes`, JEI `AssemblerRecipeCategory`.
 
+### Jefes (`entity/boss/`)
+- `SiegeSpiderEntity` (fases, barra de jefe, ataques en `SiegeAttackGoal`) + `block/custom/CoreConsoleBlock`/`CoreBarrierBlock` y `block/entity/CoreConsoleBlockEntity` (despierta al jefe, sella/abre la arena). La arena la construye `AiInstallationPiece.arena`.
+
 ### Nave (`entity/ship/`)
 - `CoreFighterEntity` (vuelo en el cliente del piloto; armas, daño y salto en el servidor), `ShipMissileEntity`, `ShipJump` (destino seguro + `ITeleporter`). Cliente: `ClientShipHandler` (entradas, HUD, FOV, destello, motor), `ShipJumpScreen`, `entity/client/CoreFighterModel/Renderer`. Tecla J (= Equipo Táctico) abre el salto si vas en la nave.
 

@@ -27,6 +27,10 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(WeaponAssemblerBlockEntity::new,
                             ModBlocks.WEAPON_ASSEMBLER.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<CoreConsoleBlockEntity>> CORE_CONSOLE_BE =
+            BLOCK_ENTITIES.register("core_console_be", () ->
+                    BlockEntityType.Builder.of(CoreConsoleBlockEntity::new, ModBlocks.CORE_CONSOLE.get()).build(null));
+
     public static final RegistryObject<BlockEntityType<CreativeEnergySourceBlockEntity>> CREATIVE_ENERGY_SOURCE_BE =
             BLOCK_ENTITIES.register("creative_energy_source_be", () ->
                     BlockEntityType.Builder.of(CreativeEnergySourceBlockEntity::new,

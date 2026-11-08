@@ -360,5 +360,14 @@
   "hud.tecnocinetico.ship_missile_ready": "MISSILE READY",
   "hud.tecnocinetico.ship_missile_wait": "MISSILE LOADING",
   "hud.tecnocinetico.ship_lock": "LOCKED",
-  "hud.tecnocinetico.ship_keys": "W/S thrust · Space/Ctrl altitude · J jump · F5 outside view"
+  "hud.tecnocinetico.ship_keys": "W/S thrust · Space/Ctrl altitude · J jump · F5 outside view",
+  "entity.tecnocinetico.siege_spider": "Siege Spider",
+  "item.tecnocinetico.siege_spider_spawn_egg": "Siege Spider Spawn Egg",
+  "block.tecnocinetico.core_console": "Core Console",
+  "block.tecnocinetico.core_barrier": "Core Barrier",
+  "message.tecnocinetico.console_wake": "The installation's guardian awakens...",
+  "message.tecnocinetico.console_active": "The guardian is already awake.",
+  "message.tecnocinetico.console_beaten": "The console is dark: the guardian has already fallen.",
+  "subtitles.tecnocinetico.siege_spider.roar": "Siege Spider roars",
+  "subtitles.tecnocinetico.siege_spider.step": "Heavy footsteps"
 }

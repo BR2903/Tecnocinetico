@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "tecnocinetico:block/core_console_top",
+    "bottom": "tecnocinetico:block/core_console_side",
+    "side": "tecnocinetico:block/core_console_side"
+  }
+}

@@ -201,6 +201,35 @@ public class WorldgenGameTests {
         helper.succeed();
     }
 
+    /** Consola del Núcleo: al activarla aparece la Araña de Asedio y la barrera sella; al morir, la barrera se abre. */
+    @GameTest(template = "empty", timeoutTicks = 60)
+    public static void siegeSpiderArena(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        BlockPos col = helper.absolutePos(BlockPos.ZERO);
+        int y = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, col.getX(), col.getZ()) + 2;
+        BlockPos consolePos = new BlockPos(col.getX(), y, col.getZ());
+        BlockPos sealPos = consolePos.above(6);
+        level.setBlock(consolePos, com.bryanamaya.tecnocinetico.block.ModBlocks.CORE_CONSOLE.get().defaultBlockState(), 3);
+        level.setBlock(sealPos, net.minecraft.world.level.block.Blocks.LADDER.defaultBlockState(), 3);
+        var console = (com.bryanamaya.tecnocinetico.block.entity.CoreConsoleBlockEntity) level.getBlockEntity(consolePos);
+        console.setSeal(java.util.List.of(sealPos));
+        var player = helper.makeMockPlayer();
+        console.activate(player);
+        var bosses = level.getEntitiesOfClass(com.bryanamaya.tecnocinetico.entity.boss.SiegeSpiderEntity.class,
+                new net.minecraft.world.phys.AABB(consolePos).inflate(10));
+        boolean sealed = level.getBlockState(sealPos).is(com.bryanamaya.tecnocinetico.block.ModBlocks.CORE_BARRIER.get());
+        helper.assertTrue(bosses.size() == 1 && console.isActive() && sealed, "La consola no despertó al guardián o no selló");
+        bosses.get(0).kill();
+        boolean open = level.getBlockState(sealPos).is(net.minecraft.world.level.block.Blocks.LADDER);
+        Tecnocinetico.LOGGER.info("[GameTest] arena: guardián={}, sellada={}, abierta tras morir={}, vencida={}",
+                bosses.size(), sealed, open, console.isBeaten());
+        bosses.get(0).discard();
+        level.removeBlock(consolePos, false);
+        level.removeBlock(sealPos, false);
+        helper.assertTrue(open && console.isBeaten(), "La barrera no se abrió al morir el guardián");
+        helper.succeed();
+    }
+
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void droneShootsTarget(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();

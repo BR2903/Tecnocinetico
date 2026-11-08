@@ -34,10 +34,16 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
  * - Escalera de 3 de ancho que baja hacia +Z desde E durante {@link #DEPTH} bloques.
  * - Complejo a fy = sy - DEPTH: salas de 11x11 (interior) en rejilla 3x3 con paso 16; la sala (1,0) recibe la
  *   escalera; la (1,1) es la cámara del Núcleo (más alta). Pasillos de 3x3 entre salas vecinas.
+ * - Arena del guardián bajo la cámara del Núcleo: 25x25 interior y 12 de alto (suelo en ay = fy - ARENA_DEPTH),
+ *   con la Consola del Núcleo en el centro. Se baja por un pozo con escalera de mano desde una esquina de la cámara;
+ *   la consola sella la boca del pozo con la Barrera del Núcleo mientras dura el combate.
  */
 public class AiInstallationPiece extends StructurePiece {
 
     public static final int DEPTH = 16;
+    /** Profundidad del suelo de la arena bajo el suelo del complejo. */
+    public static final int ARENA_DEPTH = 14;
+    private static final int ARENA = 12;                              // semiancho interior (25x25)
     private static final int ROOM = 11, PITCH = 16;
     private static final ResourceLocation LOOT = loot("ai_installation");
     private static final ResourceLocation LOOT_CORE = loot("ai_core");
@@ -66,7 +72,7 @@ public class AiInstallationPiece extends StructurePiece {
 
     private static BoundingBox bounds(BlockPos e) {
         int x0 = e.getX() - 21 - 2, z0 = e.getZ() - 6;
-        return new BoundingBox(x0, e.getY() - DEPTH - 2, z0, x0 + 3 * PITCH + 2, e.getY() + 10, e.getZ() + 15 + 3 * PITCH + 2);
+        return new BoundingBox(x0, e.getY() - DEPTH - ARENA_DEPTH - 2, z0, x0 + 3 * PITCH + 2, e.getY() + 10, e.getZ() + 15 + 3 * PITCH + 2);
     }
 
     @Override
@@ -207,6 +213,7 @@ public class AiInstallationPiece extends StructurePiece {
         }
         stairs(level, box);
         bunker(level, box);
+        arena(level, box);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -393,6 +400,69 @@ public class AiInstallationPiece extends StructurePiece {
                     set(level, box, x, y + 3 + cr.nextInt(2), z, Blocks.COBWEB.defaultBlockState());
                 }
             }
+        }
+    }
+
+    /**
+     * Arena del guardián bajo la cámara del Núcleo: sala de 25x25x12 con cuatro columnas, anillo de peligro y la
+     * Consola del Núcleo en el centro; pozo con escalera de mano desde la esquina noroeste de la cámara hasta el suelo.
+     */
+    private void arena(WorldGenLevel level, BoundingBox box) {
+        int cx = roomX(1) + ROOM / 2, cz = roomZ(1) + ROOM / 2, ay = fy() - ARENA_DEPTH;
+        hollow(level, box, cx - ARENA, ay + 1, cz - ARENA, cx + ARENA, ay + 12, cz + ARENA, true);
+        // columnas de pizarra reforzada con vetas de cinetrita
+        for (int sx = -1; sx <= 1; sx += 2) {
+            for (int sz = -1; sz <= 1; sz += 2) {
+                for (int y = ay + 1; y <= ay + 12; y++) {
+                    for (int dx = 0; dx <= 1; dx++) {
+                        for (int dz = 0; dz <= 1; dz++) {
+                            set(level, box, cx + sx * 7 + dx, y, cz + sz * 7 + dz, y % 4 == 0 && dx == 0
+                                    ? Blocks.SEA_LANTERN.defaultBlockState() : Blocks.POLISHED_DEEPSLATE.defaultBlockState());
+                        }
+                    }
+                }
+            }
+        }
+        // anillo de peligro alrededor de la consola y conductos hacia las paredes
+        for (int dx = -4; dx <= 4; dx++) {
+            for (int dz = -4; dz <= 4; dz++) {
+                double d = Math.hypot(dx, dz);
+                if (d > 3.5 && d < 4.5) {
+                    set(level, box, cx + dx, ay, cz + dz, ((dx + dz) & 1) == 0 ? Blocks.YELLOW_CONCRETE.defaultBlockState()
+                            : Blocks.BLACK_CONCRETE.defaultBlockState());
+                }
+            }
+        }
+        for (Direction d : Direction.Plane.HORIZONTAL) {
+            for (int k = 5; k <= ARENA; k++) {
+                set(level, box, cx + d.getStepX() * k, ay, cz + d.getStepZ() * k, ModWorldBlocks.RUSTED_GRATE.get().defaultBlockState());
+            }
+        }
+        // consola del núcleo (con la boca del pozo como sello)
+        int px = roomX(1) + 1, pz = roomZ(1) + 1;                          // pozo en la esquina NO de la cámara
+        BlockPos console = new BlockPos(cx, ay + 1, cz);
+        set(level, box, cx, ay, cz, Blocks.POLISHED_DEEPSLATE.defaultBlockState());
+        set(level, box, cx, ay + 1, cz, com.bryanamaya.tecnocinetico.block.ModBlocks.CORE_CONSOLE.get().defaultBlockState());
+        if (box.isInside(console) && level.getBlockEntity(console)
+                instanceof com.bryanamaya.tecnocinetico.block.entity.CoreConsoleBlockEntity c) {
+            c.setSeal(java.util.List.of(new BlockPos(px, ay + 13, pz), new BlockPos(px, ay + 12, pz)));
+        }
+        // pozo: escalera de mano desde el suelo de la cámara (fy) hasta el suelo de la arena, apoyada al norte
+        BlockState ladder = Blocks.LADDER.defaultBlockState().setValue(net.minecraft.world.level.block.LadderBlock.FACING, Direction.SOUTH);
+        for (int y = ay + 13; y <= fy(); y++) {                             // tramo en roca: tubo de pizarra
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dz = -1; dz <= 1; dz++) {
+                    if (dx != 0 || dz != 0) {
+                        set(level, box, px + dx, y, pz + dz, wall(px + dx, y, pz + dz));
+                    }
+                }
+            }
+        }
+        for (int y = ay + 1; y <= ay + 12; y++) {                           // tramo dentro de la arena: columna de apoyo
+            set(level, box, px, y, pz - 1, Blocks.POLISHED_DEEPSLATE.defaultBlockState());
+        }
+        for (int y = ay + 1; y <= fy(); y++) {
+            set(level, box, px, y, pz, ladder);
         }
     }
 

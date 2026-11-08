@@ -9,6 +9,8 @@ Los jugadores son los **Ingenieros Supervivientes**: empiezan de cero entre ruin
 Materiales ya en el mod: Cinetrita, Inercita, Aleación Antigua (+ 4 glifos rúnicos: Zyr, Vex, Kael, Oth).
 Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (Piroxita y Nulita ya están: menas del Nether y End.)
 
+**Final (usuario, 2026-11-09):** la IA ya no está en el Overworld: controla todo desde el último de los mundos nuevos, que es el jefe y el escenario finales. Los jefes del Overworld (Araña de Asedio) son guardianes y solo sueltan materiales.
+
 **Progresión por dimensiones (usuario, 2026-11-08):** tiers 1-3 en Overworld, Nether y End; tiers 4 y 5 en 3 dimensiones nuevas del mod.
 
 ## Dirección del proyecto (decidida por el usuario)

@@ -53,6 +53,10 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> SHIP_JUMP_CHARGE = register("entity.core_fighter.jump_charge");
     public static final RegistryObject<SoundEvent> SHIP_JUMP = register("entity.core_fighter.jump");
 
+    // Araña de Asedio
+    public static final RegistryObject<SoundEvent> SIEGE_ROAR = register("entity.siege_spider.roar");
+    public static final RegistryObject<SoundEvent> SIEGE_STEP = register("entity.siege_spider.step");
+
     // Gadgets del Equipo Táctico
     public static final RegistryObject<SoundEvent> JETPACK_THRUST = register("item.jetpack.thrust");
 
