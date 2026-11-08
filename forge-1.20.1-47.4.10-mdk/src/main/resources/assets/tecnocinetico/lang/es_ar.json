@@ -245,5 +245,11 @@
   "item.tecnocinetico.drone_spawn_egg": "Huevo de Dron del Núcleo",
   "subtitles.tecnocinetico.drone.hum": "Zumbido de dron",
   "subtitles.tecnocinetico.drone.scan": "Dron escanea",
-  "subtitles.tecnocinetico.drone.alert": "Dron da la alarma"
+  "subtitles.tecnocinetico.drone.alert": "Dron da la alarma",
+  "entity.tecnocinetico.corrupted": "Corrupto",
+  "entity.tecnocinetico.corrupted_gunner": "Tirador Corrupto",
+  "entity.tecnocinetico.corrupted_spider": "Araña Corrupta",
+  "item.tecnocinetico.corrupted_spawn_egg": "Huevo de Corrupto",
+  "item.tecnocinetico.corrupted_gunner_spawn_egg": "Huevo de Tirador Corrupto",
+  "item.tecnocinetico.corrupted_spider_spawn_egg": "Huevo de Araña Corrupta"
 }

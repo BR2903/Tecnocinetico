@@ -79,6 +79,7 @@ cmd /c ".\gradlew.bat runData 2>&1"               # regenera src/generated/resou
 - Botín o recetas con objetos de **otros mods** (Create): no los nombres directamente (si el mod falta, la tabla entera falla). Usa una etiqueta propia con entradas `{"id": ..., "required": false}` y una entrada de botín `minecraft:tag` (ver `tools/world_structures_gen.py`).
 - En `postProcess` de estructuras los aleatorios no pueden depender del mundo ni del chunk (ver `RuinedBuildingPiece`).
 - GameTests con entidades: créalas **en la zona del test** (chunk activo; fuera de ella se descargan y no hacen nada) y **al aire libre** (usa el heightmap; enterradas mueren asfixiadas y la prueba "pasa" por error). Comprueba quién hizo el daño (`getLastHurtByMob`) y evalúa antes de `discard()`.
+- Los GameTests corren **a la vez y muy cerca** unos de otros: no borres ni cuentes entidades con un radio grande (borrarías las de otra prueba); filtra por una caja ajustada o guarda referencias.
 - Capacidades en el jugador (Equipo Táctico): en `PlayerEvent.Clone` hay que llamar a `original.reviveCaps()` antes de leer y `invalidateCaps()` después.
 - Paquetes de red con lógica de cliente: no referencies `Minecraft`/`LocalPlayer` en `ModNetwork` (clase común); llama a una clase de `client/` vía `DistExecutor` (ver `ClientGearHandler`).
 - El renderizador de previsualización no tiene z-buffer: oculta caras interiores con una heurística; si algo "se ve encima", puede ser artefacto de la vista previa, no del juego.

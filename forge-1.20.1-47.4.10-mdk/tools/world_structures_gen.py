@@ -204,6 +204,25 @@ def main():
                                     {"condition": "minecraft:random_chance_with_looting", "chance": 0.12,
                                      "looting_multiplier": 0.04}],
          "entries": [item("piezo_transducer", 1)]}])
+    # corruptos (sustituyen a zombis, esqueletos y arañas)
+    looting = [{"function": "minecraft:looting_enchant", "count": {"type": "minecraft:uniform", "min": 0, "max": 1}}]
+    rare = [{"condition": "minecraft:killed_by_player"},
+            {"condition": "minecraft:random_chance_with_looting", "chance": 0.06, "looting_multiplier": 0.02}]
+    entity_loot("corrupted", [
+        {"rolls": 1, "entries": [dict(item("minecraft:rotten_flesh", 1, 0, 2), functions=[
+            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 0, "max": 2}}] + looting)]},
+        {"rolls": 1, "entries": [{"type": "minecraft:empty", "weight": 3}, item("scrap_metal", 1, 1, 2)]},
+        {"rolls": 1, "conditions": rare, "entries": [item("cinetrite_shard", 1, 1, 2)]}])
+    entity_loot("corrupted_gunner", [
+        {"rolls": 1, "entries": [{"type": "minecraft:empty", "weight": 2}, item("minecraft:rotten_flesh", 2),
+                                 item("scrap_metal", 2, 1, 2), item("minecraft:gunpowder", 1, 1, 2)]},
+        {"rolls": 1, "conditions": rare, "entries": [item("cinetrite_shard", 1, 1, 2)]}])
+    entity_loot("corrupted_spider", [
+        {"rolls": 1, "entries": [dict(item("minecraft:string", 1, 0, 2), functions=[
+            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 0, "max": 2}}] + looting)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"}],
+         "entries": [{"type": "minecraft:empty", "weight": 2}, item("minecraft:spider_eye", 1)]},
+        {"rolls": 1, "conditions": rare, "entries": [item("cinetrite_shard", 1, 1, 2)]}])
     print("ok: estructuras del Overworld")
 
 

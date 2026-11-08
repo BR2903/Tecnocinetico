@@ -254,3 +254,13 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
   - **Ráfaga**: tiros rápidos cada 2 ticks con dispersión y poco daño, apuntados a donde estás. Dron: 6 x 2 (4°), 0,7 s de pausa después. Torreta: 8 x 2,5 (3,5°), 0,6 s de pausa; la cabeza gira a 7°/tick, así que corriendo de lado se puede dejar atrás.
   - **Disparo cargado** (35 % de las veces, o tras 2 ráfagas seguidas): línea roja que te sigue y **se fija** al final (dron 0,35 s, torreta 0,4 s antes de disparar); si sigues quieto te da fuerte (dron 10, torreta 14). Moverse en ese momento lo esquiva.
 - El daño usa `mobAttack`, así que escala con la dificultad.
+
+## 2026-11-08 — Claude — Corruptos: sustitutos de zombis, esqueletos y arañas
+- Pedido del usuario: zombis, esqueletos y arañas no encajaban; versiones corruptas, unas con armas y otras sin.
+- `entity/corrupted/CorruptionSpawns` (`MobSpawnEvent.FinalizeSpawn`): en el Overworld cancela la aparición de zombi/husk, esqueleto/stray y araña (natural, generadores de mazmorra, generación de chunks, refuerzos...) y crea el corrupto en el mismo sitio. Huevos y `/summon` siguen dando el vanilla.
+- **Corrupto** (`CorruptedEntity extends Zombie`): 26 de vida, 4 de daño, 3 de armadura; no arde al sol, no se convierte en ahogado, nunca bebé. 22 % con Machete de Chatarra, 10 % con pala; a veces casco/peto de chatarra. Aspectos: errante, obrero, cristalizado.
+- **Tirador Corrupto** (`CorruptedGunnerEntity extends AbstractSkeleton`, para que los generadores de mazmorra cuenten bien): IA propia `GunnerAttackGoal` (se acerca a su distancia, se mueve de lado). Pistola 55 % (ráfagas de 2 x 3), escopeta 30 % (6 perdigones x 2, de cerca), rifle 15 % (carga con línea roja que se fija al final, 11 de daño). El arma nunca se suelta; a veces suelta munición de su tipo. Aspectos: saqueador (máscara antigás) y soldado.
+- **Araña Corrupta** (`CorruptedSpiderEntity extends Spider`): 22 de vida, más grande, hostil también de día, el mordisco ralentiza; sin jinete.
+- Cliente: `CorruptedHumanModel` (modelo de jugador; brazos de zombi si va desarmado, apunta con el arma), `CorruptedHumanRenderer` (textura por variante + capa luminosa `_glow`, armadura, arma en mano), `CorruptedSpiderRenderer` (modelo vanilla x1,15).
+- Texturas: `tools/corrupted_skin_gen.py` (reutiliza `survivor_skin_gen.py`) y `tools/corrupted_spider_texture.py`. Botín en `world_structures_gen.py`. Huevos en la pestaña creativa.
+- GameTests `corruptedReplaceVanilla` y `gunnerShootsTarget` (14 en total, todos pasan).

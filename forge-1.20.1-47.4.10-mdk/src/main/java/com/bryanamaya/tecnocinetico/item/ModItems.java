@@ -115,6 +115,12 @@ public class ModItems {
     /** Núcleo de Enjambre: lo suelta el Nodo de Colmena. Base de la futura mejora de puntería asistida. */
     public static final RegistryObject<Item> SWARM_CORE = ITEMS.register("swarm_core",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON).stacksTo(16)));
+    public static final RegistryObject<Item> CORRUPTED_SPAWN_EGG = ITEMS.register("corrupted_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CORRUPTED, 0x5C6A66, 0x34C8DC, new Item.Properties()));
+    public static final RegistryObject<Item> CORRUPTED_GUNNER_SPAWN_EGG = ITEMS.register("corrupted_gunner_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CORRUPTED_GUNNER, 0x5A4232, 0x34C8DC, new Item.Properties()));
+    public static final RegistryObject<Item> CORRUPTED_SPIDER_SPAWN_EGG = ITEMS.register("corrupted_spider_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CORRUPTED_SPIDER, 0x1C1B20, 0x34C8DC, new Item.Properties()));
     public static final RegistryObject<Item> DRONE_SPAWN_EGG = ITEMS.register("drone_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DRONE, 0x2A2D34, 0x46D2E6, new Item.Properties()));
     public static final RegistryObject<Item> SENTRY_TURRET_SPAWN_EGG = ITEMS.register("sentry_turret_spawn_egg",

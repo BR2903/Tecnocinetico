@@ -245,5 +245,11 @@
   "item.tecnocinetico.drone_spawn_egg": "Core Drone Spawn Egg",
   "subtitles.tecnocinetico.drone.hum": "Drone hums",
   "subtitles.tecnocinetico.drone.scan": "Drone scans",
-  "subtitles.tecnocinetico.drone.alert": "Drone raises the alarm"
+  "subtitles.tecnocinetico.drone.alert": "Drone raises the alarm",
+  "entity.tecnocinetico.corrupted": "Corrupted",
+  "entity.tecnocinetico.corrupted_gunner": "Corrupted Gunner",
+  "entity.tecnocinetico.corrupted_spider": "Corrupted Spider",
+  "item.tecnocinetico.corrupted_spawn_egg": "Corrupted Spawn Egg",
+  "item.tecnocinetico.corrupted_gunner_spawn_egg": "Corrupted Gunner Spawn Egg",
+  "item.tecnocinetico.corrupted_spider_spawn_egg": "Corrupted Spider Spawn Egg"
 }

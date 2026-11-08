@@ -79,6 +79,72 @@ public class WorldgenGameTests {
      * Dron del Núcleo: se le asigna un cerdo como objetivo; en 10 s debe haberlo herido con sus ráfagas
      * (prueba el vuelo, la carga con aviso y el disparo con línea de visión).
      */
+    /**
+     * Corruptos: al aparecer un zombi, un esqueleto y una araña "naturales" en el Overworld, Forge debe cancelarlos
+     * y en su lugar deben quedar un Corrupto, un Tirador Corrupto y una Araña Corrupta.
+     */
+    @GameTest(template = "empty", timeoutTicks = 100)
+    public static void corruptedReplaceVanilla(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        BlockPos col = helper.absolutePos(BlockPos.ZERO);
+        level.getChunk(col);
+        BlockPos base = new BlockPos(col.getX(), level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
+                col.getX(), col.getZ()), col.getZ());
+        net.minecraft.world.entity.EntityType<?>[] vanilla = {net.minecraft.world.entity.EntityType.ZOMBIE,
+                net.minecraft.world.entity.EntityType.SKELETON, net.minecraft.world.entity.EntityType.SPIDER};
+        for (int i = 0; i < vanilla.length; i++) {
+            vanilla[i].spawn(level, base.offset(i * 3, 0, 0), net.minecraft.world.entity.MobSpawnType.NATURAL);
+        }
+        helper.runAfterDelay(5, () -> {
+            // solo junto a los 3 puntos de aparición (las otras pruebas corren a la vez y muy cerca)
+            net.minecraft.world.phys.AABB box = new net.minecraft.world.phys.AABB(base, base.offset(7, 1, 1)).inflate(0.5, 1.0, 0.5);
+            var all = level.getEntitiesOfClass(net.minecraft.world.entity.Mob.class, box,
+                    m -> !(m instanceof net.minecraft.world.entity.animal.Animal));
+            long vanillaLeft = all.stream().filter(m -> java.util.Arrays.asList(vanilla).contains(m.getType())).count();
+            long corrupted = all.stream().filter(m -> m instanceof com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSkin
+                    || m instanceof com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSpiderEntity).count();
+            Tecnocinetico.LOGGER.info("[GameTest] corruptos: {} vanilla restantes, {} corruptos: {}", vanillaLeft, corrupted,
+                    all.stream().map(m -> m.getType().getDescriptionId() + (m.getMainHandItem().isEmpty() ? "" : "[" + m.getMainHandItem().getItem() + "]")).toList());
+            all.forEach(net.minecraft.world.entity.Entity::discard);
+            helper.assertTrue(vanillaLeft == 0, "Quedaron mobs vanilla sin sustituir");
+            helper.assertTrue(corrupted == 3, "No aparecieron los 3 corruptos (" + corrupted + ")");
+            helper.succeed();
+        });
+    }
+
+    /** Tirador Corrupto con pistola: en 10 s debe herir a un cerdo a 8 bloques. */
+    @GameTest(template = "empty", timeoutTicks = 400)
+    public static void gunnerShootsTarget(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        BlockPos col = helper.absolutePos(BlockPos.ZERO);
+        level.getChunk(col);
+        BlockPos base = new BlockPos(col.getX(), level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
+                col.getX(), col.getZ()) + 8, col.getZ());
+        var gunner = com.bryanamaya.tecnocinetico.entity.ModEntities.CORRUPTED_GUNNER.get().create(level);
+        gunner.moveTo(base.getX() + 0.5D, base.getY(), base.getZ() + 0.5D, 0, 0);
+        gunner.finalizeSpawn(level, level.getCurrentDifficultyAt(base), net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null, null);
+        gunner.setItemSlot(net.minecraft.world.entity.EquipmentSlot.MAINHAND,
+                new net.minecraft.world.item.ItemStack(com.bryanamaya.tecnocinetico.item.ModItems.KINETIC_PISTOL.get()));
+        gunner.setNoGravity(true);
+        level.addFreshEntity(gunner);
+        var pig = net.minecraft.world.entity.EntityType.PIG.create(level);
+        pig.moveTo(base.getX() + 8.5D, base.getY(), base.getZ() + 0.5D, 0, 0);
+        pig.setNoAi(true);
+        pig.setNoGravity(true);
+        level.addFreshEntity(pig);
+        gunner.setTarget(pig);
+        helper.runAfterDelay(200, () -> {
+            boolean hit = (!pig.isAlive() || pig.getHealth() < pig.getMaxHealth())
+                    && pig.getLastHurtByMob() instanceof com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedGunnerEntity;
+            Tecnocinetico.LOGGER.info("[GameTest] tirador: cerdo {} (vida {}), tirador en {}", hit ? "atacado" : "INTACTO",
+                    pig.getHealth(), gunner.blockPosition());
+            gunner.discard();
+            pig.discard();
+            helper.assertTrue(hit, "El tirador no disparó al objetivo");
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void droneShootsTarget(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();

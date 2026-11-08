@@ -60,6 +60,23 @@ public class ModEntities {
                     .clientTrackingRange(10)
                     .build("drone"));
 
+    // Corruptos: sustituyen a zombis, esqueletos y arañas en el Overworld (entity/corrupted/CorruptionSpawns)
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedEntity>> CORRUPTED =
+            ENTITY_TYPES.register("corrupted", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedEntity>of(com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedEntity::new, MobCategory.MONSTER)
+                    .sized(0.6f, 1.95f)
+                    .clientTrackingRange(8)
+                    .build("corrupted"));
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedGunnerEntity>> CORRUPTED_GUNNER =
+            ENTITY_TYPES.register("corrupted_gunner", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedGunnerEntity>of(com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedGunnerEntity::new, MobCategory.MONSTER)
+                    .sized(0.6f, 1.95f)
+                    .clientTrackingRange(8)
+                    .build("corrupted_gunner"));
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSpiderEntity>> CORRUPTED_SPIDER =
+            ENTITY_TYPES.register("corrupted_spider", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSpiderEntity>of(com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSpiderEntity::new, MobCategory.MONSTER)
+                    .sized(1.6f, 1.0f)
+                    .clientTrackingRange(8)
+                    .build("corrupted_spider"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }
