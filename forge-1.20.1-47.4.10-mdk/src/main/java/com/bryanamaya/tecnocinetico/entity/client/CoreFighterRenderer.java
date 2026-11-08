@@ -26,7 +26,7 @@ public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
     public CoreFighterRenderer(EntityRendererProvider.Context ctx) {
         super(ctx);
         this.model = new CoreFighterModel(ctx.bakeLayer(CoreFighterModel.LAYER));
-        this.shadowRadius = 2.6F;
+        this.shadowRadius = 1.6F * CoreFighterEntity.SCALE;
     }
 
     @Override
@@ -45,7 +45,11 @@ public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
         pose.translate(0.0D, CoreFighterEntity.PIVOT, 0.0D);
         pose.mulPose(Axis.YP.rotationDegrees(180.0F - Mth.rotLerp(pt, e.yRotO, e.getYRot())));
         pose.mulPose(Axis.XP.rotationDegrees(-Mth.lerp(pt, e.xRotO, e.getXRot())));
+        // alabeo alrededor del eje que pasa por el asiento (el piloto se inclina alrededor del mismo eje)
+        double seatUp = CoreFighterEntity.SEAT_HEIGHT - CoreFighterEntity.PIVOT;
+        pose.translate(0.0D, seatUp, 0.0D);
         pose.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(pt, e.rollO, e.roll)));
+        pose.translate(0.0D, -seatUp, 0.0D);
         if (j > CoreFighterEntity.JUMP_TICKS - 10) {                                // estirón final
             float s = (j - (CoreFighterEntity.JUMP_TICKS - 10) + pt) / 10.0F;
             pose.scale(1.0F - 0.3F * s, 1.0F - 0.3F * s, 1.0F + 2.5F * s * s);

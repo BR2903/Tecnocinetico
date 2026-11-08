@@ -127,10 +127,13 @@ public class CoreFighterEntity extends Entity {
         return 0.0D;
     }
 
-    /** Escala del modelo (el caza a tamaño "real" no dejaba sitio a un personaje de Minecraft): ~9 bloques de largo. */
-    public static final float SCALE = 1.6F;
+    /**
+     * Escala del modelo (a tamaño de diseño no cabía un personaje de Minecraft): ~11 bloques de largo y 10 de
+     * envergadura. Todas las posiciones de la nave (asiento, cañones, toberas, salto...) se multiplican por ella.
+     */
+    public static final float SCALE = 2.5F;
     /** Altura del asiento (donde apoya el piloto) sobre la base de la nave, distancia hacia el morro y pivote de giro. */
-    public static final double SEAT_HEIGHT = 1.55D, SEAT_FORWARD = 1.7D, PIVOT = 0.75D * SCALE;
+    public static final double SEAT_HEIGHT = 2.3D, SEAT_FORWARD = 1.06D * SCALE, PIVOT = 0.75D * SCALE;
 
     /** Asiento en la cabina, siguiendo el cabeceo de la nave (gira alrededor del mismo pivote que el modelo). */
     public Vec3 seat(float partialTick) {
@@ -144,6 +147,10 @@ public class CoreFighterEntity extends Entity {
     protected void positionRider(Entity passenger, MoveFunction move) {
         Vec3 s = seat(1.0F);
         move.accept(passenger, s.x, s.y - 0.55D, s.z);                             // los pies quedan 0,55 bajo el asiento
+        if (passenger instanceof LivingEntity l) {
+            l.setYBodyRot(getYRot());                                                // el cuerpo mira al morro; la cabeza, libre
+            l.yBodyRotO = yRotO;
+        }
     }
 
     @Override
@@ -193,7 +200,7 @@ public class CoreFighterEntity extends Entity {
 
     @Override
     public AABB getBoundingBoxForCulling() {
-        return getBoundingBox().inflate(5.0D, 1.5D, 5.0D);                          // el modelo es más grande
+        return getBoundingBox().inflate(3.5D * SCALE, 1.0D * SCALE, 3.5D * SCALE);    // el modelo es más grande que la caja
     }
 
     // ------------------------------------------------------------------ daño
@@ -222,7 +229,7 @@ public class CoreFighterEntity extends Entity {
     }
 
     private void destroy() {
-        level().explode(this, getX(), getY() + 1.2, getZ(), 3.5F, Level.ExplosionInteraction.NONE);
+        level().explode(this, getX(), getY() + PIVOT, getZ(), 4.0F, Level.ExplosionInteraction.NONE);
         ejectPassengers();
         spawnAtLocation(new ItemStack(ModItems.CORE_FIGHTER.get()));                // los restos se pueden recuperar
         discard();
@@ -296,23 +303,23 @@ public class CoreFighterEntity extends Entity {
 
     private void clientEffects() {
         // toberas: chispas
-        Vec3 back = Vec3.directionFromRotation(getXRot(), getYRot()).scale(-3.4D);
-        Vec3 side = Vec3.directionFromRotation(0, getYRot() + 90.0F).scale(0.8D);
+        Vec3 back = Vec3.directionFromRotation(getXRot(), getYRot()).scale(-2.1D * SCALE);
+        Vec3 side = Vec3.directionFromRotation(0, getYRot() + 90.0F).scale(0.5D * SCALE);
         if (tickCount % 2 == 0) {
             for (int s = -1; s <= 1; s += 2) {
-                Vec3 p = position().add(back).add(side.scale(s)).add(0, 1.3, 0);
+                Vec3 p = position().add(back).add(side.scale(s)).add(0, 0.82 * SCALE, 0);
                 level().addParticle(ModParticles.KINETIC_SPARK.get(), p.x, p.y, p.z, back.x * 0.05, 0, back.z * 0.05);
             }
         }
         int j = jumpTicks();
         if (j > 0) {                                                                // anillo de salto que se cierra
             float k = j / (float) JUMP_TICKS;
-            double r = 7.0 - 5.0 * k;
+            double r = (4.5 - 3.5 * k) * SCALE;
             for (int i = 0; i < 6; i++) {
                 double a = (tickCount * 0.35 + i * Math.PI / 3);
                 double x = getX() + Math.cos(a) * r, z = getZ() + Math.sin(a) * r;
-                level().addParticle(ParticleTypes.REVERSE_PORTAL, x, getY() + 1.3 + Math.sin(a * 2) * 0.9, z, 0, 0.02, 0);
-                level().addParticle(ParticleTypes.ELECTRIC_SPARK, x, getY() + 1.3, z, 0, 0, 0);
+                level().addParticle(ParticleTypes.REVERSE_PORTAL, x, getY() + PIVOT + Math.sin(a * 2) * 0.9, z, 0, 0.02, 0);
+                level().addParticle(ParticleTypes.ELECTRIC_SPARK, x, getY() + PIVOT, z, 0, 0, 0);
             }
         }
     }
@@ -398,7 +405,7 @@ public class CoreFighterEntity extends Entity {
     private Vec3 muzzle(boolean left) {
         Vec3 fwd = Vec3.directionFromRotation(getXRot(), getYRot());
         Vec3 side = Vec3.directionFromRotation(0, getYRot() + 90.0F);
-        return position().add(0, 1.2, 0).add(fwd.scale(2.9)).add(side.scale(left ? 1.8 : -1.8));
+        return position().add(0, 0.75 * SCALE, 0).add(fwd.scale(1.8 * SCALE)).add(side.scale((left ? 1.1 : -1.1) * SCALE));
     }
 
     private void fireCannon(ServerPlayer pilot) {
@@ -450,7 +457,7 @@ public class CoreFighterEntity extends Entity {
     private void launchMissile(ServerPlayer pilot) {
         LivingEntity target = lockTarget(pilot);
         ShipMissileEntity m = new ShipMissileEntity(level(), pilot, target);
-        Vec3 from = muzzle(random.nextBoolean()).add(0, -0.6, 0);
+        Vec3 from = muzzle(random.nextBoolean()).add(0, -0.4 * SCALE, 0);
         m.setPos(from.x, from.y, from.z);
         Vec3 dir = pilot.getLookAngle();
         m.setDeltaMovement(getDeltaMovement().add(dir.scale(0.6)));

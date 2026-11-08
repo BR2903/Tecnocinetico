@@ -29,7 +29,8 @@ public final class ShipJump {
 
     /** Caja que ocupa la nave (con margen) si su base está en {@code p}. */
     private static AABB room(Vec3 p) {
-        return new AABB(p.x - 2.6, p.y, p.z - 2.6, p.x + 2.6, p.y + 3.4, p.z + 2.6);
+        double r = 1.6 * CoreFighterEntity.SCALE, hgt = 1.6 * CoreFighterEntity.SCALE;
+        return new AABB(p.x - r, p.y, p.z - r, p.x + r, p.y + hgt, p.z + r);
     }
 
     private static boolean free(ServerLevel to, Vec3 p) {
@@ -122,7 +123,7 @@ public final class ShipJump {
             return null;
         }
         Vec3 pos = arrival(from, ship.position(), to);
-        from.sendParticles(ParticleTypes.FLASH, ship.getX(), ship.getY() + 1.3, ship.getZ(), 1, 0, 0, 0, 0);
+        from.sendParticles(ParticleTypes.FLASH, ship.getX(), ship.getY() + CoreFighterEntity.PIVOT, ship.getZ(), 1, 0, 0, 0, 0);
         from.playSound(null, ship.getX(), ship.getY(), ship.getZ(), ModSounds.SHIP_JUMP.get(), SoundSource.PLAYERS, 3.0F, 1.0F);
         ServerPlayer pilot = ship.getControllingPassenger() instanceof ServerPlayer p ? p : null;
         if (pilot != null) {
@@ -137,8 +138,8 @@ public final class ShipJump {
                 s.pendingTicks = 0;
             }
         }
-        to.sendParticles(ParticleTypes.FLASH, pos.x, pos.y + 1.3, pos.z, 1, 0, 0, 0, 0);
-        to.sendParticles(ParticleTypes.END_ROD, pos.x, pos.y + 1.3, pos.z, 80, 2.5, 1.2, 2.5, 0.3);
+        to.sendParticles(ParticleTypes.FLASH, pos.x, pos.y + CoreFighterEntity.PIVOT, pos.z, 1, 0, 0, 0, 0);
+        to.sendParticles(ParticleTypes.END_ROD, pos.x, pos.y + CoreFighterEntity.PIVOT, pos.z, 100, 4.0, 1.5, 4.0, 0.3);
         to.playSound(null, pos.x, pos.y, pos.z, ModSounds.SHIP_JUMP.get(), SoundSource.PLAYERS, 3.0F, 0.8F);
         return moved;
     }

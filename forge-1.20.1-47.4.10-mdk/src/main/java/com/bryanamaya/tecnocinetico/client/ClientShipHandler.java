@@ -75,6 +75,35 @@ public final class ClientShipHandler {
         }
     }
 
+    private static final java.util.Set<net.minecraft.world.entity.player.Player> TILTED =
+            java.util.Collections.newSetFromMap(new java.util.WeakHashMap<>());
+
+    /** El piloto se dibuja inclinado con la nave (cabeceo y alabeo), girando alrededor de su asiento. */
+    @SubscribeEvent
+    public static void onRenderPilotPre(net.minecraftforge.client.event.RenderPlayerEvent.Pre event) {
+        if (!(event.getEntity().getVehicle() instanceof CoreFighterEntity ship)) {
+            return;
+        }
+        float pt = event.getPartialTick();
+        float yaw = Mth.rotLerp(pt, ship.yRotO, ship.getYRot());
+        var pose = event.getPoseStack();
+        pose.pushPose();
+        pose.translate(0.0D, 0.55D, 0.0D);
+        pose.mulPose(com.mojang.math.Axis.YP.rotationDegrees(180.0F - yaw));
+        pose.mulPose(com.mojang.math.Axis.XP.rotationDegrees(-Mth.lerp(pt, ship.xRotO, ship.getXRot())));
+        pose.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(Mth.lerp(pt, ship.rollO, ship.roll)));
+        pose.mulPose(com.mojang.math.Axis.YP.rotationDegrees(yaw - 180.0F));
+        pose.translate(0.0D, -0.55D, 0.0D);
+        TILTED.add(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public static void onRenderPilotPost(net.minecraftforge.client.event.RenderPlayerEvent.Post event) {
+        if (TILTED.remove(event.getEntity())) {
+            event.getPoseStack().popPose();
+        }
+    }
+
     @SubscribeEvent
     public static void onHand(RenderHandEvent event) {
         if (ship(Minecraft.getInstance().player) != null) {
