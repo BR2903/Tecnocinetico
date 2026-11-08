@@ -24,6 +24,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -96,6 +97,10 @@ public class KineticPistolItem extends Item {
     private static final int XP_PER_KILL = 4;
 
     private static final String TAG_AMMO = "Ammo";
+    /** Cuántas de las balas cargadas son Munición Guiada (se disparan primero). */
+    private static final String TAG_GUIDED = "GuidedAmmo";
+    /** Munición Guiada: cono de búsqueda (grados) alrededor de la mira; solo persigue mobs hostiles. */
+    private static final double GUIDED_CONE_DEG = 25.0D;
     private static final String TAG_RELOAD_LEFT = "ReloadTicks";   // ticks que faltan
     private static final String TAG_RELOAD_TOTAL = "ReloadTotal";  // duración total de esta recarga
 
@@ -112,6 +117,18 @@ public class KineticPistolItem extends Item {
 
     private static void setAmmo(ItemStack stack, int ammo) {
         stack.getOrCreateTag().putInt(TAG_AMMO, Mth.clamp(ammo, 0, getMagSize(stack)));
+        if (getGuided(stack) > getAmmo(stack)) {
+            setGuided(stack, getAmmo(stack));
+        }
+    }
+
+    public static int getGuided(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        return tag == null ? 0 : tag.getInt(TAG_GUIDED);
+    }
+
+    private static void setGuided(ItemStack stack, int n) {
+        stack.getOrCreateTag().putInt(TAG_GUIDED, Math.max(0, n));
     }
 
     /**
@@ -188,8 +205,12 @@ public class KineticPistolItem extends Item {
             return;
         }
 
-        fire(level, player, InteractionHand.MAIN_HAND, pistol, aiming);
+        boolean guided = getGuided(pistol) > 0 && WeaponModule.has(pistol, WeaponModule.SEEKER);
+        fire(level, player, InteractionHand.MAIN_HAND, pistol, aiming, guided);
         if (!creative) {
+            if (getGuided(pistol) > 0) {
+                setGuided(pistol, getGuided(pistol) - 1);   // las guiadas van arriba del cargador
+            }
             setAmmo(pistol, getAmmo(pistol) - 1);
             pistol.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(InteractionHand.MAIN_HAND));
         }
@@ -240,10 +261,54 @@ public class KineticPistolItem extends Item {
                 Mth.clamp(near.z, box.minZ, box.maxZ));
     }
 
-    private static void fire(Level level, Player player, InteractionHand hand, ItemStack pistol, boolean aiming) {
+    /**
+     * Munición Guiada: el mob HOSTIL más alineado con la mira dentro del cono, al alcance y con línea de visión
+     * (nunca supervivientes, animales ni mascotas). Null si no hay ninguno: entonces la bala va recta.
+     */
+    @Nullable
+    private static LivingEntity guidedTarget(Level level, Player player, Vec3 eye, Vec3 look, double range) {
+        double minCos = Math.cos(Math.toRadians(GUIDED_CONE_DEG));
+        LivingEntity best = null;
+        double bestScore = Double.MAX_VALUE;
+        for (LivingEntity e : level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(range),
+                e -> e != player && e.isAlive() && e instanceof Enemy && !e.isSpectator())) {
+            Vec3 to = e.getBoundingBox().getCenter().subtract(eye);
+            double dist = to.length();
+            if (dist > range || dist < 1e-3) {
+                continue;
+            }
+            double cos = to.scale(1.0D / dist).dot(look);
+            if (cos < minCos) {
+                continue;
+            }
+            BlockHitResult wall = level.clip(new ClipContext(eye, e.getBoundingBox().getCenter(),
+                    ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+            if (wall.getType() != HitResult.Type.MISS) {
+                continue;
+            }
+            double score = (1.0D - cos) * 60.0D + dist * 0.05D;       // prioriza lo que está en la mira
+            if (score < bestScore) {
+                bestScore = score;
+                best = e;
+            }
+        }
+        return best;
+    }
+
+    private static void fire(Level level, Player player, InteractionHand hand, ItemStack pistol, boolean aiming, boolean guided) {
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
         Vec3 end = eye.add(look.scale(getRange(pistol)));
+
+        LivingEntity seek = guided ? guidedTarget(level, player, eye, look, getRange(pistol)) : null;
+        if (seek != null) {
+            Vec3 hit = seek.getBoundingBox().getCenter();
+            hitTarget(level, player, pistol, seek);
+            if (level instanceof ServerLevel server) {
+                spawnShotEffects(server, player, hand, look, hit, null, aiming, true);
+            }
+            return;
+        }
 
         // El disparo se detiene en el primer bloque sólido
         BlockHitResult blockHit = level.clip(new ClipContext(eye, end,
@@ -260,20 +325,24 @@ public class KineticPistolItem extends Item {
         if (entityHit != null) {
             Entity target = entityHit.getEntity();
             end = impactPoint(target, eye, end);
-            // Sin esto, los disparos rápidos (cada 8 ticks) chocan con la invulnerabilidad de 10 ticks
-            target.invulnerableTime = 0;
-            boolean hurt = target.hurt(level.damageSources().playerAttack(player), getShotDamage(pistol));
-            player.playNotifySound(ModSounds.PISTOL_HIT.get(), SoundSource.PLAYERS, 0.5F, 1.0F);
-
-            // Práctica: solo cuentan los mobs HOSTILES (no animales, soportes de armadura ni objetos)
-            if (hurt && target instanceof Enemy && player instanceof ServerPlayer sp) {
-                int xp = XP_PER_HIT + (target.isAlive() ? 0 : XP_PER_KILL);
-                PlayerSkills.addXp(sp, Skill.WEAPON_HANDLING, xp);
-            }
+            hitTarget(level, player, pistol, target);
         }
 
         if (level instanceof ServerLevel server) {
-            spawnShotEffects(server, player, hand, look, end, entityHit == null ? blockHit : null, aiming);
+            spawnShotEffects(server, player, hand, look, end, entityHit == null ? blockHit : null, aiming, false);
+        }
+    }
+
+    private static void hitTarget(Level level, Player player, ItemStack pistol, Entity target) {
+        // Sin esto, los disparos rápidos (cada 8 ticks) chocan con la invulnerabilidad de 10 ticks
+        target.invulnerableTime = 0;
+        boolean hurt = target.hurt(level.damageSources().playerAttack(player), getShotDamage(pistol));
+        player.playNotifySound(ModSounds.PISTOL_HIT.get(), SoundSource.PLAYERS, 0.5F, 1.0F);
+
+        // Práctica: solo cuentan los mobs HOSTILES (no animales, soportes de armadura ni objetos)
+        if (hurt && target instanceof Enemy && player instanceof ServerPlayer sp) {
+            int xp = XP_PER_HIT + (target.isAlive() ? 0 : XP_PER_KILL);
+            PlayerSkills.addXp(sp, Skill.WEAPON_HANDLING, xp);
         }
     }
 
@@ -283,7 +352,7 @@ public class KineticPistolItem extends Item {
      * chispas, el fragmento haciéndose añicos y, si da en un bloque, polvo de ese bloque.
      */
     private static void spawnShotEffects(ServerLevel server, Player player, InteractionHand hand, Vec3 look,
-                                         Vec3 end, @Nullable BlockHitResult blockHit, boolean aiming) {
+                                         Vec3 end, @Nullable BlockHitResult blockHit, boolean aiming, boolean curved) {
         // Boca del cañón: delante de los ojos, desplazada hacia la mano que sujeta el arma
         boolean rightHand = (hand == InteractionHand.MAIN_HAND) == (player.getMainArm() == HumanoidArm.RIGHT);
         Vec3 right = Vec3.directionFromRotation(0, player.getYRot() + 90.0F); // vale también mirando arriba/abajo
@@ -298,11 +367,15 @@ public class KineticPistolItem extends Item {
         server.sendParticles(ModParticles.KINETIC_BURST.get(), muzzle.x, muzzle.y, muzzle.z, 0, 0.35, 0, 0, 1);
         server.sendParticles(ModParticles.KINETIC_SPARK.get(), muzzle.x, muzzle.y, muzzle.z, 4, 0.02, 0.02, 0.02, 0.08);
 
-        // Haz de energía cinética
+        // Haz de energía cinética: recto; la bala guiada sale hacia delante y gira hacia el objetivo (curva de Bézier)
         Vec3 path = end.subtract(muzzle);
-        int steps = Math.max(1, (int) (path.length() * 3));
+        Vec3 control = muzzle.add(look.scale(path.length() * 0.55D));
+        int steps = Math.max(1, (int) (path.length() * (curved ? 4 : 3)));
         for (int i = 0; i <= steps; i++) {
-            Vec3 p = muzzle.add(path.scale(i / (double) steps));
+            double t = i / (double) steps;
+            Vec3 p = curved
+                    ? muzzle.scale((1 - t) * (1 - t)).add(control.scale(2 * (1 - t) * t)).add(end.scale(t * t))
+                    : muzzle.add(path.scale(t));
             server.sendParticles(ModParticles.KINETIC_TRACER.get(), p.x, p.y, p.z, 0, 0, 0, 0, 0);
         }
 
@@ -334,9 +407,12 @@ public class KineticPistolItem extends Item {
         if (!canReload(pistol)) {
             return;
         }
-        if (!player.getAbilities().instabuild && countAmmoItems(player) == 0) {
-            player.displayClientMessage(Component.translatable("message.tecnocinetico.no_shards")
-                    .withStyle(ChatFormatting.RED), true);
+        boolean seeker = WeaponModule.has(pistol, WeaponModule.SEEKER);
+        if (!player.getAbilities().instabuild && countAmmoItems(player) == 0
+                && (!seeker || countItems(player, ModItems.GUIDED_ROUND.get()) == 0)) {
+            boolean onlyGuided = !seeker && countItems(player, ModItems.GUIDED_ROUND.get()) > 0;
+            player.displayClientMessage(Component.translatable(onlyGuided ? "message.tecnocinetico.guided_needs_module"
+                    : "message.tecnocinetico.no_shards").withStyle(ChatFormatting.RED), true);
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     ModSounds.PISTOL_DRY_FIRE.get(), SoundSource.PLAYERS, 0.8F, 1.0F);
             return;
@@ -376,15 +452,29 @@ public class KineticPistolItem extends Item {
         tag.remove(TAG_RELOAD_LEFT);
         tag.remove(TAG_RELOAD_TOTAL);
         int needed = getMagSize(stack) - getAmmo(stack);
-        int loaded = player.getAbilities().instabuild ? needed : consumeAmmoItems(player, needed);
-        setAmmo(stack, getAmmo(stack) + loaded);
+        boolean creative = player.getAbilities().instabuild;
+        // Munición Guiada primero (solo con la Guía de Enjambre); en creativo no se gasta pero sí se carga
+        int guided = 0;
+        if (WeaponModule.has(stack, WeaponModule.SEEKER)) {
+            guided = creative ? (countItems(player, ModItems.GUIDED_ROUND.get()) > 0 ? needed : 0)
+                    : consumeItems(player, ModItems.GUIDED_ROUND.get(), needed);
+        }
+        int rest = needed - guided;
+        int loaded = guided + (creative ? rest : consumeAmmoItems(player, rest));
+        int previous = getAmmo(stack);
+        setAmmo(stack, previous + loaded);
+        setGuided(stack, getGuided(stack) + guided);
     }
 
     private static int countAmmoItems(Player player) {
+        return countItems(player, ModItems.CINETRITE_SHARD.get());
+    }
+
+    private static int countItems(Player player, net.minecraft.world.item.Item item) {
         int count = 0;
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack s = player.getInventory().getItem(i);
-            if (s.is(ModItems.CINETRITE_SHARD.get())) {
+            if (s.is(item)) {
                 count += s.getCount();
             }
         }
@@ -392,10 +482,14 @@ public class KineticPistolItem extends Item {
     }
 
     private static int consumeAmmoItems(Player player, int wanted) {
+        return consumeItems(player, ModItems.CINETRITE_SHARD.get(), wanted);
+    }
+
+    private static int consumeItems(Player player, net.minecraft.world.item.Item item, int wanted) {
         int taken = 0;
         for (int i = 0; i < player.getInventory().getContainerSize() && taken < wanted; i++) {
             ItemStack s = player.getInventory().getItem(i);
-            if (s.is(ModItems.CINETRITE_SHARD.get())) {
+            if (s.is(item)) {
                 int t = Math.min(s.getCount(), wanted - taken);
                 s.shrink(t);
                 taken += t;
@@ -423,7 +517,10 @@ public class KineticPistolItem extends Item {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return isReloading(stack) ? 0xFFB13B : 0x46E3F5;
+        if (isReloading(stack)) {
+            return 0xFFB13B;
+        }
+        return getGuided(stack) > 0 && WeaponModule.has(stack, WeaponModule.SEEKER) ? 0xD86CFF : 0x46E3F5;
     }
 
     @Override
@@ -441,6 +538,11 @@ public class KineticPistolItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.tecnocinetico.ammo", getAmmo(stack), getMagSize(stack))
                 .withStyle(ChatFormatting.AQUA));
+        if (getGuided(stack) > 0) {
+            tooltip.add(Component.translatable(WeaponModule.has(stack, WeaponModule.SEEKER)
+                    ? "tooltip.tecnocinetico.guided_loaded" : "tooltip.tecnocinetico.guided_inactive", getGuided(stack))
+                    .withStyle(ChatFormatting.LIGHT_PURPLE));
+        }
         // Módulos instalados
         for (WeaponModule module : WeaponModule.values()) {
             if (WeaponModule.has(stack, module)) {

@@ -147,6 +147,24 @@ def swarm_core():
     return img
 
 
+def guided_round():
+    """Icono 16x16 de la Munición Guiada: bala en diagonal, vaina de cobre, punta de cinetrita y aletas guía."""
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    rows = ["................", "............WW..", "...........WCCc.", "..........WCCcc.", ".........RCCcc..",
+            "........XrRcc...", ".......XXXr.....", "......XXXXX.....", ".....XXXXX......", "....XXXXX.......",
+            "..FXXXXX........", ".FFXXXX.........", "..FFXX..........", "..FF............", "................",
+            "................"]
+    col = {"X": COPPER[1], "W": CYAN[2], "C": CYAN[1], "c": CYAN[0], "R": (190, 40, 40), "r": (120, 24, 24),
+           "F": (70, 74, 86)}
+    for y, row in enumerate(rows):
+        for x, ch in enumerate(row):
+            if ch in col:
+                img.putpixel((x, y), (*col[ch], 255))
+    for (x, y) in [(6, 7), (5, 8), (4, 9)]:                         # brillo del cobre
+        img.putpixel((x, y), (*COPPER[2], 255))
+    return img
+
+
 if __name__ == "__main__":
     (ROOT / "entity/swarm_wasp").mkdir(parents=True, exist_ok=True)
     glow = None
@@ -162,6 +180,7 @@ if __name__ == "__main__":
     n.glow.save(ROOT / "entity/hive_node_glow.png")
     previews.append(n.img)
     swarm_core().save(ROOT / "item/swarm_core.png")
+    guided_round().save(ROOT / "item/guided_round.png")
     if len(sys.argv) > 1:
         sheet = Image.new("RGBA", (64 * 8 * 2 + 8, 32 * 8 * 2 + 8), (48, 50, 56, 255))
         for i, p in enumerate(previews):

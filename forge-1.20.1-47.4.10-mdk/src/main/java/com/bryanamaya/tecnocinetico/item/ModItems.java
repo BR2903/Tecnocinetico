@@ -66,6 +66,9 @@ public class ModItems {
     public static final RegistryObject<Item> MODULE_INERCITA_BARREL = module(WeaponModule.INERCITA_BARREL);
     public static final RegistryObject<Item> MODULE_QUICK_RELOAD = module(WeaponModule.QUICK_RELOAD);
     public static final RegistryObject<Item> MODULE_SEEKER = module(WeaponModule.SEEKER);
+    /** Munición Guiada: solo funciona en una pistola con la Guía de Enjambre (ver KineticPistolItem). */
+    public static final RegistryObject<Item> GUIDED_ROUND = ITEMS.register("guided_round",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.GuidedRoundItem(new Item.Properties()));
 
     /** Objeto que corresponde a cada módulo. */
     public static Item moduleItem(WeaponModule module) {

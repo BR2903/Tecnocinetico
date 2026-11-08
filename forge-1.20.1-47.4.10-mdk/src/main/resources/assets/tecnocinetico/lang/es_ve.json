@@ -160,5 +160,10 @@
   "subtitles.tecnocinetico.hive_node.pulse": "Pulso del Nodo",
   "block.tecnocinetico.swarm_comb": "Panal de Enjambre",
   "item.tecnocinetico.module_seeker": "Guía de Enjambre",
-  "tooltip.tecnocinetico.module_seeker": "Trayectoria automática: la bala busca al enemigo más cercano a la línea de tiro"
+  "tooltip.tecnocinetico.module_seeker": "Trayectoria automática: la bala busca al enemigo más cercano a la línea de tiro",
+  "item.tecnocinetico.guided_round": "Munición Guiada",
+  "tooltip.tecnocinetico.guided_round": "Busca a los enemigos cercanos a la mira. Solo funciona con la Guía de Enjambre instalada",
+  "tooltip.tecnocinetico.guided_loaded": "Munición guiada: %s",
+  "tooltip.tecnocinetico.guided_inactive": "Munición guiada: %s (inactiva sin la Guía de Enjambre)",
+  "message.tecnocinetico.guided_needs_module": "La Munición Guiada necesita la Guía de Enjambre instalada"
 }

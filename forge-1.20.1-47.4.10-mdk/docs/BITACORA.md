@@ -180,3 +180,7 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - La **Mira** ya no corrige la trayectoria (solo zoom y retícula; texto actualizado). Nuevo módulo `SEEKER` (bit 16) **Guía de Enjambre**: margen de búsqueda 1.1 bloques alrededor del rayo; el trazo se curva hacia el mob solo cuando acierta gracias a él.
 - Receta (mesa de crafteo): 3 **Núcleos de Enjambre** (= 3 Nodos de Colmena derrotados) + 2 Sustratos Lógicos + 2 lingotes de Inercita + Transductor Piezo + **consume una Mira**. Ningún superviviente lo vende ni aparece en botín.
 - Visual: sensor bajo el armazón delantero (riel, cuerpo de cobre, lente cian brillante, aletas). `pistol_gen.py` ahora genera 32 combinaciones (160 modelos, 191 overrides). Quinta ranura en el Banco de Armas (`MODULE_POS` + `bench_gui_gen.py`).
+
+## 2026-11-07 — Claude — Munición Guiada
+- Objeto `guided_round` (4 fragmentos de cinetrita + redstone + cobre → 2). **Solo funciona con la Guía de Enjambre**: sin el módulo la recarga no la carga (y avisa si es la única munición). Con el módulo se carga primero (`GuidedAmmo` en el NBT de la pistola) y se dispara antes que la normal.
+- Bala guiada: busca al mob **hostil** (`Enemy`) más alineado con la mira en un cono de 25° con línea de visión (nunca supervivientes/animales); trazo curvo (Bézier). Sin enemigos en el cono va recta. Barra de munición violeta mientras quedan guiadas; tooltip con el recuento.

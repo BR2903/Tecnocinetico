@@ -160,5 +160,10 @@
   "subtitles.tecnocinetico.hive_node.pulse": "Hive Node pulses",
   "block.tecnocinetico.swarm_comb": "Swarm Comb",
   "item.tecnocinetico.module_seeker": "Swarm Guidance",
-  "tooltip.tecnocinetico.module_seeker": "Automatic trajectory: the bullet seeks the enemy closest to the line of fire"
+  "tooltip.tecnocinetico.module_seeker": "Automatic trajectory: the bullet seeks the enemy closest to the line of fire",
+  "item.tecnocinetico.guided_round": "Guided Round",
+  "tooltip.tecnocinetico.guided_round": "Seeks enemies near your aim. Only works with Swarm Guidance installed",
+  "tooltip.tecnocinetico.guided_loaded": "Guided rounds: %s",
+  "tooltip.tecnocinetico.guided_inactive": "Guided rounds: %s (inactive without Swarm Guidance)",
+  "message.tecnocinetico.guided_needs_module": "Guided Rounds need Swarm Guidance installed"
 }
