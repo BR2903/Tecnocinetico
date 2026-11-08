@@ -217,6 +217,28 @@ public class KineticPistolItem extends Item {
         return false; // con la pistola en la mano no se rompen bloques
     }
 
+    /**
+     * Punto real del impacto en el objetivo. OJO: {@code EntityHitResult#getLocation()} de esta versión de
+     * {@code ProjectileUtil.getEntityHitResult} devuelve los PIES del mob, no el punto del rayo; usarlo torcía
+     * el trazo hacia abajo al dar a mobs pequeños o cercanos.
+     * - Disparo recto: donde el rayo entra en la caja del mob (la línea sigue siendo recta).
+     * - Si solo acertó gracias a la puntería asistida (el rayo pasa cerca pero no toca la caja): el punto de
+     *   la caja más cercano al rayo, así se ve cómo la bala se desvía hacia el objetivo (solo con la mejora).
+     */
+    private static Vec3 impactPoint(Entity target, Vec3 eye, Vec3 end) {
+        AABB box = target.getBoundingBox();
+        java.util.Optional<Vec3> direct = box.clip(eye, end);
+        if (direct.isPresent()) {
+            return direct.get();
+        }
+        if (box.contains(eye)) {
+            return eye;
+        }
+        Vec3 near = box.inflate(1.0D).clip(eye, end).orElse(box.getCenter());
+        return new Vec3(Mth.clamp(near.x, box.minX, box.maxX), Mth.clamp(near.y, box.minY, box.maxY),
+                Mth.clamp(near.z, box.minZ, box.maxZ));
+    }
+
     private static void fire(Level level, Player player, InteractionHand hand, ItemStack pistol, boolean aiming) {
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
@@ -235,8 +257,8 @@ public class KineticPistolItem extends Item {
         EntityHitResult entityHit = ProjectileUtil.getEntityHitResult(level, player, eye, end, search,
                 e -> !e.isSpectator() && e.isPickable(), getAimAssist(pistol));
         if (entityHit != null) {
-            end = entityHit.getLocation();
             Entity target = entityHit.getEntity();
+            end = impactPoint(target, eye, end);
             // Sin esto, los disparos rápidos (cada 8 ticks) chocan con la invulnerabilidad de 10 ticks
             target.invulnerableTime = 0;
             boolean hurt = target.hurt(level.damageSources().playerAttack(player), getShotDamage(pistol));

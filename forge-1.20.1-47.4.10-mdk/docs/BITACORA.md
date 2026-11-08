@@ -171,3 +171,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Colmena (`SwarmHiveStructure/Piece`): cúpula de **Panal de Enjambre** (bloque nuevo) medio enterrada, 3 túneles, óculo, cristales de cinetrita, cofre, Nodo + 8 avispas. Biomas: Ruinas Invadidas, Selva Industrial, Praderas de Chatarra, Taiga de Ceniza, Tierras Fracturadas.
 - Botín: el Nodo suelta **Núcleo de Enjambre** (objeto nuevo, para la futura mejora de puntería asistida) + cinetrita.
 - GameTest `swarmAttacksTarget`: Nodo + 4 aguijones matan a un cerdo objetivo (el último daño debe venir de una avispa). Al escribirlo salió un falso positivo (estaban enterradas y el cerdo moría asfixiado): ver trampas en AGENTS.md.
+
+## 2026-11-07 — Claude — Trazo del disparo recto al acertar
+- El trazo se torcía hacia abajo al dar a mobs pequeños/cercanos: `EntityHitResult#getLocation()` de `ProjectileUtil.getEntityHitResult(level, ...)` devuelve los **pies** del mob. Nuevo `KineticPistolItem.impactPoint`: punto donde el rayo recto entra en la caja del mob; solo si acertó gracias a la puntería asistida (Mira) se dibuja hacia el punto de la caja más cercano al rayo.
