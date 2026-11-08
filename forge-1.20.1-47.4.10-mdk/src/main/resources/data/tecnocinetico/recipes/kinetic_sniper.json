@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "G  ",
+    "PMP",
+    "W I"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:spyglass"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:kinetic_sniper",
+    "count": 1
+  }
+}

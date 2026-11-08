@@ -99,6 +99,16 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.PULSE_CANNON.get());
                         pOutput.accept(ModItems.PULSE_CELL.get());
                         pOutput.accept(ModItems.EMPTY_PULSE_CELL.get());
+                        pOutput.accept(ModItems.REVOLVER.get());
+                        pOutput.accept(ModItems.FLAMETHROWER.get());
+                        pOutput.accept(ModItems.FUEL_CANISTER.get());
+                        pOutput.accept(ModItems.LIGHT_MACHINE_GUN.get());
+                        pOutput.accept(ModItems.KINETIC_SNIPER.get());
+                        pOutput.accept(ModItems.KINETIC_BLADE.get());
+                        pOutput.accept(ModItems.ROCKET_LAUNCHER.get());
+                        pOutput.accept(ModItems.GUIDED_ROCKET.get());
+                        pOutput.accept(ModItems.ARC_CASTER.get());
+                        pOutput.accept(ModItems.MINIGUN.get());
                         pOutput.accept(ModItems.CORE_FIGHTER.get());
                         pOutput.accept(ModItems.DIMENSIONAL_DRIVE.get());
                         pOutput.accept(ModItems.RAW_PIROXITE.get());

@@ -340,4 +340,62 @@ public class AmmoGameTests {
         helper.assertTrue(player.getHealth() < hp, "Sin el set completo la lava debería herir");
         helper.succeed();
     }
+
+    /** Armas nuevas: lanzallamas quema, arco voltaico encadena, minigun gira antes de disparar, cuchilla se carga. */
+    @GameTest(template = "empty", timeoutTicks = 60)
+    public static void moreWeapons(GameTestHelper helper) {
+        var level = helper.getLevel();
+        net.minecraft.core.BlockPos col = helper.absolutePos(net.minecraft.core.BlockPos.ZERO);
+        int y = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, col.getX(), col.getZ()) + 6;
+        var sp = net.minecraftforge.common.util.FakePlayerFactory.getMinecraft(level);
+        sp.moveTo(col.getX() + 0.5, y, col.getZ() + 0.5, -90.0F, 0.0F);
+        sp.getInventory().clearContent();
+        sp.getInventory().selected = 0;
+        java.util.List<net.minecraft.world.entity.Entity> spawned = new java.util.ArrayList<>();
+        java.util.function.BiFunction<Double, Double, net.minecraft.world.entity.animal.Pig> pig = (dx, dz) -> {
+            var p = net.minecraft.world.entity.EntityType.PIG.create(level);
+            p.moveTo(col.getX() + 0.5 + dx, y + 0.9, col.getZ() + 0.5 + dz, 0, 0);
+            p.setNoAi(true);
+            p.setNoGravity(true);
+            level.addFreshEntity(p);
+            spawned.add(p);
+            return p;
+        };
+        // lanzallamas
+        var p1 = pig.apply(3.0, 0.0);
+        ItemStack flame = new ItemStack(ModItems.FLAMETHROWER.get());
+        flame.getOrCreateTag().putInt("Ammo", 100);
+        sp.getInventory().setItem(0, flame);
+        ((com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) flame.getItem()).tryFire(sp, false);
+        boolean burned = p1.isOnFire() && p1.getHealth() < p1.getMaxHealth();
+        p1.discard();
+        // arco voltaico: dos cerdos juntos
+        var a1 = pig.apply(6.0, 0.0);
+        var a2 = pig.apply(6.0, 3.0);
+        ItemStack arc = new ItemStack(ModItems.ARC_CASTER.get());
+        arc.getOrCreateTag().putInt("Ammo", 12);
+        sp.getInventory().setItem(0, arc);
+        ((com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) arc.getItem()).tryFire(sp, false);
+        boolean chained = a1.getHealth() < a1.getMaxHealth() && a2.getHealth() < a2.getMaxHealth();
+        // minigun: el primer intento solo gira (no gasta munición)
+        ItemStack mini = new ItemStack(ModItems.MINIGUN.get());
+        mini.getOrCreateTag().putInt("Ammo", 200);
+        sp.getInventory().setItem(0, mini);
+        ((com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) mini.getItem()).tryFire(sp, false);
+        boolean spins = com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.getAmmo(sp.getMainHandItem()) == 200
+                && com.bryanamaya.tecnocinetico.item.weapon.MinigunItem.spin(sp.getMainHandItem()) > 0;
+        // cuchilla: cada golpe carga
+        ItemStack blade = new ItemStack(ModItems.KINETIC_BLADE.get());
+        blade.getItem().hurtEnemy(blade, a1, sp);
+        boolean charged = com.bryanamaya.tecnocinetico.item.weapon.KineticBladeItem.charge(blade) == 1;
+        boolean scope = com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.hasScope(new ItemStack(ModItems.KINETIC_SNIPER.get()));
+        Tecnocinetico.LOGGER.info("[GameTest] armas: fuego={}, cadena={}, minigun gira={}, cuchilla={}, mira={}", burned, chained, spins, charged, scope);
+        spawned.forEach(net.minecraft.world.entity.Entity::discard);
+        sp.getInventory().clearContent();
+        helper.assertTrue(burned, "El lanzallamas no quemó al cerdo");
+        helper.assertTrue(chained, "El arco voltaico no saltó al segundo cerdo");
+        helper.assertTrue(spins, "La minigun disparó sin girar o no giró");
+        helper.assertTrue(charged && scope, "La cuchilla no se cargó o el francotirador no tiene mira");
+        helper.succeed();
+    }
 }

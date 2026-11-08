@@ -371,3 +371,16 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Ayuda al jugador (pedido del usuario): cada rodilla es un punto débil. `SiegeSpiderEntity.knee(i)` calcula su posición con la misma geometría que el modelo (`LEG_ANCHORS`, compartido); en `hurt` se mira si el impacto de un jugador (posición de la bala/granada, o la línea de mira en disparos instantáneos y golpes) pasó a menos de 1,2 bloques de una rodilla sana: esa pata se rompe (bit sincronizado `LEGS`), la araña se desploma 4 s (modo 4: cuerpo al suelo, patas abiertas, no se mueve ni ataca) y recibe +50 % de daño mientras está tumbada. Una vez por pata; las rotas quedan dobladas y echando chispas. Caja de colisión ampliada a 5,4 x 3,4 para que las rodillas se puedan acertar.
 - Botín: siempre suelta el **Motor Dimensional** (`dimensional_drive`, épico, modelo 3D): pieza fundamental de la nave que llevará al siguiente mundo (todavía sin uso).
 - Idea del usuario guardada para más adelante (no implementada): la nave será mejorable; con el Motor Dimensional se fabrica y al principio solo va por tierra y al siguiente mundo nuevo; tras vencer al jefe del Nether podrá ir al Nether, y tras el del End, al End.
+
+## 2026-11-09 — Claude — 8 armas nuevas (tiers 1-3)
+- Elegidas por el usuario. Todas heredan de `LongGunItem` (familia HEAVY, sin módulos) salvo la cuchilla:
+  - **Revólver** (T1, mesa): tambor de 6 balas cinéticas cargadas una a una, 9 de daño.
+  - **Lanzallamas** (T2, `FlamethrowerItem`): automático, cono de fuego de 7 bloques (1,5 de daño cada 2 ticks + 6 s ardiendo, atraviesa enemigos, no paredes ni prende bloques); 100 de combustible por **Depósito de Combustible**.
+  - **Ametralladora ligera** (T2, `HeavyGunItem`): 60 balas de rifle, 6 de daño, 10 disparos/s; -15 % de velocidad con ella en la mano.
+  - **Francotirador cinético** (T2, `SniperItem`): cerrojo, 5 balas de rifle, 26 de daño, 150 bloques, **mira integrada** (`LongGunItem.integratedScope`, zoom x6,5 con visor).
+  - **Cuchilla cinética** (T2, `KineticBladeItem`, espada de inercita, 12 de daño): cada golpe carga (máx. 5, barra cian); llena, clic derecho = tajo de onda en arco (6 bloques, 14 de daño, empuja).
+  - **Lanzacohetes** (T3, Ensamblador, `RocketLauncherItem` + `GuidedRocketEntity`): el cohete sigue tu mira mientras lleves el lanzacohetes; explosión potencia 4 sin romper bloques. **Cohete Guiado** en el Ensamblador (2 por receta).
+  - **Arco voltaico** (T3, `ArcCasterItem`): rayo que salta en cadena a 5 objetivos (-20 % por salto), 12 descargas por Célula de Impulso.
+  - **Minigun** (T3, `MinigunItem`): gira ~1 s antes de disparar (`readyToFire`), 200 balas cinéticas a 20 disparos/s; -35 % de velocidad.
+- `LongGunItem`: ganchos `integratedScope()` y `readyToFire()`. **Corregido**: el enfriamiento mínimo de 4 ticks frenaba también a las automáticas (el subfusil disparaba 5/s en vez de 10); ahora es 1 en las AUTO. La minigun no da retroceso mientras gira sin disparar.
+- Modelos 3D en `weapons_gen.py` (con fotograma de recarga) y munición 3D. GameTest `moreWeapons` (22 en total, todos pasan).

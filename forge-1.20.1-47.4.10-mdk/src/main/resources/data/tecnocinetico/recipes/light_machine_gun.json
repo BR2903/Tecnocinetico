@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "PII",
+    "MSI",
+    "I  "
+  ],
+  "key": {
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "S": {
+      "item": "tecnocinetico:kinetic_servo"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:light_machine_gun",
+    "count": 1
+  }
+}

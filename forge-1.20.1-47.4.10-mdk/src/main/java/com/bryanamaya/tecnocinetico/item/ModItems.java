@@ -335,6 +335,41 @@ public class ModItems {
                 }
             });
 
+    // ---------------------------------------------------------------- más armas (tiers 1-3)
+    public static final RegistryObject<Item> FUEL_CANISTER = ITEMS.register("fuel_canister", () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> GUIDED_ROCKET = ITEMS.register("guided_rocket", () -> new Item(new Item.Properties().stacksTo(8)));
+    /** Revólver (tier 1): 6 balas cinéticas cargadas una a una, 9 de daño. */
+    public static final RegistryObject<Item> REVOLVER = ITEMS.register("revolver",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.HEAVY, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.DRUM, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    6, () -> KINETIC_ROUND.get(), 1, 9.0F, 40.0D, 1.5F, 0.4F, 10, 10, 6.0F, 1.5F, 0.85F, 0.85F), new Item.Properties()));
+    /** Lanzallamas (tier 2): chorro de fuego en cono (7 bloques), 100 de combustible por depósito. */
+    public static final RegistryObject<Item> FLAMETHROWER = ITEMS.register("flamethrower",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.FlamethrowerItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    100, () -> FUEL_CANISTER.get(), 1, 1.5F, 7.0D, 0.0F, 0.0F, 2, 40, 0.2F, 0.3F, 0.95F, 1.0F), new Item.Properties()));
+    /** Ametralladora ligera (tier 2): 60 balas de rifle, 6 de daño, 10 disparos/s; frena un 15 % al llevarla. */
+    public static final RegistryObject<Item> LIGHT_MACHINE_GUN = ITEMS.register("light_machine_gun",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.HeavyGunItem(0.15, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    60, () -> RIFLE_ROUND.get(), 1, 6.0F, 60.0D, 3.5F, 1.8F, 2, 80, 1.4F, 1.1F, 0.75F, 0.9F), new Item.Properties()));
+    /** Francotirador cinético (tier 2): cerrojo, 5 balas de rifle, 26 de daño, 150 bloques, mira integrada. */
+    public static final RegistryObject<Item> KINETIC_SNIPER = ITEMS.register("kinetic_sniper",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.SniperItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    5, () -> RIFLE_ROUND.get(), 1, 26.0F, 150.0D, 2.0F, 0.0F, 30, 16, 8.0F, 1.2F, 0.15F, 0.7F), new Item.Properties()));
+    /** Cuchilla cinética (tier 2): espada de inercita que acumula carga y la suelta en un tajo de onda. */
+    public static final RegistryObject<Item> KINETIC_BLADE = ITEMS.register("kinetic_blade",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.KineticBladeItem(new Item.Properties()));
+    /** Lanzacohetes (tier 3): cohete guiado por la mira, explosión de potencia 4 sin romper bloques. */
+    public static final RegistryObject<Item> ROCKET_LAUNCHER = ITEMS.register("rocket_launcher",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.RocketLauncherItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    1, () -> GUIDED_ROCKET.get(), 1, 0.0F, 0.0D, 1.0F, 0.5F, 30, 40, 7.0F, 2.0F, 0.8F, 0.5F), new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    /** Arco voltaico (tier 3): rayo en cadena (5 objetivos), 12 descargas por Célula de Impulso. */
+    public static final RegistryObject<Item> ARC_CASTER = ITEMS.register("arc_caster",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.ArcCasterItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    12, () -> PULSE_CELL.get(), 1, 10.0F, 24.0D, 0.0F, 0.0F, 8, 30, 2.0F, 1.0F, 0.9F, 1.4F), new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    /** Minigun (tier 3): gira ~1 s antes de disparar; 200 balas cinéticas a 20 disparos/s; frena un 35 %. */
+    public static final RegistryObject<Item> MINIGUN = ITEMS.register("minigun",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.MinigunItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    200, () -> KINETIC_ROUND.get(), 1, 4.0F, 50.0D, 4.5F, 3.0F, 1, 100, 0.4F, 0.6F, 0.9F, 1.2F), new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

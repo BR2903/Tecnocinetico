@@ -130,7 +130,9 @@ public class Tecnocinetico {
                 // Armas largas: 0 normal, 1 recargando (escopeta abierta / cerrojo atrás); "modules" = máscara local 0..7
                 for (var gun : java.util.List.of(ModItems.PIPE_SHOTGUN.get(), ModItems.BOLT_RIFLE.get(), ModItems.PUMP_SHOTGUN.get(),
                         ModItems.SEMI_RIFLE.get(), ModItems.KINETIC_SMG.get(), ModItems.RAIL_RIFLE.get(), ModItems.ASSAULT_RIFLE.get(),
-                        ModItems.GRENADE_LAUNCHER.get(), ModItems.PULSE_CANNON.get())) {
+                        ModItems.GRENADE_LAUNCHER.get(), ModItems.PULSE_CANNON.get(), ModItems.REVOLVER.get(), ModItems.FLAMETHROWER.get(),
+                        ModItems.LIGHT_MACHINE_GUN.get(), ModItems.KINETIC_SNIPER.get(), ModItems.ROCKET_LAUNCHER.get(),
+                        ModItems.ARC_CASTER.get(), ModItems.MINIGUN.get())) {
                     ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "modules"),
                             (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.item.custom.WeaponModule.localMask(stack));
                     ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
@@ -203,6 +205,7 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.CORE_FIGHTER.get(), com.bryanamaya.tecnocinetico.entity.client.CoreFighterRenderer::new);
             event.registerEntityRenderer(ModEntities.SHIP_MISSILE.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
             event.registerEntityRenderer(ModEntities.SIEGE_SPIDER.get(), com.bryanamaya.tecnocinetico.entity.client.SiegeSpiderRenderer::new);
+            event.registerEntityRenderer(ModEntities.GUIDED_ROCKET.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
             event.registerEntityRenderer(ModEntities.ANCHOR.get(), com.bryanamaya.tecnocinetico.entity.client.AnchorRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED_GUNNER.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);

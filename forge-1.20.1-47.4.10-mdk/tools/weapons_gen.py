@@ -387,6 +387,135 @@ def dimensional_drive():
     return els
 
 
+# ---------------------------------------------------------------- más armas (tiers 1-3)
+def revolver(open_=False):
+    cyl = [el([7.1, 11.8, 2.5], [8.9, 13.6, 6.0], "steel")] if not open_ else [el([8.9, 10.6, 2.5], [10.7, 12.4, 6.0], "steel")]
+    cyl += [el([7.6, 12.3, 1.9], [8.4, 13.1, 2.5], "brass")] if not open_ else [el([9.4, 11.1, 1.9], [10.2, 11.9, 2.5], "brass")]
+    return cyl + [el([7.55, 12.6, -6.0], [8.45, 13.5, 2.5], "steel_dark", front="black"),          # cañón
+                  el([7.45, 13.5, -6.0], [8.55, 13.8, 1.0], "steel_hi"),                            # nervadura
+                  el([7.85, 13.8, -5.6], [8.15, 14.3, -5.0], "steel_hi"),                           # punto de mira
+                  el([7.3, 11.4, 6.0], [8.7, 13.8, 9.0], "steel_dark"),                             # armazón
+                  el([7.8, 13.8, 8.0], [8.2, 14.5, 8.8], "steel"),                                  # martillo
+                  el([7.85, 12.5, 2.6], [8.15, 12.9, 5.9], "cyan"),
+                  el([7.25, 8.4, 9.0], [8.75, 11.8, 12.0], "wood", rot=GRIP_ROT),                   # cacha de madera
+                  el([7.2, 9.0, 9.2], [8.8, 9.4, 11.8], "copper", rot=GRIP_ROT)] + trigger_group()
+
+
+def flamethrower(tank_out=False):
+    els = [el([7.4, 12.4, -12.0], [8.6, 13.6, 2.0], "steel_dark", front="black"),                 # lanza
+           el([7.1, 12.1, -13.0], [8.9, 13.9, -12.0], "copper", front="shell_red"),                # boquilla con piloto
+           el([7.6, 11.3, -11.0], [8.4, 12.1, -4.0], "copper"),                                   # tubo de gas
+           el([7.0, 11.0, 2.0], [9.0, 14.0, 10.0], "steel_dark"),                                 # cuerpo
+           el([8.95, 12.0, 3.0], [9.05, 12.6, 9.0], "hazard"),
+           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
+           el([7.4, 9.6, -4.0], [8.6, 12.1, -2.0], "rubber"),                                     # empuñadura delantera
+           el([7.3, 10.6, 10.0], [8.7, 13.2, 18.0], "graphite")]
+    if not tank_out:
+        els += [el([6.8, 7.0, 2.0], [9.2, 10.6, 9.0], "shell_red"), el([6.7, 7.8, 3.0], [9.3, 8.2, 8.0], "hazard"),  # depósito
+                el([7.6, 10.6, 5.0], [8.4, 11.0, 6.0], "steel")]
+    return els + trigger_group()
+
+
+def light_machine_gun(mag_out=False):
+    els = [el([7.6, 12.7, -15.0], [8.4, 13.5, 0.0], "steel_dark", front="black"),
+           el([7.2, 12.3, -10.0], [8.8, 13.9, -1.0], "graphite"),                                  # cubierta perforada
+           el([7.4, 13.9, -9.5], [8.6, 14.1, -1.5], "black"),
+           el([7.2, 11.6, 0.0], [8.8, 14.2, 10.0], "steel_dark"),                                  # cajón
+           el([7.6, 14.2, 1.0], [8.4, 14.6, 8.0], "steel"),                                        # tapa de alimentación
+           el([7.7, 11.3, -14.0], [8.3, 12.7, -13.0], "steel"),                                     # bípode plegado
+           el([7.1, 11.3, -13.8], [7.5, 11.7, -6.0], "steel"), el([8.5, 11.3, -13.8], [8.9, 11.7, -6.0], "steel"),
+           el([8.85, 12.6, 1.0], [8.95, 12.9, 9.0], "cyan"),
+           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
+           el([7.2, 10.4, 10.0], [8.8, 13.2, 20.0], "graphite"), el([7.1, 9.8, 20.0], [8.9, 13.6, 21.0], "rubber")]
+    if not mag_out:
+        els += [el([8.8, 9.4, 1.0], [10.6, 12.4, 6.0], "olive"), el([8.9, 9.6, 1.2], [10.7, 10.0, 5.8], "steel")]  # caja de munición
+    return els + trigger_group()
+
+
+def kinetic_sniper(bolt_back=False):
+    els = [el([7.65, 12.8, -16.0], [8.35, 13.5, 2.0], "inercita", front="black"),
+           el([7.3, 12.5, -16.0], [8.7, 13.8, -14.8], "steel_hi", front="black"),                 # freno de boca
+           el([7.2, 12.0, -6.0], [8.8, 13.9, 4.0], "graphite"),
+           el([7.25, 11.8, 4.0], [8.75, 14.0, 11.0], "steel_dark"),
+           el([7.6, 14.0, 4.0], [8.4, 14.6, 4.6], "steel_dark"), el([7.6, 14.0, 9.0], [8.4, 14.6, 9.6], "steel_dark"),
+           el([7.25, 14.6, 1.0], [8.75, 16.2, 12.5], "steel_dark"),                                # mira grande
+           el([7.0, 14.4, -0.6], [9.0, 16.4, 1.0], "steel", front="cyan"),
+           el([7.1, 14.5, 12.5], [8.9, 16.3, 13.4], "steel"),
+           el([7.2, 8.0, 10.5], [8.8, 12.0, 13.5], "graphite", rot=GRIP_ROT),
+           el([7.1, 9.0, 13.0], [8.9, 12.4, 22.0], "graphite"), el([7.3, 12.4, 14.0], [8.7, 13.4, 19.0], "rubber"),
+           el([7.0, 8.4, 22.0], [9.0, 12.6, 23.4], "rubber"),
+           el([7.6, 11.0, -12.0], [8.4, 11.5, -6.0], "steel")]                                     # bípode
+    z = 3.0 if bolt_back else 0.0
+    els += [el([8.75, 13.0, 6.0 + z], [9.6, 13.5, 6.7 + z], "steel_hi"), el([9.4, 12.7, 6.0 + z], [10.0, 13.4, 6.8 + z], "cyan")]
+    return els + trigger_group()
+
+
+def kinetic_blade():
+    d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}
+    return [el([7.3, 0.0, 7.4], [8.7, 4.4, 8.6], "rubber", rot=d),                                 # empuñadura
+            el([7.25, 0.6, 7.35], [8.75, 1.1, 8.65], "copper", rot=d), el([7.25, 3.3, 7.35], [8.75, 3.8, 8.65], "copper", rot=d),
+            el([6.2, 4.4, 7.2], [9.8, 5.2, 8.8], "steel_dark", rot=d),                             # guarda
+            el([7.6, 4.0, 7.0], [8.4, 4.8, 7.2], "cyan", rot=d),
+            el([7.0, 5.2, 7.75], [9.0, 15.2, 8.25], "inercita", rot=d),                            # hoja
+            el([6.5, 5.6, 7.85], [7.0, 15.6, 8.15], "cyan", rot=d),                                # filo cinético
+            el([7.0, 15.2, 7.8], [8.6, 16.0, 8.2], "inercita", rot=d),
+            el([8.2, 6.0, 7.7], [8.5, 13.0, 8.3], "steel_dark", rot=d)]
+
+
+def rocket_launcher(empty=False):
+    els = [el([6.8, 11.6, -12.0], [9.2, 14.0, 16.0], "olive", front="black"),                     # tubo
+           el([6.6, 11.4, -12.6], [9.4, 14.2, -11.4], "steel"), el([6.6, 11.4, 15.4], [9.4, 14.2, 16.6], "steel"),
+           el([6.7, 12.4, 0.0], [9.3, 13.2, 1.0], "hazard"),
+           el([8.6, 14.0, -2.0], [9.2, 15.4, 4.0], "steel_dark"),                                 # visor láser
+           el([8.7, 14.2, -2.4], [9.1, 14.8, -2.0], "shell_red"),
+           el([7.2, 8.0, 7.6], [8.8, 11.6, 10.4], "rubber", rot=GRIP_ROT),
+           el([7.4, 9.6, -2.0], [8.6, 11.6, 0.0], "rubber")]
+    if not empty:
+        els.append(el([7.3, 12.1, -13.0], [8.7, 13.5, -12.0], "shell_red"))                      # punta del cohete
+    return els + trigger_group()
+
+
+def arc_caster(cell_out=False):
+    els = [el([7.4, 12.4, -10.0], [8.6, 13.6, 2.0], "graphite"),
+           el([6.8, 13.4, -12.0], [7.4, 14.0, -8.0], "copper"), el([8.6, 13.4, -12.0], [9.2, 14.0, -8.0], "copper"),   # puntas
+           el([6.8, 11.9, -12.0], [7.4, 12.5, -8.0], "copper"), el([8.6, 11.9, -12.0], [9.2, 12.5, -8.0], "copper"),
+           el([7.7, 12.7, -12.6], [8.3, 13.3, -10.0], "cyan"),
+           el([7.0, 11.4, 2.0], [9.0, 14.4, 10.0], "steel_dark"),
+           el([8.95, 12.0, 3.0], [9.05, 13.8, 9.0], "cyan"),
+           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
+           el([7.3, 10.4, 10.0], [8.7, 13.0, 16.0], "graphite")]
+    for z in (-7.0, -4.0, -1.0):
+        els.append(el([7.1, 12.1, z], [8.9, 13.9, z + 0.8], "copper"))                             # bobinas
+    if not cell_out:
+        els += [el([7.3, 9.0, 3.0], [8.7, 11.4, 6.0], "cyan"), el([7.2, 8.8, 2.9], [8.8, 9.2, 6.1], "steel")]
+    return els + trigger_group()
+
+
+def minigun(box_out=False):
+    els = []
+    for (x, y) in ((7.0, 12.4), (8.4, 12.4), (7.0, 13.8), (8.4, 13.8), (7.7, 11.7), (7.7, 14.5)):
+        els.append(el([x, y, -15.0], [x + 0.6, y + 0.6, 0.0], "steel_dark", front="black"))       # 6 cañones
+    els += [el([6.6, 11.4, -14.0], [9.4, 15.4, -13.0], "steel"), el([6.6, 11.4, -6.0], [9.4, 15.4, -5.0], "steel"),
+            el([6.5, 11.2, 0.0], [9.5, 15.6, 8.0], "graphite"),                                    # motor
+            el([9.45, 12.4, 1.0], [9.55, 14.4, 7.0], "hazard"),
+            el([7.6, 15.6, 1.0], [8.4, 16.6, 6.0], "steel"),                                       # asa
+            el([7.2, 8.0, 7.6], [8.8, 11.6, 10.4], "rubber", rot=GRIP_ROT)]
+    if not box_out:
+        els += [el([6.6, 7.4, 1.0], [9.4, 11.2, 7.0], "olive"), el([7.6, 10.4, -1.0], [8.4, 11.2, 1.0], "brass")]  # caja + cinta
+    return els + trigger_group()
+
+
+def fuel_canister():
+    return [el([6.0, 2.0, 6.5], [10.0, 10.0, 9.5], "shell_red"), el([5.9, 5.0, 6.4], [10.1, 5.8, 9.6], "hazard"),
+            el([7.4, 10.0, 7.4], [8.6, 11.4, 8.6], "steel"), el([6.6, 10.0, 7.7], [7.2, 11.0, 8.3], "steel_dark")]
+
+
+def guided_rocket():
+    return [el([7.4, 2.0, 7.4], [8.6, 11.0, 8.6], "olive"), el([7.5, 11.0, 7.5], [8.5, 12.6, 8.5], "shell_red"),
+            el([6.6, 2.0, 7.9], [9.4, 4.0, 8.1], "steel"), el([7.9, 2.0, 6.6], [8.1, 4.0, 9.4], "steel"),
+            el([7.35, 6.0, 7.35], [8.65, 6.4, 8.65], "hazard")]
+
+
 # ---------------------------------------------------------------- machete (como una espada: diagonal en el plano XY)
 def machete():
     d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}                                      # mango abajo-izq., punta arriba-der.
@@ -459,6 +588,16 @@ if __name__ == "__main__":
         model(base, fn(False), GUN_DISPLAY,
               [{"predicate": {"tecnocinetico:reload": 1}, "model": f"tecnocinetico:item/{base}_{alt}"}])
     model("core_fighter", core_fighter_mini(), SMALL)
+    for base, fn, alt in (("revolver", revolver, "open"), ("flamethrower", flamethrower, "tank_out"),
+                          ("light_machine_gun", light_machine_gun, "mag_out"), ("kinetic_sniper", kinetic_sniper, "bolt"),
+                          ("rocket_launcher", rocket_launcher, "empty"), ("arc_caster", arc_caster, "cell_out"),
+                          ("minigun", minigun, "box_out")):
+        model(f"{base}_{alt}", fn(True), GUN_DISPLAY)
+        model(base, fn(False), GUN_DISPLAY,
+              [{"predicate": {"tecnocinetico:reload": 1}, "model": f"tecnocinetico:item/{base}_{alt}"}])
+    model("kinetic_blade", kinetic_blade(), HANDHELD)
+    model("fuel_canister", fuel_canister(), SMALL)
+    model("guided_rocket", guided_rocket(), SMALL)
     model("dash_thruster", dash_thruster(), SMALL)
     model("dimensional_drive", dimensional_drive(), SMALL)
     model("dash_cell", dash_cell(), SMALL)

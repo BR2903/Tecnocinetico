@@ -87,7 +87,9 @@ public final class PistolInputHandler {
     private static void tryFire(LocalPlayer player) {
         ItemStack pistol = player.getMainHandItem();
         if (pistol.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem gun) {
-            if (gun.canFireNow(player, pistol)) {
+            boolean spinning = gun instanceof com.bryanamaya.tecnocinetico.item.weapon.MinigunItem
+                    && com.bryanamaya.tecnocinetico.item.weapon.MinigunItem.spin(pistol) < 1.0F;   // aún no dispara
+            if (gun.canFireNow(player, pistol) && !spinning) {
                 float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING))
                         * com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.recoilMultiplier(player);
                 mult *= Mth.lerp(GunAnimState.aim, 1.0F, AIM_RECOIL_FACTOR);

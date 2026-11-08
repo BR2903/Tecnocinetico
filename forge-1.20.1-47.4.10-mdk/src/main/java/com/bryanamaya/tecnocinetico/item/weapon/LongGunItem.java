@@ -139,15 +139,24 @@ public class LongGunItem extends Item {
     }
 
     public int cooldown(ItemStack s) {
-        return Math.max(4, Math.round(stats.shotCooldown() * (has(s, WeaponModule.POLISHED_BOLT) ? 0.65F : 1.0F)));
+        // mínimo 4 ticks entre disparos salvo en las automáticas (antes el mínimo frenaba también al subfusil)
+        return Math.max(action == Action.AUTO ? 1 : 4, Math.round(stats.shotCooldown() * (has(s, WeaponModule.POLISHED_BOLT) ? 0.65F : 1.0F)));
     }
 
     public float zoom(ItemStack s) {
+        if (integratedScope()) {
+            return 0.15F;
+        }
         return has(s, WeaponModule.SCOPE) ? 0.22F : stats.aimZoom();
     }
 
+    /** Mira telescópica integrada (francotirador): visor al apuntar sin necesitar el módulo. */
+    protected boolean integratedScope() {
+        return false;
+    }
+
     public static boolean hasScope(ItemStack s) {
-        return has(s, WeaponModule.SCOPE);
+        return has(s, WeaponModule.SCOPE) || (s.getItem() instanceof LongGunItem g && g.integratedScope());
     }
 
     // ------------------------------------------------------------------ estado
@@ -213,6 +222,9 @@ public class LongGunItem extends Item {
         } else if (player.getCooldowns().isOnCooldown(this)) {
             return;
         }
+        if (!readyToFire(player, gun)) {
+            return;                                                           // p. ej. la minigun aún gira
+        }
         boolean creative = player.getAbilities().instabuild;
         if (isLoading(gun)) {
             stopLoading(player, gun);                                         // disparar interrumpe la recarga
@@ -245,6 +257,11 @@ public class LongGunItem extends Item {
             default -> {
             }
         }
+    }
+
+    /** ¿Puede disparar ya? (la minigun necesita girar antes). Se llama en cada intento de disparo. */
+    protected boolean readyToFire(ServerPlayer player, ItemStack gun) {
+        return true;
     }
 
     /** El disparo en sí (rayos con perdigones). Las armas tier 3 lo cambian (riel, granadas, onda). */

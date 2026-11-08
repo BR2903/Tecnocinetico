@@ -133,6 +133,15 @@ public class ModEntities {
                     .clientTrackingRange(12)
                     .build("siege_spider"));
 
+    // Cohete guiado (Lanzacohetes)
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.custom.GuidedRocketEntity>> GUIDED_ROCKET =
+            ENTITY_TYPES.register("guided_rocket", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.custom.GuidedRocketEntity>of(
+                            com.bryanamaya.tecnocinetico.entity.custom.GuidedRocketEntity::new, MobCategory.MISC)
+                    .sized(0.4f, 0.4f)
+                    .clientTrackingRange(10)
+                    .updateInterval(1)
+                    .build("guided_rocket"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

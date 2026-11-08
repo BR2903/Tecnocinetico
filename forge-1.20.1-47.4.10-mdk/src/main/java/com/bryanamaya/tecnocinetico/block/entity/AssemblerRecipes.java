@@ -81,6 +81,18 @@ public final class AssemblerRecipes {
                             s(ModItems.NULLITE_INGOT.get(), 2), s(ModItems.KINETIC_SERVO.get(), 2)),
                     armor(ModItems.COMBAT_MK3_BOOTS, s(ModItems.INERCITA_PLATE.get(), 2), s(ModItems.PIROXITE_INGOT.get(), 2),
                             s(ModItems.NULLITE_INGOT.get(), 1), s(ModItems.KINETIC_SERVO.get(), 1)),
+                    // ---- más armas tier 3
+                    new Recipe(List.of(s(ModItems.CORE_PROCESSOR.get(), 1), s(ModItems.INERCITA_PLATE.get(), 5),
+                            s(ModItems.PRECISION_MECHANISM.get(), 2), s(ModItems.KINETIC_SERVO.get(), 1), s(Items.IRON_INGOT, 6)),
+                            new ItemStack(ModItems.ROCKET_LAUNCHER.get()), 300),
+                    new Recipe(List.of(s(ModItems.CORE_PROCESSOR.get(), 1), s(ModItems.KINETIC_SERVO.get(), 2), s(ModItems.CINETRITE_INGOT.get(), 6),
+                            s(ModItems.PIEZO_TRANSDUCER.get(), 3), s(ModItems.PRECISION_MECHANISM.get(), 2), s(Items.COPPER_INGOT, 8)),
+                            new ItemStack(ModItems.ARC_CASTER.get()), 400),
+                    new Recipe(List.of(s(ModItems.CORE_PROCESSOR.get(), 1), s(ModItems.INERCITA_PLATE.get(), 6), s(ModItems.KINETIC_SERVO.get(), 3),
+                            s(ModItems.PRECISION_MECHANISM.get(), 2), s(Items.IRON_INGOT, 10)),
+                            new ItemStack(ModItems.MINIGUN.get()), 400),
+                    new Recipe(List.of(s(ModItems.INERCITA_INGOT.get(), 1), s(Items.GUNPOWDER, 4), s(ModItems.CINETRITE_SHARD.get(), 2), s(Items.IRON_INGOT, 2)),
+                            new ItemStack(ModItems.GUIDED_ROCKET.get(), 2), 80),
                     // munición especial
                     new Recipe(List.of(s(ModItems.INERCITA_INGOT.get(), 1), s(ModItems.CINETRITE_SHARD.get(), 2), s(Items.IRON_INGOT, 2)),
                             new ItemStack(ModItems.RAIL_SLUG.get(), 4), 80),

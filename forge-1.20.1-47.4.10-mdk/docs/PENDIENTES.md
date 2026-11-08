@@ -36,7 +36,7 @@
 
 - Caza del Núcleo: receta (¿fin de juego, con piezas de las dimensiones nuevas?), probar el manejo en el juego (giro, velocidades) y en multijugador; animación de cabina/HUD más elaborada si gusta.
 
-- **Más armas de los tiers 1 a 3** (pedido del usuario, 2026-11-09; aún no hechas). Habrá tiers 4 y 5 (dimensiones nuevas).
+- Armas: probar el equilibrio de las 8 nuevas en el juego; sonidos propios (lanzallamas, minigun, arco); cañones de la minigun que giren en el modelo. Habrá tiers 4 y 5 (dimensiones nuevas).
 - Indicador en pantalla del enfriamiento del Impulsor de Esquiva (`DashClient.cooldown` ya existe); verlo puesto en el personaje.
 
 - **Nave mejorable (idea del usuario, no implementar hasta que lo pida):** se fabrica con el Motor Dimensional (botín de la Araña de Asedio); primero solo por tierra y para viajar al siguiente mundo nuevo; vencer al jefe del Nether desbloquea saltar al Nether, y al del End, al End. El Caza del Núcleo actual vuela y salta libremente: habrá que adaptarlo.
