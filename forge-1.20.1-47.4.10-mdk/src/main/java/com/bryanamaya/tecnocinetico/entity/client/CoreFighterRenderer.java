@@ -26,7 +26,7 @@ public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
     public CoreFighterRenderer(EntityRendererProvider.Context ctx) {
         super(ctx);
         this.model = new CoreFighterModel(ctx.bakeLayer(CoreFighterModel.LAYER));
-        this.shadowRadius = 1.6F;
+        this.shadowRadius = 2.6F;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
             float t = e.tickCount + pt;
             pose.translate(Mth.sin(t * 2.9F) * 0.05F * k, Mth.cos(t * 3.7F) * 0.04F * k, Mth.sin(t * 4.3F) * 0.03F * k);
         }
-        pose.translate(0.0D, 0.75D, 0.0D);
+        pose.translate(0.0D, CoreFighterEntity.PIVOT, 0.0D);
         pose.mulPose(Axis.YP.rotationDegrees(180.0F - Mth.rotLerp(pt, e.yRotO, e.getYRot())));
         pose.mulPose(Axis.XP.rotationDegrees(-Mth.lerp(pt, e.xRotO, e.getXRot())));
         pose.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(pt, e.rollO, e.roll)));
@@ -50,7 +50,8 @@ public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
             float s = (j - (CoreFighterEntity.JUMP_TICKS - 10) + pt) / 10.0F;
             pose.scale(1.0F - 0.3F * s, 1.0F - 0.3F * s, 1.0F + 2.5F * s * s);
         }
-        pose.translate(0.0D, -0.75D, 0.0D);
+        pose.translate(0.0D, -CoreFighterEntity.PIVOT, 0.0D);
+        pose.scale(CoreFighterEntity.SCALE, CoreFighterEntity.SCALE, CoreFighterEntity.SCALE);
         pose.scale(-1.0F, -1.0F, 1.0F);
         pose.translate(0.0D, -1.501D, 0.0D);
         model.configure(e.onGround(), true);

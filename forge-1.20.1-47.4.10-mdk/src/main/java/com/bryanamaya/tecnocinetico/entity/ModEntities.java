@@ -113,7 +113,7 @@ public class ModEntities {
     // Caza del Núcleo (nave de fin de juego) y su misil
     public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity>> CORE_FIGHTER =
             ENTITY_TYPES.register("core_fighter", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity>of(com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity::new, MobCategory.MISC)
-                    .sized(3.0f, 1.5f)
+                    .sized(4.5f, 2.4f)
                     .fireImmune()
                     .clientTrackingRange(16)
                     .updateInterval(1)

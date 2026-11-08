@@ -104,7 +104,7 @@ def build():
         if face in ("left", "right") and (x in (6, 12) or y == 0):
             return GRAPH[1]
         return GLASS[2] if y == 0 else GLASS[1] if (x + y) % 6 else GLASS[0]
-    box(img, glow, 0, 128, 9, 14, 18, glass)
+    box(img, glow, 0, 128, 11, 14, 18, glass)
     # tren: pata y rueda
     box(img, glow, 122, 57, 1, 11, 1, lambda f, x, y, w, h: STEEL[2] if y % 4 else HAZARD[0])
     box(img, glow, 114, 57, 2, 2, 2, lambda f, x, y, w, h: STEEL[0])

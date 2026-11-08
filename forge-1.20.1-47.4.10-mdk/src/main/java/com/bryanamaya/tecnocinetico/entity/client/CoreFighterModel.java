@@ -15,7 +15,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 /**
- * Caza del Núcleo (~5,8 bloques de largo, 5 de envergadura): fuselaje de grafito, morro afilado, cabina de cristal,
+ * Caza del Núcleo (modelo de ~5,8 bloques; el renderizador lo escala x1,6: ~9 de largo, 8 de envergadura): fuselaje de grafito, morro afilado, cabina de cristal,
  * lomo, alas en flecha con soportes de misiles, dos góndolas de motor con toberas que brillan, derivas inclinadas,
  * estabilizadores, cañones en la raíz de las alas y tren de aterrizaje. Textura 128x256 de tools/ship_texture.py.
  * Morro hacia -Z (como los mobs).
@@ -65,7 +65,7 @@ public class CoreFighterModel extends EntityModel<CoreFighterEntity> {
                         .texOffs(88, 57).mirror().addBox(-1.0F, -10.0F, 0.0F, 2, 10, 10),
                 PartPose.offsetAndRotation(-4.0F, -7.0F, 12.0F, 0.0F, 0.0F, -0.3F));
         root.addOrReplaceChild("glass", CubeListBuilder.create()
-                        .texOffs(0, 128).addBox(-4.5F, -21.0F, -26.0F, 9, 14, 18),            // cabina (cabe el piloto sentado)
+                        .texOffs(0, 128).addBox(-5.5F, -21.0F, -26.0F, 11, 14, 18),            // cabina (cabe el piloto sentado)
                 PartPose.offset(0.0F, 12.0F, 0.0F));
         PartDefinition gear = root.addOrReplaceChild("gear", CubeListBuilder.create(), PartPose.ZERO);
         float[][] legs = {{0, -26}, {7, 8}, {-7, 8}};
