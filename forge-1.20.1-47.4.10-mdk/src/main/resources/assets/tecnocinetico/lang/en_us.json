@@ -355,5 +355,10 @@
   "subtitles.tecnocinetico.core_fighter.cannon": "Fighter cannon",
   "subtitles.tecnocinetico.core_fighter.missile": "Missile launched",
   "subtitles.tecnocinetico.core_fighter.jump_charge": "Jump drive charging",
-  "subtitles.tecnocinetico.core_fighter.jump": "Dimension jump"
+  "subtitles.tecnocinetico.core_fighter.jump": "Dimension jump",
+  "hud.tecnocinetico.ship_hull": "HULL %s%%",
+  "hud.tecnocinetico.ship_missile_ready": "MISSILE READY",
+  "hud.tecnocinetico.ship_missile_wait": "MISSILE LOADING",
+  "hud.tecnocinetico.ship_lock": "LOCKED",
+  "hud.tecnocinetico.ship_keys": "W/S thrust · Space/Ctrl altitude · J jump · F5 outside view"
 }

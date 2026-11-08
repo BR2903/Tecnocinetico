@@ -31,6 +31,10 @@ public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
 
     @Override
     public void render(CoreFighterEntity e, float yaw, float pt, PoseStack pose, MultiBufferSource buffers, int light) {
+        Minecraft mc = Minecraft.getInstance();
+        if (e.hasPassenger(mc.player) && mc.options.getCameraType().isFirstPerson()) {
+            return;                                                                  // dentro de la cabina: pantalla de vuelo (ShipHud)
+        }
         pose.pushPose();
         int j = e.jumpTicks();
         if (j > 0) {                                                                 // vibración del motor de salto
@@ -49,9 +53,7 @@ public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
         pose.translate(0.0D, -0.75D, 0.0D);
         pose.scale(-1.0F, -1.0F, 1.0F);
         pose.translate(0.0D, -1.501D, 0.0D);
-        Minecraft mc = Minecraft.getInstance();
-        boolean pilotView = e.hasPassenger(mc.player) && mc.options.getCameraType().isFirstPerson();
-        model.configure(e.onGround(), !pilotView);
+        model.configure(e.onGround(), true);
         model.renderToBuffer(pose, buffers.getBuffer(model.renderType(TEXTURE)), light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         model.renderToBuffer(pose, buffers.getBuffer(GLOW), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         pose.popPose();

@@ -334,3 +334,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Cliente: `CoreFighterModel` (~5,8 bloques; fuselaje, morro, cabina que se oculta para el piloto en primera persona, alas en flecha con misiles, motores, derivas, tren que se recoge en vuelo), `CoreFighterRenderer` (rumbo, cabeceo, alabeo al girar, capa luminosa). Textura `tools/ship_texture.py`; sonidos `generate_ship()` (bucle de motor sin fundidos, cañón, misil, carga y salto); sonido de motor continuo con tono según la velocidad.
 - Objeto `core_fighter` (miniatura 3D, épico) en la pestaña creativa; `core_missile` solo para dibujar el misil.
 - Paquetes 11 `ShipControlPacket` y 12 `ShipJumpPacket`. GameTest `shipJumpToNether` (19 en total, todos pasan).
+
+## 2026-11-08 — Claude — Caza del Núcleo: piloto dentro de la cabina y pantalla de vuelo tecnológica
+- Problema del usuario: el piloto quedaba por debajo de la nave y en primera persona el modelo tapaba la vista; pidió una vista "más tecnológica".
+- Asiento: `CoreFighterEntity.seat(pt)` pone al piloto en la cabina (0,85 sobre la base, 1 bloque hacia el morro) girando con el cabeceo alrededor del mismo pivote que el modelo; cabina más grande (9x14x18, cabe sentado con la cabeza dentro). Textura de la nave ahora 128x256 (la cabina en (0,128)).
+- Primera persona: la nave no se dibuja para su piloto y se muestra `client/ShipHud`: viñeta y montantes de la cúpula, retícula, escalera de cabeceo (sigue la cámara; se inclina con el alabeo), brújula de rumbo con N/E/S/O, escalas de velocidad (km/h) y altitud (Y), barra de empuje, recuadro de fijado proyectado sobre el objetivo (matrices guardadas en `RenderLevelStageEvent`) con distancia y aviso "FIJADO" cuando el misil está listo, casco (parpadea en rojo bajo 30 %), estado del misil, barra del motor de salto. Se ocultan mira, barra rápida, experiencia y nombre del objeto. En tercera persona (F5) se ve la nave con el piloto y el HUD sencillo.
+

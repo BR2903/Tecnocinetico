@@ -355,5 +355,10 @@
   "subtitles.tecnocinetico.core_fighter.cannon": "Cañón del caza",
   "subtitles.tecnocinetico.core_fighter.missile": "Misil lanzado",
   "subtitles.tecnocinetico.core_fighter.jump_charge": "Motor de salto cargando",
-  "subtitles.tecnocinetico.core_fighter.jump": "Salto dimensional"
+  "subtitles.tecnocinetico.core_fighter.jump": "Salto dimensional",
+  "hud.tecnocinetico.ship_hull": "CASCO %s%%",
+  "hud.tecnocinetico.ship_missile_ready": "MISIL LISTO",
+  "hud.tecnocinetico.ship_missile_wait": "MISIL CARGANDO",
+  "hud.tecnocinetico.ship_lock": "FIJADO",
+  "hud.tecnocinetico.ship_keys": "W/S empuje · Espacio/Ctrl altura · J salto · F5 vista exterior"
 }

@@ -127,10 +127,21 @@ public class CoreFighterEntity extends Entity {
         return 0.0D;
     }
 
+    /** Altura del asiento (donde apoya el piloto) sobre la base de la nave y distancia hacia el morro. */
+    public static final double SEAT_HEIGHT = 0.85D, SEAT_FORWARD = 1.0D, PIVOT = 0.75D;
+
+    /** Asiento en la cabina, siguiendo el cabeceo de la nave (gira alrededor del mismo pivote que el modelo). */
+    public Vec3 seat(float partialTick) {
+        float pitch = Mth.lerp(partialTick, xRotO, getXRot()), yaw = Mth.rotLerp(partialTick, yRotO, getYRot());
+        Vec3 fwd = Vec3.directionFromRotation(pitch, yaw), up = Vec3.directionFromRotation(pitch - 90.0F, yaw);
+        Vec3 base = new Vec3(Mth.lerp(partialTick, xo, getX()), Mth.lerp(partialTick, yo, getY()), Mth.lerp(partialTick, zo, getZ()));
+        return base.add(0, PIVOT, 0).add(fwd.scale(SEAT_FORWARD)).add(up.scale(SEAT_HEIGHT - PIVOT));
+    }
+
     @Override
     protected void positionRider(Entity passenger, MoveFunction move) {
-        Vec3 fwd = Vec3.directionFromRotation(0, getYRot()).scale(0.9D);           // cabina, algo por delante
-        move.accept(passenger, getX() + fwd.x, getY() + getPassengersRidingOffset() + passenger.getMyRidingOffset(), getZ() + fwd.z);
+        Vec3 s = seat(1.0F);
+        move.accept(passenger, s.x, s.y - 0.55D, s.z);                             // los pies quedan 0,55 bajo el asiento
     }
 
     @Override

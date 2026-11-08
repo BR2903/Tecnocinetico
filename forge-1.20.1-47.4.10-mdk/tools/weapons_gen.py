@@ -333,7 +333,7 @@ def core_fighter_mini():
     k = 0.17
     boxes = [(-6, -7, -28, 12, 7, 50, "graphite", None), (-4, -5, -40, 8, 5, 12, "graphite", None),
              (-2, -3, -46, 4, 3, 6, "steel", None), (-3, -10, -8, 6, 3, 20, "graphite", None),
-             (-4, -12, -24, 8, 5, 14, "cyan", None),
+             (-4.5, -21, -26, 9, 14, 18, "cyan", None),
              (-11, -6, 8, 6, 6, 16, "steel", None), (5, -6, 8, 6, 6, 16, "steel", None),
              (-10, -5, 24, 4, 4, 1, "cyan", None), (6, -5, 24, 4, 4, 1, "cyan", None),
              (6, -3, 14, 10, 1, 6, "inercita", None), (-16, -3, 14, 10, 1, 6, "inercita", None),

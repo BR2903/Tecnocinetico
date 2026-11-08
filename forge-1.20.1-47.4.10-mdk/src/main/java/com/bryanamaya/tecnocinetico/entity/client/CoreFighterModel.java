@@ -17,7 +17,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 /**
  * Caza del Núcleo (~5,8 bloques de largo, 5 de envergadura): fuselaje de grafito, morro afilado, cabina de cristal,
  * lomo, alas en flecha con soportes de misiles, dos góndolas de motor con toberas que brillan, derivas inclinadas,
- * estabilizadores, cañones en la raíz de las alas y tren de aterrizaje. Textura 128x128 de tools/ship_texture.py.
+ * estabilizadores, cañones en la raíz de las alas y tren de aterrizaje. Textura 128x256 de tools/ship_texture.py.
  * Morro hacia -Z (como los mobs).
  */
 public class CoreFighterModel extends EntityModel<CoreFighterEntity> {
@@ -65,7 +65,7 @@ public class CoreFighterModel extends EntityModel<CoreFighterEntity> {
                         .texOffs(88, 57).mirror().addBox(-1.0F, -10.0F, 0.0F, 2, 10, 10),
                 PartPose.offsetAndRotation(-4.0F, -7.0F, 12.0F, 0.0F, 0.0F, -0.3F));
         root.addOrReplaceChild("glass", CubeListBuilder.create()
-                        .texOffs(44, 57).addBox(-4.0F, -12.0F, -24.0F, 8, 5, 14),             // cabina
+                        .texOffs(0, 128).addBox(-4.5F, -21.0F, -26.0F, 9, 14, 18),            // cabina (cabe el piloto sentado)
                 PartPose.offset(0.0F, 12.0F, 0.0F));
         PartDefinition gear = root.addOrReplaceChild("gear", CubeListBuilder.create(), PartPose.ZERO);
         float[][] legs = {{0, -26}, {7, 8}, {-7, 8}};
@@ -75,7 +75,7 @@ public class CoreFighterModel extends EntityModel<CoreFighterEntity> {
                             .texOffs(114, 57).addBox(-1.0F, 10.0F, -1.0F, 2, 2, 2),
                     PartPose.offset(legs[i][0], 12.0F, legs[i][1]));
         }
-        return LayerDefinition.create(mesh, 128, 128);
+        return LayerDefinition.create(mesh, 128, 256);
     }
 
     @Override

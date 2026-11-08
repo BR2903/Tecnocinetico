@@ -112,6 +112,10 @@ public final class ClientShipHandler {
         if (ship == null || mc.options.hideGui) {
             return;
         }
+        if (mc.options.getCameraType().isFirstPerson()) {                           // cabina: pantalla de vuelo completa
+            ShipHud.draw(g, ship, event.getPartialTick(), w, h);
+            return;
+        }
         var font = mc.font;
         int y = h - 62;
         int hull = Math.round(ship.health() / CoreFighterEntity.MAX_HEALTH * 100);

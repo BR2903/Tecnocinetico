@@ -1,4 +1,4 @@
-"""Textura del Caza del Núcleo (modelo CoreFighterModel, 128x128): textures/entity/core_fighter.png y
+"""Textura del Caza del Núcleo (modelo CoreFighterModel, 128x256): textures/entity/core_fighter.png y
 core_fighter_glow.png (toberas, líneas cian, luces de las alas y reflejo de la cabina).
 
 Uso (desde forge-1.20.1-47.4.10-mdk):  python tools/ship_texture.py [preview.png]
@@ -31,8 +31,8 @@ def panels(face, x, y, w, h, step=8):
 
 
 def build():
-    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
-    glow = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    img = Image.new("RGBA", (128, 256), (0, 0, 0, 0))
+    glow = Image.new("RGBA", (128, 256), (0, 0, 0, 0))
 
     # fuselaje 12x7x50: franja de inercita y línea cian por los costados, peligro junto a los motores, número de serie
     def fus(face, x, y, w, h):
@@ -99,10 +99,12 @@ def build():
             return GLASS[3], True                                            # reflejo
         if face in ("left", "right") and y == h - 1:
             return GRAPH[1]                                                  # marco
-        if face == "top" and y in (5, 10):
+        if face == "top" and y in (6, 12):
             return GRAPH[1]                                                  # montantes
+        if face in ("left", "right") and (x in (6, 12) or y == 0):
+            return GRAPH[1]
         return GLASS[2] if y == 0 else GLASS[1] if (x + y) % 6 else GLASS[0]
-    box(img, glow, 44, 57, 8, 5, 14, glass)
+    box(img, glow, 0, 128, 9, 14, 18, glass)
     # tren: pata y rueda
     box(img, glow, 122, 57, 1, 11, 1, lambda f, x, y, w, h: STEEL[2] if y % 4 else HAZARD[0])
     box(img, glow, 114, 57, 2, 2, 2, lambda f, x, y, w, h: STEEL[0])
@@ -114,7 +116,7 @@ if __name__ == "__main__":
     img.save(ROOT / "core_fighter.png")
     glow.save(ROOT / "core_fighter_glow.png")
     if len(sys.argv) > 1:
-        prev = Image.new("RGBA", (512, 512), (48, 50, 56, 255))
-        prev.alpha_composite(img.resize((512, 512), Image.NEAREST))
+        prev = Image.new("RGBA", (256, 512), (48, 50, 56, 255))
+        prev.alpha_composite(img.resize((256, 512), Image.NEAREST))
         prev.save(sys.argv[1])
     print("ok: caza del núcleo")
