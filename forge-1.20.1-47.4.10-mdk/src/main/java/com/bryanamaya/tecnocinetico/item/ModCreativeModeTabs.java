@@ -100,6 +100,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.PULSE_CELL.get());
                         pOutput.accept(ModItems.EMPTY_PULSE_CELL.get());
                         pOutput.accept(ModItems.CORE_FIGHTER.get());
+                        pOutput.accept(ModItems.DIMENSIONAL_DRIVE.get());
                         pOutput.accept(ModItems.RAW_PIROXITE.get());
                         pOutput.accept(ModItems.PIROXITE_INGOT.get());
                         pOutput.accept(ModItems.RAW_NULLITE.get());

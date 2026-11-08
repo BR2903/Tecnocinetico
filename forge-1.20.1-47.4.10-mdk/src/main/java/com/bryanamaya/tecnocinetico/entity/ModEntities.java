@@ -128,7 +128,7 @@ public class ModEntities {
     // Araña de Asedio: guardián de la Instalación de la IA (jefe)
     public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.boss.SiegeSpiderEntity>> SIEGE_SPIDER =
             ENTITY_TYPES.register("siege_spider", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.boss.SiegeSpiderEntity>of(com.bryanamaya.tecnocinetico.entity.boss.SiegeSpiderEntity::new, MobCategory.MONSTER)
-                    .sized(4.0f, 3.2f)
+                    .sized(5.4f, 3.4f)                                     // incluye las rodillas (puntos débiles)
                     .fireImmune()
                     .clientTrackingRange(12)
                     .build("siege_spider"));

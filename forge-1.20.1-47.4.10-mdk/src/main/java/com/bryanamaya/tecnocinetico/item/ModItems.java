@@ -319,6 +319,22 @@ public class ModItems {
     public static final RegistryObject<Item> COMBAT_MK3_BOOTS = ITEMS.register("combat_mk3_boots",
             () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK3, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
 
+    /** Motor Dimensional: lo suelta la Araña de Asedio; pieza fundamental de la nave (por implementar). */
+    public static final RegistryObject<Item> DIMENSIONAL_DRIVE = ITEMS.register("dimensional_drive",
+            () -> new Item(new Item.Properties().stacksTo(1).fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)) {
+                @Override
+                public void appendHoverText(net.minecraft.world.item.ItemStack stack, @org.jetbrains.annotations.Nullable net.minecraft.world.level.Level level,
+                                            java.util.List<net.minecraft.network.chat.Component> tooltip, net.minecraft.world.item.TooltipFlag flag) {
+                    tooltip.add(net.minecraft.network.chat.Component.translatable("tooltip.tecnocinetico.dimensional_drive")
+                            .withStyle(net.minecraft.ChatFormatting.GRAY));
+                }
+
+                @Override
+                public boolean isFoil(net.minecraft.world.item.ItemStack stack) {
+                    return true;
+                }
+            });
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

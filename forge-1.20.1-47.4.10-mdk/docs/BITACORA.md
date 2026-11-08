@@ -366,3 +366,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
   - Mk III (tier 3, Ensamblador: placas, piroxita, nulita, servos, mecanismo): 24, dureza 3,5; por pieza +4 % velocidad, +3 de vida y +6 % daño (set: +16 % velocidad, +6 corazones, +24 % daño).
   - Texturas `tools/combat_armor_gen.py`.
 - GameTest `dashAndCombatArmor` (21 en total, todos pasan).
+
+## 2026-11-09 — Claude — Araña de Asedio: rodillas como puntos débiles y Motor Dimensional
+- Ayuda al jugador (pedido del usuario): cada rodilla es un punto débil. `SiegeSpiderEntity.knee(i)` calcula su posición con la misma geometría que el modelo (`LEG_ANCHORS`, compartido); en `hurt` se mira si el impacto de un jugador (posición de la bala/granada, o la línea de mira en disparos instantáneos y golpes) pasó a menos de 1,2 bloques de una rodilla sana: esa pata se rompe (bit sincronizado `LEGS`), la araña se desploma 4 s (modo 4: cuerpo al suelo, patas abiertas, no se mueve ni ataca) y recibe +50 % de daño mientras está tumbada. Una vez por pata; las rotas quedan dobladas y echando chispas. Caja de colisión ampliada a 5,4 x 3,4 para que las rodillas se puedan acertar.
+- Botín: siempre suelta el **Motor Dimensional** (`dimensional_drive`, épico, modelo 3D): pieza fundamental de la nave que llevará al siguiente mundo (todavía sin uso).
+- Idea del usuario guardada para más adelante (no implementada): la nave será mejorable; con el Motor Dimensional se fabrica y al principio solo va por tierra y al siguiente mundo nuevo; tras vencer al jefe del Nether podrá ir al Nether, y tras el del End, al End.

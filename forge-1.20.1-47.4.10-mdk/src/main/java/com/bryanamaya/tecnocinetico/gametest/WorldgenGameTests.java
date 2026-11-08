@@ -219,6 +219,14 @@ public class WorldgenGameTests {
                 new net.minecraft.world.phys.AABB(consolePos).inflate(10));
         boolean sealed = level.getBlockState(sealPos).is(com.bryanamaya.tecnocinetico.block.ModBlocks.CORE_BARRIER.get());
         helper.assertTrue(bosses.size() == 1 && console.isActive() && sealed, "La consola no despertó al guardián o no selló");
+        // punto débil: un impacto en la rodilla 0 rompe esa pata y la tumba; otro en la misma ya no cuenta
+        var boss = bosses.get(0);
+        var knee = boss.knee(0);
+        var arrow = new net.minecraft.world.entity.projectile.Arrow(level, knee.x, knee.y, knee.z);
+        boss.invulnerableTime = 0;
+        boss.hurt(level.damageSources().arrow(arrow, player), 4.0F);
+        boolean broke = boss.legBroken(0) && boss.stunned();
+        helper.assertTrue(broke, "Acertar en la rodilla no rompió la pata ni tumbó a la araña");
         bosses.get(0).kill();
         boolean open = level.getBlockState(sealPos).is(net.minecraft.world.level.block.Blocks.LADDER);
         Tecnocinetico.LOGGER.info("[GameTest] arena: guardián={}, sellada={}, abierta tras morir={}, vencida={}",

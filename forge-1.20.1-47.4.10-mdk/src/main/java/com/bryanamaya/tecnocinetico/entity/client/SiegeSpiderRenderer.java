@@ -24,7 +24,7 @@ public class SiegeSpiderRenderer extends MobRenderer<SiegeSpiderEntity, SiegeSpi
             @Override
             public void render(PoseStack pose, MultiBufferSource buffers, int light, SiegeSpiderEntity e, float limbSwing,
                                float limbSwingAmount, float pt, float age, float headYaw, float headPitch) {
-                RenderType rt = e.mode() != 0 && (e.tickCount / 2) % 2 == 0 ? GLOW_CHARGE
+                RenderType rt = e.mode() != 0 && e.mode() != 4 && (e.tickCount / 2) % 2 == 0 ? GLOW_CHARGE
                         : e.getHealth() / e.getMaxHealth() < 0.3F ? GLOW_RAGE : GLOW;
                 getParentModel().renderToBuffer(pose, buffers.getBuffer(rt), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             }

@@ -376,6 +376,17 @@ def dash_cell():
             el([6.9, 5.6, 6.9], [9.1, 6.2, 9.1], "graphite")]
 
 
+# ---------------------------------------------------------------- Motor Dimensional (botín de la Araña de Asedio)
+def dimensional_drive():
+    els = [el([5.0, 4.0, 5.0], [11.0, 6.0, 11.0], "graphite"), el([5.0, 10.0, 5.0], [11.0, 12.0, 11.0], "graphite"),  # bridas
+           el([6.5, 6.0, 6.5], [9.5, 10.0, 9.5], "cyan"),                                  # núcleo de energía
+           el([7.6, 12.0, 7.6], [8.4, 13.4, 8.4], "steel_hi")]
+    for (x, z) in ((5.2, 5.2), (10.0, 5.2), (5.2, 10.0), (10.0, 10.0)):                      # columnas de inercita
+        els.append(el([x, 6.0, z], [x + 0.8, 10.0, z + 0.8], "inercita"))
+    els += [el([4.6, 7.4, 7.0], [5.0, 8.6, 9.0], "copper"), el([11.0, 7.4, 7.0], [11.4, 8.6, 9.0], "copper")]
+    return els
+
+
 # ---------------------------------------------------------------- machete (como una espada: diagonal en el plano XY)
 def machete():
     d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}                                      # mango abajo-izq., punta arriba-der.
@@ -449,6 +460,7 @@ if __name__ == "__main__":
               [{"predicate": {"tecnocinetico:reload": 1}, "model": f"tecnocinetico:item/{base}_{alt}"}])
     model("core_fighter", core_fighter_mini(), SMALL)
     model("dash_thruster", dash_thruster(), SMALL)
+    model("dimensional_drive", dimensional_drive(), SMALL)
     model("dash_cell", dash_cell(), SMALL)
     model("core_missile", core_missile(), SMALL)
     model("rail_slug", rail_slug(), SMALL)

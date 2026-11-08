@@ -23,9 +23,9 @@ public class SiegeSpiderModel extends HierarchicalModel<SiegeSpiderEntity> {
 
     public static final ModelLayerLocation LAYER =
             new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "siege_spider"), "main");
-    private static final float LIFT = 0.5F;                                       // ángulo del muslo hacia arriba
-    /** {x del anclaje, z del anclaje, giro en Y} de cada pata (derecha = +x). */
-    private static final float[][] LEGS = {{8, -7, 0.45F}, {8, 0, 0.0F}, {8, 7, -0.45F}, {-8, -7, -0.45F}, {-8, 0, 0.0F}, {-8, 7, 0.45F}};
+    private static final float LIFT = SiegeSpiderEntity.LEG_LIFT;                // ángulo del muslo hacia arriba
+    /** {x del anclaje, z del anclaje, giro en Y} de cada pata (derecha = +x); compartido con la entidad (rodillas). */
+    private static final float[][] LEGS = SiegeSpiderEntity.LEG_ANCHORS;
 
     private final ModelPart root, body, turret;
     private final ModelPart[] legs = new ModelPart[6], shins = new ModelPart[6];
@@ -89,6 +89,13 @@ public class SiegeSpiderModel extends HierarchicalModel<SiegeSpiderEntity> {
             shins[i].zRot += right ? lift : -lift;
             legs[i].yRot += Mth.cos(ph) * 0.25F * amount;
         }
+        for (int i = 0; i < 6; i++) {                                             // pata rota: espinilla doblada y temblando
+            if (e.legBroken(i)) {
+                boolean right = i < 3;
+                shins[i].zRot += (right ? 0.55F : -0.55F) + Mth.sin(age * 1.7F + i) * 0.04F;
+                shins[i].xRot += 0.25F;
+            }
+        }
         switch (e.mode()) {
             case 1 -> turret.x += Mth.sin(age * 3.1F) * 0.25F;                    // cargando el disparo
             case 2 -> {                                                           // preparando el pisotón: se agacha
@@ -98,6 +105,16 @@ public class SiegeSpiderModel extends HierarchicalModel<SiegeSpiderEntity> {
                 }
             }
             case 3 -> turret.xRot -= 0.15F + Mth.sin(age * 2.0F) * 0.05F;         // haz de arrastre
+            case 4 -> {                                                           // desplomada: cuerpo al suelo, patas abiertas
+                body.y += 6.0F;
+                turret.xRot += 0.35F;
+                for (int i = 0; i < 6; i++) {
+                    boolean right = i < 3;
+                    legs[i].y += 6.0F;
+                    legs[i].zRot += right ? 0.45F : -0.45F;
+                    shins[i].zRot += right ? -0.2F : 0.2F;
+                }
+            }
             default -> {
             }
         }

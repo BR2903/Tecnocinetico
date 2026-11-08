@@ -6,6 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "tecnocinetico:dimensional_drive"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
           "name": "tecnocinetico:core_processor",
           "functions": [
             {

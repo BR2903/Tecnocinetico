@@ -392,5 +392,7 @@
   "tooltip.tecnocinetico.combat_mk3_set": "Armadura de combate (tier 3)",
   "tooltip.tecnocinetico.combat_mk1_set_bonus": "Sin habilidades: pura resistencia y movilidad (cada pieza: +velocidad y +vida).",
   "tooltip.tecnocinetico.combat_mk2_set_bonus": "Sin habilidades: pura resistencia y movilidad (cada pieza: +velocidad, +vida y +daño).",
-  "tooltip.tecnocinetico.combat_mk3_set_bonus": "Sin habilidades: pura resistencia y movilidad (cada pieza: +velocidad, +vida y +daño)."
+  "tooltip.tecnocinetico.combat_mk3_set_bonus": "Sin habilidades: pura resistencia y movilidad (cada pieza: +velocidad, +vida y +daño).",
+  "item.tecnocinetico.dimensional_drive": "Motor Dimensional",
+  "tooltip.tecnocinetico.dimensional_drive": "Pieza fundamental de la nave que te llevará al siguiente mundo. Arrancada al guardián de la instalación."
 }

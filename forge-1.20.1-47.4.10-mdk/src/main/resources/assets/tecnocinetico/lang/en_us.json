@@ -392,5 +392,7 @@
   "tooltip.tecnocinetico.combat_mk3_set": "Combat armor (tier 3)",
   "tooltip.tecnocinetico.combat_mk1_set_bonus": "No abilities: pure toughness and mobility (each piece: +speed and +health).",
   "tooltip.tecnocinetico.combat_mk2_set_bonus": "No abilities: pure toughness and mobility (each piece: +speed, +health and +damage).",
-  "tooltip.tecnocinetico.combat_mk3_set_bonus": "No abilities: pure toughness and mobility (each piece: +speed, +health and +damage)."
+  "tooltip.tecnocinetico.combat_mk3_set_bonus": "No abilities: pure toughness and mobility (each piece: +speed, +health and +damage).",
+  "item.tecnocinetico.dimensional_drive": "Dimensional Drive",
+  "tooltip.tecnocinetico.dimensional_drive": "Core part of the ship that will take you to the next world. Torn from the installation's guardian."
 }

@@ -60,11 +60,20 @@ import java.util.UUID;
  * 2. (60-30 %) + haz de arrastre (te atrae hacia ella; si vuelas, además Lastre de Inercia) + llama 2 drones.
  * 3. (<30 %) enfurecida: más rápida, enfriamientos x0,65 y salvas de 4 misiles guiados.
  * Si se queda sin jugadores cerca 60 s, se reinicia (la consola vuelve a abrir la arena).
+ * Ayuda al jugador: cada rodilla es un punto débil. Si un jugador le acierta en una (bala, granada, o el golpe o
+ * disparo que pasa junto a ella), esa pata se rompe y la araña se desploma 4 s (no ataca y recibe +50 % de daño).
+ * Una vez por pata: con las 6 rotas ya no se cae más. Al morir suelta siempre el Motor Dimensional.
  */
 public class SiegeSpiderEntity extends Monster {
 
     public static final float MAX_HEALTH = 450.0F;
     private static final EntityDataAccessor<Byte> MODE = SynchedEntityData.defineId(SiegeSpiderEntity.class, EntityDataSerializers.BYTE);
+    /** Patas rotas (bit i = pata i). */
+    private static final EntityDataAccessor<Byte> LEGS = SynchedEntityData.defineId(SiegeSpiderEntity.class, EntityDataSerializers.BYTE);
+    /** Geometría de las patas (la misma que dibuja SiegeSpiderModel): {x del anclaje, z del anclaje, giro en Y}. */
+    public static final float[][] LEG_ANCHORS = {{8, -7, 0.45F}, {8, 0, 0.0F}, {8, 7, -0.45F}, {-8, -7, -0.45F}, {-8, 0, 0.0F}, {-8, 7, 0.45F}};
+    public static final float LEG_LIFT = 0.5F, MODEL_SCALE = 2.0F;
+    public static final int STUN_TICKS = 80;
     private static final DustParticleOptions BEAM = new DustParticleOptions(new Vector3f(0.45F, 0.5F, 1.0F), 1.2F);
     private static final UUID ENRAGE_SPEED = UUID.fromString("5b2a1e44-7c3d-4f8e-9a61-0d3c2b1e9f77");
 
@@ -72,7 +81,7 @@ public class SiegeSpiderEntity extends Monster {
             BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.NOTCHED_10);
     @Nullable
     private BlockPos console;
-    private int phase = 1, lonely;
+    private int phase = 1, lonely, stun;
 
     public SiegeSpiderEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -105,9 +114,88 @@ public class SiegeSpiderEntity extends Monster {
     protected void defineSynchedData() {
         super.defineSynchedData();
         entityData.define(MODE, (byte) 0);
+        entityData.define(LEGS, (byte) 0);
     }
 
-    /** 0 nada, 1 cargando disparo, 2 preparando pisotón, 3 cargando haz de arrastre (animación y brillo). */
+    public boolean legBroken(int i) {
+        return (entityData.get(LEGS) & (1 << i)) != 0;
+    }
+
+    public boolean stunned() {
+        return mode() == 4;
+    }
+
+    /** Posición en el mundo de la rodilla de la pata i (misma geometría y giro que el modelo x2). */
+    public Vec3 knee(int i) {
+        float[] l = LEG_ANCHORS[i];
+        float sign = l[0] > 0 ? 1 : -1;
+        double reach = 14 * Math.cos(LEG_LIFT);
+        double mx = l[0] + sign * reach * Math.cos(l[2]);
+        double mz = l[1] - sign * reach * Math.sin(l[2]);
+        double my = 6 - 14 * Math.sin(LEG_LIFT) + (stunned() ? 6 : 0);
+        double k = MODEL_SCALE / 16.0;
+        double lx = -mx * k, lz = mz * k, h = (24 - my) * k;
+        double th = Math.toRadians(180.0F - yBodyRot);
+        return position().add(lx * Math.cos(th) + lz * Math.sin(th), h, -lx * Math.sin(th) + lz * Math.cos(th));
+    }
+
+    /** Pata cuya rodilla recibió el impacto (o -1). */
+    private int kneeHit(DamageSource source) {
+        net.minecraft.world.entity.Entity direct = source.getDirectEntity(), attacker = source.getEntity();
+        if (!(attacker instanceof Player)) {
+            return -1;
+        }
+        Vec3 impact = direct != null && direct != attacker ? direct.position() : null;
+        Vec3 eye = ((Player) attacker).getEyePosition(), look = ((Player) attacker).getLookAngle();
+        int best = -1;
+        double bestD = 1.2;
+        for (int i = 0; i < 6; i++) {
+            if (legBroken(i)) {
+                continue;
+            }
+            Vec3 kp = knee(i);
+            double d;
+            if (impact != null) {
+                d = impact.distanceTo(kp);
+            } else {
+                double t = Math.max(0, kp.subtract(eye).dot(look));
+                d = eye.add(look.scale(t)).distanceTo(kp);                       // distancia de la rodilla a la línea de tiro
+            }
+            if (d < bestD) {
+                bestD = d;
+                best = i;
+            }
+        }
+        return best;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (level().isClientSide) {
+            return super.hurt(source, amount);
+        }
+        if (stun > 0) {
+            amount *= 1.5F;                                                       // tumbada: más vulnerable
+        }
+        int leg = kneeHit(source);
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && leg >= 0 && isAlive()) {
+            entityData.set(LEGS, (byte) (entityData.get(LEGS) | (1 << leg)));
+            stun = STUN_TICKS;
+            setMode(4);
+            getNavigation().stop();
+            if (level() instanceof ServerLevel server) {
+                Vec3 kp = knee(leg);
+                server.sendParticles(ParticleTypes.EXPLOSION, kp.x, kp.y, kp.z, 1, 0, 0, 0, 0);
+                server.sendParticles(ModParticles.KINETIC_SPARK.get(), kp.x, kp.y, kp.z, 30, 0.3, 0.3, 0.3, 0.3);
+            }
+            playSound(SoundEvents.IRON_GOLEM_DAMAGE, 3.0F, 0.5F);
+            playSound(ModSounds.SIEGE_ROAR.get(), 3.0F, 1.4F);
+        }
+        return hurt;
+    }
+
+    /** 0 nada, 1 cargando disparo, 2 preparando pisotón, 3 cargando haz de arrastre, 4 desplomada (pata rota). */
     public int mode() {
         return entityData.get(MODE);
     }
@@ -139,8 +227,25 @@ public class SiegeSpiderEntity extends Monster {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        if (level().isClientSide && tickCount % 4 == 0) {                         // patas rotas: chispas en la rodilla
+            for (int i = 0; i < 6; i++) {
+                if (legBroken(i)) {
+                    Vec3 kp = knee(i);
+                    level().addParticle(ParticleTypes.ELECTRIC_SPARK, kp.x, kp.y, kp.z, 0, -0.05, 0);
+                }
+            }
+        }
+    }
+
+    @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
+        if (stun > 0 && --stun == 0) {
+            setMode(0);
+            playSound(ModSounds.SIEGE_STEP.get(), 3.0F, 0.7F);                   // se levanta
+        }
         float frac = getHealth() / getMaxHealth();
         bossBar.setProgress(frac);
         int want = frac > 0.6F ? 1 : frac > 0.3F ? 2 : 3;
@@ -253,6 +358,11 @@ public class SiegeSpiderEntity extends Monster {
         public void tick() {
             LivingEntity t = getTarget();
             if (t == null) {
+                return;
+            }
+            if (stun > 0) {                                                       // desplomada: ni se mueve ni ataca
+                getNavigation().stop();
+                charge = stomp = pull = burstLeft = 0;
                 return;
             }
             gunCd--;
@@ -459,6 +569,7 @@ public class SiegeSpiderEntity extends Monster {
             tag.put("Console", NbtUtils.writeBlockPos(console));
         }
         tag.putInt("Phase", phase);
+        tag.putByte("Legs", entityData.get(LEGS));
     }
 
     @Override
@@ -468,6 +579,7 @@ public class SiegeSpiderEntity extends Monster {
             console = NbtUtils.readBlockPos(tag.getCompound("Console"));
         }
         phase = Math.max(1, tag.getInt("Phase"));
+        entityData.set(LEGS, tag.getByte("Legs"));
         if (hasCustomName()) {
             bossBar.setName(getDisplayName());
         }
