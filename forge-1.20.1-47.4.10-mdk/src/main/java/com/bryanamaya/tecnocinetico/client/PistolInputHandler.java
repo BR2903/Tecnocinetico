@@ -93,9 +93,15 @@ public final class PistolInputHandler {
                 float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING))
                         * com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.recoilMultiplier(player);
                 mult *= Mth.lerp(GunAnimState.aim, 1.0F, AIM_RECOIL_FACTOR);
-                player.setXRot(player.getXRot() - gun.stats().pitchKick() * mult);
-                player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * gun.stats().yawKick() * mult);
-                GunAnimState.onShot(player.level().getGameTime(), mult * 1.3F, player.getRandom().nextFloat() * 2.0F - 1.0F);
+                if (gun instanceof com.bryanamaya.tecnocinetico.item.weapon.MinigunItem) {
+                    // minigun: no salta hacia arriba; tiembla en todas direcciones (la vibración la dibuja LongGunClientExtensions)
+                    player.setXRot(player.getXRot() + (player.getRandom().nextFloat() - 0.5F) * 0.5F * mult);
+                    player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * 0.5F * mult);
+                } else {
+                    player.setXRot(player.getXRot() - gun.stats().pitchKick() * mult);
+                    player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * gun.stats().yawKick() * mult);
+                    GunAnimState.onShot(player.level().getGameTime(), mult * 1.3F, player.getRandom().nextFloat() * 2.0F - 1.0F);
+                }
                 player.getCooldowns().addCooldown(gun, gun.cooldown(pistol));
             }
             ModNetwork.CHANNEL.sendToServer(new ModNetwork.FirePistolPacket(GunAnimState.aim > 0.5F));

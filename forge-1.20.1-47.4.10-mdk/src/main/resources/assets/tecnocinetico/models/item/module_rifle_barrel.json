@@ -1,12 +1,12 @@
 {
-  "credit": "Tecnocinetico - weapons_gen.py",
+  "credit": "Tecnocinetico - gunkit.py",
   "texture_size": [
     64,
     64
   ],
   "textures": {
-    "0": "tecnocinetico:item/weapons_t1",
-    "particle": "tecnocinetico:item/weapons_t1"
+    "0": "tecnocinetico:item/gun/module_rifle_barrel",
+    "particle": "tecnocinetico:item/gun/module_rifle_barrel"
   },
   "elements": [
     {
@@ -23,55 +23,55 @@
       "faces": {
         "north": {
           "uv": [
-            14,
-            2,
-            16,
-            4
+            13.0,
+            13.75,
+            13.75,
+            14.5
           ],
           "texture": "#0"
         },
         "south": {
           "uv": [
-            0,
-            4,
-            2,
-            6
+            13.75,
+            13.75,
+            14.5,
+            14.5
           ],
           "texture": "#0"
         },
         "east": {
           "uv": [
-            0,
-            4,
-            2,
-            6
+            0.0,
+            13.0,
+            13.0,
+            13.75
           ],
           "texture": "#0"
         },
         "west": {
           "uv": [
-            0,
-            4,
-            2,
-            6
+            0.0,
+            13.75,
+            13.0,
+            14.5
           ],
           "texture": "#0"
         },
         "up": {
           "uv": [
-            0,
-            4,
-            2,
-            6
+            0.0,
+            0.0,
+            0.75,
+            13.0
           ],
           "texture": "#0"
         },
         "down": {
           "uv": [
-            0,
-            4,
-            2,
-            6
+            0.75,
+            0.0,
+            1.5,
+            13.0
           ],
           "texture": "#0"
         }
@@ -91,55 +91,55 @@
       "faces": {
         "north": {
           "uv": [
-            14,
-            2,
-            16,
-            4
+            1.5,
+            0.0,
+            3.0,
+            1.5
           ],
           "texture": "#0"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            6,
-            2
+            3.0,
+            0.0,
+            4.5,
+            1.5
           ],
           "texture": "#0"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            6,
-            2
+            4.5,
+            0.0,
+            6.0,
+            1.5
           ],
           "texture": "#0"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            6,
-            2
+            6.0,
+            0.0,
+            7.5,
+            1.5
           ],
           "texture": "#0"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            6,
-            2
+            7.5,
+            0.0,
+            9.0,
+            1.5
           ],
           "texture": "#0"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            6,
-            2
+            9.0,
+            0.0,
+            10.5,
+            1.5
           ],
           "texture": "#0"
         }

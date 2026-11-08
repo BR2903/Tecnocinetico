@@ -132,3 +132,8 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## combat_armor_gen.py
 - `python tools/combat_armor_gen.py [preview.png]`: armaduras de combate Mk I-III (capas + iconos). El Impulsor de Esquiva y su célula: `weapons_gen.py`.
+
+## gunkit.py (texturas de las armas)
+- Lo usa `weapons_gen.py`: cada arma se pinta en su propia textura `textures/item/gun/<arma>.png` por pintores de material (ver la cabecera del archivo). Para un arma nueva: escribe su función de geometría con `el(desde, hasta, material, front=..., rot=...)`, regístrala con `model(...)` (añade su nombre base a `GROUPS` si tiene variantes) y ejecuta `python tools/weapons_gen.py`; luego `gui_fit.py` y otra vez `weapons_gen.py`.
+- Materiales: steel_dark, steel, steel_hi, inercita, graphite, rubber, wood, wood_dark, leather, copper, brass, shell_red, rust, blade, edge, tape, olive, hazard, cyan, black (boca de cañón).
+

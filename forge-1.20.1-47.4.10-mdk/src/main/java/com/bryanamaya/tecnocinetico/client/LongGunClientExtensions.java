@@ -62,6 +62,15 @@ public class LongGunClientExtensions implements IClientItemExtensions {
                 pose.translate(0, 0, 0.012F * Mth.sin(tt * 1.3F));
             }
         }
+        // minigun: sin retroceso hacia arriba; mientras giran los cañones el arma vibra y se apoya contra el cuerpo
+        if (stack.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.MinigunItem) {
+            float sp = com.bryanamaya.tecnocinetico.item.weapon.MinigunItem.spin(stack);
+            if (sp > 0) {
+                float tt = player.tickCount + partialTick;
+                pose.translate(Mth.sin(tt * 9.1F) * 0.006F * sp, Mth.cos(tt * 11.7F) * 0.006F * sp, 0.03F * sp + Mth.sin(tt * 13.3F) * 0.004F * sp);
+            }
+            return true;
+        }
         // retroceso: más fuerte y más lento que la pistola
         if (recoiling) {
             float k = recoil(t) * GunAnimState.kickStrength;

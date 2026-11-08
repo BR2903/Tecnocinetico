@@ -138,6 +138,16 @@ public class Tecnocinetico {
                     ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
                             (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(stack) ? 1.0F : 0.0F);
                 }
+                // Minigun: fotograma de giro de los cañones (0, 0.5, 1) mientras giran; más rápido a plena velocidad
+                ItemProperties.register(ModItems.MINIGUN.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "spin"),
+                        (stack, level, entity, seed) -> {
+                            float s = com.bryanamaya.tecnocinetico.item.weapon.MinigunItem.spin(stack);
+                            if (s <= 0 || entity == null) {
+                                return 0.0F;
+                            }
+                            long t = entity.level().getGameTime();
+                            return ((t / (s >= 1.0F ? 1 : 2)) % 3) / 2.0F;
+                        });
                 // Jetpack: nivel 1-3 (el modelo añade piezas en Mk II y Mk III)
                 ItemProperties.register(ModItems.JETPACK.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "level"),
                         (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.gear.JetpackItem.level(stack));
