@@ -1,0 +1,28 @@
+{
+  "values": [
+    {
+      "id": "create:large_cogwheel",
+      "required": false
+    },
+    {
+      "id": "create:brass_ingot",
+      "required": false
+    },
+    {
+      "id": "create:electron_tube",
+      "required": false
+    },
+    {
+      "id": "create:brass_sheet",
+      "required": false
+    },
+    {
+      "id": "createaddition:capacitor",
+      "required": false
+    },
+    {
+      "id": "createaddition:connector",
+      "required": false
+    }
+  ]
+}

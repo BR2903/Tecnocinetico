@@ -1,0 +1,7 @@
+{
+  "type": "tecnocinetico:abandoned_factory",
+  "biomes": "#tecnocinetico:has_structure/abandoned_factory",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "beard_thin"
+}

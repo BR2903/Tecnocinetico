@@ -75,4 +75,6 @@ cmd /c ".\gradlew.bat runData 2>&1"               # regenera src/generated/resou
 - `ContainerData` sincroniza valores de **16 bits** (máx. 32 767). La energía de la prensa (20 000) cabe; si subes capacidades, divide el valor.
 - Overrides de modelos: Minecraft elige el **último** override cuyos predicados se cumplen → ordenar por máscara de módulos y luego por progreso de recarga (lo hace `pistol_gen.py`).
 - Repos de dependencias: Registrate está en `maven.tterrag.com`; Crafts & Additions viene del maven de Modrinth **sin `exclusiveContent`** (rompe `fg.deobf`). Create necesita `mixinextras-forge` y las propiedades `mixin.env.*` de `build.gradle`.
+- Botín o recetas con objetos de **otros mods** (Create): no los nombres directamente (si el mod falta, la tabla entera falla). Usa una etiqueta propia con entradas `{"id": ..., "required": false}` y una entrada de botín `minecraft:tag` (ver `tools/world_structures_gen.py`).
+- En `postProcess` de estructuras los aleatorios no pueden depender del mundo ni del chunk (ver `RuinedBuildingPiece`).
 - El renderizador de previsualización no tiene z-buffer: oculta caras interiores con una heurística; si algo "se ve encima", puede ser artefacto de la vista previa, no del juego.

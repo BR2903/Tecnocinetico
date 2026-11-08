@@ -82,7 +82,7 @@ Texturas 16×16 o 32×32 (potencia de 2), estilo coherente con el mod.
 1. **Bloques del mundo** (paleta de la sección 5). ✅ Hecho (2026-11-07), falta el fluido refrigerante.
 2. **Biomas + sustitución del Overworld** (datagen del mapa de biomas, efectos, superficies, tags). ✅ Hecho (2026-11-07): 19 biomas (se añadieron Mar de Escombros Profundo y Helado); `mushroom_fields` → Praderas de Chatarra, `cherry_grove` → Ruinas Invadidas. Se mantienen minas abandonadas y fortalezas; el resto de estructuras vanilla ya no aparecen.
 3. **Detalles del terreno** (features): cráteres, chatarra, cristales, árboles muertos/invadidos, escombros. 🔶 Hecho en parte (`tools/world_features_gen.py`): montones, pedazos, ceniza, cráteres, restos de muros, árboles muertos, cristales de cinetrita. Falta: autopistas/vías, más vegetación invadida, refrigerante.
-4. **Estructuras** empezando por Asentamiento de Supervivientes, ruinas y fábrica. 🔶 Hecho: edificios en ruinas (4 variantes, incluye los "rascacielos" de la Megaciudad). Hecho: Asentamiento de Supervivientes (sin NPC todavía). NPC Superviviente hecho (3 oficios). Siguiente: fábrica abandonada.
+4. **Estructuras** empezando por Asentamiento de Supervivientes, ruinas y fábrica. 🔶 Hecho: edificios en ruinas (4 variantes, incluye los "rascacielos" de la Megaciudad). Hecho: Asentamiento de Supervivientes (sin NPC todavía). NPC Superviviente hecho (3 oficios). Fábrica abandonada hecha. Siguiente: instalación de la IA, antena, centro de datos, búnker, laboratorio del Enjambre, ciudad sumergida.
 5. **Ambiente** (partículas, sonidos, clima).
 6. Nether y End.
 

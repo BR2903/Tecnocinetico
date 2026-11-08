@@ -1,7 +1,8 @@
 """Renderiza en isométrico los volcados de bloques que escribe el GameTest de estructuras
 (run/gametest_dump/<nombre>.txt, líneas "x y z bloque") para revisar el aspecto sin abrir el juego.
 
-Uso: python tools/render_dump.py <salida.png> run/gametest_dump/a.txt [b.txt ...]
+Uso: python tools/render_dump.py <salida.png> [--maxy=N] run/gametest_dump/a.txt [b.txt ...]
+     --maxy=N corta todo lo que esté por encima de esa altura (para ver el interior sin el techo).
 Colores aproximados por bloque (los desconocidos en magenta); caras con luz arriba/izquierda/derecha.
 """
 import sys
@@ -25,6 +26,10 @@ COLORS = {
     "carrots": (110, 150, 60), "beetroots": (110, 150, 60), "red_bed": (180, 40, 40), "spruce_door": (100, 76, 50),
     "crafting_table": (150, 110, 70), "furnace": (100, 100, 100), "chipped_anvil": (70, 70, 74), "barrel": (130, 96, 60),
     "hay_block": (200, 170, 60), "ladder": (150, 120, 80), "iron_bars": (150, 150, 155), "dirt_path": (150, 124, 80),
+    "polished_andesite": (140, 142, 138), "polished_andesite_slab": (140, 142, 138), "blast_furnace": (90, 90, 96),
+    "smooth_stone": (160, 160, 160), "hopper": (70, 70, 74), "chain": (60, 64, 70), "weathered_copper": (100, 150, 120),
+    "weathered_cut_copper": (100, 150, 120), "exposed_cut_copper_slab": (160, 120, 90), "vitrified_glass": (200, 150, 90),
+    "heavy_weighted_pressure_plate": (190, 190, 190), "lectern": (150, 110, 70), "grindstone": (130, 130, 130),
     "sandstone": (200, 186, 140), "red_sand": (180, 100, 50), "powder_snow": (240, 244, 248), "packed_ice": (150, 180, 230), "ice": (150, 180, 230), "terracotta": (150, 92, 66),
 }
 SKIP = {"short_grass", "grass", "tall_grass", "fern", "large_fern", "dandelion", "poppy"}
@@ -40,11 +45,14 @@ def shade(c, k):
     return tuple(max(0, min(255, int(v * k))) for v in c)
 
 
+MAXY = None
+
+
 def render(path):
     blocks = {}
     for line in Path(path).read_text().splitlines():
         x, y, z, b = line.split()
-        if b.split(":")[1] in SKIP:
+        if b.split(":")[1] in SKIP or (MAXY is not None and int(y) > MAXY):
             continue
         blocks[(int(x), int(y), int(z))] = b
     if not blocks:
@@ -73,7 +81,11 @@ def render(path):
 
 
 if __name__ == "__main__":
-    imgs = [render(p) for p in sys.argv[2:]]
+    args = sys.argv[2:]
+    for a in [a for a in args if a.startswith("--maxy=")]:
+        MAXY = int(a.split("=")[1])
+        args.remove(a)
+    imgs = [render(p) for p in args]
     W = sum(i.width for i in imgs) + 10 * (len(imgs) - 1)
     H = max(i.height for i in imgs)
     sheet = Image.new("RGB", (W, H), (40, 40, 44))

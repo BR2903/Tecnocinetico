@@ -1,0 +1,44 @@
+{
+  "values": [
+    {
+      "id": "create:andesite_alloy",
+      "required": false
+    },
+    {
+      "id": "create:shaft",
+      "required": false
+    },
+    {
+      "id": "create:cogwheel",
+      "required": false
+    },
+    {
+      "id": "create:iron_sheet",
+      "required": false
+    },
+    {
+      "id": "create:copper_sheet",
+      "required": false
+    },
+    {
+      "id": "create:zinc_ingot",
+      "required": false
+    },
+    {
+      "id": "create:zinc_nugget",
+      "required": false
+    },
+    {
+      "id": "create:belt_connector",
+      "required": false
+    },
+    {
+      "id": "createaddition:copper_wire",
+      "required": false
+    },
+    {
+      "id": "createaddition:iron_rod",
+      "required": false
+    }
+  ]
+}

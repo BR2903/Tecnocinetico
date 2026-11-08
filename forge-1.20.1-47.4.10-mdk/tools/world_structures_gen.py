@@ -49,6 +49,20 @@ def item(name, weight, lo=1, hi=1):
     return e
 
 
+def item_tag(name, values):
+    """Etiqueta de objetos con entradas OPCIONALES: si el mod (p. ej. Create) no está, simplemente no salen."""
+    write(DATA / NS / "tags/items" / f"{name}.json",
+          {"values": [{"id": v, "required": False} if not v.startswith(NS) else v for v in values]})
+
+
+def tag_entry(tag, weight, lo=1, hi=1):
+    """Entrada de botín que elige al azar un objeto de la etiqueta (vacía = no sale nada)."""
+    e = {"type": "minecraft:tag", "name": tag if ":" in tag else rl(tag), "expand": True, "weight": weight}
+    if (lo, hi) != (1, 1):
+        e["functions"] = [{"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": lo, "max": hi}}]
+    return e
+
+
 def chest(name, pools):
     write(DATA / NS / "loot_tables/chests" / f"{name}.json", {"type": "minecraft:chest", "pools": pools})
 
@@ -101,6 +115,33 @@ def main():
             item("minecraft:wheat", 10, 2, 8), item("minecraft:potato", 8, 2, 6), item("minecraft:beetroot", 6, 2, 6),
             item("minecraft:dried_kelp", 4, 2, 6), item("minecraft:spruce_log", 6, 2, 6), item("dead_log", 6, 2, 6),
             item("minecraft:coal", 6, 1, 4), item("scrap_metal", 6, 1, 4), item("minecraft:glass_bottle", 4, 1, 3)]}])
+    # ------------------------------------------------ fábrica abandonada (botín con piezas de Create)
+    structure("abandoned_factory", "abandoned_factory", ["industrial_jungle", "scrap_meadows", "extraction_scars"],
+              {}, 36, 12, 74120950, avoid="survivor_settlement")
+    item_tag("loot/create_common", ["create:andesite_alloy", "create:shaft", "create:cogwheel", "create:iron_sheet",
+                                    "create:copper_sheet", "create:zinc_ingot", "create:zinc_nugget",
+                                    "create:belt_connector", "createaddition:copper_wire", "createaddition:iron_rod"])
+    item_tag("loot/create_rare", ["create:large_cogwheel", "create:brass_ingot", "create:electron_tube",
+                                  "create:brass_sheet", "createaddition:capacitor", "createaddition:connector"])
+    item_tag("loot/create_precious", ["create:precision_mechanism", "create:sturdy_sheet"])
+    chest("abandoned_factory", [
+        {"rolls": {"type": "minecraft:uniform", "min": 3, "max": 6}, "entries": [
+            tag_entry("loot/create_common", 18, 1, 4), item("scrap_metal", 16, 2, 6),
+            item("minecraft:iron_nugget", 10, 3, 9), item("minecraft:copper_ingot", 8, 1, 4), item("minecraft:redstone", 6, 2, 6),
+            item("minecraft:coal", 6, 2, 6), item("minecraft:chain", 3, 1, 3)]},
+        {"rolls": 1, "entries": [
+            {"type": "minecraft:empty", "weight": 20}, tag_entry("loot/create_rare", 10, 1, 2),
+            item("crude_kinetic_coupler", 4), item("piezo_transducer", 3), item("deepslate_logic_substrate", 2)]},
+    ])
+    chest("factory_office", [
+        {"rolls": {"type": "minecraft:uniform", "min": 2, "max": 4}, "entries": [
+            item("minecraft:paper", 10, 2, 6), item("minecraft:book", 4), item("scrap_metal", 8, 2, 5),
+            item("minecraft:redstone", 6, 2, 6), item("cinetrite_shard", 5, 1, 3), tag_entry("loot/create_common", 6, 1, 3)]},
+        {"rolls": 1, "entries": [
+            {"type": "minecraft:empty", "weight": 14}, tag_entry("loot/create_rare", 8, 1, 2),
+            tag_entry("loot/create_precious", 3), item("deepslate_logic_substrate", 3), item("module_optic", 1),
+            item("module_quick_reload", 1)]},
+    ])
     print("ok: estructuras del Overworld")
 
 

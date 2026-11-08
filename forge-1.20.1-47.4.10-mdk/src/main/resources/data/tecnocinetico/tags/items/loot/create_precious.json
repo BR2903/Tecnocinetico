@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "create:precision_mechanism",
+      "required": false
+    },
+    {
+      "id": "create:sturdy_sheet",
+      "required": false
+    }
+  ]
+}

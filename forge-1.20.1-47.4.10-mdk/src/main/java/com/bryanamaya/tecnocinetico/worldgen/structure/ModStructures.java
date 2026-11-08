@@ -30,6 +30,11 @@ public final class ModStructures {
     public static final RegistryObject<StructurePieceType> SETTLEMENT_PIECE =
             PIECES.register("settlement", () -> (StructurePieceType.ContextlessType) SettlementPiece::new);
 
+    public static final RegistryObject<StructureType<FactoryStructure>> FACTORY =
+            TYPES.register("abandoned_factory", () -> () -> FactoryStructure.CODEC);
+    public static final RegistryObject<StructurePieceType> FACTORY_PIECE =
+            PIECES.register("abandoned_factory", () -> (StructurePieceType.ContextlessType) FactoryPiece::new);
+
     private ModStructures() {}
 
     public static void register(IEventBus bus) {

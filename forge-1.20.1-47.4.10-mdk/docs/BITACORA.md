@@ -156,3 +156,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - IA: pasea en un radio de 16 alrededor del centro del asentamiento (guardado en NBT), abre puertas, huye de los monstruos, no desaparece. Sonidos humanos (no de aldeano). Herramienta en mano según oficio.
 - Aspecto: modelo de jugador con capas (`SurvivorRenderer`), pieles 64x64 generadas por `tools/survivor_skin_gen.py` (capucha+gafas cian / delantal+célula de cinetrita / pañuelo+poncho).
 - Aparición: `SettlementPiece` crea uno por choza (armero en el taller, chatarrero en el almacén, granjero junto al huerto; casas: chatarrero o granjero). Huevo de aparición en la pestaña creativa. El GameTest comprueba que el asentamiento genera supervivientes con ofertas.
+
+## 2026-11-07 — Claude — Fábrica abandonada
+- Estructura por código `abandoned_factory` (`FactoryStructure` + `FactoryPiece`): nave de 23-31 x 15-21 y 9-11 de alto; pilares de viga, muro de hormigón abajo y chapa arriba con franja de ventanas rotas, portón de carga, techo con agujeros y claraboyas, esquina derrumbada con escombros; cinta transportadora, prensas, hornos con chimenea, tanques de cobre envejecido; pasarela de rejilla con escalera y oficina; grúa puente con cadena; 1-3 Cuerpos de Enjambre de guardia (persistentes). Variante invadida (musgo, enredaderas) en la Selva Industrial.
+- Biomas: Selva Industrial, Praderas de Chatarra, Cicatrices de Extracción. Excluida a 3 chunks de los asentamientos.
+- Botín con piezas de **Create sin depender de Create**: entradas `minecraft:tag` sobre etiquetas propias (`tecnocinetico:loot/create_common|create_rare|create_precious`) cuyas entradas son opcionales (`"required": false`); si Create/Crafts & Additions no están, la etiqueta queda vacía y no hay errores.
+- `render_dump.py --maxy=N` corta el techo para ver el interior.
