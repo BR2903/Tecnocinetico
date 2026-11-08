@@ -5,7 +5,6 @@ import com.bryanamaya.tecnocinetico.gear.JetpackItem;
 import com.bryanamaya.tecnocinetico.gear.TacticalGear;
 import com.bryanamaya.tecnocinetico.item.ModItems;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
@@ -43,36 +42,39 @@ public class GearLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Abs
         }
         TacticalGear.of(player).ifPresent(gear -> {
             int overlay = LivingEntityRenderer.getOverlayCoords(player, 0.0F);
-            VertexConsumer base = buffers.getBuffer(RenderType.entityCutoutNoCull(TEX));
             PlayerModel<AbstractClientPlayer> m = getParentModel();
             ItemStack face = gear.get(TacticalGear.FACE), back = gear.get(TacticalGear.BACK), feet = gear.get(TacticalGear.FEET);
 
             if (face.is(ModItems.NIGHT_VISION_VISOR.get())) {
-                draw(pose, base, buffers, m.head, model.visor, light, overlay);
+                draw(pose, buffers, m.head, model.visor, light, overlay);
             }
             if (back.is(ModItems.JETPACK.get())) {
                 int lvl = JetpackItem.level(back);
-                draw(pose, base, buffers, m.body, model.jetpack, light, overlay);
+                draw(pose, buffers, m.body, model.jetpack, light, overlay);
                 if (lvl >= 2) {
-                    draw(pose, base, buffers, m.body, model.jetpackMk2, light, overlay);
+                    draw(pose, buffers, m.body, model.jetpackMk2, light, overlay);
                 }
                 if (lvl >= 3) {
-                    draw(pose, base, buffers, m.body, model.jetpackMk3, light, overlay);
+                    draw(pose, buffers, m.body, model.jetpackMk3, light, overlay);
                 }
             }
             if (feet.is(ModItems.AQUA_PROPULSOR.get())) {
-                draw(pose, base, buffers, m.rightLeg, model.propulsor, light, overlay);
-                draw(pose, base, buffers, m.leftLeg, model.propulsor, light, overlay);
+                draw(pose, buffers, m.rightLeg, model.propulsor, light, overlay);
+                draw(pose, buffers, m.leftLeg, model.propulsor, light, overlay);
             }
         });
     }
 
-    /** Pieza enganchada a un hueso del jugador; después, la misma pieza con la textura luminosa a brillo máximo. */
-    private static void draw(PoseStack pose, VertexConsumer base, MultiBufferSource buffers, ModelPart bone, ModelPart part,
+    /**
+     * Pieza enganchada a un hueso del jugador; después, la misma pieza con la textura luminosa a brillo máximo.
+     * OJO: el VertexConsumer se pide de nuevo en cada pasada. Al pedir otro tipo de render, el anterior se cierra:
+     * reutilizar uno viejo hacía que el jetpack y las botas se dibujaran con la textura luminosa (casi invisibles).
+     */
+    private static void draw(PoseStack pose, MultiBufferSource buffers, ModelPart bone, ModelPart part,
                              int light, int overlay) {
         pose.pushPose();
         bone.translateAndRotate(pose);
-        part.render(pose, base, light, overlay);
+        part.render(pose, buffers.getBuffer(RenderType.entityCutoutNoCull(TEX)), light, overlay);
         part.render(pose, buffers.getBuffer(RenderType.eyes(GLOW)), 15728880, overlay);
         pose.popPose();
     }
