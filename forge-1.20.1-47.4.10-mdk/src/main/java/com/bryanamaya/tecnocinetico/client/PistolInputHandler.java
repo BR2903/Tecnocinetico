@@ -38,6 +38,11 @@ public final class PistolInputHandler {
 
     private PistolInputHandler() {}
 
+    /** Carga actual del Rifle de Riel (0..1) para la animación. */
+    public static float railCharge() {
+        return railCharge;
+    }
+
     private static boolean holdingCharge(LocalPlayer player) {
         return player != null && player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g
                 && g.action() == com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.CHARGE;

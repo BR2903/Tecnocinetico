@@ -223,7 +223,8 @@ public class ModItems {
     public static final RegistryObject<Item> CORE_PROCESSOR = ITEMS.register("core_processor",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
     public static final RegistryObject<Item> RAIL_SLUG = ITEMS.register("rail_slug", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> KINETIC_GRENADE = ITEMS.register("kinetic_grenade", () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> KINETIC_GRENADE = ITEMS.register("kinetic_grenade",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.KineticGrenadeItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> PULSE_CELL = ITEMS.register("pulse_cell", () -> new Item(new Item.Properties().stacksTo(8)));
     public static final RegistryObject<Item> EMPTY_PULSE_CELL = ITEMS.register("empty_pulse_cell", () -> new Item(new Item.Properties().stacksTo(8)));
     /** Rifle de Riel: carga 1,5 s (mantener el clic), 32 de daño a carga completa, atraviesa 4 enemigos, 100 bloques. */

@@ -18,12 +18,17 @@ import net.minecraft.world.phys.Vec3;
 
 /**
  * Granada Cinética (la dispara el Lanzagranadas): vuela en parábola, rebota en bloques perdiendo velocidad y
- * estalla al tocar a un ser vivo (que no sea quien la lanzó en el primer momento) o a los 2,5 s. La explosión
+ * estalla al tocar a un ser vivo (solo la del lanzagranadas; la de mano rebota) o al agotarse la mecha (2,5 s). La explosión
  * hiere y empuja en un radio de 3 bloques, pero no rompe bloques.
  */
 public class KineticGrenadeEntity extends ThrowableItemProjectile {
 
-    private static final int FUSE = 50;
+    public static final int FUSE = 50;
+
+    /** Ticks de mecha restantes al lanzarla (a mano se descuenta lo que se "cocinó"). */
+    private int fuse = FUSE;
+    /** ¿Estalla al tocar a un ser vivo? (lanzagranadas sí; a mano no, rebota). */
+    private boolean impact = true;
 
     public KineticGrenadeEntity(EntityType<? extends KineticGrenadeEntity> type, Level level) {
         super(type, level);
@@ -31,6 +36,14 @@ public class KineticGrenadeEntity extends ThrowableItemProjectile {
 
     public KineticGrenadeEntity(Level level, LivingEntity shooter) {
         super(ModEntities.KINETIC_GRENADE.get(), shooter, level);
+    }
+
+    public void setFuse(int ticks) {
+        this.fuse = Math.max(0, ticks);
+    }
+
+    public void setImpact(boolean impact) {
+        this.impact = impact;
     }
 
     @Override
@@ -50,7 +63,7 @@ public class KineticGrenadeEntity extends ThrowableItemProjectile {
             if (tickCount % 2 == 0) {
                 server.sendParticles(ModParticles.KINETIC_SPARK.get(), getX(), getY(), getZ(), 1, 0, 0, 0, 0.01);
             }
-            if (tickCount >= FUSE) {
+            if (tickCount >= fuse) {
                 explode();
             }
         }
@@ -61,8 +74,10 @@ public class KineticGrenadeEntity extends ThrowableItemProjectile {
         if (hit.getEntity() == getOwner() && tickCount < 10) {
             return;
         }
-        if (hit.getEntity() instanceof LivingEntity && !level().isClientSide) {
+        if (impact && hit.getEntity() instanceof LivingEntity && !level().isClientSide) {
             explode();
+        } else if (!impact) {
+            setDeltaMovement(getDeltaMovement().scale(-0.3));                 // la de mano rebota en el cuerpo
         }
     }
 

@@ -49,6 +49,19 @@ public class LongGunClientExtensions implements IClientItemExtensions {
             float push = p > 0.7F ? (float) Math.sin((p - 0.7F) / 0.3F * Math.PI) : 0.0F;
             pose.translate(0, 0.03F * push, -0.03F * push);
         }
+        // Rifle de Riel cargando: se recoge contra el hombro y vibra cada vez más (los raíles acumulan energía)
+        float charge = stack.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem ? PistolInputHandler.railCharge() : 0.0F;
+        if (charge > 0) {
+            float c = charge * charge * (3 - 2 * charge);
+            float tt = player.tickCount + partialTick;
+            pose.translate(-side * 0.02F * c * (1 - aim), -0.03F * c, 0.07F * c);
+            pose.mulPose(Axis.XP.rotationDegrees(-2.5F * c));
+            float buzz = 0.004F + 0.01F * c;
+            pose.translate(Mth.sin(tt * 3.1F) * buzz * c, Mth.cos(tt * 3.7F) * buzz * c, 0);
+            if (charge >= 1.0F) {                                              // carga completa: pulso
+                pose.translate(0, 0, 0.012F * Mth.sin(tt * 1.3F));
+            }
+        }
         // retroceso: más fuerte y más lento que la pistola
         if (recoiling) {
             float k = recoil(t) * GunAnimState.kickStrength;

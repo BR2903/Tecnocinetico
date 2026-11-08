@@ -311,5 +311,6 @@
   "item.tecnocinetico.pulse_cannon": "Cañón de Impulso",
   "item.tecnocinetico.pulse_cannon.desc": "Onda cinética en cono: hiere, lanza y aturde. 6 disparos por Célula de Impulso.",
   "jei.tecnocinetico.assembler_energy": "%s FE · %s s",
-  "tooltip.tecnocinetico.core_processor": "Solo en las Instalaciones de la IA. Necesario para las armas tier 3."
+  "tooltip.tecnocinetico.core_processor": "Solo en las Instalaciones de la IA. Necesario para las armas tier 3.",
+  "tooltip.tecnocinetico.kinetic_grenade": "Clic derecho mantenido: quitar la anilla y preparar; soltar: lanzar. Mecha de 2,5 s desde la anilla (¡no la sostengas demasiado!). También es munición del Lanzagranadas."
 }

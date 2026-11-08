@@ -311,5 +311,6 @@
   "item.tecnocinetico.pulse_cannon": "Pulse Cannon",
   "item.tecnocinetico.pulse_cannon.desc": "Kinetic wave cone: hurts, launches and stuns. 6 shots per Pulse Cell.",
   "jei.tecnocinetico.assembler_energy": "%s FE · %s s",
-  "tooltip.tecnocinetico.core_processor": "Only in AI Installations. Needed for tier 3 weapons."
+  "tooltip.tecnocinetico.core_processor": "Only in AI Installations. Needed for tier 3 weapons.",
+  "tooltip.tecnocinetico.kinetic_grenade": "Hold right click: pull the pin and wind up; release: throw. 2.5 s fuse from the pin (don't hold it too long!). Also Grenade Launcher ammo."
 }

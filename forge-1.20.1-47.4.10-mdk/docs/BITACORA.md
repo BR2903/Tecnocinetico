@@ -308,3 +308,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
   - **Cañón de Impulso** (`PulseCannonItem`): cono de onda de 8 bloques que hiere (más de cerca), lanza y aturde (lentitud IV + debilidad); 6 disparos por Célula de Impulso; al recargar devuelve una Célula Vacía, que se recarga en la Prensa Automática (receta con energía).
 - Modelos 3D en `weapons_gen.py` (+ fotograma de recarga) y munición 3D; zonas nuevas del atlas: olive, hazard, graphite.
 - GameTest `tier3Weapons` (17 en total, todos pasan).
+
+## 2026-11-08 — Claude — Granada de mano y animaciones (granada y carga del riel)
+- `item/weapon/KineticGrenadeItem`: la Granada Cinética, además de munición del Lanzagranadas, se lanza a mano: mantener el clic derecho quita la anilla (sonido) y acumula fuerza (1 s para la máxima); al soltar se lanza. La mecha de 2,5 s empieza con la anilla (tic-tac cada 0,5 s): se puede "cocinar", pero si se agota en la mano estalla ahí. A mano rebota en bloques y cuerpos (no estalla al impacto); la del lanzagranadas sí. `KineticGrenadeEntity` tiene ahora `setFuse` y `setImpact`.
+- Animaciones en primera persona: `client/GrenadeClientExtensions` (sube al quitar la anilla, el brazo se echa atrás según la fuerza, tiembla en el último segundo de mecha; tercera persona con la pose de lanzar tridente) y carga del Rifle de Riel en `LongGunClientExtensions` (se recoge contra el hombro y vibra más cuanto más carga; pulso a carga completa).
+- GameTest `tier3Weapons` comprueba también el lanzamiento a mano.
+

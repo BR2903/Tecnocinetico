@@ -292,6 +292,17 @@ public class AmmoGameTests {
         int shots = com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.getAmmo(cannon);
         boolean cellSwap = shots == 6 && player.getInventory().getItem(5).getCount() == 1
                 && player.getInventory().countItem(ModItems.EMPTY_PULSE_CELL.get()) == 1;
+        // granada de mano: lanzada tras "cocinarla" 10 ticks -> sale con 40 de mecha y se gasta una
+        ItemStack hand = new ItemStack(ModItems.KINETIC_GRENADE.get(), 3);
+        sp.getInventory().setItem(1, hand);
+        int before = level.getEntitiesOfClass(com.bryanamaya.tecnocinetico.entity.custom.KineticGrenadeEntity.class,
+                sp.getBoundingBox().inflate(4)).size();
+        hand.getItem().releaseUsing(hand, level, sp, 72000 - 10);
+        var thrown = level.getEntitiesOfClass(com.bryanamaya.tecnocinetico.entity.custom.KineticGrenadeEntity.class,
+                sp.getBoundingBox().inflate(4));
+        boolean handThrow = thrown.size() == before + 1 && hand.getCount() == 2;
+        spawned.addAll(thrown);
+        helper.assertTrue(handThrow, "La granada de mano no se lanzó (" + thrown.size() + ", quedan " + hand.getCount() + ")");
         helper.runAfterDelay(70, () -> {
             boolean blown = p3.getHealth() < p3.getMaxHealth();
             Tecnocinetico.LOGGER.info("[GameTest] tier 3: riel atraviesa={}, granada={}, célula={} ({} disparos)", pierced, blown, cellSwap, shots);
