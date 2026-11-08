@@ -150,6 +150,88 @@ def rifle(bolt_back=False, mods=0):
     return els + trigger_group()
 
 
+# ---------------------------------------------------------------- tier 2: escopeta de corredera (módulos de escopeta)
+def pump_shotgun(pumped=False, mods=0):
+    front = -5.0 if mods & SAWED else -14.0
+    dz = 3.0 if pumped else 0.0                                                            # guardamanos atrás
+    els = [el([7.45, 12.6, front], [8.55, 13.7, 4.0], "steel_dark", front="black"),          # cañón
+           el([7.85, 13.7, front + 0.5], [8.15, 13.9, 4.0], "steel_hi"),                     # banda superior
+           el([7.9, 13.9, front + 0.5], [8.1, 14.2, front + 1.0], "brass"),                  # punto de mira
+           el([7.55, 11.6, max(front + 2.0, -10.0)], [8.45, 12.6, 4.0], "steel"),             # depósito tubular
+           el([7.15, 11.3, -8.0 + dz], [8.85, 12.9, -3.0 + dz], "rubber"),                    # guardamanos (corredera)
+           el([7.1, 11.5, -7.0 + dz], [8.9, 11.8, -6.4 + dz], "black"), el([7.1, 11.5, -5.2 + dz], [8.9, 11.8, -4.6 + dz], "black"),
+           el([7.2, 11.2, 4.0], [8.8, 14.0, 10.0], "steel_dark"),                            # cajón de mecanismos
+           el([8.8, 12.6, 5.5], [8.9, 13.4, 8.0], "black"),                                  # ventana de expulsión
+           el([8.82, 11.5, 5.0], [8.92, 11.8, 9.0], "cyan"),                                 # línea de cinetrita
+           el([7.6, 14.0, 8.6], [8.4, 14.6, 9.2], "steel"),                                  # alza de anillo
+           el([7.2, 7.8, 9.6], [8.8, 11.2, 12.6], "rubber", rot=GRIP_ROT),                   # empuñadura
+           el([7.1, 9.0, 12.0], [8.9, 12.2, 21.0], "rubber"),                                # culata de polímero
+           el([7.3, 12.2, 12.0], [8.7, 12.6, 18.0], "steel_dark"),
+           el([7.0, 8.4, 21.0], [9.0, 12.4, 22.0], "leather")]                               # cantonera
+    if mods & CHOKE:
+        els.append(el([7.35, 12.5, front - 0.8], [8.65, 13.8, front], "copper", front="black"))
+    if mods & SAWED:
+        els.append(el([7.4, 12.55, front], [8.6, 13.75, front + 0.4], "rust"))               # corte
+    if mods & LOADER:                                                                      # portacartuchos lateral
+        els.append(el([6.9, 11.6, 4.5], [7.2, 13.4, 9.0], "steel"))
+        for z in (4.8, 6.0, 7.2, 8.4):
+            els.append(el([6.4, 11.8, z], [6.9, 13.2, z + 0.9], "shell_red"))
+    return els + trigger_group()
+
+
+# ---------------------------------------------------------------- tier 2: rifle semiautomático (módulos de rifle)
+def semi_rifle(mag_out=False, mods=0):
+    barrel_mat = "inercita" if mods & BARREL else "steel_dark"
+    handle = "brass" if mods & BOLT else "steel_hi"
+    els = [el([7.6, 12.8, -15.4], [8.4, 13.6, 2.0], barrel_mat, front="black"),            # cañón
+           el([7.75, 13.6, -8.0], [8.25, 14.0, 2.0], "steel"),                               # tubo de gases
+           el([7.85, 13.6, -14.8], [8.15, 14.6, -14.2], "steel_hi"),                         # punto de mira
+           el([7.1, 12.0, -9.0], [8.9, 14.2, 2.0], "wood"),                                  # guardamanos
+           el([7.05, 12.6, -6.0], [7.15, 12.9, -1.0], "cyan"),
+           el([7.25, 11.8, 2.0], [8.75, 14.0, 10.0], "steel_dark"),                          # cajón
+           el([8.75, 13.0, 4.5], [9.6, 13.5, 5.2], handle),                                  # palanca de carga
+           el([7.6, 14.0, 8.4], [8.4, 14.7, 9.2], "steel"),                                  # alza
+           el([7.2, 8.0, 10.5], [8.8, 12.0, 13.5], "wood", rot=GRIP_ROT),
+           el([7.1, 9.0, 13.0], [8.9, 12.4, 23.0], "wood"),
+           el([7.3, 12.4, 14.0], [8.7, 13.0, 20.0], "wood_dark"),
+           el([7.0, 8.2, 23.0], [9.0, 12.6, 23.6], "rubber")]
+    if not mag_out:
+        els += [el([7.35, 9.0, 4.0], [8.65, 11.8, 6.6], "steel_dark"),                     # cargador de 10
+                el([7.3, 8.8, 3.9], [8.7, 9.2, 6.7], "steel")]
+    if mods & BARREL:
+        els.append(el([7.3, 12.5, -16.0], [8.7, 13.9, -14.6], "steel_hi", front="black"))
+    else:
+        els.append(el([7.5, 12.7, -16.0], [8.5, 13.7, -15.3], "steel"))
+    if mods & SCOPE:
+        els += [el([7.6, 14.0, 5.0], [8.4, 14.6, 5.6], "steel_dark"), el([7.6, 14.0, 9.0], [8.4, 14.6, 9.6], "steel_dark"),
+                el([7.3, 14.6, 2.0], [8.7, 16.0, 12.0], "steel_dark"),
+                el([7.1, 14.4, 0.6], [8.9, 16.2, 2.0], "steel", front="cyan"),
+                el([7.2, 14.5, 12.0], [8.8, 16.1, 13.0], "steel")]
+    return els + trigger_group()
+
+
+# ---------------------------------------------------------------- tier 2: subfusil (sin módulos)
+def smg(mag_out=False):
+    els = [el([7.65, 12.6, -6.0], [8.35, 13.3, 0.0], "steel_dark", front="black"),          # cañón
+           el([7.55, 12.5, -6.6], [8.45, 13.4, -6.0], "copper", front="black"),              # anillo de boca
+           el([7.2, 11.6, -2.0], [8.8, 14.0, 10.0], "steel_dark"),                           # cajón
+           el([7.5, 14.0, 0.0], [8.5, 14.3, 9.0], "steel"),                                  # riel
+           el([7.85, 14.0, -1.5], [8.15, 14.8, -1.0], "steel_hi"),                           # punto de mira
+           el([7.6, 14.0, 8.5], [8.4, 14.7, 9.2], "steel"),                                  # alza
+           el([8.8, 12.4, 1.0], [8.9, 12.8, 8.0], "cyan"),                                   # bobina de cinetrita
+           el([8.8, 13.2, 2.0], [8.9, 13.5, 6.0], "copper"),
+           el([7.4, 9.6, -1.5], [8.6, 11.6, 0.5], "rubber"),                                 # empuñadura delantera
+           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),                   # empuñadura
+           el([7.6, 11.0, 10.0], [7.9, 11.4, 19.0], "steel"),                                # culata de alambre
+           el([8.1, 11.0, 10.0], [8.4, 11.4, 19.0], "steel"),
+           el([7.6, 12.6, 10.0], [7.9, 13.0, 18.0], "steel"), el([8.1, 12.6, 10.0], [8.4, 13.0, 18.0], "steel"),
+           el([7.4, 10.6, 18.6], [8.6, 13.2, 19.2], "steel_dark")]                           # cantonera
+    if not mag_out:
+        els += [el([7.4, 7.0, 3.0], [8.6, 11.6, 5.0], "steel"),                              # cargador de 24
+                el([7.35, 6.8, 2.9], [8.65, 7.2, 5.1], "steel_dark")]
+    return els + trigger_group()
+
+
 # ---------------------------------------------------------------- machete (como una espada: diagonal en el plano XY)
 def machete():
     d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}                                      # mango abajo-izq., punta arriba-der.
@@ -203,7 +285,8 @@ if __name__ == "__main__":
     paint().save(ROOT / "textures/item/weapons_t1.png")
     # 8 combinaciones de módulos x (normal, recargando). Minecraft usa el ÚLTIMO override que encaja (>=):
     # se ordenan por máscara y luego por recarga.
-    for base, fn, alt in (("pipe_shotgun", shotgun, "open"), ("bolt_rifle", rifle, "bolt")):
+    for base, fn, alt in (("pipe_shotgun", shotgun, "open"), ("bolt_rifle", rifle, "bolt"),
+                          ("pump_shotgun", pump_shotgun, "pumped"), ("semi_rifle", semi_rifle, "mag_out")):
         overrides = []
         for m in range(8):
             name = base if m == 0 else f"{base}_m{m}"
@@ -215,6 +298,9 @@ if __name__ == "__main__":
             overrides.append({"predicate": {"tecnocinetico:modules": m, "tecnocinetico:reload": 1},
                               "model": f"tecnocinetico:item/{name}_{alt}"})
         model(base, fn(False, 0), GUN_DISPLAY, overrides)
+    model("kinetic_smg_mag_out", smg(True), GUN_DISPLAY)
+    model("kinetic_smg", smg(False), GUN_DISPLAY,
+          [{"predicate": {"tecnocinetico:reload": 1}, "model": "tecnocinetico:item/kinetic_smg_mag_out"}])
     # objetos de los módulos: solo sus piezas, centradas
     module_parts = {
         "choke": [el([6.9, 7.4, 6.4], [8.0, 8.6, 7.6], "copper", front="black"), el([8.0, 7.4, 6.4], [9.1, 8.6, 7.6], "copper", front="black")],
@@ -232,7 +318,9 @@ if __name__ == "__main__":
     model("scrap_machete", machete(), HANDHELD)
     model("shotgun_shell", shell(), SMALL)
     model("rifle_round", rifle_round(), SMALL)
-    for piece in ("helmet", "chestplate", "leggings", "boots"):
-        (ROOT / "models/item" / f"scrap_{piece}.json").write_text(json.dumps(
-            {"parent": "minecraft:item/generated", "textures": {"layer0": f"tecnocinetico:item/scrap_{piece}"}}, indent=2), encoding="utf-8")
+    flat = [f"{s_}_{piece}" for s_ in ("scrap", "inercita", "tactical", "exo") for piece in ("helmet", "chestplate", "leggings", "boots")]
+    flat += ["inercita_plate", "precision_mechanism", "kinetic_servo", "ballistic_fabric"]          # tools/armor_t2_gen.py
+    for name in flat:
+        (ROOT / "models/item" / f"{name}.json").write_text(json.dumps(
+            {"parent": "minecraft:item/generated", "textures": {"layer0": f"tecnocinetico:item/{name}"}}, indent=2), encoding="utf-8")
     print("ok: armas tier 1")

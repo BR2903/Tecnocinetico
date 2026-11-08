@@ -159,4 +159,70 @@ public class AmmoGameTests {
                 "Máscara local para el modelo: rifle " + WeaponModule.localMask(rifle) + ", escopeta " + WeaponModule.localMask(shotgun));
         helper.succeed();
     }
+
+    /**
+     * Tier 2: las piezas "powered" solo salen de la prensa con energía; el rifle semiautomático recarga el cargador
+     * entero de golpe; el subfusil gasta 1 bala por disparo y no dispara dos veces en el mismo tick; bonos de set.
+     */
+    @GameTest(template = "empty")
+    public static void tier2GunsAndArmor(GameTestHelper helper) {
+        // prensa: placa de inercita
+        var inv = new net.minecraftforge.items.ItemStackHandler(3);
+        inv.setStackInSlot(0, new ItemStack(ModItems.INERCITA_INGOT.get()));
+        inv.setStackInSlot(1, new ItemStack(net.minecraft.world.item.Items.IRON_INGOT));
+        inv.setStackInSlot(2, new ItemStack(ModItems.SCRAP_METAL.get()));
+        helper.assertTrue(com.bryanamaya.tecnocinetico.block.entity.PressRecipes.findResult(inv, 3, false).isEmpty(),
+                "La placa de inercita no debe salir a martillo");
+        helper.assertTrue(com.bryanamaya.tecnocinetico.block.entity.PressRecipes.findResult(inv, 3, true).is(ModItems.INERCITA_PLATE.get()),
+                "La prensa con energía debe hacer la placa de inercita");
+
+        // rifle semiautomático: recarga de cargador entero (10 de 15 balas)
+        Player player = helper.makeMockPlayer();
+        player.getInventory().clearContent();
+        player.getInventory().setItem(3, new ItemStack(ModItems.RIFLE_ROUND.get(), 15));
+        ItemStack rifle = new ItemStack(ModItems.SEMI_RIFLE.get());
+        player.getInventory().setItem(0, rifle);
+        player.getInventory().selected = 0;
+        var semi = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) rifle.getItem();
+        semi.startReload(player, rifle);
+        int ticks = 0;
+        while (ticks < 200 && com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(rifle)) {
+            rifle.inventoryTick(helper.getLevel(), player, 0, true);
+            ticks++;
+        }
+        int ammo = com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.getAmmo(rifle);
+        helper.assertTrue(ammo == 10 && player.getInventory().getItem(3).getCount() == 5 && ticks == semi.stats().loadTicks(),
+                "Semiautomático: esperaba 10 dentro, 5 fuera y una sola espera; hay " + ammo + ", "
+                        + player.getInventory().getItem(3).getCount() + " y " + ticks + " ticks");
+
+        // subfusil: 1 bala por disparo, sin doble disparo en el mismo tick
+        var sp = net.minecraftforge.common.util.FakePlayerFactory.getMinecraft(helper.getLevel());   // conexión simulada
+        sp.moveTo(helper.absoluteVec(new net.minecraft.world.phys.Vec3(1, 3, 1)));
+        sp.getInventory().clearContent();
+        ItemStack smg = new ItemStack(ModItems.KINETIC_SMG.get());
+        smg.getOrCreateTag().putInt("Ammo", 24);
+        sp.getInventory().setItem(0, smg);
+        sp.getInventory().selected = 0;
+        var auto = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) smg.getItem();
+        auto.tryFire(sp, false);
+        auto.tryFire(sp, false);
+        int left = com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.getAmmo(sp.getMainHandItem());
+        helper.assertTrue(left == 23, "Subfusil: esperaba 23 balas tras dos intentos en el mismo tick, hay " + left);
+
+        // armaduras: set completo y freno de las placas de inercita
+        double base = player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED);
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD, new ItemStack(ModItems.INERCITA_HELMET.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST, new ItemStack(ModItems.INERCITA_CHESTPLATE.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.LEGS, new ItemStack(ModItems.INERCITA_LEGGINGS.get()));
+        var kind = com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.INERCITA;
+        helper.assertTrue(!com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.hasFullSet(player, kind), "Con 3 piezas no hay bono");
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET, new ItemStack(ModItems.INERCITA_BOOTS.get()));
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.hasFullSet(player, kind), "Con las 4 piezas hay bono");
+        player.tick();                                                         // aplica los modificadores del equipo
+        double slow = player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED);
+        helper.assertTrue(slow < base * 0.9, "Las placas de inercita deberían frenar (" + base + " -> " + slow + ")");
+        helper.assertTrue(!com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.hasFullSet(player,
+                com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.EXO), "No es un exoesqueleto");
+        helper.succeed();
+    }
 }

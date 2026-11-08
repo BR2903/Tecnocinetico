@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "IIM",
+    " PC",
+    " I "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "C": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:kinetic_smg",
+    "count": 1
+  }
+}

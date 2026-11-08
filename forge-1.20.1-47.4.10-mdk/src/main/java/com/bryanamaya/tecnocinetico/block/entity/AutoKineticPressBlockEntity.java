@@ -114,7 +114,7 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
 
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            if (slot == OUTPUT_SLOT || !PressRecipes.isIngredient(stack)) {
+            if (slot == OUTPUT_SLOT || !PressRecipes.isIngredient(stack, true)) {
                 return false;
             }
             // No permitir el mismo ingrediente en dos huecos distintos: evita que una tolva atasque la máquina
@@ -147,7 +147,7 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
         if (state.getValue(AutoKineticPressBlock.POWERED) != powered) {
             level.setBlock(pos, state.setValue(AutoKineticPressBlock.POWERED, powered), Block.UPDATE_CLIENTS);
         }
-        ItemStack result = PressRecipes.findResult(entity.itemHandler, INPUT_SLOTS);
+        ItemStack result = PressRecipes.findResult(entity.itemHandler, INPUT_SLOTS, true);
         if (result.isEmpty() || !entity.canOutput(result)) {
             if (entity.progress != 0) {
                 entity.progress = 0;

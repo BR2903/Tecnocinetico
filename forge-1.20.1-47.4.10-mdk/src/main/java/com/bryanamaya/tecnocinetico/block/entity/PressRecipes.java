@@ -17,8 +17,15 @@ import java.util.List;
  */
 public final class PressRecipes {
 
-    /** Una receta de prensa: ingredientes distintos (1 de cada) -> resultado. */
-    public record Recipe(List<Item> inputs, ItemStack output) {}
+    /**
+     * Una receta de prensa: ingredientes distintos (1 de cada) -> resultado. Las "powered" (piezas del tier 2)
+     * solo las hace la Prensa Cinética Automática con electricidad: a martillo no salen.
+     */
+    public record Recipe(List<Item> inputs, ItemStack output, boolean powered) {
+        public Recipe(List<Item> inputs, ItemStack output) {
+            this(inputs, output, false);
+        }
+    }
 
     private static List<Recipe> recipes;
 
@@ -39,12 +46,25 @@ public final class PressRecipes {
                             new ItemStack(ModItems.CRUDE_KINETIC_COUPLER.get())),
                     // Fragmentación: un Cristal de Cinetrita -> 2 fragmentos
                     new Recipe(List.of(ModItems.CINETRITE_INGOT.get()),
-                            new ItemStack(ModItems.CINETRITE_SHARD.get(), 2)));
+                            new ItemStack(ModItems.CINETRITE_SHARD.get(), 2)),
+                    // ---- tier 2: solo con energía
+                    // Placa de Inercita
+                    new Recipe(List.of(ModItems.INERCITA_INGOT.get(), Items.IRON_INGOT, ModItems.SCRAP_METAL.get()),
+                            new ItemStack(ModItems.INERCITA_PLATE.get()), true),
+                    // Mecanismo de Precisión
+                    new Recipe(List.of(Items.IRON_INGOT, ModItems.PIEZO_TRANSDUCER.get(), ModItems.DEEPSLATE_LOGIC_SUBSTRATE.get()),
+                            new ItemStack(ModItems.PRECISION_MECHANISM.get()), true),
+                    // Servo Cinético
+                    new Recipe(List.of(ModItems.CINETRITE_INGOT.get(), ModItems.CRUDE_KINETIC_COUPLER.get(), Items.COPPER_INGOT),
+                            new ItemStack(ModItems.KINETIC_SERVO.get()), true),
+                    // Tela Balística
+                    new Recipe(List.of(Items.LEATHER, Items.STRING, ModItems.CINETRITE_SHARD.get()),
+                            new ItemStack(ModItems.BALLISTIC_FABRIC.get(), 2), true));
         }
         return recipes;
     }
 
-    public static @NotNull ItemStack findResult(IItemHandler inv, int inputSlots) {
+    public static @NotNull ItemStack findResult(IItemHandler inv, int inputSlots, boolean powered) {
         int filled = 0;
         for (int i = 0; i < inputSlots; i++) {
             if (!inv.getStackInSlot(i).isEmpty()) {
@@ -52,7 +72,8 @@ public final class PressRecipes {
             }
         }
         for (Recipe recipe : all()) {
-            if (recipe.inputs().size() == filled && recipe.inputs().stream().allMatch(item -> has(inv, inputSlots, item))) {
+            if ((powered || !recipe.powered()) && recipe.inputs().size() == filled
+                    && recipe.inputs().stream().allMatch(item -> has(inv, inputSlots, item))) {
                 return recipe.output().copy();
             }
         }
@@ -60,8 +81,8 @@ public final class PressRecipes {
     }
 
     /** ¿Este objeto se usa en alguna receta de prensa? Evita que se metan objetos inútiles (p. ej. el martillo). */
-    public static boolean isIngredient(ItemStack stack) {
-        return all().stream().anyMatch(r -> r.inputs().contains(stack.getItem()));
+    public static boolean isIngredient(ItemStack stack, boolean powered) {
+        return all().stream().anyMatch(r -> (powered || !r.powered()) && r.inputs().contains(stack.getItem()));
     }
 
     /** Consume 1 unidad de cada hueco de entrada ocupado. */

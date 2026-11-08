@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "P P",
+    "SMS",
+    "PSP"
+  ],
+  "key": {
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "S": {
+      "item": "tecnocinetico:kinetic_servo"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:exo_chestplate",
+    "count": 1
+  }
+}

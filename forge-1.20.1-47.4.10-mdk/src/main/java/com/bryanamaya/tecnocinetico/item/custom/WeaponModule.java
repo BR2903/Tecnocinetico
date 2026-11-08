@@ -42,7 +42,7 @@ public enum WeaponModule {
     RIFLE_BARREL("rifle_barrel", Family.RIFLE);
 
     /** Tipo de arma al que pertenece cada módulo. */
-    public enum Family { PISTOL, SHOTGUN, RIFLE }
+    public enum Family { PISTOL, SHOTGUN, RIFLE, SMG }
 
     private static final String TAG = "Modules";
 

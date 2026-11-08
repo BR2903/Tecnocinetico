@@ -39,12 +39,16 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Arma larga de carga cartucho a cartucho (Escopeta de caño, Rifle de cerrojo). Comparte con la pistola la
- * entrada (clic izquierdo dispara, derecho apunta, R recarga) y el estado de animación del cliente.
+ * Arma larga (Escopeta de caño, Rifle de cerrojo; tier 2: Escopeta de corredera, Rifle semiautomático, Subfusil).
+ * Comparte con la pistola la entrada (clic izquierdo dispara, derecho apunta, R recarga) y el estado de animación
+ * del cliente. El {@link Action mecanismo} decide cómo recarga y qué suena tras cada disparo:
+ * - BREAK / BOLT / PUMP: cartucho a cartucho (disparar durante la recarga la interrumpe);
+ * - SEMI / AUTO: cargador entero (al terminar el tiempo de recarga mete todo lo que quepa); AUTO dispara mientras
+ *   se mantiene el clic y su dispersión crece con la ráfaga ("Heat").
  *
- * NBT: "Ammo" (cargados), "Loading" (recargando) y "LoadTimer" (ticks hasta el siguiente cartucho).
- * Recargar mete los cartuchos de uno en uno (de las ranuras de munición del Equipo Táctico y del inventario);
- * disparar durante la recarga la interrumpe. Cada disparo lanza `pellets` rayos con dispersión `spread`.
+ * NBT: "Ammo" (cargados), "Loading" (recargando), "LoadTimer" (ticks hasta el siguiente cartucho/fin),
+ * "Heat" (ráfaga del automático), "LastShot" (tick del último disparo del automático).
+ * La munición sale de las ranuras de munición del Equipo Táctico y del inventario.
  */
 public class LongGunItem extends Item {
 
@@ -53,16 +57,42 @@ public class LongGunItem extends Item {
                         float aimSpreadDeg, int shotCooldown, int loadTicks, float pitchKick, float yawKick, float aimZoom,
                         float firePitch) {}
 
-    private static final String TAG_AMMO = "Ammo", TAG_LOADING = "Loading", TAG_TIMER = "LoadTimer";
+    /** Mecanismo: cómo se recarga y se acciona. */
+    public enum Action {
+        BREAK, BOLT, PUMP, SEMI, AUTO;
+
+        public boolean boxReload() {
+            return this == SEMI || this == AUTO;
+        }
+    }
+
+    private static final String TAG_AMMO = "Ammo", TAG_LOADING = "Loading", TAG_TIMER = "LoadTimer", TAG_HEAT = "Heat",
+            TAG_LAST = "LastShot";
     private static final int XP_PER_HIT = 1, XP_PER_KILL = 4;
 
     private final Stats stats;
     private final WeaponModule.Family family;
+    private final Action action;
 
     public LongGunItem(WeaponModule.Family family, Stats stats, Properties properties) {
-        super(properties.stacksTo(1).durability(stats.capacity() == 2 ? 500 : 700));
+        this(family, stats.capacity() == 2 ? Action.BREAK : Action.BOLT, stats, properties);
+    }
+
+    public LongGunItem(WeaponModule.Family family, Action action, Stats stats, Properties properties) {
+        super(properties.stacksTo(1).durability(switch (action) {
+            case BREAK -> 500;
+            case BOLT -> 700;
+            case PUMP -> 900;
+            case SEMI -> 1000;
+            case AUTO -> 1600;
+        }));
         this.stats = stats;
         this.family = family;
+        this.action = action;
+    }
+
+    public Action action() {
+        return action;
     }
 
     public Stats stats() {
@@ -81,6 +111,9 @@ public class LongGunItem extends Item {
 
     public float spread(ItemStack s, boolean aiming) {
         float base = aiming ? stats.aimSpreadDeg() : stats.spreadDeg();
+        if (action == Action.AUTO && s.getTag() != null) {
+            base *= 1.0F + 0.12F * s.getTag().getFloat(TAG_HEAT);           // la ráfaga abre el grupo
+        }
         if (has(s, WeaponModule.CHOKE)) {
             base *= 0.6F;
         }
@@ -137,6 +170,11 @@ public class LongGunItem extends Item {
         return Mth.clamp(1.0F - left / g.loadTicks(s), 0.0F, 1.0F);
     }
 
+    /** Ticks de recarga: cartucho a cartucho, o el cargador entero (más lento) en SEMI/AUTO. */
+    private int reloadStep(ItemStack s) {
+        return loadTicks(s);
+    }
+
     public boolean canFireNow(Player player, ItemStack s) {
         return !player.getCooldowns().isOnCooldown(this) && (player.getAbilities().instabuild || getAmmo(s) > 0);
     }
@@ -156,7 +194,15 @@ public class LongGunItem extends Item {
 
     public void tryFire(ServerPlayer player, boolean aiming) {
         ItemStack gun = player.getMainHandItem();
-        if (gun.getItem() != this || player.getCooldowns().isOnCooldown(this)) {
+        if (gun.getItem() != this) {
+            return;
+        }
+        long now = player.level().getGameTime();
+        if (action == Action.AUTO) {
+            if (now - gun.getOrCreateTag().getLong(TAG_LAST) < cooldown(gun) - 1) {
+                return;
+            }
+        } else if (player.getCooldowns().isOnCooldown(this)) {
             return;
         }
         boolean creative = player.getAbilities().instabuild;
@@ -168,6 +214,11 @@ public class LongGunItem extends Item {
             return;
         }
         Level level = player.level();
+        if (action == Action.AUTO) {
+            CompoundTag tag = gun.getOrCreateTag();
+            tag.putLong(TAG_LAST, now);
+            tag.putFloat(TAG_HEAT, Math.min(8.0F, tag.getFloat(TAG_HEAT) + 1.0F));
+        }
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
         float spread = spread(gun, aiming);
@@ -180,11 +231,17 @@ public class LongGunItem extends Item {
             gun.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(InteractionHand.MAIN_HAND));
         }
         level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_FIRE.get(), SoundSource.PLAYERS,
-                1.4F, stats.firePitch() + level.random.nextFloat() * 0.06F);
-        player.getCooldowns().addCooldown(this, cooldown(gun));
-        if (stats.capacity() > 2) {                                           // rifle: accionar el cerrojo
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_SLIDE.get(),
+                action == Action.AUTO ? 1.0F : 1.4F, stats.firePitch() + level.random.nextFloat() * 0.06F);
+        if (action != Action.AUTO) {
+            player.getCooldowns().addCooldown(this, cooldown(gun));
+        }
+        switch (action) {                                                     // accionar el mecanismo
+            case BOLT -> level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_SLIDE.get(),
                     SoundSource.PLAYERS, 0.8F, 0.8F);
+            case PUMP -> level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_SLIDE.get(),
+                    SoundSource.PLAYERS, 1.0F, 0.6F);
+            default -> {
+            }
         }
     }
 
@@ -266,20 +323,33 @@ public class LongGunItem extends Item {
         }
         CompoundTag tag = gun.getOrCreateTag();
         tag.putBoolean(TAG_LOADING, true);
-        tag.putInt(TAG_TIMER, loadTicks(gun));
+        tag.putInt(TAG_TIMER, reloadStep(gun));
+        float pitch = switch (action) {                                       // abrir la escopeta / el cerrojo / sacar el cargador
+            case BREAK -> 0.75F;
+            case PUMP -> 0.9F;
+            case SEMI, AUTO -> 1.0F;
+            default -> 1.1F;
+        };
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_MAG_OUT.get(),
-                SoundSource.PLAYERS, 0.7F, stats.capacity() == 2 ? 0.75F : 1.1F);   // abrir la escopeta / el cerrojo
+                SoundSource.PLAYERS, 0.7F, pitch);
     }
 
     private void stopLoading(Player player, ItemStack gun) {
         gun.getOrCreateTag().putBoolean(TAG_LOADING, false);
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_SLIDE.get(),
-                SoundSource.PLAYERS, 0.8F, stats.capacity() == 2 ? 0.7F : 1.0F);    // cerrar
+                SoundSource.PLAYERS, 0.8F, action == Action.BREAK ? 0.7F : action == Action.PUMP ? 0.6F : 1.0F);    // cerrar
     }
 
     @Override
     public void inventoryTick(ItemStack gun, Level level, Entity entity, int slot, boolean selected) {
-        if (level.isClientSide || !(entity instanceof Player player) || !isLoading(gun)) {
+        if (level.isClientSide || !(entity instanceof Player player)) {
+            return;
+        }
+        if (action == Action.AUTO && gun.getTag() != null && gun.getTag().getFloat(TAG_HEAT) > 0
+                && level.getGameTime() - gun.getTag().getLong(TAG_LAST) > 3) {
+            gun.getTag().putFloat(TAG_HEAT, Math.max(0.0F, gun.getTag().getFloat(TAG_HEAT) - 0.5F));   // se enfría
+        }
+        if (!isLoading(gun)) {
             return;
         }
         if (!selected) {
@@ -290,6 +360,18 @@ public class LongGunItem extends Item {
         int t = tag.getInt(TAG_TIMER) - 1;
         if (t > 0) {
             tag.putInt(TAG_TIMER, t);
+            return;
+        }
+        if (action.boxReload()) {                                             // cargador entero
+            int want = stats.capacity() - getAmmo(gun);
+            int got = 0;
+            while (got < want && (player.getAbilities().instabuild || take(player))) {
+                got++;
+            }
+            setAmmo(gun, getAmmo(gun) + got);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_MAG_IN.get(),
+                    SoundSource.PLAYERS, 0.8F, 1.0F);
+            stopLoading(player, gun);
             return;
         }
         if (player.getAbilities().instabuild || take(player)) {

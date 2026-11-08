@@ -34,7 +34,7 @@ public class KineticAssemblyPressBlockEntity extends BlockEntity {
 
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return PressRecipes.isIngredient(stack);
+            return PressRecipes.isIngredient(stack, false);
         }
 
         @Override
@@ -56,7 +56,7 @@ public class KineticAssemblyPressBlockEntity extends BlockEntity {
 
     /** Golpe de martillo; strikesNeeded depende de la Ingeniería del jugador. */
     public StrikeResult strike(Level level, BlockPos pos, int strikesNeeded) {
-        ItemStack result = PressRecipes.findResult(itemHandler, SLOTS);
+        ItemStack result = PressRecipes.findResult(itemHandler, SLOTS, false);
         if (result.isEmpty()) {
             strikeCount = 0;
             return StrikeResult.NO_RECIPE;

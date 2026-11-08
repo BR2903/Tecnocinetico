@@ -51,7 +51,7 @@ public final class CoreShots {
                 e -> e instanceof LivingEntity && e != shooter && !ally.isInstance(e) && !e.isSpectator(), heavy ? 0.35F : 0.15F);
         if (hit != null) {
             end = hit.getEntity().getBoundingBox().clip(from, end).orElse(hit.getEntity().getBoundingBox().getCenter());
-            hit.getEntity().hurt(shooter.damageSources().mobAttack(shooter), damage);
+            hit.getEntity().hurt(shooter.damageSources().mobProjectile(shooter, shooter), damage);   // bala: proyectil
         }
         if (shooter.level() instanceof ServerLevel server) {
             Vec3 path = end.subtract(from);

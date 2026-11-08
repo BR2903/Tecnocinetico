@@ -48,6 +48,8 @@ public final class ModNetwork {
                 SyncGearPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(8, WornGadgetsPacket.class, WornGadgetsPacket::encode, WornGadgetsPacket::decode,
                 WornGadgetsPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(9, ExoLeapPacket.class, (m, b) -> {}, b -> new ExoLeapPacket(), ExoLeapPacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
                 SyncSkillsPacket::encode, SyncSkillsPacket::decode, SyncSkillsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
@@ -181,6 +183,19 @@ public final class ModNetwork {
     }
 
     /** Tecla N: encender/apagar el Visor de Visión Nocturna. */
+    /** Cliente -> servidor: saltó agachado con el exoesqueleto completo (el servidor gasta carga e impulsa). */
+    public record ExoLeapPacket() {
+        public static void handle(ExoLeapPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null) {
+                    com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorEvents.leap(p);
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
     public record ToggleVisorPacket() {
         public static void handle(ToggleVisorPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> {

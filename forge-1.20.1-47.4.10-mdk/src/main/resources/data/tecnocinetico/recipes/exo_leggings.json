@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "PSP",
+    "S S",
+    "P P"
+  ],
+  "key": {
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "S": {
+      "item": "tecnocinetico:kinetic_servo"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:exo_leggings",
+    "count": 1
+  }
+}

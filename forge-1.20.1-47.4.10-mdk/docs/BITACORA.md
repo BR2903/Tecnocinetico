@@ -272,3 +272,19 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
   - **Creeper Corrupto** (`extends Creeper`): mecha de 1,2 s (por NBT `Fuse`, el campo es privado), 24 de vida, algo más rápido; al estallar deja una nube cian de debilidad y náusea (`CorruptionSpawns.onDetonate`). `CorruptedCreeperRenderer` hereda del vanilla (hinchado, destello, carga eléctrica) y añade grietas de cinetrita que brillan más al hincharse. Textura: `tools/corrupted_creeper_texture.py`.
 - **Jetpack**: al recibir daño el servidor manda al cliente su propia copia de la velocidad (`markHurt`), y como el movimiento del jugador lo calcula el cliente, esa copia había acumulado gravedad hasta la de caída máxima: cada golpe estampaba al jugador contra el suelo. Ahora, mientras empuja, la velocidad vertical del servidor no baja de 0 (`GearEvents`).
 - GameTest `corruptedReplaceVanilla` ampliado a los 6 tipos (14 pruebas, todas pasan).
+
+## 2026-11-08 — Claude — Tier 2: armas, armaduras y piezas de prensa con energía
+- Decisiones del usuario: las 3 armaduras propuestas (placas de inercita, táctica, exoesqueleto cinético); subfusil, escopeta de corredera y rifle semiautomático; desbloqueo con la **Prensa Cinética Automática con electricidad**.
+- **Prensa**: `PressRecipes.Recipe` tiene `powered`; las recetas powered solo las hace la automática (`findResult(..., powered)`, `isIngredient(..., powered)`), JEI lo indica en rojo. Piezas nuevas: Placa de Inercita (inercita + hierro + chatarra), Mecanismo de Precisión (hierro + transductor + sustrato), Servo Cinético (cinetrita + acoplador + cobre), Tela Balística x2 (cuero + cuerda + fragmento).
+- **Armas** (`LongGunItem` ahora tiene `Action`: BREAK, BOLT, PUMP, SEMI, AUTO; SEMI/AUTO recargan el cargador entero de golpe):
+  - Escopeta de Corredera (PUMP, módulos de escopeta): 6 cartuchos, 8 perdigones x 2,8, 18 bloques, bombea tras cada disparo.
+  - Rifle Semiautomático (SEMI, módulos de rifle): cargador de 10, 13 de daño, 60 bloques, 6 ticks entre disparos.
+  - Subfusil Cinético (AUTO, familia SMG sin módulos): 24 balas cinéticas sueltas, 3,5 de daño, 10 disparos/s mientras se mantiene el clic (`PistolInputHandler`); la ráfaga ("Heat") abre la dispersión. El servidor controla la cadencia con `LastShot` (no con el cooldown de objeto, para no perder disparos por latencia).
+  - Modelos 3D en `weapons_gen.py` (`pump_shotgun`, `semi_rifle` con 8 combinaciones de módulos x 2 fotogramas; `kinetic_smg` + cargador fuera).
+- **Armaduras** (`item/armor/Tier2ArmorItem` + `Tier2ArmorEvents`):
+  - Placas de Inercita: 20 de protección, dureza 2,5, -3 % de velocidad por pieza; set: -35 % de proyectiles/explosiones.
+  - Táctica: 15 de protección; set: +15 % de velocidad y -30 % de retroceso (cliente).
+  - Exoesqueleto: 19 de protección; set: los golpes cargan energía (barra en la acción); agachado + saltar = salto cinético (`ExoLeapPacket`, sin daño al aterrizar); con la carga llena, el siguiente golpe cuerpo a cuerpo suelta una onda de choque; -50 % de daño por caída.
+  - Texturas e iconos: `tools/armor_t2_gen.py` (también los iconos de las piezas de prensa).
+- Las balas de torretas, drones y tiradores ahora son daño de **proyectil** (`mobProjectile`): cuentan para los bonos de la chatarra y la inercita.
+- GameTest `tier2GunsAndArmor` (15 en total, todos pasan). Usa `FakePlayerFactory` para disparar en el servidor (el jugador simulado de GameTest no tiene conexión).

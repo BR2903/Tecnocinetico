@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "IIM",
+    "WPI",
+    "  W"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:semi_rifle",
+    "count": 1
+  }
+}

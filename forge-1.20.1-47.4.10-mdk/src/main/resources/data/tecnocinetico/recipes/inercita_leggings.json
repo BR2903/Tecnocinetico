@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "PPP",
+    "F F",
+    "P P"
+  ],
+  "key": {
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "F": {
+      "item": "tecnocinetico:ballistic_fabric"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:inercita_leggings",
+    "count": 1
+  }
+}

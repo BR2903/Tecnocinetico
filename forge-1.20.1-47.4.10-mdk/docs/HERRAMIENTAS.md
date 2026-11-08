@@ -107,3 +107,7 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 ## corrupted_skin_gen.py y corrupted_spider_texture.py
 - `python tools/corrupted_skin_gen.py [preview.png]`: pieles 64x64 de los Corruptos (`textures/entity/corrupted/{wanderer,worker,crystal,raider,soldier}.png` + `_glow`).
 - `python tools/corrupted_spider_texture.py [preview.png]`: `corrupted_spider.png` + `_glow` (UV del modelo vanilla de araña, 64x32).
+
+## armor_t2_gen.py y armas tier 2
+- `python tools/armor_t2_gen.py [preview.png]`: capas puestas de las armaduras de inercita, táctica y exoesqueleto (+ iconos) y los iconos 32x32 de las piezas de prensa. La vista previa las muestra sobre un maniquí.
+- `weapons_gen.py` también genera `pump_shotgun`, `semi_rifle` (8 combinaciones x 2) y `kinetic_smg`; vista de inventario con `gui_fit.py $A "y-90;z25"` pasando todos los nombres de cada arma.

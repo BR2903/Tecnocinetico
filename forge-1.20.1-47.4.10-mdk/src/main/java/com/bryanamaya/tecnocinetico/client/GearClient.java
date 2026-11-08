@@ -26,6 +26,17 @@ public final class GearClient {
 
     private GearClient() {}
 
+    /** Exoesqueleto: saltar agachado pide al servidor el salto cinético. */
+    @SubscribeEvent
+    public static void onJump(net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent event) {
+        Minecraft mc = Minecraft.getInstance();
+        if (event.getEntity() == mc.player && mc.player.isShiftKeyDown()
+                && com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.hasFullSet(mc.player,
+                com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.EXO)) {
+            ModNetwork.CHANNEL.sendToServer(new ModNetwork.ExoLeapPacket());
+        }
+    }
+
     @SubscribeEvent
     public static void tick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {

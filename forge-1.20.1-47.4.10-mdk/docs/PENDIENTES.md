@@ -28,3 +28,5 @@
 - Drones: más adelante, que también ronden las futuras antenas/estaciones de retransmisión; ajustar en el juego dificultad (daño 3 por tiro, ráfagas de 3) si es mucho o poco.
 
 - Corruptos: decidir si también se sustituyen aldeanos zombi y otros mobs; sonidos propios (ahora usan los vanilla con tono más grave).
+
+- Tier 2: módulos propios del subfusil; animación de bombeo de la corredera en primera persona; probar el equilibrio (daño del subfusil, freno de la inercita, carga del exoesqueleto).

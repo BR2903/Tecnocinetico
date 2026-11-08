@@ -175,6 +175,48 @@ public class ModItems {
     public static final RegistryObject<Item> SURVIVOR_SPAWN_EGG = ITEMS.register("survivor_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SURVIVOR, 0x5A5236, 0x3FC8D8, new Item.Properties()));
 
+    // ---------------------------------------------------------------- tier 2 (piezas de la Prensa Automática)
+    public static final RegistryObject<Item> INERCITA_PLATE = ITEMS.register("inercita_plate", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> PRECISION_MECHANISM = ITEMS.register("precision_mechanism", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> KINETIC_SERVO = ITEMS.register("kinetic_servo", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> BALLISTIC_FABRIC = ITEMS.register("ballistic_fabric", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> INERCITA_HELMET = ITEMS.register("inercita_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.INERCITA, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> INERCITA_CHESTPLATE = ITEMS.register("inercita_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.INERCITA, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> INERCITA_LEGGINGS = ITEMS.register("inercita_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.INERCITA, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> INERCITA_BOOTS = ITEMS.register("inercita_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.INERCITA, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> TACTICAL_HELMET = ITEMS.register("tactical_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.TACTICAL, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> TACTICAL_CHESTPLATE = ITEMS.register("tactical_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.TACTICAL, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> TACTICAL_LEGGINGS = ITEMS.register("tactical_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.TACTICAL, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> TACTICAL_BOOTS = ITEMS.register("tactical_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.TACTICAL, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> EXO_HELMET = ITEMS.register("exo_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.EXO, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> EXO_CHESTPLATE = ITEMS.register("exo_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.EXO, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> EXO_LEGGINGS = ITEMS.register("exo_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.EXO, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> EXO_BOOTS = ITEMS.register("exo_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.EXO, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
+    /** Escopeta de corredera: 6 cartuchos, 8 perdigones de 2.8, 18 bloques, bombea entre disparos. */
+    public static final RegistryObject<Item> PUMP_SHOTGUN = ITEMS.register("pump_shotgun",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SHOTGUN, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.PUMP, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    6, () -> SHOTGUN_SHELL.get(), 8, 2.8F, 18.0D, 6.0F, 4.0F, 16, 12, 8.0F, 2.5F, 0.85F, 0.75F), new Item.Properties()));
+    /** Rifle semiautomático: cargador de 10, 13 de daño, 60 bloques, 6 ticks entre disparos. */
+    public static final RegistryObject<Item> SEMI_RIFLE = ITEMS.register("semi_rifle",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.RIFLE, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.SEMI, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    10, () -> RIFLE_ROUND.get(), 1, 13.0F, 60.0D, 1.6F, 0.15F, 6, 50, 4.5F, 1.0F, 0.55F, 0.95F), new Item.Properties()));
+    /** Subfusil: automático, cargador de 24 balas cinéticas, 3.5 de daño, 10 disparos/s; la ráfaga abre el grupo. */
+    public static final RegistryObject<Item> KINETIC_SMG = ITEMS.register("kinetic_smg",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SMG, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    24, () -> KINETIC_ROUND.get(), 1, 3.5F, 40.0D, 3.5F, 1.6F, 2, 40, 1.1F, 0.9F, 0.85F, 1.25F), new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

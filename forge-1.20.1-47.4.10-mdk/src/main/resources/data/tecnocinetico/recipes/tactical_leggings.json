@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "FFF",
+    "F F",
+    "F F"
+  ],
+  "key": {
+    "F": {
+      "item": "tecnocinetico:ballistic_fabric"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:tactical_leggings",
+    "count": 1
+  }
+}

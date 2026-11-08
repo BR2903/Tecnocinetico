@@ -91,6 +91,10 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 ### Tier 1 (`item/armor/`, `item/weapon/`)
 - `ScrapArmorItem` (material propio + bono de set), `MacheteItem` (tier propio), `LongGunItem` (escopeta y rifle con `Stats`; NBT `Ammo`, `Loading`, `LoadTimer`) + `client/LongGunClientExtensions`.
 
+### Tier 2 (`item/armor/Tier2ArmorItem`, `Tier2ArmorEvents`)
+- Armaduras INERCITA / TACTICAL / EXO (enum `Kind` con su material). Bonos de set en `Tier2ArmorEvents` (daño, velocidad, carga del exoesqueleto en `getPersistentData`). Retroceso táctico: `Tier2ArmorItem.recoilMultiplier` (cliente).
+- `LongGunItem.Action` (BREAK, BOLT, PUMP, SEMI, AUTO). Recetas de prensa con `powered` en `block/entity/PressRecipes`.
+
 ### Munición (`item/custom/`)
 - `MagazineItem` (Cargador 6 / Ampliado 10; NBT `Rounds`, `Guided`), `MagazineLoadingRecipe` (receta especial registrada en `item/ModRecipes`), `GuidedRoundItem`. La pistola guarda `Mag`, `Ammo`, `GuidedAmmo` y durante la recarga `PendingMag`. R con un cargador en la mano → `FillMagazinePacket`.
 

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "F F",
+    "FPF",
+    "FFF"
+  ],
+  "key": {
+    "F": {
+      "item": "tecnocinetico:ballistic_fabric"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:tactical_chestplate",
+    "count": 1
+  }
+}

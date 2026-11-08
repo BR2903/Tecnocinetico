@@ -124,7 +124,8 @@ public class Tecnocinetico {
                             return 0.0F;
                         });
                 // Armas largas: 0 normal, 1 recargando (escopeta abierta / cerrojo atrás); "modules" = máscara local 0..7
-                for (var gun : java.util.List.of(ModItems.PIPE_SHOTGUN.get(), ModItems.BOLT_RIFLE.get())) {
+                for (var gun : java.util.List.of(ModItems.PIPE_SHOTGUN.get(), ModItems.BOLT_RIFLE.get(), ModItems.PUMP_SHOTGUN.get(),
+                        ModItems.SEMI_RIFLE.get(), ModItems.KINETIC_SMG.get())) {
                     ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "modules"),
                             (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.item.custom.WeaponModule.localMask(stack));
                     ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),

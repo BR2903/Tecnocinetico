@@ -65,7 +65,8 @@ public final class PistolInputHandler {
         ItemStack pistol = player.getMainHandItem();
         if (pistol.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem gun) {
             if (gun.canFireNow(player, pistol)) {
-                float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING));
+                float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING))
+                        * com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.recoilMultiplier(player);
                 mult *= Mth.lerp(GunAnimState.aim, 1.0F, AIM_RECOIL_FACTOR);
                 player.setXRot(player.getXRot() - gun.stats().pitchKick() * mult);
                 player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * gun.stats().yawKick() * mult);
@@ -77,7 +78,8 @@ public final class PistolInputHandler {
         }
         if (KineticPistolItem.canFireNow(player, pistol)) {
             // Predicción en el cliente: retroceso inmediato, sin esperar al servidor
-            float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING));
+            float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING))
+                        * com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.recoilMultiplier(player);
             mult *= Mth.lerp(GunAnimState.aim, 1.0F, AIM_RECOIL_FACTOR);
             player.setXRot(player.getXRot() - KineticPistolItem.pitchKick() * mult);
             player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * KineticPistolItem.yawKick() * mult);
@@ -96,6 +98,13 @@ public final class PistolInputHandler {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         attackHeld = mc.options.keyAttack.isDown();
+        // automático (Subfusil): dispara mientras se mantiene el clic
+        if (attackHeld && player != null && mc.screen == null
+                && player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g
+                && g.action() == com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO
+                && g.canFireNow(player, player.getMainHandItem())) {
+            tryFire(player);
+        }
 
         boolean aiming = holdingPistol(player) && mc.screen == null && mc.options.keyUse.isDown()
                 && !KineticPistolItem.isReloading(player.getMainHandItem())

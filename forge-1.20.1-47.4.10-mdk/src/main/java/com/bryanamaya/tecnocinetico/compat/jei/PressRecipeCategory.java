@@ -79,7 +79,12 @@ public class PressRecipeCategory implements IRecipeCategory<PressRecipes.Recipe>
         arrow.draw(graphics, 70, 8);
         slot.draw(graphics, 112, 8);
         var font = Minecraft.getInstance().font;
-        graphics.drawString(font, Component.translatable("jei.tecnocinetico.press_strikes"), 4, 31, 0x404040, false);
-        graphics.drawString(font, Component.translatable("jei.tecnocinetico.press_auto"), 4, 42, 0x808080, false);
+        if (recipe.powered()) {                                                // solo la automática, con energía
+            graphics.drawString(font, Component.translatable("jei.tecnocinetico.press_powered"), 4, 31, 0xB03020, false);
+            graphics.drawString(font, Component.translatable("jei.tecnocinetico.press_powered2"), 4, 42, 0x808080, false);
+        } else {
+            graphics.drawString(font, Component.translatable("jei.tecnocinetico.press_strikes"), 4, 31, 0x404040, false);
+            graphics.drawString(font, Component.translatable("jei.tecnocinetico.press_auto"), 4, 42, 0x808080, false);
+        }
     }
 }

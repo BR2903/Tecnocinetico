@@ -89,7 +89,7 @@ public class KineticAssemblyPressBlock extends Block implements EntityBlock {
         boolean isHammer = inHand.is(ModItems.KINETIC_HAMMER.get());
 
         // Objetos que no sirven aquí: dejamos que el objeto haga lo suyo (p. ej. colocar un bloque)
-        if (!isHammer && !inHand.isEmpty() && !PressRecipes.isIngredient(inHand)) {
+        if (!isHammer && !inHand.isEmpty() && !PressRecipes.isIngredient(inHand, false)) {
             return InteractionResult.PASS;
         }
         if (pLevel.isClientSide()) {
