@@ -140,5 +140,10 @@
   "biome.tecnocinetico.deep_facility": "Deep Facility",
   "commands.tecnocinetico.tpbioma.searching": "Searching for biome %s...",
   "commands.tecnocinetico.tpbioma.done": "Teleported to %s at %s, %s, %s",
-  "commands.tecnocinetico.tpbioma.not_found": "Biome %s not found nearby"
+  "commands.tecnocinetico.tpbioma.not_found": "Biome %s not found nearby",
+  "entity.tecnocinetico.survivor": "Survivor",
+  "entity.tecnocinetico.survivor.scrapper": "Scrapper",
+  "entity.tecnocinetico.survivor.gunsmith": "Gunsmith",
+  "entity.tecnocinetico.survivor.farmer": "Farmer",
+  "item.tecnocinetico.survivor_spawn_egg": "Survivor Spawn Egg"
 }

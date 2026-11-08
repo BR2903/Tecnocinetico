@@ -3,6 +3,9 @@ package com.bryanamaya.tecnocinetico.worldgen.structure;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.block.ModWorldBlocks;
 import com.bryanamaya.tecnocinetico.block.custom.PileBlock;
+import com.bryanamaya.tecnocinetico.entity.ModEntities;
+import com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -127,6 +130,23 @@ public class SettlementPiece extends StructurePiece {
         }
     }
 
+    /** Superviviente con su oficio; solo en el chunk que contiene su posición (así aparece una sola vez). */
+    private void survivor(WorldGenLevel level, BoundingBox box, int lx, int y, int lz, SurvivorEntity.Role role) {
+        BlockPos p = new BlockPos(x0 + lx, y, z0 + lz);
+        if (!box.isInside(p)) {
+            return;
+        }
+        SurvivorEntity e = ModEntities.SURVIVOR.get().create(level.getLevel());
+        if (e == null) {
+            return;
+        }
+        e.moveTo(p.getX() + 0.5D, p.getY(), p.getZ() + 0.5D, 0.0F, 0.0F);
+        e.finalizeSpawn(level, level.getCurrentDifficultyAt(p), MobSpawnType.STRUCTURE, null, null);
+        e.setRole(role);
+        e.setHome(new BlockPos(x0 + C, h(C, C), z0 + C));
+        level.addFreshEntityWithPassengers(e);
+    }
+
     private static BlockState log(Direction.Axis axis) {
         return ModWorldBlocks.DEAD_LOG.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, axis);
     }
@@ -147,6 +167,7 @@ public class SettlementPiece extends StructurePiece {
         for (Plot p : plots) {
             if (p.kind() == Kind.FARM) {
                 farm(level, box, p);
+                farmer(level, box, p);
             } else {
                 hut(level, box, p);
             }
@@ -360,6 +381,12 @@ public class SettlementPiece extends StructurePiece {
             }
             default -> { }
         }
+        SurvivorEntity.Role role = switch (p.kind()) {
+            case WORKSHOP -> SurvivorEntity.Role.GUNSMITH;
+            case STORAGE -> SurvivorEntity.Role.SCRAPPER;
+            default -> r.nextBoolean() ? SurvivorEntity.Role.SCRAPPER : SurvivorEntity.Role.FARMER;  // el armero solo en el taller
+        };
+        survivor(level, box, p.cx(), fy + 1, p.cz(), role);
     }
 
     /** Huerto: tierra de cultivo con canal de agua en el centro y borde de troncos secos. */
@@ -393,6 +420,12 @@ public class SettlementPiece extends StructurePiece {
                 }
             }
         }
+    }
+
+    /** Granjero junto al huerto, del lado de la plaza. */
+    private void farmer(WorldGenLevel level, BoundingBox box, Plot p) {
+        int lx = p.cx() + p.door().getStepX() * (p.w() / 2 + 1), lz = p.cz() + p.door().getStepZ() * (p.d() / 2 + 1);
+        survivor(level, box, lx, h(lx, lz) + 1, lz, SurvivorEntity.Role.FARMER);
     }
 
     /** Torre de vigía 3x3: pilar central con escalera, plataforma, barandilla de barrotes y farol. */

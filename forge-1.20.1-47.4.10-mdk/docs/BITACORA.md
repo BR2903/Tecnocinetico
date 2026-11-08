@@ -149,3 +149,10 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Se adapta al terreno: `findGenerationPoint` guarda la altura de cada columna (desnivel ≤ 10, sin agua) y cada choza tiene plataforma con cimiento. Paso `top_layer_modification` para construirse después de los árboles y despejar los de dentro.
 - Botín: `settlement_home` (comida, antorchas), `settlement_workshop` (metales, chatarra; raro: acoplador, transductor, módulos), `settlement_storage` (cosechas, troncos). Biomas: Praderas de Chatarra, Ruinas Invadidas, Taiga de Ceniza, Tundra. Los edificios en ruinas tienen zona de exclusión de 3 chunks alrededor.
 - Aún sin habitantes: el NPC "Superviviente" con comercio es la siguiente tarea propuesta.
+
+## 2026-11-07 — Claude — NPC Superviviente
+- Decisión (con el usuario): crearlo desde cero en vez de depender de un mod de NPC (licencias de recursos, dependencia extra, identidad), reutilizando el comercio vanilla: `SurvivorEntity extends AbstractVillager` (interfaz de aldeano, `MerchantOffer`).
+- 3 oficios (`Role`, sincronizado): Chatarrero, Armero, Granjero; ofertas en `SurvivorTrades` con **Chatarra como moneda** y precios altos (módulos = mucha chatarra + lingotes de cinetrita/inercita). Existencias se reponen cada día. Nombre por oficio (`getTypeName`).
+- IA: pasea en un radio de 16 alrededor del centro del asentamiento (guardado en NBT), abre puertas, huye de los monstruos, no desaparece. Sonidos humanos (no de aldeano). Herramienta en mano según oficio.
+- Aspecto: modelo de jugador con capas (`SurvivorRenderer`), pieles 64x64 generadas por `tools/survivor_skin_gen.py` (capucha+gafas cian / delantal+célula de cinetrita / pañuelo+poncho).
+- Aparición: `SettlementPiece` crea uno por choza (armero en el taller, chatarrero en el almacén, granjero junto al huerto; casas: chatarrero o granjero). Huevo de aparición en la pestaña creativa. El GameTest comprueba que el asentamiento genera supervivientes con ofertas.

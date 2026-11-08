@@ -63,6 +63,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `SoundEvent`s propios declarados en `assets/tecnocinetico/sounds.json` (con subtítulos). Archivos en `sounds/swarm_body/`, generados por `tools/sound_gen.py`. Pistola: disparo (atenuación 48 bloques), impacto (en el punto de impacto), acierto (solo el tirador), clic en vacío, cargador fuera/dentro y corredera (sincronizados con la animación de recarga).
 
 ### Entidad (`entity/`)
+- `SurvivorEntity` (+ `SurvivorTrades`, `client/SurvivorRenderer`): NPC comerciante de los asentamientos; oficios, ofertas con Chatarra, reposición diaria, casa en NBT.
 - `SwarmBodyEntity` (IA + `KineticLeapGoal`), `SwarmBodyModel` (modelo en código, animaciones), `SwarmBodyRenderer` (+ capa luminosa `EyesLayer`).
 
 ### Mundo / Overworld (`worldgen/`, `datagen/`)

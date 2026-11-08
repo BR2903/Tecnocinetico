@@ -70,6 +70,7 @@ public class Tecnocinetico {
         @SubscribeEvent
         public static void registerAttributes(EntityAttributeCreationEvent event) {
             event.put(ModEntities.SWARM_BODY.get(), SwarmBodyEntity.createAttributes().build());
+            event.put(ModEntities.SURVIVOR.get(), com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity.createAttributes().build());
         }
 
         @SubscribeEvent
@@ -130,11 +131,14 @@ public class Tecnocinetico {
         @SubscribeEvent
         public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(SwarmBodyModel.LAYER, SwarmBodyModel::createBodyLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SurvivorRenderer.LAYER,
+                    com.bryanamaya.tecnocinetico.entity.client.SurvivorRenderer::createLayer);
         }
 
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModEntities.SWARM_BODY.get(), SwarmBodyRenderer::new);
+            event.registerEntityRenderer(ModEntities.SURVIVOR.get(), com.bryanamaya.tecnocinetico.entity.client.SurvivorRenderer::new);
         }
     }
 }

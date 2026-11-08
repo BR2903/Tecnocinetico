@@ -140,5 +140,10 @@
   "biome.tecnocinetico.deep_facility": "Instalación Profunda",
   "commands.tecnocinetico.tpbioma.searching": "Buscando el bioma %s...",
   "commands.tecnocinetico.tpbioma.done": "Teletransportado a %s en %s, %s, %s",
-  "commands.tecnocinetico.tpbioma.not_found": "No se encontró el bioma %s cerca"
+  "commands.tecnocinetico.tpbioma.not_found": "No se encontró el bioma %s cerca",
+  "entity.tecnocinetico.survivor": "Superviviente",
+  "entity.tecnocinetico.survivor.scrapper": "Chatarrero",
+  "entity.tecnocinetico.survivor.gunsmith": "Armero",
+  "entity.tecnocinetico.survivor.farmer": "Granjero",
+  "item.tecnocinetico.survivor_spawn_egg": "Huevo de Superviviente"
 }

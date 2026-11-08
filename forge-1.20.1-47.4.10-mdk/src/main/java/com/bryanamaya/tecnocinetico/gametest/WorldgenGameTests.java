@@ -60,6 +60,13 @@ public class WorldgenGameTests {
                                     c.getMaxBlockX(), level.getMaxBuildHeight(), c.getMaxBlockZ()), c));
             Tecnocinetico.LOGGER.info("[GameTest] {} generado en {}", key.location(), bb);
             dump(level, placed.getPieces().get(0).getBoundingBox().inflatedBy(2), STRUCTURES[i]);
+            if (STRUCTURES[i].equals("survivor_settlement")) {
+                var survivors = level.getEntitiesOfClass(com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity.class,
+                        net.minecraft.world.phys.AABB.of(placed.getPieces().get(0).getBoundingBox()));
+                Tecnocinetico.LOGGER.info("[GameTest] supervivientes en el asentamiento: {}", survivors.stream()
+                        .map(s -> s.getRole().id + " (" + s.getOffers().size() + " ofertas)").toList());
+                helper.assertTrue(!survivors.isEmpty(), "El asentamiento no tiene supervivientes");
+            }
         }
         helper.succeed();
     }

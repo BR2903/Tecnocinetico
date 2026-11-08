@@ -1,6 +1,7 @@
 package com.bryanamaya.tecnocinetico.entity;
 
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
+import com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity;
 import com.bryanamaya.tecnocinetico.entity.custom.SwarmBodyEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -19,6 +20,13 @@ public class ModEntities {
                     .sized(1.2f, 1.2f)
                     .clientTrackingRange(10)
                     .build("swarm_body"));
+
+    // Superviviente: NPC comerciante de los Asentamientos (MISC: no cuenta para los límites de aparición)
+    public static final RegistryObject<EntityType<SurvivorEntity>> SURVIVOR =
+            ENTITY_TYPES.register("survivor", () -> EntityType.Builder.<SurvivorEntity>of(SurvivorEntity::new, MobCategory.MISC)
+                    .sized(0.6f, 1.95f)
+                    .clientTrackingRange(10)
+                    .build("survivor"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
