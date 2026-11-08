@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "tecnocinetico:titanium_ore"
-  },
-  "result": "tecnocinetico:titanium_ingot",
-  "experience": 0.7,
-  "cookingtime": 100
-}

@@ -7,6 +7,7 @@
     "tecnocinetico:deepslate_inercita_ore",
     "#forge:ores/lead",
     "#forge:ores/tin",
-    "#forge:ores/titanium"
+    "#forge:ores/titanium",
+    "#forge:ores/uranium"
   ]
 }

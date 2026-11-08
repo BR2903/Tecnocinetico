@@ -44,19 +44,34 @@ public class ModItems {
     public static final RegistryObject<Item> RAW_TIN = simple("raw_tin");
     public static final RegistryObject<Item> TIN_INGOT = simple("tin_ingot");
     public static final RegistryObject<Item> TIN_NUGGET = simple("tin_nugget");
-    public static final RegistryObject<Item> RAW_TITANIUM = simple("raw_titanium");
+    public static final RegistryObject<Item> RAW_TITANIUM = reactorOnly("raw_titanium");
     public static final RegistryObject<Item> TITANIUM_INGOT = simple("titanium_ingot");
     public static final RegistryObject<Item> TITANIUM_NUGGET = simple("titanium_nugget");
+    public static final RegistryObject<Item> RAW_URANIUM = reactorOnly("raw_uranium");
+    public static final RegistryObject<Item> URANIUM_INGOT = simple("uranium_ingot");
+    public static final RegistryObject<Item> URANIUM_NUGGET = simple("uranium_nugget");
     public static final RegistryObject<Item> IRON_DUST = simple("iron_dust");
     public static final RegistryObject<Item> GOLD_DUST = simple("gold_dust");
     public static final RegistryObject<Item> COPPER_DUST = simple("copper_dust");
     public static final RegistryObject<Item> LEAD_DUST = simple("lead_dust");
     public static final RegistryObject<Item> TIN_DUST = simple("tin_dust");
-    public static final RegistryObject<Item> TITANIUM_DUST = simple("titanium_dust");
+    public static final RegistryObject<Item> TITANIUM_DUST = reactorOnly("titanium_dust");
     public static final RegistryObject<Item> CINETRITE_DUST = simple("cinetrite_dust");
     public static final RegistryObject<Item> INERCITA_DUST = simple("inercita_dust");
     public static final RegistryObject<Item> PIROXITE_DUST = ITEMS.register("piroxite_dust", () -> new Item(new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> NULLITE_DUST = simple("nullite_dust");
+
+    /** Titanio y uranio: solo se procesan en la Cámara de Reacción (lo dice la descripción). */
+    private static RegistryObject<Item> reactorOnly(String name) {
+        return ITEMS.register(name, () -> new Item(new Item.Properties()) {
+            @Override
+            public void appendHoverText(net.minecraft.world.item.ItemStack stack, @org.jetbrains.annotations.Nullable net.minecraft.world.level.Level level,
+                                        java.util.List<net.minecraft.network.chat.Component> tooltip, net.minecraft.world.item.TooltipFlag flag) {
+                tooltip.add(net.minecraft.network.chat.Component.translatable("tooltip.tecnocinetico.reactor_only")
+                        .withStyle(net.minecraft.ChatFormatting.DARK_GREEN));
+            }
+        });
+    }
 
     private static RegistryObject<Item> simple(String name) {
         return ITEMS.register(name, () -> new Item(new Item.Properties()));

@@ -129,7 +129,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 
 ## Máquinas eléctricas (`machine/`)
 - `MachineKind`: cada máquina (id, posiciones de huecos y flecha, capacidad FE). Debe coincidir con `tools/machine_gui_gen.py`.
-- `ElectricMachineBlockEntity`: base (batería `Battery` que solo recibe, inventario entradas+salidas con vistas por cara, `advance(ticks, FE/tick)`, `fits`/`output`, datos de interfaz con energía /10). Subclases: `RefinerBlockEntity`, `ChargerBlockEntity`, `AmmoFabricatorBlockEntity`.
+- `ElectricMachineBlockEntity`: base (batería `Battery` que solo recibe, inventario entradas+salidas con vistas por cara, `advance(ticks, FE/tick)`, `fits`/`output`, datos de interfaz con energía /10). Subclases: `RefinerBlockEntity`, `ChargerBlockEntity`, `AmmoFabricatorBlockEntity`, `ReactionChamberBlockEntity` (frecuencia/intensidad/estabilidad como datos extra, botones por `MachineMenu.clickMenuButton` -> `onButton`; pantalla propia `client/ReactionChamberScreen`).
 - `ElectricMachineBlock` (FACING + POWERED, abre `MachineMenu`), `MachineBlockEntities` (registro), `MachineRecipes` (refinado y fabricación en código).
 - `menu/MachineMenu` + `client/MachineScreen`: comunes; `ModMenus.machine(kind)` da el MenuType de cada una.
 - Para añadir una máquina: valor en `MachineKind`, subclase de la entidad, tipo en `MachineBlockEntities`, bloque en `ModBlocks`, entrada en `machine_gui_gen.py` y `metals_gen.py` (`MACHINES`, frente).

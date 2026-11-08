@@ -54,7 +54,8 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
                 case DATA_ENERGY -> energy.getEnergyStored() / 10;
                 case DATA_PROGRESS -> progress;
                 case DATA_MAX -> maxProgress;
-                default -> usage;
+                case DATA_USAGE -> usage;
+                default -> getExtra(i - DATA_COUNT);
             };
         }
 
@@ -64,13 +65,14 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
                 case DATA_ENERGY -> energy.set(v * 10);
                 case DATA_PROGRESS -> progress = v;
                 case DATA_MAX -> maxProgress = v;
-                default -> usage = v;
+                case DATA_USAGE -> usage = v;
+                default -> setExtra(i - DATA_COUNT, v);
             }
         }
 
         @Override
         public int getCount() {
-            return DATA_COUNT;
+            return DATA_COUNT + kind.extraData;
         }
     };
 
@@ -95,6 +97,18 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
 
     /** ¿Se puede meter este objeto en este hueco de entrada? */
     protected abstract boolean accepts(int slot, ItemStack stack);
+
+    /** Datos extra para la interfaz (ver MachineKind.extraData). */
+    protected int getExtra(int i) {
+        return 0;
+    }
+
+    protected void setExtra(int i, int v) {
+    }
+
+    /** Botón de la interfaz pulsado por un jugador (servidor). */
+    public void onButton(int id) {
+    }
 
     /** Un tick de trabajo en el servidor. Devuelve si la máquina está trabajando (para la luz). */
     protected abstract boolean work();

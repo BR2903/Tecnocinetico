@@ -31,6 +31,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModBlocks.ELECTRIC_REFINER.get());
                         out.accept(ModBlocks.CELL_CHARGER.get());
                         out.accept(ModBlocks.AMMO_FABRICATOR.get());
+                        out.accept(ModBlocks.REACTION_CHAMBER.get());
                         out.accept(ModBlocks.CREATIVE_ENERGY_SOURCE.get());
                         out.accept(ModBlocks.ANCIENT_ALLOY_TL.get());
                         out.accept(ModBlocks.ANCIENT_ALLOY_TR.get());
@@ -235,6 +236,12 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.TITANIUM_INGOT.get());
                         out.accept(ModItems.TITANIUM_NUGGET.get());
                         out.accept(ModBlocks.TITANIUM_BLOCK.get());
+                        out.accept(ModBlocks.URANIUM_ORE.get());
+                        out.accept(ModBlocks.DEEPSLATE_URANIUM_ORE.get());
+                        out.accept(ModItems.RAW_URANIUM.get());
+                        out.accept(ModItems.URANIUM_INGOT.get());
+                        out.accept(ModItems.URANIUM_NUGGET.get());
+                        out.accept(ModBlocks.URANIUM_BLOCK.get());
                         out.accept(ModItems.IRON_DUST.get());
                         out.accept(ModItems.GOLD_DUST.get());
                         out.accept(ModItems.COPPER_DUST.get());

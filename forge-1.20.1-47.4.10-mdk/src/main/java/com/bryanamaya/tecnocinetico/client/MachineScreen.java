@@ -17,7 +17,7 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 
     // Piezas "llenas" a la derecha del panel en la textura
     private static final int ARROW_U = 176, ARROW_V = 0, ENERGY_U = 176, ENERGY_V = 17;
-    private final ResourceLocation texture;
+    protected final ResourceLocation texture;
 
     public MachineScreen(MachineMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);

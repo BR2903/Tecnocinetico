@@ -465,5 +465,20 @@
   "item.tecnocinetico.nullite_dust": "Nullite Dust",
   "block.tecnocinetico.electric_refiner": "Kinetic Refiner",
   "block.tecnocinetico.cell_charger": "Cell Charger",
-  "block.tecnocinetico.ammo_fabricator": "Ammo Fabricator"
+  "block.tecnocinetico.ammo_fabricator": "Ammo Fabricator",
+  "block.tecnocinetico.uranium_ore": "Uranium Ore",
+  "block.tecnocinetico.deepslate_uranium_ore": "Deepslate Uranium Ore",
+  "block.tecnocinetico.uranium_block": "Block of Uranium",
+  "item.tecnocinetico.raw_uranium": "Raw Uranium",
+  "item.tecnocinetico.uranium_ingot": "Uranium Ingot",
+  "item.tecnocinetico.uranium_nugget": "Uranium Nugget",
+  "block.tecnocinetico.reaction_chamber": "Reaction Chamber",
+  "gui.tecnocinetico.reaction.frequency": "Frequency",
+  "gui.tecnocinetico.reaction.intensity": "Intensity",
+  "gui.tecnocinetico.reaction.unstable": "Unstable!",
+  "gui.tecnocinetico.reaction.resonance": "Resonance: %s%%",
+  "gui.tecnocinetico.reaction.resonance_hint": "Tune frequency and intensity until it fills up",
+  "gui.tecnocinetico.reaction.stability": "Stability: %s%%",
+  "gui.tecnocinetico.reaction.stability_hint": "If it reaches 0, the load disintegrates",
+  "tooltip.tecnocinetico.reactor_only": "Can only be processed in the Reaction Chamber"
 }

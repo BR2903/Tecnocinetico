@@ -49,6 +49,10 @@
     "tecnocinetico:titanium_block",
     "tecnocinetico:electric_refiner",
     "tecnocinetico:cell_charger",
-    "tecnocinetico:ammo_fabricator"
+    "tecnocinetico:ammo_fabricator",
+    "tecnocinetico:uranium_ore",
+    "tecnocinetico:deepslate_uranium_ore",
+    "tecnocinetico:uranium_block",
+    "tecnocinetico:reaction_chamber"
   ]
 }

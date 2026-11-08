@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "tecnocinetico:deepslate_titanium_ore"
-  },
-  "result": "tecnocinetico:titanium_ingot",
-  "experience": 0.7,
-  "cookingtime": 200
-}

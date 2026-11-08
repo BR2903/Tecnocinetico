@@ -21,6 +21,9 @@ public final class MachineBlockEntities {
     public static final RegistryObject<BlockEntityType<AmmoFabricatorBlockEntity>> AMMO_FABRICATOR = TYPES.register("ammo_fabricator",
             () -> BlockEntityType.Builder.of(AmmoFabricatorBlockEntity::new, ModBlocks.AMMO_FABRICATOR.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<ReactionChamberBlockEntity>> REACTION_CHAMBER = TYPES.register("reaction_chamber",
+            () -> BlockEntityType.Builder.of(ReactionChamberBlockEntity::new, ModBlocks.REACTION_CHAMBER.get()).build(null));
+
     private MachineBlockEntities() {}
 
     public static void register(IEventBus bus) {

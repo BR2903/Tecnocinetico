@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tecnocinetico:uranium_ingot"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:uranium_nugget",
+    "count": 9
+  }
+}

@@ -58,6 +58,29 @@ public class MachineGameTests {
         });
     }
 
+    @GameTest(template = "empty", timeoutTicks = 400)
+    public static void reactionChamberOnlyWhenTuned(GameTestHelper helper) {
+        // el titanio y el uranio no se funden ni se refinan
+        var furnace = helper.getLevel().getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.SMELTING,
+                new net.minecraft.world.SimpleContainer(new ItemStack(ModItems.RAW_TITANIUM.get())), helper.getLevel());
+        helper.assertTrue(furnace.isEmpty(), "El titanio no debería fundirse en el horno");
+        helper.assertTrue(com.bryanamaya.tecnocinetico.machine.MachineRecipes.refine(new ItemStack(ModItems.RAW_URANIUM.get())) == null,
+                "El uranio no debería refinarse");
+        ElectricMachineBlockEntity be = place(helper, ModBlocks.REACTION_CHAMBER.get());
+        var chamber = (com.bryanamaya.tecnocinetico.machine.ReactionChamberBlockEntity) be;
+        chamber.configure(1, 1);                                              // mal ajustada: no avanza
+        be.getItems().insertItem(0, new ItemStack(ModItems.RAW_TITANIUM.get(), 1), false);
+        helper.runAfterDelay(60, () -> {
+            helper.assertTrue(be.getItems().getStackInSlot(1).isEmpty(), "Mal ajustada no debería producir nada");
+            chamber.configure(4, 6);                                          // resonancia del titanio en bruto
+        });
+        helper.runAfterDelay(250, () -> {
+            ItemStack out = be.getItems().getStackInSlot(1);
+            helper.assertTrue(out.is(ModItems.TITANIUM_INGOT.get()), "Bien ajustada debería dar un lingote de titanio: " + out);
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void fabricatorMakesAmmo(GameTestHelper helper) {
         ElectricMachineBlockEntity be = place(helper, ModBlocks.AMMO_FABRICATOR.get());

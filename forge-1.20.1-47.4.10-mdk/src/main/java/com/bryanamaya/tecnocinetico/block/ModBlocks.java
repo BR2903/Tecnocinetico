@@ -92,6 +92,13 @@ public class ModBlocks {
     public static final RegistryObject<Block> DEEPSLATE_TIN_ORE = ore("deepslate_tin_ore", Blocks.DEEPSLATE, 4.5f);
     public static final RegistryObject<Block> TITANIUM_ORE = ore("titanium_ore", Blocks.STONE, 4.5f);
     public static final RegistryObject<Block> DEEPSLATE_TITANIUM_ORE = ore("deepslate_titanium_ore", Blocks.DEEPSLATE, 6.0f);
+    // uranio: brilla un poco; titanio y uranio solo se procesan en la Cámara de Reacción
+    public static final RegistryObject<Block> URANIUM_ORE = registerBlock("uranium_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).strength(5.0f, 3.0f).requiresCorrectToolForDrops().lightLevel(s -> 3)));
+    public static final RegistryObject<Block> DEEPSLATE_URANIUM_ORE = registerBlock("deepslate_uranium_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE).strength(6.5f, 3.0f).requiresCorrectToolForDrops().lightLevel(s -> 3)));
+    public static final RegistryObject<Block> URANIUM_BLOCK = registerBlock("uranium_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(6.0f, 6.0f).lightLevel(s -> 6)));
     public static final RegistryObject<Block> LEAD_BLOCK = registerBlock("lead_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f)));
     public static final RegistryObject<Block> TIN_BLOCK = registerBlock("tin_block",
@@ -113,6 +120,10 @@ public class ModBlocks {
     public static final RegistryObject<Block> AMMO_FABRICATOR = registerBlock("ammo_fabricator",
             () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.AMMO_FABRICATOR,
                     com.bryanamaya.tecnocinetico.machine.AmmoFabricatorBlockEntity::new));
+
+    public static final RegistryObject<Block> REACTION_CHAMBER = registerBlock("reaction_chamber",
+            () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.REACTION_CHAMBER,
+                    com.bryanamaya.tecnocinetico.machine.ReactionChamberBlockEntity::new));
 
     // --- SOLO PRUEBAS (creativo): energía infinita. Sin receta ni drops. ---
     public static final RegistryObject<Block> CREATIVE_ENERGY_SOURCE = registerBlock("creative_energy_source",

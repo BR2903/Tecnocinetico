@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PGP",
+    "MRM",
+    "LCL"
+  ],
+  "key": {
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "G": {
+      "item": "minecraft:tinted_glass"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "L": {
+      "item": "tecnocinetico:lead_block"
+    },
+    "C": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:reaction_chamber",
+    "count": 1
+  }
+}

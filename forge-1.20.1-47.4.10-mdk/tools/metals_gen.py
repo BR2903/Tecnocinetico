@@ -44,6 +44,7 @@ RAMPS = {
     "lead": [(22, 24, 34), (52, 56, 74), (88, 94, 118), (132, 140, 166), (190, 198, 220)],          # gris azulado mate
     "tin": [(40, 40, 40), (98, 100, 98), (160, 164, 160), (212, 216, 210), (248, 250, 244)],         # plata clara
     "titanium": [(26, 26, 34), (70, 72, 88), (128, 128, 150), (186, 182, 206), (236, 232, 250)],    # gris frío con brillo violáceo
+    "uranium": [(14, 26, 10), (40, 74, 26), (90, 150, 40), (160, 220, 70), (225, 255, 160)],        # pecblenda verde que brilla
     "iron": [(40, 34, 30), (110, 100, 94), (170, 160, 152), (214, 206, 198), (245, 240, 236)],
     "gold": [(70, 40, 6), (160, 110, 20), (225, 175, 40), (250, 220, 90), (255, 248, 190)],
     "copper": [(60, 24, 14), (140, 64, 36), (200, 108, 66), (230, 150, 100), (250, 200, 160)],
@@ -56,6 +57,7 @@ METALS = {  # nombre: (capa de mena: núcleo, medio, borde), dureza de herramien
     "lead": {"tool": "stone", "count": 7, "size": 8, "min": -48, "max": 48},
     "tin": {"tool": "stone", "count": 10, "size": 9, "min": -16, "max": 96},
     "titanium": {"tool": "iron", "count": 4, "size": 5, "min": -64, "max": -8},
+    "uranium": {"tool": "iron", "count": 3, "size": 4, "min": -64, "max": -24},
 }
 DUSTS = ["iron", "gold", "copper", "lead", "tin", "titanium", "cinetrite", "inercita", "piroxite", "nullite"]
 DUST_RESULT = {"iron": "minecraft:iron_ingot", "gold": "minecraft:gold_ingot", "copper": "minecraft:copper_ingot",
@@ -76,7 +78,7 @@ def ramp_at(ramp, t):
 def ore_overlay(name):
     """Capa 16x16: vetas redondeadas de metal con brillo y borde oscuro (la piedra se ve debajo)."""
     ramp = RAMPS[name]
-    r = random.Random({"lead": 11, "tin": 12, "titanium": 13}[name])
+    r = random.Random({"lead": 11, "tin": 12, "titanium": 13, "uranium": 14}[name])
     img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
     spots = [(3, 3), (10, 2), (12, 9), (5, 9), (8, 13), (1, 13)]
     r.shuffle(spots)
@@ -199,6 +201,23 @@ def machine_front(kind):
         for i in range(8):                                                     # barra de carga
             c = cyan if i < 5 else steel[1]
             d.rectangle([14 + i * 5, 52, 17 + i * 5, 56], fill=c)
+    elif kind == "reaction_chamber":                                           # mirilla con el haz y el núcleo
+        d.ellipse([12, 8, 51, 47], fill=steel[0], outline=steel[3])
+        d.ellipse([15, 11, 48, 44], fill=(10, 30, 36), outline=steel[1])
+        d.ellipse([25, 21, 38, 34], fill=(120, 230, 80))                        # carga que resuena
+        d.ellipse([28, 24, 35, 31], fill=(230, 255, 180))
+        d.line([(31, 11), (31, 21)], fill=cyan, width=2)                        # haz
+        d.line([(31, 34), (31, 44)], fill=cyan, width=2)
+        for a in range(0, 360, 45):                                             # pernos del anillo
+            x = 31.5 + 21 * math.cos(math.radians(a))
+            y = 27.5 + 21 * math.sin(math.radians(a))
+            d.rectangle([x - 1, y - 1, x, y], fill=steel[4])
+        for i in range(2):                                                      # diales de frecuencia e intensidad
+            x0 = 12 + i * 15
+            d.ellipse([x0, 50, x0 + 9, 59], fill=steel[1], outline=steel[4])
+            d.line([(x0 + 4, 54), (x0 + 7, 51)], fill=cyan)
+        d.rectangle([44, 51, 51, 58], fill=(220, 180, 40))                      # radiación
+        d.rectangle([46, 53, 49, 56], fill=(30, 30, 30))
     else:                                                                      # fabricador: troquel y cinta
         d.rectangle([12, 8, 51, 28], fill=steel[0], outline=steel[3])
         d.rectangle([26, 10, 37, 24], fill=steel[3], outline=steel[4])          # troquel
@@ -308,7 +327,8 @@ def worldgen(name, cfg):
                                                                        "features": f"tecnocinetico:{name}_ore_placed", "step": "underground_ores"})
 
 
-MACHINES = ["electric_refiner", "cell_charger", "ammo_fabricator"]
+MACHINES = ["electric_refiner", "cell_charger", "ammo_fabricator", "reaction_chamber"]
+REACTOR_ONLY = ("titanium", "uranium")
 
 
 def main():
@@ -335,9 +355,10 @@ def main():
         ore_drop(f"deepslate_{name}_ore", f"raw_{name}")
         self_drop(f"{name}_block")
         ingot = f"tecnocinetico:{name}_ingot"
-        cook(f"{name}_from_raw", f"tecnocinetico:raw_{name}", ingot)
-        cook(f"{name}_from_ore", f"tecnocinetico:{name}_ore", ingot)
-        cook(f"{name}_from_deepslate_ore", f"tecnocinetico:deepslate_{name}_ore", ingot)
+        if name not in REACTOR_ONLY:                                           # titanio y uranio: solo Cámara de Reacción
+            cook(f"{name}_from_raw", f"tecnocinetico:raw_{name}", ingot)
+            cook(f"{name}_from_ore", f"tecnocinetico:{name}_ore", ingot)
+            cook(f"{name}_from_deepslate_ore", f"tecnocinetico:deepslate_{name}_ore", ingot)
         pack(f"{name}_ingot", f"tecnocinetico:{name}_nugget", ingot)
         pack(f"{name}_block", ingot, f"tecnocinetico:{name}_block")
         worldgen(name, cfg)
@@ -354,7 +375,8 @@ def main():
     for name in DUSTS:
         dust(name).save(T / f"item/{name}_dust.png")
         gen_item(f"{name}_dust")
-        cook(f"{name}_from_dust", f"tecnocinetico:{name}_dust", DUST_RESULT[name], 0.3)
+        if name not in REACTOR_ONLY:
+            cook(f"{name}_from_dust", f"tecnocinetico:{name}_dust", DUST_RESULT[name], 0.3)
         tag_add(D / f"forge/tags/items/dusts/{name}.json", [f"tecnocinetico:{name}_dust"])
         tag_add(D / "forge/tags/items/dusts.json", [f"#forge:dusts/{name}"])
     for m in MACHINES:
@@ -374,6 +396,14 @@ def main():
                                                    "B": "minecraft:redstone_block", "P": "tecnocinetico:inercita_plate"}, "tecnocinetico:cell_charger")
     shaped("ammo_fabricator", ["IPI", "MTM", "ILI"], {"I": "minecraft:iron_ingot", "P": "minecraft:piston", "M": "tecnocinetico:precision_mechanism",
                                                       "T": "minecraft:crafting_table", "L": "tecnocinetico:lead_ingot"}, "tecnocinetico:ammo_fabricator")
+    shaped("reaction_chamber", ["PGP", "MRM", "LCL"], {"P": "tecnocinetico:inercita_plate", "G": "minecraft:tinted_glass",
+                                                       "M": "tecnocinetico:precision_mechanism", "R": "minecraft:redstone_block",
+                                                       "L": "tecnocinetico:lead_block", "C": "tecnocinetico:crude_kinetic_coupler"},
+           "tecnocinetico:reaction_chamber")
+    # el titanio ya no se funde: borrar recetas viejas de horno
+    for old in ("titanium_from_raw", "titanium_from_ore", "titanium_from_deepslate_ore", "titanium_from_dust"):
+        for kind in ("smelting", "blasting"):
+            (D / f"tecnocinetico/recipes/{kind}_{old}.json").unlink(missing_ok=True)
     print("ok: metales, polvos y máquinas")
 
 

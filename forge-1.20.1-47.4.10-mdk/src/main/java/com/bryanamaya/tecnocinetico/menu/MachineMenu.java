@@ -26,7 +26,7 @@ public class MachineMenu extends AbstractContainerMenu {
 
     /** Constructor del cliente: lee la posición de la máquina. */
     public MachineMenu(MachineKind kind, int id, Inventory inventory, FriendlyByteBuf buf) {
-        this(kind, id, inventory, handlerAt(kind, inventory, buf), new SimpleContainerData(ElectricMachineBlockEntity.DATA_COUNT),
+        this(kind, id, inventory, handlerAt(kind, inventory, buf), new SimpleContainerData(ElectricMachineBlockEntity.DATA_COUNT + kind.extraData),
                 ContainerLevelAccess.NULL);
     }
 
@@ -41,7 +41,7 @@ public class MachineMenu extends AbstractContainerMenu {
         this.access = access;
         this.data = data;
         this.machineSlots = kind.slots();
-        checkContainerDataCount(data, ElectricMachineBlockEntity.DATA_COUNT);
+        checkContainerDataCount(data, ElectricMachineBlockEntity.DATA_COUNT + kind.extraData);
         for (int i = 0; i < kind.inputs.length; i++) {
             addSlot(new SlotItemHandler(machine, i, kind.inputs[i][0], kind.inputs[i][1]));
         }
@@ -79,6 +79,21 @@ public class MachineMenu extends AbstractContainerMenu {
 
     public int maxProgress() {
         return data.get(ElectricMachineBlockEntity.DATA_MAX);
+    }
+
+    /** Dato extra i de la máquina (ver MachineKind.extraData). */
+    public int extra(int i) {
+        return data.get(ElectricMachineBlockEntity.DATA_COUNT + i);
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        access.execute((level, pos) -> {
+            if (level.getBlockEntity(pos) instanceof ElectricMachineBlockEntity m) {
+                m.onButton(id);
+            }
+        });
+        return true;
     }
 
     public int usage() {

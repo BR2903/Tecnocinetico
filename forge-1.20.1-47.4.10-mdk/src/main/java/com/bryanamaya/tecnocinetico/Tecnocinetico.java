@@ -112,7 +112,11 @@ public class Tecnocinetico {
                 MenuScreens.register(ModMenus.WEAPON_ASSEMBLER.get(), com.bryanamaya.tecnocinetico.client.WeaponAssemblerScreen::new);
                 MenuScreens.register(ModMenus.TACTICAL_GEAR.get(), com.bryanamaya.tecnocinetico.client.TacticalScreen::new);
                 for (var kind : com.bryanamaya.tecnocinetico.machine.MachineKind.values()) {
-                    MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.MachineScreen::new);
+                    if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.REACTION_CHAMBER) {
+                        MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.ReactionChamberScreen::new);
+                    } else {
+                        MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.MachineScreen::new);
+                    }
                 }
                 ItemProperties.register(ModItems.KINETIC_PISTOL.get(),
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),

@@ -3,6 +3,7 @@
   "values": [
     "#forge:nuggets/lead",
     "#forge:nuggets/tin",
-    "#forge:nuggets/titanium"
+    "#forge:nuggets/titanium",
+    "#forge:nuggets/uranium"
   ]
 }

@@ -3,6 +3,7 @@
   "values": [
     "#forge:ingots/lead",
     "#forge:ingots/tin",
-    "#forge:ingots/titanium"
+    "#forge:ingots/titanium",
+    "#forge:ingots/uranium"
   ]
 }

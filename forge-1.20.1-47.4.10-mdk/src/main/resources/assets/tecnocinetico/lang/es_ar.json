@@ -465,5 +465,20 @@
   "item.tecnocinetico.nullite_dust": "Polvo de nulita",
   "block.tecnocinetico.electric_refiner": "Refinador Cinético",
   "block.tecnocinetico.cell_charger": "Cargador de Células",
-  "block.tecnocinetico.ammo_fabricator": "Fabricador de Munición"
+  "block.tecnocinetico.ammo_fabricator": "Fabricador de Munición",
+  "block.tecnocinetico.uranium_ore": "Mena de uranio",
+  "block.tecnocinetico.deepslate_uranium_ore": "Mena de uranio de pizarra profunda",
+  "block.tecnocinetico.uranium_block": "Bloque de uranio",
+  "item.tecnocinetico.raw_uranium": "Uranio en bruto",
+  "item.tecnocinetico.uranium_ingot": "Lingote de uranio",
+  "item.tecnocinetico.uranium_nugget": "Pepita de uranio",
+  "block.tecnocinetico.reaction_chamber": "Cámara de Reacción",
+  "gui.tecnocinetico.reaction.frequency": "Frecuencia",
+  "gui.tecnocinetico.reaction.intensity": "Intensidad",
+  "gui.tecnocinetico.reaction.unstable": "¡Inestable!",
+  "gui.tecnocinetico.reaction.resonance": "Resonancia: %s%%",
+  "gui.tecnocinetico.reaction.resonance_hint": "Ajusta frecuencia e intensidad hasta llenarla",
+  "gui.tecnocinetico.reaction.stability": "Estabilidad: %s%%",
+  "gui.tecnocinetico.reaction.stability_hint": "Si llega a 0, la carga se desintegra",
+  "tooltip.tecnocinetico.reactor_only": "Solo se procesa en la Cámara de Reacción"
 }

@@ -35,7 +35,6 @@ public final class MachineRecipes {
             new Refine(v(Items.RAW_GOLD), ModItems.GOLD_DUST, 2, ModItems.COPPER_DUST, 0.10F, 100, 20),
             new Refine(ModItems.RAW_LEAD, ModItems.LEAD_DUST, 2, ModItems.TIN_DUST, 0.12F, 100, 20),
             new Refine(ModItems.RAW_TIN, ModItems.TIN_DUST, 2, ModItems.LEAD_DUST, 0.10F, 100, 20),
-            new Refine(ModItems.RAW_TITANIUM, ModItems.TITANIUM_DUST, 2, ModItems.IRON_DUST, 0.15F, 160, 40),
             new Refine(ModItems.RAW_CINETRITE, ModItems.CINETRITE_DUST, 2, ModItems.CINETRITE_SHARD, 0.15F, 120, 30),
             new Refine(ModItems.RAW_INERCITA, ModItems.INERCITA_DUST, 2, ModItems.CINETRITE_DUST, 0.08F, 160, 40),
             new Refine(ModItems.RAW_PIROXITE, ModItems.PIROXITE_DUST, 2, ModItems.GOLD_DUST, 0.10F, 200, 60),
@@ -53,6 +52,35 @@ public final class MachineRecipes {
                     ModItems.RAIL_SLUG, 4, 140, 50),
             new Fabricate(List.of(of(v(Items.IRON_INGOT), 2), of(v(Items.GUNPOWDER), 2), of(ModItems.CINETRITE_SHARD, 1)),
                     ModItems.KINETIC_GRENADE, 2, 120, 40));
+
+    /**
+     * Cámara de Reacción: cada receta resuena a una frecuencia y una intensidad (1-10). Titanio y uranio SOLO se
+     * procesan aquí (no tienen receta de horno ni de Refinador).
+     */
+    public record React(Supplier<Item> in, Supplier<Item> out, int count, Supplier<Item> extra, float chance,
+                        int frequency, int intensity, int ticks, int perTick) {}
+
+    private static Supplier<Item> block(Supplier<? extends net.minecraft.world.level.block.Block> b) {
+        return () -> b.get().asItem();
+    }
+
+    public static final List<React> REACT = List.of(
+            new React(ModItems.RAW_TITANIUM, ModItems.TITANIUM_INGOT, 1, ModItems.TITANIUM_NUGGET, 0.35F, 4, 6, 160, 200),
+            new React(block(com.bryanamaya.tecnocinetico.block.ModBlocks.TITANIUM_ORE), ModItems.TITANIUM_INGOT, 2, ModItems.TITANIUM_NUGGET, 0.35F, 4, 8, 200, 220),
+            new React(block(com.bryanamaya.tecnocinetico.block.ModBlocks.DEEPSLATE_TITANIUM_ORE), ModItems.TITANIUM_INGOT, 2, ModItems.TITANIUM_NUGGET, 0.35F, 4, 8, 200, 220),
+            new React(ModItems.TITANIUM_DUST, ModItems.TITANIUM_INGOT, 1, ModItems.TITANIUM_NUGGET, 0.10F, 4, 3, 100, 150),
+            new React(ModItems.RAW_URANIUM, ModItems.URANIUM_INGOT, 1, ModItems.URANIUM_NUGGET, 0.25F, 7, 5, 200, 300),
+            new React(block(com.bryanamaya.tecnocinetico.block.ModBlocks.URANIUM_ORE), ModItems.URANIUM_INGOT, 2, ModItems.URANIUM_NUGGET, 0.25F, 7, 7, 240, 320),
+            new React(block(com.bryanamaya.tecnocinetico.block.ModBlocks.DEEPSLATE_URANIUM_ORE), ModItems.URANIUM_INGOT, 2, ModItems.URANIUM_NUGGET, 0.25F, 7, 7, 240, 320));
+
+    public static React react(ItemStack in) {
+        for (React r : REACT) {
+            if (in.is(r.in().get())) {
+                return r;
+            }
+        }
+        return null;
+    }
 
     public static Refine refine(ItemStack in) {
         for (Refine r : REFINE) {

@@ -18,7 +18,10 @@ KINDS = {
     "electric_refiner": ([(44, 35)], [(100, 35), (130, 35)], (68, 35)),
     "cell_charger": ([(44, 35)], [(104, 35)], (68, 35)),
     "ammo_fabricator": ([(26, 35), (44, 35), (62, 35)], [(116, 35)], (85, 35)),
+    "reaction_chamber": ([(30, 30)], [(86, 30), (112, 30)], (54, 30)),
 }
+# Cámara de Reacción: barras de resonancia y estabilidad (= ReactionChamberScreen)
+BARS = {"reaction_chamber": [(132, 192, ((255, 120, 60), (70, 230, 120))), (141, 200, ((200, 60, 40), (240, 200, 60)))]}
 
 
 def make(inputs, outputs, arrow_pos):
@@ -78,5 +81,15 @@ def make(inputs, outputs, arrow_pos):
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     for kid, (ins, outs, arr) in KINDS.items():
-        make(ins, outs, arr).save(OUT / f"{kid}.png")
+        img = make(ins, outs, arr)
+        d = ImageDraw.Draw(img)
+        for (bx, u, (lo, hi)) in BARS.get(kid, []):
+            d.rectangle([bx - 1, 16, bx + 6, 69], fill=BAR_BG)
+            d.line([(bx - 1, 16), (bx + 5, 16)], fill=SLOT_DARK); d.line([(bx - 1, 16), (bx - 1, 68)], fill=SLOT_DARK)
+            d.line([(bx, 69), (bx + 6, 69)], fill=LIGHT); d.line([(bx + 6, 17), (bx + 6, 69)], fill=LIGHT)
+            for yy in range(52):
+                t = yy / 51
+                c = tuple(int(hi[i] + (lo[i] - hi[i]) * t) for i in range(3)) + (255,)
+                d.line([(u, 17 + yy), (u + 5, 17 + yy)], fill=c)
+        img.save(OUT / f"{kid}.png")
     print("ok: interfaces de las máquinas")

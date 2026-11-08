@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "tecnocinetico:uranium_nugget"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:uranium_ingot",
+    "count": 1
+  }
+}
