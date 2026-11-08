@@ -169,6 +169,33 @@ def main():
         {"rolls": 1, "entries": [item("cinetrite_ingot", 1, 1, 2)]},
         {"rolls": 1, "entries": [item("cinetrite_shard", 1, 3, 6)]},
         {"rolls": 1, "entries": [item("scrap_metal", 1, 4, 8)]}])
+    # ------------------------------------------------ instalación de la IA (Núcleo Directriz)
+    structure("ai_installation", "ai_installation", ["extraction_scars", "fractured_lands", "dead_megacity"],
+              {}, 40, 14, 74120970, adaptation="none", avoid="survivor_settlement")
+    chest("ai_installation", [
+        {"rolls": {"type": "minecraft:uniform", "min": 3, "max": 6}, "entries": [
+            item("kinetic_round", 12, 4, 12), item("scrap_metal", 10, 2, 6), item("minecraft:redstone", 8, 3, 8),
+            item("cinetrite_shard", 8, 2, 5), item("cinetrite_ingot", 5, 1, 2), item("minecraft:iron_ingot", 6, 1, 4),
+            item("magazine", 3), item("minecraft:quartz", 4, 2, 5)]},
+        {"rolls": 1, "entries": [
+            {"type": "minecraft:empty", "weight": 12}, item("deepslate_logic_substrate", 6, 1, 2),
+            item("piezo_transducer", 5), item("crude_kinetic_coupler", 4), item("inercita_ingot", 4, 1, 2),
+            item("guided_round", 2, 2, 4)]},
+    ])
+    chest("ai_core", [
+        {"rolls": {"type": "minecraft:uniform", "min": 4, "max": 7}, "entries": [
+            item("kinetic_round", 10, 6, 16), item("cinetrite_ingot", 8, 1, 3), item("inercita_ingot", 6, 1, 3),
+            item("deepslate_logic_substrate", 6, 1, 2), item("piezo_transducer", 5), item("minecraft:diamond", 2)]},
+        {"rolls": 1, "entries": [
+            {"type": "minecraft:empty", "weight": 4}, item("module_quick_reload", 2), item("module_extended_mag", 2),
+            item("module_optic", 2), item("module_inercita_barrel", 1), item("extended_magazine", 2)]},
+    ])
+    entity_loot("sentry_turret", [
+        {"rolls": 1, "entries": [item("scrap_metal", 1, 2, 4)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
+                                    {"condition": "minecraft:random_chance_with_looting", "chance": 0.15,
+                                     "looting_multiplier": 0.05}],
+         "entries": [item("deepslate_logic_substrate", 1), item("piezo_transducer", 1)]}])
     print("ok: estructuras del Overworld")
 
 

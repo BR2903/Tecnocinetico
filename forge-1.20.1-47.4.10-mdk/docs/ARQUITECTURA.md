@@ -63,6 +63,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `SoundEvent`s propios declarados en `assets/tecnocinetico/sounds.json` (con subtítulos). Archivos en `sounds/swarm_body/`, generados por `tools/sound_gen.py`. Pistola: disparo (atenuación 48 bloques), impacto (en el punto de impacto), acierto (solo el tirador), clic en vacío, cargador fuera/dentro y corredera (sincronizados con la animación de recarga).
 
 ### Entidad (`entity/`)
+- `SentryTurretEntity` (+ `client/SentryTurretModel`, `SentryTurretRenderer`): torreta anclada que carga y dispara un rayo esquivable.
 - `swarm/`: Avispas del Enjambre (`SwarmWaspEntity`, `WaspRole`), `HiveNodeEntity` y `HiveMind` (la mente colmena que decide estados, turnos de ataque, refuerzos y adaptación). Render: `client/SwarmWaspModel`, `SwarmWaspRenderer`, `HiveNodeRenderer`. Colmena: `worldgen/structure/SwarmHive*`.
 - `SurvivorEntity` (+ `SurvivorTrades`, `client/SurvivorRenderer`): NPC comerciante de los asentamientos; oficios, ofertas con Chatarra, reposición diaria, casa en NBT.
 - `SwarmBodyEntity` (IA + `KineticLeapGoal`), `SwarmBodyModel` (modelo en código, animaciones), `SwarmBodyRenderer` (+ capa luminosa `EyesLayer`).
@@ -79,6 +80,11 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 
 ### Estructuras (`worldgen/structure/`)
 - `ModStructures`: tipos de estructura y de pieza. `RuinedBuildingStructure` (busca terreno llano y seco) + `RuinedBuildingPiece` (construye el edificio por código; aleatorios por posición para que todos los chunks coincidan). `FactoryStructure` + `FactoryPiece` (fábrica abandonada). `SettlementStructure` + `SettlementPiece` (asentamiento; alturas del terreno guardadas por columna). Datos por `tools/world_structures_gen.py`.
+
+- `AiInstallationStructure` + `AiInstallationPiece`: búnker + escalera + complejo subterráneo 3x3 con cámara del Núcleo.
+
+### Munición (`item/custom/`)
+- `MagazineItem` (Cargador 6 / Ampliado 10; NBT `Rounds`, `Guided`), `MagazineLoadingRecipe` (receta especial registrada en `item/ModRecipes`), `GuidedRoundItem`. La pistola guarda `Mag`, `Ammo`, `GuidedAmmo` y durante la recarga `PendingMag`. R con un cargador en la mano → `FillMagazinePacket`.
 
 ### Comandos (`command/`) y pruebas (`gametest/`)
 - `TpBiomeCommand`: `/tpbioma <bioma>`.

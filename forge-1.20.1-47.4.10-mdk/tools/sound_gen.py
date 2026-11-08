@@ -504,7 +504,27 @@ def generate_wasps():
     save("pulse", node_pulse(), "hive_node")
 
 
+# =================================================================== Torreta Centinela
+def turret_charge():
+    """Carga del disparo: tubo resonante que sube de tono (condensador cargándose) + servos que ajustan."""
+    seed = 3300
+    dur = 1.3
+    src = band(noise(dur, seed), 200, 6000)
+    whine = comb_glide(src, 220, 1500, feedback=0.86)
+    whine = band(whine, 300, 7000) * env(n_of(dur), dur * 0.8, 0.05)
+    return reverb(mix(dur + 0.2,
+                      (whine, 0.0, 1.0),
+                      (servo(0.5, 60, 110, seed + 1), 0.0, 0.6),
+                      (sparks(dur, seed + 2, rate=40), 0.3, 0.25)),
+                  seed + 3, tail=0.4, wet=0.2)
+
+
+def generate_turret():
+    save("charge", turret_charge(), "sentry_turret")
+
+
 if __name__ == "__main__":
     generate_swarm()
     generate_pistol()
     generate_wasps()
+    generate_turret()

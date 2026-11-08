@@ -177,5 +177,8 @@
   "message.tecnocinetico.no_magazine": "No llevas ningún cargador con balas",
   "message.tecnocinetico.magazine_full": "El cargador está lleno",
   "message.tecnocinetico.no_rounds": "No tienes Balas Cinéticas",
-  "message.tecnocinetico.no_guided_rounds": "No tienes Munición Guiada"
+  "message.tecnocinetico.no_guided_rounds": "No tienes Munición Guiada",
+  "entity.tecnocinetico.sentry_turret": "Torreta Centinela",
+  "item.tecnocinetico.sentry_turret_spawn_egg": "Huevo de Torreta Centinela",
+  "subtitles.tecnocinetico.sentry_turret.charge": "Torreta carga el disparo"
 }

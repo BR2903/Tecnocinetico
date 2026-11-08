@@ -177,5 +177,8 @@
   "message.tecnocinetico.no_magazine": "You have no loaded magazine",
   "message.tecnocinetico.magazine_full": "The magazine is full",
   "message.tecnocinetico.no_rounds": "You have no Kinetic Rounds",
-  "message.tecnocinetico.no_guided_rounds": "You have no Guided Rounds"
+  "message.tecnocinetico.no_guided_rounds": "You have no Guided Rounds",
+  "entity.tecnocinetico.sentry_turret": "Sentry Turret",
+  "item.tecnocinetico.sentry_turret_spawn_egg": "Sentry Turret Spawn Egg",
+  "subtitles.tecnocinetico.sentry_turret.charge": "Turret charges up"
 }

@@ -1,0 +1,7 @@
+{
+  "type": "tecnocinetico:ai_installation",
+  "biomes": "#tecnocinetico:has_structure/ai_installation",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

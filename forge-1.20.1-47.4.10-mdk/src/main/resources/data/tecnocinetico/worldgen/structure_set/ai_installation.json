@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "tecnocinetico:ai_installation",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 40,
+    "separation": 14,
+    "salt": 74120970,
+    "exclusion_zone": {
+      "other_set": "tecnocinetico:survivor_settlement",
+      "chunk_count": 3
+    }
+  }
+}

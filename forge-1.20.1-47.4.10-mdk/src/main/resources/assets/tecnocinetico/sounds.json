@@ -150,5 +150,11 @@
     "sounds": [
       "tecnocinetico:hive_node/pulse"
     ]
+  },
+  "entity.sentry_turret.charge": {
+    "subtitle": "subtitles.tecnocinetico.sentry_turret.charge",
+    "sounds": [
+      "tecnocinetico:sentry_turret/charge"
+    ]
   }
 }

@@ -40,6 +40,11 @@ public final class ModStructures {
     public static final RegistryObject<StructurePieceType> SWARM_HIVE_PIECE =
             PIECES.register("swarm_hive", () -> (StructurePieceType.ContextlessType) SwarmHivePiece::new);
 
+    public static final RegistryObject<StructureType<AiInstallationStructure>> AI_INSTALLATION =
+            TYPES.register("ai_installation", () -> () -> AiInstallationStructure.CODEC);
+    public static final RegistryObject<StructurePieceType> AI_INSTALLATION_PIECE =
+            PIECES.register("ai_installation", () -> (StructurePieceType.ContextlessType) AiInstallationPiece::new);
+
     private ModStructures() {}
 
     public static void register(IEventBus bus) {

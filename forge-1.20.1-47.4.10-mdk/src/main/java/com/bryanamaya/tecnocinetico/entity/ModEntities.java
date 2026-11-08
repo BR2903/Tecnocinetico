@@ -1,6 +1,7 @@
 package com.bryanamaya.tecnocinetico.entity;
 
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
+import com.bryanamaya.tecnocinetico.entity.custom.SentryTurretEntity;
 import com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity;
 import com.bryanamaya.tecnocinetico.entity.swarm.HiveNodeEntity;
 import com.bryanamaya.tecnocinetico.entity.swarm.SwarmWaspEntity;
@@ -42,6 +43,14 @@ public class ModEntities {
                     .fireImmune()
                     .clientTrackingRange(10)
                     .build("hive_node"));
+
+    // Torreta Centinela de las instalaciones de la IA
+    public static final RegistryObject<EntityType<SentryTurretEntity>> SENTRY_TURRET =
+            ENTITY_TYPES.register("sentry_turret", () -> EntityType.Builder.<SentryTurretEntity>of(SentryTurretEntity::new, MobCategory.MONSTER)
+                    .sized(0.9f, 1.2f)
+                    .fireImmune()
+                    .clientTrackingRange(10)
+                    .build("sentry_turret"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

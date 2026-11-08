@@ -27,7 +27,7 @@ import net.minecraftforge.gametest.PrefixGameTestTemplate;
 public class WorldgenGameTests {
 
     private static final String[] STRUCTURES = {"ruined_building_megacity", "ruined_building_urban",
-            "ruined_building_overgrown", "ruined_building_frozen", "survivor_settlement", "abandoned_factory", "swarm_hive"};
+            "ruined_building_overgrown", "ruined_building_frozen", "survivor_settlement", "abandoned_factory", "swarm_hive", "ai_installation"};
 
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void structuresGenerate(GameTestHelper helper) {

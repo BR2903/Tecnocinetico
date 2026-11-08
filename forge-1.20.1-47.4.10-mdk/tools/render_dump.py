@@ -10,6 +10,13 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 COLORS = {
+    "deepslate_tiles": (60, 60, 66), "cracked_deepslate_tiles": (52, 52, 58), "polished_deepslate": (72, 72, 78),
+    "deepslate_tile_stairs": (60, 60, 66), "sea_lantern": (190, 230, 230), "polished_blackstone": (46, 42, 50),
+    "redstone_lamp": (120, 70, 40), "cyan_stained_glass": (60, 150, 170), "glass": (200, 230, 240),
+    "smooth_stone_slab": (160, 160, 160), "brewing_stand": (120, 110, 90), "cauldron": (60, 60, 64),
+    "tinted_glass": (50, 40, 60), "cobbled_deepslate": (70, 70, 74), "cobweb": (220, 220, 220),
+    "yellow_concrete": (240, 175, 20), "black_concrete": (20, 20, 24), "lightning_rod": (200, 120, 80),
+    "concrete": (170, 168, 162), "deepslate": (70, 70, 76), "tuff": (100, 100, 90), "andesite": (130, 130, 130),
     "concrete": (170, 168, 162), "cracked_concrete": (150, 148, 142), "mossy_concrete": (112, 136, 92),
     "rusted_metal_beam": (150, 84, 44), "rusted_grate": (130, 90, 60), "rubble": (128, 124, 118),
     "scrap_pile": (140, 96, 64), "debris_layer": (120, 116, 110), "grass_block": (96, 140, 64),

@@ -32,6 +32,9 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> HIVE_NODE_AMBIENT = register("entity.hive_node.ambient");
     public static final RegistryObject<SoundEvent> HIVE_NODE_PULSE = register("entity.hive_node.pulse");
 
+    // Torreta Centinela
+    public static final RegistryObject<SoundEvent> SENTRY_TURRET_CHARGE = register("entity.sentry_turret.charge");
+
     // Pistola Cinética
     public static final RegistryObject<SoundEvent> PISTOL_FIRE = register("item.kinetic_pistol.fire");
     public static final RegistryObject<SoundEvent> PISTOL_IMPACT = register("item.kinetic_pistol.impact");
