@@ -50,7 +50,6 @@ public class ArcCasterItem extends PulseCannonItem {
         Vec3 from = eye.add(look.scale(0.8)).add(0, -0.2, 0);
         if (hit == null) {
             bolt(level, from, end);
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.4F, 1.8F);
             return;
         }
         List<Entity> struck = new ArrayList<>();
@@ -71,7 +70,11 @@ public class ArcCasterItem extends PulseCannonItem {
                             e -> e != player && e.isAlive() && !struck.contains(e) && !e.isSpectator())
                     .stream().min(Comparator.comparingDouble(e -> e.getBoundingBox().getCenter().distanceToSqr(fromF))).orElse(null);
         }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.8F, 1.6F);
+        if (!struck.isEmpty()) {                                                  // chasquido en el último alcanzado
+            Entity last = struck.get(struck.size() - 1);
+            level.playSound(null, last.getX(), last.getY(), last.getZ(), com.bryanamaya.tecnocinetico.sound.ModSounds.ARC_FIRE.get(),
+                    SoundSource.PLAYERS, 0.6F, 1.3F);
+        }
     }
 
     /** Rayo quebrado entre dos puntos. */

@@ -12,6 +12,9 @@ import math
 import random
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from gunkit import resolve_zfight  # noqa: E402  (evita el parpadeo de caras coplanares)
 from PIL import Image
 
 ASSETS = Path(sys.argv[1])
@@ -557,7 +560,7 @@ def model(mag_offset=None, slide_back=0.0, display=None, mask=0):
             els.append(element_json(i, el))
     return {"credit": "Tecnocinetico - pistol_gen.py", "render_type": "minecraft:translucent", "texture_size": [SIZE, SIZE],
             "textures": {"0": "tecnocinetico:item/kinetic_pistol", "particle": "tecnocinetico:item/kinetic_pistol"},
-            "elements": els, "display": display or DISPLAY}
+            "elements": resolve_zfight(els), "display": display or DISPLAY}
 
 
 def write(name, data):
@@ -629,7 +632,7 @@ for bit, mid in MODULE_IDS.items():
     write(f"module_{mid}", {"credit": "Tecnocinetico - pistol_gen.py", "render_type": "minecraft:translucent", "texture_size": [SIZE, SIZE],
                             "textures": {"0": "tecnocinetico:item/kinetic_pistol",
                                          "particle": "tecnocinetico:item/kinetic_pistol"},
-                            "elements": els, "display": MODULE_DISPLAY})
+                            "elements": resolve_zfight(els), "display": MODULE_DISPLAY})
 for old in ["kinetic_pistol_3d_wrapped"] + [f"kinetic_pistol_reload_{n}" for n in range(1, 5)]:
     (ASSETS / "models/item" / f"{old}.json").unlink(missing_ok=True)
 

@@ -348,8 +348,40 @@ def scaled(els, k, origin):
 _MODELS = []          # (name, elements, display, overrides, group)
 
 
+def _same_rot(a, b):
+    return json.dumps(a.get("rotation"), sort_keys=True) == json.dumps(b.get("rotation"), sort_keys=True)
+
+
+def resolve_zfight(elements, eps=0.015):
+    """Evita el parpadeo de texturas (z-fighting): si dos piezas tienen una cara en el mismo plano, mirando al mismo
+    lado y solapadas, la pieza MÁS PEQUEÑA se adelanta `eps` por esa cara y queda siempre encima."""
+    els = [dict(e, **{"from": list(e["from"]), "to": list(e["to"])}) for e in elements]
+
+    def vol(e):
+        return (e["to"][0] - e["from"][0]) * (e["to"][1] - e["from"][1]) * (e["to"][2] - e["from"][2])
+
+    for _ in range(4):
+        changed = False
+        for i in range(len(els)):
+            for j in range(i + 1, len(els)):
+                a, b = els[i], els[j]
+                if not _same_rot(a, b):
+                    continue
+                for ax in range(3):
+                    for key, sign in (("from", -1), ("to", 1)):
+                        if abs(a[key][ax] - b[key][ax]) > 1e-4:
+                            continue
+                        if all(min(a["to"][k], b["to"][k]) - max(a["from"][k], b["from"][k]) > 1e-4 for k in range(3) if k != ax):
+                            small = a if vol(a) <= vol(b) else b
+                            small[key][ax] = round(small[key][ax] + sign * eps, 4)
+                            changed = True
+        if not changed:
+            break
+    return els
+
+
 def model(name, elements, display, overrides=None, group=None):
-    _MODELS.append((name, elements, display, overrides, group or name))
+    _MODELS.append((name, resolve_zfight(elements), display, overrides, group or name))
 
 
 def _key(e):

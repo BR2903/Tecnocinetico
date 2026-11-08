@@ -23,7 +23,6 @@
 - `run/` contiene mundos de prueba con objetos que ya no existen (objetos "Vista 1-5"): el aviso de "registros no identificados" al cargarlos es inofensivo.
 - Si se añade un 5.º módulo, `pistol_gen.py` generaría 160 modelos (2^5 × 5). Valorar un modelo dinámico (BakedModel propio) si crecen.
 
-- Sonidos reales (CC0/CC-BY) para la escopeta y el rifle (ahora reutilizan los de la pistola con otro tono).
 - Ajustar en el juego la posición en primera persona de la escopeta y el rifle si hace falta (`LongGunClientExtensions`).
 
 - Drones: más adelante, que también ronden las futuras antenas/estaciones de retransmisión; ajustar en el juego dificultad (daño 3 por tiro, ráfagas de 3) si es mucho o poco.
@@ -32,7 +31,6 @@
 
 - Tier 2: módulos propios del subfusil; animación de bombeo de la corredera en primera persona; probar el equilibrio (daño del subfusil, freno de la inercita, carga del exoesqueleto).
 
-- Tier 3: sonidos propios del riel, la granada y el cañón (ahora reutilizan los del Anclador y la pistola).
 
 - Caza del Núcleo: receta (¿fin de juego, con piezas de las dimensiones nuevas?), probar el manejo en el juego (giro, velocidades) y en multijugador; animación de cabina/HUD más elaborada si gusta.
 

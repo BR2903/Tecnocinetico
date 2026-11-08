@@ -35,6 +35,5 @@ public class RocketLauncherItem extends LongGunItem {
             server.sendParticles(ParticleTypes.LARGE_SMOKE, back.x, back.y, back.z, 10, 0.2, 0.2, 0.2, 0.05);   // rebufo
             server.sendParticles(ModParticles.KINETIC_BURST.get(), from.x, from.y, from.z, 0, 0.45, 0, 0, 1);
         }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.PLAYERS, 1.6F, 0.6F);
     }
 }

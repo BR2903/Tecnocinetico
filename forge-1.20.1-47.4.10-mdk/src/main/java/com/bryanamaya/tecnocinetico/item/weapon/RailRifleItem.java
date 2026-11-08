@@ -106,8 +106,6 @@ public class RailRifleItem extends LongGunItem {
             }
             server.sendParticles(ModParticles.KINETIC_SPARK.get(), end.x, end.y, end.z, 16, 0.1, 0.1, 0.1, 0.3);
         }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.ANCHOR_PULL.get(), SoundSource.PLAYERS,
-                0.8F, 1.6F);
         if (charge >= 0.99F) {                                                // retroceso a carga completa
             Vec3 back = dir.scale(-0.35);
             player.setDeltaMovement(player.getDeltaMovement().add(back.x, 0.05, back.z));

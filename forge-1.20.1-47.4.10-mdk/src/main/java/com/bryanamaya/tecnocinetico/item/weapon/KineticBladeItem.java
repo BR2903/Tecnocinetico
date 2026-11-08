@@ -106,7 +106,7 @@ public class KineticBladeItem extends SwordItem {
                 server.sendParticles(net.minecraft.core.particles.ParticleTypes.SWEEP_ATTACK, eye.x + look.x * 2, eye.y - 0.3,
                         eye.z + look.z * 2, 3, 0.8, 0.1, 0.8, 0);
             }
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.2F, 0.6F);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), com.bryanamaya.tecnocinetico.sound.ModSounds.BLADE_WAVE.get(), SoundSource.PLAYERS, 1.2F, 1.0F);
             stack.hurtAndBreak(3, player, p -> p.broadcastBreakEvent(hand));
             player.getCooldowns().addCooldown(this, 20);
         }

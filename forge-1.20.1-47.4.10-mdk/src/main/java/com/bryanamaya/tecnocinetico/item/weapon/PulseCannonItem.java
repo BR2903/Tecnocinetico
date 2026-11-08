@@ -97,8 +97,6 @@ public class PulseCannonItem extends LongGunItem {
             Vec3 m = eye.add(look.scale(1.2)).add(0, -0.15, 0);
             server.sendParticles(ModParticles.KINETIC_BURST.get(), m.x, m.y, m.z, 0, 0.45, 0, 0, 1);
         }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.ANCHOR_STOMP.get(), SoundSource.PLAYERS,
-                1.2F, 1.5F);
         Vec3 back = look.scale(-0.3);                                              // el cañón empuja al que dispara
         player.setDeltaMovement(player.getDeltaMovement().add(back.x, 0.0, back.z));
         player.hurtMarked = true;

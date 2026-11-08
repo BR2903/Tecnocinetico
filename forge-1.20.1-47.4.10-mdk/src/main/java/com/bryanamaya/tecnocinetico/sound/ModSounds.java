@@ -60,6 +60,24 @@ public final class ModSounds {
     // Lanzallamas (rugido del chorro)
     public static final RegistryObject<SoundEvent> FLAMETHROWER = register("item.flamethrower.roar");
 
+    // Armas: disparos propios de cada arma (grabaciones reales en tools/import_sounds.py, energía en sound_gen.py)
+    public static final RegistryObject<SoundEvent> REVOLVER_FIRE = register("item.gun.revolver");
+    public static final RegistryObject<SoundEvent> SHOTGUN_FIRE = register("item.gun.shotgun");
+    public static final RegistryObject<SoundEvent> RIFLE_FIRE = register("item.gun.rifle");
+    public static final RegistryObject<SoundEvent> RIFLE_BOLT = register("item.gun.bolt");
+    public static final RegistryObject<SoundEvent> SNIPER_FIRE = register("item.gun.sniper");
+    public static final RegistryObject<SoundEvent> SEMI_FIRE = register("item.gun.semi");
+    public static final RegistryObject<SoundEvent> SMG_FIRE = register("item.gun.smg");
+    public static final RegistryObject<SoundEvent> AUTO_FIRE = register("item.gun.auto");
+    public static final RegistryObject<SoundEvent> MINIGUN_FIRE = register("item.gun.minigun");
+    public static final RegistryObject<SoundEvent> MINIGUN_SPIN = register("item.gun.minigun_spin");
+    public static final RegistryObject<SoundEvent> RAIL_FIRE = register("item.gun.rail");
+    public static final RegistryObject<SoundEvent> PULSE_FIRE = register("item.gun.pulse");
+    public static final RegistryObject<SoundEvent> ARC_FIRE = register("item.gun.arc");
+    public static final RegistryObject<SoundEvent> GRENADE_LAUNCH = register("item.gun.grenade_launch");
+    public static final RegistryObject<SoundEvent> ROCKET_LAUNCH = register("item.gun.rocket_launch");
+    public static final RegistryObject<SoundEvent> BLADE_WAVE = register("item.gun.blade_wave");
+
     // Gadgets del Equipo Táctico
     public static final RegistryObject<SoundEvent> JETPACK_THRUST = register("item.jetpack.thrust");
 

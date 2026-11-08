@@ -306,5 +306,209 @@
         "attenuation_distance": 24
       }
     ]
+  },
+  "item.gun.revolver": {
+    "subtitle": "subtitles.tecnocinetico.gun.revolver",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/revolver1",
+        "attenuation_distance": 56
+      },
+      {
+        "name": "tecnocinetico:guns/revolver2",
+        "attenuation_distance": 56
+      }
+    ]
+  },
+  "item.gun.shotgun": {
+    "subtitle": "subtitles.tecnocinetico.gun.shotgun",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/shotgun1",
+        "attenuation_distance": 56
+      },
+      {
+        "name": "tecnocinetico:guns/shotgun2",
+        "attenuation_distance": 56
+      }
+    ]
+  },
+  "item.gun.rifle": {
+    "subtitle": "subtitles.tecnocinetico.gun.rifle",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/rifle1",
+        "attenuation_distance": 72
+      },
+      {
+        "name": "tecnocinetico:guns/rifle2",
+        "attenuation_distance": 72
+      },
+      {
+        "name": "tecnocinetico:guns/rifle3",
+        "attenuation_distance": 72
+      }
+    ]
+  },
+  "item.gun.bolt": {
+    "subtitle": "subtitles.tecnocinetico.gun.bolt",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/bolt",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "item.gun.sniper": {
+    "subtitle": "subtitles.tecnocinetico.gun.sniper",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/sniper1",
+        "attenuation_distance": 96
+      },
+      {
+        "name": "tecnocinetico:guns/sniper2",
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "item.gun.semi": {
+    "subtitle": "subtitles.tecnocinetico.gun.semi",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/semi1",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "tecnocinetico:guns/semi2",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "tecnocinetico:guns/semi3",
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "item.gun.smg": {
+    "subtitle": "subtitles.tecnocinetico.gun.smg",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/smg1",
+        "attenuation_distance": 48
+      },
+      {
+        "name": "tecnocinetico:guns/smg2",
+        "attenuation_distance": 48
+      },
+      {
+        "name": "tecnocinetico:guns/smg3",
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "item.gun.auto": {
+    "subtitle": "subtitles.tecnocinetico.gun.auto",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/auto1",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "tecnocinetico:guns/auto2",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "tecnocinetico:guns/auto3",
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "item.gun.minigun": {
+    "subtitle": "subtitles.tecnocinetico.gun.minigun",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/minigun1",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "tecnocinetico:guns/minigun2",
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "item.gun.minigun_spin": {
+    "subtitle": "subtitles.tecnocinetico.gun.minigun_spin",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/minigun_spin",
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "item.gun.rail": {
+    "subtitle": "subtitles.tecnocinetico.gun.rail",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/rail1",
+        "attenuation_distance": 80
+      },
+      {
+        "name": "tecnocinetico:guns/rail2",
+        "attenuation_distance": 80
+      }
+    ]
+  },
+  "item.gun.pulse": {
+    "subtitle": "subtitles.tecnocinetico.gun.pulse",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/pulse1",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "tecnocinetico:guns/pulse2",
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "item.gun.arc": {
+    "subtitle": "subtitles.tecnocinetico.gun.arc",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/arc1",
+        "attenuation_distance": 40
+      },
+      {
+        "name": "tecnocinetico:guns/arc2",
+        "attenuation_distance": 40
+      }
+    ]
+  },
+  "item.gun.grenade_launch": {
+    "subtitle": "subtitles.tecnocinetico.gun.grenade_launch",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/grenade_launch",
+        "attenuation_distance": 40
+      }
+    ]
+  },
+  "item.gun.rocket_launch": {
+    "subtitle": "subtitles.tecnocinetico.gun.rocket_launch",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/rocket_launch",
+        "attenuation_distance": 72
+      }
+    ]
+  },
+  "item.gun.blade_wave": {
+    "subtitle": "subtitles.tecnocinetico.gun.blade_wave",
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/blade_wave",
+        "attenuation_distance": 24
+      }
+    ]
   }
 }

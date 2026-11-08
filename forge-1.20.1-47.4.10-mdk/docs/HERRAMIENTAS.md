@@ -22,6 +22,7 @@ $A = "src\main\resources\assets\tecnocinetico"
 | `tools/import_sounds.py $A\sounds` | Sonidos de la pistola a partir de **grabaciones reales** de `tools/sound_sources/` (disparos ×4, cargador fuera/dentro, corredera, clic en vacío). Licencias en `CREDITOS_SONIDOS.md` | — |
 | `tools/world_blocks_gen.py [preview.png]` | **Bloques del mundo** (fase 1 de PLAN_MUNDO): texturas 16×16, blockstates, modelos, loot, tags de herramienta, recetas y textos. Los bloques se registran en `block/ModWorldBlocks.java` con los mismos nombres | — |
 | `tools/resize_textures.py <dir> <backup>` | Reescala texturas que no son potencia de 2 (guarda copia) | — |
+| `tools/check_zfight.py` | Busca caras coplanares que parpadean (z-fighting) en los modelos; `gunkit.resolve_zfight` las corrige solas en armas, pistola y munición | — |
 | `tools/gui_fit.py` | Calcula la vista de inventario (`display.gui`) para que el modelo llene la casilla | — |
 | `tools/render_model.py` | **Vista previa** de modelos JSON en PNG, sin abrir el juego | — |
 
@@ -139,3 +140,9 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - Lo usa `weapons_gen.py`: cada arma se pinta en su propia textura `textures/item/gun/<arma>.png` por pintores de material (ver la cabecera del archivo). Para un arma nueva: escribe su función de geometría con `el(desde, hasta, material, front=..., rot=...)`, regístrala con `model(...)` (añade su nombre base a `GROUPS` si tiene variantes) y ejecuta `python tools/weapons_gen.py`; luego `gui_fit.py` y otra vez `weapons_gen.py`.
 - Materiales: steel_dark, steel, steel_hi, inercita, graphite, rubber, wood, wood_dark, leather, copper, brass, shell_red, rust, blade, edge, tape, olive, hazard, cyan, black (boca de cañón), ceramic (aislador de porcelana con faldones), glass (tubo de vidrio con espiras de cobre).
 
+
+## Sonidos de las armas
+- `python tools/import_sounds.py src/main/resources/assets/tecnocinetico/sounds`: además de la pistola, `import_guns()` saca de las grabaciones reales (`tools/sound_sources/`: CZ-52, Mosin, SKS, escopeta) los disparos de `sounds/guns/` (revólver más grave, escopeta, rifle y su cerrojo, francotirador con más golpe, semiautomático, subfusil/fusil de asalto/minigun recortados para el fuego automático).
+- `sound_gen.generate_weapons()`: riel, impulso, arco, lanzagranadas, lanzacohetes, giro de la minigun y tajo de onda (sintetizados).
+- El sonido de cada arma lo elige `LongGunItem.fireSound()` por id del objeto.
+- `pistol_gen.py` no conserva `display.gui`: tras regenerarla, vuelve a pasar `gui_fit` (o recupera la vista de la versión anterior).

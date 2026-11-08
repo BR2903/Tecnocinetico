@@ -35,9 +35,9 @@ public class MinigunItem extends HeavyGunItem {
         float spin = Math.min(1.0F, tag.getFloat(TAG_SPIN) + 0.05F);
         tag.putFloat(TAG_SPIN, spin);
         tag.putLong(TAG_SPIN_T, now);
-        if (spin < 1.0F && (int) (spin * 20) % 4 == 0) {
-            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.SHIP_ENGINE.get(),
-                    SoundSource.PLAYERS, 0.5F, 0.6F + spin);                     // los cañones arrancan
+        if (spin <= 0.05F + 1e-4F) {                                           // los cañones arrancan (dura 1 s, como el giro)
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.MINIGUN_SPIN.get(),
+                    SoundSource.PLAYERS, 0.9F, 1.0F);
         }
         return spin >= 1.0F;
     }

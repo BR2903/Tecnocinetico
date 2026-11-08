@@ -418,5 +418,21 @@
   "creativetab.tecnocinetico_armor_tab": "Tecnocinético: Armaduras",
   "creativetab.tecnocinetico_ammo_tab": "Tecnocinético: Munición y cargadores",
   "creativetab.tecnocinetico_materials_tab": "Tecnocinético: Materiales",
-  "subtitles.tecnocinetico.flamethrower": "Lanzallamas ruge"
+  "subtitles.tecnocinetico.flamethrower": "Lanzallamas ruge",
+  "subtitles.tecnocinetico.gun.revolver": "Disparo de revólver",
+  "subtitles.tecnocinetico.gun.shotgun": "Disparo de escopeta",
+  "subtitles.tecnocinetico.gun.rifle": "Disparo de rifle",
+  "subtitles.tecnocinetico.gun.bolt": "Cerrojo accionado",
+  "subtitles.tecnocinetico.gun.sniper": "Disparo de francotirador",
+  "subtitles.tecnocinetico.gun.semi": "Disparo de fusil",
+  "subtitles.tecnocinetico.gun.smg": "Ráfaga de subfusil",
+  "subtitles.tecnocinetico.gun.auto": "Ráfaga automática",
+  "subtitles.tecnocinetico.gun.minigun": "Minigun disparando",
+  "subtitles.tecnocinetico.gun.minigun_spin": "Minigun gira",
+  "subtitles.tecnocinetico.gun.rail": "Disparo de riel",
+  "subtitles.tecnocinetico.gun.pulse": "Cañón de impulso",
+  "subtitles.tecnocinetico.gun.arc": "Descarga voltaica",
+  "subtitles.tecnocinetico.gun.grenade_launch": "Lanzagranadas dispara",
+  "subtitles.tecnocinetico.gun.rocket_launch": "Cohete lanzado",
+  "subtitles.tecnocinetico.gun.blade_wave": "Tajo de onda"
 }

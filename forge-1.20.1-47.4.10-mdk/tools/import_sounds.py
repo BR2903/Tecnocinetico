@@ -86,5 +86,83 @@ def main():
     save("dry_fire", cut(sb, 0.12, 0.3, fade_out=0.05), peak=0.8)
 
 
+# =================================================================== armas largas (mismo paquete "Gunshot Sounds")
+GUNS = Path(sys.argv[1]) / "guns" if len(sys.argv) > 1 else None
+
+
+def save_gun(name, y, peak=0.95):
+    GUNS.mkdir(parents=True, exist_ok=True)
+    y = y / (np.max(np.abs(y)) + 1e-9) * peak
+    sf.write(GUNS / f"{name}.ogg", y.astype(np.float32), SR, format="OGG", subtype="VORBIS")
+    print(f"guns/{name}.ogg  {len(y) / SR:.2f}s")
+
+
+def shot_at(x, t, length, fade=0.25):
+    """Un disparo empezando en su pico más fuerte cerca de t (±0,15 s)."""
+    a, b = max(0, int((t - 0.05) * SR)), int((t + 0.15) * SR)
+    peak = (a + int(np.argmax(np.abs(x[a:b])))) / SR
+    y = cut(x, peak - 0.003, peak + length, pre=0.003, fade_out=fade, attack_db=-40)
+    return y / (np.max(np.abs(y)) + 1e-9)
+
+
+def pitch(y, k):
+    """Cambia el tono (y la duración) como una cinta: k < 1 = más grave y más largo."""
+    up, down = 1000, int(round(1000 * k))
+    return signal.resample_poly(y, up, down)
+
+
+def thump(y, cutoff=180, gain=1.2):
+    """Refuerza el golpe grave (armas más pesadas): graves del propio disparo, saturados."""
+    sos = signal.butter(4, cutoff, btype="low", fs=SR, output="sos")
+    low_ = signal.sosfilt(sos, y)
+    return y + np.tanh(low_ * 4) * gain * np.exp(-np.arange(len(y)) / (SR * 0.12))
+
+
+def short(y, length, fade=0.06):
+    """Versión corta para armas automáticas (la cola larga se solaparía a 10-20 disparos/s)."""
+    n = min(len(y), int(length * SR))
+    z = y[:n].copy()
+    f = min(n, int(fade * SR))
+    z[-f:] *= np.linspace(1, 0, f) ** 2
+    return z
+
+
+def import_guns():
+    cz = load("cz52_gunshots.wav")
+    mosin = load("mosin_gunshots.wav")                       # rifle Mosin-Nagant de cerrojo
+    sks = load("sks_gunshots.wav")                           # fusil semiautomático SKS
+    shotty = load("shotgun_gunshot.wav")                     # escopeta
+    cz_t = [0.004, 2.82, 4.05, 5.03]
+    mosin_t = [0.44, 3.56, 5.98, 8.75, 11.69]
+    sks_t = [0.34, 2.29, 6.00, 7.70, 9.72, 11.45]
+
+    # Revólver: la pistola más grave y con más cuerpo (cartucho más potente)
+    for i, t in enumerate(cz_t[:2], start=1):
+        y = thump(pitch(shot_at(cz, t, 1.2), 0.84), 220, 0.8)
+        save_gun(f"revolver{i}", y + kinetic_crackle(len(y), 70 + i))
+    # Escopetas
+    sg = shot_at(shotty, 0.03, 0.66, fade=0.2)
+    save_gun("shotgun1", thump(sg, 160, 0.6))
+    save_gun("shotgun2", thump(pitch(sg, 0.93), 160, 0.7))
+    # Rifle de cerrojo y su cerrojo (abrir + cerrar, grabado entre disparos)
+    for i, t in enumerate(mosin_t[1:4], start=1):
+        save_gun(f"rifle{i}", shot_at(mosin, t, 1.25))
+    save_gun("bolt", cut(mosin, 7.45, 8.12, fade_out=0.05, attack_db=-30), peak=0.8)
+    # Francotirador: el rifle más grave, con más golpe y la cola larga del campo de tiro
+    save_gun("sniper1", thump(pitch(shot_at(mosin, mosin_t[0], 1.9, fade=0.5), 0.9), 150, 1.0))
+    save_gun("sniper2", thump(pitch(shot_at(mosin, mosin_t[4], 1.7, fade=0.5), 0.88), 150, 1.0))
+    # Semiautomático
+    for i, t in enumerate(sks_t[:3], start=1):
+        save_gun(f"semi{i}", shot_at(sks, t, 0.85))
+    # Automáticas: subfusil (pistola corta y aguda), fusil de asalto / ametralladora (SKS corto), minigun (chasquido)
+    for i, t in enumerate(cz_t[:3], start=1):
+        save_gun(f"smg{i}", short(pitch(shot_at(cz, t, 0.5), 1.08), 0.32))
+    for i, t in enumerate(sks_t[3:6], start=1):
+        save_gun(f"auto{i}", short(shot_at(sks, t, 0.6), 0.42, fade=0.12))
+    for i, t in enumerate(sks_t[1:3], start=1):
+        save_gun(f"minigun{i}", short(pitch(shot_at(sks, t, 0.3), 1.18), 0.16, fade=0.06), peak=0.85)
+
+
 if __name__ == "__main__":
     main()
+    import_guns()

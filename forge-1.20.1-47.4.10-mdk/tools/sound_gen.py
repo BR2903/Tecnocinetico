@@ -730,6 +730,108 @@ def generate_flame():
         save(f"roar{i + 1}", flame_roar(i), "flamethrower")
 
 
+# =================================================================== armas de energía y lanzadores (propios)
+def rail_fire(i):
+    """Rifle de riel: chasquido supersónico seco, descarga eléctrica y el 'tiuuu' metálico de los raíles que
+    baja de tono, con el zumbido de los condensadores vaciándose."""
+    seed = 5000 + 31 * i
+    crack = impulse(0.3, seed, tau=0.0015, hp=1500) * 2.0
+    snap = np.tanh(low(noise(0.2, seed + 1), 2500) * decay(n_of(0.2), 0.01) * 10) * 0.7
+    rail = band(comb_glide(band(noise(0.7, seed + 2), 300, 9000), 2600 + 200 * i, 380, feedback=0.9), 250, 9000) \
+        * env(n_of(0.7), 0.002, 0.5)
+    t = np.arange(n_of(0.5)) / SR
+    hum = np.sign(np.sin(2 * np.pi * 120 * t)) * band(noise(0.5, seed + 3), 100, 3000) * 0.15 * np.exp(-t * 7)
+    return reverb(mix(0.9, (crack, 0, 1.0), (snap, 0, 1.0), (rail, 0.003, 0.7), (hum, 0.0, 1.0),
+                      (sparks(0.35, seed + 4, rate=260), 0.01, 0.4)), seed + 5, tail=0.9, wet=0.25)
+
+
+def pulse_fire(i):
+    """Cañón de impulso: golpe de presión muy grave (se siente más que se oye), barrido que sube y baja y
+    crepitar de la onda."""
+    seed = 5100 + 31 * i
+    dur = 0.9
+    boom = np.tanh(low(noise(dur, seed), 120, order=6) * decay(n_of(dur), 0.12) * 14) * 1.0
+    whump = band(noise(dur, seed + 1), 60, 600) * decay(n_of(dur), 0.06) * 2.5
+    src = band(noise(0.6, seed + 2), 200, 7000)
+    sweep = band(comb_glide(src, 180, 900 + 80 * i, feedback=0.86), 150, 7000) * env(n_of(0.6), 0.004, 0.45)
+    return reverb(mix(dur + 0.2, (boom, 0, 1.0), (whump, 0, 0.8), (sweep, 0.01, 0.5),
+                      (sparks(0.5, seed + 3, rate=200), 0.02, 0.35)), seed + 4, tail=1.2, wet=0.3, damp=3000)
+
+
+def arc_fire(i):
+    """Arco voltaico: chasquido de chispa enorme + zumbido de 50/100 Hz rasposo + crepitar."""
+    seed = 5200 + 31 * i
+    dur = 0.55
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    snap = impulse(dur, seed, tau=0.001, hp=2000) * 2.2
+    buzz_src = np.sign(np.sin(2 * np.pi * (100 + 6 * i) * t + 3 * np.sin(2 * np.pi * 7 * t)))
+    buzz = band(buzz_src * (1 + 0.5 * noise(dur, seed + 1)), 80, 6000) * 0.35 * env(n, 0.003, 0.3)
+    crackle = sparks(dur, seed + 2, rate=600) * 1.2
+    return reverb(mix(dur + 0.1, (snap, 0, 1.0), (buzz, 0, 1.0), (crackle, 0, 1.0)), seed + 3, tail=0.4, wet=0.15)
+
+
+def grenade_launch():
+    """Lanzagranadas: el 'tump' hueco del tubo (graves con resonancia de tubo) y el chasquido del mecanismo."""
+    seed = 5300
+    dur = 0.6
+    pop = low(noise(dur, seed), 260, order=4) * decay(n_of(dur), 0.03) * 4
+    tube = band(comb_glide(band(noise(0.3, seed + 1), 80, 2000), 190, 150, feedback=0.85), 80, 2000) * env(n_of(0.3), 0.001, 0.2)
+    click = clank(0.08, 2300, seed + 2, tau=0.0008, q=(25, 50)) * 0.25
+    return reverb(mix(dur, (np.tanh(pop * 2), 0, 1.0), (tube, 0, 0.6), (click, 0, 1.0)), seed + 3, tail=0.6, wet=0.2)
+
+
+def rocket_launch():
+    """Lanzacohetes: golpe de expulsión, rebufo y el motor del cohete alejándose (silbido que se apaga)."""
+    seed = 5400
+    dur = 1.6
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    kick = np.tanh(low(noise(0.4, seed), 300, order=4) * decay(n_of(0.4), 0.04) * 10)
+    blast = band(noise(0.5, seed + 1), 300, 6000) * decay(n_of(0.5), 0.08) * 1.4
+    motor = band(noise(dur, seed + 2), 500, 5000) * np.minimum(1, t * 30) * np.exp(-t * 1.6)
+    whistle = band(comb_glide(band(noise(dur, seed + 3), 400, 8000), 1400, 900, feedback=0.7), 400, 8000) * np.exp(-t * 2) * 0.3
+    return reverb(mix(dur, (kick, 0, 1.0), (blast, 0, 0.9), (motor, 0.02, 0.6), (whistle, 0.05, 1.0)),
+                  seed + 4, tail=1.2, wet=0.3, damp=3500)
+
+
+def minigun_spin():
+    """Minigun arrancando: motor eléctrico que sube de tono con el traqueteo de los engranajes."""
+    seed = 5500
+    dur = 1.0
+    gears = servo(dur, 40, 420, seed) * 1.2
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    f = np.geomspace(60, 330, n)
+    whine = np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.25 + np.sin(2 * np.pi * np.cumsum(f * 2.01) / SR) * 0.1
+    air = band(noise(dur, seed + 1), 400, 4000) * np.minimum(1, t * 1.5) * 0.25
+    return mix(dur, (gears, 0, 1.0), (whine * env(n, 0.1, 0.1), 0, 1.0), (air, 0, 1.0))
+
+
+def blade_wave():
+    """Tajo de onda de la Cuchilla cinética: silbido del corte que se aleja + golpe de aire + zumbido de energía."""
+    seed = 5600
+    dur = 0.8
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    swish = band(comb_glide(band(noise(dur, seed), 300, 9000), 900, 260, feedback=0.6), 300, 9000) * np.sin(np.pi * np.minimum(1, t / 0.5)) ** 2
+    thud = low(noise(0.3, seed + 1), 200) * decay(n_of(0.3), 0.04) * 2
+    hum = np.sin(2 * np.pi * 220 * t + 2 * np.sin(2 * np.pi * 30 * t)) * 0.15 * np.exp(-t * 4)
+    return reverb(mix(dur, (swish, 0, 1.0), (thud, 0, 0.6), (hum, 0, 1.0), (sparks(0.4, seed + 2, rate=150), 0.05, 0.3)),
+                  seed + 3, tail=0.6, wet=0.2)
+
+
+def generate_weapons():
+    for i in range(2):
+        save(f"rail{i + 1}", rail_fire(i), "guns", drive=1.4)
+        save(f"pulse{i + 1}", pulse_fire(i), "guns", drive=1.6)
+        save(f"arc{i + 1}", arc_fire(i), "guns", drive=1.3)
+    save("grenade_launch", grenade_launch(), "guns", drive=1.5)
+    save("rocket_launch", rocket_launch(), "guns", drive=1.4)
+    save("minigun_spin", minigun_spin(), "guns", peak=0.6)
+    save("blade_wave", blade_wave(), "guns")
+
+
 def generate_turret():
     save("charge", turret_charge(), "sentry_turret")
 
@@ -745,3 +847,4 @@ if __name__ == "__main__":
     generate_ship()
     generate_siege()
     generate_flame()
+    generate_weapons()

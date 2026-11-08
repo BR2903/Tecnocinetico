@@ -418,5 +418,21 @@
   "creativetab.tecnocinetico_armor_tab": "Tecnocinetico: Armor",
   "creativetab.tecnocinetico_ammo_tab": "Tecnocinetico: Ammo & Magazines",
   "creativetab.tecnocinetico_materials_tab": "Tecnocinetico: Materials",
-  "subtitles.tecnocinetico.flamethrower": "Flamethrower roars"
+  "subtitles.tecnocinetico.flamethrower": "Flamethrower roars",
+  "subtitles.tecnocinetico.gun.revolver": "Revolver fires",
+  "subtitles.tecnocinetico.gun.shotgun": "Shotgun fires",
+  "subtitles.tecnocinetico.gun.rifle": "Rifle fires",
+  "subtitles.tecnocinetico.gun.bolt": "Bolt cycles",
+  "subtitles.tecnocinetico.gun.sniper": "Sniper fires",
+  "subtitles.tecnocinetico.gun.semi": "Rifle fires",
+  "subtitles.tecnocinetico.gun.smg": "SMG fires",
+  "subtitles.tecnocinetico.gun.auto": "Automatic fire",
+  "subtitles.tecnocinetico.gun.minigun": "Minigun fires",
+  "subtitles.tecnocinetico.gun.minigun_spin": "Minigun spins up",
+  "subtitles.tecnocinetico.gun.rail": "Rail rifle fires",
+  "subtitles.tecnocinetico.gun.pulse": "Pulse cannon fires",
+  "subtitles.tecnocinetico.gun.arc": "Arc discharges",
+  "subtitles.tecnocinetico.gun.grenade_launch": "Grenade launcher fires",
+  "subtitles.tecnocinetico.gun.rocket_launch": "Rocket launched",
+  "subtitles.tecnocinetico.gun.blade_wave": "Kinetic slash"
 }

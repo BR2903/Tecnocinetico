@@ -8,7 +8,11 @@ Uso (desde forge-1.20.1-47.4.10-mdk):
 Misma paleta que la pistola (tools/pistol_gen.py): acero pavonado, polímero, cobre, cian de cinetrita, inercita.
 """
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from gunkit import resolve_zfight  # noqa: E402  (evita el parpadeo de caras coplanares)
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent / "src/main/resources/assets/tecnocinetico"
@@ -116,7 +120,7 @@ def magazine_elements(extended=False, top=None):
 
 def model(name, elements):
     data = {"credit": "Tecnocinetico - ammo_gen.py", "texture_size": [32, 32],
-            "textures": {"0": TEX, "particle": TEX}, "elements": elements,
+            "textures": {"0": TEX, "particle": TEX}, "elements": resolve_zfight(elements),
             "display": {"thirdperson_righthand": {"translation": [0, 2, 1], "scale": [0.5, 0.5, 0.5]},
                         "thirdperson_lefthand": {"translation": [0, 2, 1], "scale": [0.5, 0.5, 0.5]},
                         "firstperson_righthand": {"rotation": [0, -90, 15], "translation": [1, 3, 0], "scale": [0.6, 0.6, 0.6]},

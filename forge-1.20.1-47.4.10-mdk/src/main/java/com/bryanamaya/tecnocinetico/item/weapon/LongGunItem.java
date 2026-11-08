@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -244,19 +245,56 @@ public class LongGunItem extends Item {
             setAmmo(gun, getAmmo(gun) - 1);
             gun.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(InteractionHand.MAIN_HAND));
         }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_FIRE.get(), SoundSource.PLAYERS,
-                action == Action.AUTO ? 1.0F : 1.4F, stats.firePitch() + level.random.nextFloat() * 0.06F);
+        SoundEvent fire = fireSound();
+        if (fire != null) {
+            float pitch = fire == ModSounds.PISTOL_FIRE.get() ? stats.firePitch() : firePitchFor();
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), fire, SoundSource.PLAYERS,
+                    action == Action.AUTO ? 1.0F : 1.4F, pitch + level.random.nextFloat() * 0.06F);
+        }
         if (action != Action.AUTO) {
             player.getCooldowns().addCooldown(this, cooldown(gun));
         }
         switch (action) {                                                     // accionar el mecanismo
-            case BOLT -> level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_SLIDE.get(),
-                    SoundSource.PLAYERS, 0.8F, 0.8F);
+            case BOLT -> level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.RIFLE_BOLT.get(),
+                    SoundSource.PLAYERS, 0.9F, 0.95F + level.random.nextFloat() * 0.1F);
             case PUMP -> level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_SLIDE.get(),
                     SoundSource.PLAYERS, 1.0F, 0.6F);
             default -> {
             }
         }
+    }
+
+    /** Sonido de disparo de esta arma (null = sin disparo audible, p. ej. el lanzallamas que ruge por su cuenta). */
+    @org.jetbrains.annotations.Nullable
+    protected SoundEvent fireSound() {
+        String id = net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(this).getPath();
+        return switch (id) {
+            case "revolver" -> ModSounds.REVOLVER_FIRE.get();
+            case "pipe_shotgun", "pump_shotgun" -> ModSounds.SHOTGUN_FIRE.get();
+            case "bolt_rifle" -> ModSounds.RIFLE_FIRE.get();
+            case "kinetic_sniper" -> ModSounds.SNIPER_FIRE.get();
+            case "semi_rifle" -> ModSounds.SEMI_FIRE.get();
+            case "kinetic_smg" -> ModSounds.SMG_FIRE.get();
+            case "assault_rifle", "light_machine_gun" -> ModSounds.AUTO_FIRE.get();
+            case "minigun" -> ModSounds.MINIGUN_FIRE.get();
+            case "rail_rifle" -> ModSounds.RAIL_FIRE.get();
+            case "pulse_cannon" -> ModSounds.PULSE_FIRE.get();
+            case "arc_caster" -> ModSounds.ARC_FIRE.get();
+            case "grenade_launcher" -> ModSounds.GRENADE_LAUNCH.get();
+            case "rocket_launcher" -> ModSounds.ROCKET_LAUNCH.get();
+            case "flamethrower" -> null;
+            default -> ModSounds.PISTOL_FIRE.get();
+        };
+    }
+
+    /** Tono del sonido propio: la escopeta de caño suena algo más grave y sucia, la ametralladora más grave que el fusil. */
+    private float firePitchFor() {
+        String id = net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(this).getPath();
+        return switch (id) {
+            case "pipe_shotgun" -> 0.88F;
+            case "light_machine_gun" -> 0.86F;
+            default -> 0.97F;
+        };
     }
 
     /** ¿Puede disparar ya? (la minigun necesita girar antes). Se llama en cada intento de disparo. */
