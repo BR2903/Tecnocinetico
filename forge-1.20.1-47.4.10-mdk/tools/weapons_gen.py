@@ -43,14 +43,21 @@ CHOKE, SAWED, LOADER = 1, 2, 4                      # máscara local (orden de W
 def shotgun(open_=False, mods=0):
     hinge = {"angle": -22.5, "axis": "x", "origin": [8, 11.7, 6]} if open_ else None     # los cañones bajan
     front = -4.0 if mods & SAWED else -12.0                                               # recortados: cañones cortos
-    barrels = [el([7.0, 12.4, front], [7.95, 13.4, 6], "steel", front="black", rot=hinge),
-               el([8.05, 12.4, front], [9.0, 13.4, 6], "steel", front="black", rot=hinge),
-               el([7.8, 13.4, front], [8.2, 13.6, 6], "steel_hi", rot=hinge),
+    # hecha a mano: dos tubos oxidados unidos con abrazaderas de manguera y cinta, guardamanos de tablón clavado
+    barrels = [el([7.0, 12.4, front], [7.95, 13.4, 6], "rust", front="black", rot=hinge),
+               el([8.05, 12.4, front], [9.0, 13.4, 6], "rust", front="black", rot=hinge),
+               el([7.8, 13.4, front], [8.2, 13.6, 6], "steel", rot=hinge),                   # cordón de soldadura
                el([7.9, 13.6, front + 0.2], [8.1, 13.9, front + 0.6], "brass", rot=hinge),
                el([6.9, 12.3, 1.0], [9.1, 13.5, 2.0], "tape", rot=hinge),
-               el([7.1, 11.3, max(front + 1, -4.0)], [8.9, 12.4, 4.0], "wood", rot=hinge)]
+               el([7.1, 11.3, max(front + 1, -4.0)], [8.9, 12.4, 4.0], "wood_dark", rot=hinge),
+               el([8.9, 11.6, 0.0], [9.05, 11.8, 0.2], "steel_hi", rot=hinge),               # clavos
+               el([8.9, 11.6, 3.0], [9.05, 11.8, 3.2], "steel_hi", rot=hinge)]
+    for z in (-9.5, -2.6):                                                                 # abrazaderas de manguera
+        if z > front + 0.5:
+            barrels += [el([6.85, 12.25, z], [9.15, 13.55, z + 0.5], "steel_hi", rot=hinge),
+                        el([9.15, 12.6, z - 0.1], [9.6, 13.1, z + 0.6], "steel", rot=hinge)]
     if not mods & SAWED:
-        barrels.append(el([6.9, 12.3, -6.4], [9.1, 13.5, -5.4], "copper", rot=hinge))
+        barrels.append(el([6.9, 12.3, -6.4], [9.1, 13.5, -5.4], "tape", rot=hinge))
     else:
         barrels.append(el([6.95, 12.35, front], [9.05, 13.45, front + 0.4], "rust", rot=hinge))  # corte tosco
     if mods & CHOKE:                                                                       # anillas del estrangulador
@@ -63,6 +70,9 @@ def shotgun(open_=False, mods=0):
              el([7.05, 8.6, 9.6], [8.95, 9.4, 12.4], "tape", rot=GRIP_ROT),
              el([7.0, 8.6, 12.0], [9.0, 12.0, 21.0], "wood"),
              el([7.2, 12.0, 13.0], [8.8, 12.6, 20.0], "wood_dark"),
+             el([6.95, 10.2, 12.4], [9.05, 11.4, 13.6], "tape"),                           # remiendo de cinta
+             el([9.0, 9.2, 15.0], [9.1, 9.4, 15.2], "steel_hi"), el([9.0, 11.2, 15.0], [9.1, 11.4, 15.2], "steel_hi"),
+             el([9.0, 9.2, 19.4], [9.1, 9.4, 19.6], "steel_hi"), el([9.0, 11.2, 19.4], [9.1, 11.4, 19.6], "steel_hi"),
              el([6.9, 8.0, 21.0], [9.1, 12.2, 22.0], "rubber")]
     if mods & LOADER:                                                                      # cartuchera en la culata
         stock.append(el([9.0, 9.2, 14.0], [9.3, 11.6, 19.5], "leather"))
@@ -89,7 +99,13 @@ def rifle(bolt_back=False, mods=0):
            el([7.1, 9.0, 13.0], [8.9, 12.4, 23.0], "wood"),
            el([7.3, 12.4, 14.0], [8.7, 13.0, 21.0], "wood_dark"),
            el([7.0, 8.2, 23.0], [9.0, 12.6, 23.6], "steel_dark"),
-           el([7.7, 11.35, -6.0], [8.3, 11.6, -2.0], "cyan")]
+           el([7.7, 11.35, -6.0], [8.3, 11.6, -2.0], "cyan"),
+           # rifle de caza clásico: madera hasta casi la boca, abrazaderas, guardamanos superior, alza de hoja, anillas
+           el([7.4, 13.5, -6.0], [8.6, 13.9, 2.0], "wood_dark"),                                # guardamanos superior
+           el([7.0, 11.5, -8.0], [9.0, 14.0, -7.4], "steel"), el([7.0, 11.5, -3.6], [9.0, 14.0, -3.0], "steel"),  # abrazaderas
+           el([7.05, 11.55, -9.4], [8.95, 13.1, -9.0], "steel_dark"),                          # nariz del guardamanos
+           el([7.6, 13.5, -0.6], [8.4, 14.3, 0.0], "steel_dark"),                              # alza de hoja
+           el([7.85, 10.9, -6.6], [8.15, 11.6, -5.8], "steel"), el([7.85, 8.4, 18.5], [8.15, 9.1, 19.3], "steel")]  # anillas
     if mods & BARREL:                                                                     # freno de boca
         els.append(el([7.3, 12.4, -16.0], [8.7, 13.8, -14.6], "steel_hi", front="black"))
     else:
@@ -105,28 +121,41 @@ def rifle(bolt_back=False, mods=0):
     else:
         els += [el([8.7, 13.0, 7.0], [9.1, 13.6, 11.0], bolt_mat),
                 el([9.1, 12.6, 10.0], [10.4, 13.0, 10.6], bolt_mat),
-                el([10.2, 12.2, 9.9], [10.8, 12.9, 10.7], "cyan" if mods & BOLT else "steel")]
+                el([10.1, 12.0, 9.8], [10.9, 12.9, 10.8], "cyan" if mods & BOLT else "steel_hi")]  # bola de la palanca
     return els + trigger_group()
 
 
 # ---------------------------------------------------------------- tier 2: escopeta de corredera (módulos de escopeta)
 def pump_shotgun(pumped=False, mods=0):
+    """Escopeta táctica de corredera: banda ventilada sobre el cañón, guardamanos de polímero estriado, linterna
+    bajo el cañón, alza de anillo fantasma y culata de polímero con cantonera de goma."""
     front = -5.0 if mods & SAWED else -14.0
     dz = 3.0 if pumped else 0.0                                                            # guardamanos atrás
     els = [el([7.45, 12.6, front], [8.55, 13.7, 4.0], "steel_dark", front="black"),          # cañón
-           el([7.85, 13.7, front + 0.5], [8.15, 13.9, 4.0], "steel_hi"),                     # banda superior
-           el([7.9, 13.9, front + 0.5], [8.1, 14.2, front + 1.0], "brass"),                  # punto de mira
+           el([7.8, 14.0, front + 0.5], [8.2, 14.15, 4.0], "steel_hi"),                      # banda ventilada
+           el([7.88, 14.15, front + 0.5], [8.12, 14.45, front + 0.9], "brass"),              # punto de mira
            el([7.55, 11.6, max(front + 2.0, -10.0)], [8.45, 12.6, 4.0], "steel"),             # depósito tubular
-           el([7.15, 11.3, -8.0 + dz], [8.85, 12.9, -3.0 + dz], "rubber"),                    # guardamanos (corredera)
-           el([7.1, 11.5, -7.0 + dz], [8.9, 11.8, -6.4 + dz], "black"), el([7.1, 11.5, -5.2 + dz], [8.9, 11.8, -4.6 + dz], "black"),
-           el([7.2, 11.2, 4.0], [8.8, 14.0, 10.0], "steel_dark"),                            # cajón de mecanismos
+           el([7.5, 11.5, max(front + 1.6, -10.4)], [8.5, 12.7, max(front + 2.0, -10.0)], "steel_dark"),  # tapón
+           el([7.15, 11.3, -8.0 + dz], [8.85, 12.9, -3.0 + dz], "graphite"),                  # guardamanos (corredera)
+           el([7.2, 11.6, -3.0 + dz], [8.8, 12.6, -2.4 + dz], "steel_dark"),                 # barras de acción
+           el([7.2, 11.0, 4.0], [8.8, 14.0, 10.0], "steel_dark"),                            # cajón de mecanismos
            el([8.8, 12.6, 5.5], [8.9, 13.4, 8.0], "black"),                                  # ventana de expulsión
            el([8.82, 11.5, 5.0], [8.92, 11.8, 9.0], "cyan"),                                 # línea de cinetrita
-           el([7.6, 14.0, 8.6], [8.4, 14.6, 9.2], "steel"),                                  # alza de anillo
+           el([7.3, 14.0, 8.4], [7.6, 15.1, 9.2], "steel_dark"), el([8.4, 14.0, 8.4], [8.7, 15.1, 9.2], "steel_dark"),  # alas del alza
+           el([7.6, 14.8, 8.5], [8.4, 15.1, 9.1], "steel"),                                  # anillo fantasma
            el([7.2, 7.8, 9.6], [8.8, 11.2, 12.6], "rubber", rot=GRIP_ROT),                   # empuñadura
-           el([7.1, 9.0, 12.0], [8.9, 12.2, 21.0], "rubber"),                                # culata de polímero
+           el([7.1, 9.0, 12.0], [8.9, 12.2, 21.0], "graphite"),                              # culata de polímero
            el([7.3, 12.2, 12.0], [8.7, 12.6, 18.0], "steel_dark"),
-           el([7.0, 8.4, 21.0], [9.0, 12.4, 22.0], "leather")]                               # cantonera
+           el([7.05, 9.6, 15.0], [7.15, 11.6, 19.0], "black"), el([8.85, 9.6, 15.0], [8.95, 11.6, 19.0], "black"),  # aligerado
+           el([7.0, 8.4, 21.0], [9.0, 12.4, 22.0], "rubber")]                                # cantonera
+    for z in range(int(front) + 1, 4, 2):                                                   # postes de la banda ventilada
+        els.append(el([7.9, 13.7, z], [8.1, 14.0, z + 0.4], "steel_dark"))
+    for k in range(4):                                                                     # estrías del guardamanos
+        z = -7.6 + k * 1.3 + dz
+        els.append(el([7.1, 11.25, z], [8.9, 12.95, z + 0.4], "rubber"))
+    lz = max(front + 2.0, -10.0)                                                           # linterna táctica
+    els += [el([7.55, 10.9, lz], [8.45, 11.6, lz + 2.4], "graphite", front="edge"),
+            el([7.5, 10.85, lz + 2.0], [8.5, 11.65, lz + 2.4], "steel")]
     if mods & CHOKE:
         els.append(el([7.35, 12.5, front - 0.8], [8.65, 13.8, front], "copper", front="black"))
     if mods & SAWED:
@@ -140,20 +169,32 @@ def pump_shotgun(pumped=False, mods=0):
 
 # ---------------------------------------------------------------- tier 2: rifle semiautomático (módulos de rifle)
 def semi_rifle(mag_out=False, mods=0):
+    """Fusil semiautomático de posguerra: madera completa con tapa del tubo de gases, bayoneta plegable bajo
+    el cañón, guía de peines en el cajón, alza de diópter y cargador de 10."""
     barrel_mat = "inercita" if mods & BARREL else "steel_dark"
     handle = "brass" if mods & BOLT else "steel_hi"
     els = [el([7.6, 12.8, -15.4], [8.4, 13.6, 2.0], barrel_mat, front="black"),            # cañón
            el([7.75, 13.6, -8.0], [8.25, 14.0, 2.0], "steel"),                               # tubo de gases
+           el([7.6, 13.5, -8.8], [8.4, 14.1, -8.0], "steel_dark"),                           # bloque de gases
+           el([7.5, 14.0, -7.4], [8.5, 14.45, 1.4], "wood_dark"),                            # tapa de madera
            el([7.85, 13.6, -14.8], [8.15, 14.6, -14.2], "steel_hi"),                         # punto de mira
-           el([7.1, 12.0, -9.0], [8.9, 14.2, 2.0], "wood"),                                  # guardamanos
+           el([7.7, 13.55, -15.0], [8.3, 13.75, -14.0], "steel_dark"),
+           el([7.1, 12.0, -9.0], [8.9, 14.0, 2.0], "wood"),                                  # guardamanos
+           el([7.0, 11.95, -8.8], [9.0, 14.05, -8.3], "steel"),                              # abrazadera
            el([7.05, 12.6, -6.0], [7.15, 12.9, -1.0], "cyan"),
            el([7.25, 11.8, 2.0], [8.75, 14.0, 10.0], "steel_dark"),                          # cajón
+           el([7.5, 14.0, 3.0], [8.5, 14.3, 4.4], "steel_hi"),                               # guía de peines
            el([8.75, 13.0, 4.5], [9.6, 13.5, 5.2], handle),                                  # palanca de carga
-           el([7.6, 14.0, 8.4], [8.4, 14.7, 9.2], "steel"),                                  # alza
+           el([9.4, 12.9, 4.4], [9.9, 13.6, 5.3], handle),
            el([7.2, 8.0, 10.5], [8.8, 12.0, 13.5], "wood", rot=GRIP_ROT),
            el([7.1, 9.0, 13.0], [8.9, 12.4, 23.0], "wood"),
            el([7.3, 12.4, 14.0], [8.7, 13.0, 20.0], "wood_dark"),
-           el([7.0, 8.2, 23.0], [9.0, 12.6, 23.6], "rubber")]
+           el([7.85, 8.5, 18.6], [8.15, 9.0, 19.4], "steel"),                                # anilla del portafusil
+           el([7.0, 8.2, 23.0], [9.0, 12.6, 23.6], "steel")]                                  # cantonera de chapa
+    # bayoneta plegable (hoja bajo el cañón, bisagra delante del guardamanos)
+    els += [el([7.6, 11.2, -10.2], [8.4, 12.2, -9.0], "steel_dark"),
+            el([7.75, 11.45, -15.6], [8.25, 12.0, -10.2], "blade"),
+            el([7.8, 11.25, -15.2], [8.2, 11.45, -10.2], "edge")]
     if not mag_out:
         els += [el([7.35, 9.0, 4.0], [8.65, 11.8, 6.6], "steel_dark"),                     # cargador de 10
                 el([7.3, 8.8, 3.9], [8.7, 9.2, 6.7], "steel")]
@@ -166,6 +207,9 @@ def semi_rifle(mag_out=False, mods=0):
                 el([7.3, 14.6, 2.0], [8.7, 16.0, 12.0], "steel_dark"),
                 el([7.1, 14.4, 0.6], [8.9, 16.2, 2.0], "steel", front="cyan"),
                 el([7.2, 14.5, 12.0], [8.8, 16.1, 13.0], "steel")]
+    else:                                                                                  # alza de diópter
+        els += [el([7.4, 14.0, 8.2], [7.7, 15.2, 9.4], "steel_dark"), el([8.3, 14.0, 8.2], [8.6, 15.2, 9.4], "steel_dark"),
+                el([7.7, 14.9, 8.5], [8.3, 15.2, 9.1], "steel"), el([7.7, 14.0, 8.5], [8.3, 14.3, 9.1], "steel")]
     return els + trigger_group()
 
 
@@ -198,20 +242,30 @@ def smg(mag_out=False):
 
 # ---------------------------------------------------------------- tier 3: rifle de riel
 def rail_rifle(mag_out=False):
-    els = [el([7.3, 13.2, -15.8], [8.7, 13.8, 2.0], "inercita"), el([7.3, 11.4, -15.8], [8.7, 12.0, 2.0], "inercita"),  # raíles
-           el([7.75, 12.4, -14.5], [8.25, 12.8, 2.0], "cyan"),                              # canal de aceleración
-           el([7.2, 11.2, -16.0], [8.8, 14.0, -15.2], "steel_dark", front="black"),         # boca
-           el([7.0, 10.8, 2.0], [9.0, 14.4, 11.0], "graphite"),                             # cajón
-           el([8.95, 12.5, 5.0], [9.05, 13.2, 9.0], "hazard"),
-           el([7.5, 14.4, 4.0], [8.5, 15.6, 9.5], "steel_dark"),                           # mira integrada
-           el([7.6, 14.5, 3.6], [8.4, 15.5, 4.0], "cyan"),
-           el([7.2, 8.0, 10.5], [8.8, 11.4, 13.5], "rubber", rot=GRIP_ROT),
-           el([7.2, 8.6, 11.0], [8.8, 12.6, 22.0], "graphite"),                             # culata
-           el([7.0, 8.2, 22.0], [9.0, 13.0, 23.2], "rubber")]
-    for z in (-12.0, -8.0, -4.0, 0.0):                                                     # bobinas
-        els.append(el([7.1, 11.2, z], [8.9, 14.0, z + 1.0], "copper"))
-    if not mag_out:
-        els += [el([7.3, 8.6, 4.0], [8.7, 10.8, 8.0], "steel"), el([7.4, 8.4, 4.2], [8.6, 8.6, 7.8], "cyan")]  # condensador
+    """Rifle de riel bullpup: dos raíles de inercita al aire con el canal de aceleración brillando entre ellos,
+    abrazaderas laterales, dos condensadores de cobre a los costados y la batería detrás de la empuñadura."""
+    els = [el([7.2, 13.4, -15.6], [8.8, 14.0, 2.0], "inercita"),                              # raíl superior
+           el([7.2, 11.2, -15.6], [8.8, 11.8, 2.0], "inercita"),                              # raíl inferior
+           el([7.75, 11.8, -15.0], [8.25, 13.4, 2.0], "cyan"),                                # canal de aceleración
+           el([7.0, 11.0, -16.0], [7.3, 14.2, -15.0], "steel_dark"), el([8.7, 11.0, -16.0], [9.0, 14.2, -15.0], "steel_dark"),
+           el([7.3, 13.9, -16.0], [8.7, 14.2, -15.0], "steel_dark"),                          # boca abierta
+           el([7.0, 10.6, 2.0], [9.0, 14.4, 21.0], "graphite"),                               # cuerpo bullpup
+           el([8.95, 12.6, 4.0], [9.05, 13.2, 8.0], "hazard"),
+           el([6.95, 11.4, 3.0], [7.0, 13.8, 9.0], "black"), el([9.0, 11.4, 3.0], [9.05, 13.8, 9.0], "black"),  # rejillas
+           el([7.5, 14.4, 3.0], [8.5, 15.6, 9.5], "steel_dark"),                              # mira integrada
+           el([7.6, 14.5, 2.6], [8.4, 15.5, 3.0], "cyan"),
+           el([7.3, 14.4, 13.0], [8.7, 14.8, 19.0], "rubber"),                                # carrillera
+           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
+           el([6.9, 10.2, 21.0], [9.1, 14.8, 22.0], "rubber")]                                # cantonera
+    for z in (-11.0, -6.0, -1.0):                                                          # abrazaderas de los raíles
+        els += [el([7.0, 11.0, z], [7.25, 14.2, z + 0.8], "steel_dark"), el([8.75, 11.0, z], [9.0, 14.2, z + 0.8], "steel_dark")]
+    for x0, x1 in ((6.3, 7.0), (9.0, 9.7)):                                                # condensadores laterales
+        els += [el([x0, 11.6, -7.0], [x1, 13.6, 1.0], "copper"),
+                el([x0 + 0.05, 11.7, -7.4], [x1 - 0.05, 13.5, -7.0], "cyan"),
+                el([x0, 12.4, 1.0], [x1, 12.8, 2.4], "steel")]
+    if not mag_out:                                                                        # batería tras la empuñadura
+        els += [el([7.25, 8.4, 13.0], [8.75, 10.6, 17.0], "steel"),
+                el([7.2, 9.0, 13.4], [8.8, 9.6, 16.6], "cyan")]
     return els + trigger_group()
 
 
@@ -253,34 +307,57 @@ def assault_rifle(mag_out=False):
 
 # ---------------------------------------------------------------- tier 3: lanzagranadas
 def grenade_launcher(open_=False):
-    hinge = {"angle": -22.5, "axis": "x", "origin": [8, 11.5, 1]} if open_ else None
-    els = [el([7.1, 12.1, -9.0], [8.9, 13.9, 1.0], "steel_dark", front="black", rot=hinge),   # cañón grueso
-           el([7.05, 12.05, -7.0], [8.95, 13.95, -6.4], "hazard", rot=hinge),
-           el([7.4, 9.6, -6.0], [8.6, 12.1, -4.5], "rubber", rot=hinge),                     # empuñadura delantera
-           el([7.7, 13.9, -1.0], [8.3, 15.0, 0.0], "steel", rot=hinge),                      # alza de escalera
-           el([6.6, 10.2, 1.0], [9.4, 13.6, 6.0], "olive"),                                  # tambor
-           el([6.5, 10.8, 2.0], [9.5, 13.0, 2.6], "steel"), el([6.5, 10.8, 4.4], [9.5, 13.0, 5.0], "steel"),
-           el([7.2, 11.4, 6.0], [8.8, 14.0, 10.0], "steel_dark"),                            # armazón
-           el([8.85, 12.4, 6.5], [8.95, 12.7, 9.5], "cyan"),
-           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
-           el([7.6, 11.0, 10.0], [8.4, 11.4, 18.0], "steel"), el([7.6, 12.8, 10.0], [8.4, 13.2, 18.0], "steel"),
-           el([7.3, 10.4, 17.6], [8.7, 13.6, 18.4], "rubber")]
+    """Lanzagranadas de tambor: cañón corto sobre un tambor giratorio de seis recámaras entre dos placas,
+    alza de escalera, empuñadura delantera y culata telescópica. Al recargar el bastidor delantero bascula."""
+    hinge = {"angle": -22.5, "axis": "x", "origin": [8, 9.4, 0]} if open_ else None
+    els = [el([7.1, 12.4, -9.0], [8.9, 14.2, -0.4], "steel_dark", front="black", rot=hinge),   # cañón
+           el([7.05, 12.35, -7.4], [8.95, 14.25, -6.8], "hazard", rot=hinge),
+           el([7.4, 9.8, -6.0], [8.6, 12.4, -4.4], "rubber", rot=hinge),                     # empuñadura delantera
+           el([6.4, 9.4, -0.4], [9.6, 14.4, 0.0], "steel_dark", rot=hinge),                  # placa delantera
+           el([6.6, 13.0, -2.4], [7.0, 15.8, -2.0], "steel", rot=hinge),                     # alza de escalera
+           el([6.6, 13.0, -1.0], [7.0, 15.8, -0.6], "steel", rot=hinge)]
+    for y in (13.8, 14.6, 15.4):
+        els.append(el([6.55, y, -2.4], [7.05, y + 0.2, -0.6], "steel_hi", rot=hinge))
+    els += [el([6.2, 9.8, 0.0], [9.8, 13.4, 6.0], "olive"),                                 # tambor
+            el([6.6, 9.4, 0.4], [9.4, 13.8, 5.6], "olive"),
+            el([6.15, 11.3, 1.0], [9.85, 11.9, 5.0], "steel_dark"),                          # estrías
+            el([6.4, 9.4, 6.0], [9.6, 14.4, 6.6], "steel_dark"),                             # placa trasera
+            el([7.7, 9.0, -0.4], [8.3, 9.4, 6.6], "steel"),                                  # eje inferior
+            el([7.7, 14.0, 0.0], [8.3, 14.4, 6.0], "steel")]                                 # puente superior
+    for (x, y) in ((9.3, 11.6), (8.65, 12.73), (7.35, 12.73), (6.7, 11.6), (7.35, 10.47), (8.65, 10.47)):
+        els.append(el([x - 0.35, y - 0.35, -0.1], [x + 0.35, y + 0.35, 0.0], "black"))       # bocas de las recámaras
+    els += [el([7.2, 11.4, 6.6], [8.8, 14.0, 10.0], "steel_dark"),                           # armazón
+            el([8.85, 12.4, 6.8], [8.95, 12.7, 9.6], "cyan"),
+            el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
+            el([7.6, 12.0, 10.0], [8.4, 12.8, 16.0], "steel"),                                # tubo telescópico
+            el([7.7, 11.0, 15.0], [8.3, 12.0, 17.6], "steel"),
+            el([7.3, 10.2, 17.6], [8.7, 13.6, 18.6], "rubber")]
     return els + trigger_group()
 
 
 # ---------------------------------------------------------------- tier 3: cañón de impulso
 def pulse_cannon(cell_out=False):
-    els = [el([6.4, 10.8, -10.0], [9.6, 15.0, -8.8], "steel_dark", front="cyan"),           # campana emisora
+    """Cañón de impulso: emisor de anillos de cobre escalonados con un núcleo luminoso, aletas disipadoras en
+    el lomo, tubos de refrigeración por los costados y célula de energía bajo el cajón."""
+    els = [el([6.0, 10.3, -12.4], [10.0, 15.5, -11.6], "copper"),                            # anillos del emisor
+           el([6.4, 10.7, -11.0], [9.6, 15.1, -10.2], "copper"),
+           el([6.8, 11.1, -9.6], [9.2, 14.7, -8.8], "copper"),
+           el([6.6, 10.9, -12.5], [9.4, 14.9, -12.4], "cyan"),                              # disco del emisor
+           el([7.4, 12.2, -12.4], [8.6, 13.6, -8.8], "cyan"),                               # núcleo
            el([6.9, 11.4, -8.8], [9.1, 14.4, 4.0], "graphite"),                             # cuerpo
-           el([9.1, 12.4, -6.0], [9.2, 13.4, 1.0], "cyan"),                                 # ventana de energía
-           el([7.6, 14.4, -4.0], [8.4, 15.4, 2.0], "steel"),                                # asa superior
-           el([7.6, 14.4, -4.4], [8.4, 15.4, -4.0], "steel"), el([7.6, 14.4, 2.0], [8.4, 15.4, 2.4], "steel"),
+           el([9.1, 11.7, -6.0], [9.15, 12.4, 1.0], "cyan"),                                # ventana de energía
+           el([6.85, 11.7, -6.0], [6.9, 12.4, 1.0], "cyan"),
            el([7.2, 11.0, 4.0], [8.8, 14.0, 10.0], "steel_dark"),                           # cajón
+           el([8.8, 12.6, 5.0], [8.9, 13.2, 9.0], "hazard"),
            el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
            el([7.2, 9.4, 10.0], [8.8, 12.6, 16.0], "graphite"),                             # culata corta
            el([7.0, 9.0, 16.0], [9.0, 13.0, 17.0], "rubber")]
-    for z in (-7.0, -4.0, -1.0, 2.0):
-        els.append(el([6.7, 11.2, z], [9.3, 14.6, z + 0.8], "copper"))                     # bobinas
+    for x0, x1 in ((6.4, 6.9), (9.1, 9.6)):                                                # tubos de refrigeración
+        els += [el([x0, 12.7, -8.6], [x1, 13.2, 3.4], "copper"),
+                el([x0, 12.5, -8.8], [x1, 13.4, -8.2], "steel"), el([x0, 12.5, 2.8], [x1, 13.4, 3.4], "steel")]
+    for z in range(-7, 4, 2):                                                              # aletas disipadoras
+        els.append(el([7.1, 14.4, z], [8.9, 15.7, z + 0.4], "steel"))
+    els.append(el([7.7, 14.4, -7.0], [8.3, 15.2, 3.4], "steel_dark"))                        # base de las aletas
     if not cell_out:
         els += [el([7.3, 9.0, 1.5], [8.7, 11.4, 4.5], "cyan"), el([7.2, 8.8, 1.4], [8.8, 9.2, 4.6], "steel")]  # célula
     return els + trigger_group()
@@ -467,15 +544,24 @@ def kinetic_sniper(bolt_back=False):
 
 
 def kinetic_blade():
+    """Cuchilla cinética: espada recta de inercita con acanaladura de cinetrita luminosa, doble filo pulido,
+    guarda con emisor y puntas de cobre, empuñadura de goma con anillas y pomo con gema."""
     d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}
-    return [el([7.3, 0.0, 7.4], [8.7, 4.4, 8.6], "rubber", rot=d),                                 # empuñadura
-            el([7.25, 0.6, 7.35], [8.75, 1.1, 8.65], "copper", rot=d), el([7.25, 3.3, 7.35], [8.75, 3.8, 8.65], "copper", rot=d),
-            el([6.2, 4.4, 7.2], [9.8, 5.2, 8.8], "steel_dark", rot=d),                             # guarda
-            el([7.6, 4.0, 7.0], [8.4, 4.8, 7.2], "cyan", rot=d),
-            el([7.0, 5.2, 7.75], [9.0, 15.2, 8.25], "inercita", rot=d),                            # hoja
-            el([6.5, 5.6, 7.85], [7.0, 15.6, 8.15], "cyan", rot=d),                                # filo cinético
-            el([7.0, 15.2, 7.8], [8.6, 16.0, 8.2], "inercita", rot=d),
-            el([8.2, 6.0, 7.7], [8.5, 13.0, 8.3], "steel_dark", rot=d)]
+    els = [el([7.35, 0.6, 7.45], [8.65, 4.4, 8.55], "rubber", rot=d),                              # empuñadura
+           el([7.1, -0.2, 7.2], [8.9, 0.6, 8.8], "steel_hi", rot=d),                               # pomo
+           el([7.6, -0.5, 7.6], [8.4, -0.2, 8.4], "cyan", rot=d),
+           el([5.8, 4.4, 7.3], [10.2, 5.2, 8.7], "steel_dark", rot=d),                             # guarda
+           el([5.5, 4.5, 7.4], [6.1, 6.0, 8.6], "copper", rot=d), el([9.9, 4.5, 7.4], [10.5, 6.0, 8.6], "copper", rot=d),
+           el([7.4, 4.2, 7.1], [8.6, 5.4, 8.9], "steel", rot=d),                                   # emisor
+           el([7.6, 4.5, 7.0], [8.4, 5.1, 9.0], "cyan", rot=d),
+           el([7.0, 5.2, 7.75], [9.0, 14.6, 8.25], "inercita", rot=d),                             # hoja
+           el([7.8, 5.8, 7.7], [8.2, 13.8, 8.3], "cyan", rot=d),                                   # acanaladura
+           el([6.7, 5.4, 7.85], [7.0, 14.6, 8.15], "edge", rot=d), el([9.0, 5.4, 7.85], [9.3, 14.6, 8.15], "edge", rot=d),
+           el([7.3, 14.6, 7.78], [8.7, 15.6, 8.22], "inercita", rot=d),                            # punta
+           el([7.7, 15.6, 7.82], [8.3, 16.4, 8.18], "edge", rot=d)]
+    for y in (1.2, 2.4, 3.6):
+        els.append(el([7.3, y, 7.4], [8.7, y + 0.35, 8.6], "copper", rot=d))
+    return els
 
 
 def rocket_launcher(empty=False):
@@ -501,16 +587,26 @@ def rocket_launcher(empty=False):
 
 
 def arc_caster(cell_out=False):
-    els = [el([7.4, 12.4, -10.0], [8.6, 13.6, 2.0], "graphite"),
-           el([6.8, 13.4, -12.0], [7.4, 14.0, -8.0], "copper"), el([8.6, 13.4, -12.0], [9.2, 14.0, -8.0], "copper"),   # puntas
-           el([6.8, 11.9, -12.0], [7.4, 12.5, -8.0], "copper"), el([8.6, 11.9, -12.0], [9.2, 12.5, -8.0], "copper"),
-           el([7.7, 12.7, -12.6], [8.3, 13.3, -10.0], "cyan"),
-           el([7.0, 11.4, 2.0], [9.0, 14.4, 10.0], "steel_dark"),
-           el([8.95, 12.0, 3.0], [9.05, 13.8, 9.0], "cyan"),
+    """Arco voltaico: horquilla de tres puntas de cobre (bobina de Tesla) con un arco entre ellas, aisladores
+    de porcelana, bobina de cobre dentro de un tubo de vidrio, bornes de latón y célula bajo el cajón."""
+    els = [el([7.7, 13.7, -12.6], [8.3, 14.3, -8.6], "copper"),                               # puntas de la horquilla
+           el([6.5, 11.9, -12.0], [7.1, 12.5, -8.6], "copper"), el([8.9, 11.9, -12.0], [9.5, 12.5, -8.6], "copper"),
+           el([7.75, 13.75, -13.0], [8.25, 14.25, -12.6], "cyan"),
+           el([6.55, 11.95, -12.4], [7.05, 12.45, -12.0], "cyan"), el([8.95, 11.95, -12.4], [9.45, 12.45, -12.0], "cyan"),
+           el([7.85, 12.75, -11.8], [8.15, 13.05, -9.4], "cyan"),                             # arco
+           el([6.5, 11.9, -8.6], [9.5, 12.5, -8.0], "steel_dark"), el([7.7, 12.5, -8.6], [8.3, 14.3, -8.0], "steel_dark"),
+           el([7.3, 12.3, -8.0], [8.7, 13.7, -6.4], "ceramic"),                               # aislador delantero
+           el([6.9, 11.8, -6.4], [9.1, 14.2, -5.8], "copper"),                                # tapas de la bobina
+           el([7.1, 12.0, -5.8], [8.9, 14.0, 1.0], "glass"),                                  # bobina en tubo de vidrio
+           el([6.9, 11.8, 1.0], [9.1, 14.2, 1.6], "copper"),
+           el([7.0, 11.4, 1.6], [9.0, 14.4, 10.0], "steel_dark"),                             # cajón
+           el([8.95, 12.0, 3.0], [9.05, 12.4, 9.0], "cyan"), el([8.95, 13.0, 3.0], [9.05, 13.6, 9.0], "hazard"),
            el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
-           el([7.3, 10.4, 10.0], [8.7, 13.0, 16.0], "graphite")]
-    for z in (-7.0, -4.0, -1.0):
-        els.append(el([7.1, 12.1, z], [8.9, 13.9, z + 0.8], "copper"))                             # bobinas
+           el([7.3, 10.4, 10.0], [8.7, 13.0, 16.0], "graphite"),
+           el([7.1, 10.0, 16.0], [8.9, 13.4, 16.8], "rubber")]
+    for z in (2.4, 6.4):                                                                   # aisladores con bornes
+        els += [el([7.6, 14.4, z], [8.4, 15.6, z + 0.8], "ceramic"), el([7.5, 15.6, z - 0.1], [8.5, 15.9, z + 0.9], "brass")]
+    els.append(el([7.85, 15.9, 2.9], [8.15, 16.1, 6.9], "copper"))                          # cable entre bornes
     if not cell_out:
         els += [el([7.3, 9.0, 3.0], [8.7, 11.4, 6.0], "cyan"), el([7.2, 8.8, 2.9], [8.8, 9.2, 6.1], "steel")]
     return els + trigger_group()
@@ -520,26 +616,36 @@ MINI_SPIN = [None, {"angle": 22.5, "axis": "z", "origin": [8, 13.1, -7]}, {"angl
 
 
 def minigun(box_out=False, frame=0):
-    """Minigun: 6 cañones con anillos de sujeción (giran: 3 fotogramas), carcasa del motor con rejilla, asa
-    superior, caja de munición con cinta de cartuchos y empuñaduras."""
+    """Minigun portátil a dos manos: 6 cañones con abrazaderas y corona dentada (giran: 3 fotogramas), motor
+    con rejillas, agarradera metálica en D encima del motor para la mano delantera, batería trasera, empuñadura
+    con gatillo y caja de munición con cinta."""
     r = MINI_SPIN[frame]
     els = []
     for (x, y) in ((7.0, 12.4), (8.4, 12.4), (7.0, 13.8), (8.4, 13.8), (7.7, 11.7), (7.7, 14.5)):
-        els.append(el([x, y, -15.0], [x + 0.6, y + 0.6, 0.0], "steel_dark", front="black", rot=r))   # cañones
-    els += [el([6.6, 11.4, -14.0], [9.4, 15.4, -13.2], "steel", rot=r),                     # anillos
+        els.append(el([x, y, -15.0], [x + 0.6, y + 0.6, -1.0], "steel_dark", front="black", rot=r))  # cañones
+    els += [el([6.6, 11.4, -14.0], [9.4, 15.4, -13.2], "steel", rot=r),                     # abrazaderas
             el([6.6, 11.4, -8.0], [9.4, 15.4, -7.2], "steel", rot=r),
-            el([7.5, 12.9, -15.0], [8.5, 13.3, 0.0], "steel_hi", rot=r),                       # eje
-            el([6.5, 11.2, 0.0], [9.5, 15.6, 8.0], "graphite"),                                # motor
-            el([6.4, 12.0, 1.0], [6.5, 14.8, 7.0], "black"), el([9.5, 12.0, 1.0], [9.6, 14.8, 7.0], "black"),  # rejillas
-            el([9.6, 12.4, 1.4], [9.7, 14.4, 6.6], "hazard"),
-            el([7.6, 15.6, 1.0], [8.4, 16.6, 6.0], "steel"), el([7.4, 16.6, 0.6], [8.6, 17.0, 6.4], "rubber"),  # asa
-            el([7.2, 8.0, 7.6], [8.8, 11.6, 10.4], "rubber", rot=GRIP_ROT),
-            el([7.4, 9.0, -3.0], [8.6, 11.2, -1.4], "rubber")]                                 # empuñadura delantera
+            el([6.4, 11.2, -2.4], [9.6, 15.6, -1.0], "copper", rot=r),                         # corona dentada
+            el([7.5, 12.9, -15.0], [8.5, 13.3, -1.0], "steel_hi", rot=r),                      # eje
+            el([6.5, 11.2, -1.0], [9.5, 15.4, 7.0], "graphite"),                               # motor
+            el([6.4, 12.0, 0.0], [6.5, 14.6, 6.0], "black"), el([9.5, 12.0, 0.0], [9.6, 14.6, 6.0], "black"),  # rejillas
+            el([9.5, 14.7, 0.4], [9.6, 15.1, 5.6], "hazard"),
+            el([6.8, 11.4, 7.0], [9.2, 15.2, 9.0], "steel_dark"),                              # tapa trasera
+            el([6.9, 11.6, 9.0], [9.1, 14.6, 13.0], "olive"),                                  # batería
+            el([9.1, 13.6, 10.0], [9.2, 14.2, 12.0], "cyan"),
+            el([7.3, 10.6, 6.0], [8.7, 11.6, 10.0], "steel_dark"),                             # caja del gatillo
+            el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT)]                    # empuñadura trasera
+    # agarradera metálica en D para la mano delantera (sobre el motor)
+    els += [el([7.3, 15.4, -1.0], [8.7, 15.7, 1.0], "steel_dark"), el([7.3, 15.4, 5.0], [8.7, 15.7, 7.0], "steel_dark"),
+            el([7.6, 15.7, -0.6], [8.4, 17.8, 0.4], "steel"), el([7.6, 15.7, 5.6], [8.4, 17.8, 6.6], "steel"),
+            el([7.55, 17.8, -0.9], [8.45, 18.7, 6.9], "steel_hi")]
+    for z in (1.0, 2.2, 3.4, 4.6):                                                         # moleteado
+        els.append(el([7.5, 17.75, z], [8.5, 18.75, z + 0.3], "steel_dark"))
     if not box_out:
-        els += [el([6.6, 7.4, 1.0], [9.4, 11.2, 7.0], "olive"),                               # caja de munición
-                el([6.5, 9.0, 1.4], [9.5, 9.4, 6.6], "steel"),
-                el([7.6, 10.4, -1.2], [8.4, 11.2, 1.0], "brass"),                              # cinta
-                el([7.6, 11.2, -1.8], [8.4, 11.6, -0.6], "brass")]
+        els += [el([6.6, 7.4, 0.6], [9.4, 11.2, 6.0], "olive"),                               # caja de munición
+                el([6.5, 9.0, 1.0], [9.5, 9.4, 5.6], "steel"),
+                el([7.6, 10.4, -1.0], [8.4, 11.2, 0.6], "brass"),                              # cinta
+                el([7.6, 11.0, -1.6], [8.4, 11.4, -0.6], "brass")]
     return els + trigger_group()
 
 
@@ -556,15 +662,28 @@ def guided_rocket():
 
 # ---------------------------------------------------------------- machete (como una espada: diagonal en el plano XY)
 def machete():
+    """Machete de verdad: hoja ancha que se ensancha hacia la punta, lomo recto, un solo filo, punta recortada,
+    virola de acero, cachas de madera con tres remaches de latón y la culata en gancho."""
     d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}                                      # mango abajo-izq., punta arriba-der.
-    return [el([7.3, 0.5, 7.4], [8.7, 5.0, 8.6], "tape", rot=d),                               # mango encintado
-            el([7.25, 1.2, 7.35], [8.75, 1.8, 8.65], "copper", rot=d), el([7.25, 3.4, 7.35], [8.75, 4.0, 8.65], "copper", rot=d),
-            el([6.6, 5.0, 7.3], [9.6, 5.6, 8.7], "steel", rot=d),                              # guarda
-            el([8.2, 5.6, 7.75], [9.3, 15.0, 8.25], "rust", rot=d),                            # lomo
-            el([6.7, 5.6, 7.8], [8.2, 15.4, 8.2], "blade", rot=d),                             # hoja
-            el([6.3, 6.0, 7.85], [6.7, 15.4, 8.15], "edge", rot=d),                            # filo
-            el([6.7, 15.4, 7.8], [8.6, 16.0, 8.2], "blade", rot=d),                            # punta
-            el([8.0, 8.0, 7.7], [8.2, 13.0, 8.3], "cyan", rot=d)]                              # vena de cinetrita
+    els = [el([7.3, 0.6, 7.45], [8.7, 5.0, 8.55], "wood_dark", rot=d),                         # cachas
+           el([7.25, 0.4, 7.95], [8.75, 5.0, 8.05], "steel_dark", rot=d),                      # espiga entre las cachas
+           el([6.9, 0.0, 7.45], [8.9, 0.7, 8.55], "wood_dark", rot=d),                         # culata en gancho
+           el([7.2, 5.0, 7.5], [8.9, 5.6, 8.5], "steel", rot=d),                               # virola
+           el([7.5, 5.6, 7.8], [8.8, 9.0, 8.2], "blade", rot=d),                               # hoja (se ensancha)
+           el([7.0, 9.0, 7.8], [8.8, 12.4, 8.2], "blade", rot=d),
+           el([6.5, 12.4, 7.8], [8.8, 15.0, 8.2], "blade", rot=d),
+           el([6.5, 15.0, 7.8], [8.2, 15.7, 8.2], "blade", rot=d),                             # punta recortada
+           el([7.2, 15.7, 7.82], [8.0, 16.2, 8.18], "blade", rot=d),
+           el([7.2, 5.8, 7.88], [7.5, 9.0, 8.12], "edge", rot=d),                              # filo
+           el([6.7, 9.0, 7.88], [7.0, 12.4, 8.12], "edge", rot=d),
+           el([6.2, 12.4, 7.88], [6.5, 15.5, 8.12], "edge", rot=d),
+           el([8.6, 5.6, 7.75], [8.9, 15.0, 8.25], "steel_dark", rot=d),                       # lomo
+           el([7.8, 10.2, 7.76], [8.5, 11.0, 8.24], "rust", rot=d),                            # manchas de óxido
+           el([7.0, 13.4, 7.76], [7.6, 13.9, 8.24], "rust", rot=d),
+           el([8.3, 6.5, 7.76], [8.5, 12.0, 8.24], "cyan", rot=d)]                             # vena de cinetrita
+    for y in (1.4, 2.7, 4.0):                                                               # remaches
+        els.append(el([7.75, y, 7.4], [8.25, y + 0.5, 8.6], "brass", rot=d))
+    return els
 
 
 def shell():

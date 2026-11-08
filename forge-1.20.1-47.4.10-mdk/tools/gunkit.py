@@ -124,6 +124,8 @@ P = {
     "tape": ((70, 70, 66), (96, 96, 90), (116, 116, 110), (140, 140, 134)),
     "olive": ((48, 54, 32), (70, 77, 46), (92, 100, 62), (118, 126, 84)),
     "black": ((6, 6, 8), (10, 10, 12), (16, 16, 18), (24, 24, 28)),
+    "ceramic": ((150, 140, 124), (192, 184, 168), (220, 214, 200), (242, 238, 228)),
+    "glass": ((24, 60, 70), (40, 96, 110), (70, 140, 156), (150, 210, 220)),
 }
 CYAN = ((24, 110, 126), (52, 190, 210), (120, 236, 248), (200, 252, 255))
 HAZ_Y, HAZ_B = (214, 168, 40), (28, 28, 30)
@@ -282,7 +284,30 @@ def p_bore(f, x, y, rnd):
     return rgba(P["black"][1])
 
 
+def p_ceramic(f, x, y, rnd):
+    """Aislador de porcelana: esmalte claro con anillos (faldones) más oscuros."""
+    ramp = P["ceramic"]
+    c = shade(ramp, f, x, y, rnd, 0.02)
+    a, b = f.along(x, y)
+    if f.side and b % 2 == 1:
+        c = rgba(mix(c[:3], ramp[0], 0.35))
+    return c
+
+
+def p_glass(f, x, y, rnd):
+    """Tubo de vidrio con bobinado de cobre dentro y reflejo."""
+    ramp = P["glass"]
+    c = shade(ramp, f, x, y, rnd, 0.02, bevel=False)
+    a, b = f.along(x, y)
+    if f.side and a % 2 == 0:
+        c = rgba(mix(c[:3], P["copper"][2], 0.55))                # espiras de cobre vistas a través del vidrio
+    if y == 1:
+        c = rgba(mix(c[:3], (230, 250, 255), 0.5))                # reflejo
+    return c
+
+
 PAINTERS = {
+    "ceramic": p_ceramic, "glass": p_glass,
     "steel_dark": p_metal("steel_dark"), "steel": p_metal("steel"), "steel_hi": p_metal("steel_hi"),
     "inercita": p_inercita, "graphite": p_graphite, "rubber": p_rubber,
     "wood": p_wood("wood"), "wood_dark": p_wood("wood_dark"), "leather": p_leather,

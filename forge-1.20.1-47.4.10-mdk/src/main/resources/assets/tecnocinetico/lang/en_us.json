@@ -1,5 +1,5 @@
 {
-  "creativetab.tecnocinetico_tab": "Tecnocinetico",
+  "creativetab.tecnocinetico_tab": "Tecnocinetico: Machines & Gear",
   "item.tecnocinetico.raw_cinetrite": "Raw Cinetrite",
   "item.tecnocinetico.cinetrite_ingot": "Cinetrite Crystal",
   "item.tecnocinetico.cinetrite_shard": "Cinetrite Shard",
@@ -413,5 +413,10 @@
   "item.tecnocinetico.arc_caster": "Arc Caster",
   "item.tecnocinetico.arc_caster.desc": "Lightning that chains between enemies. 12 shots per Pulse Cell.",
   "item.tecnocinetico.minigun": "Minigun",
-  "item.tecnocinetico.minigun.desc": "Hold: the barrels spin up, then it fires nonstop. Very heavy."
+  "item.tecnocinetico.minigun.desc": "Hold: the barrels spin up, then it fires nonstop. Very heavy.",
+  "creativetab.tecnocinetico_weapons_tab": "Tecnocinetico: Weapons",
+  "creativetab.tecnocinetico_armor_tab": "Tecnocinetico: Armor",
+  "creativetab.tecnocinetico_ammo_tab": "Tecnocinetico: Ammo & Magazines",
+  "creativetab.tecnocinetico_materials_tab": "Tecnocinetico: Materials",
+  "subtitles.tecnocinetico.flamethrower": "Flamethrower roars"
 }

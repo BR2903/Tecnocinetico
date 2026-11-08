@@ -53,18 +53,25 @@ public class FlamethrowerItem extends LongGunItem {
             t.setSecondsOnFire(6);
         }
         if (level instanceof ServerLevel server) {
-            Vec3 muzzle = eye.add(look.scale(0.9)).add(0, -0.25, 0);
-            for (int i = 0; i < 6; i++) {
-                double d = 0.5 + player.getRandom().nextDouble() * RANGE;
-                double sp = 0.12 * d;
-                Vec3 p = muzzle.add(look.scale(d));
-                server.sendParticles(ParticleTypes.FLAME, p.x, p.y, p.z, 2, sp * 0.3, sp * 0.3, sp * 0.3, 0.01);
+            // chorro: gotas ardiendo con la velocidad de la boquilla (count 0 = velocidad exacta), algo de dispersión
+            Vec3 right = Vec3.directionFromRotation(0, player.getYRot() + 90.0F);
+            Vec3 muzzle = eye.add(look.scale(1.1)).add(right.scale(aiming ? 0.0 : 0.22)).add(0, aiming ? -0.12 : -0.28, 0);
+            var r = player.getRandom();
+            for (int i = 0; i < 9; i++) {
+                double sp = 0.72 + r.nextDouble() * 0.16;
+                Vec3 v = look.scale(sp).add(r.nextGaussian() * 0.045, r.nextGaussian() * 0.045, r.nextGaussian() * 0.045)
+                        .add(player.getDeltaMovement());
+                Vec3 at = muzzle.add(look.scale(r.nextDouble() * 0.3));
+                server.sendParticles(com.bryanamaya.tecnocinetico.particle.ModParticles.FLAME_STREAM.get(), at.x, at.y, at.z, 0, v.x, v.y, v.z, 1.0);
             }
-            server.sendParticles(ParticleTypes.LARGE_SMOKE, muzzle.x + look.x * RANGE, muzzle.y + look.y * RANGE, muzzle.z + look.z * RANGE,
-                    2, 0.4, 0.4, 0.4, 0.01);
+            if (r.nextFloat() < 0.4F) {                                          // humo negro del combustible
+                Vec3 sm = muzzle.add(look.scale(4 + r.nextDouble() * 3));
+                server.sendParticles(ParticleTypes.LARGE_SMOKE, sm.x, sm.y + 0.5, sm.z, 1, 0.3, 0.2, 0.3, 0.01);
+            }
         }
-        if (player.tickCount % 4 == 0) {
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLAZE_SHOOT, SoundSource.PLAYERS, 0.5F, 0.6F);
+        if (player.tickCount % 6 == 0) {
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), com.bryanamaya.tecnocinetico.sound.ModSounds.FLAMETHROWER.get(),
+                    SoundSource.PLAYERS, 0.9F, 0.9F + player.getRandom().nextFloat() * 0.15F);
         }
     }
 }

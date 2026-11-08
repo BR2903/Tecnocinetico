@@ -62,6 +62,14 @@ public class LongGunClientExtensions implements IClientItemExtensions {
                 pose.translate(0, 0, 0.012F * Mth.sin(tt * 1.3F));
             }
         }
+        // lanzallamas: sin retroceso; mientras dispara, un temblor leve por la presión del gas
+        if (stack.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.FlamethrowerItem) {
+            if (t >= 0 && t < 4) {
+                float tt = player.tickCount + partialTick;
+                pose.translate(Mth.sin(tt * 7.3F) * 0.004F, Mth.cos(tt * 9.1F) * 0.004F, 0.015F);
+            }
+            return true;
+        }
         // minigun: sin retroceso hacia arriba; mientras giran los cañones el arma vibra y se apoya contra el cuerpo
         if (stack.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.MinigunItem) {
             float sp = com.bryanamaya.tecnocinetico.item.weapon.MinigunItem.spin(stack);

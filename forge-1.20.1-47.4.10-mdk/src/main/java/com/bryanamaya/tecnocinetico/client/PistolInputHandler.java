@@ -93,7 +93,9 @@ public final class PistolInputHandler {
                 float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING))
                         * com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.recoilMultiplier(player);
                 mult *= Mth.lerp(GunAnimState.aim, 1.0F, AIM_RECOIL_FACTOR);
-                if (gun instanceof com.bryanamaya.tecnocinetico.item.weapon.MinigunItem) {
+                if (gun instanceof com.bryanamaya.tecnocinetico.item.weapon.FlamethrowerItem) {
+                    GunAnimState.onShot(player.level().getGameTime(), 0.0F, 0.0F);   // sin retroceso: solo marca que dispara
+                } else if (gun instanceof com.bryanamaya.tecnocinetico.item.weapon.MinigunItem) {
                     // minigun: no salta hacia arriba; tiembla en todas direcciones (la vibración la dibuja LongGunClientExtensions)
                     player.setXRot(player.getXRot() + (player.getRandom().nextFloat() - 0.5F) * 0.5F * mult);
                     player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * 0.5F * mult);

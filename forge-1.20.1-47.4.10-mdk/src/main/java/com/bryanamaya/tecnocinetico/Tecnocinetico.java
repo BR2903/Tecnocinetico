@@ -165,6 +165,7 @@ public class Tecnocinetico {
 
         @SubscribeEvent
         public static void registerParticles(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ModParticles.FLAME_STREAM.get(), com.bryanamaya.tecnocinetico.client.FlameStreamParticle.Provider::new);
             event.registerSpriteSet(ModParticles.KINETIC_TRACER.get(),
                     sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.TRACER));
             event.registerSpriteSet(ModParticles.KINETIC_SPARK.get(),

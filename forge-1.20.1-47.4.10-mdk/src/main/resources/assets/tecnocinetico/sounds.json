@@ -293,5 +293,18 @@
         "attenuation_distance": 32
       }
     ]
+  },
+  "item.flamethrower.roar": {
+    "subtitle": "subtitles.tecnocinetico.flamethrower",
+    "sounds": [
+      {
+        "name": "tecnocinetico:flamethrower/roar1",
+        "attenuation_distance": 24
+      },
+      {
+        "name": "tecnocinetico:flamethrower/roar2",
+        "attenuation_distance": 24
+      }
+    ]
   }
 }

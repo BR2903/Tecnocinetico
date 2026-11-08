@@ -18,7 +18,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 | `entity/ModEntities` | Cuerpo de Enjambre |
 | `menu/ModMenus` | Banco de Armas, Prensa Automática |
 | `particle/ModParticles` | `kinetic_tracer`, `kinetic_spark`, `kinetic_burst` |
-| `item/ModCreativeModeTabs` | pestaña creativa (orden de los objetos) |
+| `item/ModCreativeModeTabs` | pestañas creativas: principal (máquinas, gadgets, nave, huevos), Armas, Armaduras, Munición y cargadores, Materiales (cada una por tier 1→3) y Mundo |
 
 - `block/ModWorldBlocks` — bloques del mundo post-apocalíptico (hormigón y familia, escombros, asfalto, metal oxidado, chatarra, ceniza, vitrificado, racimo de cinetrita, madera muerta) y su lista `ALL` para la pestaña creativa "Mundo". Clases especiales: `AshLayerBlock` (capas que no se derriten), `RoadLineBlock` (línea orientable).
 

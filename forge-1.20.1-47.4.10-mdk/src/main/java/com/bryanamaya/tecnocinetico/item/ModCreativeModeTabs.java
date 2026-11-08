@@ -15,165 +15,218 @@ public class ModCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Tecnocinetico.MOD_ID);
 
+    /** Pestaña principal: máquinas, herramientas, gadgets (por tier), la nave y las criaturas. */
     public static final RegistryObject<CreativeModeTab> TECNOCINETICO_TAB = CREATIVE_MODE_TABS.register("tecnocinetico_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(ModBlocks.ANCIENT_ALLOY_BLOCK.get()))
+                    .icon(() -> new ItemStack(ModBlocks.AUTO_KINETIC_PRESS.get()))
                     .title(Component.translatable("creativetab.tecnocinetico_tab"))
-                    .displayItems((pParameters, pOutput) -> {
-
-                        // --- ÍTEMS ---
-                        pOutput.accept(ModItems.RAW_CINETRITE.get());
-                        pOutput.accept(ModItems.CINETRITE_INGOT.get());
-                        pOutput.accept(ModItems.CINETRITE_SHARD.get());
-                        pOutput.accept(ModItems.RAW_INERCITA.get());
-                        pOutput.accept(ModItems.INERCITA_INGOT.get());
-                        pOutput.accept(ModItems.RESISTOR_330_OHM.get());
-                        pOutput.accept(ModItems.PIEZO_TRANSDUCER.get());
-                        pOutput.accept(ModItems.DEEPSLATE_LOGIC_SUBSTRATE.get());
-                        pOutput.accept(ModItems.CRUDE_KINETIC_COUPLER.get());
-
-                        // --- BLOQUES ---
-                        pOutput.accept(ModBlocks.CINETRITE_ORE.get());
-                        pOutput.accept(ModBlocks.DEEPSLATE_CINETRITE_ORE.get());
-                        pOutput.accept(ModBlocks.INERCITA_ORE.get());
-                        pOutput.accept(ModBlocks.DEEPSLATE_INERCITA_ORE.get());
-                        pOutput.accept(ModBlocks.PIROXITE_ORE.get());
-                        pOutput.accept(ModBlocks.NULLITE_ORE.get());
-                        pOutput.accept(ModBlocks.ANCIENT_ALLOY_BLOCK.get());
-                        pOutput.accept(ModBlocks.ANCIENT_ALLOY_TL.get());
-                        pOutput.accept(ModBlocks.ANCIENT_ALLOY_TR.get());
-                        pOutput.accept(ModBlocks.ANCIENT_ALLOY_BL.get());
-                        pOutput.accept(ModBlocks.ANCIENT_ALLOY_BR.get());
-                        pOutput.accept(ModBlocks.KINETIC_ASSEMBLY_PRESS.get());
-                        pOutput.accept(ModBlocks.AUTO_KINETIC_PRESS.get());
-                        pOutput.accept(ModBlocks.WEAPON_BENCH.get());
-                        pOutput.accept(ModBlocks.CREATIVE_ENERGY_SOURCE.get()); // solo pruebas
-                        pOutput.accept(ModItems.KINETIC_HAMMER.get());
-                        pOutput.accept(ModItems.KINETIC_PISTOL.get());
-                        pOutput.accept(ModItems.MODULE_OPTIC.get());
-                        pOutput.accept(ModItems.MODULE_EXTENDED_MAG.get());
-                        pOutput.accept(ModItems.MODULE_INERCITA_BARREL.get());
-                        pOutput.accept(ModItems.MODULE_QUICK_RELOAD.get());
-                        pOutput.accept(ModItems.MODULE_SEEKER.get());
-                        pOutput.accept(ModItems.SCRAP_HELMET.get());
-                        pOutput.accept(ModItems.SCRAP_CHESTPLATE.get());
-                        pOutput.accept(ModItems.SCRAP_LEGGINGS.get());
-                        pOutput.accept(ModItems.SCRAP_BOOTS.get());
-                        pOutput.accept(ModItems.SCRAP_MACHETE.get());
-                        pOutput.accept(ModItems.PIPE_SHOTGUN.get());
-                        pOutput.accept(ModItems.MODULE_CHOKE.get());
-                        pOutput.accept(ModItems.MODULE_SAWED_OFF.get());
-                        pOutput.accept(ModItems.MODULE_SPEED_LOADER.get());
-                        pOutput.accept(ModItems.SHOTGUN_SHELL.get());
-                        pOutput.accept(ModItems.BOLT_RIFLE.get());
-                        pOutput.accept(ModItems.MODULE_SCOPE.get());
-                        pOutput.accept(ModItems.MODULE_POLISHED_BOLT.get());
-                        pOutput.accept(ModItems.MODULE_RIFLE_BARREL.get());
-                        pOutput.accept(ModItems.RIFLE_ROUND.get());
-                        pOutput.accept(ModItems.INERCITA_PLATE.get());
-                        pOutput.accept(ModItems.PRECISION_MECHANISM.get());
-                        pOutput.accept(ModItems.KINETIC_SERVO.get());
-                        pOutput.accept(ModItems.BALLISTIC_FABRIC.get());
-                        pOutput.accept(ModItems.INERCITA_HELMET.get());
-                        pOutput.accept(ModItems.INERCITA_CHESTPLATE.get());
-                        pOutput.accept(ModItems.INERCITA_LEGGINGS.get());
-                        pOutput.accept(ModItems.INERCITA_BOOTS.get());
-                        pOutput.accept(ModItems.TACTICAL_HELMET.get());
-                        pOutput.accept(ModItems.TACTICAL_CHESTPLATE.get());
-                        pOutput.accept(ModItems.TACTICAL_LEGGINGS.get());
-                        pOutput.accept(ModItems.TACTICAL_BOOTS.get());
-                        pOutput.accept(ModItems.EXO_HELMET.get());
-                        pOutput.accept(ModItems.EXO_CHESTPLATE.get());
-                        pOutput.accept(ModItems.EXO_LEGGINGS.get());
-                        pOutput.accept(ModItems.EXO_BOOTS.get());
-                        pOutput.accept(ModItems.PUMP_SHOTGUN.get());
-                        pOutput.accept(ModItems.SEMI_RIFLE.get());
-                        pOutput.accept(ModItems.KINETIC_SMG.get());
-                        pOutput.accept(com.bryanamaya.tecnocinetico.block.ModBlocks.WEAPON_ASSEMBLER.get());
-                        pOutput.accept(ModItems.CORE_PROCESSOR.get());
-                        pOutput.accept(ModItems.RAIL_RIFLE.get());
-                        pOutput.accept(ModItems.RAIL_SLUG.get());
-                        pOutput.accept(ModItems.ASSAULT_RIFLE.get());
-                        pOutput.accept(ModItems.GRENADE_LAUNCHER.get());
-                        pOutput.accept(ModItems.KINETIC_GRENADE.get());
-                        pOutput.accept(ModItems.PULSE_CANNON.get());
-                        pOutput.accept(ModItems.PULSE_CELL.get());
-                        pOutput.accept(ModItems.EMPTY_PULSE_CELL.get());
-                        pOutput.accept(ModItems.REVOLVER.get());
-                        pOutput.accept(ModItems.FLAMETHROWER.get());
-                        pOutput.accept(ModItems.FUEL_CANISTER.get());
-                        pOutput.accept(ModItems.LIGHT_MACHINE_GUN.get());
-                        pOutput.accept(ModItems.KINETIC_SNIPER.get());
-                        pOutput.accept(ModItems.KINETIC_BLADE.get());
-                        pOutput.accept(ModItems.ROCKET_LAUNCHER.get());
-                        pOutput.accept(ModItems.GUIDED_ROCKET.get());
-                        pOutput.accept(ModItems.ARC_CASTER.get());
-                        pOutput.accept(ModItems.MINIGUN.get());
-                        pOutput.accept(ModItems.CORE_FIGHTER.get());
-                        pOutput.accept(ModItems.DIMENSIONAL_DRIVE.get());
-                        pOutput.accept(ModItems.RAW_PIROXITE.get());
-                        pOutput.accept(ModItems.PIROXITE_INGOT.get());
-                        pOutput.accept(ModItems.RAW_NULLITE.get());
-                        pOutput.accept(ModItems.NULLITE_INGOT.get());
-                        pOutput.accept(ModItems.CORE_HELMET.get());
-                        pOutput.accept(ModItems.CORE_CHESTPLATE.get());
-                        pOutput.accept(ModItems.CORE_LEGGINGS.get());
-                        pOutput.accept(ModItems.CORE_BOOTS.get());
-                        pOutput.accept(ModItems.PIROXITE_HELMET.get());
-                        pOutput.accept(ModItems.PIROXITE_CHESTPLATE.get());
-                        pOutput.accept(ModItems.PIROXITE_LEGGINGS.get());
-                        pOutput.accept(ModItems.PIROXITE_BOOTS.get());
-                        pOutput.accept(ModItems.NULLITE_HELMET.get());
-                        pOutput.accept(ModItems.NULLITE_CHESTPLATE.get());
-                        pOutput.accept(ModItems.NULLITE_LEGGINGS.get());
-                        pOutput.accept(ModItems.NULLITE_BOOTS.get());
-                        pOutput.accept(ModItems.KINETIC_ROUND.get());
-                        pOutput.accept(ModItems.GUIDED_ROUND.get());
-                        pOutput.accept(ModItems.MAGAZINE.get());
-                        pOutput.accept(ModItems.NIGHT_VISION_VISOR.get());
-                        // las tres versiones del jetpack (Mk I, II y III)
+                    .displayItems((params, out) -> {
+                        // máquinas y herramientas
+                        out.accept(ModItems.KINETIC_HAMMER.get());
+                        out.accept(ModBlocks.KINETIC_ASSEMBLY_PRESS.get());
+                        out.accept(ModBlocks.AUTO_KINETIC_PRESS.get());
+                        out.accept(ModBlocks.WEAPON_BENCH.get());
+                        out.accept(ModBlocks.WEAPON_ASSEMBLER.get());
+                        out.accept(ModBlocks.CREATIVE_ENERGY_SOURCE.get());
+                        out.accept(ModBlocks.ANCIENT_ALLOY_TL.get());
+                        out.accept(ModBlocks.ANCIENT_ALLOY_TR.get());
+                        out.accept(ModBlocks.ANCIENT_ALLOY_BL.get());
+                        out.accept(ModBlocks.ANCIENT_ALLOY_BR.get());
+                        // gadgets del Equipo Táctico (por tier)
+                        out.accept(ModItems.NIGHT_VISION_VISOR.get());
+                        out.accept(ModItems.VISOR_BATTERY.get());
+                        out.accept(ModItems.AQUA_PROPULSOR.get());
+                        out.accept(ModItems.PROPULSOR_CELL.get());
+                        out.accept(ModItems.DASH_THRUSTER.get());
+                        out.accept(ModItems.DASH_CELL.get());
                         for (int lvl = 1; lvl <= com.bryanamaya.tecnocinetico.gear.JetpackItem.MAX_LEVEL; lvl++) {
-                            net.minecraft.world.item.ItemStack jet = new net.minecraft.world.item.ItemStack(ModItems.JETPACK.get());
+                            ItemStack jet = new ItemStack(ModItems.JETPACK.get());
                             com.bryanamaya.tecnocinetico.gear.JetpackItem.setLevel(jet, lvl);
-                            pOutput.accept(jet);
+                            out.accept(jet);
                         }
-                        pOutput.accept(ModItems.AQUA_PROPULSOR.get());
-                        pOutput.accept(ModItems.VISOR_BATTERY.get());
-                        pOutput.accept(ModItems.JETPACK_FUEL.get());
-                        pOutput.accept(ModItems.PROPULSOR_CELL.get());
-                        pOutput.accept(ModItems.DASH_THRUSTER.get());
-                        pOutput.accept(ModItems.DASH_CELL.get());
-                        pOutput.accept(ModItems.COMBAT_MK1_HELMET.get());
-                        pOutput.accept(ModItems.COMBAT_MK1_CHESTPLATE.get());
-                        pOutput.accept(ModItems.COMBAT_MK1_LEGGINGS.get());
-                        pOutput.accept(ModItems.COMBAT_MK1_BOOTS.get());
-                        pOutput.accept(ModItems.COMBAT_MK2_HELMET.get());
-                        pOutput.accept(ModItems.COMBAT_MK2_CHESTPLATE.get());
-                        pOutput.accept(ModItems.COMBAT_MK2_LEGGINGS.get());
-                        pOutput.accept(ModItems.COMBAT_MK2_BOOTS.get());
-                        pOutput.accept(ModItems.COMBAT_MK3_HELMET.get());
-                        pOutput.accept(ModItems.COMBAT_MK3_CHESTPLATE.get());
-                        pOutput.accept(ModItems.COMBAT_MK3_LEGGINGS.get());
-                        pOutput.accept(ModItems.COMBAT_MK3_BOOTS.get());
-                        pOutput.accept(ModItems.JETPACK_KIT_2.get());
-                        pOutput.accept(ModItems.JETPACK_KIT_3.get());
-                        pOutput.accept(ModItems.EXTENDED_MAGAZINE.get());
-                        pOutput.accept(ModItems.SWARM_BODY_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.SURVIVOR_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.SWARM_WASP_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.HIVE_NODE_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.SWARM_CORE.get());
-                        pOutput.accept(ModItems.SENTRY_TURRET_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.DRONE_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.ANCHOR_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.SIEGE_SPIDER_SPAWN_EGG.get());
-                        pOutput.accept(com.bryanamaya.tecnocinetico.block.ModBlocks.CORE_CONSOLE.get());
-                        pOutput.accept(ModItems.CORRUPTED_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.CORRUPTED_GUNNER_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.CORRUPTED_SPIDER_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.CORRUPTED_CAVE_SPIDER_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.CORRUPTED_DROWNED_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.CORRUPTED_CREEPER_SPAWN_EGG.get());
+                        out.accept(ModItems.JETPACK_FUEL.get());
+                        out.accept(ModItems.JETPACK_KIT_2.get());
+                        out.accept(ModItems.JETPACK_KIT_3.get());
+                        // nave
+                        out.accept(ModItems.CORE_FIGHTER.get());
+                        // criaturas (huevos) y arena del guardián
+                        out.accept(ModItems.SURVIVOR_SPAWN_EGG.get());
+                        out.accept(ModItems.CORRUPTED_SPAWN_EGG.get());
+                        out.accept(ModItems.CORRUPTED_GUNNER_SPAWN_EGG.get());
+                        out.accept(ModItems.CORRUPTED_SPIDER_SPAWN_EGG.get());
+                        out.accept(ModItems.CORRUPTED_CAVE_SPIDER_SPAWN_EGG.get());
+                        out.accept(ModItems.CORRUPTED_DROWNED_SPAWN_EGG.get());
+                        out.accept(ModItems.CORRUPTED_CREEPER_SPAWN_EGG.get());
+                        out.accept(ModItems.SWARM_BODY_SPAWN_EGG.get());
+                        out.accept(ModItems.SWARM_WASP_SPAWN_EGG.get());
+                        out.accept(ModItems.HIVE_NODE_SPAWN_EGG.get());
+                        out.accept(ModItems.DRONE_SPAWN_EGG.get());
+                        out.accept(ModItems.SENTRY_TURRET_SPAWN_EGG.get());
+                        out.accept(ModItems.ANCHOR_SPAWN_EGG.get());
+                        out.accept(ModItems.SIEGE_SPIDER_SPAWN_EGG.get());
+                        out.accept(ModBlocks.CORE_CONSOLE.get());
+                    })
+                    .build());
+
+    /** Armas y sus módulos, ordenadas por tier (1 a 3). */
+    public static final RegistryObject<CreativeModeTab> WEAPONS_TAB = CREATIVE_MODE_TABS.register("tecnocinetico_weapons_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModItems.KINETIC_PISTOL.get()))
+                    .title(Component.translatable("creativetab.tecnocinetico_weapons_tab"))
+                    .withTabsBefore(TECNOCINETICO_TAB.getKey())
+                    .displayItems((params, out) -> {
+                        // tier 1
+                        out.accept(ModItems.KINETIC_PISTOL.get());
+                        out.accept(ModItems.MODULE_OPTIC.get());
+                        out.accept(ModItems.MODULE_EXTENDED_MAG.get());
+                        out.accept(ModItems.MODULE_QUICK_RELOAD.get());
+                        out.accept(ModItems.MODULE_INERCITA_BARREL.get());
+                        out.accept(ModItems.REVOLVER.get());
+                        out.accept(ModItems.PIPE_SHOTGUN.get());
+                        out.accept(ModItems.MODULE_CHOKE.get());
+                        out.accept(ModItems.MODULE_SAWED_OFF.get());
+                        out.accept(ModItems.MODULE_SPEED_LOADER.get());
+                        out.accept(ModItems.BOLT_RIFLE.get());
+                        out.accept(ModItems.MODULE_SCOPE.get());
+                        out.accept(ModItems.MODULE_POLISHED_BOLT.get());
+                        out.accept(ModItems.MODULE_RIFLE_BARREL.get());
+                        out.accept(ModItems.SCRAP_MACHETE.get());
+                        // tier 2
+                        out.accept(ModItems.KINETIC_SMG.get());
+                        out.accept(ModItems.PUMP_SHOTGUN.get());
+                        out.accept(ModItems.SEMI_RIFLE.get());
+                        out.accept(ModItems.LIGHT_MACHINE_GUN.get());
+                        out.accept(ModItems.KINETIC_SNIPER.get());
+                        out.accept(ModItems.FLAMETHROWER.get());
+                        out.accept(ModItems.KINETIC_BLADE.get());
+                        // tier 3
+                        out.accept(ModItems.ASSAULT_RIFLE.get());
+                        out.accept(ModItems.RAIL_RIFLE.get());
+                        out.accept(ModItems.GRENADE_LAUNCHER.get());
+                        out.accept(ModItems.PULSE_CANNON.get());
+                        out.accept(ModItems.ROCKET_LAUNCHER.get());
+                        out.accept(ModItems.ARC_CASTER.get());
+                        out.accept(ModItems.MINIGUN.get());
+                        out.accept(ModItems.MODULE_SEEKER.get());
+                    })
+                    .build());
+
+    /** Armaduras por tier: de combate (resistencia y movilidad) y de habilidad. */
+    public static final RegistryObject<CreativeModeTab> ARMOR_TAB = CREATIVE_MODE_TABS.register("tecnocinetico_armor_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModItems.COMBAT_MK2_CHESTPLATE.get()))
+                    .title(Component.translatable("creativetab.tecnocinetico_armor_tab"))
+                    .withTabsBefore(WEAPONS_TAB.getKey())
+                    .displayItems((params, out) -> {
+                        // tier 1
+                        out.accept(ModItems.SCRAP_HELMET.get());
+                        out.accept(ModItems.SCRAP_CHESTPLATE.get());
+                        out.accept(ModItems.SCRAP_LEGGINGS.get());
+                        out.accept(ModItems.SCRAP_BOOTS.get());
+                        out.accept(ModItems.COMBAT_MK1_HELMET.get());
+                        out.accept(ModItems.COMBAT_MK1_CHESTPLATE.get());
+                        out.accept(ModItems.COMBAT_MK1_LEGGINGS.get());
+                        out.accept(ModItems.COMBAT_MK1_BOOTS.get());
+                        // tier 2
+                        out.accept(ModItems.COMBAT_MK2_HELMET.get());
+                        out.accept(ModItems.COMBAT_MK2_CHESTPLATE.get());
+                        out.accept(ModItems.COMBAT_MK2_LEGGINGS.get());
+                        out.accept(ModItems.COMBAT_MK2_BOOTS.get());
+                        out.accept(ModItems.INERCITA_HELMET.get());
+                        out.accept(ModItems.INERCITA_CHESTPLATE.get());
+                        out.accept(ModItems.INERCITA_LEGGINGS.get());
+                        out.accept(ModItems.INERCITA_BOOTS.get());
+                        out.accept(ModItems.TACTICAL_HELMET.get());
+                        out.accept(ModItems.TACTICAL_CHESTPLATE.get());
+                        out.accept(ModItems.TACTICAL_LEGGINGS.get());
+                        out.accept(ModItems.TACTICAL_BOOTS.get());
+                        out.accept(ModItems.EXO_HELMET.get());
+                        out.accept(ModItems.EXO_CHESTPLATE.get());
+                        out.accept(ModItems.EXO_LEGGINGS.get());
+                        out.accept(ModItems.EXO_BOOTS.get());
+                        // tier 3
+                        out.accept(ModItems.COMBAT_MK3_HELMET.get());
+                        out.accept(ModItems.COMBAT_MK3_CHESTPLATE.get());
+                        out.accept(ModItems.COMBAT_MK3_LEGGINGS.get());
+                        out.accept(ModItems.COMBAT_MK3_BOOTS.get());
+                        out.accept(ModItems.CORE_HELMET.get());
+                        out.accept(ModItems.CORE_CHESTPLATE.get());
+                        out.accept(ModItems.CORE_LEGGINGS.get());
+                        out.accept(ModItems.CORE_BOOTS.get());
+                        out.accept(ModItems.PIROXITE_HELMET.get());
+                        out.accept(ModItems.PIROXITE_CHESTPLATE.get());
+                        out.accept(ModItems.PIROXITE_LEGGINGS.get());
+                        out.accept(ModItems.PIROXITE_BOOTS.get());
+                        out.accept(ModItems.NULLITE_HELMET.get());
+                        out.accept(ModItems.NULLITE_CHESTPLATE.get());
+                        out.accept(ModItems.NULLITE_LEGGINGS.get());
+                        out.accept(ModItems.NULLITE_BOOTS.get());
+                    })
+                    .build());
+
+    /** Munición, cargadores, cartuchos, cohetes y células, por tier. */
+    public static final RegistryObject<CreativeModeTab> AMMO_TAB = CREATIVE_MODE_TABS.register("tecnocinetico_ammo_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModItems.MAGAZINE.get()))
+                    .title(Component.translatable("creativetab.tecnocinetico_ammo_tab"))
+                    .withTabsBefore(ARMOR_TAB.getKey())
+                    .displayItems((params, out) -> {
+                        // tier 1
+                        out.accept(ModItems.KINETIC_ROUND.get());
+                        out.accept(ModItems.MAGAZINE.get());
+                        out.accept(ModItems.EXTENDED_MAGAZINE.get());
+                        out.accept(ModItems.SHOTGUN_SHELL.get());
+                        out.accept(ModItems.RIFLE_ROUND.get());
+                        // tier 2
+                        out.accept(ModItems.FUEL_CANISTER.get());
+                        // tier 3
+                        out.accept(ModItems.RAIL_SLUG.get());
+                        out.accept(ModItems.KINETIC_GRENADE.get());
+                        out.accept(ModItems.GUIDED_ROCKET.get());
+                        out.accept(ModItems.PULSE_CELL.get());
+                        out.accept(ModItems.EMPTY_PULSE_CELL.get());
+                        out.accept(ModItems.GUIDED_ROUND.get());
+                    })
+                    .build());
+
+    /** Materiales: menas, lingotes, piezas de prensa y botín clave, por tier. */
+    public static final RegistryObject<CreativeModeTab> MATERIALS_TAB = CREATIVE_MODE_TABS.register("tecnocinetico_materials_tab",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(ModItems.CINETRITE_INGOT.get()))
+                    .title(Component.translatable("creativetab.tecnocinetico_materials_tab"))
+                    .withTabsBefore(AMMO_TAB.getKey())
+                    .displayItems((params, out) -> {
+                        // tier 1
+                        out.accept(ModItems.SCRAP_METAL.get());
+                        out.accept(ModBlocks.CINETRITE_ORE.get());
+                        out.accept(ModBlocks.DEEPSLATE_CINETRITE_ORE.get());
+                        out.accept(ModItems.RAW_CINETRITE.get());
+                        out.accept(ModItems.CINETRITE_INGOT.get());
+                        out.accept(ModItems.CINETRITE_SHARD.get());
+                        out.accept(ModBlocks.INERCITA_ORE.get());
+                        out.accept(ModBlocks.DEEPSLATE_INERCITA_ORE.get());
+                        out.accept(ModItems.RAW_INERCITA.get());
+                        out.accept(ModItems.INERCITA_INGOT.get());
+                        out.accept(ModBlocks.ANCIENT_ALLOY_BLOCK.get());
+                        out.accept(ModItems.RESISTOR_330_OHM.get());
+                        out.accept(ModItems.PIEZO_TRANSDUCER.get());
+                        out.accept(ModItems.DEEPSLATE_LOGIC_SUBSTRATE.get());
+                        out.accept(ModItems.CRUDE_KINETIC_COUPLER.get());
+                        // tier 2 (prensa con energía)
+                        out.accept(ModItems.INERCITA_PLATE.get());
+                        out.accept(ModItems.PRECISION_MECHANISM.get());
+                        out.accept(ModItems.KINETIC_SERVO.get());
+                        out.accept(ModItems.BALLISTIC_FABRIC.get());
+                        out.accept(ModItems.SWARM_CORE.get());
+                        // tier 3 (Nether, End e Instalaciones de la IA)
+                        out.accept(ModItems.CORE_PROCESSOR.get());
+                        out.accept(ModBlocks.PIROXITE_ORE.get());
+                        out.accept(ModItems.RAW_PIROXITE.get());
+                        out.accept(ModItems.PIROXITE_INGOT.get());
+                        out.accept(ModBlocks.NULLITE_ORE.get());
+                        out.accept(ModItems.RAW_NULLITE.get());
+                        out.accept(ModItems.NULLITE_INGOT.get());
+                        out.accept(ModItems.DIMENSIONAL_DRIVE.get());
                     })
                     .build());
 
@@ -182,7 +235,7 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(ModWorldBlocks.CRACKED_CONCRETE.get()))
                     .title(Component.translatable("creativetab.tecnocinetico_world_tab"))
-                    .withTabsBefore(TECNOCINETICO_TAB.getKey())
+                    .withTabsBefore(MATERIALS_TAB.getKey())
                     .displayItems((params, output) -> {
                         ModWorldBlocks.ALL.forEach(b -> output.accept(b.get()));
                         output.accept(ModItems.SCRAP_METAL.get());

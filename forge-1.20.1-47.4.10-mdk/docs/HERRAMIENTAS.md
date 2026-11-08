@@ -134,6 +134,8 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/combat_armor_gen.py [preview.png]`: armaduras de combate Mk I-III (capas + iconos). El Impulsor de Esquiva y su célula: `weapons_gen.py`.
 
 ## gunkit.py (texturas de las armas)
+- Vista de inventario: armas largas `gui_fit.py $A "y-90;z25" <modelos>`; machete y cuchilla (geometría ya en diagonal) `gui_fit.py $A "0,0,0" scrap_machete kinetic_blade`.
+- La vista previa oculta caras cuyo centro cae dentro de otra pieza (acanaladuras, espigas, tambores): para revisar esas armas, copia `render_model.py` con `hidden()` devolviendo `False`.
 - Lo usa `weapons_gen.py`: cada arma se pinta en su propia textura `textures/item/gun/<arma>.png` por pintores de material (ver la cabecera del archivo). Para un arma nueva: escribe su función de geometría con `el(desde, hasta, material, front=..., rot=...)`, regístrala con `model(...)` (añade su nombre base a `GROUPS` si tiene variantes) y ejecuta `python tools/weapons_gen.py`; luego `gui_fit.py` y otra vez `weapons_gen.py`.
-- Materiales: steel_dark, steel, steel_hi, inercita, graphite, rubber, wood, wood_dark, leather, copper, brass, shell_red, rust, blade, edge, tape, olive, hazard, cyan, black (boca de cañón).
+- Materiales: steel_dark, steel, steel_hi, inercita, graphite, rubber, wood, wood_dark, leather, copper, brass, shell_red, rust, blade, edge, tape, olive, hazard, cyan, black (boca de cañón), ceramic (aislador de porcelana con faldones), glass (tubo de vidrio con espiras de cobre).
 

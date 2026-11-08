@@ -1,5 +1,5 @@
 {
-  "creativetab.tecnocinetico_tab": "Tecnocinético",
+  "creativetab.tecnocinetico_tab": "Tecnocinético: Máquinas y equipo",
   "item.tecnocinetico.raw_cinetrite": "Cinetrita en Bruto",
   "item.tecnocinetico.cinetrite_ingot": "Cristal de Cinetrita",
   "item.tecnocinetico.cinetrite_shard": "Fragmento de Cinetrita",
@@ -413,5 +413,10 @@
   "item.tecnocinetico.arc_caster": "Arco Voltaico",
   "item.tecnocinetico.arc_caster.desc": "Rayo que salta de un enemigo a otro. 12 descargas por Célula de Impulso.",
   "item.tecnocinetico.minigun": "Minigun",
-  "item.tecnocinetico.minigun.desc": "Mantén el clic: los cañones giran y luego disparan sin parar. Muy pesada."
+  "item.tecnocinetico.minigun.desc": "Mantén el clic: los cañones giran y luego disparan sin parar. Muy pesada.",
+  "creativetab.tecnocinetico_weapons_tab": "Tecnocinético: Armas",
+  "creativetab.tecnocinetico_armor_tab": "Tecnocinético: Armaduras",
+  "creativetab.tecnocinetico_ammo_tab": "Tecnocinético: Munición y cargadores",
+  "creativetab.tecnocinetico_materials_tab": "Tecnocinético: Materiales",
+  "subtitles.tecnocinetico.flamethrower": "Lanzallamas ruge"
 }

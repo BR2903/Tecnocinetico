@@ -24,6 +24,10 @@ public final class ModParticles {
     public static final RegistryObject<SimpleParticleType> KINETIC_BURST =
             PARTICLE_TYPES.register("kinetic_burst", () -> new SimpleParticleType(true));
 
+    /** Gota de combustible ardiendo del Lanzallamas (la velocidad la da quien la crea). */
+    public static final RegistryObject<SimpleParticleType> FLAME_STREAM =
+            PARTICLE_TYPES.register("flame_stream", () -> new SimpleParticleType(true));
+
     private ModParticles() {}
 
     public static void register(IEventBus bus) {

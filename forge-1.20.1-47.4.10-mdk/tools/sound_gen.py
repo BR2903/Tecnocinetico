@@ -712,6 +712,24 @@ def generate_siege():
         save(f"step{i + 1}", siege_step(i), "siege_spider")
 
 
+# =================================================================== Lanzallamas
+def flame_roar(i):
+    """Rugido del chorro: soplido grave de gas a presión + crepitar del combustible ardiendo (sin tonos)."""
+    seed = 4900 + 17 * i
+    dur = 0.7
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    roar = low(noise(dur, seed), 380, order=4) * (1.0 + 0.25 * np.sin(2 * np.pi * (7 + i) * t))
+    hiss_ = band(noise(dur, seed + 1), 1500, 7000) * 0.35
+    crackle = grains(dur, seed + 2, 90, 1200, 6000, grain=0.002) * 0.6
+    return reverb(mix(dur, (roar, 0.0, 1.0), (hiss_, 0.0, 1.0), (crackle, 0.0, 1.0)) * env(n, 0.05, 0.15), seed + 3, tail=0.3, wet=0.15)
+
+
+def generate_flame():
+    for i in range(2):
+        save(f"roar{i + 1}", flame_roar(i), "flamethrower")
+
+
 def generate_turret():
     save("charge", turret_charge(), "sentry_turret")
 
@@ -726,3 +744,4 @@ if __name__ == "__main__":
     generate_anchor()
     generate_ship()
     generate_siege()
+    generate_flame()

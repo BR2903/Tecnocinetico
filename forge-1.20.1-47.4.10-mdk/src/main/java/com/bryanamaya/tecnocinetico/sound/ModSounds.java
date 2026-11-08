@@ -57,6 +57,9 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> SIEGE_ROAR = register("entity.siege_spider.roar");
     public static final RegistryObject<SoundEvent> SIEGE_STEP = register("entity.siege_spider.step");
 
+    // Lanzallamas (rugido del chorro)
+    public static final RegistryObject<SoundEvent> FLAMETHROWER = register("item.flamethrower.roar");
+
     // Gadgets del Equipo Táctico
     public static final RegistryObject<SoundEvent> JETPACK_THRUST = register("item.jetpack.thrust");
 
