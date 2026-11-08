@@ -359,6 +359,23 @@ def core_missile():
             el([7.6, 7.6, 13.0], [8.4, 8.4, 13.6], "cyan")]
 
 
+# ---------------------------------------------------------------- Impulsor de Esquiva (gadget de cinturón) y su célula
+def dash_thruster():
+    return [el([4.0, 6.0, 7.0], [12.0, 7.0, 9.0], "leather"),                               # correa
+            el([5.5, 5.0, 6.0], [10.5, 9.5, 10.0], "graphite"),                             # cuerpo
+            el([5.8, 9.5, 6.4], [10.2, 10.0, 9.6], "steel_hi"),
+            el([6.0, 3.6, 6.6], [7.6, 5.0, 8.4], "steel_dark"), el([8.4, 3.6, 6.6], [10.0, 5.0, 8.4], "steel_dark"),  # toberas
+            el([6.3, 3.4, 6.9], [7.3, 3.6, 8.1], "cyan"), el([8.7, 3.4, 6.9], [9.7, 3.6, 8.1], "cyan"),
+            el([7.4, 7.0, 5.8], [8.6, 8.6, 6.0], "cyan"),                                   # indicador de carga
+            el([5.3, 6.4, 7.4], [5.5, 8.6, 8.6], "copper"), el([10.5, 6.4, 7.4], [10.7, 8.6, 8.6], "copper")]
+
+
+def dash_cell():
+    return [el([7.0, 3.0, 7.0], [9.0, 9.0, 9.0], "cyan"), el([6.8, 2.6, 6.8], [9.2, 3.4, 9.2], "copper"),
+            el([6.8, 8.6, 6.8], [9.2, 9.4, 9.2], "copper"), el([7.6, 9.4, 7.6], [8.4, 10.0, 8.4], "steel_hi"),
+            el([6.9, 5.6, 6.9], [9.1, 6.2, 9.1], "graphite")]
+
+
 # ---------------------------------------------------------------- machete (como una espada: diagonal en el plano XY)
 def machete():
     d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}                                      # mango abajo-izq., punta arriba-der.
@@ -431,6 +448,8 @@ if __name__ == "__main__":
         model(base, fn(False), GUN_DISPLAY,
               [{"predicate": {"tecnocinetico:reload": 1}, "model": f"tecnocinetico:item/{base}_{alt}"}])
     model("core_fighter", core_fighter_mini(), SMALL)
+    model("dash_thruster", dash_thruster(), SMALL)
+    model("dash_cell", dash_cell(), SMALL)
     model("core_missile", core_missile(), SMALL)
     model("rail_slug", rail_slug(), SMALL)
     model("kinetic_grenade", kinetic_grenade(), SMALL)

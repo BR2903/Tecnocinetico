@@ -27,6 +27,8 @@ public final class ModKeyBindings {
 
     public static final KeyMapping GEAR = new KeyMapping("key.tecnocinetico.gear", KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_J, "key.categories.tecnocinetico");
+    public static final KeyMapping DASH = new KeyMapping("key.tecnocinetico.dash", KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "key.categories.tecnocinetico");
     public static final KeyMapping VISOR = new KeyMapping("key.tecnocinetico.visor", KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_N, "key.categories.tecnocinetico");
     public static final KeyMapping SKILLS = new KeyMapping(
@@ -46,6 +48,7 @@ public final class ModKeyBindings {
             event.register(SKILLS);
             event.register(GEAR);
             event.register(VISOR);
+            event.register(DASH);
         }
     }
 
@@ -70,6 +73,9 @@ public final class ModKeyBindings {
                         ModNetwork.CHANNEL.sendToServer(new ModNetwork.OpenGearPacket());
                     }
                 }
+            }
+            while (DASH.consumeClick()) {
+                DashClient.tryDash();
             }
             while (VISOR.consumeClick()) {
                 if (mc.player != null) {

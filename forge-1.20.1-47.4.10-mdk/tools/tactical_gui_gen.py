@@ -18,7 +18,7 @@ GHOST = (118, 118, 118)
 
 AMMO = [(116 + (i % 3) * 18, 16 + (i // 3) * 18) for i in range(6)]
 FOOD = [(116 + (i % 3) * 18, 66 + (i // 3) * 18) for i in range(9)]
-GADGETS = [(8, 20), (8, 56), (8, 92)]
+GADGETS = [(8, 18), (8, 44), (8, 70), (8, 96)]
 INV_Y = 136
 
 
@@ -50,7 +50,11 @@ def slot(d, x, y, accent=None):
         d.rectangle([x0 - 1, y0 - 1, x0 + 18, y0 + 18], outline=accent)
 
 
-GHOSTS = {  # siluetas 16x16 de las ranuras de gadgets (cara, espalda, pies)
+GHOSTS = {  # siluetas 16x16 de las ranuras de gadgets (cara, espalda, pies, cinturón)
+    "belt": ["................", "................", "................", "................", "................",
+             "................", "################", "#..#..####..#..#", "#..#..#..#..#..#", "################",
+             "......####......", "......####......", "................", "................", "................",
+             "................"],
     "face": ["................", "................", "................", "................", "..############..",
              ".##....##....##.", ".#.###.##.###.#.", ".#.###.##.###.#.", ".##....##....##.", "..############..",
              "................", "................", "................", "................", "................",
@@ -80,7 +84,7 @@ def build():
         d.line([(x0 + 1, gy), (x1 - 1, gy)], fill=(26, 34, 40))
     d.line([(x0 + 4, y1 - 6), (x1 - 4, y1 - 6)], fill=CYAN_DIM)       # "suelo" bajo el personaje
 
-    for (x, y), name in zip(GADGETS, ("face", "back", "feet")):
+    for (x, y), name in zip(GADGETS, ("face", "back", "feet", "belt")):
         slot(d, x, y, CYAN_DIM)
         for yy, row in enumerate(GHOSTS[name]):
             for xx, ch in enumerate(row):

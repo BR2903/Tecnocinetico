@@ -165,4 +165,52 @@ public class GearGameTests {
                 "La Batería de Visor (clic derecho) debería recargar el visor puesto y gastarse");
         helper.succeed();
     }
+
+    /**
+     * Cinturón e Impulsor de Esquiva: un equipo guardado con 18 huecos pasa a 19 sin perder nada; el impulso gasta
+     * batería y durante la ventana de esquiva un golpe no hace daño. Armadura de combate Mk III: +12 de vida.
+     */
+    @GameTest(template = "empty")
+    public static void dashAndCombatArmor(GameTestHelper helper) {
+        // migración 18 -> 19
+        var old = new net.minecraftforge.items.ItemStackHandler(18);
+        old.setStackInSlot(TacticalGear.FEET, new ItemStack(ModItems.AQUA_PROPULSOR.get()));
+        old.setStackInSlot(2, new ItemStack(ModItems.SHOTGUN_SHELL.get(), 7));
+        TacticalGear g = new TacticalGear();
+        g.load(old.serializeNBT());
+        helper.assertTrue(g.items().getSlots() == TacticalGear.SIZE && g.get(TacticalGear.FEET).is(ModItems.AQUA_PROPULSOR.get())
+                && g.get(2).getCount() == 7, "La migración a 19 huecos perdió objetos");
+        helper.assertTrue(TacticalGear.accepts(TacticalGear.BELT, new ItemStack(ModItems.DASH_THRUSTER.get()))
+                && !TacticalGear.accepts(TacticalGear.FEET, new ItemStack(ModItems.DASH_THRUSTER.get())), "El impulsor va en el cinturón");
+
+        // esquiva
+        var sp = net.minecraftforge.common.util.FakePlayerFactory.getMinecraft(helper.getLevel());
+        sp.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        sp.setHealth(sp.getMaxHealth());
+        ItemStack thr = new ItemStack(ModItems.DASH_THRUSTER.get());
+        var gear = TacticalGear.of(sp).orElseThrow();
+        gear.items().setStackInSlot(TacticalGear.BELT, thr);
+        com.bryanamaya.tecnocinetico.gear.DashEvents.serverDash(sp);
+        boolean drained = gear.get(TacticalGear.BELT).getDamageValue() == com.bryanamaya.tecnocinetico.gear.DashEvents.COST;
+        var pig = net.minecraft.world.entity.EntityType.PIG.create(helper.getLevel());
+        float hp = sp.getHealth();
+        sp.invulnerableTime = 0;
+        sp.hurt(helper.getLevel().damageSources().mobAttack(pig), 5.0F);
+        boolean dodged = sp.getHealth() == hp;
+        gear.items().setStackInSlot(TacticalGear.BELT, ItemStack.EMPTY);
+        helper.assertTrue(drained, "El impulso no gastó batería");
+        helper.assertTrue(dodged, "El golpe durante el impulso no se esquivó");
+
+        // armadura de combate Mk III completa: +12 de vida máxima
+        var p = helper.makeMockPlayer();
+        double base = p.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
+        p.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD, new ItemStack(ModItems.COMBAT_MK3_HELMET.get()));
+        p.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST, new ItemStack(ModItems.COMBAT_MK3_CHESTPLATE.get()));
+        p.setItemSlot(net.minecraft.world.entity.EquipmentSlot.LEGS, new ItemStack(ModItems.COMBAT_MK3_LEGGINGS.get()));
+        p.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET, new ItemStack(ModItems.COMBAT_MK3_BOOTS.get()));
+        p.tick();
+        double hpMax = p.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
+        helper.assertTrue(Math.abs(hpMax - base - 12.0) < 0.01, "Mk III debería dar +12 de vida (" + base + " -> " + hpMax + ")");
+        helper.succeed();
+    }
 }

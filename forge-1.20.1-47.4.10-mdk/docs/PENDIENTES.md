@@ -35,3 +35,6 @@
 - Tier 3: sonidos propios del riel, la granada y el cañón (ahora reutilizan los del Anclador y la pistola).
 
 - Caza del Núcleo: receta (¿fin de juego, con piezas de las dimensiones nuevas?), probar el manejo en el juego (giro, velocidades) y en multijugador; animación de cabina/HUD más elaborada si gusta.
+
+- **Más armas de los tiers 1 a 3** (pedido del usuario, 2026-11-09; aún no hechas). Habrá tiers 4 y 5 (dimensiones nuevas).
+- Indicador en pantalla del enfriamiento del Impulsor de Esquiva (`DashClient.cooldown` ya existe); verlo puesto en el personaje.

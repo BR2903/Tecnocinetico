@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "CPC",
+    "IKI"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:piezo_transducer"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "K": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:dash_thruster",
+    "count": 1
+  }
+}

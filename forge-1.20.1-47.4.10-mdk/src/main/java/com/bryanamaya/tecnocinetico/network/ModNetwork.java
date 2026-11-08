@@ -59,6 +59,8 @@ public final class ModNetwork {
         CHANNEL.registerMessage(12, ShipJumpPacket.class, (m, b) -> b.writeUtf(m.dimension()),
                 b -> new ShipJumpPacket(b.readUtf(256)), ShipJumpPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(13, DashPacket.class, (m, b) -> {}, b -> new DashPacket(), DashPacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
                 SyncSkillsPacket::encode, SyncSkillsPacket::decode, SyncSkillsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
@@ -243,6 +245,19 @@ public final class ModNetwork {
                         && p.getVehicle() instanceof com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity ship
                         && ship.getControllingPassenger() == p) {
                     ship.startJump(key);
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Cliente -> servidor: el jugador usó el Impulsor de Esquiva (el impulso ya lo aplicó su cliente). */
+    public record DashPacket() {
+        public static void handle(DashPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null) {
+                    com.bryanamaya.tecnocinetico.gear.DashEvents.serverDash(p);
                 }
             });
             ctx.get().setPacketHandled(true);

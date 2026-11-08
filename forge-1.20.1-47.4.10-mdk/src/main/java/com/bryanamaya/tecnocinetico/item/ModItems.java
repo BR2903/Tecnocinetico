@@ -287,6 +287,38 @@ public class ModItems {
     /** Solo para dibujar el misil de la nave (no se obtiene). */
     public static final RegistryObject<Item> CORE_MISSILE = ITEMS.register("core_missile", () -> new Item(new Item.Properties()));
 
+    // ---------------------------------------------------------------- Impulsor de Esquiva (gadget de cinturón)
+    public static final RegistryObject<Item> DASH_THRUSTER = ITEMS.register("dash_thruster",
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.BELT, 300,
+                    "tooltip.tecnocinetico.dash_thruster", new Item.Properties()));
+    public static final RegistryObject<Item> DASH_CELL = ITEMS.register("dash_cell",
+            () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> DASH_THRUSTER.get(), new Item.Properties()));
+    // ---------------------------------------------------------------- armaduras de combate (sin habilidades: resistencia y movilidad)
+    public static final RegistryObject<Item> COMBAT_MK1_HELMET = ITEMS.register("combat_mk1_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK1, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> COMBAT_MK1_CHESTPLATE = ITEMS.register("combat_mk1_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK1, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> COMBAT_MK1_LEGGINGS = ITEMS.register("combat_mk1_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK1, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> COMBAT_MK1_BOOTS = ITEMS.register("combat_mk1_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK1, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> COMBAT_MK2_HELMET = ITEMS.register("combat_mk2_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK2, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> COMBAT_MK2_CHESTPLATE = ITEMS.register("combat_mk2_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK2, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> COMBAT_MK2_LEGGINGS = ITEMS.register("combat_mk2_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK2, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> COMBAT_MK2_BOOTS = ITEMS.register("combat_mk2_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK2, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> COMBAT_MK3_HELMET = ITEMS.register("combat_mk3_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK3, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> COMBAT_MK3_CHESTPLATE = ITEMS.register("combat_mk3_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK3, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> COMBAT_MK3_LEGGINGS = ITEMS.register("combat_mk3_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK3, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> COMBAT_MK3_BOOTS = ITEMS.register("combat_mk3_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.COMBAT_MK3, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

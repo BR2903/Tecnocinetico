@@ -72,6 +72,15 @@ public final class AssemblerRecipes {
                             s(ModItems.PRECISION_MECHANISM.get(), 1)),
                     armor(ModItems.NULLITE_BOOTS, s(ModItems.NULLITE_INGOT.get(), 3), s(Items.ENDER_PEARL, 2),
                             s(ModItems.KINETIC_SERVO.get(), 1)),
+                    // ---- armadura de combate Mk III (materiales de las tres dimensiones)
+                    armor(ModItems.COMBAT_MK3_HELMET, s(ModItems.INERCITA_PLATE.get(), 3), s(ModItems.PIROXITE_INGOT.get(), 2),
+                            s(ModItems.NULLITE_INGOT.get(), 2), s(ModItems.KINETIC_SERVO.get(), 1)),
+                    armor(ModItems.COMBAT_MK3_CHESTPLATE, s(ModItems.INERCITA_PLATE.get(), 5), s(ModItems.PIROXITE_INGOT.get(), 3),
+                            s(ModItems.NULLITE_INGOT.get(), 3), s(ModItems.KINETIC_SERVO.get(), 2), s(ModItems.PRECISION_MECHANISM.get(), 1)),
+                    armor(ModItems.COMBAT_MK3_LEGGINGS, s(ModItems.INERCITA_PLATE.get(), 4), s(ModItems.PIROXITE_INGOT.get(), 3),
+                            s(ModItems.NULLITE_INGOT.get(), 2), s(ModItems.KINETIC_SERVO.get(), 2)),
+                    armor(ModItems.COMBAT_MK3_BOOTS, s(ModItems.INERCITA_PLATE.get(), 2), s(ModItems.PIROXITE_INGOT.get(), 2),
+                            s(ModItems.NULLITE_INGOT.get(), 1), s(ModItems.KINETIC_SERVO.get(), 1)),
                     // munición especial
                     new Recipe(List.of(s(ModItems.INERCITA_INGOT.get(), 1), s(ModItems.CINETRITE_SHARD.get(), 2), s(Items.IRON_INGOT, 2)),
                             new ItemStack(ModItems.RAIL_SLUG.get(), 4), 80),

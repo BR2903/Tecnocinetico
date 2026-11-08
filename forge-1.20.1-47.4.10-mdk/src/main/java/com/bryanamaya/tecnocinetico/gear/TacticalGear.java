@@ -32,11 +32,11 @@ public class TacticalGear {
 
     public static final int AMMO_START = 0, AMMO_COUNT = 6;
     public static final int FOOD_START = 6, FOOD_COUNT = 9;
-    public static final int FACE = 15, BACK = 16, FEET = 17;
-    public static final int SIZE = 18;
+    public static final int FACE = 15, BACK = 16, FEET = 17, BELT = 18;
+    public static final int SIZE = 19;
     /** Nombre de cada ranura de gadget (textos "tooltip.tecnocinetico.gadget_slot.<nombre>"). */
     public static String slotName(int slot) {
-        return slot == FACE ? "face" : slot == BACK ? "back" : "feet";
+        return slot == FACE ? "face" : slot == BACK ? "back" : slot == FEET ? "feet" : "belt";
     }
 
     public static final Capability<TacticalGear> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
@@ -161,11 +161,16 @@ public class TacticalGear {
             for (int i = 0; i < 10; i++) {
                 items.setStackInSlot(map[i], old.getStackInSlot(i));
             }
+        } else if (savedSize != SIZE) {
+            // otro tamaño (p. ej. 18 antes del cinturón): se copia hueco a hueco (setSize vaciaría el inventario)
+            ItemStackHandler old = new ItemStackHandler(savedSize);
+            old.deserializeNBT(tag);
+            items.setSize(SIZE);
+            for (int i = 0; i < Math.min(savedSize, SIZE); i++) {
+                items.setStackInSlot(i, old.getStackInSlot(i));
+            }
         } else {
             items.deserializeNBT(tag);
-            if (items.getSlots() != SIZE) {
-                items.setSize(SIZE);
-            }
         }
         visorOn = !tag.contains("VisorOn") || tag.getBoolean("VisorOn");
         dirty = true;

@@ -36,6 +36,8 @@ import java.util.function.Supplier;
  * - EXO: exoesqueleto cinético. Protección casi de diamante. Bono: acumula carga cinética al recibir golpes
  *   (agacharse + saltar = salto cinético; con la carga llena, el siguiente golpe cuerpo a cuerpo suelta una onda
  *   que empuja a los enemigos) y la mitad de daño por caída.
+ * Armaduras de combate (sin habilidades; resistencia y movilidad): Mk I (tier 1), Mk II (tier 2), Mk III (tier 3,
+ * Ensamblador, materiales de las tres dimensiones); cada pieza da velocidad, vida y daño de ataque.
  * Tier 3 (Ensamblador; protección de netherita, una por dimensión):
  * - CORE (Overworld, Procesador del Núcleo): escudo de 4 corazones que se recarga tras 8 s sin recibir daño.
  * - PIROXITE (Nether): inmune al fuego y la lava; quien te golpea cuerpo a cuerpo arde.
@@ -46,7 +48,7 @@ public class Tier2ArmorItem extends ArmorItem {
 
     public enum Kind {
         INERCITA("inercita", new int[]{3, 8, 6, 3}, 30, 2.5F, 0.1F, () -> Ingredient.of(ModItems.INERCITA_PLATE.get()),
-                SoundEvents.ARMOR_EQUIP_NETHERITE),
+                SoundEvents.ARMOR_EQUIP_NETHERITE, -0.03, 0, 0),
         TACTICAL("tactical", new int[]{2, 6, 5, 2}, 20, 1.0F, 0.0F, () -> Ingredient.of(ModItems.BALLISTIC_FABRIC.get()),
                 SoundEvents.ARMOR_EQUIP_LEATHER),
         EXO("exo", new int[]{3, 7, 6, 3}, 26, 2.0F, 0.05F, () -> Ingredient.of(ModItems.KINETIC_SERVO.get()),
@@ -57,13 +59,30 @@ public class Tier2ArmorItem extends ArmorItem {
         PIROXITE("piroxite", new int[]{3, 8, 6, 3}, 37, 3.0F, 0.1F, () -> Ingredient.of(ModItems.PIROXITE_INGOT.get()),
                 SoundEvents.ARMOR_EQUIP_NETHERITE),
         NULLITE("nullite", new int[]{3, 8, 6, 3}, 37, 3.0F, 0.05F, () -> Ingredient.of(ModItems.NULLITE_INGOT.get()),
-                SoundEvents.ARMOR_EQUIP_DIAMOND);
+                SoundEvents.ARMOR_EQUIP_DIAMOND),
+        // ---- armaduras de combate: sin habilidades; protección, vida, velocidad y daño por pieza (tiers 1-3)
+        COMBAT_MK1("combat_mk1", new int[]{2, 6, 5, 2}, 18, 1.0F, 0.0F, () -> Ingredient.of(net.minecraft.world.item.Items.IRON_INGOT),
+                SoundEvents.ARMOR_EQUIP_IRON, 0.02, 1.0, 0.0),
+        COMBAT_MK2("combat_mk2", new int[]{3, 7, 6, 3}, 28, 2.0F, 0.05F, () -> Ingredient.of(ModItems.INERCITA_PLATE.get()),
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 0.03, 2.0, 0.04),
+        COMBAT_MK3("combat_mk3", new int[]{4, 9, 7, 4}, 40, 3.5F, 0.1F, () -> Ingredient.of(ModItems.INERCITA_PLATE.get()),
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 0.04, 3.0, 0.06);
 
         public final String id;
         final ArmorMaterial material;
+        /** Por pieza: velocidad (fracción), vida máxima (puntos) y daño de ataque (fracción). */
+        final double speed, health, attack;
 
         Kind(String id, int[] defense, int durability, float toughness, float knockback, Supplier<Ingredient> repair, SoundEvent sound) {
+            this(id, defense, durability, toughness, knockback, repair, sound, 0, 0, 0);
+        }
+
+        Kind(String id, int[] defense, int durability, float toughness, float knockback, Supplier<Ingredient> repair, SoundEvent sound,
+             double speed, double health, double attack) {
             this.id = id;
+            this.speed = speed;
+            this.health = health;
+            this.attack = attack;
             this.material = new ArmorMaterial() {
                 @Override
                 public int getDurabilityForType(Type type) {
@@ -128,14 +147,26 @@ public class Tier2ArmorItem extends ArmorItem {
     private final Kind kind;
     private final Multimap<Attribute, AttributeModifier> modifiers;
 
+    private static UUID id(Type type, String what) {
+        return UUID.nameUUIDFromBytes(("tecnocinetico:armor_" + what + "_" + type.getName()).getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    }
+
     public Tier2ArmorItem(Kind kind, Type type, Properties properties) {
         super(kind.material, type, properties);
         this.kind = kind;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> b = ImmutableMultimap.builder();
         b.putAll(super.getDefaultAttributeModifiers(type.getSlot()));
-        if (kind == Kind.INERCITA) {                                         // placas pesadas: -3 % por pieza
-            b.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SLOW_IDS.get(type), "Placas de inercita", -0.03D,
+        if (kind.speed != 0) {                                               // inercita: -3 %; combate: +2..4 % por pieza
+            b.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(SLOW_IDS.get(type), "Armadura (velocidad)", kind.speed,
                     AttributeModifier.Operation.MULTIPLY_TOTAL));
+        }
+        if (kind.health != 0) {
+            b.put(Attributes.MAX_HEALTH, new AttributeModifier(id(type, "health"), "Armadura (vida)", kind.health,
+                    AttributeModifier.Operation.ADDITION));
+        }
+        if (kind.attack != 0) {
+            b.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(id(type, "attack"), "Armadura (daño)", kind.attack,
+                    AttributeModifier.Operation.MULTIPLY_BASE));
         }
         this.modifiers = b.build();
     }
