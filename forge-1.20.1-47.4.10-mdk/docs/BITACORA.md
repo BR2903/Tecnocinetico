@@ -288,3 +288,11 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
   - Texturas e iconos: `tools/armor_t2_gen.py` (también los iconos de las piezas de prensa).
 - Las balas de torretas, drones y tiradores ahora son daño de **proyectil** (`mobProjectile`): cuentan para los bonos de la chatarra y la inercita.
 - GameTest `tier2GunsAndArmor` (15 en total, todos pasan). Usa `FakePlayerFactory` para disparar en el servidor (el jugador simulado de GameTest no tiene conexión).
+
+## 2026-11-08 — Claude — Anclador (enemigo antiaéreo) y efecto Lastre de Inercia
+- Pedido del usuario: un enemigo que te atraiga al suelo "como pasaba con el bug" del jetpack.
+- `effect/ModEffects` (registro nuevo) + `InertiaAnchorEffect` (**Lastre de Inercia**): -25 % de velocidad; en el aire arrastra hacia abajo (`pull`), corta los élitros y apaga el jetpack. El tirón del jugador lo aplica el cliente (`GearClient`, porque su movimiento lo calcula él); el de los demás mobs, el servidor. `GearEvents` deja de contar como "empujando" a quien lo tiene. Icono `textures/mob_effect/inertia_anchor.png`.
+- `entity/custom/AnchorEntity` (**Anclador**): trípode pesado del Núcleo (40 de vida, 8 de armadura, casi no se le empuja, lento). Si el objetivo está en el aire (más de 2,5 bloques sin suelo debajo, o con élitros) y lo ve a menos de 28 bloques, carga 1 s un haz azul-violeta: si sigue viéndolo, le aplica el Lastre 3 s y 3 de daño (enfriamiento 4 s). Cortar la línea de visión lo evita. Cuerpo a cuerpo: pisotón (6 de daño, lentitud II, empuje) con 0,6 s de aviso.
+- Modelo `AnchorModel` (casco de placas, emisor giratorio con cristal, 3 patas con rodillas de cobre y paso de trípode), `AnchorRenderer` (brillo azul-violeta; blanco parpadeante al cargar). Textura `tools/anchor_texture.py`; sonidos sintetizados `generate_anchor()` (zumbido, carga, lastre, pisotón).
+- Uno vigila la entrada de cada Instalación de la IA. Huevo en la pestaña creativa. Botín: chatarra, inercita en bruto, rara vez una Placa de Inercita.
+- GameTest `anchorGroundsFlyer` (16 en total, todos pasan).

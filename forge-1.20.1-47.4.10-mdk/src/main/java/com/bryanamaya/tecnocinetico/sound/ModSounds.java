@@ -40,6 +40,12 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> DRONE_SCAN = register("entity.drone.scan");
     public static final RegistryObject<SoundEvent> DRONE_ALERT = register("entity.drone.alert");
 
+    // Anclador
+    public static final RegistryObject<SoundEvent> ANCHOR_AMBIENT = register("entity.anchor.ambient");
+    public static final RegistryObject<SoundEvent> ANCHOR_CHARGE = register("entity.anchor.charge");
+    public static final RegistryObject<SoundEvent> ANCHOR_PULL = register("entity.anchor.pull");
+    public static final RegistryObject<SoundEvent> ANCHOR_STOMP = register("entity.anchor.stomp");
+
     // Gadgets del Equipo Táctico
     public static final RegistryObject<SoundEvent> JETPACK_THRUST = register("item.jetpack.thrust");
 

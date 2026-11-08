@@ -241,6 +241,12 @@ def main():
         {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
                                     {"condition": "minecraft:random_chance_with_looting", "chance": 0.12, "looting_multiplier": 0.03}],
          "entries": [item("cinetrite_shard", 1, 1, 2)]}])
+    entity_loot("anchor", [
+        {"rolls": 1, "entries": [item("scrap_metal", 1, 2, 4)]},
+        {"rolls": 1, "entries": [{"type": "minecraft:empty", "weight": 2}, item("raw_inercita", 2, 1, 2)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
+                                    {"condition": "minecraft:random_chance_with_looting", "chance": 0.1, "looting_multiplier": 0.04}],
+         "entries": [item("inercita_plate", 1)]}])
     print("ok: estructuras del Overworld")
 
 

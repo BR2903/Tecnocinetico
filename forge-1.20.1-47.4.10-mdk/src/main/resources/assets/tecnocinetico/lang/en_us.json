@@ -288,5 +288,12 @@
   "tooltip.tecnocinetico.exo_set_bonus": "4 pieces: hits charge energy. Sneak + jump: kinetic leap. Full charge: shockwave when hit. -50% fall damage.",
   "message.tecnocinetico.exo_charge": "Kinetic charge",
   "jei.tecnocinetico.press_powered": "Automatic Press only",
-  "jei.tecnocinetico.press_powered2": "(needs electricity)"
+  "jei.tecnocinetico.press_powered2": "(needs electricity)",
+  "entity.tecnocinetico.anchor": "Anchor",
+  "item.tecnocinetico.anchor_spawn_egg": "Anchor Spawn Egg",
+  "effect.tecnocinetico.inertia_anchor": "Inertia Anchor",
+  "subtitles.tecnocinetico.anchor.ambient": "Anchor hums",
+  "subtitles.tecnocinetico.anchor.charge": "Anchor charges its beam",
+  "subtitles.tecnocinetico.anchor.pull": "Inertia anchor",
+  "subtitles.tecnocinetico.anchor.stomp": "Anchor stomps"
 }

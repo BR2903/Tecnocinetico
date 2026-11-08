@@ -65,6 +65,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 ### Entidad (`entity/`)
 - `SentryTurretEntity` (+ `client/SentryTurretModel`, `SentryTurretRenderer`): torreta anclada que carga y dispara un rayo esquivable.
 - `DroneEntity` (+ `client/DroneModel`, `DroneRenderer`): dron volador del Núcleo; patrulla alrededor de `Home`, escanea, alarma en grupo, ráfagas con carga de aviso. Modo sincronizado (0 patrulla, 1 ataque, 2 carga) para el brillo.
+- `AnchorEntity` (+ `client/AnchorModel`, `AnchorRenderer`): trípode antiaéreo; aplica el efecto `effect/InertiaAnchorEffect` (registro `effect/ModEffects`), cuyo tirón del jugador hace `client/GearClient`.
 - `entity/corrupted/`: `CorruptionSpawns` (sustituye zombis/esqueletos/arañas en el Overworld al inicializarse la aparición), `CorruptedEntity`, `CorruptedGunnerEntity` (+ `GunnerAttackGoal`), `CorruptedSpiderEntity`; cliente `CorruptedHumanModel/Renderer`, `CorruptedSpiderRenderer`. Los disparos usan `entity/custom/CoreShots`.
 - `swarm/`: Avispas del Enjambre (`SwarmWaspEntity`, `WaspRole`), `HiveNodeEntity` y `HiveMind` (la mente colmena que decide estados, turnos de ataque, refuerzos y adaptación). Render: `client/SwarmWaspModel`, `SwarmWaspRenderer`, `HiveNodeRenderer`. Colmena: `worldgen/structure/SwarmHive*`.
 - `SurvivorEntity` (+ `SurvivorTrades`, `client/SurvivorRenderer`): NPC comerciante de los asentamientos; oficios, ofertas con Chatarra, reposición diaria, casa en NBT.

@@ -582,6 +582,51 @@ def generate_drone():
     save("alert", drone_alert(), "drone")
 
 
+# =================================================================== Anclador
+def anchor_ambient():
+    """Zumbido grave del núcleo de inercita con un servo que ajusta las patas."""
+    seed = 3800
+    dur = 2.2
+    hum = machine_voice(dur, 48, 52, seed, rasp_f=30)
+    return reverb(mix(dur, (hum, 0.0, 1.0), (servo(0.6, 50, 90, seed + 1), 0.9, 0.5)), seed + 2, tail=1.0, wet=0.3, damp=2500)
+
+
+def anchor_charge():
+    """Carga del haz: tubo resonante que sube de grave a agudo, con chisporroteo creciente."""
+    seed = 3900
+    dur = 1.1
+    src = band(noise(dur, seed), 100, 5000)
+    rise = band(comb_glide(src, 110, 900, feedback=0.88), 90, 6000) * env(n_of(dur), dur * 0.9, 0.05)
+    return reverb(mix(dur + 0.2, (rise, 0.0, 1.0), (sparks(dur, seed + 1, rate=80), 0.4, 0.35)), seed + 2, tail=0.6, wet=0.25)
+
+
+def anchor_pull():
+    """El lastre: golpe sordo enorme y un tono que se hunde (la gravedad tirando)."""
+    seed = 4000
+    dur = 1.4
+    thump = low(noise(0.6, seed), 90, order=6) * decay(n_of(0.6), 0.12) * 5
+    src = band(noise(dur, seed + 1), 80, 3000)
+    fall = band(comb_glide(src, 500, 50, feedback=0.86), 40, 3000) * env(n_of(dur), 0.02, dur * 0.6)
+    return reverb(mix(dur + 0.3, (thump, 0.0, 1.0), (fall, 0.0, 0.8), (sparks(0.4, seed + 2, rate=200), 0.0, 0.4)),
+                  seed + 3, tail=1.2, wet=0.35, damp=2500)
+
+
+def anchor_stomp():
+    """Pisotón: impacto pesado de metal contra el suelo y escombros."""
+    seed = 4100
+    boom = low(noise(0.5, seed), 120, order=6) * decay(n_of(0.5), 0.1) * 5
+    return reverb(mix(1.0, (boom, 0.0, 1.0), (clank(0.4, 180, seed + 1, tau=0.004, q=(10, 30)), 0.0, 0.8),
+                      (grains(0.5, seed + 2, 160, 600, 4000, density_decay=0.12), 0.02, 0.5)),
+                  seed + 3, tail=0.8, wet=0.25)
+
+
+def generate_anchor():
+    save("ambient", anchor_ambient(), "anchor")
+    save("charge", anchor_charge(), "anchor")
+    save("pull", anchor_pull(), "anchor")
+    save("stomp", anchor_stomp(), "anchor")
+
+
 def generate_turret():
     save("charge", turret_charge(), "sentry_turret")
 
@@ -593,3 +638,4 @@ if __name__ == "__main__":
     generate_turret()
     generate_gadgets()
     generate_drone()
+    generate_anchor()

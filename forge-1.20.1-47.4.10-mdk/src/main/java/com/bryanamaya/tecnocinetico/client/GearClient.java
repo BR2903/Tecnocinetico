@@ -49,7 +49,13 @@ public final class GearClient {
         if (p != null && mc.screen == null && mc.options.keyJump.isDown() && !p.onGround() && !p.isInWater()
                 && !p.getAbilities().flying && !p.isPassenger() && !p.isFallFlying()) {
             jet = TacticalGear.of(p).map(g -> g.get(TacticalGear.BACK)).orElse(ItemStack.EMPTY);
-            want = jet.is(ModItems.JETPACK.get()) && GadgetItem.hasCharge(jet);
+            want = jet.is(ModItems.JETPACK.get()) && GadgetItem.hasCharge(jet)
+                    && !p.hasEffect(com.bryanamaya.tecnocinetico.effect.ModEffects.INERTIA_ANCHOR.get());   // el lastre lo apaga
+        }
+        // Lastre de Inercia (Anclador): arrastra al jugador al suelo (su movimiento lo calcula el cliente)
+        if (p != null && p.hasEffect(com.bryanamaya.tecnocinetico.effect.ModEffects.INERTIA_ANCHOR.get()) && !p.onGround()
+                && !p.isInWater() && !p.getAbilities().flying) {
+            p.setDeltaMovement(com.bryanamaya.tecnocinetico.effect.InertiaAnchorEffect.pull(p.getDeltaMovement()));
         }
         if (want) {
             Vec3 v = p.getDeltaMovement();

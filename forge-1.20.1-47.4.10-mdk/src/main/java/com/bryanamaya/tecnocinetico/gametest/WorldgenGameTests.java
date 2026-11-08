@@ -146,6 +146,39 @@ public class WorldgenGameTests {
         });
     }
 
+    /** Anclador: un cerdo en el aire debe recibir el Lastre de Inercia (haz de 1 s) en menos de 5 s. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void anchorGroundsFlyer(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        BlockPos col = helper.absolutePos(BlockPos.ZERO);
+        level.getChunk(col);
+        int ground = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, col.getX(), col.getZ());
+        var anchor = com.bryanamaya.tecnocinetico.entity.ModEntities.ANCHOR.get().create(level);
+        anchor.moveTo(col.getX() + 0.5D, ground, col.getZ() + 0.5D, 0, 0);
+        level.addFreshEntity(anchor);
+        var pig = net.minecraft.world.entity.EntityType.PIG.create(level);
+        pig.moveTo(col.getX() + 6.5D, ground + 7, col.getZ() + 0.5D, 0, 0);
+        pig.setNoAi(true);
+        pig.setNoGravity(true);
+        level.addFreshEntity(pig);
+        anchor.setTarget(pig);
+        var seen = new java.util.concurrent.atomic.AtomicBoolean();               // el efecto dura 3 s: vigilar cada tick
+        helper.onEachTick(() -> {
+            if (pig.hasEffect(com.bryanamaya.tecnocinetico.effect.ModEffects.INERTIA_ANCHOR.get())) {
+                seen.set(true);
+            }
+        });
+        helper.runAfterDelay(100, () -> {
+            boolean anchored = seen.get()
+                    && pig.getLastHurtByMob() instanceof com.bryanamaya.tecnocinetico.entity.custom.AnchorEntity;
+            Tecnocinetico.LOGGER.info("[GameTest] anclador: cerdo {} (vida {})", anchored ? "anclado" : "LIBRE", pig.getHealth());
+            anchor.discard();
+            pig.discard();
+            helper.assertTrue(anchored, "El Anclador no ancló al objetivo en el aire");
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void droneShootsTarget(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();

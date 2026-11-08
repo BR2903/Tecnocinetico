@@ -190,5 +190,41 @@
         "attenuation_distance": 40
       }
     ]
+  },
+  "entity.anchor.ambient": {
+    "subtitle": "subtitles.tecnocinetico.anchor.ambient",
+    "sounds": [
+      {
+        "name": "tecnocinetico:anchor/ambient",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "entity.anchor.charge": {
+    "subtitle": "subtitles.tecnocinetico.anchor.charge",
+    "sounds": [
+      {
+        "name": "tecnocinetico:anchor/charge",
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "entity.anchor.pull": {
+    "subtitle": "subtitles.tecnocinetico.anchor.pull",
+    "sounds": [
+      {
+        "name": "tecnocinetico:anchor/pull",
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "entity.anchor.stomp": {
+    "subtitle": "subtitles.tecnocinetico.anchor.stomp",
+    "sounds": [
+      {
+        "name": "tecnocinetico:anchor/stomp",
+        "attenuation_distance": 24
+      }
+    ]
   }
 }

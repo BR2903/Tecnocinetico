@@ -93,6 +93,14 @@ public class ModEntities {
                     .clientTrackingRange(8)
                     .build("corrupted_creeper"));
 
+    // Anclador: trípode antiaéreo del Núcleo (arrastra al suelo a quien vuela)
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.custom.AnchorEntity>> ANCHOR =
+            ENTITY_TYPES.register("anchor", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.custom.AnchorEntity>of(com.bryanamaya.tecnocinetico.entity.custom.AnchorEntity::new, MobCategory.MONSTER)
+                    .sized(1.3f, 1.6f)
+                    .fireImmune()
+                    .clientTrackingRange(10)
+                    .build("anchor"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

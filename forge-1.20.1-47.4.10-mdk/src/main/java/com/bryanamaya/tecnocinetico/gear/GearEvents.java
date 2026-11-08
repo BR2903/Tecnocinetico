@@ -187,7 +187,8 @@ public final class GearEvents {
         // Jetpack (espalda): el cliente avisa de que empuja; aquí batería, caída y efectos
         if (THRUSTING.contains(p.getUUID())) {
             ItemStack back = g.get(TacticalGear.BACK);
-            if (!back.is(ModItems.JETPACK.get()) || !GadgetItem.hasCharge(back) || p.onGround()) {
+            if (!back.is(ModItems.JETPACK.get()) || !GadgetItem.hasCharge(back) || p.onGround()
+                    || p.hasEffect(com.bryanamaya.tecnocinetico.effect.ModEffects.INERTIA_ANCHOR.get())) {
                 THRUSTING.remove(p.getUUID());
             } else {
                 p.fallDistance = 0.0F;

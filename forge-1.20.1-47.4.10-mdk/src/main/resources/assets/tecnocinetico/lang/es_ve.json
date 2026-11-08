@@ -288,5 +288,12 @@
   "tooltip.tecnocinetico.exo_set_bonus": "4 piezas: los golpes cargan energía. Agachado + saltar: salto cinético. Carga llena: onda de choque al recibir un golpe. -50 % daño por caída.",
   "message.tecnocinetico.exo_charge": "Carga cinética",
   "jei.tecnocinetico.press_powered": "Solo Prensa Automática",
-  "jei.tecnocinetico.press_powered2": "(necesita electricidad)"
+  "jei.tecnocinetico.press_powered2": "(necesita electricidad)",
+  "entity.tecnocinetico.anchor": "Anclador",
+  "item.tecnocinetico.anchor_spawn_egg": "Huevo de Anclador",
+  "effect.tecnocinetico.inertia_anchor": "Lastre de Inercia",
+  "subtitles.tecnocinetico.anchor.ambient": "Anclador zumba",
+  "subtitles.tecnocinetico.anchor.charge": "Anclador carga el haz",
+  "subtitles.tecnocinetico.anchor.pull": "Lastre de inercia",
+  "subtitles.tecnocinetico.anchor.stomp": "Anclador pisotea"
 }
