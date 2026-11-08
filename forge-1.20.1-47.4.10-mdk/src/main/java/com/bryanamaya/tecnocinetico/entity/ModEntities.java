@@ -101,6 +101,15 @@ public class ModEntities {
                     .clientTrackingRange(10)
                     .build("anchor"));
 
+    // Granada Cinética (Lanzagranadas)
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.custom.KineticGrenadeEntity>> KINETIC_GRENADE =
+            ENTITY_TYPES.register("kinetic_grenade", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.custom.KineticGrenadeEntity>of(
+                            com.bryanamaya.tecnocinetico.entity.custom.KineticGrenadeEntity::new, MobCategory.MISC)
+                    .sized(0.3f, 0.3f)
+                    .clientTrackingRange(6)
+                    .updateInterval(5)
+                    .build("kinetic_grenade"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

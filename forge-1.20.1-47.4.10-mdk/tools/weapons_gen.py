@@ -20,7 +20,8 @@ TEX = "tecnocinetico:item/weapons_t1"
 
 ZONES = {"steel_dark": (0, 0), "steel": (1, 0), "steel_hi": (2, 0), "rust": (3, 0), "wood": (4, 0), "wood_dark": (5, 0),
          "leather": (6, 0), "copper": (7, 0), "brass": (0, 1), "shell_red": (1, 1), "cyan": (2, 1), "rubber": (3, 1),
-         "blade": (4, 1), "edge": (5, 1), "tape": (6, 1), "black": (7, 1), "inercita": (0, 2)}
+         "blade": (4, 1), "edge": (5, 1), "tape": (6, 1), "black": (7, 1), "inercita": (0, 2),
+         "olive": (1, 2), "hazard": (2, 2), "graphite": (3, 2)}
 
 
 def paint():
@@ -49,6 +50,9 @@ def paint():
     zone("tape", lambda x, y: (120, 120, 116) if y % 2 else (96, 96, 92))
     zone("black", lambda x, y: (8, 8, 10))
     zone("inercita", lambda x, y: (104, 114, 136) if y == 0 else (64, 72, 90) if (x + y) % 5 else (48, 54, 70))
+    zone("olive", lambda x, y: (98, 104, 66) if y == 0 else (74, 80, 48) if (x + 2 * y) % 6 else (60, 66, 40))
+    zone("hazard", lambda x, y: (214, 168, 40) if ((x + y) // 2) % 2 else (30, 30, 32))
+    zone("graphite", lambda x, y: (66, 68, 76) if y == 0 else (46, 48, 54) if (x + y) % 7 else (38, 40, 46))
     return img
 
 
@@ -232,6 +236,97 @@ def smg(mag_out=False):
     return els + trigger_group()
 
 
+# ---------------------------------------------------------------- tier 3: rifle de riel
+def rail_rifle(mag_out=False):
+    els = [el([7.3, 13.2, -15.8], [8.7, 13.8, 2.0], "inercita"), el([7.3, 11.4, -15.8], [8.7, 12.0, 2.0], "inercita"),  # raíles
+           el([7.75, 12.4, -14.5], [8.25, 12.8, 2.0], "cyan"),                              # canal de aceleración
+           el([7.2, 11.2, -16.0], [8.8, 14.0, -15.2], "steel_dark", front="black"),         # boca
+           el([7.0, 10.8, 2.0], [9.0, 14.4, 11.0], "graphite"),                             # cajón
+           el([8.95, 12.5, 5.0], [9.05, 13.2, 9.0], "hazard"),
+           el([7.5, 14.4, 4.0], [8.5, 15.6, 9.5], "steel_dark"),                           # mira integrada
+           el([7.6, 14.5, 3.6], [8.4, 15.5, 4.0], "cyan"),
+           el([7.2, 8.0, 10.5], [8.8, 11.4, 13.5], "rubber", rot=GRIP_ROT),
+           el([7.2, 8.6, 11.0], [8.8, 12.6, 22.0], "graphite"),                             # culata
+           el([7.0, 8.2, 22.0], [9.0, 13.0, 23.2], "rubber")]
+    for z in (-12.0, -8.0, -4.0, 0.0):                                                     # bobinas
+        els.append(el([7.1, 11.2, z], [8.9, 14.0, z + 1.0], "copper"))
+    if not mag_out:
+        els += [el([7.3, 8.6, 4.0], [8.7, 10.8, 8.0], "steel"), el([7.4, 8.4, 4.2], [8.6, 8.6, 7.8], "cyan")]  # condensador
+    return els + trigger_group()
+
+
+# ---------------------------------------------------------------- tier 3: fusil de asalto
+def assault_rifle(mag_out=False):
+    els = [el([7.65, 12.7, -14.0], [8.35, 13.4, 0.0], "steel_dark", front="black"),
+           el([7.5, 12.55, -15.4], [8.5, 13.55, -14.0], "steel", front="black"),            # bocacha
+           el([7.15, 12.0, -9.0], [8.85, 14.2, 1.0], "graphite"),                           # guardamanos
+           el([7.5, 14.2, -9.0], [8.5, 14.5, 10.0], "steel"),                               # riel superior
+           el([7.85, 14.5, -8.6], [8.15, 15.3, -8.0], "steel_hi"),                          # punto de mira
+           el([7.25, 11.6, 1.0], [8.75, 14.2, 10.0], "steel_dark"),                         # cajón
+           el([8.85, 12.8, -6.0], [8.95, 13.1, 0.0], "cyan"),
+           el([7.6, 14.5, 8.6], [8.4, 15.2, 9.4], "steel"),                                 # alza
+           el([7.7, 14.2, 9.6], [8.3, 14.6, 10.4], "steel_hi"),                             # palanca de carga
+           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
+           el([7.3, 10.4, 10.0], [8.7, 13.0, 19.5], "graphite"),                            # culata
+           el([7.2, 9.6, 19.5], [8.8, 13.4, 20.5], "rubber")]
+    if not mag_out:
+        els.append(el([7.4, 8.4, 3.2], [8.6, 11.6, 5.6], "steel_dark",
+                      rot={"angle": -22.5, "axis": "x", "origin": [8, 11.6, 4.4]}))          # cargador curvo de 30
+    return els + trigger_group()
+
+
+# ---------------------------------------------------------------- tier 3: lanzagranadas
+def grenade_launcher(open_=False):
+    hinge = {"angle": -22.5, "axis": "x", "origin": [8, 11.5, 1]} if open_ else None
+    els = [el([7.1, 12.1, -9.0], [8.9, 13.9, 1.0], "steel_dark", front="black", rot=hinge),   # cañón grueso
+           el([7.05, 12.05, -7.0], [8.95, 13.95, -6.4], "hazard", rot=hinge),
+           el([7.4, 9.6, -6.0], [8.6, 12.1, -4.5], "rubber", rot=hinge),                     # empuñadura delantera
+           el([7.7, 13.9, -1.0], [8.3, 15.0, 0.0], "steel", rot=hinge),                      # alza de escalera
+           el([6.6, 10.2, 1.0], [9.4, 13.6, 6.0], "olive"),                                  # tambor
+           el([6.5, 10.8, 2.0], [9.5, 13.0, 2.6], "steel"), el([6.5, 10.8, 4.4], [9.5, 13.0, 5.0], "steel"),
+           el([7.2, 11.4, 6.0], [8.8, 14.0, 10.0], "steel_dark"),                            # armazón
+           el([8.85, 12.4, 6.5], [8.95, 12.7, 9.5], "cyan"),
+           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
+           el([7.6, 11.0, 10.0], [8.4, 11.4, 18.0], "steel"), el([7.6, 12.8, 10.0], [8.4, 13.2, 18.0], "steel"),
+           el([7.3, 10.4, 17.6], [8.7, 13.6, 18.4], "rubber")]
+    return els + trigger_group()
+
+
+# ---------------------------------------------------------------- tier 3: cañón de impulso
+def pulse_cannon(cell_out=False):
+    els = [el([6.4, 10.8, -10.0], [9.6, 15.0, -8.8], "steel_dark", front="cyan"),           # campana emisora
+           el([6.9, 11.4, -8.8], [9.1, 14.4, 4.0], "graphite"),                             # cuerpo
+           el([9.1, 12.4, -6.0], [9.2, 13.4, 1.0], "cyan"),                                 # ventana de energía
+           el([7.6, 14.4, -4.0], [8.4, 15.4, 2.0], "steel"),                                # asa superior
+           el([7.6, 14.4, -4.4], [8.4, 15.4, -4.0], "steel"), el([7.6, 14.4, 2.0], [8.4, 15.4, 2.4], "steel"),
+           el([7.2, 11.0, 4.0], [8.8, 14.0, 10.0], "steel_dark"),                           # cajón
+           el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT),
+           el([7.2, 9.4, 10.0], [8.8, 12.6, 16.0], "graphite"),                             # culata corta
+           el([7.0, 9.0, 16.0], [9.0, 13.0, 17.0], "rubber")]
+    for z in (-7.0, -4.0, -1.0, 2.0):
+        els.append(el([6.7, 11.2, z], [9.3, 14.6, z + 0.8], "copper"))                     # bobinas
+    if not cell_out:
+        els += [el([7.3, 9.0, 1.5], [8.7, 11.4, 4.5], "cyan"), el([7.2, 8.8, 1.4], [8.8, 9.2, 4.6], "steel")]  # célula
+    return els + trigger_group()
+
+
+def rail_slug():
+    return [el([7.5, 2.0, 7.5], [8.5, 11.0, 8.5], "inercita"), el([7.6, 11.0, 7.6], [8.4, 12.2, 8.4], "steel_hi"),
+            el([7.45, 6.0, 7.45], [8.55, 6.6, 8.55], "cyan")]
+
+
+def kinetic_grenade():
+    return [el([6.5, 3.0, 6.5], [9.5, 8.5, 9.5], "olive"), el([6.4, 5.0, 6.4], [9.6, 5.8, 9.6], "hazard"),
+            el([7.0, 8.5, 7.0], [9.0, 9.4, 9.0], "steel"), el([7.6, 9.4, 7.6], [8.4, 9.8, 8.4], "cyan"),
+            el([6.8, 2.4, 6.8], [9.2, 3.0, 9.2], "brass")]
+
+
+def pulse_cell(full=True):
+    return [el([6.8, 2.0, 6.8], [9.2, 10.0, 9.2], "cyan" if full else "graphite"),
+            el([6.6, 1.6, 6.6], [9.4, 2.4, 9.4], "steel"), el([6.6, 9.6, 6.6], [9.4, 10.4, 9.4], "steel"),
+            el([7.6, 10.4, 7.6], [8.4, 11.0, 8.4], "copper"), el([6.75, 5.6, 6.75], [9.25, 6.2, 9.25], "steel_dark")]
+
+
 # ---------------------------------------------------------------- machete (como una espada: diagonal en el plano XY)
 def machete():
     d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}                                      # mango abajo-izq., punta arriba-der.
@@ -298,6 +393,15 @@ if __name__ == "__main__":
             overrides.append({"predicate": {"tecnocinetico:modules": m, "tecnocinetico:reload": 1},
                               "model": f"tecnocinetico:item/{name}_{alt}"})
         model(base, fn(False, 0), GUN_DISPLAY, overrides)
+    for base, fn, alt in (("rail_rifle", rail_rifle, "mag_out"), ("assault_rifle", assault_rifle, "mag_out"),
+                          ("grenade_launcher", grenade_launcher, "open"), ("pulse_cannon", pulse_cannon, "cell_out")):
+        model(f"{base}_{alt}", fn(True), GUN_DISPLAY)
+        model(base, fn(False), GUN_DISPLAY,
+              [{"predicate": {"tecnocinetico:reload": 1}, "model": f"tecnocinetico:item/{base}_{alt}"}])
+    model("rail_slug", rail_slug(), SMALL)
+    model("kinetic_grenade", kinetic_grenade(), SMALL)
+    model("pulse_cell", pulse_cell(True), SMALL)
+    model("empty_pulse_cell", pulse_cell(False), SMALL)
     model("kinetic_smg_mag_out", smg(True), GUN_DISPLAY)
     model("kinetic_smg", smg(False), GUN_DISPLAY,
           [{"predicate": {"tecnocinetico:reload": 1}, "model": "tecnocinetico:item/kinetic_smg_mag_out"}])
@@ -320,6 +424,7 @@ if __name__ == "__main__":
     model("rifle_round", rifle_round(), SMALL)
     flat = [f"{s_}_{piece}" for s_ in ("scrap", "inercita", "tactical", "exo") for piece in ("helmet", "chestplate", "leggings", "boots")]
     flat += ["inercita_plate", "precision_mechanism", "kinetic_servo", "ballistic_fabric"]          # tools/armor_t2_gen.py
+    flat += ["core_processor"]                                                                       # tools/tier3_art.py
     for name in flat:
         (ROOT / "models/item" / f"{name}.json").write_text(json.dumps(
             {"parent": "minecraft:item/generated", "textures": {"layer0": f"tecnocinetico:item/{name}"}}, indent=2), encoding="utf-8")

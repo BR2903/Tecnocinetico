@@ -33,7 +33,15 @@ public final class PistolInputHandler {
     /** ¿El botón de ataque estaba pulsado en el tick anterior? (para disparar solo al pulsar, no al mantener) */
     private static boolean attackHeld;
 
+    /** Carga del Rifle de Riel (0 = sin cargar). */
+    private static float railCharge;
+
     private PistolInputHandler() {}
+
+    private static boolean holdingCharge(LocalPlayer player) {
+        return player != null && player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g
+                && g.action() == com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.CHARGE;
+    }
 
     /** Pistola o arma larga (escopeta, rifle) en la mano principal. */
     static boolean holdingPistol(LocalPlayer player) {
@@ -53,7 +61,17 @@ public final class PistolInputHandler {
             event.setSwingHand(false);
             if (!attackHeld) {            // semiautomática
                 attackHeld = true;
-                tryFire(mc.player);
+                if (holdingCharge(mc.player)) {
+                    var g = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) mc.player.getMainHandItem().getItem();
+                    if (g.canFireNow(mc.player, mc.player.getMainHandItem())) {
+                        railCharge = 0.001F;                                  // empieza a cargar; dispara al soltar
+                        mc.player.playSound(com.bryanamaya.tecnocinetico.sound.ModSounds.ANCHOR_CHARGE.get(), 0.6F, 1.8F);
+                    } else {
+                        ModNetwork.CHANNEL.sendToServer(new ModNetwork.FirePistolPacket(false));   // vacío: recarga
+                    }
+                } else {
+                    tryFire(mc.player);
+                }
             }
         } else if (event.isUseItem()) {
             event.setCanceled(true);      // clic derecho = solo apuntar
@@ -98,6 +116,31 @@ public final class PistolInputHandler {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         attackHeld = mc.options.keyAttack.isDown();
+        // Rifle de Riel: carga mientras se mantiene el clic; al soltar, dispara con la carga alcanzada
+        if (railCharge > 0) {
+            if (!holdingCharge(player) || mc.screen != null) {
+                railCharge = 0;
+            } else if (attackHeld) {
+                railCharge = Math.min(1.0F, railCharge + 1.0F / com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem.CHARGE_TICKS);
+                int bars = Math.round(railCharge * 10);
+                player.displayClientMessage(net.minecraft.network.chat.Component.literal("▮".repeat(bars) + "▯".repeat(10 - bars))
+                        .withStyle(railCharge >= 1.0F ? net.minecraft.ChatFormatting.AQUA : railCharge
+                                >= com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem.MIN_CHARGE
+                                ? net.minecraft.ChatFormatting.DARK_AQUA : net.minecraft.ChatFormatting.DARK_GRAY), true);
+            } else {
+                if (railCharge >= com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem.MIN_CHARGE) {
+                    var g = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) player.getMainHandItem().getItem();
+                    float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING))
+                            * com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.recoilMultiplier(player)
+                            * Mth.lerp(GunAnimState.aim, 1.0F, AIM_RECOIL_FACTOR) * railCharge;
+                    player.setXRot(player.getXRot() - g.stats().pitchKick() * mult);
+                    GunAnimState.onShot(player.level().getGameTime(), mult * 1.6F, player.getRandom().nextFloat() * 2.0F - 1.0F);
+                    player.getCooldowns().addCooldown(g, g.cooldown(player.getMainHandItem()));
+                    ModNetwork.CHANNEL.sendToServer(new ModNetwork.FireChargedPacket(GunAnimState.aim > 0.5F, railCharge));
+                }
+                railCharge = 0;
+            }
+        }
         // automático (Subfusil): dispara mientras se mantiene el clic
         if (attackHeld && player != null && mc.screen == null
                 && player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g

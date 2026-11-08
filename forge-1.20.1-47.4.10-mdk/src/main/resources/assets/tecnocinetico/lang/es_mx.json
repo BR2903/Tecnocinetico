@@ -295,5 +295,21 @@
   "subtitles.tecnocinetico.anchor.ambient": "Anclador zumba",
   "subtitles.tecnocinetico.anchor.charge": "Anclador carga el haz",
   "subtitles.tecnocinetico.anchor.pull": "Lastre de inercia",
-  "subtitles.tecnocinetico.anchor.stomp": "Anclador pisotea"
+  "subtitles.tecnocinetico.anchor.stomp": "Anclador pisotea",
+  "block.tecnocinetico.weapon_assembler": "Ensamblador de Armas",
+  "item.tecnocinetico.core_processor": "Procesador del Núcleo",
+  "item.tecnocinetico.rail_slug": "Bala de Riel",
+  "item.tecnocinetico.kinetic_grenade": "Granada Cinética",
+  "item.tecnocinetico.pulse_cell": "Célula de Impulso",
+  "item.tecnocinetico.empty_pulse_cell": "Célula de Impulso Vacía",
+  "item.tecnocinetico.rail_rifle": "Rifle de Riel",
+  "item.tecnocinetico.rail_rifle.desc": "Mantén el clic para cargar y suelta para disparar. Atraviesa enemigos y bloques blandos.",
+  "item.tecnocinetico.assault_rifle": "Fusil de Asalto",
+  "item.tecnocinetico.assault_rifle.desc": "Automático. Cargador de 30 balas de rifle.",
+  "item.tecnocinetico.grenade_launcher": "Lanzagranadas",
+  "item.tecnocinetico.grenade_launcher.desc": "Tambor de 4 granadas que rebotan y estallan sin romper bloques.",
+  "item.tecnocinetico.pulse_cannon": "Cañón de Impulso",
+  "item.tecnocinetico.pulse_cannon.desc": "Onda cinética en cono: hiere, lanza y aturde. 6 disparos por Célula de Impulso.",
+  "jei.tecnocinetico.assembler_energy": "%s FE · %s s",
+  "tooltip.tecnocinetico.core_processor": "Solo en las Instalaciones de la IA. Necesario para las armas tier 3."
 }

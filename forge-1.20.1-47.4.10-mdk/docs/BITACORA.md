@@ -296,3 +296,15 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Modelo `AnchorModel` (casco de placas, emisor giratorio con cristal, 3 patas con rodillas de cobre y paso de trípode), `AnchorRenderer` (brillo azul-violeta; blanco parpadeante al cargar). Textura `tools/anchor_texture.py`; sonidos sintetizados `generate_anchor()` (zumbido, carga, lastre, pisotón).
 - Uno vigila la entrada de cada Instalación de la IA. Huevo en la pestaña creativa. Botín: chatarra, inercita en bruto, rara vez una Placa de Inercita.
 - GameTest `anchorGroundsFlyer` (16 en total, todos pasan).
+
+## 2026-11-08 — Claude — Tier 3: Ensamblador de Armas, Procesador del Núcleo y 4 armas
+- Decisiones del usuario: rifle de riel, fusil de asalto, lanzagranadas y cañón de impulso; desbloqueo con **ambos**: Procesador del Núcleo (solo de las instalaciones de la IA) + Ensamblador eléctrico.
+- **Procesador del Núcleo** (`core_processor`): no se fabrica. 35 % por cofre del núcleo de la Instalación de la IA, 5 % del Anclador y 3 % de la Torreta (matados por el jugador).
+- **Ensamblador de Armas** (`block/custom/WeaponAssemblerBlock`, `WeaponAssemblerBlockEntity`, `menu/WeaponAssemblerMenu`, `client/WeaponAssemblerScreen`; derivados de la prensa automática): 6 huecos de ingredientes con cantidad, 60.000 FE de batería, 100 FE/tick; recetas en `block/entity/AssemblerRecipes` (armas: 15-20 s y 30.000-40.000 FE; munición especial). Categoría propia en JEI. Se fabrica con la prensa automática + placas, mecanismos, servos y acoplador. GUI: `tools/assembler_gui_gen.py`; frente: `tools/tier3_art.py`.
+- `LongGunItem`: acciones nuevas DRUM y CHARGE; ganchos `shoot(...)` y `boxRefill(...)` para armas especiales; `tryFire(..., charge)`. Familia `HEAVY` (sin módulos).
+  - **Rifle de Riel** (`RailRifleItem`): mantener el clic carga 1,5 s (barra en la acción, `PistolInputHandler` + `FireChargedPacket`), al soltar dispara (mín. 30 %); 32 de daño a carga completa, atraviesa hasta 4 enemigos (-25 % cada uno) y bloques blandos (dureza < 1); cargador de 5 Balas de Riel.
+  - **Fusil de Asalto**: automático, 30 balas de rifle, 7 de daño, 70 bloques, ~7 disparos/s.
+  - **Lanzagranadas** (`GrenadeLauncherItem` + entidad `KineticGrenadeEntity`): tambor de 4; la granada rebota y estalla al tocar a un ser vivo o a los 2,5 s (explosión que no rompe bloques).
+  - **Cañón de Impulso** (`PulseCannonItem`): cono de onda de 8 bloques que hiere (más de cerca), lanza y aturde (lentitud IV + debilidad); 6 disparos por Célula de Impulso; al recargar devuelve una Célula Vacía, que se recarga en la Prensa Automática (receta con energía).
+- Modelos 3D en `weapons_gen.py` (+ fotograma de recarga) y munición 3D; zonas nuevas del atlas: olive, hazard, graphite.
+- GameTest `tier3Weapons` (17 en total, todos pasan).

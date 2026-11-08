@@ -189,9 +189,14 @@ def main():
         {"rolls": 1, "entries": [
             {"type": "minecraft:empty", "weight": 4}, item("module_quick_reload", 2), item("module_extended_mag", 2),
             item("module_optic", 2), item("module_inercita_barrel", 1), item("extended_magazine", 2)]},
+        # tier 3: el Procesador del Núcleo (35 % por cofre del núcleo)
+        {"rolls": 1, "entries": [{"type": "minecraft:empty", "weight": 13}, item("core_processor", 7)]},
     ])
     entity_loot("sentry_turret", [
         {"rolls": 1, "entries": [item("scrap_metal", 1, 2, 4)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
+                                    {"condition": "minecraft:random_chance_with_looting", "chance": 0.03, "looting_multiplier": 0.01}],
+         "entries": [item("core_processor", 1)]},
         {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
                                     {"condition": "minecraft:random_chance_with_looting", "chance": 0.15,
                                      "looting_multiplier": 0.05}],
@@ -246,7 +251,10 @@ def main():
         {"rolls": 1, "entries": [{"type": "minecraft:empty", "weight": 2}, item("raw_inercita", 2, 1, 2)]},
         {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
                                     {"condition": "minecraft:random_chance_with_looting", "chance": 0.1, "looting_multiplier": 0.04}],
-         "entries": [item("inercita_plate", 1)]}])
+         "entries": [item("inercita_plate", 1)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
+                                    {"condition": "minecraft:random_chance_with_looting", "chance": 0.05, "looting_multiplier": 0.02}],
+         "entries": [item("core_processor", 1)]}])
     print("ok: estructuras del Overworld")
 
 

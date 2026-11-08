@@ -114,3 +114,9 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## anchor_texture.py
 - `python tools/anchor_texture.py [preview.png]`: texturas del Anclador (`anchor.png`, `anchor_glow.png`, `anchor_charge.png`). Sonidos: `generate_anchor()` de `sound_gen.py`.
+
+## Tier 3
+- `python tools/tier3_art.py [preview.png]`: frente del Ensamblador (`block/weapon_assembler_front.png`) e icono del Procesador del Núcleo.
+- `python tools/assembler_gui_gen.py <gui/weapon_assembler.png> <preview.png>`: interfaz del Ensamblador (6 huecos).
+- `weapons_gen.py`: `rail_rifle`, `assault_rifle`, `grenade_launcher`, `pulse_cannon` (+ fotograma de recarga) y munición 3D; armas con `gui_fit "y-90;z25"`, munición con `"y-135;x30"`.
+- Nota: la vista previa (`render_model.py`) a veces esconde un elemento tapado por otro más ancho (p. ej. el cuerpo de la granada bajo su banda); en el juego se ve bien.

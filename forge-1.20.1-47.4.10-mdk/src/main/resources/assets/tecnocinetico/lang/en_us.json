@@ -295,5 +295,21 @@
   "subtitles.tecnocinetico.anchor.ambient": "Anchor hums",
   "subtitles.tecnocinetico.anchor.charge": "Anchor charges its beam",
   "subtitles.tecnocinetico.anchor.pull": "Inertia anchor",
-  "subtitles.tecnocinetico.anchor.stomp": "Anchor stomps"
+  "subtitles.tecnocinetico.anchor.stomp": "Anchor stomps",
+  "block.tecnocinetico.weapon_assembler": "Weapon Assembler",
+  "item.tecnocinetico.core_processor": "Core Processor",
+  "item.tecnocinetico.rail_slug": "Rail Slug",
+  "item.tecnocinetico.kinetic_grenade": "Kinetic Grenade",
+  "item.tecnocinetico.pulse_cell": "Pulse Cell",
+  "item.tecnocinetico.empty_pulse_cell": "Empty Pulse Cell",
+  "item.tecnocinetico.rail_rifle": "Rail Rifle",
+  "item.tecnocinetico.rail_rifle.desc": "Hold to charge, release to fire. Pierces enemies and soft blocks.",
+  "item.tecnocinetico.assault_rifle": "Assault Rifle",
+  "item.tecnocinetico.assault_rifle.desc": "Automatic. 30-round rifle magazine.",
+  "item.tecnocinetico.grenade_launcher": "Grenade Launcher",
+  "item.tecnocinetico.grenade_launcher.desc": "4-round drum of bouncing grenades that don't break blocks.",
+  "item.tecnocinetico.pulse_cannon": "Pulse Cannon",
+  "item.tecnocinetico.pulse_cannon.desc": "Kinetic wave cone: hurts, launches and stuns. 6 shots per Pulse Cell.",
+  "jei.tecnocinetico.assembler_energy": "%s FE · %s s",
+  "tooltip.tecnocinetico.core_processor": "Only in AI Installations. Needed for tier 3 weapons."
 }

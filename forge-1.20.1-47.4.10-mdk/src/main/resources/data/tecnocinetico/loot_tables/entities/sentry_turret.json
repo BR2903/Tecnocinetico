@@ -29,6 +29,26 @@
         },
         {
           "condition": "minecraft:random_chance_with_looting",
+          "chance": 0.03,
+          "looting_multiplier": 0.01
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "tecnocinetico:core_processor",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
+          "condition": "minecraft:random_chance_with_looting",
           "chance": 0.15,
           "looting_multiplier": 0.05
         }

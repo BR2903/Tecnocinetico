@@ -64,6 +64,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> AUTO_KINETIC_PRESS = registerBlock("auto_kinetic_press",
             () -> new AutoKineticPressBlock());
 
+    public static final RegistryObject<Block> WEAPON_ASSEMBLER = registerBlock("weapon_assembler",
+            () -> new com.bryanamaya.tecnocinetico.block.custom.WeaponAssemblerBlock());
+
     public static final RegistryObject<Block> WEAPON_BENCH = registerBlock("weapon_bench",
             WeaponBenchBlock::new);
 

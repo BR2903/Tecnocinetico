@@ -3,6 +3,7 @@
   "values": [
     "tecnocinetico:inercita_ore",
     "tecnocinetico:deepslate_inercita_ore",
-    "tecnocinetico:auto_kinetic_press"
+    "tecnocinetico:auto_kinetic_press",
+    "tecnocinetico:weapon_assembler"
   ]
 }

@@ -225,4 +225,81 @@ public class AmmoGameTests {
                 com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.EXO), "No es un exoesqueleto");
         helper.succeed();
     }
+
+    /**
+     * Tier 3: el Ensamblador reconoce la receta del fusil y consume justo lo pedido; el Rifle de Riel atraviesa a dos
+     * cerdos en fila; la Granada Cinética estalla junto a un cerdo; el Cañón de Impulso cambia la célula por una vacía.
+     */
+    @GameTest(template = "empty", timeoutTicks = 120)
+    public static void tier3Weapons(GameTestHelper helper) {
+        var inv = new net.minecraftforge.items.ItemStackHandler(6);
+        inv.setStackInSlot(0, new ItemStack(ModItems.CORE_PROCESSOR.get(), 2));
+        inv.setStackInSlot(1, new ItemStack(ModItems.INERCITA_PLATE.get(), 5));
+        inv.setStackInSlot(2, new ItemStack(ModItems.PRECISION_MECHANISM.get(), 3));
+        inv.setStackInSlot(3, new ItemStack(net.minecraft.world.item.Items.IRON_INGOT, 10));
+        inv.setStackInSlot(4, new ItemStack(ModItems.BALLISTIC_FABRIC.get(), 2));
+        var recipe = com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.find(inv, 6);
+        helper.assertTrue(recipe != null && recipe.output().is(ModItems.ASSAULT_RIFLE.get()), "El ensamblador no reconoce el fusil");
+        com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.consume(inv, 6, recipe);
+        helper.assertTrue(inv.getStackInSlot(0).getCount() == 1 && inv.getStackInSlot(1).getCount() == 1
+                && inv.getStackInSlot(3).getCount() == 2 && inv.getStackInSlot(4).isEmpty(), "El ensamblador consumió mal");
+
+        var level = helper.getLevel();
+        net.minecraft.core.BlockPos col = helper.absolutePos(net.minecraft.core.BlockPos.ZERO);
+        int y = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, col.getX(), col.getZ()) + 6;
+        // riel: dos cerdos en fila hacia +X
+        var sp = net.minecraftforge.common.util.FakePlayerFactory.getMinecraft(level);
+        sp.moveTo(col.getX() + 0.5, y, col.getZ() + 0.5, -90.0F, 0.0F);
+        sp.getInventory().clearContent();
+        ItemStack rail = new ItemStack(ModItems.RAIL_RIFLE.get());
+        rail.getOrCreateTag().putInt("Ammo", 5);
+        sp.getInventory().setItem(0, rail);
+        sp.getInventory().selected = 0;
+        java.util.List<net.minecraft.world.entity.Entity> spawned = new java.util.ArrayList<>();
+        java.util.function.BiFunction<Double, Double, net.minecraft.world.entity.animal.Pig> pig = (dx, dy) -> {
+            var p = net.minecraft.world.entity.EntityType.PIG.create(level);
+            p.moveTo(col.getX() + 0.5 + dx, y + dy, col.getZ() + 0.5, 0, 0);
+            p.setNoAi(true);
+            p.setNoGravity(true);
+            level.addFreshEntity(p);
+            spawned.add(p);
+            return p;
+        };
+        var p1 = pig.apply(3.0, 0.9);
+        var p2 = pig.apply(6.0, 0.9);
+        ((com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) rail.getItem()).tryFire(sp, true, 1.0F);
+        boolean pierced = p1.getHealth() < p1.getMaxHealth() && p2.getHealth() < p2.getMaxHealth();
+        // granada junto a un cerdo
+        var p3 = pig.apply(0.0, 0.0);
+        p3.moveTo(col.getX() + 0.5, y + 12, col.getZ() + 6.5, 0, 0);
+        var grenade = new com.bryanamaya.tecnocinetico.entity.custom.KineticGrenadeEntity(level, sp);
+        grenade.setPos(col.getX() + 0.5, y + 12.3, col.getZ() + 7.5);
+        grenade.setDeltaMovement(0, 0, -0.3);
+        level.addFreshEntity(grenade);
+        spawned.add(grenade);
+        // cañón: célula agotada -> recarga -> devuelve una vacía
+        Player player = helper.makeMockPlayer();
+        player.getInventory().clearContent();
+        player.getInventory().setItem(5, new ItemStack(ModItems.PULSE_CELL.get(), 2));
+        ItemStack cannon = new ItemStack(ModItems.PULSE_CANNON.get());
+        player.getInventory().setItem(0, cannon);
+        player.getInventory().selected = 0;
+        var c = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) cannon.getItem();
+        c.startReload(player, cannon);
+        for (int i = 0; i < 100 && com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(cannon); i++) {
+            cannon.inventoryTick(level, player, 0, true);
+        }
+        int shots = com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.getAmmo(cannon);
+        boolean cellSwap = shots == 6 && player.getInventory().getItem(5).getCount() == 1
+                && player.getInventory().countItem(ModItems.EMPTY_PULSE_CELL.get()) == 1;
+        helper.runAfterDelay(70, () -> {
+            boolean blown = p3.getHealth() < p3.getMaxHealth();
+            Tecnocinetico.LOGGER.info("[GameTest] tier 3: riel atraviesa={}, granada={}, célula={} ({} disparos)", pierced, blown, cellSwap, shots);
+            spawned.forEach(net.minecraft.world.entity.Entity::discard);
+            helper.assertTrue(pierced, "El Rifle de Riel no atravesó a los dos cerdos");
+            helper.assertTrue(blown, "La granada no hirió al cerdo");
+            helper.assertTrue(cellSwap, "El Cañón de Impulso no cambió la célula por una vacía");
+            helper.succeed();
+        });
+    }
 }

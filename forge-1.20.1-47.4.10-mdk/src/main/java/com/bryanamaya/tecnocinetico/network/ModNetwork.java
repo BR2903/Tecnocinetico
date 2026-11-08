@@ -50,6 +50,9 @@ public final class ModNetwork {
                 WornGadgetsPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(9, ExoLeapPacket.class, (m, b) -> {}, b -> new ExoLeapPacket(), ExoLeapPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(10, FireChargedPacket.class, (m, b) -> { b.writeBoolean(m.aiming()); b.writeFloat(m.charge()); },
+                b -> new FireChargedPacket(b.readBoolean(), b.readFloat()), FireChargedPacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
                 SyncSkillsPacket::encode, SyncSkillsPacket::decode, SyncSkillsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
@@ -190,6 +193,19 @@ public final class ModNetwork {
                 ServerPlayer p = ctx.get().getSender();
                 if (p != null) {
                     com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorEvents.leap(p);
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Cliente -> servidor: suelta el disparo cargado (Rifle de Riel) con la carga alcanzada (0..1). */
+    public record FireChargedPacket(boolean aiming, float charge) {
+        public static void handle(FireChargedPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null && p.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g) {
+                    g.tryFire(p, msg.aiming(), Math.max(0.0F, Math.min(1.0F, msg.charge())));
                 }
             });
             ctx.get().setPacketHandled(true);

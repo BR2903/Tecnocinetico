@@ -22,6 +22,11 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(AutoKineticPressBlockEntity::new,
                             ModBlocks.AUTO_KINETIC_PRESS.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<WeaponAssemblerBlockEntity>> WEAPON_ASSEMBLER_BE =
+            BLOCK_ENTITIES.register("weapon_assembler_be", () ->
+                    BlockEntityType.Builder.of(WeaponAssemblerBlockEntity::new,
+                            ModBlocks.WEAPON_ASSEMBLER.get()).build(null));
+
     public static final RegistryObject<BlockEntityType<CreativeEnergySourceBlockEntity>> CREATIVE_ENERGY_SOURCE_BE =
             BLOCK_ENTITIES.register("creative_energy_source_be", () ->
                     BlockEntityType.Builder.of(CreativeEnergySourceBlockEntity::new,

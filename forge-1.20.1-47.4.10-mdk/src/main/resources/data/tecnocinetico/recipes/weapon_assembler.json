@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PMP",
+    "SAS",
+    "PCP"
+  ],
+  "key": {
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "S": {
+      "item": "tecnocinetico:kinetic_servo"
+    },
+    "A": {
+      "item": "tecnocinetico:auto_kinetic_press"
+    },
+    "C": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:weapon_assembler"
+  }
+}

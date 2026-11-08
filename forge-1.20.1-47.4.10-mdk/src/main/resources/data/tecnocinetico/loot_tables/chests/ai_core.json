@@ -113,6 +113,20 @@
           "weight": 2
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 13
+        },
+        {
+          "type": "minecraft:item",
+          "name": "tecnocinetico:core_processor",
+          "weight": 7
+        }
+      ]
     }
   ]
 }

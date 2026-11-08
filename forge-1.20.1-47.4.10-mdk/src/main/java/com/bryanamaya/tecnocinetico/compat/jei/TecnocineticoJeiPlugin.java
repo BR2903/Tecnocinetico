@@ -37,11 +37,13 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new PressRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new AssemblerRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(PressRecipeCategory.TYPE, PressRecipes.all());
+        registration.addRecipes(AssemblerRecipeCategory.TYPE, com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.all());
 
         // Información: cómo se montan los módulos
         List<ItemStack> stacks = new ArrayList<>();
@@ -65,5 +67,6 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.KINETIC_ASSEMBLY_PRESS.get()), PressRecipeCategory.TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModItems.KINETIC_HAMMER.get()), PressRecipeCategory.TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.AUTO_KINETIC_PRESS.get()), PressRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.WEAPON_ASSEMBLER.get()), AssemblerRecipeCategory.TYPE);
     }
 }

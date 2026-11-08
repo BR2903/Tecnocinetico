@@ -219,6 +219,34 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SMG, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
                     24, () -> KINETIC_ROUND.get(), 1, 3.5F, 40.0D, 3.5F, 1.6F, 2, 40, 1.1F, 0.9F, 0.85F, 1.25F), new Item.Properties()));
 
+    // ---------------------------------------------------------------- tier 3 (Ensamblador de Armas + Procesador del Núcleo)
+    public static final RegistryObject<Item> CORE_PROCESSOR = ITEMS.register("core_processor",
+            () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> RAIL_SLUG = ITEMS.register("rail_slug", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> KINETIC_GRENADE = ITEMS.register("kinetic_grenade", () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> PULSE_CELL = ITEMS.register("pulse_cell", () -> new Item(new Item.Properties().stacksTo(8)));
+    public static final RegistryObject<Item> EMPTY_PULSE_CELL = ITEMS.register("empty_pulse_cell", () -> new Item(new Item.Properties().stacksTo(8)));
+    /** Rifle de Riel: carga 1,5 s (mantener el clic), 32 de daño a carga completa, atraviesa 4 enemigos, 100 bloques. */
+    public static final RegistryObject<Item> RAIL_RIFLE = ITEMS.register("rail_rifle",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    5, () -> RAIL_SLUG.get(), 1, 32.0F, 100.0D, 0.6F, 0.0F, 20, 60, 6.0F, 1.0F, 0.45F, 0.5F),
+                    new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    /** Fusil de asalto: automático, 30 balas de rifle, 7 de daño, 70 bloques, ~7 disparos/s. */
+    public static final RegistryObject<Item> ASSAULT_RIFLE = ITEMS.register("assault_rifle",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.HEAVY, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    30, () -> RIFLE_ROUND.get(), 1, 7.0F, 70.0D, 2.8F, 0.7F, 3, 50, 1.8F, 1.2F, 0.7F, 1.05F),
+                    new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    /** Lanzagranadas: tambor de 4 Granadas Cinéticas (rebotan, estallan sin romper bloques). */
+    public static final RegistryObject<Item> GRENADE_LAUNCHER = ITEMS.register("grenade_launcher",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.GrenadeLauncherItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    4, () -> KINETIC_GRENADE.get(), 1, 0.0F, 0.0D, 1.5F, 0.6F, 16, 18, 5.0F, 1.5F, 0.85F, 0.6F),
+                    new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    /** Cañón de Impulso: cono de onda (8 bloques) que hiere, lanza y aturde; 6 disparos por Célula de Impulso. */
+    public static final RegistryObject<Item> PULSE_CANNON = ITEMS.register("pulse_cannon",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.PulseCannonItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    6, () -> PULSE_CELL.get(), 1, 12.0F, 8.0D, 0.0F, 0.0F, 14, 30, 6.0F, 2.0F, 0.9F, 1.0F),
+                    new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

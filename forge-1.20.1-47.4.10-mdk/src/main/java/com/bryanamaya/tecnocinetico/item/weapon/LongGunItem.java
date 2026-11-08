@@ -59,10 +59,11 @@ public class LongGunItem extends Item {
 
     /** Mecanismo: cómo se recarga y se acciona. */
     public enum Action {
-        BREAK, BOLT, PUMP, SEMI, AUTO;
+        /** Basculante, cerrojo, corredera, tambor (cartucho a cartucho); semiautomática, automática, de carga (cargador). */
+        BREAK, BOLT, PUMP, DRUM, SEMI, AUTO, CHARGE;
 
         public boolean boxReload() {
-            return this == SEMI || this == AUTO;
+            return this == SEMI || this == AUTO || this == CHARGE;
         }
     }
 
@@ -83,8 +84,10 @@ public class LongGunItem extends Item {
             case BREAK -> 500;
             case BOLT -> 700;
             case PUMP -> 900;
+            case DRUM -> 600;
             case SEMI -> 1000;
             case AUTO -> 1600;
+            case CHARGE -> 400;
         }));
         this.stats = stats;
         this.family = family;
@@ -153,7 +156,7 @@ public class LongGunItem extends Item {
         return s.getTag() == null ? 0 : s.getTag().getInt(TAG_AMMO);
     }
 
-    private static void setAmmo(ItemStack s, int n) {
+    protected static void setAmmo(ItemStack s, int n) {
         s.getOrCreateTag().putInt(TAG_AMMO, Math.max(0, n));
     }
 
@@ -193,6 +196,11 @@ public class LongGunItem extends Item {
     // ------------------------------------------------------------------ disparo (servidor)
 
     public void tryFire(ServerPlayer player, boolean aiming) {
+        tryFire(player, aiming, 1.0F);
+    }
+
+    /** Disparo; {@code charge} (0..1) solo lo usan las armas de carga (Rifle de Riel). */
+    public void tryFire(ServerPlayer player, boolean aiming, float charge) {
         ItemStack gun = player.getMainHandItem();
         if (gun.getItem() != this) {
             return;
@@ -219,13 +227,7 @@ public class LongGunItem extends Item {
             tag.putLong(TAG_LAST, now);
             tag.putFloat(TAG_HEAT, Math.min(8.0F, tag.getFloat(TAG_HEAT) + 1.0F));
         }
-        Vec3 eye = player.getEyePosition();
-        Vec3 look = player.getLookAngle();
-        float spread = spread(gun, aiming);
-        for (int i = 0; i < stats.pellets(); i++) {
-            Vec3 dir = spread(look, spread, player.getRandom());
-            firePellet(level, player, gun, eye, dir, aiming, i == 0);
-        }
+        shoot(level, player, gun, aiming, charge);
         if (!creative) {
             setAmmo(gun, getAmmo(gun) - 1);
             gun.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(InteractionHand.MAIN_HAND));
@@ -245,7 +247,18 @@ public class LongGunItem extends Item {
         }
     }
 
-    private static Vec3 spread(Vec3 look, float deg, net.minecraft.util.RandomSource r) {
+    /** El disparo en sí (rayos con perdigones). Las armas tier 3 lo cambian (riel, granadas, onda). */
+    protected void shoot(Level level, ServerPlayer player, ItemStack gun, boolean aiming, float charge) {
+        Vec3 eye = player.getEyePosition();
+        Vec3 look = player.getLookAngle();
+        float spread = spread(gun, aiming);
+        for (int i = 0; i < stats.pellets(); i++) {
+            Vec3 dir = spread(look, spread, player.getRandom());
+            firePellet(level, player, gun, eye, dir, aiming, i == 0);
+        }
+    }
+
+    protected static Vec3 spread(Vec3 look, float deg, net.minecraft.util.RandomSource r) {
         if (deg <= 0) {
             return look;
         }
@@ -283,7 +296,7 @@ public class LongGunItem extends Item {
         }
     }
 
-    private static void effects(ServerLevel server, Player player, Vec3 dir, Vec3 end, @Nullable BlockHitResult block,
+    protected static void effects(ServerLevel server, Player player, Vec3 dir, Vec3 end, @Nullable BlockHitResult block,
                                 boolean aiming, boolean flash) {
         boolean rightHand = player.getMainArm() == HumanoidArm.RIGHT;
         Vec3 right = Vec3.directionFromRotation(0, player.getYRot() + 90.0F);
@@ -363,12 +376,7 @@ public class LongGunItem extends Item {
             return;
         }
         if (action.boxReload()) {                                             // cargador entero
-            int want = stats.capacity() - getAmmo(gun);
-            int got = 0;
-            while (got < want && (player.getAbilities().instabuild || take(player))) {
-                got++;
-            }
-            setAmmo(gun, getAmmo(gun) + got);
+            setAmmo(gun, getAmmo(gun) + boxRefill(player, gun));
             level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_MAG_IN.get(),
                     SoundSource.PLAYERS, 0.8F, 1.0F);
             stopLoading(player, gun);
@@ -386,7 +394,17 @@ public class LongGunItem extends Item {
         }
     }
 
-    private int count(Player player) {
+    /** Recarga de cargador entero: cuántos disparos añade (por defecto, una munición por disparo). */
+    protected int boxRefill(Player player, ItemStack gun) {
+        int want = stats.capacity() - getAmmo(gun);
+        int got = 0;
+        while (got < want && (player.getAbilities().instabuild || take(player))) {
+            got++;
+        }
+        return got;
+    }
+
+    protected int count(Player player) {
         int n = 0;
         for (ItemStack s : TacticalGear.ammoSources(player)) {
             if (s.is(stats.ammo().get())) {
@@ -396,7 +414,7 @@ public class LongGunItem extends Item {
         return n;
     }
 
-    private boolean take(Player player) {
+    protected boolean take(Player player) {
         for (ItemStack s : TacticalGear.ammoSources(player)) {
             if (s.is(stats.ammo().get())) {
                 s.shrink(1);

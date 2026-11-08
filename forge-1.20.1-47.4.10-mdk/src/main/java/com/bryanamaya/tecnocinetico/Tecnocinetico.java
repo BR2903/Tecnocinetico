@@ -107,6 +107,7 @@ public class Tecnocinetico {
             event.enqueueWork(() -> {
                 MenuScreens.register(ModMenus.WEAPON_BENCH.get(), WeaponBenchScreen::new);
                 MenuScreens.register(ModMenus.AUTO_KINETIC_PRESS.get(), AutoKineticPressScreen::new);
+                MenuScreens.register(ModMenus.WEAPON_ASSEMBLER.get(), com.bryanamaya.tecnocinetico.client.WeaponAssemblerScreen::new);
                 MenuScreens.register(ModMenus.TACTICAL_GEAR.get(), com.bryanamaya.tecnocinetico.client.TacticalScreen::new);
                 ItemProperties.register(ModItems.KINETIC_PISTOL.get(),
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
@@ -127,7 +128,8 @@ public class Tecnocinetico {
                         });
                 // Armas largas: 0 normal, 1 recargando (escopeta abierta / cerrojo atrás); "modules" = máscara local 0..7
                 for (var gun : java.util.List.of(ModItems.PIPE_SHOTGUN.get(), ModItems.BOLT_RIFLE.get(), ModItems.PUMP_SHOTGUN.get(),
-                        ModItems.SEMI_RIFLE.get(), ModItems.KINETIC_SMG.get())) {
+                        ModItems.SEMI_RIFLE.get(), ModItems.KINETIC_SMG.get(), ModItems.RAIL_RIFLE.get(), ModItems.ASSAULT_RIFLE.get(),
+                        ModItems.GRENADE_LAUNCHER.get(), ModItems.PULSE_CANNON.get())) {
                     ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "modules"),
                             (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.item.custom.WeaponModule.localMask(stack));
                     ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
@@ -194,6 +196,7 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.client.HiveNodeRenderer::new);
             event.registerEntityRenderer(ModEntities.SENTRY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.client.SentryTurretRenderer::new);
             event.registerEntityRenderer(ModEntities.DRONE.get(), com.bryanamaya.tecnocinetico.entity.client.DroneRenderer::new);
+            event.registerEntityRenderer(ModEntities.KINETIC_GRENADE.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
             event.registerEntityRenderer(ModEntities.ANCHOR.get(), com.bryanamaya.tecnocinetico.entity.client.AnchorRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED_GUNNER.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);

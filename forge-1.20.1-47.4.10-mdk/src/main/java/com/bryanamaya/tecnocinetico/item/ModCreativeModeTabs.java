@@ -87,6 +87,16 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.PUMP_SHOTGUN.get());
                         pOutput.accept(ModItems.SEMI_RIFLE.get());
                         pOutput.accept(ModItems.KINETIC_SMG.get());
+                        pOutput.accept(com.bryanamaya.tecnocinetico.block.ModBlocks.WEAPON_ASSEMBLER.get());
+                        pOutput.accept(ModItems.CORE_PROCESSOR.get());
+                        pOutput.accept(ModItems.RAIL_RIFLE.get());
+                        pOutput.accept(ModItems.RAIL_SLUG.get());
+                        pOutput.accept(ModItems.ASSAULT_RIFLE.get());
+                        pOutput.accept(ModItems.GRENADE_LAUNCHER.get());
+                        pOutput.accept(ModItems.KINETIC_GRENADE.get());
+                        pOutput.accept(ModItems.PULSE_CANNON.get());
+                        pOutput.accept(ModItems.PULSE_CELL.get());
+                        pOutput.accept(ModItems.EMPTY_PULSE_CELL.get());
                         pOutput.accept(ModItems.KINETIC_ROUND.get());
                         pOutput.accept(ModItems.GUIDED_ROUND.get());
                         pOutput.accept(ModItems.MAGAZINE.get());

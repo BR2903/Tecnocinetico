@@ -57,6 +57,8 @@ public final class PressRecipes {
                     // Servo Cinético
                     new Recipe(List.of(ModItems.CINETRITE_INGOT.get(), ModItems.CRUDE_KINETIC_COUPLER.get(), Items.COPPER_INGOT),
                             new ItemStack(ModItems.KINETIC_SERVO.get()), true),
+                    // Recargar una Célula de Impulso vacía
+                    new Recipe(List.of(ModItems.EMPTY_PULSE_CELL.get()), new ItemStack(ModItems.PULSE_CELL.get()), true),
                     // Tela Balística
                     new Recipe(List.of(Items.LEATHER, Items.STRING, ModItems.CINETRITE_SHARD.get()),
                             new ItemStack(ModItems.BALLISTIC_FABRIC.get(), 2), true));
