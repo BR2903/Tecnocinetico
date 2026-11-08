@@ -53,6 +53,15 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.MODULE_INERCITA_BARREL.get());
                         pOutput.accept(ModItems.MODULE_QUICK_RELOAD.get());
                         pOutput.accept(ModItems.MODULE_SEEKER.get());
+                        pOutput.accept(ModItems.SCRAP_HELMET.get());
+                        pOutput.accept(ModItems.SCRAP_CHESTPLATE.get());
+                        pOutput.accept(ModItems.SCRAP_LEGGINGS.get());
+                        pOutput.accept(ModItems.SCRAP_BOOTS.get());
+                        pOutput.accept(ModItems.SCRAP_MACHETE.get());
+                        pOutput.accept(ModItems.PIPE_SHOTGUN.get());
+                        pOutput.accept(ModItems.SHOTGUN_SHELL.get());
+                        pOutput.accept(ModItems.BOLT_RIFLE.get());
+                        pOutput.accept(ModItems.RIFLE_ROUND.get());
                         pOutput.accept(ModItems.KINETIC_ROUND.get());
                         pOutput.accept(ModItems.GUIDED_ROUND.get());
                         pOutput.accept(ModItems.MAGAZINE.get());

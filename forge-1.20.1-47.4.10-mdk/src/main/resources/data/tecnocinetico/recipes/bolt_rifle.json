@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "III",
+    "CTW",
+    "  W"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "tecnocinetico:cinetrite_ingot"
+    },
+    "T": {
+      "item": "minecraft:tripwire_hook"
+    },
+    "W": {
+      "item": "tecnocinetico:dead_planks"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:bolt_rifle",
+    "count": 1
+  }
+}

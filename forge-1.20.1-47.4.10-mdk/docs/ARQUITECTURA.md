@@ -86,6 +86,9 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 ### Equipo Táctico (`gear/`, `menu/TacticalMenu`, `client/TacticalScreen`, `GearTabs`, `GearClient`)
 - `TacticalGear` (capacidad: ranuras 0-5 munición, 6-14 comida, 15 cara, 16 espalda, 17 pies; migra el formato viejo de 10), `GadgetItem`, `JetpackItem` (niveles), `RechargeItem`, `GearRecipes` (recarga y mejora en la mesa), `client/GearLayer` + `WornGearModel` (gadgets puestos), `GearEvents` (adjuntar, morir, comer solo, visor, propulsor, jetpack, sincronizar). Paquetes `OpenGearPacket`, `ToggleVisorPacket`, `JetpackPacket`, `SyncGearPacket`. Teclas J (equipo) y N (visor).
 
+### Tier 1 (`item/armor/`, `item/weapon/`)
+- `ScrapArmorItem` (material propio + bono de set), `MacheteItem` (tier propio), `LongGunItem` (escopeta y rifle con `Stats`; NBT `Ammo`, `Loading`, `LoadTimer`) + `client/LongGunClientExtensions`.
+
 ### Munición (`item/custom/`)
 - `MagazineItem` (Cargador 6 / Ampliado 10; NBT `Rounds`, `Guided`), `MagazineLoadingRecipe` (receta especial registrada en `item/ModRecipes`), `GuidedRoundItem`. La pistola guarda `Mag`, `Ammo`, `GuidedAmmo` y durante la recarga `PendingMag`. R con un cargador en la mano → `FillMagazinePacket`.
 

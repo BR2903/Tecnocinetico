@@ -103,4 +103,32 @@ public class AmmoGameTests {
         helper.assertTrue(KineticPistolItem.acceptsMagazine(pistol, 2), "Con el módulo el Ampliado sí vale");
         helper.succeed();
     }
+
+    /** Escopeta: R carga cartucho a cartucho hasta llenarse (2) y gasta exactamente esos cartuchos. */
+    @GameTest(template = "empty")
+    public static void longGunReload(GameTestHelper helper) {
+        Player player = helper.makeMockPlayer();
+        player.getInventory().clearContent();
+        player.getInventory().setItem(3, new ItemStack(ModItems.SHOTGUN_SHELL.get(), 5));
+        ItemStack gun = new ItemStack(ModItems.PIPE_SHOTGUN.get());
+        player.getInventory().setItem(0, gun);
+        player.getInventory().selected = 0;
+        var item = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) gun.getItem();
+        item.startReload(player, gun);
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(gun), "La recarga no empezó");
+        for (int i = 0; i < 200 && com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(gun); i++) {
+            gun.inventoryTick(helper.getLevel(), player, 0, true);
+        }
+        int ammo = com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.getAmmo(gun);
+        helper.assertTrue(ammo == 2 && player.getInventory().getItem(3).getCount() == 3,
+                "Esperaba 2 cartuchos dentro y 3 en el inventario, hay " + ammo + " y " + player.getInventory().getItem(3).getCount());
+        // armadura: bono de set solo con las 4 piezas
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD, new ItemStack(ModItems.SCRAP_HELMET.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST, new ItemStack(ModItems.SCRAP_CHESTPLATE.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.LEGS, new ItemStack(ModItems.SCRAP_LEGGINGS.get()));
+        helper.assertTrue(!com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem.hasFullSet(player), "Con 3 piezas no hay bono");
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET, new ItemStack(ModItems.SCRAP_BOOTS.get()));
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem.hasFullSet(player), "Con las 4 piezas hay bono");
+        helper.succeed();
+    }
 }

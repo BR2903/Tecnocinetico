@@ -213,5 +213,20 @@
   "tooltip.tecnocinetico.recharge": "Recharges: %s (right-click while wearing it, or craft them together)",
   "message.tecnocinetico.recharge_not_equipped": "You are not wearing %s in your Tactical Gear",
   "message.tecnocinetico.recharge_full": "Battery already full",
-  "message.tecnocinetico.recharged": "%s recharged"
+  "message.tecnocinetico.recharged": "%s recharged",
+  "item.tecnocinetico.scrap_helmet": "Scrap Helmet",
+  "item.tecnocinetico.scrap_chestplate": "Scrap Chestplate",
+  "item.tecnocinetico.scrap_leggings": "Scrap Leggings",
+  "item.tecnocinetico.scrap_boots": "Scrap Boots",
+  "tooltip.tecnocinetico.scrap_set": "Survivor Scrap Set",
+  "tooltip.tecnocinetico.scrap_set_bonus": "Full set: -20% damage from projectiles and explosions",
+  "item.tecnocinetico.scrap_machete": "Scrap Machete",
+  "item.tecnocinetico.shotgun_shell": "Shotgun Shell",
+  "item.tecnocinetico.rifle_round": "Rifle Round",
+  "item.tecnocinetico.pipe_shotgun": "Pipe Shotgun",
+  "item.tecnocinetico.pipe_shotgun.desc": "Double barrel. Devastating up close, useless at range.",
+  "item.tecnocinetico.bolt_rifle": "Bolt-Action Rifle",
+  "item.tecnocinetico.bolt_rifle.desc": "Accurate and powerful; work the bolt after every shot.",
+  "tooltip.tecnocinetico.uses_ammo": "Ammo: %s (R: load one at a time)",
+  "message.tecnocinetico.no_ammo_for": "You have no %s"
 }

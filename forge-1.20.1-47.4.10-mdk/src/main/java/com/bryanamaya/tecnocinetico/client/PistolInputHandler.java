@@ -35,8 +35,10 @@ public final class PistolInputHandler {
 
     private PistolInputHandler() {}
 
-    private static boolean holdingPistol(LocalPlayer player) {
-        return player != null && player.getMainHandItem().getItem() instanceof KineticPistolItem;
+    /** Pistola o arma larga (escopeta, rifle) en la mano principal. */
+    static boolean holdingPistol(LocalPlayer player) {
+        return player != null && (player.getMainHandItem().getItem() instanceof KineticPistolItem
+                || player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem);
     }
 
     /** Intercepta los clics: el izquierdo dispara y el derecho no hace nada más (apuntar va en el tick). */
@@ -61,6 +63,18 @@ public final class PistolInputHandler {
 
     private static void tryFire(LocalPlayer player) {
         ItemStack pistol = player.getMainHandItem();
+        if (pistol.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem gun) {
+            if (gun.canFireNow(player, pistol)) {
+                float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING));
+                mult *= Mth.lerp(GunAnimState.aim, 1.0F, AIM_RECOIL_FACTOR);
+                player.setXRot(player.getXRot() - gun.stats().pitchKick() * mult);
+                player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * gun.stats().yawKick() * mult);
+                GunAnimState.onShot(player.level().getGameTime(), mult * 1.3F, player.getRandom().nextFloat() * 2.0F - 1.0F);
+                player.getCooldowns().addCooldown(gun, gun.stats().shotCooldown());
+            }
+            ModNetwork.CHANNEL.sendToServer(new ModNetwork.FirePistolPacket(GunAnimState.aim > 0.5F));
+            return;
+        }
         if (KineticPistolItem.canFireNow(player, pistol)) {
             // Predicción en el cliente: retroceso inmediato, sin esperar al servidor
             float mult = Skill.recoilMultiplier(PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING));
@@ -84,7 +98,8 @@ public final class PistolInputHandler {
         attackHeld = mc.options.keyAttack.isDown();
 
         boolean aiming = holdingPistol(player) && mc.screen == null && mc.options.keyUse.isDown()
-                && !KineticPistolItem.isReloading(player.getMainHandItem());
+                && !KineticPistolItem.isReloading(player.getMainHandItem())
+                && !com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(player.getMainHandItem());
         GunAnimState.prevAim = GunAnimState.aim;
         float target = aiming ? 1.0F : 0.0F;
         GunAnimState.aim = Mth.approach(GunAnimState.aim, target, AIM_SPEED);
@@ -94,8 +109,9 @@ public final class PistolInputHandler {
     @SubscribeEvent
     public static void onFov(ComputeFovModifierEvent event) {
         float aim = GunAnimState.aim;
-        if (aim > 0 && event.getPlayer().getMainHandItem().getItem() instanceof KineticPistolItem) {
-            float zoom = KineticPistolItem.aimZoom(event.getPlayer().getMainHandItem());
+        var held = event.getPlayer().getMainHandItem();
+        if (aim > 0 && (held.getItem() instanceof KineticPistolItem || held.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem)) {
+            float zoom = held.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g ? g.stats().aimZoom() : KineticPistolItem.aimZoom(held);
             event.setNewFovModifier(event.getNewFovModifier() * Mth.lerp(aim, 1.0F, zoom));
         }
     }

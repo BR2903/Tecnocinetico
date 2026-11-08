@@ -76,7 +76,8 @@ public final class ModKeyBindings {
                 if (mc.player == null) {
                     continue;
                 }
-                boolean holdingPistol = mc.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KineticPistolItem
+                boolean holdingPistol = PistolInputHandler.holdingPistol(mc.player)
+                        || mc.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KineticPistolItem
                         || mc.player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KineticPistolItem;
                 boolean holdingMag = mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem
                         || mc.player.getOffhandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem;

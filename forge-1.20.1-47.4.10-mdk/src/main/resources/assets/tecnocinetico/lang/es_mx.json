@@ -213,5 +213,20 @@
   "tooltip.tecnocinetico.recharge": "Recarga: %s (clic derecho si lo llevas puesto, o en la mesa)",
   "message.tecnocinetico.recharge_not_equipped": "No llevas %s en el Equipo Táctico",
   "message.tecnocinetico.recharge_full": "Ya tiene la batería llena",
-  "message.tecnocinetico.recharged": "%s recargado"
+  "message.tecnocinetico.recharged": "%s recargado",
+  "item.tecnocinetico.scrap_helmet": "Casco de Chatarra",
+  "item.tecnocinetico.scrap_chestplate": "Peto de Chatarra",
+  "item.tecnocinetico.scrap_leggings": "Grebas de Chatarra",
+  "item.tecnocinetico.scrap_boots": "Botas de Chatarra",
+  "tooltip.tecnocinetico.scrap_set": "Set de Chatarra de Superviviente",
+  "tooltip.tecnocinetico.scrap_set_bonus": "Con las 4 piezas: -20 % de daño de proyectiles y explosiones",
+  "item.tecnocinetico.scrap_machete": "Machete de Chatarra",
+  "item.tecnocinetico.shotgun_shell": "Cartucho de Escopeta",
+  "item.tecnocinetico.rifle_round": "Bala de Rifle",
+  "item.tecnocinetico.pipe_shotgun": "Escopeta de Caño",
+  "item.tecnocinetico.pipe_shotgun.desc": "Dos cañones. Devastadora de cerca, inútil de lejos.",
+  "item.tecnocinetico.bolt_rifle": "Rifle de Cerrojo",
+  "item.tecnocinetico.bolt_rifle.desc": "Preciso y potente; hay que accionar el cerrojo tras cada disparo.",
+  "tooltip.tecnocinetico.uses_ammo": "Munición: %s (R: cargar cartucho a cartucho)",
+  "message.tecnocinetico.no_ammo_for": "No tienes %s"
 }

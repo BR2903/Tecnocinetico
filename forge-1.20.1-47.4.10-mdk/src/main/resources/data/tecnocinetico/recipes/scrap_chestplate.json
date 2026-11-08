@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "S S",
+    "SCS",
+    "SLS"
+  ],
+  "key": {
+    "S": {
+      "item": "tecnocinetico:scrap_metal"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "C": {
+      "item": "tecnocinetico:cinetrite_shard"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:scrap_chestplate",
+    "count": 1
+  }
+}

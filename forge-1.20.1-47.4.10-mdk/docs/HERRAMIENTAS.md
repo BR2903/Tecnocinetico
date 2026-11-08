@@ -91,3 +91,7 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## worn_gear_texture.py (gadgets puestos)
 - `python tools/worn_gear_texture.py [preview.png]` genera `entity/worn_gear.png` y `worn_gear_glow.png` para `client/WornGearModel` (las zonas deben coincidir con los `texOffs` del modelo).
+
+## armor_gen.py y weapons_gen.py (tier 1)
+- `python tools/armor_gen.py [preview.png]`: texturas puestas `models/armor/scrap_layer_1/2.png` e iconos de la armadura de chatarra.
+- `python tools/weapons_gen.py`: atlas `item/weapons_t1.png` y modelos 3D de escopeta (+abierta), rifle (+cerrojo atrás), machete, cartuchos y balas; luego `gui_fit.py` ("y-90;z25" las armas largas, "y-135;x30" la munición y el machete) y volver a ejecutar (conserva `display.gui`).

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SLS",
+    "S S",
+    "L L"
+  ],
+  "key": {
+    "S": {
+      "item": "tecnocinetico:scrap_metal"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:scrap_leggings",
+    "count": 1
+  }
+}

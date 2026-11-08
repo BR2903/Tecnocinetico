@@ -123,6 +123,27 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON)));
     public static final RegistryObject<Item> JETPACK_KIT_3 = ITEMS.register("jetpack_kit_3",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    // ---------------------------------------------------------------- tier 1: armadura y armas
+    public static final RegistryObject<Item> SCRAP_HELMET = ITEMS.register("scrap_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem(net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> SCRAP_CHESTPLATE = ITEMS.register("scrap_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem(net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> SCRAP_LEGGINGS = ITEMS.register("scrap_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem(net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> SCRAP_BOOTS = ITEMS.register("scrap_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem(net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> SCRAP_MACHETE = ITEMS.register("scrap_machete",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.MacheteItem(new Item.Properties()));
+    public static final RegistryObject<Item> SHOTGUN_SHELL = ITEMS.register("shotgun_shell", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> RIFLE_ROUND = ITEMS.register("rifle_round", () -> new Item(new Item.Properties()));
+    /** Escopeta de caño: 2 cartuchos, 8 perdigones de 2.5 (20 de cerca), mucha dispersión, 14 bloques. */
+    public static final RegistryObject<Item> PIPE_SHOTGUN = ITEMS.register("pipe_shotgun",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    2, () -> SHOTGUN_SHELL.get(), 8, 2.5F, 14.0D, 7.0F, 5.0F, 14, 16, 9.0F, 3.0F, 0.85F, 0.65F), new Item.Properties()));
+    /** Rifle de cerrojo: 5 balas, 16 de daño, 60 bloques, preciso; 24 ticks entre disparos (cerrojo). */
+    public static final RegistryObject<Item> BOLT_RIFLE = ITEMS.register("bolt_rifle",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+                    5, () -> RIFLE_ROUND.get(), 1, 16.0F, 60.0D, 1.2F, 0.0F, 24, 14, 7.0F, 1.2F, 0.55F, 0.8F), new Item.Properties()));
     public static final RegistryObject<Item> SURVIVOR_SPAWN_EGG = ITEMS.register("survivor_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SURVIVOR, 0x5A5236, 0x3FC8D8, new Item.Properties()));
 

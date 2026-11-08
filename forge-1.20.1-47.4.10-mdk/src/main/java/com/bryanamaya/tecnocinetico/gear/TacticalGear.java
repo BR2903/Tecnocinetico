@@ -86,7 +86,8 @@ public class TacticalGear {
     // ------------------------------------------------------------------ qué cabe en cada ranura
 
     public static boolean isAmmo(ItemStack s) {
-        return s.is(ModItems.KINETIC_ROUND.get()) || s.is(ModItems.GUIDED_ROUND.get()) || s.getItem() instanceof MagazineItem;
+        return s.is(ModItems.KINETIC_ROUND.get()) || s.is(ModItems.GUIDED_ROUND.get()) || s.getItem() instanceof MagazineItem
+                || s.is(ModItems.SHOTGUN_SHELL.get()) || s.is(ModItems.RIFLE_ROUND.get());
     }
 
     public static boolean isAutoFood(ItemStack s) {

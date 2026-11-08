@@ -116,6 +116,11 @@ public class Tecnocinetico {
                             }
                             return 0.0F;
                         });
+                // Armas largas: 0 normal, 1 recargando (escopeta abierta / cerrojo atrás)
+                for (var gun : java.util.List.of(ModItems.PIPE_SHOTGUN.get(), ModItems.BOLT_RIFLE.get())) {
+                    ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
+                            (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(stack) ? 1.0F : 0.0F);
+                }
                 // Jetpack: nivel 1-3 (el modelo añade piezas en Mk II y Mk III)
                 ItemProperties.register(ModItems.JETPACK.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "level"),
                         (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.gear.JetpackItem.level(stack));

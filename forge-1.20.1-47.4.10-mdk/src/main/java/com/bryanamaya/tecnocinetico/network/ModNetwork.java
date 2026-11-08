@@ -71,7 +71,11 @@ public final class ModNetwork {
             ctx.get().enqueueWork(() -> {
                 ServerPlayer player = ctx.get().getSender();
                 if (player != null) {
-                    KineticPistolItem.tryFire(player, msg.aiming());
+                    if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem gun) {
+                        gun.tryFire(player, msg.aiming());
+                    } else {
+                        KineticPistolItem.tryFire(player, msg.aiming());
+                    }
                 }
             });
             ctx.get().setPacketHandled(true);
@@ -114,6 +118,10 @@ public final class ModNetwork {
                 for (InteractionHand hand : InteractionHand.values()) {
                     ItemStack stack = player.getItemInHand(hand);
                     // Con dos pistolas, recarga la primera que lo necesite
+                    if (stack.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem gun) {
+                        gun.startReload(player, stack);
+                        return;
+                    }
                     if (stack.getItem() instanceof KineticPistolItem && KineticPistolItem.canReload(stack)) {
                         KineticPistolItem.startReload(player, stack);
                         return;

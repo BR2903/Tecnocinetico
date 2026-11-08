@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "tecnocinetico:cinetrite_shard"
+    },
+    {
+      "item": "tecnocinetico:scrap_metal"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:shotgun_shell",
+    "count": 4
+  }
+}
