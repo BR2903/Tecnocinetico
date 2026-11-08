@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "tecnocinetico:cinetrite_shard"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:visor_battery",
+    "count": 2
+  }
+}

@@ -19,6 +19,15 @@ public final class ModRecipes {
     public static final RegistryObject<RecipeSerializer<MagazineLoadingRecipe>> MAGAZINE_LOADING =
             SERIALIZERS.register("magazine_loading", () -> new SimpleCraftingRecipeSerializer<>(MagazineLoadingRecipe::new));
 
+    /** Gadget + su recarga → gadget cargado. */
+    public static final RegistryObject<RecipeSerializer<com.bryanamaya.tecnocinetico.gear.GearRecipes.Recharge>> GADGET_RECHARGE =
+            SERIALIZERS.register("gadget_recharge",
+                    () -> new SimpleCraftingRecipeSerializer<>(com.bryanamaya.tecnocinetico.gear.GearRecipes.Recharge::new));
+    /** Jetpack + kit de mejora → jetpack del nivel siguiente. */
+    public static final RegistryObject<RecipeSerializer<com.bryanamaya.tecnocinetico.gear.GearRecipes.JetpackUpgrade>> JETPACK_UPGRADE =
+            SERIALIZERS.register("jetpack_upgrade",
+                    () -> new SimpleCraftingRecipeSerializer<>(com.bryanamaya.tecnocinetico.gear.GearRecipes.JetpackUpgrade::new));
+
     private ModRecipes() {}
 
     public static void register(IEventBus bus) {

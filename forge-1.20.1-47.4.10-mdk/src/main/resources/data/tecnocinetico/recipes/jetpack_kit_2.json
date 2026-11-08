@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "NCN",
+    "RBR"
+  ],
+  "key": {
+    "N": {
+      "item": "tecnocinetico:inercita_ingot"
+    },
+    "C": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "B": {
+      "item": "minecraft:copper_block"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:jetpack_kit_2",
+    "count": 1
+  }
+}

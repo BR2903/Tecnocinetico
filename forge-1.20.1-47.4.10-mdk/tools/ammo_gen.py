@@ -158,6 +158,45 @@ def jetpack_elements():
     return els
 
 
+def jetpack_level_elements(level):
+    """Mk II: propulsores laterales; Mk III además aleta dorsal y alerones."""
+    els = jetpack_elements()
+    if level >= 2:
+        els += [el([1.6, 5, 7.2], [3.5, 10, 9.2], "copper_dark"), el([12.5, 5, 7.2], [14.4, 10, 9.2], "copper_dark"),
+                el([1.8, 4.6, 7.4], [3.3, 5, 9.0], "lens"), el([12.7, 4.6, 7.4], [14.2, 5, 9.0], "lens")]
+    if level >= 3:
+        els += [el([7.5, 4, 11.5], [8.5, 12, 13.5], "steel_hi"),
+                el([0.5, 11.5, 7.5], [3.5, 12.5, 9.5], "steel_hi"), el([12.5, 11.5, 7.5], [15.5, 12.5, 9.5], "steel_hi")]
+    return els
+
+
+def battery_elements():
+    """Batería de Visor: cuerpo de acero con franja cian y bornes de cobre."""
+    return [el([5.5, 2, 6.5], [10.5, 11, 9.5], "steel", "steel"), el([5.4, 5, 6.4], [10.6, 6.5, 9.6], "lens"),
+            el([6.5, 11, 7.3], [7.7, 12, 8.7], "copper"), el([8.3, 11, 7.3], [9.5, 12, 8.7], "copper")]
+
+
+def fuel_elements():
+    """Cartucho de Propelente: bombona de cobre con aros, válvula de acero."""
+    return [el([5.5, 1, 5.5], [10.5, 11, 10.5], "copper"), el([5.4, 3, 5.4], [10.6, 3.6, 10.6], "copper_dark"),
+            el([5.4, 8.5, 5.4], [10.6, 9.1, 10.6], "copper_dark"), el([7, 11, 7], [9, 13, 9], "steel_hi"),
+            el([6, 12.5, 7.6], [10, 13.2, 8.4], "steel")]
+
+
+def cell_elements():
+    """Célula de Propulsión: cápsula verde azulada con ventana cian y extremos de acero."""
+    return [el([6, 3, 6], [10, 11, 10], "teal"), el([5.6, 2, 5.6], [10.4, 3, 10.4], "steel"),
+            el([5.6, 11, 5.6], [10.4, 12, 10.4], "steel"), el([7, 5, 5.8], [9, 9, 6], "lens")]
+
+
+def kit_elements(level):
+    """Kit de mejora: maletín de acero con cierres y una placa (cobre Mk II, cian Mk III)."""
+    accent = "copper" if level == 2 else "lens"
+    return [el([3, 2, 5], [13, 9, 11], "steel", "steel"), el([3.2, 9, 5.2], [12.8, 9.6, 10.8], "steel_hi"),
+            el([6, 9.6, 7.5], [10, 10.6, 8.5], "poly"), el([4, 5, 4.8], [6, 7, 5], accent), el([10, 5, 4.8], [12, 7, 5], accent),
+            el([6.5, 4, 4.8], [9.5, 8, 5], "copper_dark" if level == 2 else "guide")]
+
+
 def propulsor_elements():
     """Propulsor acuático: dos turbinas de tobillo con rotor cian y aleta."""
     els = []
@@ -181,6 +220,16 @@ if __name__ == "__main__":
                              {"predicate": {"tecnocinetico:loaded": 1.0}, "model": f"tecnocinetico:item/{mag}_guided"}]
         (ROOT / "models/item" / f"{mag}.json").write_text(json.dumps(base, indent=2), encoding="utf-8")
     model("night_vision_visor", visor_elements())
-    model("jetpack", jetpack_elements())
+    model("jetpack_2", jetpack_level_elements(2))
+    model("jetpack_3", jetpack_level_elements(3))
+    jet = model("jetpack", jetpack_elements())
+    jet["overrides"] = [{"predicate": {"tecnocinetico:level": 2}, "model": "tecnocinetico:item/jetpack_2"},
+                        {"predicate": {"tecnocinetico:level": 3}, "model": "tecnocinetico:item/jetpack_3"}]
+    (ROOT / "models/item/jetpack.json").write_text(json.dumps(jet, indent=2), encoding="utf-8")
+    model("visor_battery", battery_elements())
+    model("jetpack_fuel", fuel_elements())
+    model("propulsor_cell", cell_elements())
+    model("jetpack_kit_2", kit_elements(2))
+    model("jetpack_kit_3", kit_elements(3))
     model("aqua_propulsor", propulsor_elements())
     print("ok: munición, cargadores y gadgets")

@@ -116,6 +116,9 @@ public class Tecnocinetico {
                             }
                             return 0.0F;
                         });
+                // Jetpack: nivel 1-3 (el modelo añade piezas en Mk II y Mk III)
+                ItemProperties.register(ModItems.JETPACK.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "level"),
+                        (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.gear.JetpackItem.level(stack));
                 // Cargadores: 0 vacío, 0.5 bala normal arriba, 1 bala guiada arriba (cambia el modelo)
                 for (var mag : java.util.List.of(ModItems.MAGAZINE.get(), ModItems.EXTENDED_MAGAZINE.get())) {
                     ItemProperties.register(mag, ResourceLocation.fromNamespaceAndPath(MOD_ID, "loaded"),
@@ -145,8 +148,22 @@ public class Tecnocinetico {
                     com.bryanamaya.tecnocinetico.entity.client.SwarmWaspModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SentryTurretModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.SentryTurretModel::createLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.client.WornGearModel.LAYER,
+                    com.bryanamaya.tecnocinetico.client.WornGearModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SurvivorRenderer.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.SurvivorRenderer::createLayer);
+        }
+
+        /** Gadgets del Equipo Táctico dibujados sobre el jugador (ambos tipos de brazos: "default" y "slim"). */
+        @SubscribeEvent
+        @SuppressWarnings("unchecked")
+        public static void addPlayerLayers(EntityRenderersEvent.AddLayers event) {
+            for (String skin : event.getSkins()) {
+                var renderer = event.getSkin(skin);
+                if (renderer instanceof net.minecraft.client.renderer.entity.player.PlayerRenderer pr) {
+                    pr.addLayer(new com.bryanamaya.tecnocinetico.client.GearLayer(pr, event.getEntityModels()));
+                }
+            }
         }
 
         @SubscribeEvent

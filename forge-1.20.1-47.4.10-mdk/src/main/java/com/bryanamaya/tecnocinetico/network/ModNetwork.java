@@ -46,6 +46,8 @@ public final class ModNetwork {
                 JetpackPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(7, SyncGearPacket.class, (m, b) -> b.writeNbt(m.tag()), b -> new SyncGearPacket(b.readNbt()),
                 SyncGearPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(8, WornGadgetsPacket.class, WornGadgetsPacket::encode, WornGadgetsPacket::decode,
+                WornGadgetsPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
                 SyncSkillsPacket::encode, SyncSkillsPacket::decode, SyncSkillsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
@@ -217,6 +219,27 @@ public final class ModNetwork {
             ctx.get().enqueueWork(() -> net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(
                     net.minecraftforge.api.distmarker.Dist.CLIENT,
                     () -> () -> com.bryanamaya.tecnocinetico.client.ClientGearHandler.apply(msg.tag)));
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Gadgets que lleva puestos un jugador (cara, espalda, pies), para que los demás los vean. */
+    public record WornGadgetsPacket(int entityId, ItemStack face, ItemStack back, ItemStack feet) {
+        public static void encode(WornGadgetsPacket m, FriendlyByteBuf b) {
+            b.writeVarInt(m.entityId);
+            b.writeItem(m.face);
+            b.writeItem(m.back);
+            b.writeItem(m.feet);
+        }
+
+        public static WornGadgetsPacket decode(FriendlyByteBuf b) {
+            return new WornGadgetsPacket(b.readVarInt(), b.readItem(), b.readItem(), b.readItem());
+        }
+
+        public static void handle(WornGadgetsPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(
+                    net.minecraftforge.api.distmarker.Dist.CLIENT,
+                    () -> () -> com.bryanamaya.tecnocinetico.client.ClientGearHandler.applyWorn(msg.entityId, msg.face, msg.back, msg.feet)));
             ctx.get().setPacketHandled(true);
         }
     }

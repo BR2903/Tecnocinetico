@@ -11,25 +11,25 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
- * Menú del Equipo Táctico: las 10 ranuras de {@link TacticalGear} + el inventario del jugador.
+ * Menú del Equipo Táctico: las 18 ranuras de {@link TacticalGear} + el inventario del jugador.
  * En el servidor usa el equipo real del jugador; en el cliente una copia vacía que el menú sincroniza.
  * Las posiciones deben coincidir con la textura gui/tactical_gear.png (tools/tactical_gui_gen.py).
  */
 public class TacticalMenu extends AbstractContainerMenu {
 
     public static final int[][] POS = new int[TacticalGear.SIZE][];
-    public static final int INV_Y = 118;
+    public static final int INV_Y = 136;
 
     static {
         for (int i = 0; i < TacticalGear.AMMO_COUNT; i++) {
-            POS[TacticalGear.AMMO_START + i] = new int[]{116 + (i % 2) * 18, 16 + (i / 2) * 18};
+            POS[TacticalGear.AMMO_START + i] = new int[]{116 + (i % 3) * 18, 16 + (i / 3) * 18};
         }
         for (int i = 0; i < TacticalGear.FOOD_COUNT; i++) {
-            POS[TacticalGear.FOOD_START + i] = new int[]{116 + i * 18, 72};
+            POS[TacticalGear.FOOD_START + i] = new int[]{116 + (i % 3) * 18, 66 + (i / 3) * 18};
         }
-        POS[TacticalGear.FACE] = new int[]{8, 16};
-        POS[TacticalGear.BACK] = new int[]{8, 40};
-        POS[TacticalGear.FEET] = new int[]{8, 64};
+        POS[TacticalGear.FACE] = new int[]{8, 20};
+        POS[TacticalGear.BACK] = new int[]{8, 56};
+        POS[TacticalGear.FEET] = new int[]{8, 92};
     }
 
     /** Cliente. */

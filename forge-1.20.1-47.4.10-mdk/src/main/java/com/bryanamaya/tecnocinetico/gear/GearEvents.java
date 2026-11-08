@@ -118,6 +118,19 @@ public final class GearEvents {
         THRUSTING.remove(event.getEntity().getUUID());
     }
 
+    private static ModNetwork.WornGadgetsPacket worn(Player p, TacticalGear g) {
+        return new ModNetwork.WornGadgetsPacket(p.getId(), g.get(TacticalGear.FACE).copy(), g.get(TacticalGear.BACK).copy(),
+                g.get(TacticalGear.FEET).copy());
+    }
+
+    /** Al empezar a ver a otro jugador, recibir los gadgets que lleva puestos. */
+    @SubscribeEvent
+    public static void startTracking(PlayerEvent.StartTracking event) {
+        if (event.getTarget() instanceof Player target && event.getEntity() instanceof ServerPlayer viewer) {
+            TacticalGear.of(target).ifPresent(g -> ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> viewer), worn(target, g)));
+        }
+    }
+
     public static void sync(ServerPlayer sp) {
         TacticalGear.of(sp).ifPresent(g -> {
             g.takeDirty();
@@ -136,6 +149,7 @@ public final class GearEvents {
             serverTick(sp, g);
             if (g.takeDirty()) {
                 ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sp), new ModNetwork.SyncGearPacket(g.save()));
+                ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(() -> sp), worn(sp, g));
             }
         });
     }

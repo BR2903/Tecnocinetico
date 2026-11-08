@@ -24,7 +24,7 @@ public class TacticalScreen extends AbstractContainerScreen<TacticalMenu> {
     public TacticalScreen(TacticalMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
         imageWidth = 176;
-        imageHeight = 200;
+        imageHeight = 218;
         inventoryLabelY = TacticalMenu.INV_Y - 11;
     }
 
@@ -38,15 +38,15 @@ public class TacticalScreen extends AbstractContainerScreen<TacticalMenu> {
     protected void renderBg(GuiGraphics g, float partialTick, int mouseX, int mouseY) {
         g.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
         // personaje en la ventana central
-        InventoryScreen.renderEntityInInventoryFollowsMouse(g, leftPos + 64, topPos + 80, 30,
-                leftPos + 64 - mouseX, topPos + 30 - mouseY, minecraft.player);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(g, leftPos + 64, topPos + 108, 40,
+                leftPos + 64 - mouseX, topPos + 45 - mouseY, minecraft.player);
     }
 
     @Override
     protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
         g.drawString(font, title, 30, 4, 0x3A3A3A, false);
         g.drawString(font, Component.translatable("gui.tecnocinetico.gear.ammo"), 116, 5, 0x3A3A3A, false);
-        g.drawString(font, Component.translatable("gui.tecnocinetico.gear.food"), 116, 61, 0x3A3A3A, false);
+        g.drawString(font, Component.translatable("gui.tecnocinetico.gear.food"), 116, 55, 0x3A3A3A, false);
         g.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, 0x3A3A3A, false);
     }
 
@@ -60,7 +60,7 @@ public class TacticalScreen extends AbstractContainerScreen<TacticalMenu> {
         if (slot != null && slot.index < TacticalGear.SIZE && !slot.hasItem() && menu.getCarried().isEmpty()) {
             String key = slot.index < TacticalGear.FOOD_START ? "gui.tecnocinetico.gear.hint.ammo"
                     : slot.index < TacticalGear.FACE ? "gui.tecnocinetico.gear.hint.food"
-                    : "tooltip.tecnocinetico.gadget_slot." + slot.index;
+                    : "tooltip.tecnocinetico.gadget_slot." + TacticalGear.slotName(slot.index);
             g.renderTooltip(font, Component.translatable(key), mouseX, mouseY);
         }
     }

@@ -59,6 +59,11 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.NIGHT_VISION_VISOR.get());
                         pOutput.accept(ModItems.JETPACK.get());
                         pOutput.accept(ModItems.AQUA_PROPULSOR.get());
+                        pOutput.accept(ModItems.VISOR_BATTERY.get());
+                        pOutput.accept(ModItems.JETPACK_FUEL.get());
+                        pOutput.accept(ModItems.PROPULSOR_CELL.get());
+                        pOutput.accept(ModItems.JETPACK_KIT_2.get());
+                        pOutput.accept(ModItems.JETPACK_KIT_3.get());
                         pOutput.accept(ModItems.EXTENDED_MAGAZINE.get());
                         pOutput.accept(ModItems.SWARM_BODY_SPAWN_EGG.get());
                         pOutput.accept(ModItems.SURVIVOR_SPAWN_EGG.get());

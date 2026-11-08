@@ -89,4 +89,80 @@ public class GearGameTests {
         helper.assertTrue(!TacticalGear.accepts(TacticalGear.FACE, new ItemStack(ModItems.JETPACK.get())), "jetpack ✗ cara");
         helper.succeed();
     }
+
+    private static final net.minecraft.world.inventory.AbstractContainerMenu DUMMY = new net.minecraft.world.inventory.AbstractContainerMenu(null, -1) {
+        @Override
+        public ItemStack quickMoveStack(Player player, int index) {
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public boolean stillValid(Player player) {
+            return true;
+        }
+    };
+
+    private static net.minecraft.world.inventory.TransientCraftingContainer grid(ItemStack a, ItemStack b) {
+        var g = new net.minecraft.world.inventory.TransientCraftingContainer(DUMMY, 3, 3);
+        g.setItem(0, a);
+        g.setItem(4, b);
+        return g;
+    }
+
+    /** Equipos guardados con el formato viejo (10 ranuras) se recolocan en las nuevas. */
+    @GameTest(template = "empty")
+    public static void migrateOldGear(GameTestHelper helper) {
+        var old = new net.minecraftforge.items.ItemStackHandler(10);
+        old.setStackInSlot(3, new ItemStack(ModItems.KINETIC_ROUND.get(), 5));
+        old.setStackInSlot(5, new ItemStack(Items.BREAD, 2));
+        old.setStackInSlot(7, new ItemStack(ModItems.NIGHT_VISION_VISOR.get()));
+        old.setStackInSlot(8, new ItemStack(ModItems.JETPACK.get()));
+        old.setStackInSlot(9, new ItemStack(ModItems.AQUA_PROPULSOR.get()));
+        TacticalGear g = new TacticalGear();
+        g.load(old.serializeNBT());
+        helper.assertTrue(g.get(3).getCount() == 5 && g.get(TacticalGear.FOOD_START + 1).is(Items.BREAD)
+                && g.get(TacticalGear.FACE).is(ModItems.NIGHT_VISION_VISOR.get()) && g.get(TacticalGear.BACK).is(ModItems.JETPACK.get())
+                && g.get(TacticalGear.FEET).is(ModItems.AQUA_PROPULSOR.get()), "La migración del formato viejo no recolocó bien");
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty")
+    public static void jetpackLevelsAndRecharge(GameTestHelper helper) {
+        var lvl = helper.getLevel();
+        ItemStack jet = new ItemStack(ModItems.JETPACK.get());
+        int b1 = jet.getMaxDamage();
+        // mejora Mk I → Mk II en la mesa
+        var up = new com.bryanamaya.tecnocinetico.gear.GearRecipes.JetpackUpgrade(
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "t1"),
+                net.minecraft.world.item.crafting.CraftingBookCategory.EQUIPMENT);
+        var g1 = grid(jet, new ItemStack(ModItems.JETPACK_KIT_2.get()));
+        helper.assertTrue(up.matches(g1, lvl), "Jetpack + Kit Mk II debería mejorar");
+        ItemStack mk2 = up.assemble(g1, lvl.registryAccess());
+        helper.assertTrue(com.bryanamaya.tecnocinetico.gear.JetpackItem.level(mk2) == 2 && mk2.getMaxDamage() > b1,
+                "Mk II debería tener más batería que Mk I");
+        helper.assertTrue(!up.matches(grid(jet, new ItemStack(ModItems.JETPACK_KIT_3.get())), lvl), "Mk I + Kit Mk III no vale");
+        helper.assertTrue(com.bryanamaya.tecnocinetico.gear.JetpackItem.thrust(mk2) > com.bryanamaya.tecnocinetico.gear.JetpackItem.thrust(jet),
+                "Mk II debería empujar más");
+        // recarga en la mesa: jetpack gastado + cartucho = lleno
+        mk2.setDamageValue(500);
+        var rc = new com.bryanamaya.tecnocinetico.gear.GearRecipes.Recharge(
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "t2"),
+                net.minecraft.world.item.crafting.CraftingBookCategory.EQUIPMENT);
+        var g2 = grid(mk2, new ItemStack(ModItems.JETPACK_FUEL.get()));
+        helper.assertTrue(rc.matches(g2, lvl) && rc.assemble(g2, lvl.registryAccess()).getDamageValue() == 0,
+                "Jetpack + Cartucho debería recargarse del todo");
+        helper.assertTrue(!rc.matches(grid(mk2, new ItemStack(ModItems.VISOR_BATTERY.get())), lvl), "La batería del visor no recarga el jetpack");
+        // recarga con clic derecho del visor puesto
+        Player p = helper.makeMockPlayer();
+        TacticalGear gear = gear(helper, p);
+        ItemStack visor = new ItemStack(ModItems.NIGHT_VISION_VISOR.get());
+        visor.setDamageValue(300);
+        gear.items().setStackInSlot(TacticalGear.FACE, visor);
+        ItemStack battery = new ItemStack(ModItems.VISOR_BATTERY.get(), 2);
+        p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, battery);
+        battery.use(lvl, p, net.minecraft.world.InteractionHand.MAIN_HAND);
+        helper.assertTrue(gear.get(TacticalGear.FACE).getDamageValue() == 0 && p.getMainHandItem().getCount() == 1,
+                "La Batería de Visor (clic derecho) debería recargar el visor puesto y gastarse");
+        helper.succeed();
+    }
 }

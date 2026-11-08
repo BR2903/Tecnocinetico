@@ -1,6 +1,5 @@
 package com.bryanamaya.tecnocinetico.gear;
 
-import com.bryanamaya.tecnocinetico.item.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -13,8 +12,8 @@ import java.util.List;
 
 /**
  * Gadget del Equipo Táctico. Va en su ranura (cara, espalda o pies) y gasta BATERÍA (la durabilidad del
- * objeto) mientras funciona; sin batería deja de funcionar pero no se rompe. Se recarga en el yunque con
- * Fragmentos de Cinetrita.
+ * objeto) mientras funciona; sin batería deja de funcionar pero no se rompe. Se recarga con su objeto propio
+ * (Batería de Visor, Cartucho de Propelente, Célula de Propulsión): clic derecho con él o en la mesa.
  */
 public class GadgetItem extends Item {
 
@@ -43,9 +42,10 @@ public class GadgetItem extends Item {
         }
     }
 
+    /** Ya no se repara en el yunque: cada gadget tiene su propio objeto de recarga (RechargeItem). */
     @Override
     public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
-        return repair.is(ModItems.CINETRITE_SHARD.get());
+        return false;
     }
 
     @Override
@@ -64,6 +64,7 @@ public class GadgetItem extends Item {
         int pct = Math.round(100.0F * (stack.getMaxDamage() - 1 - stack.getDamageValue()) / (stack.getMaxDamage() - 1));
         tooltip.add(Component.translatable("tooltip.tecnocinetico.battery", pct)
                 .withStyle(pct > 0 ? ChatFormatting.AQUA : ChatFormatting.RED));
-        tooltip.add(Component.translatable("tooltip.tecnocinetico.gadget_slot." + slot).withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.add(Component.translatable("tooltip.tecnocinetico.gadget_slot." + TacticalGear.slotName(slot))
+                .withStyle(ChatFormatting.DARK_GRAY));
     }
 }

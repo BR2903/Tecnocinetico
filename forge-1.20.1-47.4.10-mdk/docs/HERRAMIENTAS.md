@@ -88,3 +88,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## tactical_gui_gen.py (Equipo Táctico)
 - `python tools/tactical_gui_gen.py [preview.png]` genera `textures/gui/tactical_gear.png` (panel 176x200 + pestañas en x=176). Las ranuras deben coincidir con `TacticalMenu.POS`. Los modelos de los gadgets están en `ammo_gen.py`.
+
+## worn_gear_texture.py (gadgets puestos)
+- `python tools/worn_gear_texture.py [preview.png]` genera `entity/worn_gear.png` y `worn_gear_glow.png` para `client/WornGearModel` (las zonas deben coincidir con los `texOffs` del modelo).

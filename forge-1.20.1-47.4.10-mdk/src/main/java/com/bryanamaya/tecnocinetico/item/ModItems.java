@@ -105,13 +105,24 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON).stacksTo(16)));
     public static final RegistryObject<Item> SENTRY_TURRET_SPAWN_EGG = ITEMS.register("sentry_turret_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SENTRY_TURRET, 0x26282E, 0xD6A828, new Item.Properties()));
-    // Gadgets del Equipo Táctico (batería = durabilidad; ranuras: 7 cara, 8 espalda, 9 pies)
+    // Gadgets del Equipo Táctico (batería = durabilidad; ranuras: cara, espalda, pies)
     public static final RegistryObject<Item> NIGHT_VISION_VISOR = ITEMS.register("night_vision_visor",
-            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(7, 1200, "tooltip.tecnocinetico.night_vision_visor", new Item.Properties()));
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.FACE, 1200, "tooltip.tecnocinetico.night_vision_visor", new Item.Properties()));
     public static final RegistryObject<Item> JETPACK = ITEMS.register("jetpack",
-            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(8, 1200, "tooltip.tecnocinetico.jetpack", new Item.Properties()));
+            () -> new com.bryanamaya.tecnocinetico.gear.JetpackItem(new Item.Properties()));
     public static final RegistryObject<Item> AQUA_PROPULSOR = ITEMS.register("aqua_propulsor",
-            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(9, 1200, "tooltip.tecnocinetico.aqua_propulsor", new Item.Properties()));
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.FEET, 1200, "tooltip.tecnocinetico.aqua_propulsor", new Item.Properties()));
+    // Recargas de cada gadget y kits de mejora del jetpack
+    public static final RegistryObject<Item> VISOR_BATTERY = ITEMS.register("visor_battery",
+            () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> NIGHT_VISION_VISOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> JETPACK_FUEL = ITEMS.register("jetpack_fuel",
+            () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> JETPACK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PROPULSOR_CELL = ITEMS.register("propulsor_cell",
+            () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> AQUA_PROPULSOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> JETPACK_KIT_2 = ITEMS.register("jetpack_kit_2",
+            () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> JETPACK_KIT_3 = ITEMS.register("jetpack_kit_3",
+            () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
     public static final RegistryObject<Item> SURVIVOR_SPAWN_EGG = ITEMS.register("survivor_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SURVIVOR, 0x5A5236, 0x3FC8D8, new Item.Properties()));
 

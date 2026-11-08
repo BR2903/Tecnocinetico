@@ -921,5 +921,19 @@
         1.079
       ]
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "tecnocinetico:level": 2
+      },
+      "model": "tecnocinetico:item/jetpack_2"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:level": 3
+      },
+      "model": "tecnocinetico:item/jetpack_3"
+    }
+  ]
 }

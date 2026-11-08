@@ -25,14 +25,19 @@ import java.util.Optional;
  * Equipo Táctico del jugador (pestaña extra del inventario, tecla J): ranuras de munición, comida y gadgets.
  * Se guarda como capacidad de Forge en el jugador y se sincroniza al cliente con {@code SyncGearPacket}.
  *
- * Ranuras: 0-3 munición (balas y cargadores), 4-6 comida (se come sola), 7 cara, 8 espalda, 9 pies.
+ * Ranuras: 0-5 munición (balas y cargadores), 6-14 comida (se come sola), 15 cara, 16 espalda, 17 pies.
+ * (Hasta el 2026-11-07 eran 10 ranuras: 0-3, 4-6, 7, 8, 9; {@link #load} migra los equipos guardados.)
  */
 public class TacticalGear {
 
-    public static final int AMMO_START = 0, AMMO_COUNT = 4;
-    public static final int FOOD_START = 4, FOOD_COUNT = 3;
-    public static final int FACE = 7, BACK = 8, FEET = 9;
-    public static final int SIZE = 10;
+    public static final int AMMO_START = 0, AMMO_COUNT = 6;
+    public static final int FOOD_START = 6, FOOD_COUNT = 9;
+    public static final int FACE = 15, BACK = 16, FEET = 17;
+    public static final int SIZE = 18;
+    /** Nombre de cada ranura de gadget (textos "tooltip.tecnocinetico.gadget_slot.<nombre>"). */
+    public static String slotName(int slot) {
+        return slot == FACE ? "face" : slot == BACK ? "back" : "feet";
+    }
 
     public static final Capability<TacticalGear> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
@@ -145,13 +150,20 @@ public class TacticalGear {
     }
 
     public void load(CompoundTag tag) {
-        items.deserializeNBT(tag);
-        if (items.getSlots() != SIZE) {                                // por si cambia el tamaño en versiones futuras
-            ItemStackHandler old = new ItemStackHandler(items.getSlots());
+        int savedSize = tag.contains("Size") ? tag.getInt("Size") : SIZE;
+        if (savedSize == 10) {
+            // formato antiguo (4 munición, 3 comida, cara, espalda, pies): se recolocan en las ranuras nuevas
+            ItemStackHandler old = new ItemStackHandler(10);
             old.deserializeNBT(tag);
+            int[] map = {0, 1, 2, 3, FOOD_START, FOOD_START + 1, FOOD_START + 2, FACE, BACK, FEET};
             items.setSize(SIZE);
-            for (int i = 0; i < Math.min(SIZE, old.getSlots()); i++) {
-                items.setStackInSlot(i, old.getStackInSlot(i));
+            for (int i = 0; i < 10; i++) {
+                items.setStackInSlot(map[i], old.getStackInSlot(i));
+            }
+        } else {
+            items.deserializeNBT(tag);
+            if (items.getSlots() != SIZE) {
+                items.setSize(SIZE);
             }
         }
         visorOn = !tag.contains("VisorOn") || tag.getBoolean("VisorOn");

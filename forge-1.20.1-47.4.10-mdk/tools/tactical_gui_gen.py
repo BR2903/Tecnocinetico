@@ -1,7 +1,7 @@
 """Interfaz del Equipo Táctico: textures/gui/tactical_gear.png (256x256).
 
 Uso (desde forge-1.20.1-47.4.10-mdk):  python tools/tactical_gui_gen.py [preview.png]
-Panel 176x200 en (0,0) con el estilo del inventario vanilla. Pestañas en (176,0) normal, (202,0) resaltada,
+Panel 176x218 en (0,0) con el estilo del inventario vanilla. Pestañas en (176,0) normal, (202,0) resaltada,
 (176,24) activa (26x27, se funde con el panel). Las posiciones de las ranuras deben coincidir con
 menu/TacticalMenu.POS (ranura = esquina del objeto; el marco de 18 px se dibuja 1 px antes).
 """
@@ -10,16 +10,16 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 OUT = Path(__file__).resolve().parent.parent / "src/main/resources/assets/tecnocinetico/textures/gui/tactical_gear.png"
-W, H = 176, 200
+W, H = 176, 218
 BG, LIGHT, SHADOW, BLACK = (198, 198, 198), (255, 255, 255), (85, 85, 85), (0, 0, 0)
 SLOT_DARK, SLOT_IN = (55, 55, 55), (139, 139, 139)
 CYAN, CYAN_DIM, GREEN = (64, 206, 228), (40, 110, 124), (90, 170, 80)
 GHOST = (118, 118, 118)
 
-AMMO = [(116, 16), (134, 16), (116, 34), (134, 34)]
-FOOD = [(116, 72), (134, 72), (152, 72)]
-GADGETS = [(8, 16), (8, 40), (8, 64)]
-INV_Y = 118
+AMMO = [(116 + (i % 3) * 18, 16 + (i // 3) * 18) for i in range(6)]
+FOOD = [(116 + (i % 3) * 18, 66 + (i // 3) * 18) for i in range(9)]
+GADGETS = [(8, 20), (8, 56), (8, 92)]
+INV_Y = 136
 
 
 def panel(d, x0, y0, x1, y1, open_top=False):
@@ -72,7 +72,7 @@ def build():
     panel(d, 0, 0, W - 1, H - 1)
 
     # ventana del personaje: pantalla oscura con rejilla cian tenue
-    x0, y0, x1, y1 = 28, 13, 100, 85
+    x0, y0, x1, y1 = 28, 13, 104, 120
     d.rectangle([x0, y0, x1, y1], fill=(18, 20, 24), outline=(40, 44, 50))
     for gx in range(x0 + 6, x1, 8):
         d.line([(gx, y0 + 1), (gx, y1 - 1)], fill=(26, 34, 40))
@@ -118,5 +118,5 @@ if __name__ == "__main__":
     OUT.parent.mkdir(parents=True, exist_ok=True)
     img.save(OUT)
     if len(sys.argv) > 1:
-        img.crop((0, 0, 230, 200)).resize((690, 600), Image.NEAREST).save(sys.argv[1])
+        img.crop((0, 0, 230, 218)).resize((690, 600), Image.NEAREST).save(sys.argv[1])
     print("ok: interfaz del equipo táctico")
