@@ -615,10 +615,28 @@ def arc_caster(cell_out=False):
 MINI_SPIN = [None, {"angle": 22.5, "axis": "z", "origin": [8, 13.1, -7]}, {"angle": -22.5, "axis": "z", "origin": [8, 13.1, -7]}]
 
 
+MINI_SHIFT = (0.0, -8.4, 6.0)          # el asa superior queda donde la mano agarra (empuñadura de las armas largas)
+
+
+def moved(els, d):
+    """Traslada un grupo de elementos (y el origen de sus rotaciones)."""
+    out = []
+    for e in els:
+        e2 = dict(e)
+        e2["from"] = [round(e["from"][i] + d[i], 4) for i in range(3)]
+        e2["to"] = [round(e["to"][i] + d[i], 4) for i in range(3)]
+        if "rotation" in e:
+            r = dict(e["rotation"])
+            r["origin"] = [round(r["origin"][i] + d[i], 4) for i in range(3)]
+            e2["rotation"] = r
+        out.append(e2)
+    return out
+
+
 def minigun(box_out=False, frame=0):
-    """Minigun portátil a dos manos: 6 cañones con abrazaderas y corona dentada (giran: 3 fotogramas), motor
-    con rejillas, agarradera metálica en D encima del motor para la mano delantera, batería trasera, empuñadura
-    con gatillo y caja de munición con cinta."""
+    """Minigun portátil que se lleva colgando del asa de arriba (como las miniguns de mano): 6 cañones con
+    abrazaderas y corona dentada (giran: 3 fotogramas), motor con rejillas, asa metálica en D moleteada con el
+    gatillo de palanca dentro, batería trasera y caja de munición con cinta. Sin empuñadura inferior."""
     r = MINI_SPIN[frame]
     els = []
     for (x, y) in ((7.0, 12.4), (8.4, 12.4), (7.0, 13.8), (8.4, 13.8), (7.7, 11.7), (7.7, 14.5)):
@@ -633,20 +651,24 @@ def minigun(box_out=False, frame=0):
             el([6.8, 11.4, 7.0], [9.2, 15.2, 9.0], "steel_dark"),                              # tapa trasera
             el([6.9, 11.6, 9.0], [9.1, 14.6, 13.0], "olive"),                                  # batería
             el([9.1, 13.6, 10.0], [9.2, 14.2, 12.0], "cyan"),
-            el([7.3, 10.6, 6.0], [8.7, 11.6, 10.0], "steel_dark"),                             # caja del gatillo
-            el([7.2, 8.0, 9.6], [8.8, 11.6, 12.4], "rubber", rot=GRIP_ROT)]                    # empuñadura trasera
-    # agarradera metálica en D para la mano delantera (sobre el motor)
+            el([7.2, 11.0, 9.4], [8.8, 11.6, 12.6], "steel_dark")]                             # base de la batería
+    # asa metálica en D: es por donde se agarra el arma (la mano la rodea; el gatillo de palanca queda dentro)
     els += [el([7.3, 15.4, -1.0], [8.7, 15.7, 1.0], "steel_dark"), el([7.3, 15.4, 5.0], [8.7, 15.7, 7.0], "steel_dark"),
             el([7.6, 15.7, -0.6], [8.4, 17.8, 0.4], "steel"), el([7.6, 15.7, 5.6], [8.4, 17.8, 6.6], "steel"),
-            el([7.55, 17.8, -0.9], [8.45, 18.7, 6.9], "steel_hi")]
-    for z in (1.0, 2.2, 3.4, 4.6):                                                         # moleteado
+            el([7.55, 17.8, -0.9], [8.45, 18.7, 6.9], "steel_hi"),
+            el([7.75, 16.9, 3.0], [8.25, 17.8, 4.4], "steel_dark"),                            # gatillo de palanca
+            el([7.8, 16.6, 3.6], [8.2, 16.9, 5.2], "shell_red"),
+            el([7.8, 18.7, 0.2], [8.2, 19.0, 0.8], "shell_red")]                               # seguro
+    for z in (1.0, 2.2, 4.6, 5.8):                                                         # moleteado
         els.append(el([7.5, 17.75, z], [8.5, 18.75, z + 0.3], "steel_dark"))
     if not box_out:
         els += [el([6.6, 7.4, 0.6], [9.4, 11.2, 6.0], "olive"),                               # caja de munición
                 el([6.5, 9.0, 1.0], [9.5, 9.4, 5.6], "steel"),
                 el([7.6, 10.4, -1.0], [8.4, 11.2, 0.6], "brass"),                              # cinta
                 el([7.6, 11.0, -1.6], [8.4, 11.4, -0.6], "brass")]
-    return els + trigger_group()
+    return moved(els, MINI_SHIFT)
+
+
 
 
 def fuel_canister():
@@ -710,6 +732,12 @@ SMALL = {"thirdperson_righthand": {"translation": [0, 2, 1], "scale": [0.5, 0.5,
          "ground": {"translation": [0, 2, 0], "scale": [0.5, 0.5, 0.5]}}
 
 
+# colgando del asa: en primera persona se sube para que el arma siga a la vista
+MINIGUN_DISPLAY = dict(GUN_DISPLAY)
+MINIGUN_DISPLAY["firstperson_righthand"] = {"translation": [-1, 5.5, -3.25]}
+MINIGUN_DISPLAY["firstperson_lefthand"] = {"translation": [-0.5, 5.5, -3]}
+
+
 def model(name, elements, display, overrides=None):
     group = max((g for g in GROUPS if name == g or name.startswith(g + "_")), key=len, default=name)
     gunkit.model(name, elements, display, overrides, group)
@@ -737,10 +765,10 @@ if __name__ == "__main__":
         model(base, fn(False), GUN_DISPLAY,
               [{"predicate": {"tecnocinetico:reload": 1}, "model": f"tecnocinetico:item/{base}_{alt}"}])
     model("core_fighter", core_fighter_mini(), SMALL)
-    model("minigun_box_out", minigun(True), GUN_DISPLAY)
-    model("minigun_s1", minigun(False, 1), GUN_DISPLAY)
-    model("minigun_s2", minigun(False, 2), GUN_DISPLAY)
-    model("minigun", minigun(False), GUN_DISPLAY,
+    model("minigun_box_out", minigun(True), MINIGUN_DISPLAY)
+    model("minigun_s1", minigun(False, 1), MINIGUN_DISPLAY)
+    model("minigun_s2", minigun(False, 2), MINIGUN_DISPLAY)
+    model("minigun", minigun(False), MINIGUN_DISPLAY,
           [{"predicate": {"tecnocinetico:spin": 0.5}, "model": "tecnocinetico:item/minigun_s1"},
            {"predicate": {"tecnocinetico:spin": 1.0}, "model": "tecnocinetico:item/minigun_s2"},
            {"predicate": {"tecnocinetico:reload": 1}, "model": "tecnocinetico:item/minigun_box_out"}])
