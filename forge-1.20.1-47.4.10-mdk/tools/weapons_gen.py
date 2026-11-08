@@ -99,9 +99,9 @@ def shotgun(open_=False):
 
 # ---------------------------------------------------------------- rifle de cerrojo
 def rifle(bolt_back=False):
-    els = [el([7.6, 12.7, -16.0], [8.4, 13.5, 4.0], "steel_dark", front="black"),              # cañón
-           el([7.5, 12.6, -16.5], [8.5, 13.6, -15.8], "steel"),                                # brocal
-           el([7.9, 13.5, -15.5], [8.1, 14.4, -15.0], "steel_hi"),                             # punto de mira
+    els = [el([7.6, 12.7, -15.4], [8.4, 13.5, 4.0], "steel_dark", front="black"),              # cañón (límite de Minecraft: z >= -16)
+           el([7.5, 12.6, -16.0], [8.5, 13.6, -15.3], "steel"),                                # brocal
+           el([7.9, 13.5, -15.0], [8.1, 14.4, -14.5], "steel_hi"),                             # punto de mira
            el([7.5, 13.8, 3.0], [7.8, 14.5, 3.6], "steel"), el([8.2, 13.8, 3.0], [8.5, 14.5, 3.6], "steel"),  # alza
            el([7.3, 12.2, 4.0], [8.7, 14.0, 11.0], "steel_dark"),                              # cajón de mecanismos
            el([7.4, 11.0, 6.0], [8.6, 12.2, 9.0], "steel"),                                    # depósito

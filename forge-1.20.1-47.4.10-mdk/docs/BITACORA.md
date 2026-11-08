@@ -227,3 +227,7 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Modelos 3D (`tools/weapons_gen.py`, atlas `item/weapons_t1.png`) con la empuñadura y las miras en las mismas coordenadas que la pistola: escopeta (abierta al recargar), rifle (cerrojo atrás al recargar), machete en diagonal como una espada, cartuchos y balas.
 - Sonidos: de momento reutilizan los de la pistola con otro tono. Pendiente: grabaciones reales (CC0/CC-BY) de escopeta y rifle.
 - GameTest nuevo: recarga cartucho a cartucho y bono de set (10 en total).
+
+## 2026-11-07 — Claude — Rifle sin textura (cubo negro y rosa)
+- El modelo del rifle tenía el brocal en z = -16.5 y Minecraft solo admite coordenadas de elemento en [-16, 32]: descarta el modelo entero. Cañón acortado 0.5. El servidor de prueba no carga modelos, así que no lo detectó: nuevo `tools/check_models.py` (límites, rotaciones, texturas y overrides) y regla en AGENTS.md.
+
