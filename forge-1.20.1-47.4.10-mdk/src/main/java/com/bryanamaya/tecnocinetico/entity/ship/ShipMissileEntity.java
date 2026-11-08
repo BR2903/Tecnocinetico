@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
  */
 public class ShipMissileEntity extends ThrowableItemProjectile {
 
-    private static final double SPEED = 1.4D;
+    private static final double SPEED = 4.5D;                       // más rápido que la nave
     @Nullable
     private LivingEntity target;
 
@@ -52,7 +52,7 @@ public class ShipMissileEntity extends ThrowableItemProjectile {
     @Override
     public void tick() {
         Vec3 v = getDeltaMovement();
-        double sp = Math.min(SPEED, v.length() + 0.08D);
+        double sp = Math.min(SPEED, v.length() + 0.25D);
         Vec3 dir = v.lengthSqr() > 1e-6 ? v.normalize() : Vec3.directionFromRotation(getXRot(), getYRot());
         if (target != null && target.isAlive() && tickCount > 4) {
             Vec3 want = target.getBoundingBox().getCenter().subtract(position()).normalize();

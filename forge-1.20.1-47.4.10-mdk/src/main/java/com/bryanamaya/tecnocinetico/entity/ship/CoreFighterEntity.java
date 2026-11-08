@@ -42,7 +42,7 @@ import java.util.UUID;
 
 /**
  * Caza del Núcleo: nave de fin de juego (tecnología robada a la IA). Vuelo "arcade de caza": la nave sigue a la
- * cámara del piloto con giro limitado, W acelera, S frena (hasta quedarse flotando: despegue vertical), espacio
+ * cámara del piloto con giro limitado, W acelera (hasta ~250 km/h), S frena (hasta quedarse flotando: despegue vertical), espacio
  * sube y Ctrl baja. Clic izquierdo: dos cañones cinéticos automáticos. Clic derecho: misil guiado que fija al
  * objetivo más centrado. J: menú del motor de salto entre dimensiones ({@link ShipJump}).
  *
@@ -52,7 +52,7 @@ import java.util.UUID;
 public class CoreFighterEntity extends Entity {
 
     public static final float MAX_HEALTH = 150.0F;
-    public static final double MAX_SPEED = 1.3D;
+    public static final double MAX_SPEED = 3.5D;                      // ~250 km/h
     public static final int JUMP_TICKS = 60, MISSILE_COOLDOWN = 50;
     private static final float TURN = 6.0F;
 
@@ -286,11 +286,11 @@ public class CoreFighterEntity extends Entity {
         if (jumpTicks() > 0) {                                                     // cargando el salto: se detiene
             speed = Math.max(0.0D, speed - 0.05D);
         } else if (inForward > 0) {
-            speed = Math.min(MAX_SPEED, speed + 0.035D);
+            speed = Math.min(MAX_SPEED, speed + 0.07D);
         } else if (inForward < 0) {
-            speed = Math.max(0.0D, speed - 0.06D);
+            speed = Math.max(0.0D, speed - 0.12D);
         } else {
-            speed = Math.max(0.0D, speed - 0.004D);
+            speed = Math.max(0.0D, speed - 0.006D);
         }
         Vec3 fwd = Vec3.directionFromRotation(getXRot(), getYRot()).scale(speed);
         double vert = (inUp ? 0.28D : 0.0D) - (inDown ? 0.28D : 0.0D);
@@ -328,10 +328,10 @@ public class CoreFighterEntity extends Entity {
         // choque: frenazo brusco a mucha velocidad
         Vec3 moved = new Vec3(getX() - xo, getY() - yo, getZ() - zo);
         double seen = moved.length();
-        if (lastSpeedSeen > 0.9D && seen < 0.25D && pilot != null) {
+        if (lastSpeedSeen > 0.9D && seen < lastSpeedSeen * 0.3D && pilot != null) {
             float dmg = (float) (lastSpeedSeen * 14.0D);
             setHealth(health() - dmg);
-            pilot.hurt(damageSources().flyIntoWall(), dmg * 0.4F);
+            pilot.hurt(damageSources().flyIntoWall(), dmg * 0.25F);
             playSound(net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE, 0.8F, 1.4F);
             if (health() <= 0) {
                 destroy();
@@ -415,7 +415,7 @@ public class CoreFighterEntity extends Entity {
         Vec3 dir = pilot.getLookAngle();
         double s = Math.toRadians(1.2);
         dir = dir.add(random.nextGaussian() * s, random.nextGaussian() * s, random.nextGaussian() * s).normalize();
-        Vec3 end = from.add(dir.scale(80));
+        Vec3 end = from.add(dir.scale(120));
         BlockHitResult block = level().clip(new ClipContext(from, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
         if (block.getType() != HitResult.Type.MISS) {
             end = block.getLocation();
@@ -442,12 +442,12 @@ public class CoreFighterEntity extends Entity {
     @Nullable
     public LivingEntity lockTarget(LivingEntity pilot) {
         Vec3 eye = pilot.getEyePosition(), look = pilot.getLookAngle();
-        return level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(80),
+        return level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(120),
                         e -> e != pilot && e.isAlive() && !e.isSpectator() && !hasPassenger(e) && !(e instanceof Player p && p.isCreative()))
                 .stream()
                 .filter(e -> {
                     Vec3 to = e.getBoundingBox().getCenter().subtract(eye);
-                    return to.length() < 80 && to.normalize().dot(look) > Math.cos(Math.toRadians(14)) && pilot.hasLineOfSight(e);
+                    return to.length() < 120 && to.normalize().dot(look) > Math.cos(Math.toRadians(14)) && pilot.hasLineOfSight(e);
                 })
                 .min(Comparator.comparingDouble(e -> (e instanceof Enemy ? 0 : 1000)
                         - e.getBoundingBox().getCenter().subtract(eye).normalize().dot(look) * 100))
@@ -460,7 +460,7 @@ public class CoreFighterEntity extends Entity {
         Vec3 from = muzzle(random.nextBoolean()).add(0, -0.4 * SCALE, 0);
         m.setPos(from.x, from.y, from.z);
         Vec3 dir = pilot.getLookAngle();
-        m.setDeltaMovement(getDeltaMovement().add(dir.scale(0.6)));
+        m.setDeltaMovement(getDeltaMovement().add(dir.scale(1.0)));
         level().addFreshEntity(m);
         entityData.set(MISSILE_CD, MISSILE_COOLDOWN);
         level().playSound(null, from.x, from.y, from.z, ModSounds.SHIP_MISSILE.get(), SoundSource.PLAYERS, 1.4F, 1.0F);
