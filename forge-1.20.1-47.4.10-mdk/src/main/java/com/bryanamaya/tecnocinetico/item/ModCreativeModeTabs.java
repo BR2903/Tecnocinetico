@@ -56,6 +56,9 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.KINETIC_ROUND.get());
                         pOutput.accept(ModItems.GUIDED_ROUND.get());
                         pOutput.accept(ModItems.MAGAZINE.get());
+                        pOutput.accept(ModItems.NIGHT_VISION_VISOR.get());
+                        pOutput.accept(ModItems.JETPACK.get());
+                        pOutput.accept(ModItems.AQUA_PROPULSOR.get());
                         pOutput.accept(ModItems.EXTENDED_MAGAZINE.get());
                         pOutput.accept(ModItems.SWARM_BODY_SPAWN_EGG.get());
                         pOutput.accept(ModItems.SURVIVOR_SPAWN_EGG.get());

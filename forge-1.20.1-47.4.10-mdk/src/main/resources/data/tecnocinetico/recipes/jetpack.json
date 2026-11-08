@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "ICI",
+    "TRT",
+    "B B"
+  ],
+  "key": {
+    "I": {
+      "item": "tecnocinetico:inercita_ingot"
+    },
+    "C": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    },
+    "T": {
+      "item": "minecraft:copper_block"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "B": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:jetpack",
+    "count": 1
+  }
+}

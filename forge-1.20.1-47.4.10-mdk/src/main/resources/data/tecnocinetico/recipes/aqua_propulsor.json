@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SCS",
+    "IPI"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:prismarine_shard"
+    },
+    "C": {
+      "item": "tecnocinetico:cinetrite_ingot"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:piezo_transducer"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:aqua_propulsor",
+    "count": 1
+  }
+}

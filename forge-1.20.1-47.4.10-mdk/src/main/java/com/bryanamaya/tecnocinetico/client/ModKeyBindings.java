@@ -25,6 +25,10 @@ public final class ModKeyBindings {
             GLFW.GLFW_KEY_R,
             "key.categories.tecnocinetico");
 
+    public static final KeyMapping GEAR = new KeyMapping("key.tecnocinetico.gear", KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_J, "key.categories.tecnocinetico");
+    public static final KeyMapping VISOR = new KeyMapping("key.tecnocinetico.visor", KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_N, "key.categories.tecnocinetico");
     public static final KeyMapping SKILLS = new KeyMapping(
             "key.tecnocinetico.skills",
             KeyConflictContext.IN_GAME,
@@ -40,6 +44,8 @@ public final class ModKeyBindings {
         public static void registerKeys(RegisterKeyMappingsEvent event) {
             event.register(RELOAD);
             event.register(SKILLS);
+            event.register(GEAR);
+            event.register(VISOR);
         }
     }
 
@@ -54,6 +60,16 @@ public final class ModKeyBindings {
             while (SKILLS.consumeClick()) {
                 if (mc.player != null && mc.screen == null) {
                     mc.setScreen(new SkillsScreen());
+                }
+            }
+            while (GEAR.consumeClick()) {
+                if (mc.player != null && mc.screen == null) {
+                    ModNetwork.CHANNEL.sendToServer(new ModNetwork.OpenGearPacket());
+                }
+            }
+            while (VISOR.consumeClick()) {
+                if (mc.player != null) {
+                    ModNetwork.CHANNEL.sendToServer(new ModNetwork.ToggleVisorPacket());
                 }
             }
             while (RELOAD.consumeClick()) {

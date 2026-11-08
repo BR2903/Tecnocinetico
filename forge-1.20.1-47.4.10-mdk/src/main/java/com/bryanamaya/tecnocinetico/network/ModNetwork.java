@@ -38,6 +38,14 @@ public final class ModNetwork {
         CHANNEL.registerMessage(3, FillMagazinePacket.class,
                 FillMagazinePacket::encode, FillMagazinePacket::decode, FillMagazinePacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(4, OpenGearPacket.class, (m, b) -> {}, b -> new OpenGearPacket(), OpenGearPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(5, ToggleVisorPacket.class, (m, b) -> {}, b -> new ToggleVisorPacket(), ToggleVisorPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(6, JetpackPacket.class, (m, b) -> b.writeBoolean(m.on()), b -> new JetpackPacket(b.readBoolean()),
+                JetpackPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(7, SyncGearPacket.class, (m, b) -> b.writeNbt(m.tag()), b -> new SyncGearPacket(b.readNbt()),
+                SyncGearPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
                 SyncSkillsPacket::encode, SyncSkillsPacket::decode, SyncSkillsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
@@ -139,6 +147,76 @@ public final class ModNetwork {
                     }
                 }
             });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    // ------------------------------------------------------------------ Equipo Táctico
+
+    /** Pestaña o tecla J: abrir el Equipo Táctico. */
+    public record OpenGearPacket() {
+        public static void handle(OpenGearPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p == null) {
+                    return;
+                }
+                com.bryanamaya.tecnocinetico.gear.TacticalGear.of(p).ifPresent(g -> net.minecraftforge.network.NetworkHooks.openScreen(p,
+                        new net.minecraft.world.SimpleMenuProvider((id, inv, pl) ->
+                                new com.bryanamaya.tecnocinetico.menu.TacticalMenu(id, inv, g.items()),
+                                net.minecraft.network.chat.Component.translatable("gui.tecnocinetico.gear.title"))));
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Tecla N: encender/apagar el Visor de Visión Nocturna. */
+    public record ToggleVisorPacket() {
+        public static void handle(ToggleVisorPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p == null) {
+                    return;
+                }
+                com.bryanamaya.tecnocinetico.gear.TacticalGear.of(p).ifPresent(g -> {
+                    if (!g.get(com.bryanamaya.tecnocinetico.gear.TacticalGear.FACE).is(com.bryanamaya.tecnocinetico.item.ModItems.NIGHT_VISION_VISOR.get())) {
+                        p.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.tecnocinetico.no_visor"), true);
+                        return;
+                    }
+                    g.setVisorOn(!g.visorOn());
+                    p.displayClientMessage(net.minecraft.network.chat.Component.translatable(
+                            g.visorOn() ? "message.tecnocinetico.visor_on" : "message.tecnocinetico.visor_off"), true);
+                    p.level().playSound(null, p.getX(), p.getY(), p.getZ(), net.minecraft.sounds.SoundEvents.UI_BUTTON_CLICK.value(),
+                            net.minecraft.sounds.SoundSource.PLAYERS, 0.4F, g.visorOn() ? 1.4F : 0.9F);
+                });
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** El cliente empieza/deja de empujar con el jetpack. */
+    public record JetpackPacket(boolean on) {
+        public static void handle(JetpackPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null) {
+                    if (msg.on) {
+                        com.bryanamaya.tecnocinetico.gear.GearEvents.THRUSTING.add(p.getUUID());
+                    } else {
+                        com.bryanamaya.tecnocinetico.gear.GearEvents.THRUSTING.remove(p.getUUID());
+                    }
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Copia del Equipo Táctico para el cliente (jetpack, pestaña). */
+    public record SyncGearPacket(net.minecraft.nbt.CompoundTag tag) {
+        public static void handle(SyncGearPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(
+                    net.minecraftforge.api.distmarker.Dist.CLIENT,
+                    () -> () -> com.bryanamaya.tecnocinetico.client.ClientGearHandler.apply(msg.tag)));
             ctx.get().setPacketHandled(true);
         }
     }

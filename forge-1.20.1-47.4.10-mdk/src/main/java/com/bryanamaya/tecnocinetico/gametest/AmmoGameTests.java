@@ -87,10 +87,11 @@ public class AmmoGameTests {
         for (int i = 0; i < 200 && KineticPistolItem.isReloading(pistol); i++) {
             pistol.inventoryTick(helper.getLevel(), player, 0, true);
         }
+        // el cargador viejo vuelve a una ranura de munición del Equipo Táctico (o al inventario si están llenas)
         int returned = 0;
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            if (inv.getItem(i).getItem() instanceof MagazineItem) {
-                returned += MagazineItem.getRounds(inv.getItem(i));
+        for (ItemStack s : com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player)) {
+            if (s.getItem() instanceof MagazineItem) {
+                returned += MagazineItem.getRounds(s);
             }
         }
         helper.assertTrue(KineticPistolItem.getAmmo(pistol) == 6 && returned == 4,

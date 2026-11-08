@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "LCL",
+    "GPG"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "C": {
+      "item": "tecnocinetico:cinetrite_ingot"
+    },
+    "G": {
+      "item": "minecraft:tinted_glass"
+    },
+    "P": {
+      "item": "tecnocinetico:piezo_transducer"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:night_vision_visor",
+    "count": 1
+  }
+}

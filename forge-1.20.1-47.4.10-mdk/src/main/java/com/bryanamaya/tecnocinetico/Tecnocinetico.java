@@ -98,6 +98,7 @@ public class Tecnocinetico {
             event.enqueueWork(() -> {
                 MenuScreens.register(ModMenus.WEAPON_BENCH.get(), WeaponBenchScreen::new);
                 MenuScreens.register(ModMenus.AUTO_KINETIC_PRESS.get(), AutoKineticPressScreen::new);
+                MenuScreens.register(ModMenus.TACTICAL_GEAR.get(), com.bryanamaya.tecnocinetico.client.TacticalScreen::new);
                 ItemProperties.register(ModItems.KINETIC_PISTOL.get(),
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
                         (stack, level, entity, seed) -> {

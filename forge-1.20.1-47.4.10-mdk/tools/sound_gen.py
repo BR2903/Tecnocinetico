@@ -519,6 +519,21 @@ def turret_charge():
                   seed + 3, tail=0.4, wet=0.2)
 
 
+def jetpack_thrust():
+    """Empuje del jetpack: chorro de gas (siseo ancho con rugido grave) que respira, no un tono."""
+    seed = 3400
+    dur = 0.6
+    n = n_of(dur)
+    roar = low(noise(dur, seed), 400, order=4) * 1.4
+    hiss_ = band(noise(dur, seed + 1), 1200, 8000) * 0.6
+    flutter = 0.75 + 0.25 * np.sin(2 * np.pi * 23 * np.arange(n) / SR)
+    return reverb((roar + hiss_) * flutter * env(n, 0.04, 0.12), seed + 2, tail=0.3, wet=0.15)
+
+
+def generate_gadgets():
+    save("thrust", jetpack_thrust(), "jetpack")
+
+
 def generate_turret():
     save("charge", turret_charge(), "sentry_turret")
 
@@ -528,3 +543,4 @@ if __name__ == "__main__":
     generate_pistol()
     generate_wasps()
     generate_turret()
+    generate_gadgets()

@@ -452,8 +452,10 @@ public class KineticPistolItem extends Item {
         boolean seeker = WeaponModule.has(pistol, WeaponModule.SEEKER);
         int bestSlot = -1, bestRounds = getMagType(pistol) == 0 ? 0 : getAmmo(pistol);
         boolean blockedByGuided = false;
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack s = player.getInventory().getItem(i);
+        // primero las ranuras de munición del Equipo Táctico, luego el inventario
+        java.util.List<ItemStack> sources = com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player);
+        for (int i = 0; i < sources.size(); i++) {
+            ItemStack s = sources.get(i);
             if (!(s.getItem() instanceof MagazineItem m) || !acceptsMagazine(pistol, m.type())) {
                 continue;
             }
@@ -463,18 +465,19 @@ public class KineticPistolItem extends Item {
                 continue;
             }
             if (rounds > bestRounds || (rounds == bestRounds && rounds > 0 && bestSlot >= 0
-                    && m.type() > ((MagazineItem) player.getInventory().getItem(bestSlot).getItem()).type())) {
+                    && m.type() > ((MagazineItem) sources.get(bestSlot).getItem()).type())) {
                 bestSlot = i;
                 bestRounds = rounds;
             }
         }
         CompoundTag pending = new CompoundTag();
         if (bestSlot >= 0) {
-            ItemStack chosen = player.getInventory().getItem(bestSlot);
+            ItemStack chosen = sources.get(bestSlot);
             pending.putInt("Type", ((MagazineItem) chosen.getItem()).type());
             pending.putInt("Rounds", MagazineItem.getRounds(chosen));
             pending.putInt("Guided", MagazineItem.getGuided(chosen));
             chosen.shrink(1);
+            com.bryanamaya.tecnocinetico.gear.TacticalGear.of(player).ifPresent(com.bryanamaya.tecnocinetico.gear.TacticalGear::setChanged);
         } else if (player.getAbilities().instabuild) {
             int type = acceptsMagazine(pistol, 2) ? 2 : 1;            // creativo: cargador lleno gratis
             pending.putInt("Type", type);
@@ -529,7 +532,7 @@ public class KineticPistolItem extends Item {
         // el cargador viejo vuelve al inventario (aunque esté vacío: es reutilizable)
         ItemStack old = ejectMagazine(stack);
         if (!old.isEmpty()) {
-            player.getInventory().placeItemBackInInventory(old);
+            com.bryanamaya.tecnocinetico.gear.TacticalGear.giveBackAmmo(player, old);       // vuelve a una ranura de munición libre
         }
         setMagType(stack, pending.getInt("Type"));
         setAmmo(stack, pending.getInt("Rounds"));

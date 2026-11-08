@@ -20,6 +20,9 @@ public final class ModMenus {
     public static final RegistryObject<MenuType<AutoKineticPressMenu>> AUTO_KINETIC_PRESS =
             MENUS.register("auto_kinetic_press", () -> IForgeMenuType.create(AutoKineticPressMenu::new));
 
+    public static final RegistryObject<MenuType<TacticalMenu>> TACTICAL_GEAR =
+            MENUS.register("tactical_gear", () -> new MenuType<>(TacticalMenu::new, FeatureFlags.DEFAULT_FLAGS));
+
     private ModMenus() {}
 
     public static void register(IEventBus bus) {

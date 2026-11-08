@@ -83,6 +83,9 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 
 - `AiInstallationStructure` + `AiInstallationPiece`: búnker + escalera + complejo subterráneo 3x3 con cámara del Núcleo.
 
+### Equipo Táctico (`gear/`, `menu/TacticalMenu`, `client/TacticalScreen`, `GearTabs`, `GearClient`)
+- `TacticalGear` (capacidad: ranuras 0-3 munición, 4-6 comida, 7 cara, 8 espalda, 9 pies), `GadgetItem`, `GearEvents` (adjuntar, morir, comer solo, visor, propulsor, jetpack, sincronizar). Paquetes `OpenGearPacket`, `ToggleVisorPacket`, `JetpackPacket`, `SyncGearPacket`. Teclas J (equipo) y N (visor).
+
 ### Munición (`item/custom/`)
 - `MagazineItem` (Cargador 6 / Ampliado 10; NBT `Rounds`, `Guided`), `MagazineLoadingRecipe` (receta especial registrada en `item/ModRecipes`), `GuidedRoundItem`. La pistola guarda `Mag`, `Ammo`, `GuidedAmmo` y durante la recarga `PendingMag`. R con un cargador en la mano → `FillMagazinePacket`.
 

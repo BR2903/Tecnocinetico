@@ -85,3 +85,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## turret_texture.py (Torreta Centinela)
 - `python tools/turret_texture.py [preview.png]` genera `entity/sentry_turret.png` y las capas luminosas `sentry_turret_glow.png` (cian) y `sentry_turret_charge.png` (rojo, al cargar).
+
+## tactical_gui_gen.py (Equipo Táctico)
+- `python tools/tactical_gui_gen.py [preview.png]` genera `textures/gui/tactical_gear.png` (panel 176x200 + pestañas en x=176). Las ranuras deben coincidir con `TacticalMenu.POS`. Los modelos de los gadgets están en `ammo_gen.py`.

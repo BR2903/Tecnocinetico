@@ -111,8 +111,10 @@ public class MagazineItem extends Item {
             return 0;
         }
         int taken = 0;
-        for (int i = 0; i < player.getInventory().getContainerSize() && taken < free; i++) {
-            ItemStack s = player.getInventory().getItem(i);
+        for (ItemStack s : com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player)) {
+            if (taken >= free) {
+                break;
+            }
             if (s.is(ammo)) {
                 int t = Math.min(s.getCount(), free - taken);
                 if (!player.getAbilities().instabuild) {
@@ -136,6 +138,7 @@ public class MagazineItem extends Item {
         if (target != held) {
             player.getInventory().placeItemBackInInventory(target);
         }
+        com.bryanamaya.tecnocinetico.gear.TacticalGear.of(player).ifPresent(com.bryanamaya.tecnocinetico.gear.TacticalGear::setChanged);
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_MAG_IN.get(),
                 SoundSource.PLAYERS, 0.6F, 1.3F);
         return taken;

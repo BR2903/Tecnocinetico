@@ -156,5 +156,11 @@
     "sounds": [
       "tecnocinetico:sentry_turret/charge"
     ]
+  },
+  "item.jetpack.thrust": {
+    "subtitle": "subtitles.tecnocinetico.jetpack",
+    "sounds": [
+      "tecnocinetico:jetpack/thrust"
+    ]
   }
 }

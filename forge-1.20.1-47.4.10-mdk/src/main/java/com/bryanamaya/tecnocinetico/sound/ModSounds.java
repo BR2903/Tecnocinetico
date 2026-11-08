@@ -35,6 +35,9 @@ public final class ModSounds {
     // Torreta Centinela
     public static final RegistryObject<SoundEvent> SENTRY_TURRET_CHARGE = register("entity.sentry_turret.charge");
 
+    // Gadgets del Equipo Táctico
+    public static final RegistryObject<SoundEvent> JETPACK_THRUST = register("item.jetpack.thrust");
+
     // Pistola Cinética
     public static final RegistryObject<SoundEvent> PISTOL_FIRE = register("item.kinetic_pistol.fire");
     public static final RegistryObject<SoundEvent> PISTOL_IMPACT = register("item.kinetic_pistol.impact");

@@ -1,4 +1,4 @@
-"""Munición y cargadores en 3D: textura atlas 32x32 (textures/item/ammo.png) y modelos de
+"""Munición, cargadores y gadgets del Equipo Táctico en 3D: textura atlas 32x32 (textures/item/ammo.png) y modelos de
 kinetic_round, guided_round, magazine y extended_magazine (con variantes vacío / bala normal / bala guiada).
 
 Uso (desde forge-1.20.1-47.4.10-mdk):
@@ -25,7 +25,8 @@ GUIDE = [(120, 50, 170), (216, 108, 255)]
 # zonas del atlas (8x8 px cada una) → nombre: (columna, fila)
 ZONES = {"copper": (0, 0), "rim": (1, 0), "tip": (2, 0), "tip_hi": (3, 0),
          "steel": (0, 1), "red": (1, 1), "poly": (2, 1), "window": (3, 1),
-         "inercita": (0, 2), "guide": (1, 2), "follower": (2, 2), "steel_hi": (3, 2)}
+         "inercita": (0, 2), "guide": (1, 2), "follower": (2, 2), "steel_hi": (3, 2),
+         "leather": (0, 3), "teal": (1, 3), "lens": (2, 3), "copper_dark": (3, 3)}
 
 
 def paint():
@@ -52,6 +53,10 @@ def paint():
     zone("inercita", lambda x, y: INERCITA[2] if y == 0 else INERCITA[1] if y < 7 else INERCITA[0])
     zone("guide", lambda x, y: GUIDE[1] if (x + y) % 2 else GUIDE[0])
     zone("follower", lambda x, y: POLY[0])
+    zone("leather", lambda x, y: (96, 64, 42) if y in (0, 7) else (70, 46, 30) if (x + y) % 4 else (60, 40, 26))
+    zone("teal", lambda x, y: (60, 120, 110) if y < 2 else (42, 92, 86) if x % 3 else (30, 70, 66))   # aletas
+    zone("lens", lambda x, y: CYAN[2] if (x, y) in ((1, 1), (2, 1), (1, 2)) else CYAN[1] if x + y < 9 else CYAN[0])
+    zone("copper_dark", lambda x, y: COPPER[0] if y % 3 else COPPER[1])
     return img
 
 
@@ -126,6 +131,44 @@ def model(name, elements):
     return data
 
 
+# ---------------------------------------------------------------- gadgets del Equipo Táctico
+def visor_elements():
+    """Visor de visión nocturna: dos tubos con lente cian, puente, placa frontal y correa de cuero."""
+    return [el([4.5, 6, 6], [11.5, 9.5, 7.5], "steel", "steel", "steel"),                 # placa frontal
+            el([4.6, 6.4, 3.4], [7.4, 9.2, 6], "steel_hi", "steel"),                       # tubo izq.
+            el([8.6, 6.4, 3.4], [11.4, 9.2, 6], "steel_hi", "steel"),                      # tubo der.
+            el([5.0, 6.8, 3.2], [7.0, 8.8, 3.4], "lens"),                                  # lente izq.
+            el([9.0, 6.8, 3.2], [11.0, 8.8, 3.4], "lens"),                                 # lente der.
+            el([7.4, 7.2, 4.6], [8.6, 8.4, 6], "copper"),                                  # puente
+            el([3.0, 6.8, 6.4], [4.5, 8.6, 12.5], "leather"),                              # correa izq.
+            el([11.5, 6.8, 6.4], [13.0, 8.6, 12.5], "leather"),                            # correa der.
+            el([3.0, 6.8, 12.5], [13.0, 8.6, 13.6], "leather")]                            # correa trasera
+
+
+def jetpack_elements():
+    """Jetpack: placa de espalda, dos depósitos de cobre con tapa, acoplador central, toberas con brillo cian."""
+    els = [el([4.5, 3, 10], [11.5, 13, 11.5], "steel", "steel"),                           # placa de espalda
+           el([7.2, 6, 8.2], [8.8, 10, 10], "copper_dark")]                                # acoplador
+    for x0 in (3.5, 8.6):
+        els += [el([x0, 3.5, 6.6], [x0 + 3.9, 12, 10], "copper"),                          # depósito
+                el([x0 + 0.5, 12, 7.1], [x0 + 3.4, 13, 9.5], "steel_hi"),                  # tapa
+                el([x0 + 0.8, 1.6, 7.4], [x0 + 3.1, 3.5, 9.2], "steel"),                   # tobera
+                el([x0 + 1.0, 1.4, 7.6], [x0 + 2.9, 1.6, 9.0], "lens")]                    # llama cian
+    els += [el([4.5, 11, 5.6], [5.6, 12, 10], "leather"), el([10.4, 11, 5.6], [11.5, 12, 10], "leather")]  # tirantes
+    return els
+
+
+def propulsor_elements():
+    """Propulsor acuático: dos turbinas de tobillo con rotor cian y aleta."""
+    els = []
+    for x0 in (2.5, 9.0):
+        els += [el([x0, 4, 6], [x0 + 4.5, 8.5, 10], "steel", "steel"),                     # carcasa
+                el([x0 + 0.8, 4.8, 5.8], [x0 + 3.7, 7.7, 6.0], "lens"),                    # rotor
+                el([x0 + 0.5, 3.4, 10], [x0 + 4.0, 4.2, 14.5], "teal"),                    # aleta
+                el([x0 - 0.3, 5.6, 6.6], [x0 + 4.8, 6.6, 9.4], "leather")]                 # correa
+    return els
+
+
 if __name__ == "__main__":
     paint().save(ROOT / "textures/item/ammo.png")
     model("kinetic_round", round_elements(False, y0=3.3))
@@ -137,4 +180,7 @@ if __name__ == "__main__":
         base["overrides"] = [{"predicate": {"tecnocinetico:loaded": 0.5}, "model": f"tecnocinetico:item/{mag}_loaded"},
                              {"predicate": {"tecnocinetico:loaded": 1.0}, "model": f"tecnocinetico:item/{mag}_guided"}]
         (ROOT / "models/item" / f"{mag}.json").write_text(json.dumps(base, indent=2), encoding="utf-8")
-    print("ok: munición y cargadores")
+    model("night_vision_visor", visor_elements())
+    model("jetpack", jetpack_elements())
+    model("aqua_propulsor", propulsor_elements())
+    print("ok: munición, cargadores y gadgets")

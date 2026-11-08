@@ -69,3 +69,6 @@ Monstruo del Overworld (peso 15, de noche/cuevas). 34 vida, 6 daño, 6 armadura.
 
 ## Munición (desde 2026-11-07)
 - Los fragmentos de cinetrita **no** son munición: hay que fabricar **Balas Cinéticas** y meterlas en **cargadores** (decisión del usuario). Recargar = cambiar de cargador. El Cargador Ampliado solo con su módulo; la Munición Guiada solo con la Guía de Enjambre.
+
+## Equipo Táctico (desde 2026-11-07)
+- Apartado extra del inventario **inspirado en Techguns** (idea pedida por el usuario), pero con diseño, código y recursos propios. Munición, comida (se come sola) y gadgets con batería. Ideas para más gadgets: tanque de oxígeno, botas de impacto, escáner de minerales, paracaídas.

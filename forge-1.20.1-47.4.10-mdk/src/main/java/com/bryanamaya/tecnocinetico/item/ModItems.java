@@ -105,6 +105,13 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON).stacksTo(16)));
     public static final RegistryObject<Item> SENTRY_TURRET_SPAWN_EGG = ITEMS.register("sentry_turret_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SENTRY_TURRET, 0x26282E, 0xD6A828, new Item.Properties()));
+    // Gadgets del Equipo Táctico (batería = durabilidad; ranuras: 7 cara, 8 espalda, 9 pies)
+    public static final RegistryObject<Item> NIGHT_VISION_VISOR = ITEMS.register("night_vision_visor",
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(7, 1200, "tooltip.tecnocinetico.night_vision_visor", new Item.Properties()));
+    public static final RegistryObject<Item> JETPACK = ITEMS.register("jetpack",
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(8, 1200, "tooltip.tecnocinetico.jetpack", new Item.Properties()));
+    public static final RegistryObject<Item> AQUA_PROPULSOR = ITEMS.register("aqua_propulsor",
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(9, 1200, "tooltip.tecnocinetico.aqua_propulsor", new Item.Properties()));
     public static final RegistryObject<Item> SURVIVOR_SPAWN_EGG = ITEMS.register("survivor_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SURVIVOR, 0x5A5236, 0x3FC8D8, new Item.Properties()));
 
