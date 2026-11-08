@@ -27,4 +27,4 @@
 
 - Drones: más adelante, que también ronden las futuras antenas/estaciones de retransmisión; ajustar en el juego dificultad (daño 3 por tiro, ráfagas de 3) si es mucho o poco.
 
-- Corruptos: decidir si también se sustituyen arañas de cueva, ahogados y aldeanos zombi; sonidos propios (ahora usan los de zombi/araña con tono más grave).
+- Corruptos: decidir si también se sustituyen aldeanos zombi y otros mobs; sonidos propios (ahora usan los vanilla con tono más grave).

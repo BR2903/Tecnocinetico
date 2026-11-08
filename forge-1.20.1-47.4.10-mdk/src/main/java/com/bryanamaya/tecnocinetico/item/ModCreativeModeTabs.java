@@ -95,6 +95,9 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.CORRUPTED_SPAWN_EGG.get());
                         pOutput.accept(ModItems.CORRUPTED_GUNNER_SPAWN_EGG.get());
                         pOutput.accept(ModItems.CORRUPTED_SPIDER_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.CORRUPTED_CAVE_SPIDER_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.CORRUPTED_DROWNED_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.CORRUPTED_CREEPER_SPAWN_EGG.get());
                     })
                     .build());
 

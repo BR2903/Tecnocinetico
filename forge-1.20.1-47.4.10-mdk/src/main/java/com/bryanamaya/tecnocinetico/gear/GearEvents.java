@@ -191,6 +191,13 @@ public final class GearEvents {
                 THRUSTING.remove(p.getUUID());
             } else {
                 p.fallDistance = 0.0F;
+                // El movimiento del jugador lo calcula el cliente, pero el servidor sigue sumando gravedad a su propia
+                // copia de la velocidad. Al recibir daño el servidor se la manda al cliente (markHurt/empuje) y lo
+                // estampaba contra el suelo: mientras empuja, la velocidad vertical del servidor no baja de 0.
+                Vec3 v = p.getDeltaMovement();
+                if (v.y < 0.0D) {
+                    p.setDeltaMovement(v.x, 0.0D, v.z);
+                }
                 if (t % 2 == 0) {
                     GadgetItem.drain(back, 1);
                     g.setChanged();

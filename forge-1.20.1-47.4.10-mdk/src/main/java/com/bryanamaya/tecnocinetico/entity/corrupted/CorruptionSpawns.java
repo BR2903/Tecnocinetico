@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * En el Overworld, zombis/husks, esqueletos/strays y arañas se sustituyen por sus versiones corruptas: al
+ * En el Overworld, zombis/husks, esqueletos/strays, arañas (y de cueva), ahogados y creepers se sustituyen por sus versiones corruptas: al
  * inicializarse cualquier aparición (natural, generador de mazmorra, generación de chunks, refuerzos...) se
  * cancela y se crea el corrupto en el mismo sitio. Los huevos y /summon siguen creando el mob vanilla.
  */
@@ -26,7 +26,10 @@ public final class CorruptionSpawns {
             EntityType.HUSK, ModEntities.CORRUPTED,
             EntityType.SKELETON, ModEntities.CORRUPTED_GUNNER,
             EntityType.STRAY, ModEntities.CORRUPTED_GUNNER,
-            EntityType.SPIDER, ModEntities.CORRUPTED_SPIDER);
+            EntityType.SPIDER, ModEntities.CORRUPTED_SPIDER,
+            EntityType.CAVE_SPIDER, ModEntities.CORRUPTED_CAVE_SPIDER,
+            EntityType.DROWNED, ModEntities.CORRUPTED_DROWNED,
+            EntityType.CREEPER, ModEntities.CORRUPTED_CREEPER);
 
     private CorruptionSpawns() {}
 
@@ -52,5 +55,23 @@ public final class CorruptionSpawns {
             mob.setPersistenceRequired();
         }
         event.getLevel().addFreshEntityWithPassengers(mob);
+    }
+
+    /** Creeper Corrupto: al estallar deja una nube de polvo de cinetrita (debilidad y náusea). */
+    @SubscribeEvent
+    public static void onDetonate(net.minecraftforge.event.level.ExplosionEvent.Detonate event) {
+        if (!(event.getExplosion().getExploder() instanceof CorruptedCreeperEntity creeper)) {
+            return;
+        }
+        var cloud = new net.minecraft.world.entity.AreaEffectCloud(event.getLevel(), creeper.getX(), creeper.getY(), creeper.getZ());
+        cloud.setRadius(3.0F);
+        cloud.setRadiusOnUse(-0.3F);
+        cloud.setWaitTime(5);
+        cloud.setDuration(140);
+        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+        cloud.setFixedColor(0x46D2E6);
+        cloud.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.WEAKNESS, 200, 0));
+        cloud.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.CONFUSION, 140, 0));
+        event.getLevel().addFreshEntity(cloud);
     }
 }

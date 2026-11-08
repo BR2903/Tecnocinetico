@@ -78,6 +78,9 @@ public class Tecnocinetico {
             event.put(ModEntities.CORRUPTED.get(), com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedEntity.createAttributes().build());
             event.put(ModEntities.CORRUPTED_GUNNER.get(), com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedGunnerEntity.createAttributes().build());
             event.put(ModEntities.CORRUPTED_SPIDER.get(), com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSpiderEntity.createAttributes().build());
+            event.put(ModEntities.CORRUPTED_CAVE_SPIDER.get(), com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedCaveSpiderEntity.createAttributes().build());
+            event.put(ModEntities.CORRUPTED_DROWNED.get(), com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedDrownedEntity.createAttributes().build());
+            event.put(ModEntities.CORRUPTED_CREEPER.get(), com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedCreeperEntity.createAttributes().build());
             event.put(ModEntities.SURVIVOR.get(), com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity.createAttributes().build());
         }
 
@@ -189,7 +192,10 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.DRONE.get(), com.bryanamaya.tecnocinetico.entity.client.DroneRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED_GUNNER.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);
-            event.registerEntityRenderer(ModEntities.CORRUPTED_SPIDER.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedSpiderRenderer::new);
+            event.registerEntityRenderer(ModEntities.CORRUPTED_SPIDER.get(), ctx -> new com.bryanamaya.tecnocinetico.entity.client.CorruptedSpiderRenderer(ctx, 1.15F));
+            event.registerEntityRenderer(ModEntities.CORRUPTED_CAVE_SPIDER.get(), ctx -> new com.bryanamaya.tecnocinetico.entity.client.CorruptedSpiderRenderer(ctx, 0.8F));
+            event.registerEntityRenderer(ModEntities.CORRUPTED_DROWNED.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);
+            event.registerEntityRenderer(ModEntities.CORRUPTED_CREEPER.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedCreeperRenderer::new);
             event.registerEntityRenderer(ModEntities.SURVIVOR.get(), com.bryanamaya.tecnocinetico.entity.client.SurvivorRenderer::new);
         }
     }

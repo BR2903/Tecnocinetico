@@ -264,3 +264,11 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Cliente: `CorruptedHumanModel` (modelo de jugador; brazos de zombi si va desarmado, apunta con el arma), `CorruptedHumanRenderer` (textura por variante + capa luminosa `_glow`, armadura, arma en mano), `CorruptedSpiderRenderer` (modelo vanilla x1,15).
 - Texturas: `tools/corrupted_skin_gen.py` (reutiliza `survivor_skin_gen.py`) y `tools/corrupted_spider_texture.py`. Botín en `world_structures_gen.py`. Huevos en la pestaña creativa.
 - GameTests `corruptedReplaceVanilla` y `gunnerShootsTarget` (14 en total, todos pasan).
+
+## 2026-11-08 — Claude — Más corruptos (araña de cueva, ahogado, creeper) y arreglo del jetpack al recibir daño
+- `CorruptionSpawns` sustituye también arañas de cueva, ahogados y creepers:
+  - **Araña de Cueva Corrupta** (`extends CaveSpider`, para que los generadores de las minas la cuenten): veneno + lentitud, siempre hostil, 14 de vida. Mismo renderizador que la Araña Corrupta a escala 0,8 (`CorruptedSpiderRenderer(ctx, escala)`).
+  - **Ahogado Corrupto** (`extends Drowned`): IA del ahogado, 24 de vida, nunca bebé; piel `drowned` (más pálida, algas, percebes) con el renderizador humano.
+  - **Creeper Corrupto** (`extends Creeper`): mecha de 1,2 s (por NBT `Fuse`, el campo es privado), 24 de vida, algo más rápido; al estallar deja una nube cian de debilidad y náusea (`CorruptionSpawns.onDetonate`). `CorruptedCreeperRenderer` hereda del vanilla (hinchado, destello, carga eléctrica) y añade grietas de cinetrita que brillan más al hincharse. Textura: `tools/corrupted_creeper_texture.py`.
+- **Jetpack**: al recibir daño el servidor manda al cliente su propia copia de la velocidad (`markHurt`), y como el movimiento del jugador lo calcula el cliente, esa copia había acumulado gravedad hasta la de caída máxima: cada golpe estampaba al jugador contra el suelo. Ahora, mientras empuja, la velocidad vertical del servidor no baja de 0 (`GearEvents`).
+- GameTest `corruptedReplaceVanilla` ampliado a los 6 tipos (14 pruebas, todas pasan).

@@ -91,23 +91,24 @@ public class WorldgenGameTests {
         BlockPos base = new BlockPos(col.getX(), level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
                 col.getX(), col.getZ()), col.getZ());
         net.minecraft.world.entity.EntityType<?>[] vanilla = {net.minecraft.world.entity.EntityType.ZOMBIE,
-                net.minecraft.world.entity.EntityType.SKELETON, net.minecraft.world.entity.EntityType.SPIDER};
+                net.minecraft.world.entity.EntityType.SKELETON, net.minecraft.world.entity.EntityType.SPIDER,
+                net.minecraft.world.entity.EntityType.CAVE_SPIDER, net.minecraft.world.entity.EntityType.DROWNED,
+                net.minecraft.world.entity.EntityType.CREEPER};
         for (int i = 0; i < vanilla.length; i++) {
             vanilla[i].spawn(level, base.offset(i * 3, 0, 0), net.minecraft.world.entity.MobSpawnType.NATURAL);
         }
         helper.runAfterDelay(5, () -> {
             // solo junto a los 3 puntos de aparición (las otras pruebas corren a la vez y muy cerca)
-            net.minecraft.world.phys.AABB box = new net.minecraft.world.phys.AABB(base, base.offset(7, 1, 1)).inflate(0.5, 1.0, 0.5);
+            net.minecraft.world.phys.AABB box = new net.minecraft.world.phys.AABB(base, base.offset(16, 1, 1)).inflate(0.5, 1.0, 0.5);
             var all = level.getEntitiesOfClass(net.minecraft.world.entity.Mob.class, box,
                     m -> !(m instanceof net.minecraft.world.entity.animal.Animal));
             long vanillaLeft = all.stream().filter(m -> java.util.Arrays.asList(vanilla).contains(m.getType())).count();
-            long corrupted = all.stream().filter(m -> m instanceof com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSkin
-                    || m instanceof com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSpiderEntity).count();
+            long corrupted = all.stream().filter(m -> m.getType().getDescriptionId().startsWith("entity.tecnocinetico.corrupted")).count();
             Tecnocinetico.LOGGER.info("[GameTest] corruptos: {} vanilla restantes, {} corruptos: {}", vanillaLeft, corrupted,
                     all.stream().map(m -> m.getType().getDescriptionId() + (m.getMainHandItem().isEmpty() ? "" : "[" + m.getMainHandItem().getItem() + "]")).toList());
             all.forEach(net.minecraft.world.entity.Entity::discard);
             helper.assertTrue(vanillaLeft == 0, "Quedaron mobs vanilla sin sustituir");
-            helper.assertTrue(corrupted == 3, "No aparecieron los 3 corruptos (" + corrupted + ")");
+            helper.assertTrue(corrupted == vanilla.length, "No aparecieron los " + vanilla.length + " corruptos (" + corrupted + ")");
             helper.succeed();
         });
     }

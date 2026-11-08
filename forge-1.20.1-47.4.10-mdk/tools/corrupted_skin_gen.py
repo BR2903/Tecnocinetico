@@ -341,7 +341,38 @@ def soldier():
     return s
 
 
-SKINS = {"wanderer": wanderer, "worker": worker, "crystal": crystal, "raider": raider, "soldier": soldier}
+def drowned():
+    """Ahogado: piel más pálida y azulada, algas colgando, camisa de pescador verde azulada empapada,
+    percebes, y cristales de cinetrita que le crecieron bajo el agua."""
+    s = CSkin(67)
+    global FLESH
+    old = FLESH
+    FLESH = [(64, 86, 92), (84, 110, 114), (104, 132, 132), (124, 150, 148)]   # más pálido y azulado
+    corrupt_head(s)
+    weed = [(30, 64, 40), (44, 88, 52), (62, 112, 64)]
+    # algas en el pelo y la cara (capa exterior)
+    s.paint_g(HAT, lambda f, x, y, w, h: weed[(x + y) % 3] if (f == "top" and (x * 3 + y) % 4 == 0)
+              or (f in ("front", "left", "right", "back") and y <= 1 + (x * 7 % 4) // 2 and (x + y) % 3 == 0) else None)
+    shirt = ramp_of((44, 84, 88))
+
+    def body(face, x, y, w, h):
+        if y >= 10:
+            return (40, 46, 56)
+        if face == "front" and (x, y) in ((2, 6), (5, 3), (6, 7)):
+            return (180, 176, 160)                                      # percebes
+        if face == "front" and x == 3 + (y % 2) and y < 6:
+            return weed[1]                                              # alga enganchada
+        return torn(face, x, y, w, h, shirt, 6, 0.1, 10)
+    s.paint_g(BODY, body)
+    limbs(s, sleeve=(44, 84, 88), sleeve_rows=6, pants=(40, 46, 56), boots=False, seed=6)
+    s.crystal_patch(JACKET, "back", 4, 3, 2, outer=True)
+    s.crystal_patch(R_SLEEVE, "top", 1, 1, 1, outer=True)
+    s.crystal_patch(HEAD, "left", 5, 5, 1)
+    FLESH = old
+    return s
+
+
+SKINS = {"drowned": drowned, "wanderer": wanderer, "worker": worker, "crystal": crystal, "raider": raider, "soldier": soldier}
 
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)

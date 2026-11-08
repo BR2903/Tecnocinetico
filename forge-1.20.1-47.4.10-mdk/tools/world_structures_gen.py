@@ -223,6 +223,24 @@ def main():
         {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"}],
          "entries": [{"type": "minecraft:empty", "weight": 2}, item("minecraft:spider_eye", 1)]},
         {"rolls": 1, "conditions": rare, "entries": [item("cinetrite_shard", 1, 1, 2)]}])
+    entity_loot("corrupted_cave_spider", [
+        {"rolls": 1, "entries": [dict(item("minecraft:string", 1, 0, 1), functions=[
+            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 0, "max": 1}}] + looting)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"}],
+         "entries": [{"type": "minecraft:empty", "weight": 3}, item("minecraft:spider_eye", 1)]},
+        {"rolls": 1, "conditions": rare, "entries": [item("cinetrite_shard", 1)]}])
+    entity_loot("corrupted_drowned", [
+        {"rolls": 1, "entries": [dict(item("minecraft:rotten_flesh", 1, 0, 2), functions=[
+            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 0, "max": 2}}] + looting)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"}],
+         "entries": [{"type": "minecraft:empty", "weight": 8}, item("minecraft:copper_ingot", 1), item("minecraft:kelp", 1, 1, 3)]},
+        {"rolls": 1, "conditions": rare, "entries": [item("cinetrite_shard", 1, 1, 2)]}])
+    entity_loot("corrupted_creeper", [
+        {"rolls": 1, "entries": [dict(item("minecraft:gunpowder", 1, 0, 2), functions=[
+            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 0, "max": 2}}] + looting)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
+                                    {"condition": "minecraft:random_chance_with_looting", "chance": 0.12, "looting_multiplier": 0.03}],
+         "entries": [item("cinetrite_shard", 1, 1, 2)]}])
     print("ok: estructuras del Overworld")
 
 

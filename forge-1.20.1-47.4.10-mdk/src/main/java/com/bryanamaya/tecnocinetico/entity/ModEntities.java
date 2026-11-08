@@ -77,6 +77,22 @@ public class ModEntities {
                     .clientTrackingRange(8)
                     .build("corrupted_spider"));
 
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedCaveSpiderEntity>> CORRUPTED_CAVE_SPIDER =
+            ENTITY_TYPES.register("corrupted_cave_spider", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedCaveSpiderEntity>of(com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedCaveSpiderEntity::new, MobCategory.MONSTER)
+                    .sized(0.8f, 0.55f)
+                    .clientTrackingRange(8)
+                    .build("corrupted_cave_spider"));
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedDrownedEntity>> CORRUPTED_DROWNED =
+            ENTITY_TYPES.register("corrupted_drowned", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedDrownedEntity>of(com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedDrownedEntity::new, MobCategory.MONSTER)
+                    .sized(0.6f, 1.95f)
+                    .clientTrackingRange(8)
+                    .build("corrupted_drowned"));
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedCreeperEntity>> CORRUPTED_CREEPER =
+            ENTITY_TYPES.register("corrupted_creeper", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedCreeperEntity>of(com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedCreeperEntity::new, MobCategory.MONSTER)
+                    .sized(0.6f, 1.7f)
+                    .clientTrackingRange(8)
+                    .build("corrupted_creeper"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

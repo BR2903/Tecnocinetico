@@ -251,5 +251,11 @@
   "entity.tecnocinetico.corrupted_spider": "Corrupted Spider",
   "item.tecnocinetico.corrupted_spawn_egg": "Corrupted Spawn Egg",
   "item.tecnocinetico.corrupted_gunner_spawn_egg": "Corrupted Gunner Spawn Egg",
-  "item.tecnocinetico.corrupted_spider_spawn_egg": "Corrupted Spider Spawn Egg"
+  "item.tecnocinetico.corrupted_spider_spawn_egg": "Corrupted Spider Spawn Egg",
+  "entity.tecnocinetico.corrupted_cave_spider": "Corrupted Cave Spider",
+  "entity.tecnocinetico.corrupted_drowned": "Corrupted Drowned",
+  "entity.tecnocinetico.corrupted_creeper": "Corrupted Creeper",
+  "item.tecnocinetico.corrupted_cave_spider_spawn_egg": "Corrupted Cave Spider Spawn Egg",
+  "item.tecnocinetico.corrupted_drowned_spawn_egg": "Corrupted Drowned Spawn Egg",
+  "item.tecnocinetico.corrupted_creeper_spawn_egg": "Corrupted Creeper Spawn Egg"
 }
