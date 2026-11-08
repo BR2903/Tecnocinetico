@@ -248,3 +248,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Sonidos sintetizados (`sound_gen.py`, `generate_drone`): zumbido de rotores, barrido del escáner y alarma.
 - Aparecen 2-3 drones rondando la antena del búnker de la Instalación de la IA. Huevo en la pestaña creativa. Botín: chatarra, a veces redstone/balas, raro transductor piezoeléctrico.
 - GameTest `droneShootsTarget` (12 en total, todos pasan).
+
+## 2026-11-08 — Claude — Torretas y drones: dos ataques y menos espera
+- El usuario los vio demasiado fáciles (mucho tiempo muerto entre disparos). Ahora alternan dos ataques (código común en `entity/custom/CoreShots`):
+  - **Ráfaga**: tiros rápidos cada 2 ticks con dispersión y poco daño, apuntados a donde estás. Dron: 6 x 2 (4°), 0,7 s de pausa después. Torreta: 8 x 2,5 (3,5°), 0,6 s de pausa; la cabeza gira a 7°/tick, así que corriendo de lado se puede dejar atrás.
+  - **Disparo cargado** (35 % de las veces, o tras 2 ráfagas seguidas): línea roja que te sigue y **se fija** al final (dron 0,35 s, torreta 0,4 s antes de disparar); si sigues quieto te da fuerte (dron 10, torreta 14). Moverse en ese momento lo esquiva.
+- El daño usa `mobAttack`, así que escala con la dificultad.

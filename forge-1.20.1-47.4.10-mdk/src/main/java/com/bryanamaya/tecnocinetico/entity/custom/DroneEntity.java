@@ -1,6 +1,5 @@
 package com.bryanamaya.tecnocinetico.entity.custom;
 
-import com.bryanamaya.tecnocinetico.particle.ModParticles;
 import com.bryanamaya.tecnocinetico.sound.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -23,15 +22,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
@@ -47,17 +42,20 @@ public class DroneEntity extends Monster {
 
     /** 0 = patrulla (ojo cian), 1 = ataque (ojo rojo), 2 = cargando la ráfaga (rojo parpadeante). */
     private static final EntityDataAccessor<Byte> MODE = SynchedEntityData.defineId(DroneEntity.class, EntityDataSerializers.BYTE);
-    private static final DustParticleOptions RED = new DustParticleOptions(new Vector3f(1.0F, 0.15F, 0.1F), 0.6F);
     private static final DustParticleOptions SCAN = new DustParticleOptions(new Vector3f(0.3F, 0.9F, 1.0F), 0.5F);
 
     private static final double SIGHT = 24.0D, ALERT_RADIUS = 32.0D, ORBIT = 9.0D;
-    private static final int CHARGE = 12, BURST = 3, BURST_GAP = 3, COOLDOWN = 50;
+    // ráfaga: 6 tiros de 2 cada 2 ticks; cargado: 1 s de carga, se fija 0,35 s antes y hace 10 de daño
+    private static final int BURST = 6, BURST_GAP = 2, AFTER_BURST = 14, CHARGE = 20, LOCK = 7, AFTER_HEAVY = 20;
+    private static final float BURST_DAMAGE = 2.0F, HEAVY_DAMAGE = 10.0F;
+    private static final double BURST_SPREAD = 4.0D;
 
     @Nullable
     private BlockPos home;
     @Nullable
     private Vec3 waypoint;
-    private int charge, burstLeft, burstTimer, cooldown = 30, lostTicks;
+    private int charge, burstLeft, burstTimer, bursts, cooldown = 15, lostTicks;
+    private Vec3 lockPoint = Vec3.ZERO;
     private int jinkSign = 1;
     private final float phase;
 
@@ -213,74 +211,47 @@ public class DroneEntity extends Monster {
         faceTowards(aimDir);
         setXRot((float) (-Mth.atan2(aimDir.y, aimDir.horizontalDistance()) * Mth.RAD_TO_DEG));
 
-        // ráfagas: carga (línea roja) → 3 disparos → enfriamiento
+        // dos ataques: ráfaga rápida (flojita, casi sin espera) o disparo cargado (fuerte, castiga quedarse quieto)
+        Vec3 muzzle = getEyePosition().subtract(0, 0.2, 0);
         if (burstLeft > 0) {
             if (--burstTimer <= 0) {
-                fire(t);
+                CoreShots.fire(this, muzzle, CoreShots.aimPoint(t).subtract(muzzle), 32, BURST_DAMAGE, BURST_SPREAD, DroneEntity.class, false);
+                playSound(ModSounds.PISTOL_FIRE.get(), 0.7F, 1.8F + random.nextFloat() * 0.2F);
                 burstLeft--;
                 burstTimer = BURST_GAP;
                 if (burstLeft == 0) {
-                    cooldown = COOLDOWN;
-                    setMode(1);
+                    cooldown = AFTER_BURST;
                 }
             }
         } else if (charge > 0) {
             charge++;
+            if (charge <= CHARGE - LOCK) {
+                lockPoint = CoreShots.aimPoint(t);                            // sigue al objetivo...
+            }                                                                  // ...y se fija los últimos ticks
+            Vec3 dir = lockPoint.subtract(muzzle).normalize();
             if (charge % 2 == 0) {
-                laser(t);
+                CoreShots.laser(this, muzzle, lockPoint.add(dir.scale(4)));
             }
             if (charge >= CHARGE) {
+                CoreShots.fire(this, muzzle, dir, 32, HEAVY_DAMAGE, 0.0, DroneEntity.class, true);
+                playSound(ModSounds.PISTOL_FIRE.get(), 1.5F, 0.6F);
                 charge = 0;
-                burstLeft = BURST;
-                burstTimer = 0;
+                bursts = 0;
+                cooldown = AFTER_HEAVY;
+                setMode(1);
             }
         } else if (cooldown <= 0 && hasLineOfSight(t) && distanceToSqr(t) < 28 * 28) {
-            charge = 1;
-            setMode(2);
-            playSound(ModSounds.SENTRY_TURRET_CHARGE.get(), 0.7F, 1.6F);
+            if (bursts >= 2 || random.nextFloat() < 0.35F) {
+                charge = 1;
+                lockPoint = CoreShots.aimPoint(t);
+                setMode(2);
+                playSound(ModSounds.SENTRY_TURRET_CHARGE.get(), 0.9F, 1.4F);
+            } else {
+                burstLeft = BURST;
+                burstTimer = 0;
+                bursts++;
+            }
         }
-    }
-
-    private void laser(LivingEntity t) {
-        if (!(level() instanceof ServerLevel server)) {
-            return;
-        }
-        Vec3 from = getEyePosition(), to = t.getEyePosition().subtract(0, 0.3, 0);
-        Vec3 path = to.subtract(from);
-        int steps = (int) (path.length() * 1.5);
-        for (int i = 0; i <= steps; i++) {
-            Vec3 p = from.add(path.scale(i / (double) Math.max(1, steps)));
-            server.sendParticles(RED, p.x, p.y, p.z, 1, 0, 0, 0, 0);
-        }
-    }
-
-    private void fire(LivingEntity t) {
-        if (!(level() instanceof ServerLevel server)) {
-            return;
-        }
-        Vec3 from = getEyePosition().subtract(0, 0.2, 0);
-        Vec3 aim = t.position().add(0, t.getBbHeight() * 0.6, 0).subtract(from).normalize();
-        double s = Math.toRadians(2.5);                                        // dispersión
-        aim = aim.add(random.nextGaussian() * s, random.nextGaussian() * s, random.nextGaussian() * s).normalize();
-        Vec3 end = from.add(aim.scale(32));
-        BlockHitResult block = level().clip(new ClipContext(from, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-        if (block.getType() != HitResult.Type.MISS) {
-            end = block.getLocation();
-        }
-        EntityHitResult hit = ProjectileUtil.getEntityHitResult(level(), this, from, end, new AABB(from, end).inflate(1),
-                e -> e instanceof LivingEntity && !(e instanceof DroneEntity) && !e.isSpectator(), 0.2F);
-        if (hit != null) {
-            end = hit.getEntity().getBoundingBox().clip(from, end).orElse(hit.getEntity().getBoundingBox().getCenter());
-            doHurtTarget(hit.getEntity());
-        }
-        Vec3 path = end.subtract(from);
-        int steps = (int) (path.length() * 3);
-        for (int i = 0; i <= steps; i++) {
-            Vec3 p = from.add(path.scale(i / (double) Math.max(1, steps)));
-            server.sendParticles(ModParticles.KINETIC_TRACER.get(), p.x, p.y, p.z, 0, 0, 0, 0, 0);
-        }
-        server.sendParticles(ModParticles.KINETIC_SPARK.get(), end.x, end.y, end.z, 4, 0.04, 0.04, 0.04, 0.15);
-        playSound(ModSounds.PISTOL_FIRE.get(), 1.0F, 1.5F);
     }
 
     // ------------------------------------------------------------------ vuelo
