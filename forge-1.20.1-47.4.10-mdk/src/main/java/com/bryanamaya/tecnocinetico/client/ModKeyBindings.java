@@ -62,8 +62,13 @@ public final class ModKeyBindings {
                 }
                 boolean holdingPistol = mc.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KineticPistolItem
                         || mc.player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KineticPistolItem;
+                boolean holdingMag = mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem
+                        || mc.player.getOffhandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem;
                 if (holdingPistol) {
                     ModNetwork.CHANNEL.sendToServer(new ModNetwork.ReloadPistolPacket());
+                } else if (holdingMag) {
+                    // R llena el cargador con Bala Cinética; Mayús+R con Munición Guiada
+                    ModNetwork.CHANNEL.sendToServer(new ModNetwork.FillMagazinePacket(mc.player.isShiftKeyDown()));
                 }
             }
         }

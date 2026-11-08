@@ -165,5 +165,17 @@
   "tooltip.tecnocinetico.guided_round": "Seeks enemies near your aim. Only works with Swarm Guidance installed",
   "tooltip.tecnocinetico.guided_loaded": "Guided rounds: %s",
   "tooltip.tecnocinetico.guided_inactive": "Guided rounds: %s (inactive without Swarm Guidance)",
-  "message.tecnocinetico.guided_needs_module": "Guided Rounds need Swarm Guidance installed"
+  "message.tecnocinetico.guided_needs_module": "Magazines with Guided Rounds need Swarm Guidance installed",
+  "item.tecnocinetico.kinetic_round": "Kinetic Round",
+  "item.tecnocinetico.magazine": "Magazine",
+  "item.tecnocinetico.extended_magazine": "Extended Magazine",
+  "tooltip.tecnocinetico.magazine_rounds": "Rounds: %s/%s",
+  "tooltip.tecnocinetico.magazine_guided": "Guided: %s",
+  "tooltip.tecnocinetico.magazine_fill": "R with the magazine in hand: fill (Shift+R: guided)",
+  "tooltip.tecnocinetico.extended_magazine": "Requires the Extended Magazine module on the pistol",
+  "tooltip.tecnocinetico.no_magazine": "No magazine",
+  "message.tecnocinetico.no_magazine": "You have no loaded magazine",
+  "message.tecnocinetico.magazine_full": "The magazine is full",
+  "message.tecnocinetico.no_rounds": "You have no Kinetic Rounds",
+  "message.tecnocinetico.no_guided_rounds": "You have no Guided Rounds"
 }

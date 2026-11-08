@@ -66,3 +66,6 @@ Monstruo del Overworld (peso 15, de noche/cuevas). 34 vida, 6 daño, 6 armadura.
 
 ## Módulo Guía de Enjambre (trayectoria automática)
 - El arma base y la Mira disparan **recto**. La única forma de que la bala "busque" a los mobs es la Guía de Enjambre, que el usuario quiere **extremadamente difícil** de conseguir (3 Núcleos de Enjambre + consume una Mira). No añadirla a botín ni comercio sin preguntar.
+
+## Munición (desde 2026-11-07)
+- Los fragmentos de cinetrita **no** son munición: hay que fabricar **Balas Cinéticas** y meterlas en **cargadores** (decisión del usuario). Recargar = cambiar de cargador. El Cargador Ampliado solo con su módulo; la Munición Guiada solo con la Guía de Enjambre.

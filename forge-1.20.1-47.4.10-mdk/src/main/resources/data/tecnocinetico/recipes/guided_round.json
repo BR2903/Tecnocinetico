@@ -1,21 +1,20 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "category": "equipment",
-  "pattern": [
-    "SRS",
-    "SCS"
-  ],
-  "key": {
-    "S": {
-      "item": "tecnocinetico:cinetrite_shard"
+  "ingredients": [
+    {
+      "item": "tecnocinetico:kinetic_round"
     },
-    "R": {
+    {
+      "item": "tecnocinetico:kinetic_round"
+    },
+    {
       "item": "minecraft:redstone"
     },
-    "C": {
-      "item": "minecraft:copper_ingot"
+    {
+      "item": "tecnocinetico:cinetrite_shard"
     }
-  },
+  ],
   "result": {
     "item": "tecnocinetico:guided_round",
     "count": 2

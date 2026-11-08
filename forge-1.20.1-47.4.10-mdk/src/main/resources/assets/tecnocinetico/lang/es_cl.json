@@ -165,5 +165,17 @@
   "tooltip.tecnocinetico.guided_round": "Busca a los enemigos cercanos a la mira. Solo funciona con la Guía de Enjambre instalada",
   "tooltip.tecnocinetico.guided_loaded": "Munición guiada: %s",
   "tooltip.tecnocinetico.guided_inactive": "Munición guiada: %s (inactiva sin la Guía de Enjambre)",
-  "message.tecnocinetico.guided_needs_module": "La Munición Guiada necesita la Guía de Enjambre instalada"
+  "message.tecnocinetico.guided_needs_module": "Los cargadores con Munición Guiada necesitan la Guía de Enjambre instalada",
+  "item.tecnocinetico.kinetic_round": "Bala Cinética",
+  "item.tecnocinetico.magazine": "Cargador",
+  "item.tecnocinetico.extended_magazine": "Cargador Ampliado",
+  "tooltip.tecnocinetico.magazine_rounds": "Balas: %s/%s",
+  "tooltip.tecnocinetico.magazine_guided": "Guiadas: %s",
+  "tooltip.tecnocinetico.magazine_fill": "R con el cargador en la mano: llenar (Mayús+R: guiadas)",
+  "tooltip.tecnocinetico.extended_magazine": "Necesita el módulo Cargador Ampliado en la pistola",
+  "tooltip.tecnocinetico.no_magazine": "Sin cargador",
+  "message.tecnocinetico.no_magazine": "No llevas ningún cargador con balas",
+  "message.tecnocinetico.magazine_full": "El cargador está lleno",
+  "message.tecnocinetico.no_rounds": "No tienes Balas Cinéticas",
+  "message.tecnocinetico.no_guided_rounds": "No tienes Munición Guiada"
 }

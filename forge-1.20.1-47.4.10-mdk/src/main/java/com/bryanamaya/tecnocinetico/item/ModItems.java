@@ -66,6 +66,12 @@ public class ModItems {
     public static final RegistryObject<Item> MODULE_INERCITA_BARREL = module(WeaponModule.INERCITA_BARREL);
     public static final RegistryObject<Item> MODULE_QUICK_RELOAD = module(WeaponModule.QUICK_RELOAD);
     public static final RegistryObject<Item> MODULE_SEEKER = module(WeaponModule.SEEKER);
+    /** Bala Cinética: la munición normal de la pistola (va dentro de un cargador). */
+    public static final RegistryObject<Item> KINETIC_ROUND = ITEMS.register("kinetic_round", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> MAGAZINE = ITEMS.register("magazine",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(1, 6, new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> EXTENDED_MAGAZINE = ITEMS.register("extended_magazine",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(2, 10, new Item.Properties().stacksTo(16)));
     /** Munición Guiada: solo funciona en una pistola con la Guía de Enjambre (ver KineticPistolItem). */
     public static final RegistryObject<Item> GUIDED_ROUND = ITEMS.register("guided_round",
             () -> new com.bryanamaya.tecnocinetico.item.custom.GuidedRoundItem(new Item.Properties()));

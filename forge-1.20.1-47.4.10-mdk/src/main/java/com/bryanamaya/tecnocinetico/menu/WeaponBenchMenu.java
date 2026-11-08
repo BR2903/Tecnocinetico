@@ -152,11 +152,10 @@ public class WeaponBenchMenu extends AbstractContainerMenu {
                 }
                 if (mask != WeaponModule.getMask(weapon)) {
                     WeaponModule.setMask(weapon, mask);
-                    // Al quitar el Cargador Ampliado, las balas que ya no caben vuelven como fragmentos
-                    int excess = KineticPistolItem.clampAmmoToMag(weapon);
-                    if (excess > 0) {
-                        player.getInventory().placeItemBackInInventory(
-                                new ItemStack(ModItems.CINETRITE_SHARD.get(), excess));
+                    // Si el cargador puesto deja de valer (Ampliado sin su módulo, guiadas sin la Guía), sale entero
+                    ItemStack ejected = KineticPistolItem.ejectIfIncompatible(weapon);
+                    if (!ejected.isEmpty()) {
+                        player.getInventory().placeItemBackInInventory(ejected);
                     }
                 }
             }

@@ -184,3 +184,12 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 ## 2026-11-07 — Claude — Munición Guiada
 - Objeto `guided_round` (4 fragmentos de cinetrita + redstone + cobre → 2). **Solo funciona con la Guía de Enjambre**: sin el módulo la recarga no la carga (y avisa si es la única munición). Con el módulo se carga primero (`GuidedAmmo` en el NBT de la pistola) y se dispara antes que la normal.
 - Bala guiada: busca al mob **hostil** (`Enemy`) más alineado con la mira en un cono de 25° con línea de visión (nunca supervivientes/animales); trazo curvo (Bézier). Sin enemigos en el cono va recta. Barra de munición violeta mientras quedan guiadas; tooltip con el recuento.
+
+## 2026-11-07 — Claude — Cargadores y Bala Cinética
+- Petición del usuario: los fragmentos de cinetrita **ya no son munición**. Nueva **Bala Cinética** (4 fragmentos + cobre → 4). La pistola necesita **cargador**: `MagazineItem` (Cargador 6; Cargador Ampliado 10, solo con el módulo Cargador Ampliado). NBT del cargador: `Rounds`, `Guided` (las guiadas siempre se disparan primero).
+- Llenar: receta especial de la mesa `MagazineLoadingRecipe` (`tecnocinetico:magazine_loading`: cargador + 1-8 balas, sin resultado si no caben) o **R con el cargador en la mano** (Mayús+R = guiadas; `FillMagazinePacket`).
+- Recarga = cambio de cargador: toma el cargador válido con más balas, lo guarda "en espera" (`PendingMag`) y al terminar la animación lo pone; el viejo vuelve al inventario con sus balas. Pistola: `Mag` (0/1/2), `Ammo`, `GuidedAmmo`; las pistolas antiguas sin `Mag` se migran solas. En creativo, recarga gratis.
+- Banco: si al cambiar módulos el cargador deja de valer (Ampliado sin módulo, guiadas sin Guía), sale entero al inventario.
+- Munición Guiada ahora: 2 Balas Cinéticas + redstone + fragmento → 2. Armero vende balas y cargadores.
+- Modelos 3D (`tools/ammo_gen.py`, atlas `item/ammo.png`): balas (normal de cobre, guiada de acero con banda roja, aletas y sensor violeta) y cargadores con ventana y la bala de arriba visible cuando están cargados (override `tecnocinetico:loaded`).
+- GameTests nuevos (`AmmoGameTests`): receta de carga, llenar con R, recarga y cambio de cargador, Ampliado solo con módulo.

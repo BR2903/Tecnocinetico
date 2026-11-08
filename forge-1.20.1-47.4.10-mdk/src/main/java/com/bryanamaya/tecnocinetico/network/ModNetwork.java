@@ -35,6 +35,9 @@ public final class ModNetwork {
         CHANNEL.registerMessage(2, FirePistolPacket.class,
                 FirePistolPacket::encode, FirePistolPacket::decode, FirePistolPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(3, FillMagazinePacket.class,
+                FillMagazinePacket::encode, FillMagazinePacket::decode, FillMagazinePacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
                 SyncSkillsPacket::encode, SyncSkillsPacket::decode, SyncSkillsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
@@ -103,6 +106,35 @@ public final class ModNetwork {
                     // Con dos pistolas, recarga la primera que lo necesite
                     if (stack.getItem() instanceof KineticPistolItem && KineticPistolItem.canReload(stack)) {
                         KineticPistolItem.startReload(player, stack);
+                        return;
+                    }
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Tecla R con un cargador en la mano: llenarlo con Bala Cinética (o Munición Guiada si guided). */
+    public record FillMagazinePacket(boolean guided) {
+
+        public static void encode(FillMagazinePacket msg, FriendlyByteBuf buf) {
+            buf.writeBoolean(msg.guided);
+        }
+
+        public static FillMagazinePacket decode(FriendlyByteBuf buf) {
+            return new FillMagazinePacket(buf.readBoolean());
+        }
+
+        public static void handle(FillMagazinePacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer player = ctx.get().getSender();
+                if (player == null) {
+                    return;
+                }
+                for (InteractionHand hand : InteractionHand.values()) {
+                    ItemStack stack = player.getItemInHand(hand);
+                    if (stack.getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem) {
+                        com.bryanamaya.tecnocinetico.item.custom.MagazineItem.fillFromInventory(player, stack, msg.guided);
                         return;
                     }
                 }

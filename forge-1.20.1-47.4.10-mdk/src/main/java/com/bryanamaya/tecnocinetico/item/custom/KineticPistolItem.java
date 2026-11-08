@@ -53,7 +53,6 @@ import java.util.function.Consumer;
  */
 public class KineticPistolItem extends Item {
 
-    public static final int MAG_SIZE = 6;
     private static final int SHOT_COOLDOWN = 8;
     private static final double RANGE = 25.0D;
     private static final float DAMAGE = 8.0F;      // 4 corazones
@@ -61,7 +60,6 @@ public class KineticPistolItem extends Item {
     private static final float AIM_ASSIST = 0.0F;
 
     // --- Valores con módulos instalados ---
-    private static final int EXTENDED_MAG_SIZE = 10;
     private static final double INERCITA_RANGE = 35.0D;
     private static final float INERCITA_DAMAGE_BONUS = 3.0F;
     /** Guía de Enjambre: margen de "búsqueda" alrededor del rayo (la bala se desvía hacia el mob). */
@@ -70,8 +68,14 @@ public class KineticPistolItem extends Item {
 
     // ------------------------------------------------------------------ estadísticas según los módulos
 
+    /** Capacidad del cargador puesto (0 = sin cargador). */
     public static int getMagSize(ItemStack stack) {
-        return WeaponModule.has(stack, WeaponModule.EXTENDED_MAG) ? EXTENDED_MAG_SIZE : MAG_SIZE;
+        return MagazineItem.capacityOfType(getMagType(stack));
+    }
+
+    /** ¿Admite este cargador? El Ampliado necesita el módulo Cargador Ampliado. */
+    public static boolean acceptsMagazine(ItemStack pistol, int type) {
+        return type == 1 || (type == 2 && WeaponModule.has(pistol, WeaponModule.EXTENDED_MAG));
     }
 
     public static float getShotDamage(ItemStack stack) {
@@ -97,6 +101,10 @@ public class KineticPistolItem extends Item {
     private static final int XP_PER_KILL = 4;
 
     private static final String TAG_AMMO = "Ammo";
+    /** Cargador puesto: 0 ninguno, 1 Cargador, 2 Cargador Ampliado. */
+    private static final String TAG_MAG = "Mag";
+    /** Cargador que entra al terminar la recarga (ya se sacó del inventario): tipo, balas y guiadas. */
+    private static final String TAG_PENDING = "PendingMag";
     /** Cuántas de las balas cargadas son Munición Guiada (se disparan primero). */
     private static final String TAG_GUIDED = "GuidedAmmo";
     /** Munición Guiada: cono de búsqueda (grados) alrededor de la mira; solo persigue mobs hostiles. */
@@ -122,6 +130,48 @@ public class KineticPistolItem extends Item {
         }
     }
 
+    public static int getMagType(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag == null) {
+            return 0;
+        }
+        if (!tag.contains(TAG_MAG)) {
+            // pistolas de antes de los cargadores: si tenían balas, se les supone el cargador que cabía
+            int ammo = tag.getInt(TAG_AMMO);
+            return ammo > 6 ? 2 : ammo > 0 ? 1 : 0;
+        }
+        return tag.getInt(TAG_MAG);
+    }
+
+    private static void setMagType(ItemStack stack, int type) {
+        stack.getOrCreateTag().putInt(TAG_MAG, type);
+    }
+
+    /** Saca el cargador puesto como objeto (con sus balas) y deja la pistola vacía. EMPTY si no tenía. */
+    public static ItemStack ejectMagazine(ItemStack pistol) {
+        int type = getMagType(pistol);
+        net.minecraft.world.item.Item item = MagazineItem.itemOfType(type);
+        if (item == null) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack mag = new ItemStack(item);
+        MagazineItem.setContents(mag, getAmmo(pistol), getGuided(pistol));
+        setMagType(pistol, 0);
+        pistol.getOrCreateTag().putInt(TAG_AMMO, 0);
+        setGuided(pistol, 0);
+        return mag;
+    }
+
+    /**
+     * Tras cambiar módulos en el banco: si el cargador puesto ya no es válido (Ampliado sin su módulo, o balas
+     * guiadas sin la Guía de Enjambre), se saca entero. Devuelve el cargador para dárselo al jugador.
+     */
+    public static ItemStack ejectIfIncompatible(ItemStack pistol) {
+        boolean badMag = getMagType(pistol) != 0 && !acceptsMagazine(pistol, getMagType(pistol));
+        boolean badGuided = getGuided(pistol) > 0 && !WeaponModule.has(pistol, WeaponModule.SEEKER);
+        return badMag || badGuided ? ejectMagazine(pistol) : ItemStack.EMPTY;
+    }
+
     public static int getGuided(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         return tag == null ? 0 : tag.getInt(TAG_GUIDED);
@@ -131,26 +181,13 @@ public class KineticPistolItem extends Item {
         stack.getOrCreateTag().putInt(TAG_GUIDED, Math.max(0, n));
     }
 
-    /**
-     * Ajusta la munición al tamaño actual del cargador (p. ej. al quitar el Cargador Ampliado).
-     * Devuelve las balas que sobran, para devolverlas al jugador como fragmentos.
-     */
-    public static int clampAmmoToMag(ItemStack stack) {
-        int excess = getAmmo(stack) - getMagSize(stack);
-        if (excess > 0) {
-            setAmmo(stack, getMagSize(stack));
-            return excess;
-        }
-        return 0;
-    }
-
     public static boolean isReloading(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         return tag != null && tag.getInt(TAG_RELOAD_LEFT) > 0;
     }
 
     public static boolean canReload(ItemStack stack) {
-        return !isReloading(stack) && getAmmo(stack) < getMagSize(stack);
+        return !isReloading(stack) && (getMagType(stack) == 0 || getAmmo(stack) < getMagSize(stack));
     }
 
     /** Progreso de la recarga de 0 a 1 (0 = no recarga). Lo usan la animación y los fotogramas del modelo. */
@@ -401,28 +438,61 @@ public class KineticPistolItem extends Item {
 
     // ------------------------------------------------------------------ recarga (tecla R)
 
-    /** Llamado en el servidor cuando el jugador pulsa la tecla de recarga. */
+    /**
+     * Recarga (servidor, tecla R o gatillo con el cargador vacío): busca en el inventario el cargador válido con
+     * más balas (y más que el puesto), lo saca ya y lo deja "en espera" dentro de la pistola; al terminar la
+     * animación entra, y el cargador viejo vuelve al inventario con las balas que le queden.
+     * Válido = Cargador, o Ampliado si la pistola tiene su módulo; con balas guiadas solo si tiene la Guía.
+     */
     public static void startReload(Player player, ItemStack pistol) {
         Level level = player.level();
         if (!canReload(pistol)) {
             return;
         }
         boolean seeker = WeaponModule.has(pistol, WeaponModule.SEEKER);
-        if (!player.getAbilities().instabuild && countAmmoItems(player) == 0
-                && (!seeker || countItems(player, ModItems.GUIDED_ROUND.get()) == 0)) {
-            boolean onlyGuided = !seeker && countItems(player, ModItems.GUIDED_ROUND.get()) > 0;
-            player.displayClientMessage(Component.translatable(onlyGuided ? "message.tecnocinetico.guided_needs_module"
-                    : "message.tecnocinetico.no_shards").withStyle(ChatFormatting.RED), true);
+        int bestSlot = -1, bestRounds = getMagType(pistol) == 0 ? 0 : getAmmo(pistol);
+        boolean blockedByGuided = false;
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack s = player.getInventory().getItem(i);
+            if (!(s.getItem() instanceof MagazineItem m) || !acceptsMagazine(pistol, m.type())) {
+                continue;
+            }
+            int rounds = MagazineItem.getRounds(s);
+            if (MagazineItem.getGuided(s) > 0 && !seeker) {
+                blockedByGuided |= rounds > 0;
+                continue;
+            }
+            if (rounds > bestRounds || (rounds == bestRounds && rounds > 0 && bestSlot >= 0
+                    && m.type() > ((MagazineItem) player.getInventory().getItem(bestSlot).getItem()).type())) {
+                bestSlot = i;
+                bestRounds = rounds;
+            }
+        }
+        CompoundTag pending = new CompoundTag();
+        if (bestSlot >= 0) {
+            ItemStack chosen = player.getInventory().getItem(bestSlot);
+            pending.putInt("Type", ((MagazineItem) chosen.getItem()).type());
+            pending.putInt("Rounds", MagazineItem.getRounds(chosen));
+            pending.putInt("Guided", MagazineItem.getGuided(chosen));
+            chosen.shrink(1);
+        } else if (player.getAbilities().instabuild) {
+            int type = acceptsMagazine(pistol, 2) ? 2 : 1;            // creativo: cargador lleno gratis
+            pending.putInt("Type", type);
+            pending.putInt("Rounds", MagazineItem.capacityOfType(type));
+        } else {
+            player.displayClientMessage(Component.translatable(blockedByGuided ? "message.tecnocinetico.guided_needs_module"
+                    : "message.tecnocinetico.no_magazine").withStyle(ChatFormatting.RED), true);
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     ModSounds.PISTOL_DRY_FIRE.get(), SoundSource.PLAYERS, 0.8F, 1.0F);
             return;
         }
         int ticks = getReloadTicks(pistol, PlayerSkills.getLevel(player, Skill.WEAPON_HANDLING));
         CompoundTag tag = pistol.getOrCreateTag();
+        tag.put(TAG_PENDING, pending);
         tag.putInt(TAG_RELOAD_LEFT, ticks);
         tag.putInt(TAG_RELOAD_TOTAL, ticks);
         player.getCooldowns().addCooldown(pistol.getItem(), ticks);
-        // Suelta el cargador vacío
+        // Suelta el cargador puesto
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 ModSounds.PISTOL_MAG_OUT.get(), SoundSource.PLAYERS, 0.8F, 1.0F);
     }
@@ -451,51 +521,19 @@ public class KineticPistolItem extends Item {
 
         tag.remove(TAG_RELOAD_LEFT);
         tag.remove(TAG_RELOAD_TOTAL);
-        int needed = getMagSize(stack) - getAmmo(stack);
-        boolean creative = player.getAbilities().instabuild;
-        // Munición Guiada primero (solo con la Guía de Enjambre); en creativo no se gasta pero sí se carga
-        int guided = 0;
-        if (WeaponModule.has(stack, WeaponModule.SEEKER)) {
-            guided = creative ? (countItems(player, ModItems.GUIDED_ROUND.get()) > 0 ? needed : 0)
-                    : consumeItems(player, ModItems.GUIDED_ROUND.get(), needed);
+        CompoundTag pending = tag.getCompound(TAG_PENDING);
+        tag.remove(TAG_PENDING);
+        if (pending.getInt("Type") == 0) {
+            return;
         }
-        int rest = needed - guided;
-        int loaded = guided + (creative ? rest : consumeAmmoItems(player, rest));
-        int previous = getAmmo(stack);
-        setAmmo(stack, previous + loaded);
-        setGuided(stack, getGuided(stack) + guided);
-    }
-
-    private static int countAmmoItems(Player player) {
-        return countItems(player, ModItems.CINETRITE_SHARD.get());
-    }
-
-    private static int countItems(Player player, net.minecraft.world.item.Item item) {
-        int count = 0;
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack s = player.getInventory().getItem(i);
-            if (s.is(item)) {
-                count += s.getCount();
-            }
+        // el cargador viejo vuelve al inventario (aunque esté vacío: es reutilizable)
+        ItemStack old = ejectMagazine(stack);
+        if (!old.isEmpty()) {
+            player.getInventory().placeItemBackInInventory(old);
         }
-        return count;
-    }
-
-    private static int consumeAmmoItems(Player player, int wanted) {
-        return consumeItems(player, ModItems.CINETRITE_SHARD.get(), wanted);
-    }
-
-    private static int consumeItems(Player player, net.minecraft.world.item.Item item, int wanted) {
-        int taken = 0;
-        for (int i = 0; i < player.getInventory().getContainerSize() && taken < wanted; i++) {
-            ItemStack s = player.getInventory().getItem(i);
-            if (s.is(item)) {
-                int t = Math.min(s.getCount(), wanted - taken);
-                s.shrink(t);
-                taken += t;
-            }
-        }
-        return taken;
+        setMagType(stack, pending.getInt("Type"));
+        setAmmo(stack, pending.getInt("Rounds"));
+        setGuided(stack, Math.min(pending.getInt("Guided"), getAmmo(stack)));
     }
 
     // ------------------------------------------------------------------ interfaz
@@ -512,7 +550,7 @@ public class KineticPistolItem extends Item {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return Math.round(13.0F * getAmmo(stack) / getMagSize(stack));
+        return getMagSize(stack) == 0 ? 0 : Math.round(13.0F * getAmmo(stack) / getMagSize(stack));
     }
 
     @Override
@@ -536,8 +574,12 @@ public class KineticPistolItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.tecnocinetico.ammo", getAmmo(stack), getMagSize(stack))
-                .withStyle(ChatFormatting.AQUA));
+        if (getMagType(stack) == 0) {
+            tooltip.add(Component.translatable("tooltip.tecnocinetico.no_magazine").withStyle(ChatFormatting.RED));
+        } else {
+            tooltip.add(Component.translatable("tooltip.tecnocinetico.ammo", getAmmo(stack), getMagSize(stack))
+                    .withStyle(ChatFormatting.AQUA));
+        }
         if (getGuided(stack) > 0) {
             tooltip.add(Component.translatable(WeaponModule.has(stack, WeaponModule.SEEKER)
                     ? "tooltip.tecnocinetico.guided_loaded" : "tooltip.tecnocinetico.guided_inactive", getGuided(stack))

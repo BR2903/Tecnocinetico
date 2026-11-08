@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "IMI",
+    " N "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "tecnocinetico:magazine"
+    },
+    "N": {
+      "item": "tecnocinetico:inercita_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:extended_magazine",
+    "count": 1
+  }
+}

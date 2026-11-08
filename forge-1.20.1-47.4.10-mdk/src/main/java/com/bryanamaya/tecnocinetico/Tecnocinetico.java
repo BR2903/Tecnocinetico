@@ -59,6 +59,7 @@ public class Tecnocinetico {
         ModSounds.register(modEventBus);
         ModMenus.register(modEventBus);
         com.bryanamaya.tecnocinetico.worldgen.ModWorldgen.register(modEventBus);
+        com.bryanamaya.tecnocinetico.item.ModRecipes.register(modEventBus);
         com.bryanamaya.tecnocinetico.worldgen.structure.ModStructures.register(modEventBus);
         ModNetwork.register();
     }
@@ -113,6 +114,11 @@ public class Tecnocinetico {
                             }
                             return 0.0F;
                         });
+                // Cargadores: 0 vacío, 0.5 bala normal arriba, 1 bala guiada arriba (cambia el modelo)
+                for (var mag : java.util.List.of(ModItems.MAGAZINE.get(), ModItems.EXTENDED_MAGAZINE.get())) {
+                    ItemProperties.register(mag, ResourceLocation.fromNamespaceAndPath(MOD_ID, "loaded"),
+                            (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.item.custom.MagazineItem.loadedProperty(stack));
+                }
                 // Combinación de módulos instalados (máscara de bits 0-15): cambia el modelo del arma
                 ItemProperties.register(ModItems.KINETIC_PISTOL.get(),
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, "modules"),

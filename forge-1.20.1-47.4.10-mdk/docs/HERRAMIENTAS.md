@@ -79,3 +79,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 ## swarm_wasp_texture.py (enjambre)
 - `python tools/swarm_wasp_texture.py [preview.png]` genera las texturas de las avispas (una por papel + capa luminosa), del Nodo de Colmena y el icono del Núcleo de Enjambre.
 - Sonidos del enjambre: `generate_wasps()` en `tools/sound_gen.py` (carpetas `sounds/swarm_wasp/` y `sounds/hive_node/`).
+
+## ammo_gen.py (munición y cargadores)
+- `python tools/ammo_gen.py` genera `textures/item/ammo.png` y los modelos 3D de `kinetic_round`, `guided_round`, `magazine(_loaded|_guided)` y `extended_magazine(_loaded|_guided)`. Conserva el `display.gui` existente: tras cambiar la geometría, ejecutar `gui_fit.py $A "y-135;x30" <modelo>` en cada uno y volver a generar.
