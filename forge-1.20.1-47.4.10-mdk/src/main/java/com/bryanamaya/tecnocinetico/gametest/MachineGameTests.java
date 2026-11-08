@@ -81,6 +81,21 @@ public class MachineGameTests {
         });
     }
 
+    @GameTest(template = "empty", timeoutTicks = 100)
+    public static void uraniumIsRadioactive(GameTestHelper helper) {
+        var player = helper.makeMockPlayer();
+        player.getInventory().add(new ItemStack(ModItems.URANIUM_INGOT.get(), 10));
+        float dose = com.bryanamaya.tecnocinetico.effect.RadiationEvents.exposure(player);
+        helper.assertTrue(dose >= com.bryanamaya.tecnocinetico.effect.RadiationEvents.LEVEL_2, "10 lingotes deberían dar radiación nivel II: " + dose);
+        var pig = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.PIG, new BlockPos(1, 2, 1));
+        pig.addEffect(new net.minecraft.world.effect.MobEffectInstance(com.bryanamaya.tecnocinetico.effect.ModEffects.RADIATION.get(), 100, 2));
+        helper.runAfterDelay(45, () -> {
+            helper.assertTrue(pig.getHealth() < pig.getMaxHealth(), "La radiación debería dañar");
+            pig.discard();
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void fabricatorMakesAmmo(GameTestHelper helper) {
         ElectricMachineBlockEntity be = place(helper, ModBlocks.AMMO_FABRICATOR.get());

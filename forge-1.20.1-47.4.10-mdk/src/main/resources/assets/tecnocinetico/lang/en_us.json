@@ -480,5 +480,9 @@
   "gui.tecnocinetico.reaction.resonance_hint": "Tune frequency and intensity until it fills up",
   "gui.tecnocinetico.reaction.stability": "Stability: %s%%",
   "gui.tecnocinetico.reaction.stability_hint": "If it reaches 0, the load disintegrates",
-  "tooltip.tecnocinetico.reactor_only": "Can only be processed in the Reaction Chamber"
+  "tooltip.tecnocinetico.reactor_only": "Can only be processed in the Reaction Chamber",
+  "effect.tecnocinetico.radiation": "Radiation",
+  "tooltip.tecnocinetico.radioactive": "☢ Radioactive: don't carry it for long",
+  "death.attack.tecnocinetico.radiation": "%1$s died of radiation poisoning",
+  "death.attack.tecnocinetico.radiation.player": "%1$s died of radiation poisoning whilst fleeing %2$s"
 }

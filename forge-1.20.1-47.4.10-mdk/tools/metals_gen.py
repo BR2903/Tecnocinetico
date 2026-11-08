@@ -18,7 +18,6 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from armor_t3_gen import recolor  # noqa: E402
 
 MOD = Path(__file__).resolve().parent.parent / "src/main/resources"
 A = MOD / "assets/tecnocinetico"
@@ -99,6 +98,65 @@ def ore_overlay(name):
                     img.putpixel((nx, ny), (*ramp_at(ramp, 0.3), 255))
         if 0 <= cx < 16 and 0 <= cy < 16:
             img.putpixel((cx, cy), (*ramp[4], 255))                            # brillo
+    return img
+
+
+def ingot_tex(name):
+    """Lingote en pixel art (estilo vanilla): prisma con aristas de pendiente 1:2; cara superior (3 px),
+    arista frontal brillante, cara frontal (2 px), extremo derecho y contorno oscuro."""
+    ramp = RAMPS[name]
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+
+    def put(x, y, t):
+        if 0 <= x < 16 and 0 <= y < 16:
+            img.putpixel((x, y), (*ramp_at(ramp, t), 255))
+
+    yh = lambda x: 12 - x // 2                       # arista frontal superior
+    for x in range(2, 14):
+        k = (x - 2) / 11
+        put(x, yh(x) - 4, 0.05)                      # arista trasera (contorno)
+        for y in range(yh(x) - 3, yh(x)):
+            put(x, y, 0.66 + 0.16 * k + (0.06 if y == yh(x) - 3 else 0))   # cara superior
+        put(x, yh(x), 0.97)                          # brillo de la arista
+        put(x, yh(x) + 1, 0.48 - 0.08 * k)           # cara frontal
+        put(x, yh(x) + 2, 0.36 - 0.08 * k)
+        put(x, yh(x) + 3, 0.05)                      # contorno inferior
+    for y in range(yh(2) - 4, yh(2) + 4):
+        put(1, y, 0.05)                              # extremo izquierdo
+    for y in range(yh(13) - 3, yh(13) + 3):
+        put(14, y, 0.56 if y < yh(13) else 0.4)      # extremo derecho
+    for y in range(yh(13) - 4, yh(13) + 4):
+        put(15, y, 0.05)
+    put(14, yh(13) - 4, 0.05)
+    put(14, yh(13) + 3, 0.05)
+    return img
+
+
+def raw_chunk(name):
+    """Mena en bruto en pixel art: trozo grumoso con grietas, luz arriba-izquierda."""
+    ramp = RAMPS[name]
+    r = random.Random(sum(map(ord, name)))
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    lumps = [(7.5, 8.5, 5.2), (5.0, 6.5, 3.2), (10.5, 6.0, 3.4), (10.0, 10.5, 3.2), (5.0, 10.5, 3.0)]
+    inside = {}
+    for y in range(16):
+        for x in range(16):
+            best = None
+            for (cx, cy, rad) in lumps:
+                d = math.hypot(x + 0.5 - cx, y + 0.5 - cy) / rad
+                if d < 1 and (best is None or d < best[0]):
+                    best = (d, cx, cy)
+            if best:
+                inside[(x, y)] = best
+    for (x, y), (d, cx, cy) in inside.items():
+        edge = any((x + dx, y + dy) not in inside for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+        if edge:
+            t = 0.05
+        else:
+            t = 0.62 - 0.35 * ((x + 0.5 - cx) + (y + 0.5 - cy)) / 4 - 0.2 * d + r.uniform(-0.06, 0.06)
+            if r.random() < 0.12:
+                t -= 0.25                                                       # grietas
+        img.putpixel((x, y), (*ramp_at(ramp, t), 255))
     return img
 
 
@@ -337,8 +395,8 @@ def main():
     for name, cfg in METALS.items():
         ramp = RAMPS[name]
         ore_overlay(name).save(T / f"block/{name}_ore_overlay.png")
-        recolor(T / "item/raw_inercita.png", ramp).save(T / f"item/raw_{name}.png")
-        recolor(T / "item/inercita_ingot.png", ramp).save(T / f"item/{name}_ingot.png")
+        raw_chunk(name).save(T / f"item/raw_{name}.png")              # pixel art 16x16 estilo vanilla
+        ingot_tex(name).save(T / f"item/{name}_ingot.png")
         nugget(name).save(T / f"item/{name}_nugget.png")
         metal_block(name).save(T / f"block/{name}_block.png")
         ore_model(f"{name}_ore", "minecraft:block/stone", f"tecnocinetico:block/{name}_ore_overlay")

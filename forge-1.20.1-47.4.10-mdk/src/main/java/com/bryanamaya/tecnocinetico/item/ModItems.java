@@ -47,9 +47,9 @@ public class ModItems {
     public static final RegistryObject<Item> RAW_TITANIUM = reactorOnly("raw_titanium");
     public static final RegistryObject<Item> TITANIUM_INGOT = simple("titanium_ingot");
     public static final RegistryObject<Item> TITANIUM_NUGGET = simple("titanium_nugget");
-    public static final RegistryObject<Item> RAW_URANIUM = reactorOnly("raw_uranium");
-    public static final RegistryObject<Item> URANIUM_INGOT = simple("uranium_ingot");
-    public static final RegistryObject<Item> URANIUM_NUGGET = simple("uranium_nugget");
+    public static final RegistryObject<Item> RAW_URANIUM = radioactive("raw_uranium", true);
+    public static final RegistryObject<Item> URANIUM_INGOT = radioactive("uranium_ingot", false);
+    public static final RegistryObject<Item> URANIUM_NUGGET = radioactive("uranium_nugget", false);
     public static final RegistryObject<Item> IRON_DUST = simple("iron_dust");
     public static final RegistryObject<Item> GOLD_DUST = simple("gold_dust");
     public static final RegistryObject<Item> COPPER_DUST = simple("copper_dust");
@@ -69,6 +69,22 @@ public class ModItems {
                                         java.util.List<net.minecraft.network.chat.Component> tooltip, net.minecraft.world.item.TooltipFlag flag) {
                 tooltip.add(net.minecraft.network.chat.Component.translatable("tooltip.tecnocinetico.reactor_only")
                         .withStyle(net.minecraft.ChatFormatting.DARK_GREEN));
+            }
+        });
+    }
+
+    /** Uranio: radiactivo (ver effect/RadiationEvents); el que está en bruto además solo va a la Cámara de Reacción. */
+    private static RegistryObject<Item> radioactive(String name, boolean reactorOnly) {
+        return ITEMS.register(name, () -> new Item(new Item.Properties()) {
+            @Override
+            public void appendHoverText(net.minecraft.world.item.ItemStack stack, @org.jetbrains.annotations.Nullable net.minecraft.world.level.Level level,
+                                        java.util.List<net.minecraft.network.chat.Component> tooltip, net.minecraft.world.item.TooltipFlag flag) {
+                tooltip.add(net.minecraft.network.chat.Component.translatable("tooltip.tecnocinetico.radioactive")
+                        .withStyle(net.minecraft.ChatFormatting.GREEN));
+                if (reactorOnly) {
+                    tooltip.add(net.minecraft.network.chat.Component.translatable("tooltip.tecnocinetico.reactor_only")
+                            .withStyle(net.minecraft.ChatFormatting.DARK_GREEN));
+                }
             }
         });
     }

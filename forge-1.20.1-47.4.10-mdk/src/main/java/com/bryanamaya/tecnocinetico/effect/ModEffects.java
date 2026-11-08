@@ -14,6 +14,9 @@ public final class ModEffects {
     /** Lastre de Inercia: arrastra al suelo y apaga el jetpack (lo aplica el Anclador). */
     public static final RegistryObject<MobEffect> INERTIA_ANCHOR = EFFECTS.register("inertia_anchor", InertiaAnchorEffect::new);
 
+    /** Radiación: la da el uranio (llevarlo encima o estar cerca). Ver RadiationEvents. */
+    public static final RegistryObject<MobEffect> RADIATION = EFFECTS.register("radiation", RadiationEffect::new);
+
     private ModEffects() {}
 
     public static void register(IEventBus bus) {

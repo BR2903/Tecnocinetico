@@ -40,4 +40,4 @@
 - **Máquinas, fase 2** (pedida): líquidos propios (ácido sulfúrico, disolvente...) con cubos y tuberías de Create; **Laboratorio Químico** con tanques. (La Cámara de Reacción ya está hecha.)
 - **Máquinas, fase 3** (pedida): **reactor generador** de FE (combustible de uranio, sobrecalentamiento), **rediseño de la Prensa Automática** estilo Create, e **integrar plomo/estaño/titanio** en recetas existentes (balas, circuitos/soldadura, armaduras y armas de tier 2-3).
 - Categorías de JEI para el Refinador y el Fabricador (ahora solo se ven en el código / bitácora).
-- Uranio: ¿radiación al llevarlo encima? (no pedido aún). Equilibrio de la Cámara (FE, tiempos, pérdida de estabilidad) tras probarla.
+- Radiación: protección (traje antirradiación / blindaje de plomo) aún no existe. Equilibrio de la Cámara (FE, tiempos, pérdida de estabilidad) tras probarla.
