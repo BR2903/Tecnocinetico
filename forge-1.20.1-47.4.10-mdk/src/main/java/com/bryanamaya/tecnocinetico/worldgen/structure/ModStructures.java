@@ -35,6 +35,11 @@ public final class ModStructures {
     public static final RegistryObject<StructurePieceType> FACTORY_PIECE =
             PIECES.register("abandoned_factory", () -> (StructurePieceType.ContextlessType) FactoryPiece::new);
 
+    public static final RegistryObject<StructureType<SwarmHiveStructure>> SWARM_HIVE =
+            TYPES.register("swarm_hive", () -> () -> SwarmHiveStructure.CODEC);
+    public static final RegistryObject<StructurePieceType> SWARM_HIVE_PIECE =
+            PIECES.register("swarm_hive", () -> (StructurePieceType.ContextlessType) SwarmHivePiece::new);
+
     private ModStructures() {}
 
     public static void register(IEventBus bus) {

@@ -30,7 +30,7 @@ COLORS = {
     "smooth_stone": (160, 160, 160), "hopper": (70, 70, 74), "chain": (60, 64, 70), "weathered_copper": (100, 150, 120),
     "weathered_cut_copper": (100, 150, 120), "exposed_cut_copper_slab": (160, 120, 90), "vitrified_glass": (200, 150, 90),
     "heavy_weighted_pressure_plate": (190, 190, 190), "lectern": (150, 110, 70), "grindstone": (130, 130, 130),
-    "sandstone": (200, 186, 140), "red_sand": (180, 100, 50), "powder_snow": (240, 244, 248), "packed_ice": (150, 180, 230), "ice": (150, 180, 230), "terracotta": (150, 92, 66),
+    "swarm_comb": (44, 46, 54), "cinetrite_cluster": (70, 210, 226), "sandstone": (200, 186, 140), "red_sand": (180, 100, 50), "powder_snow": (240, 244, 248), "packed_ice": (150, 180, 230), "ice": (150, 180, 230), "terracotta": (150, 92, 66),
 }
 SKIP = {"short_grass", "grass", "tall_grass", "fern", "large_fern", "dandelion", "poppy"}
 U = 6  # píxeles por media celda

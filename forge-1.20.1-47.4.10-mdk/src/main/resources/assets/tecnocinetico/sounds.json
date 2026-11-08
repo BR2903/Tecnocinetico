@@ -103,5 +103,52 @@
         "name": "tecnocinetico:pistol/slide"
       }
     ]
+  },
+  "entity.swarm_wasp.buzz": {
+    "subtitle": "subtitles.tecnocinetico.swarm_wasp.buzz",
+    "sounds": [
+      "tecnocinetico:swarm_wasp/buzz1",
+      "tecnocinetico:swarm_wasp/buzz2",
+      "tecnocinetico:swarm_wasp/buzz3"
+    ]
+  },
+  "entity.swarm_wasp.alarm": {
+    "subtitle": "subtitles.tecnocinetico.swarm_wasp.alarm",
+    "sounds": [
+      "tecnocinetico:swarm_wasp/alarm1",
+      "tecnocinetico:swarm_wasp/alarm2"
+    ]
+  },
+  "entity.swarm_wasp.sting": {
+    "subtitle": "subtitles.tecnocinetico.swarm_wasp.sting",
+    "sounds": [
+      "tecnocinetico:swarm_wasp/sting"
+    ]
+  },
+  "entity.swarm_wasp.hurt": {
+    "subtitle": "subtitles.tecnocinetico.swarm_wasp.hurt",
+    "sounds": [
+      "tecnocinetico:swarm_wasp/hurt1",
+      "tecnocinetico:swarm_wasp/hurt2"
+    ]
+  },
+  "entity.swarm_wasp.death": {
+    "subtitle": "subtitles.tecnocinetico.swarm_wasp.death",
+    "sounds": [
+      "tecnocinetico:swarm_wasp/death"
+    ]
+  },
+  "entity.hive_node.ambient": {
+    "subtitle": "subtitles.tecnocinetico.hive_node.ambient",
+    "sounds": [
+      "tecnocinetico:hive_node/ambient1",
+      "tecnocinetico:hive_node/ambient2"
+    ]
+  },
+  "entity.hive_node.pulse": {
+    "subtitle": "subtitles.tecnocinetico.hive_node.pulse",
+    "sounds": [
+      "tecnocinetico:hive_node/pulse"
+    ]
   }
 }

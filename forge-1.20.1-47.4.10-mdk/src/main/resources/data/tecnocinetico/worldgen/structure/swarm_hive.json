@@ -1,0 +1,7 @@
+{
+  "type": "tecnocinetico:swarm_hive",
+  "biomes": "#tecnocinetico:has_structure/swarm_hive",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

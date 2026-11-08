@@ -94,6 +94,11 @@ public final class ModWorldBlocks {
     public static final RegistryObject<Block> CINETRITE_CLUSTER = block("cinetrite_cluster", () -> new AmethystClusterBlock(7, 3,
             Properties.copy(Blocks.AMETHYST_CLUSTER).mapColor(MapColor.COLOR_CYAN).lightLevel(s -> 6)));
 
+    // ------------------------------------------------------------------ enjambre
+    /** Panal de Enjambre: material de las colmenas de las Avispas del Enjambre. */
+    public static final RegistryObject<Block> SWARM_COMB = block("swarm_comb", () -> new Block(Properties.of()
+            .mapColor(MapColor.COLOR_BLACK).strength(2.5F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
+
     // ------------------------------------------------------------------ madera muerta
     public static final RegistryObject<Block> DEAD_LOG = block("dead_log", () -> new RotatedPillarBlock(
             Properties.copy(Blocks.OAK_LOG).mapColor(MapColor.COLOR_GRAY)));

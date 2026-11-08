@@ -145,5 +145,18 @@
   "entity.tecnocinetico.survivor.scrapper": "Scrapper",
   "entity.tecnocinetico.survivor.gunsmith": "Gunsmith",
   "entity.tecnocinetico.survivor.farmer": "Farmer",
-  "item.tecnocinetico.survivor_spawn_egg": "Survivor Spawn Egg"
+  "item.tecnocinetico.survivor_spawn_egg": "Survivor Spawn Egg",
+  "entity.tecnocinetico.swarm_wasp": "Swarm Wasp",
+  "entity.tecnocinetico.hive_node": "Hive Node",
+  "item.tecnocinetico.swarm_wasp_spawn_egg": "Swarm Wasp Spawn Egg",
+  "item.tecnocinetico.hive_node_spawn_egg": "Hive Node Spawn Egg",
+  "item.tecnocinetico.swarm_core": "Swarm Core",
+  "subtitles.tecnocinetico.swarm_wasp.buzz": "Wasp buzzes",
+  "subtitles.tecnocinetico.swarm_wasp.alarm": "Wasp raises the alarm",
+  "subtitles.tecnocinetico.swarm_wasp.sting": "Wasp stings",
+  "subtitles.tecnocinetico.swarm_wasp.hurt": "Wasp hurts",
+  "subtitles.tecnocinetico.swarm_wasp.death": "Wasp dies",
+  "subtitles.tecnocinetico.hive_node.ambient": "Hive Node throbs",
+  "subtitles.tecnocinetico.hive_node.pulse": "Hive Node pulses",
+  "block.tecnocinetico.swarm_comb": "Swarm Comb"
 }

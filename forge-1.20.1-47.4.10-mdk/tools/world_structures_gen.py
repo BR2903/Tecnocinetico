@@ -63,6 +63,10 @@ def tag_entry(tag, weight, lo=1, hi=1):
     return e
 
 
+def entity_loot(name, pools):
+    write(DATA / NS / "loot_tables/entities" / f"{name}.json", {"type": "minecraft:entity", "pools": pools})
+
+
 def chest(name, pools):
     write(DATA / NS / "loot_tables/chests" / f"{name}.json", {"type": "minecraft:chest", "pools": pools})
 
@@ -142,6 +146,29 @@ def main():
             tag_entry("loot/create_precious", 3), item("deepslate_logic_substrate", 3), item("module_optic", 1),
             item("module_quick_reload", 1)]},
     ])
+    # ------------------------------------------------ colmena del enjambre (Nodo + avispas)
+    structure("swarm_hive", "swarm_hive", ["overgrown_ruins", "industrial_jungle", "scrap_meadows", "ash_taiga",
+                                            "fractured_lands"], {}, 28, 9, 74120960, adaptation="none",
+              avoid="survivor_settlement")
+    chest("swarm_hive", [
+        {"rolls": {"type": "minecraft:uniform", "min": 3, "max": 5}, "entries": [
+            item("cinetrite_shard", 14, 2, 6), item("raw_cinetrite", 8, 1, 3), item("scrap_metal", 12, 2, 6),
+            item("minecraft:redstone", 6, 2, 5), item("minecraft:copper_ingot", 6, 1, 3), item("minecraft:bone", 4, 1, 3)]},
+        {"rolls": 1, "entries": [
+            {"type": "minecraft:empty", "weight": 16}, item("cinetrite_ingot", 6, 1, 2),
+            item("deepslate_logic_substrate", 3), item("piezo_transducer", 3), item("module_optic", 1)]},
+    ])
+    entity_loot("swarm_wasp", [
+        {"rolls": 1, "entries": [item("scrap_metal", 1, 0, 1)]},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:killed_by_player"},
+                                    {"condition": "minecraft:random_chance_with_looting", "chance": 0.12,
+                                     "looting_multiplier": 0.04}],
+         "entries": [item("cinetrite_shard", 1)]}])
+    entity_loot("hive_node", [
+        {"rolls": 1, "entries": [item("swarm_core", 1)]},
+        {"rolls": 1, "entries": [item("cinetrite_ingot", 1, 1, 2)]},
+        {"rolls": 1, "entries": [item("cinetrite_shard", 1, 3, 6)]},
+        {"rolls": 1, "entries": [item("scrap_metal", 1, 4, 8)]}])
     print("ok: estructuras del Overworld")
 
 

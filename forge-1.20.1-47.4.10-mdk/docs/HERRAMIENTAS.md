@@ -75,3 +75,7 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## survivor_skin_gen.py (pieles de los Supervivientes)
 - `python tools/survivor_skin_gen.py [preview.png]` genera `textures/entity/survivor/{scrapper,gunsmith,farmer}.png` (formato piel de jugador 64x64 con capas exteriores) y una vista previa de frente y espalda.
+
+## swarm_wasp_texture.py (enjambre)
+- `python tools/swarm_wasp_texture.py [preview.png]` genera las texturas de las avispas (una por papel + capa luminosa), del Nodo de Colmena y el icono del Núcleo de Enjambre.
+- Sonidos del enjambre: `generate_wasps()` en `tools/sound_gen.py` (carpetas `sounds/swarm_wasp/` y `sounds/hive_node/`).

@@ -145,5 +145,18 @@
   "entity.tecnocinetico.survivor.scrapper": "Chatarrero",
   "entity.tecnocinetico.survivor.gunsmith": "Armero",
   "entity.tecnocinetico.survivor.farmer": "Granjero",
-  "item.tecnocinetico.survivor_spawn_egg": "Huevo de Superviviente"
+  "item.tecnocinetico.survivor_spawn_egg": "Huevo de Superviviente",
+  "entity.tecnocinetico.swarm_wasp": "Avispa del Enjambre",
+  "entity.tecnocinetico.hive_node": "Nodo de Colmena",
+  "item.tecnocinetico.swarm_wasp_spawn_egg": "Huevo de Avispa del Enjambre",
+  "item.tecnocinetico.hive_node_spawn_egg": "Huevo de Nodo de Colmena",
+  "item.tecnocinetico.swarm_core": "Núcleo de Enjambre",
+  "subtitles.tecnocinetico.swarm_wasp.buzz": "Avispa zumba",
+  "subtitles.tecnocinetico.swarm_wasp.alarm": "Avispa da la alarma",
+  "subtitles.tecnocinetico.swarm_wasp.sting": "Avispa pica",
+  "subtitles.tecnocinetico.swarm_wasp.hurt": "Avispa herida",
+  "subtitles.tecnocinetico.swarm_wasp.death": "Avispa muere",
+  "subtitles.tecnocinetico.hive_node.ambient": "Nodo de Colmena late",
+  "subtitles.tecnocinetico.hive_node.pulse": "Pulso del Nodo",
+  "block.tecnocinetico.swarm_comb": "Panal de Enjambre"
 }

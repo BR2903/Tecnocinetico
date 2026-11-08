@@ -888,6 +888,33 @@ def t_dead_log_side():
     return img
 
 
+def t_swarm_comb():
+    """Panal de Enjambre: celdas hexagonales de metal oscuro (paredes con canto iluminado) con resina de
+    cinetrita en algunas celdas. Estilo limpio: forma clara, pocos tonos."""
+    img = new()
+    wall = [(30, 31, 36), (52, 55, 64), (84, 90, 102)]            # sombra, pared, canto
+    cell = [(20, 21, 25), (34, 36, 42)]
+    resin = [(30, 130, 146), (70, 210, 226)]
+    filled = {(0, 0), (2, 1), (1, 3)}
+    for y in range(S):
+        for x in range(S):
+            row = y // 4
+            ox = 4 if row % 2 else 0                              # filas desplazadas (hexágonos)
+            cx, cy = (x + ox) % 8, y % 4
+            col = ((x + ox) // 8) % 2
+            if cy == 0 or cx == 0:
+                c = wall[2] if cy == 0 and cx != 0 else wall[1]   # paredes de la celda
+            elif cy == 3 or cx == 7:
+                c = wall[0]
+            else:
+                if (col, row) in filled:
+                    c = resin[1] if (cx, cy) in ((2, 1), (3, 1)) else resin[0]
+                else:
+                    c = cell[1] if cy == 1 else cell[0]
+            put(img, x, y, c)
+    return img
+
+
 TEXTURES = {
     "block/concrete": t_concrete, "block/cracked_concrete": t_cracked_concrete, "block/cracked_concrete_1": t_cracked_concrete_1,
     "block/cracked_concrete_2": t_cracked_concrete_2, "block/mossy_concrete": t_mossy_concrete,
@@ -896,7 +923,7 @@ TEXTURES = {
     "block/rusted_metal_beam": t_beam_side, "block/rusted_metal_beam_top": t_beam_end, "block/rusted_grate": t_grate,
     "block/scrap_pile": t_scrap_pile, "block/ash": t_ash, "block/vitrified_sand": t_vitrified_sand,
     "block/vitrified_glass": t_vitrified_glass, "block/cinetrite_cluster": t_cinetrite_cluster,
-    "block/dead_log": t_dead_log_side, "block/dead_log_top": t_dead_log_top, "block/dead_planks": t_dead_planks,
+    "block/swarm_comb": t_swarm_comb, "block/dead_log": t_dead_log_side, "block/dead_log_top": t_dead_log_top, "block/dead_planks": t_dead_planks,
     "item/scrap_metal": t_scrap_item,
 }
 
@@ -1059,6 +1086,7 @@ def main():
     for name in ("concrete", "cracked_concrete", "mossy_concrete", "asphalt", "cracked_asphalt",
                  "rusted_metal_sheet", "vitrified_sand", "dead_planks"):
         simple(name)
+    simple("swarm_comb")
     pile_models("rubble", PILE_RUBBLE, RUB)
     pile_models("scrap_pile", PILE_SCRAP, SCR)
     for v in (1, 2):
@@ -1130,6 +1158,7 @@ def main():
     loot_pile("rubble", rl("rubble"))
     loot_pile("scrap_pile", rl("scrap_metal"), per_piece=lambda n: {"type": "minecraft:uniform", "min": n, "max": 2 * n},
               silk_self=True)
+    loot_self("swarm_comb")
     loot("cinetrite_cluster", [{"rolls": 1, "entries": [{"type": "minecraft:alternatives", "children": [
         {"type": "minecraft:item", "name": rl("cinetrite_cluster"), "conditions": [SILK]},
         {"type": "minecraft:item", "name": rl("cinetrite_shard"), "conditions": [
@@ -1156,7 +1185,7 @@ def main():
     fam = [f"{b}{s}" for b in ("concrete", "cracked_concrete", "mossy_concrete") for s in ("", "_slab", "_stairs", "_wall")]
     add_tag("minecraft/tags/blocks/mineable/pickaxe.json", [rl(n) for n in fam + [
         "asphalt", "cracked_asphalt", "asphalt_road_line", "rusted_metal_sheet", "rusted_metal_beam", "rusted_grate",
-        "scrap_pile", "vitrified_sand", "cinetrite_cluster"]])
+        "scrap_pile", "vitrified_sand", "cinetrite_cluster", "swarm_comb"]])
     add_tag("minecraft/tags/blocks/mineable/shovel.json", [rl(n) for n in ("rubble", "debris_layer", "ash_block", "ash_layer")])
     add_tag("minecraft/tags/blocks/mineable/axe.json", [rl("dead_log"), rl("dead_planks")])
     walls = [rl(f"{b}_wall") for b in ("concrete", "cracked_concrete", "mossy_concrete")]
@@ -1208,6 +1237,7 @@ def main():
         "ash_block": ("Bloque de Ceniza", "Ash Block"), "ash_layer": ("Capa de Ceniza", "Ash"),
         "vitrified_sand": ("Arena Vitrificada", "Vitrified Sand"), "vitrified_glass": ("Vidrio Vitrificado", "Vitrified Glass"),
         "cinetrite_cluster": ("Racimo de Cinetrita", "Cinetrite Cluster"),
+        "swarm_comb": ("Panal de Enjambre", "Swarm Comb"),
         "dead_log": ("Tronco Muerto", "Dead Log"), "dead_planks": ("Tablones Muertos", "Dead Planks"),
     }
     es, en = {}, {}

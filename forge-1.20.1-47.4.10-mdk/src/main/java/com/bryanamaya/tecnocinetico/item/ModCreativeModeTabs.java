@@ -54,6 +54,9 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.MODULE_QUICK_RELOAD.get());
                         pOutput.accept(ModItems.SWARM_BODY_SPAWN_EGG.get());
                         pOutput.accept(ModItems.SURVIVOR_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.SWARM_WASP_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.HIVE_NODE_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.SWARM_CORE.get());
                     })
                     .build());
 

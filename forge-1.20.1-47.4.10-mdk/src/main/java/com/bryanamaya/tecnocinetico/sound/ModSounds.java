@@ -23,6 +23,15 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> SWARM_BODY_STEP = register("entity.swarm_body.step");
     public static final RegistryObject<SoundEvent> SWARM_BODY_LEAP = register("entity.swarm_body.leap");
 
+    // Avispas del Enjambre y Nodo de Colmena (tools/sound_gen.py, generate_wasps)
+    public static final RegistryObject<SoundEvent> SWARM_WASP_BUZZ = register("entity.swarm_wasp.buzz");
+    public static final RegistryObject<SoundEvent> SWARM_WASP_ALARM = register("entity.swarm_wasp.alarm");
+    public static final RegistryObject<SoundEvent> SWARM_WASP_STING = register("entity.swarm_wasp.sting");
+    public static final RegistryObject<SoundEvent> SWARM_WASP_HURT = register("entity.swarm_wasp.hurt");
+    public static final RegistryObject<SoundEvent> SWARM_WASP_DEATH = register("entity.swarm_wasp.death");
+    public static final RegistryObject<SoundEvent> HIVE_NODE_AMBIENT = register("entity.hive_node.ambient");
+    public static final RegistryObject<SoundEvent> HIVE_NODE_PULSE = register("entity.hive_node.pulse");
+
     // Pistola Cinética
     public static final RegistryObject<SoundEvent> PISTOL_FIRE = register("item.kinetic_pistol.fire");
     public static final RegistryObject<SoundEvent> PISTOL_IMPACT = register("item.kinetic_pistol.impact");

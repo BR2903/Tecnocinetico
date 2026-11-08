@@ -27,7 +27,7 @@ import net.minecraftforge.gametest.PrefixGameTestTemplate;
 public class WorldgenGameTests {
 
     private static final String[] STRUCTURES = {"ruined_building_megacity", "ruined_building_urban",
-            "ruined_building_overgrown", "ruined_building_frozen", "survivor_settlement", "abandoned_factory"};
+            "ruined_building_overgrown", "ruined_building_frozen", "survivor_settlement", "abandoned_factory", "swarm_hive"};
 
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void structuresGenerate(GameTestHelper helper) {
@@ -69,6 +69,56 @@ public class WorldgenGameTests {
             }
         }
         helper.succeed();
+    }
+
+    /**
+     * El enjambre ataca de verdad: Nodo + 4 aguijones en el aire, un cerdo inmóvil como objetivo forzado.
+     * Tras 10 s el cerdo debe estar herido o muerto (prueba el bucle de vuelo, turnos de ataque y picadura).
+     */
+    @GameTest(template = "empty", timeoutTicks = 400)
+    public static void swarmAttacksTarget(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        // al aire libre: 12 bloques por encima del terreno (si no, mueren asfixiadas y la prueba miente)
+        BlockPos col = helper.absolutePos(BlockPos.ZERO);                 // zona del test: chunk activo
+        level.getChunk(col);
+        BlockPos base = new BlockPos(col.getX(), level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
+                col.getX(), col.getZ()) + 12, col.getZ());
+        var node = com.bryanamaya.tecnocinetico.entity.ModEntities.HIVE_NODE.get().create(level);
+        node.moveTo(base.getX() + 0.5D, base.getY(), base.getZ() + 0.5D, 0, 0);
+        node.finalizeSpawn(level, level.getCurrentDifficultyAt(base), net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null, null);
+        level.addFreshEntity(node);
+        java.util.List<net.minecraft.world.entity.Entity> spawned = new java.util.ArrayList<>(java.util.List.of(node));
+        for (int i = 0; i < 4; i++) {
+            var w = com.bryanamaya.tecnocinetico.entity.ModEntities.SWARM_WASP.get().create(level);
+            w.moveTo(base.getX() + 0.5D + i, base.getY() + 1.5D, base.getZ() + 0.5D, 0, 0);
+            w.finalizeSpawn(level, level.getCurrentDifficultyAt(base), net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null, null);
+            w.joinHive(node, com.bryanamaya.tecnocinetico.entity.swarm.WaspRole.STINGER);
+            level.addFreshEntity(w);
+            spawned.add(w);
+        }
+        var pig = net.minecraft.world.entity.EntityType.PIG.create(level);
+        pig.moveTo(base.getX() + 8.5D, base.getY(), base.getZ() + 0.5D, 0, 0);
+        pig.setNoAi(true);
+        pig.setNoGravity(true);
+        level.addFreshEntity(pig);
+        spawned.add(pig);
+        node.mind().forceTarget(pig);
+        helper.runAfterDelay(200, () -> {
+            boolean hit = (!pig.isAlive() || pig.getHealth() < pig.getMaxHealth())
+                    && pig.getLastHurtByMob() instanceof com.bryanamaya.tecnocinetico.entity.swarm.SwarmWaspEntity;
+            Tecnocinetico.LOGGER.info("[GameTest] enjambre: cerdo {} (vida {}), avispas vivas {}", hit ? "atacado" : "INTACTO",
+                    pig.getHealth(), node.mind().members().size());
+            spawned.forEach(e -> Tecnocinetico.LOGGER.info("[GameTest]   {} vivo={} vida={} pos={}",
+                    e.getType().getDescriptionId(), e.isAlive(), e instanceof net.minecraft.world.entity.LivingEntity le ? le.getHealth() : 0,
+                    e.blockPosition()));
+            boolean waspsAlive = spawned.stream().skip(1).limit(4).allMatch(net.minecraft.world.entity.Entity::isAlive);
+            // limpiar (incluidas las avispas de refuerzo que haya creado el Nodo)
+            node.mind().members().forEach(net.minecraft.world.entity.Entity::discard);
+            spawned.forEach(net.minecraft.world.entity.Entity::discard);
+            helper.assertTrue(hit, "Las avispas no atacaron al objetivo");
+            helper.assertTrue(waspsAlive, "Alguna avispa murió sin que nadie la atacara");
+            helper.succeed();
+        });
     }
 
     /** Vuelca los bloques (no aire) a run/gametest_dump/<nombre>.txt para revisarlos con tools/render_dump.py. */

@@ -399,6 +399,112 @@ def generate_swarm():
     save("leap", swarm_leap(), "swarm_body")
 
 
+# =================================================================== Avispas del Enjambre y Nodo de Colmena
+def wing_buzz(dur, rate, seed, wobble=0.08, bright=1.0):
+    """Aleteo: ráfagas de ruido al ritmo de las alas (rate Hz, con deriva irregular) por resonancias de
+    caparazón metálico. No es un tono: es ruido pulsado, como un insecto real (o una máquina que lo imita)."""
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    r = rng_of(seed)
+    drift = 1.0 + wobble * low(r.standard_normal(n), 3, order=2) * 8      # deriva lenta de la frecuencia
+    phase = np.cumsum(rate * drift / SR) % 1.0
+    pulse = np.clip(1.0 - phase * 2.4, 0, 1) ** 1.5                       # golpe de ala: ataque seco, cola corta
+    carrier = band(noise(dur, seed + 1), 180, 7000)
+    body = carrier * (0.25 + pulse)
+    shell = resonate(body, [(rate * 4.1, 6, 0.5), (1350 * bright, 5, 0.6), (2900 * bright, 8, 0.45), (4800, 10, 0.2)])
+    return (shell + body * 0.35) * env(n, 0.05, 0.12)
+
+
+def wasp_buzz(i):
+    seed = 2600 + 17 * i
+    dur = [1.3, 1.5, 1.1][i]
+    return reverb(mix(dur,
+                      (wing_buzz(dur, [196, 212, 182][i], seed), 0.0, 1.0),
+                      (servo(dur * 0.6, [140, 160, 120][i], [190, 150, 170][i], seed + 2), dur * 0.2, 0.18)),
+                  seed + 3, tail=0.5, wet=0.18)
+
+
+def wasp_alarm(i):
+    seed = 2700 + 23 * i
+    chitter = grains(0.5, seed, [38, 46][i], 2500, 8000, grain=0.003)               # mandíbulas chasqueando
+    rise = wing_buzz(0.6, [230, 250][i], seed + 1, wobble=0.15, bright=1.25)
+    voice = machine_voice(0.35, [520, 600][i], [880, 940][i], seed + 2, rasp_f=140)   # chirrido que sube
+    return reverb(mix(0.8, (chitter, 0.0, 0.9), (rise, 0.05, 0.8), (voice, 0.2, 0.5)),
+                  seed + 3, tail=0.6, wet=0.2)
+
+
+def wasp_sting():
+    seed = 2800
+    tick = clank(0.12, 1900, seed, tau=0.0008, q=(30, 80)) * 1.2                   # aguijón metálico
+    jab = low(noise(0.08, seed + 1), 900) * decay(n_of(0.08), 0.015) * 2
+    return reverb(mix(0.35, (tick, 0.0, 1.0), (jab, 0.0, 0.6), (hiss(0.18, seed + 2, 2500, 8000, attack=0.002), 0.01, 0.4)),
+                  seed + 3, tail=0.3, wet=0.12)
+
+
+def wasp_hurt(i):
+    seed = 2900 + 19 * i
+    stutter = wing_buzz(0.4, [150, 170][i], seed, wobble=0.35)                     # las alas fallan
+    stutter *= (np.sin(np.arange(len(stutter)) / SR * 2 * np.pi * 14) > -0.2)       # entrecortado
+    return reverb(mix(0.55,
+                      (clank(0.25, [1300, 1500][i], seed + 1, tau=0.001, q=(20, 50)), 0.0, 0.9),
+                      (sparks(0.2, seed + 2, rate=220), 0.0, 0.5),
+                      (stutter, 0.03, 0.8)),
+                  seed + 3, tail=0.5, wet=0.2)
+
+
+def wasp_death():
+    seed = 3000
+    n = n_of(1.4)
+    t = np.arange(n) / SR
+    rate = 200 * np.exp(-t * 2.2) + 8                                            # el aleteo se apaga
+    phase = np.cumsum(rate / SR) % 1.0
+    pulse = np.clip(1.0 - phase * 2.4, 0, 1) ** 1.5
+    dying = resonate(band(noise(1.4, seed), 180, 6000) * (0.2 + pulse), [(1200, 5, 0.6), (2600, 7, 0.4)])
+    dying *= np.exp(-t * 1.6)
+    return reverb(mix(1.6,
+                      (dying, 0.0, 1.0),
+                      (sparks(0.6, seed + 1, rate=160), 0.05, 0.5),
+                      (clank(0.3, 1100, seed + 2, q=(15, 40)), 1.05, 0.7),                  # cae al suelo
+                      (grains(0.3, seed + 3, 200, 1500, 6000, density_decay=0.06), 1.05, 0.4)),
+                  seed + 4, tail=0.8, wet=0.22)
+
+
+def node_ambient(i):
+    seed = 3100 + 41 * i
+    dur = 3.0
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    swarm = sum(wing_buzz(dur, 150 + 23 * k, seed + k, wobble=0.12) * (0.5 + 0.1 * k) for k in range(4))  # muchas alas
+    hum = machine_voice(dur, [62, 70][i], [70, 58][i], seed + 10, rasp_f=36)
+    breath = 0.6 + 0.4 * np.sin(2 * np.pi * 0.5 * t)                              # late despacio
+    return reverb(mix(dur, (hum * breath, 0.0, 1.0), (swarm * breath, 0.0, 0.45)),
+                  seed + 11, tail=1.5, wet=0.35, damp=3000)
+
+
+def node_pulse():
+    seed = 3200
+    thump = low(noise(0.4, seed), 120, order=6) * decay(n_of(0.4), 0.08) * 4
+    return reverb(mix(1.0,
+                      (thump, 0.0, 1.0),
+                      (sparks(0.5, seed + 1, rate=260), 0.0, 0.7),                      # descarga eléctrica
+                      (hiss(0.6, seed + 2, 700, 5000, attack=0.003), 0.02, 0.6),
+                      (machine_voice(0.5, 90, 160, seed + 3, rasp_f=50), 0.0, 0.5)),
+                  seed + 4, tail=1.0, wet=0.3)
+
+
+def generate_wasps():
+    for i in range(3):
+        save(f"buzz{i + 1}", wasp_buzz(i), "swarm_wasp")
+    for i in range(2):
+        save(f"alarm{i + 1}", wasp_alarm(i), "swarm_wasp")
+        save(f"hurt{i + 1}", wasp_hurt(i), "swarm_wasp")
+        save(f"ambient{i + 1}", node_ambient(i), "hive_node")
+    save("sting", wasp_sting(), "swarm_wasp")
+    save("death", wasp_death(), "swarm_wasp")
+    save("pulse", node_pulse(), "hive_node")
+
+
 if __name__ == "__main__":
     generate_swarm()
     generate_pistol()
+    generate_wasps()

@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "tecnocinetico:swarm_hive",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 28,
+    "separation": 9,
+    "salt": 74120960,
+    "exclusion_zone": {
+      "other_set": "tecnocinetico:survivor_settlement",
+      "chunk_count": 3
+    }
+  }
+}
