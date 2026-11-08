@@ -53,6 +53,12 @@ public final class ModNetwork {
         CHANNEL.registerMessage(10, FireChargedPacket.class, (m, b) -> { b.writeBoolean(m.aiming()); b.writeFloat(m.charge()); },
                 b -> new FireChargedPacket(b.readBoolean(), b.readFloat()), FireChargedPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(11, ShipControlPacket.class, (m, b) -> { b.writeBoolean(m.guns()); b.writeBoolean(m.missile()); },
+                b -> new ShipControlPacket(b.readBoolean(), b.readBoolean()), ShipControlPacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(12, ShipJumpPacket.class, (m, b) -> b.writeUtf(m.dimension()),
+                b -> new ShipJumpPacket(b.readUtf(256)), ShipJumpPacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
                 SyncSkillsPacket::encode, SyncSkillsPacket::decode, SyncSkillsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
@@ -206,6 +212,37 @@ public final class ModNetwork {
                 ServerPlayer p = ctx.get().getSender();
                 if (p != null && p.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g) {
                     g.tryFire(p, msg.aiming(), Math.max(0.0F, Math.min(1.0F, msg.charge())));
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Cliente -> servidor: el piloto del Caza del Núcleo pulsa/suelta los cañones o el misil. */
+    public record ShipControlPacket(boolean guns, boolean missile) {
+        public static void handle(ShipControlPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null && p.getVehicle() instanceof com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity ship
+                        && ship.getControllingPassenger() == p) {
+                    ship.fireGuns = msg.guns();
+                    ship.fireMissile = msg.missile();
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Cliente -> servidor: el piloto elige destino en el menú del motor de salto. */
+    public record ShipJumpPacket(String dimension) {
+        public static void handle(ShipJumpPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                var key = com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity.dimensionKey(msg.dimension());
+                if (p != null && key != null && p.server.getLevel(key) != null
+                        && p.getVehicle() instanceof com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity ship
+                        && ship.getControllingPassenger() == p) {
+                    ship.startJump(key);
                 }
             });
             ctx.get().setPacketHandled(true);

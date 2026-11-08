@@ -179,6 +179,28 @@ public class WorldgenGameTests {
         });
     }
 
+    /** Caza del Núcleo: el motor de salto la lleva al Nether a la posición 1:8 y en el aire (sin bloques sólidos). */
+    @GameTest(template = "empty", timeoutTicks = 60)
+    public static void shipJumpToNether(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        BlockPos col = helper.absolutePos(BlockPos.ZERO);
+        var ship = com.bryanamaya.tecnocinetico.entity.ModEntities.CORE_FIGHTER.get().create(level);
+        ship.moveTo(col.getX() + 0.5, level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
+                col.getX(), col.getZ()) + 3, col.getZ() + 0.5, 0, 0);
+        level.addFreshEntity(ship);
+        var moved = com.bryanamaya.tecnocinetico.entity.ship.ShipJump.perform(ship, net.minecraft.world.level.Level.NETHER);
+        helper.assertTrue(moved != null && moved.level().dimension() == net.minecraft.world.level.Level.NETHER,
+                "La nave no llegó al Nether");
+        // a escala 1:8 (la búsqueda de hueco del Nether puede moverla hasta 24 bloques)
+        boolean scaled = Math.hypot(moved.getX() - ship.getX() / 8.0, moved.getZ() - ship.getZ() / 8.0) < 26;
+        boolean clear = moved.level().noCollision(moved, moved.getBoundingBox());
+        Tecnocinetico.LOGGER.info("[GameTest] salto: {} -> {} (libre={})", ship.position(), moved.position(), clear);
+        moved.discard();
+        helper.assertTrue(scaled, "La posición no está a escala 1:8");
+        helper.assertTrue(clear, "La nave llegó dentro de bloques");
+        helper.succeed();
+    }
+
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void droneShootsTarget(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();

@@ -33,3 +33,5 @@
 - Tier 2: módulos propios del subfusil; animación de bombeo de la corredera en primera persona; probar el equilibrio (daño del subfusil, freno de la inercita, carga del exoesqueleto).
 
 - Tier 3: sonidos propios del riel, la granada y el cañón (ahora reutilizan los del Anclador y la pistola).
+
+- Caza del Núcleo: receta (¿fin de juego, con piezas de las dimensiones nuevas?), probar el manejo en el juego (giro, velocidades) y en multijugador; animación de cabina/HUD más elaborada si gusta.

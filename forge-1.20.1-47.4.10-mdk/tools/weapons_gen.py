@@ -327,6 +327,38 @@ def pulse_cell(full=True):
             el([7.6, 10.4, 7.6], [8.4, 11.0, 8.4], "copper"), el([6.75, 5.6, 6.75], [9.25, 6.2, 9.25], "steel_dark")]
 
 
+# ---------------------------------------------------------------- Caza del Núcleo (miniatura del objeto) y misil
+def core_fighter_mini():
+    """Miniatura con las mismas piezas que CoreFighterModel (coordenadas del modelo de entidad, escaladas)."""
+    k = 0.17
+    boxes = [(-6, -7, -28, 12, 7, 50, "graphite", None), (-4, -5, -40, 8, 5, 12, "graphite", None),
+             (-2, -3, -46, 4, 3, 6, "steel", None), (-3, -10, -8, 6, 3, 20, "graphite", None),
+             (-4, -12, -24, 8, 5, 14, "cyan", None),
+             (-11, -6, 8, 6, 6, 16, "steel", None), (5, -6, 8, 6, 6, 16, "steel", None),
+             (-10, -5, 24, 4, 4, 1, "cyan", None), (6, -5, 24, 4, 4, 1, "cyan", None),
+             (6, -3, 14, 10, 1, 6, "inercita", None), (-16, -3, 14, 10, 1, 6, "inercita", None),
+             (3, -17, 12, 2, 10, 10, "graphite", None), (-5, -17, 12, 2, 10, 10, "graphite", None),
+             (6, -4, -10, 26, 2, 16, "graphite", ("y", -22.5, (6, -3, -2))),
+             (-32, -4, -10, 26, 2, 16, "graphite", ("y", 22.5, (-6, -3, -2)))]
+    out = []
+    for (x, y, z, w, h, d, mat, rot) in boxes:
+        y += 12
+        fr = [8 + x * k, 8 + (12 - (y + h)) * k, 8 + z * k]
+        to = [8 + (x + w) * k, 8 + (12 - y) * k, 8 + (z + d) * k]
+        r = None
+        if rot:
+            ax, ang, (ox, oy, oz) = rot
+            r = {"angle": -ang if ax == "y" else ang, "axis": ax, "origin": [8 + ox * k, 8 + (12 - (oy + 12)) * k, 8 + oz * k]}
+        out.append(el(fr, to, mat, rot=r))
+    return out
+
+
+def core_missile():
+    return [el([7.4, 7.4, 2.0], [8.6, 8.6, 13.0], "steel_hi"), el([7.5, 7.5, 0.6], [8.5, 8.5, 2.0], "shell_red"),
+            el([6.6, 7.9, 11.0], [9.4, 8.1, 13.0], "graphite"), el([7.9, 6.6, 11.0], [8.1, 9.4, 13.0], "graphite"),
+            el([7.6, 7.6, 13.0], [8.4, 8.4, 13.6], "cyan")]
+
+
 # ---------------------------------------------------------------- machete (como una espada: diagonal en el plano XY)
 def machete():
     d = {"angle": -45, "axis": "z", "origin": [8, 8, 8]}                                      # mango abajo-izq., punta arriba-der.
@@ -398,6 +430,8 @@ if __name__ == "__main__":
         model(f"{base}_{alt}", fn(True), GUN_DISPLAY)
         model(base, fn(False), GUN_DISPLAY,
               [{"predicate": {"tecnocinetico:reload": 1}, "model": f"tecnocinetico:item/{base}_{alt}"}])
+    model("core_fighter", core_fighter_mini(), SMALL)
+    model("core_missile", core_missile(), SMALL)
     model("rail_slug", rail_slug(), SMALL)
     model("kinetic_grenade", kinetic_grenade(), SMALL)
     model("pulse_cell", pulse_cell(True), SMALL)

@@ -46,6 +46,13 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> ANCHOR_PULL = register("entity.anchor.pull");
     public static final RegistryObject<SoundEvent> ANCHOR_STOMP = register("entity.anchor.stomp");
 
+    // Caza del Núcleo
+    public static final RegistryObject<SoundEvent> SHIP_ENGINE = register("entity.core_fighter.engine");
+    public static final RegistryObject<SoundEvent> SHIP_CANNON = register("entity.core_fighter.cannon");
+    public static final RegistryObject<SoundEvent> SHIP_MISSILE = register("entity.core_fighter.missile");
+    public static final RegistryObject<SoundEvent> SHIP_JUMP_CHARGE = register("entity.core_fighter.jump_charge");
+    public static final RegistryObject<SoundEvent> SHIP_JUMP = register("entity.core_fighter.jump");
+
     // Gadgets del Equipo Táctico
     public static final RegistryObject<SoundEvent> JETPACK_THRUST = register("item.jetpack.thrust");
 

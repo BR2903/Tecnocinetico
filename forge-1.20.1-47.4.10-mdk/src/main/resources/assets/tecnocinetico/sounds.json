@@ -226,5 +226,50 @@
         "attenuation_distance": 24
       }
     ]
+  },
+  "entity.core_fighter.engine": {
+    "subtitle": "subtitles.tecnocinetico.core_fighter.engine",
+    "sounds": [
+      {
+        "name": "tecnocinetico:core_fighter/engine",
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "entity.core_fighter.cannon": {
+    "subtitle": "subtitles.tecnocinetico.core_fighter.cannon",
+    "sounds": [
+      {
+        "name": "tecnocinetico:core_fighter/cannon",
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "entity.core_fighter.missile": {
+    "subtitle": "subtitles.tecnocinetico.core_fighter.missile",
+    "sounds": [
+      {
+        "name": "tecnocinetico:core_fighter/missile",
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "entity.core_fighter.jump_charge": {
+    "subtitle": "subtitles.tecnocinetico.core_fighter.jump_charge",
+    "sounds": [
+      {
+        "name": "tecnocinetico:core_fighter/jump_charge",
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "entity.core_fighter.jump": {
+    "subtitle": "subtitles.tecnocinetico.core_fighter.jump",
+    "sounds": [
+      {
+        "name": "tecnocinetico:core_fighter/jump",
+        "attenuation_distance": 96
+      }
+    ]
   }
 }

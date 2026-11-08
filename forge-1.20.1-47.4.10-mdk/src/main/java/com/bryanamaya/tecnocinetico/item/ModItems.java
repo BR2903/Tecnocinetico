@@ -279,6 +279,12 @@ public class ModItems {
     public static final RegistryObject<Item> NULLITE_BOOTS = ITEMS.register("nullite_boots",
             () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.NULLITE, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
 
+    // ---------------------------------------------------------------- nave de fin de juego (sin receta por ahora)
+    public static final RegistryObject<Item> CORE_FIGHTER = ITEMS.register("core_fighter",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.CoreFighterItem(new Item.Properties().rarity(net.minecraft.world.item.Rarity.EPIC).fireResistant()));
+    /** Solo para dibujar el misil de la nave (no se obtiene). */
+    public static final RegistryObject<Item> CORE_MISSILE = ITEMS.register("core_missile", () -> new Item(new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

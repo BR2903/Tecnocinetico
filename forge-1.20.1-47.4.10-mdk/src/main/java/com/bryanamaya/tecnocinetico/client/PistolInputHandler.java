@@ -50,7 +50,7 @@ public final class PistolInputHandler {
 
     /** Pistola o arma larga (escopeta, rifle) en la mano principal. */
     static boolean holdingPistol(LocalPlayer player) {
-        return player != null && (player.getMainHandItem().getItem() instanceof KineticPistolItem
+        return player != null && !(player.getVehicle() instanceof com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity) && (player.getMainHandItem().getItem() instanceof KineticPistolItem
                 || player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem);
     }
 

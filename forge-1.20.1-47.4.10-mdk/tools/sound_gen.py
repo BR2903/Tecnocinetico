@@ -627,6 +627,67 @@ def generate_anchor():
     save("stomp", anchor_stomp(), "anchor")
 
 
+# =================================================================== Caza del Núcleo
+def ship_engine():
+    """Bucle de 2 s: rugido de turbina (ruido grave) + silbido de compresor (tubo resonante fijo) + chisporroteo."""
+    seed = 4200
+    dur = 2.0
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    roar = low(noise(dur, seed), 260, order=4) * 1.6
+    whine_src = band(noise(dur, seed + 1), 800, 6000)
+    whine = band(comb_glide(whine_src, 1180, 1180, feedback=0.9), 900, 5000) * 0.35
+    flutter = 0.85 + 0.15 * np.sin(2 * np.pi * 9 * t)                        # periodo entero: bucle sin salto
+    return (roar + whine) * flutter
+
+
+def ship_cannon():
+    seed = 4300
+    crack = impulse(0.25, seed, tau=0.003, hp=300) * 1.4
+    thump = low(noise(0.3, seed + 1), 160, order=4) * decay(n_of(0.3), 0.05) * 3
+    ring = clank(0.3, 900, seed + 2, tau=0.002, q=(20, 50)) * 0.5
+    return reverb(mix(0.5, (crack, 0.0, 1.0), (thump, 0.0, 0.9), (ring, 0.0, 0.5)), seed + 3, tail=0.5, wet=0.2)
+
+
+def ship_missile():
+    seed = 4400
+    dur = 1.4
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    whoosh = band(noise(dur, seed), 300, 7000) * np.minimum(1, t * 6) * np.exp(-t * 1.2)
+    ignite = low(noise(0.3, seed + 1), 200, order=4) * decay(n_of(0.3), 0.06) * 3
+    return reverb(mix(dur, (whoosh, 0.0, 1.0), (ignite, 0.0, 0.8)), seed + 2, tail=0.8, wet=0.25)
+
+
+def ship_jump_charge():
+    seed = 4500
+    dur = 1.6
+    src = band(noise(dur, seed), 80, 6000)
+    rise = band(comb_glide(src, 70, 1600, feedback=0.9), 60, 7000) * env(n_of(dur), dur * 0.9, 0.05)
+    return reverb(mix(dur + 0.2, (rise, 0.0, 1.0), (sparks(dur, seed + 1, rate=120), 0.2, 0.4)), seed + 2, tail=0.8, wet=0.3)
+
+
+def ship_jump():
+    seed = 4600
+    dur = 2.4
+    boom = low(noise(1.2, seed), 100, order=6) * decay(n_of(1.2), 0.25) * 5
+    src = band(noise(dur, seed + 1), 100, 8000)
+    sweep = band(comb_glide(src, 2400, 60, feedback=0.88), 40, 8000) * env(n_of(dur), 0.01, dur * 0.7)
+    return reverb(mix(dur + 0.5, (boom, 0.0, 1.0), (sweep, 0.0, 0.7), (sparks(0.8, seed + 2, rate=300), 0.0, 0.5)),
+                  seed + 3, tail=1.8, wet=0.4, damp=3000)
+
+
+def generate_ship():
+    eng = ship_engine()                                                        # bucle: sin fundidos (finish los añade)
+    out = ROOT / "core_fighter"
+    out.mkdir(parents=True, exist_ok=True)
+    sf.write(out / "engine.ogg", (eng / (np.max(np.abs(eng)) + 1e-9) * 0.6).astype(np.float32), SR, format="OGG", subtype="VORBIS")
+    save("cannon", ship_cannon(), "core_fighter")
+    save("missile", ship_missile(), "core_fighter")
+    save("jump_charge", ship_jump_charge(), "core_fighter")
+    save("jump", ship_jump(), "core_fighter")
+
+
 def generate_turret():
     save("charge", turret_charge(), "sentry_turret")
 
@@ -639,3 +700,4 @@ if __name__ == "__main__":
     generate_gadgets()
     generate_drone()
     generate_anchor()
+    generate_ship()

@@ -100,6 +100,9 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `RailRifleItem`, `GrenadeLauncherItem` (+ `entity/custom/KineticGrenadeEntity`), `PulseCannonItem`: heredan de `LongGunItem` y cambian `shoot`/`boxRefill`. Disparo cargado: `PistolInputHandler.railCharge` → `ModNetwork.FireChargedPacket`.
 - Ensamblador de Armas: `WeaponAssemblerBlock`/`BlockEntity`/`Menu`/`Screen` (energía sincronizada /10), recetas `AssemblerRecipes`, JEI `AssemblerRecipeCategory`.
 
+### Nave (`entity/ship/`)
+- `CoreFighterEntity` (vuelo en el cliente del piloto; armas, daño y salto en el servidor), `ShipMissileEntity`, `ShipJump` (destino seguro + `ITeleporter`). Cliente: `ClientShipHandler` (entradas, HUD, FOV, destello, motor), `ShipJumpScreen`, `entity/client/CoreFighterModel/Renderer`. Tecla J (= Equipo Táctico) abre el salto si vas en la nave.
+
 ### Munición (`item/custom/`)
 - `MagazineItem` (Cargador 6 / Ampliado 10; NBT `Rounds`, `Guided`), `MagazineLoadingRecipe` (receta especial registrada en `item/ModRecipes`), `GuidedRoundItem`. La pistola guarda `Mag`, `Ammo`, `GuidedAmmo` y durante la recarga `PendingMag`. R con un cargador en la mano → `FillMagazinePacket`.
 

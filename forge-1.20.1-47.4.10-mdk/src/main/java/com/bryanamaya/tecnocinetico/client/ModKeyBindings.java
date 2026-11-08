@@ -64,7 +64,11 @@ public final class ModKeyBindings {
             }
             while (GEAR.consumeClick()) {
                 if (mc.player != null && mc.screen == null) {
-                    ModNetwork.CHANNEL.sendToServer(new ModNetwork.OpenGearPacket());
+                    if (mc.player.getVehicle() instanceof com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity) {
+                        mc.setScreen(new ShipJumpScreen());                    // en la nave: motor de salto
+                    } else {
+                        ModNetwork.CHANNEL.sendToServer(new ModNetwork.OpenGearPacket());
+                    }
                 }
             }
             while (VISOR.consumeClick()) {

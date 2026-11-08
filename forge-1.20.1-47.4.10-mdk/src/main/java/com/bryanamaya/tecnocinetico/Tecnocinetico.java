@@ -167,6 +167,7 @@ public class Tecnocinetico {
                     com.bryanamaya.tecnocinetico.entity.client.SwarmWaspModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.AnchorModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.AnchorModel::createLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.CoreFighterModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.CoreFighterModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DroneModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.DroneModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SentryTurretModel.LAYER,
@@ -197,6 +198,8 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.SENTRY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.client.SentryTurretRenderer::new);
             event.registerEntityRenderer(ModEntities.DRONE.get(), com.bryanamaya.tecnocinetico.entity.client.DroneRenderer::new);
             event.registerEntityRenderer(ModEntities.KINETIC_GRENADE.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
+            event.registerEntityRenderer(ModEntities.CORE_FIGHTER.get(), com.bryanamaya.tecnocinetico.entity.client.CoreFighterRenderer::new);
+            event.registerEntityRenderer(ModEntities.SHIP_MISSILE.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
             event.registerEntityRenderer(ModEntities.ANCHOR.get(), com.bryanamaya.tecnocinetico.entity.client.AnchorRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED_GUNNER.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);

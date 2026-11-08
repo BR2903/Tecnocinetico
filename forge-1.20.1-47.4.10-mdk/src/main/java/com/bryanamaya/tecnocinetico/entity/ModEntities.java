@@ -110,6 +110,21 @@ public class ModEntities {
                     .updateInterval(5)
                     .build("kinetic_grenade"));
 
+    // Caza del Núcleo (nave de fin de juego) y su misil
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity>> CORE_FIGHTER =
+            ENTITY_TYPES.register("core_fighter", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity>of(com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity::new, MobCategory.MISC)
+                    .sized(3.0f, 1.5f)
+                    .fireImmune()
+                    .clientTrackingRange(16)
+                    .updateInterval(1)
+                    .build("core_fighter"));
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.ship.ShipMissileEntity>> SHIP_MISSILE =
+            ENTITY_TYPES.register("ship_missile", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.ship.ShipMissileEntity>of(com.bryanamaya.tecnocinetico.entity.ship.ShipMissileEntity::new, MobCategory.MISC)
+                    .sized(0.4f, 0.4f)
+                    .clientTrackingRange(10)
+                    .updateInterval(1)
+                    .build("ship_missile"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

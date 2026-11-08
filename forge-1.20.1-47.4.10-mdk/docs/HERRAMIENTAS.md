@@ -123,3 +123,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## armor_t3_gen.py
 - `python tools/armor_t3_gen.py [preview.png]`: armaduras del Núcleo, Piroxita y Nulita (capas + iconos), lingotes/en bruto de piroxita y nulita (recoloreados de los de inercita) y las capas de cristal de las menas (`block/*_ore_overlay.png`, 16x16 sobre la piedra vanilla).
+
+## ship_texture.py
+- `python tools/ship_texture.py [preview.png]`: textura 128x128 + brillo del Caza del Núcleo (UV = texOffs de `CoreFighterModel`). La miniatura del objeto (`core_fighter`) la genera `weapons_gen.py` con las mismas piezas escaladas.
