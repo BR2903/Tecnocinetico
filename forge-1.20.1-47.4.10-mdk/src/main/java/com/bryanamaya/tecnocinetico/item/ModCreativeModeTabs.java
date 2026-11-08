@@ -59,14 +59,25 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.SCRAP_BOOTS.get());
                         pOutput.accept(ModItems.SCRAP_MACHETE.get());
                         pOutput.accept(ModItems.PIPE_SHOTGUN.get());
+                        pOutput.accept(ModItems.MODULE_CHOKE.get());
+                        pOutput.accept(ModItems.MODULE_SAWED_OFF.get());
+                        pOutput.accept(ModItems.MODULE_SPEED_LOADER.get());
                         pOutput.accept(ModItems.SHOTGUN_SHELL.get());
                         pOutput.accept(ModItems.BOLT_RIFLE.get());
+                        pOutput.accept(ModItems.MODULE_SCOPE.get());
+                        pOutput.accept(ModItems.MODULE_POLISHED_BOLT.get());
+                        pOutput.accept(ModItems.MODULE_RIFLE_BARREL.get());
                         pOutput.accept(ModItems.RIFLE_ROUND.get());
                         pOutput.accept(ModItems.KINETIC_ROUND.get());
                         pOutput.accept(ModItems.GUIDED_ROUND.get());
                         pOutput.accept(ModItems.MAGAZINE.get());
                         pOutput.accept(ModItems.NIGHT_VISION_VISOR.get());
-                        pOutput.accept(ModItems.JETPACK.get());
+                        // las tres versiones del jetpack (Mk I, II y III)
+                        for (int lvl = 1; lvl <= com.bryanamaya.tecnocinetico.gear.JetpackItem.MAX_LEVEL; lvl++) {
+                            net.minecraft.world.item.ItemStack jet = new net.minecraft.world.item.ItemStack(ModItems.JETPACK.get());
+                            com.bryanamaya.tecnocinetico.gear.JetpackItem.setLevel(jet, lvl);
+                            pOutput.accept(jet);
+                        }
                         pOutput.accept(ModItems.AQUA_PROPULSOR.get());
                         pOutput.accept(ModItems.VISOR_BATTERY.get());
                         pOutput.accept(ModItems.JETPACK_FUEL.get());

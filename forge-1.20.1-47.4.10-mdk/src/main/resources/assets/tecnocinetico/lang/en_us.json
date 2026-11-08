@@ -228,5 +228,17 @@
   "item.tecnocinetico.bolt_rifle": "Bolt-Action Rifle",
   "item.tecnocinetico.bolt_rifle.desc": "Accurate and powerful; work the bolt after every shot.",
   "tooltip.tecnocinetico.uses_ammo": "Ammo: %s (R: load one at a time)",
-  "message.tecnocinetico.no_ammo_for": "You have no %s"
+  "message.tecnocinetico.no_ammo_for": "You have no %s",
+  "item.tecnocinetico.module_choke": "Choke",
+  "tooltip.tecnocinetico.module_choke": "-40% spread (not with sawed-off barrels)",
+  "item.tecnocinetico.module_sawed_off": "Sawed-Off Barrels",
+  "tooltip.tecnocinetico.module_sawed_off": "+25% damage, +50% spread, -30% range",
+  "item.tecnocinetico.module_speed_loader": "Speed Loader",
+  "tooltip.tecnocinetico.module_speed_loader": "Loads shells 40% faster",
+  "item.tecnocinetico.module_scope": "Telescopic Scope",
+  "tooltip.tecnocinetico.module_scope": "Strong zoom with a scope view when aiming",
+  "item.tecnocinetico.module_polished_bolt": "Polished Bolt",
+  "tooltip.tecnocinetico.module_polished_bolt": "+35% fire rate",
+  "item.tecnocinetico.module_rifle_barrel": "Inercita Rifle Barrel",
+  "tooltip.tecnocinetico.module_rifle_barrel": "+6 damage and +20 blocks of range"
 }

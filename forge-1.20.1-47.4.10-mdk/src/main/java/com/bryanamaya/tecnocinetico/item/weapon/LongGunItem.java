@@ -1,6 +1,7 @@
 package com.bryanamaya.tecnocinetico.item.weapon;
 
 import com.bryanamaya.tecnocinetico.gear.TacticalGear;
+import com.bryanamaya.tecnocinetico.item.custom.WeaponModule;
 import com.bryanamaya.tecnocinetico.particle.ModParticles;
 import com.bryanamaya.tecnocinetico.skill.PlayerSkills;
 import com.bryanamaya.tecnocinetico.skill.Skill;
@@ -56,14 +57,61 @@ public class LongGunItem extends Item {
     private static final int XP_PER_HIT = 1, XP_PER_KILL = 4;
 
     private final Stats stats;
+    private final WeaponModule.Family family;
 
-    public LongGunItem(Stats stats, Properties properties) {
+    public LongGunItem(WeaponModule.Family family, Stats stats, Properties properties) {
         super(properties.stacksTo(1).durability(stats.capacity() == 2 ? 500 : 700));
         this.stats = stats;
+        this.family = family;
     }
 
     public Stats stats() {
         return stats;
+    }
+
+    public WeaponModule.Family family() {
+        return family;
+    }
+
+    // ------------------------------------------------------------------ estadísticas con los módulos instalados
+
+    private static boolean has(ItemStack s, WeaponModule m) {
+        return WeaponModule.has(s, m);
+    }
+
+    public float spread(ItemStack s, boolean aiming) {
+        float base = aiming ? stats.aimSpreadDeg() : stats.spreadDeg();
+        if (has(s, WeaponModule.CHOKE)) {
+            base *= 0.6F;
+        }
+        if (has(s, WeaponModule.SAWED_OFF)) {
+            base *= 1.5F;
+        }
+        return base;
+    }
+
+    public float damage(ItemStack s) {
+        return stats.damage() * (has(s, WeaponModule.SAWED_OFF) ? 1.25F : 1.0F) + (has(s, WeaponModule.RIFLE_BARREL) ? 6.0F : 0.0F);
+    }
+
+    public double range(ItemStack s) {
+        return stats.range() * (has(s, WeaponModule.SAWED_OFF) ? 0.7D : 1.0D) + (has(s, WeaponModule.RIFLE_BARREL) ? 20.0D : 0.0D);
+    }
+
+    public int loadTicks(ItemStack s) {
+        return Math.max(4, Math.round(stats.loadTicks() * (has(s, WeaponModule.SPEED_LOADER) ? 0.6F : 1.0F)));
+    }
+
+    public int cooldown(ItemStack s) {
+        return Math.max(4, Math.round(stats.shotCooldown() * (has(s, WeaponModule.POLISHED_BOLT) ? 0.65F : 1.0F)));
+    }
+
+    public float zoom(ItemStack s) {
+        return has(s, WeaponModule.SCOPE) ? 0.22F : stats.aimZoom();
+    }
+
+    public static boolean hasScope(ItemStack s) {
+        return has(s, WeaponModule.SCOPE);
     }
 
     // ------------------------------------------------------------------ estado
@@ -86,7 +134,7 @@ public class LongGunItem extends Item {
             return 0.0F;
         }
         float left = s.getTag().getInt(TAG_TIMER) - partialTick;
-        return Mth.clamp(1.0F - left / g.stats.loadTicks(), 0.0F, 1.0F);
+        return Mth.clamp(1.0F - left / g.loadTicks(s), 0.0F, 1.0F);
     }
 
     public boolean canFireNow(Player player, ItemStack s) {
@@ -122,7 +170,7 @@ public class LongGunItem extends Item {
         Level level = player.level();
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
-        float spread = Mth.lerp(aiming ? 1.0F : 0.0F, stats.spreadDeg(), stats.aimSpreadDeg());
+        float spread = spread(gun, aiming);
         for (int i = 0; i < stats.pellets(); i++) {
             Vec3 dir = spread(look, spread, player.getRandom());
             firePellet(level, player, gun, eye, dir, aiming, i == 0);
@@ -133,7 +181,7 @@ public class LongGunItem extends Item {
         }
         level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_FIRE.get(), SoundSource.PLAYERS,
                 1.4F, stats.firePitch() + level.random.nextFloat() * 0.06F);
-        player.getCooldowns().addCooldown(this, stats.shotCooldown());
+        player.getCooldowns().addCooldown(this, cooldown(gun));
         if (stats.capacity() > 2) {                                           // rifle: accionar el cerrojo
             level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_SLIDE.get(),
                     SoundSource.PLAYERS, 0.8F, 0.8F);
@@ -153,7 +201,7 @@ public class LongGunItem extends Item {
     }
 
     private void firePellet(Level level, Player player, ItemStack gun, Vec3 eye, Vec3 dir, boolean aiming, boolean flash) {
-        Vec3 end = eye.add(dir.scale(stats.range()));
+        Vec3 end = eye.add(dir.scale(range(gun)));
         BlockHitResult block = level.clip(new ClipContext(eye, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
         if (block.getType() != HitResult.Type.MISS) {
             end = block.getLocation();
@@ -165,7 +213,7 @@ public class LongGunItem extends Item {
             Entity t = hit.getEntity();
             end = t.getBoundingBox().clip(eye, end).orElse(t.getBoundingBox().getCenter());
             t.invulnerableTime = 0;
-            boolean hurt = t.hurt(level.damageSources().playerAttack(player), stats.damage());
+            boolean hurt = t.hurt(level.damageSources().playerAttack(player), damage(gun));
             if (flash) {
                 player.playNotifySound(ModSounds.PISTOL_HIT.get(), SoundSource.PLAYERS, 0.5F, 1.0F);
             }
@@ -218,7 +266,7 @@ public class LongGunItem extends Item {
         }
         CompoundTag tag = gun.getOrCreateTag();
         tag.putBoolean(TAG_LOADING, true);
-        tag.putInt(TAG_TIMER, stats.loadTicks());
+        tag.putInt(TAG_TIMER, loadTicks(gun));
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_MAG_OUT.get(),
                 SoundSource.PLAYERS, 0.7F, stats.capacity() == 2 ? 0.75F : 1.1F);   // abrir la escopeta / el cerrojo
     }
@@ -252,7 +300,7 @@ public class LongGunItem extends Item {
         if (getAmmo(gun) >= stats.capacity() || (!player.getAbilities().instabuild && count(player) == 0)) {
             stopLoading(player, gun);
         } else {
-            tag.putInt(TAG_TIMER, stats.loadTicks());
+            tag.putInt(TAG_TIMER, loadTicks(gun));
         }
     }
 
@@ -314,6 +362,11 @@ public class LongGunItem extends Item {
         tooltip.add(Component.translatable("tooltip.tecnocinetico.ammo", getAmmo(stack), stats.capacity()).withStyle(ChatFormatting.AQUA));
         tooltip.add(Component.translatable("tooltip.tecnocinetico.uses_ammo", stats.ammo().get().getDescription())
                 .withStyle(ChatFormatting.GRAY));
+        for (WeaponModule m : WeaponModule.values()) {
+            if (WeaponModule.has(stack, m)) {
+                tooltip.add(Component.literal(" + ").append(m.displayName()).withStyle(ChatFormatting.GREEN));
+            }
+        }
         tooltip.add(Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "ICI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "tecnocinetico:cinetrite_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:module_polished_bolt",
+    "count": 1
+  }
+}

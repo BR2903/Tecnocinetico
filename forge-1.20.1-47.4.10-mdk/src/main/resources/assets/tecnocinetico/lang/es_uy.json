@@ -228,5 +228,17 @@
   "item.tecnocinetico.bolt_rifle": "Rifle de Cerrojo",
   "item.tecnocinetico.bolt_rifle.desc": "Preciso y potente; hay que accionar el cerrojo tras cada disparo.",
   "tooltip.tecnocinetico.uses_ammo": "Munición: %s (R: cargar cartucho a cartucho)",
-  "message.tecnocinetico.no_ammo_for": "No tienes %s"
+  "message.tecnocinetico.no_ammo_for": "No tienes %s",
+  "item.tecnocinetico.module_choke": "Estrangulador",
+  "tooltip.tecnocinetico.module_choke": "-40 % de dispersión (no se combina con los cañones recortados)",
+  "item.tecnocinetico.module_sawed_off": "Cañones Recortados",
+  "tooltip.tecnocinetico.module_sawed_off": "+25 % de daño, +50 % de dispersión, -30 % de alcance",
+  "item.tecnocinetico.module_speed_loader": "Cartuchera Rápida",
+  "tooltip.tecnocinetico.module_speed_loader": "Carga los cartuchos un 40 % más rápido",
+  "item.tecnocinetico.module_scope": "Mira Telescópica",
+  "tooltip.tecnocinetico.module_scope": "Zoom fuerte con visor al apuntar",
+  "item.tecnocinetico.module_polished_bolt": "Cerrojo Pulido",
+  "tooltip.tecnocinetico.module_polished_bolt": "+35 % de cadencia",
+  "item.tecnocinetico.module_rifle_barrel": "Cañón de Inercita para Rifle",
+  "tooltip.tecnocinetico.module_rifle_barrel": "+6 de daño y +20 bloques de alcance"
 }

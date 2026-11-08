@@ -231,3 +231,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 ## 2026-11-07 — Claude — Rifle sin textura (cubo negro y rosa)
 - El modelo del rifle tenía el brocal en z = -16.5 y Minecraft solo admite coordenadas de elemento en [-16, 32]: descarta el modelo entero. Cañón acortado 0.5. El servidor de prueba no carga modelos, así que no lo detectó: nuevo `tools/check_models.py` (límites, rotaciones, texturas y overrides) y regla en AGENTS.md.
 
+## 2026-11-08 — Claude — Módulos para escopeta y rifle; jetpacks en creativo
+- La pestaña creativa incluye el Jetpack Mk I, II y III.
+- Decisión del usuario: la escopeta y el rifle se mejoran con **módulos en el Banco de Armas**, como la pistola. `WeaponModule` ahora tiene familia (PISTOL/SHOTGUN/RIFLE; los nuevos van al final para no cambiar los bits guardados), `appliesTo`, `conflictsWith` y `localMask` (máscara 0..7 de la familia, para el modelo).
+- Escopeta: **Estrangulador** (-40 % dispersión), **Cañones Recortados** (+25 % daño, +50 % dispersión, -30 % alcance; no se combina con el estrangulador), **Cartuchera Rápida** (carga 40 % más rápida). Rifle: **Mira Telescópica** (zoom 0.22 + visor a pantalla completa con la textura del catalejo vanilla y sin dibujar el arma), **Cerrojo Pulido** (+35 % cadencia), **Cañón de Inercita para Rifle** (+6 daño, +20 alcance). Efectos en `LongGunItem` (`spread`, `damage`, `range`, `loadTicks`, `cooldown`, `zoom`).
+- Banco: acepta cualquier arma con módulos; solo se ven las ranuras del arma puesta (`ModuleSlot.isActive`); la pantalla dibuja el modelo 3D del arma en grande y el marco de cada ranura activa (textura sin silueta fija, sprite del marco en (200,0)).
+- Modelos (`weapons_gen.py`): 8 combinaciones x 2 fotogramas por arma (overrides `modules` + `reload`) y objetos de los 6 módulos. GameTest nuevo de módulos (11 en total).

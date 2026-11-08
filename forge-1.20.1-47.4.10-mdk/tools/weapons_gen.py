@@ -20,7 +20,7 @@ TEX = "tecnocinetico:item/weapons_t1"
 
 ZONES = {"steel_dark": (0, 0), "steel": (1, 0), "steel_hi": (2, 0), "rust": (3, 0), "wood": (4, 0), "wood_dark": (5, 0),
          "leather": (6, 0), "copper": (7, 0), "brass": (0, 1), "shell_red": (1, 1), "cyan": (2, 1), "rubber": (3, 1),
-         "blade": (4, 1), "edge": (5, 1), "tape": (6, 1), "black": (7, 1)}
+         "blade": (4, 1), "edge": (5, 1), "tape": (6, 1), "black": (7, 1), "inercita": (0, 2)}
 
 
 def paint():
@@ -48,6 +48,7 @@ def paint():
     zone("edge", lambda x, y: (220, 224, 228) if x < 4 else (190, 194, 200))
     zone("tape", lambda x, y: (120, 120, 116) if y % 2 else (96, 96, 92))
     zone("black", lambda x, y: (8, 8, 10))
+    zone("inercita", lambda x, y: (104, 114, 136) if y == 0 else (64, 72, 90) if (x + y) % 5 else (48, 54, 70))
     return img
 
 
@@ -77,47 +78,75 @@ def trigger_group():
 
 
 # ---------------------------------------------------------------- escopeta de caño (dos cañones, basculante)
-def shotgun(open_=False):
+CHOKE, SAWED, LOADER = 1, 2, 4                      # máscara local (orden de WeaponModule: CHOKE, SAWED_OFF, SPEED_LOADER)
+
+
+def shotgun(open_=False, mods=0):
     hinge = {"angle": -22.5, "axis": "x", "origin": [8, 11.7, 6]} if open_ else None     # los cañones bajan
-    barrels = [el([7.0, 12.4, -12], [7.95, 13.4, 6], "steel", front="black", rot=hinge),
-               el([8.05, 12.4, -12], [9.0, 13.4, 6], "steel", front="black", rot=hinge),
-               el([7.8, 13.4, -12], [8.2, 13.6, 6], "steel_hi", rot=hinge),                   # banda superior
-               el([7.9, 13.6, -11.8], [8.1, 13.9, -11.4], "brass", rot=hinge),               # punto de mira
-               el([6.9, 12.3, -6.4], [9.1, 13.5, -5.4], "copper", rot=hinge),                # abrazaderas
+    front = -4.0 if mods & SAWED else -12.0                                               # recortados: cañones cortos
+    barrels = [el([7.0, 12.4, front], [7.95, 13.4, 6], "steel", front="black", rot=hinge),
+               el([8.05, 12.4, front], [9.0, 13.4, 6], "steel", front="black", rot=hinge),
+               el([7.8, 13.4, front], [8.2, 13.6, 6], "steel_hi", rot=hinge),
+               el([7.9, 13.6, front + 0.2], [8.1, 13.9, front + 0.6], "brass", rot=hinge),
                el([6.9, 12.3, 1.0], [9.1, 13.5, 2.0], "tape", rot=hinge),
-               el([7.1, 11.3, -4.0], [8.9, 12.4, 4.0], "wood", rot=hinge)]                   # guardamanos
-    action = [el([6.9, 11.0, 6.0], [9.1, 13.6, 9.5], "steel_dark"),                           # báscula
-              el([6.8, 11.4, 5.6], [9.2, 12.0, 6.4], "steel_hi"),                             # eje de la bisagra
-              el([7.6, 13.6, 8.6], [8.4, 14.2, 9.4], "steel_dark")]                           # llave de apertura
-    stock = [el([7.1, 7.6, 9.4], [8.9, 11.0, 12.6], "wood", rot=GRIP_ROT),                    # empuñadura
-             el([7.05, 8.6, 9.6], [8.95, 9.4, 12.4], "tape", rot=GRIP_ROT),                   # cinta en la empuñadura
-             el([7.0, 8.6, 12.0], [9.0, 12.0, 21.0], "wood"),                                  # culata
-             el([7.2, 12.0, 13.0], [8.8, 12.6, 20.0], "wood_dark"),                            # lomo
-             el([6.9, 8.0, 21.0], [9.1, 12.2, 22.0], "rubber")]                                # cantonera
+               el([7.1, 11.3, max(front + 1, -4.0)], [8.9, 12.4, 4.0], "wood", rot=hinge)]
+    if not mods & SAWED:
+        barrels.append(el([6.9, 12.3, -6.4], [9.1, 13.5, -5.4], "copper", rot=hinge))
+    else:
+        barrels.append(el([6.95, 12.35, front], [9.05, 13.45, front + 0.4], "rust", rot=hinge))  # corte tosco
+    if mods & CHOKE:                                                                       # anillas del estrangulador
+        barrels += [el([6.9, 12.3, front - 0.6], [8.0, 13.5, front], "copper", front="black", rot=hinge),
+                    el([8.0, 12.3, front - 0.6], [9.1, 13.5, front], "copper", front="black", rot=hinge)]
+    action = [el([6.9, 11.0, 6.0], [9.1, 13.6, 9.5], "steel_dark"),
+              el([6.8, 11.4, 5.6], [9.2, 12.0, 6.4], "steel_hi"),
+              el([7.6, 13.6, 8.6], [8.4, 14.2, 9.4], "steel_dark")]
+    stock = [el([7.1, 7.6, 9.4], [8.9, 11.0, 12.6], "wood", rot=GRIP_ROT),
+             el([7.05, 8.6, 9.6], [8.95, 9.4, 12.4], "tape", rot=GRIP_ROT),
+             el([7.0, 8.6, 12.0], [9.0, 12.0, 21.0], "wood"),
+             el([7.2, 12.0, 13.0], [8.8, 12.6, 20.0], "wood_dark"),
+             el([6.9, 8.0, 21.0], [9.1, 12.2, 22.0], "rubber")]
+    if mods & LOADER:                                                                      # cartuchera en la culata
+        stock.append(el([9.0, 9.2, 14.0], [9.3, 11.6, 19.5], "leather"))
+        for z in (14.4, 16.2, 18.0):
+            stock.append(el([9.3, 9.5, z], [9.9, 11.3, z + 1.1], "shell_red"))
     return barrels + action + stock + trigger_group()
 
 
 # ---------------------------------------------------------------- rifle de cerrojo
-def rifle(bolt_back=False):
-    els = [el([7.6, 12.7, -15.4], [8.4, 13.5, 4.0], "steel_dark", front="black"),              # cañón (límite de Minecraft: z >= -16)
-           el([7.5, 12.6, -16.0], [8.5, 13.6, -15.3], "steel"),                                # brocal
-           el([7.9, 13.5, -15.0], [8.1, 14.4, -14.5], "steel_hi"),                             # punto de mira
-           el([7.5, 13.8, 3.0], [7.8, 14.5, 3.6], "steel"), el([8.2, 13.8, 3.0], [8.5, 14.5, 3.6], "steel"),  # alza
-           el([7.3, 12.2, 4.0], [8.7, 14.0, 11.0], "steel_dark"),                              # cajón de mecanismos
-           el([7.4, 11.0, 6.0], [8.6, 12.2, 9.0], "steel"),                                    # depósito
-           el([7.1, 11.6, -9.0], [8.9, 13.0, 4.0], "wood"),                                    # guardamanos
-           el([7.0, 11.9, -2.0], [9.0, 12.5, -1.4], "copper"),                                 # anilla
-           el([7.2, 8.0, 10.5], [8.8, 12.2, 13.5], "wood", rot=GRIP_ROT),                      # empuñadura
-           el([7.1, 9.0, 13.0], [8.9, 12.4, 23.0], "wood"),                                    # culata
-           el([7.3, 12.4, 14.0], [8.7, 13.0, 21.0], "wood_dark"),                              # carrillera
-           el([7.0, 8.2, 23.0], [9.0, 12.6, 23.6], "steel_dark"),                              # cantonera
-           el([7.7, 11.35, -6.0], [8.3, 11.6, -2.0], "cyan")]                                  # bobina cinética (bajo el guardamanos)
-    if bolt_back:                                                                             # cerrojo atrás y manilla arriba
-        els += [el([8.7, 13.0, 9.0], [9.1, 13.6, 13.0], "steel_hi"),
-                el([8.9, 13.0, 12.0], [9.4, 14.6, 12.6], "steel_hi"), el([8.8, 14.4, 11.9], [9.6, 15.1, 12.7], "steel")]
+SCOPE, BOLT, BARREL = 1, 2, 4                       # máscara local (orden: SCOPE, POLISHED_BOLT, RIFLE_BARREL)
+
+
+def rifle(bolt_back=False, mods=0):
+    barrel_mat = "inercita" if mods & BARREL else "steel_dark"
+    bolt_mat = "brass" if mods & BOLT else "steel_hi"
+    els = [el([7.6, 12.7, -15.4], [8.4, 13.5, 4.0], barrel_mat, front="black"),          # cañón (límite: z >= -16)
+           el([7.9, 13.5, -15.0], [8.1, 14.4, -14.5], "steel_hi"),
+           el([7.5, 13.8, 3.0], [7.8, 14.5, 3.6], "steel"), el([8.2, 13.8, 3.0], [8.5, 14.5, 3.6], "steel"),
+           el([7.3, 12.2, 4.0], [8.7, 14.0, 11.0], "steel_dark"),
+           el([7.4, 11.0, 6.0], [8.6, 12.2, 9.0], "steel"),
+           el([7.1, 11.6, -9.0], [8.9, 13.0, 4.0], "wood"),
+           el([7.0, 11.9, -2.0], [9.0, 12.5, -1.4], "copper"),
+           el([7.2, 8.0, 10.5], [8.8, 12.2, 13.5], "wood", rot=GRIP_ROT),
+           el([7.1, 9.0, 13.0], [8.9, 12.4, 23.0], "wood"),
+           el([7.3, 12.4, 14.0], [8.7, 13.0, 21.0], "wood_dark"),
+           el([7.0, 8.2, 23.0], [9.0, 12.6, 23.6], "steel_dark"),
+           el([7.7, 11.35, -6.0], [8.3, 11.6, -2.0], "cyan")]
+    if mods & BARREL:                                                                     # freno de boca
+        els.append(el([7.3, 12.4, -16.0], [8.7, 13.8, -14.6], "steel_hi", front="black"))
     else:
-        els += [el([8.7, 13.0, 7.0], [9.1, 13.6, 11.0], "steel_hi"),
-                el([9.1, 12.6, 10.0], [10.4, 13.0, 10.6], "steel_hi"), el([10.2, 12.2, 9.9], [10.8, 12.9, 10.7], "steel")]
+        els.append(el([7.5, 12.6, -16.0], [8.5, 13.6, -15.3], "steel"))
+    if mods & SCOPE:                                                                      # mira telescópica
+        els += [el([7.6, 14.0, 5.0], [8.4, 14.6, 5.6], "steel_dark"), el([7.6, 14.0, 9.0], [8.4, 14.6, 9.6], "steel_dark"),
+                el([7.3, 14.6, 2.0], [8.7, 16.0, 12.0], "steel_dark"),
+                el([7.1, 14.4, 0.6], [8.9, 16.2, 2.0], "steel", front="cyan"),
+                el([7.2, 14.5, 12.0], [8.8, 16.1, 13.0], "steel")]
+    if bolt_back:
+        els += [el([8.7, 13.0, 9.0], [9.1, 13.6, 13.0], bolt_mat),
+                el([8.9, 13.0, 12.0], [9.4, 14.6, 12.6], bolt_mat), el([8.8, 14.4, 11.9], [9.6, 15.1, 12.7], "steel")]
+    else:
+        els += [el([8.7, 13.0, 7.0], [9.1, 13.6, 11.0], bolt_mat),
+                el([9.1, 12.6, 10.0], [10.4, 13.0, 10.6], bolt_mat),
+                el([10.2, 12.2, 9.9], [10.8, 12.9, 10.7], "cyan" if mods & BOLT else "steel")]
     return els + trigger_group()
 
 
@@ -172,12 +201,34 @@ def model(name, elements, display, overrides=None):
 
 if __name__ == "__main__":
     paint().save(ROOT / "textures/item/weapons_t1.png")
-    model("pipe_shotgun_open", shotgun(True), GUN_DISPLAY)
-    model("pipe_shotgun", shotgun(False), GUN_DISPLAY,
-          [{"predicate": {"tecnocinetico:reload": 1}, "model": "tecnocinetico:item/pipe_shotgun_open"}])
-    model("bolt_rifle_bolt", rifle(True), GUN_DISPLAY)
-    model("bolt_rifle", rifle(False), GUN_DISPLAY,
-          [{"predicate": {"tecnocinetico:reload": 1}, "model": "tecnocinetico:item/bolt_rifle_bolt"}])
+    # 8 combinaciones de módulos x (normal, recargando). Minecraft usa el ÚLTIMO override que encaja (>=):
+    # se ordenan por máscara y luego por recarga.
+    for base, fn, alt in (("pipe_shotgun", shotgun, "open"), ("bolt_rifle", rifle, "bolt")):
+        overrides = []
+        for m in range(8):
+            name = base if m == 0 else f"{base}_m{m}"
+            model(f"{name}_{alt}", fn(True, m), GUN_DISPLAY)
+            if m:
+                model(name, fn(False, m), GUN_DISPLAY)
+                overrides.append({"predicate": {"tecnocinetico:modules": m, "tecnocinetico:reload": 0},
+                                  "model": f"tecnocinetico:item/{name}"})
+            overrides.append({"predicate": {"tecnocinetico:modules": m, "tecnocinetico:reload": 1},
+                              "model": f"tecnocinetico:item/{name}_{alt}"})
+        model(base, fn(False, 0), GUN_DISPLAY, overrides)
+    # objetos de los módulos: solo sus piezas, centradas
+    module_parts = {
+        "choke": [el([6.9, 7.4, 6.4], [8.0, 8.6, 7.6], "copper", front="black"), el([8.0, 7.4, 6.4], [9.1, 8.6, 7.6], "copper", front="black")],
+        "sawed_off": [el([6.5, 7.5, 4.0], [7.45, 8.5, 12.0], "steel", front="black"), el([7.55, 7.5, 4.0], [8.5, 8.5, 12.0], "steel", front="black"),
+                      el([6.45, 7.45, 4.0], [8.55, 8.55, 4.4], "rust")],
+        "speed_loader": [el([7.7, 6.0, 5.0], [8.0, 10.0, 11.0], "leather")] + [el([8.0, 6.6, z], [8.6, 9.4, z + 1.1], "shell_red") for z in (5.6, 7.6, 9.6)],
+        "scope": [el([7.3, 7.3, 3.0], [8.7, 8.7, 13.0], "steel_dark"), el([7.1, 7.1, 1.6], [8.9, 8.9, 3.0], "steel", front="cyan"),
+                  el([7.2, 7.2, 13.0], [8.8, 8.8, 14.0], "steel")],
+        "polished_bolt": [el([7.8, 7.7, 5.0], [8.2, 8.3, 11.0], "brass"), el([8.2, 7.7, 10.0], [9.6, 8.1, 10.6], "brass"),
+                          el([9.4, 7.3, 9.9], [10.0, 8.0, 10.7], "cyan")],
+        "rifle_barrel": [el([7.6, 7.6, 1.0], [8.4, 8.4, 14.0], "inercita", front="black"), el([7.3, 7.3, 0.0], [8.7, 8.7, 1.4], "steel_hi", front="black")],
+    }
+    for mid, parts in module_parts.items():
+        model(f"module_{mid}", parts, SMALL)
     model("scrap_machete", machete(), HANDHELD)
     model("shotgun_shell", shell(), SMALL)
     model("rifle_round", rifle_round(), SMALL)

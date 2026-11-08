@@ -131,4 +131,32 @@ public class AmmoGameTests {
         helper.assertTrue(com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem.hasFullSet(player), "Con las 4 piezas hay bono");
         helper.succeed();
     }
+
+    /** Módulos de armas largas: solo en su arma, incompatibilidades y efecto en las estadísticas. */
+    @GameTest(template = "empty")
+    public static void longGunModules(GameTestHelper helper) {
+        ItemStack shotgun = new ItemStack(ModItems.PIPE_SHOTGUN.get());
+        ItemStack rifle = new ItemStack(ModItems.BOLT_RIFLE.get());
+        ItemStack pistol = new ItemStack(ModItems.KINETIC_PISTOL.get());
+        helper.assertTrue(WeaponModule.CHOKE.appliesTo(shotgun) && !WeaponModule.CHOKE.appliesTo(rifle)
+                && !WeaponModule.CHOKE.appliesTo(pistol), "El estrangulador solo va en la escopeta");
+        helper.assertTrue(WeaponModule.SCOPE.appliesTo(rifle) && !WeaponModule.SCOPE.appliesTo(shotgun), "La mira solo va en el rifle");
+        helper.assertTrue(!WeaponModule.OPTIC.appliesTo(rifle), "Los módulos de pistola no van en el rifle");
+        helper.assertTrue(WeaponModule.CHOKE.conflictsWith(WeaponModule.SAWED_OFF), "Estrangulador y recortados se excluyen");
+        var sg = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) shotgun.getItem();
+        var rf = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) rifle.getItem();
+        float spread0 = sg.spread(shotgun, false);
+        int load0 = sg.loadTicks(shotgun), cd0 = rf.cooldown(rifle);
+        float dmg0 = rf.damage(rifle), zoom0 = rf.zoom(rifle);
+        WeaponModule.install(shotgun, WeaponModule.CHOKE);
+        WeaponModule.install(shotgun, WeaponModule.SPEED_LOADER);
+        WeaponModule.install(rifle, WeaponModule.POLISHED_BOLT);
+        WeaponModule.install(rifle, WeaponModule.RIFLE_BARREL);
+        WeaponModule.install(rifle, WeaponModule.SCOPE);
+        helper.assertTrue(sg.spread(shotgun, false) < spread0 && sg.loadTicks(shotgun) < load0, "Estrangulador y cartuchera no surten efecto");
+        helper.assertTrue(rf.cooldown(rifle) < cd0 && rf.damage(rifle) > dmg0 && rf.zoom(rifle) < zoom0, "Módulos del rifle sin efecto");
+        helper.assertTrue(WeaponModule.localMask(rifle) == 7 && WeaponModule.localMask(shotgun) == 5,
+                "Máscara local para el modelo: rifle " + WeaponModule.localMask(rifle) + ", escopeta " + WeaponModule.localMask(shotgun));
+        helper.succeed();
+    }
 }

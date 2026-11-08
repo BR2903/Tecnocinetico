@@ -70,7 +70,7 @@ public final class PistolInputHandler {
                 player.setXRot(player.getXRot() - gun.stats().pitchKick() * mult);
                 player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * gun.stats().yawKick() * mult);
                 GunAnimState.onShot(player.level().getGameTime(), mult * 1.3F, player.getRandom().nextFloat() * 2.0F - 1.0F);
-                player.getCooldowns().addCooldown(gun, gun.stats().shotCooldown());
+                player.getCooldowns().addCooldown(gun, gun.cooldown(pistol));
             }
             ModNetwork.CHANNEL.sendToServer(new ModNetwork.FirePistolPacket(GunAnimState.aim > 0.5F));
             return;
@@ -111,16 +111,48 @@ public final class PistolInputHandler {
         float aim = GunAnimState.aim;
         var held = event.getPlayer().getMainHandItem();
         if (aim > 0 && (held.getItem() instanceof KineticPistolItem || held.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem)) {
-            float zoom = held.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g ? g.stats().aimZoom() : KineticPistolItem.aimZoom(held);
+            float zoom = held.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g ? g.zoom(held) : KineticPistolItem.aimZoom(held);
             event.setNewFovModifier(event.getNewFovModifier() * Mth.lerp(aim, 1.0F, zoom));
         }
     }
 
-    /** Al apuntar se usan las miras del arma: se oculta el punto de mira de la pantalla. */
+    /** Al apuntar se usan las miras del arma: se oculta el punto de mira de la pantalla. Con mira telescópica: visor. */
     @SubscribeEvent
     public static void onOverlay(RenderGuiOverlayEvent.Pre event) {
         if (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) && GunAnimState.aim > 0.5F
                 && holdingPistol(Minecraft.getInstance().player)) {
+            event.setCanceled(true);
+            if (scoped()) {
+                drawScope(event.getGuiGraphics(), event.getWindow().getGuiScaledWidth(), event.getWindow().getGuiScaledHeight());
+            }
+        }
+    }
+
+    private static final net.minecraft.resources.ResourceLocation SCOPE = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("minecraft", "textures/misc/spyglass_scope.png");
+
+    /** ¿Apuntando del todo con un rifle con Mira Telescópica? */
+    static boolean scoped() {
+        Minecraft mc = Minecraft.getInstance();
+        return mc.player != null && GunAnimState.aim > 0.9F && mc.options.getCameraType().isFirstPerson()
+                && com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.hasScope(mc.player.getMainHandItem())
+                && mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem;
+    }
+
+    /** Visor a pantalla completa (la textura del catalejo vanilla) con los bordes en negro. */
+    private static void drawScope(net.minecraft.client.gui.GuiGraphics g, int w, int h) {
+        int size = Math.min(w, h);
+        int x = (w - size) / 2, y = (h - size) / 2;
+        g.blit(SCOPE, x, y, -90, 0.0F, 0.0F, size, size, size, size);
+        g.fill(0, 0, w, y, -90, 0xFF000000);
+        g.fill(0, y + size, w, h, -90, 0xFF000000);
+        g.fill(0, y, x, y + size, -90, 0xFF000000);
+        g.fill(x + size, y, w, y + size, -90, 0xFF000000);
+    }
+
+    /** Mirando por la mira telescópica no se dibuja el arma. */
+    @SubscribeEvent
+    public static void onRenderHand(net.minecraftforge.client.event.RenderHandEvent event) {
+        if (scoped()) {
             event.setCanceled(true);
         }
     }

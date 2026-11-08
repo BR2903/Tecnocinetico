@@ -66,6 +66,12 @@ public class ModItems {
     public static final RegistryObject<Item> MODULE_INERCITA_BARREL = module(WeaponModule.INERCITA_BARREL);
     public static final RegistryObject<Item> MODULE_QUICK_RELOAD = module(WeaponModule.QUICK_RELOAD);
     public static final RegistryObject<Item> MODULE_SEEKER = module(WeaponModule.SEEKER);
+    public static final RegistryObject<Item> MODULE_CHOKE = module(WeaponModule.CHOKE);
+    public static final RegistryObject<Item> MODULE_SAWED_OFF = module(WeaponModule.SAWED_OFF);
+    public static final RegistryObject<Item> MODULE_SPEED_LOADER = module(WeaponModule.SPEED_LOADER);
+    public static final RegistryObject<Item> MODULE_SCOPE = module(WeaponModule.SCOPE);
+    public static final RegistryObject<Item> MODULE_POLISHED_BOLT = module(WeaponModule.POLISHED_BOLT);
+    public static final RegistryObject<Item> MODULE_RIFLE_BARREL = module(WeaponModule.RIFLE_BARREL);
     /** Bala Cinética: la munición normal de la pistola (va dentro de un cargador). */
     public static final RegistryObject<Item> KINETIC_ROUND = ITEMS.register("kinetic_round", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> MAGAZINE = ITEMS.register("magazine",
@@ -84,6 +90,12 @@ public class ModItems {
             case INERCITA_BARREL -> MODULE_INERCITA_BARREL.get();
             case QUICK_RELOAD -> MODULE_QUICK_RELOAD.get();
             case SEEKER -> MODULE_SEEKER.get();
+            case CHOKE -> MODULE_CHOKE.get();
+            case SAWED_OFF -> MODULE_SAWED_OFF.get();
+            case SPEED_LOADER -> MODULE_SPEED_LOADER.get();
+            case SCOPE -> MODULE_SCOPE.get();
+            case POLISHED_BOLT -> MODULE_POLISHED_BOLT.get();
+            case RIFLE_BARREL -> MODULE_RIFLE_BARREL.get();
         };
     }
 
@@ -138,11 +150,13 @@ public class ModItems {
     public static final RegistryObject<Item> RIFLE_ROUND = ITEMS.register("rifle_round", () -> new Item(new Item.Properties()));
     /** Escopeta de caño: 2 cartuchos, 8 perdigones de 2.5 (20 de cerca), mucha dispersión, 14 bloques. */
     public static final RegistryObject<Item> PIPE_SHOTGUN = ITEMS.register("pipe_shotgun",
-            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SHOTGUN,
+                    new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
                     2, () -> SHOTGUN_SHELL.get(), 8, 2.5F, 14.0D, 7.0F, 5.0F, 14, 16, 9.0F, 3.0F, 0.85F, 0.65F), new Item.Properties()));
     /** Rifle de cerrojo: 5 balas, 16 de daño, 60 bloques, preciso; 24 ticks entre disparos (cerrojo). */
     public static final RegistryObject<Item> BOLT_RIFLE = ITEMS.register("bolt_rifle",
-            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.RIFLE,
+                    new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
                     5, () -> RIFLE_ROUND.get(), 1, 16.0F, 60.0D, 1.2F, 0.0F, 24, 14, 7.0F, 1.2F, 0.55F, 0.8F), new Item.Properties()));
     public static final RegistryObject<Item> SURVIVOR_SPAWN_EGG = ITEMS.register("survivor_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SURVIVOR, 0x5A5236, 0x3FC8D8, new Item.Properties()));

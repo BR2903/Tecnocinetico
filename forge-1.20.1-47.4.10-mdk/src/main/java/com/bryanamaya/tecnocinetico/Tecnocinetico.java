@@ -116,8 +116,10 @@ public class Tecnocinetico {
                             }
                             return 0.0F;
                         });
-                // Armas largas: 0 normal, 1 recargando (escopeta abierta / cerrojo atrás)
+                // Armas largas: 0 normal, 1 recargando (escopeta abierta / cerrojo atrás); "modules" = máscara local 0..7
                 for (var gun : java.util.List.of(ModItems.PIPE_SHOTGUN.get(), ModItems.BOLT_RIFLE.get())) {
+                    ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "modules"),
+                            (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.item.custom.WeaponModule.localMask(stack));
                     ItemProperties.register(gun, ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
                             (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(stack) ? 1.0F : 0.0F);
                 }

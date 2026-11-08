@@ -32,9 +32,22 @@ public class WeaponBenchScreen extends AbstractContainerScreen<WeaponBenchMenu> 
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         graphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 
-        // Módulos "fantasma" en las ranuras vacías: indican qué va en cada sitio
+        // El arma del banco en grande en el panel (su modelo 3D)
+        ItemStack weapon = menu.getSlot(WeaponBenchMenu.WEAPON_SLOT).getItem();
+        if (!weapon.isEmpty()) {
+            graphics.pose().pushPose();
+            graphics.pose().translate(leftPos + 103 - 36, topPos + 54 - 36, 0);
+            graphics.pose().scale(4.5F, 4.5F, 4.5F);
+            graphics.renderItem(weapon, 0, 0);
+            graphics.pose().popPose();
+        }
+        // Marco de cada ranura de módulo activa y su módulo "fantasma" si está vacía
         for (WeaponModule module : WeaponModule.values()) {
             Slot slot = menu.getSlot(1 + module.ordinal());
+            if (!slot.isActive()) {
+                continue;
+            }
+            graphics.blit(TEXTURE, leftPos + slot.x - 3, topPos + slot.y - 3, 200, 0, 22, 22);
             if (!slot.hasItem()) {
                 int x = leftPos + slot.x, y = topPos + slot.y;
                 graphics.renderFakeItem(new ItemStack(ModItems.moduleItem(module)), x, y);

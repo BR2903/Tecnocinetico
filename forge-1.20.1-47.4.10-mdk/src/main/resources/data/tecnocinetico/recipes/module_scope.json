@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:spyglass"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "tecnocinetico:cinetrite_shard"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:module_scope",
+    "count": 1
+  }
+}

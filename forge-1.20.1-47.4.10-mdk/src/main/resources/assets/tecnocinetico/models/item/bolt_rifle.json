@@ -79,74 +79,6 @@
     },
     {
       "from": [
-        7.5,
-        12.6,
-        -16.0
-      ],
-      "to": [
-        8.5,
-        13.6,
-        -15.3
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            2,
-            0,
-            4,
-            2
-          ],
-          "texture": "#0"
-        },
-        "south": {
-          "uv": [
-            2,
-            0,
-            4,
-            2
-          ],
-          "texture": "#0"
-        },
-        "east": {
-          "uv": [
-            2,
-            0,
-            4,
-            2
-          ],
-          "texture": "#0"
-        },
-        "west": {
-          "uv": [
-            2,
-            0,
-            4,
-            2
-          ],
-          "texture": "#0"
-        },
-        "up": {
-          "uv": [
-            2,
-            0,
-            4,
-            2
-          ],
-          "texture": "#0"
-        },
-        "down": {
-          "uv": [
-            2,
-            0,
-            4,
-            2
-          ],
-          "texture": "#0"
-        }
-      }
-    },
-    {
-      "from": [
         7.9,
         13.5,
         -15.0
@@ -972,6 +904,74 @@
     },
     {
       "from": [
+        7.5,
+        12.6,
+        -16.0
+      ],
+      "to": [
+        8.5,
+        13.6,
+        -15.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            0,
+            4,
+            2
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            2,
+            0,
+            4,
+            2
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            2,
+            0,
+            4,
+            2
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            2,
+            0,
+            4,
+            2
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            2,
+            0,
+            4,
+            2
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            2,
+            0,
+            4,
+            2
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [
         8.7,
         13.0,
         7.0
@@ -1439,23 +1439,122 @@
         90.0
       ],
       "translation": [
-        -0.862,
-        -1.923,
+        -0.778,
+        -1.904,
         0
       ],
       "scale": [
-        0.413,
-        0.413,
-        0.413
+        0.418,
+        0.418,
+        0.418
       ]
     }
   },
   "overrides": [
     {
       "predicate": {
+        "tecnocinetico:modules": 0,
         "tecnocinetico:reload": 1
       },
       "model": "tecnocinetico:item/bolt_rifle_bolt"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 1,
+        "tecnocinetico:reload": 0
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m1"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 1,
+        "tecnocinetico:reload": 1
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m1_bolt"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 2,
+        "tecnocinetico:reload": 0
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m2"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 2,
+        "tecnocinetico:reload": 1
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m2_bolt"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 3,
+        "tecnocinetico:reload": 0
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m3"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 3,
+        "tecnocinetico:reload": 1
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m3_bolt"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 4,
+        "tecnocinetico:reload": 0
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m4"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 4,
+        "tecnocinetico:reload": 1
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m4_bolt"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 5,
+        "tecnocinetico:reload": 0
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m5"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 5,
+        "tecnocinetico:reload": 1
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m5_bolt"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 6,
+        "tecnocinetico:reload": 0
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m6"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 6,
+        "tecnocinetico:reload": 1
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m6_bolt"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 7,
+        "tecnocinetico:reload": 0
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m7"
+    },
+    {
+      "predicate": {
+        "tecnocinetico:modules": 7,
+        "tecnocinetico:reload": 1
+      },
+      "model": "tecnocinetico:item/bolt_rifle_m7_bolt"
     }
   ]
 }

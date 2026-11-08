@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "NIN"
+  ],
+  "key": {
+    "N": {
+      "item": "tecnocinetico:inercita_ingot"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:module_rifle_barrel",
+    "count": 1
+  }
+}

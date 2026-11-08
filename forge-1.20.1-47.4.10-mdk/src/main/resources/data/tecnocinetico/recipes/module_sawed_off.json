@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:shears"
+    },
+    {
+      "item": "tecnocinetico:scrap_metal"
+    },
+    {
+      "item": "tecnocinetico:scrap_metal"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:module_sawed_off",
+    "count": 1
+  }
+}

@@ -54,38 +54,12 @@ for gx in range(AX0 + 6, AX1, 8):
 for gy in range(AY0 + 6, AY1, 8):
     d.line([(AX0 + 1, gy), (AX1 - 1, gy)], fill=GRID)
 
-# Silueta de la pistola (de perfil, apuntando a la derecha)
-slide = [62, 37, 140, 48]
-d.rectangle(slide, fill=SIL, outline=SIL_EDGE)
-d.rectangle([140, 40, 148, 45], fill=SIL, outline=SIL_EDGE)               # cañón / compensador
-d.rectangle([70, 48, 132, 52], fill=SIL, outline=SIL_EDGE)                # armazón
-grip = [(66, 52), (84, 52), (80, 74), (61, 74)]
-d.polygon(grip, fill=SIL, outline=SIL_EDGE)                               # empuñadura inclinada
-d.line([(92, 52), (92, 60), (104, 60), (106, 52)], fill=SIL_EDGE)         # guardamonte
-d.line([(97, 52), (96, 57)], fill=SIL_EDGE)                               # gatillo
-for sx in range(64, 76, 2):
-    d.line([(sx, 39), (sx, 46)], fill=PANEL)                              # estrías
-d.line([(110, 42), (130, 42)], fill=CYAN_DIM)                             # ventana de bobinas
-
-# Ranuras de módulos y líneas de conexión (cian) hacia su pieza
-MODULES = {  # posición del objeto en la ranura -> punto de la silueta
-    "optic": ((93, 17), (101, 37)),
-    "extended_mag": ((66, 76), (71, 74)),
-    "inercita_barrel": ((150, 36), (148, 42)),
-    "quick_reload": ((40, 70), (61, 72)),
-    "seeker": ((120, 72), (126, 52)),
-}
-for (sx, sy), (tx, ty) in MODULES.values():
-    cx, cy = sx + 8, sy + 8
-    # línea en L desde el borde de la ranura hasta la pieza
-    if abs(cx - tx) > abs(cy - ty):
-        d.line([(cx, cy), (tx, cy), (tx, ty)], fill=CYAN_DIM)
-    else:
-        d.line([(cx, cy), (cx, ty), (tx, ty)], fill=CYAN_DIM)
-    d.rectangle([tx - 1, ty - 1, tx + 1, ty + 1], fill=CYAN)              # punto de anclaje
-for (sx, sy), _ in MODULES.values():
-    slot(sx, sy)
-    d.rectangle([sx - 2, sy - 2, sx + 17, sy + 17], outline=CYAN_DIM)     # marco cian de ranura de módulo
+# El panel queda vacío: la pantalla dibuja encima el modelo 3D del arma que haya en el banco
+# y las ranuras de módulo de ESE arma (sprite del marco en (200,0), 22x22; ver WeaponBenchScreen).
+FX, FY = 200, 0
+d.rectangle([FX, FY, FX + 21, FY + 21], fill=PANEL)
+d.rectangle([FX + 1, FY + 1, FX + 20, FY + 20], outline=CYAN_DIM)
+slot(FX + 3, FY + 3)
 
 # Ranura del arma (más destacada)
 WX, WY = 20, 46

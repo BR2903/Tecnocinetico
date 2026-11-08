@@ -40,6 +40,12 @@ public class WeaponBenchMenu extends AbstractContainerMenu {
             {150, 36},  // INERCITA_BARREL: delante del cañón
             {40, 70},   // QUICK_RELOAD: junto a la boca de la empuñadura
             {120, 72},  // SEEKER: bajo la parte delantera del armazón
+            {150, 36},  // CHOKE: en la boca de los cañones
+            {93, 17},   // SAWED_OFF: sobre los cañones
+            {120, 72},  // SPEED_LOADER: en la culata
+            {93, 17},   // SCOPE: encima del cajón de mecanismos
+            {120, 72},  // POLISHED_BOLT: junto al cerrojo
+            {150, 36},  // RIFLE_BARREL: en la boca
     };
     public static final int INVENTORY_Y = 108;
 
@@ -68,7 +74,7 @@ public class WeaponBenchMenu extends AbstractContainerMenu {
         addSlot(new Slot(container, WEAPON_SLOT, WEAPON_X, WEAPON_Y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return stack.getItem() instanceof KineticPistolItem;
+                return WeaponModule.familyOf(stack) != null;
             }
 
             @Override
@@ -106,9 +112,21 @@ public class WeaponBenchMenu extends AbstractContainerMenu {
         @Override
         public boolean mayPlace(ItemStack stack) {
             // Sin NBT (nombre, etc.): al instalarse solo se guarda el bit, así que se perdería
-            return stack.getItem() instanceof WeaponModuleItem m && m.getModule() == module
-                    && !stack.hasTag()
-                    && !container.getItem(WEAPON_SLOT).isEmpty();
+            if (!(stack.getItem() instanceof WeaponModuleItem m) || m.getModule() != module || stack.hasTag() || !isActive()) {
+                return false;
+            }
+            for (WeaponModule other : WeaponModule.values()) {                 // p. ej. estrangulador ↔ recortados
+                if (module.conflictsWith(other) && !container.getItem(1 + other.ordinal()).isEmpty()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /** Solo se ve (y se puede usar) la ranura de los módulos del arma que hay en el banco. */
+        @Override
+        public boolean isActive() {
+            return module.appliesTo(container.getItem(WEAPON_SLOT));
         }
 
         @Override
@@ -153,7 +171,8 @@ public class WeaponBenchMenu extends AbstractContainerMenu {
                 if (mask != WeaponModule.getMask(weapon)) {
                     WeaponModule.setMask(weapon, mask);
                     // Si el cargador puesto deja de valer (Ampliado sin su módulo, guiadas sin la Guía), sale entero
-                    ItemStack ejected = KineticPistolItem.ejectIfIncompatible(weapon);
+                    ItemStack ejected = weapon.getItem() instanceof KineticPistolItem
+                            ? KineticPistolItem.ejectIfIncompatible(weapon) : ItemStack.EMPTY;
                     if (!ejected.isEmpty()) {
                         player.getInventory().placeItemBackInInventory(ejected);
                     }
@@ -179,7 +198,7 @@ public class WeaponBenchMenu extends AbstractContainerMenu {
             if (!moveItemStackTo(stack, INV_START, INV_END, true)) {
                 return ItemStack.EMPTY;
             }
-        } else if (stack.getItem() instanceof KineticPistolItem
+        } else if (WeaponModule.familyOf(stack) != null
                 && moveItemStackTo(stack, WEAPON_SLOT, WEAPON_SLOT + 1, false)) {
             // arma colocada en el banco
         } else if (stack.getItem() instanceof WeaponModuleItem m
