@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "tecnocinetico:lead_ore",
+    "tecnocinetico:deepslate_lead_ore",
+    "tecnocinetico:lead_block",
+    "tecnocinetico:tin_ore",
+    "tecnocinetico:deepslate_tin_ore",
+    "tecnocinetico:tin_block"
+  ]
+}

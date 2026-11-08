@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "tecnocinetico:nullite_dust"
+  },
+  "result": "tecnocinetico:nullite_ingot",
+  "experience": 0.3,
+  "cookingtime": 100
+}

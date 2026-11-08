@@ -85,6 +85,35 @@ public class ModBlocks {
     public static final RegistryObject<Block> WEAPON_BENCH = registerBlock("weapon_bench",
             WeaponBenchBlock::new);
 
+    // --- PLOMO, ESTAÑO Y TITANIO ---
+    public static final RegistryObject<Block> LEAD_ORE = ore("lead_ore", Blocks.STONE, 3.0f);
+    public static final RegistryObject<Block> DEEPSLATE_LEAD_ORE = ore("deepslate_lead_ore", Blocks.DEEPSLATE, 4.5f);
+    public static final RegistryObject<Block> TIN_ORE = ore("tin_ore", Blocks.STONE, 3.0f);
+    public static final RegistryObject<Block> DEEPSLATE_TIN_ORE = ore("deepslate_tin_ore", Blocks.DEEPSLATE, 4.5f);
+    public static final RegistryObject<Block> TITANIUM_ORE = ore("titanium_ore", Blocks.STONE, 4.5f);
+    public static final RegistryObject<Block> DEEPSLATE_TITANIUM_ORE = ore("deepslate_titanium_ore", Blocks.DEEPSLATE, 6.0f);
+    public static final RegistryObject<Block> LEAD_BLOCK = registerBlock("lead_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f)));
+    public static final RegistryObject<Block> TIN_BLOCK = registerBlock("tin_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(4.0f, 6.0f)));
+    public static final RegistryObject<Block> TITANIUM_BLOCK = registerBlock("titanium_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(7.0f, 9.0f)));
+
+    private static RegistryObject<Block> ore(String name, Block base, float hardness) {
+        return registerBlock(name, () -> new Block(BlockBehaviour.Properties.copy(base).strength(hardness, 3.0f).requiresCorrectToolForDrops()));
+    }
+
+    // --- MÁQUINAS ELÉCTRICAS (base común en machine/) ---
+    public static final RegistryObject<Block> ELECTRIC_REFINER = registerBlock("electric_refiner",
+            () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.REFINER,
+                    com.bryanamaya.tecnocinetico.machine.RefinerBlockEntity::new));
+    public static final RegistryObject<Block> CELL_CHARGER = registerBlock("cell_charger",
+            () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.CHARGER,
+                    com.bryanamaya.tecnocinetico.machine.ChargerBlockEntity::new));
+    public static final RegistryObject<Block> AMMO_FABRICATOR = registerBlock("ammo_fabricator",
+            () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.AMMO_FABRICATOR,
+                    com.bryanamaya.tecnocinetico.machine.AmmoFabricatorBlockEntity::new));
+
     // --- SOLO PRUEBAS (creativo): energía infinita. Sin receta ni drops. ---
     public static final RegistryObject<Block> CREATIVE_ENERGY_SOURCE = registerBlock("creative_energy_source",
             CreativeEnergySourceBlock::new);

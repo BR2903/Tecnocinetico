@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:dusts/iron",
+    "#forge:dusts/gold",
+    "#forge:dusts/copper",
+    "#forge:dusts/lead",
+    "#forge:dusts/tin",
+    "#forge:dusts/titanium",
+    "#forge:dusts/cinetrite",
+    "#forge:dusts/inercita",
+    "#forge:dusts/piroxite",
+    "#forge:dusts/nullite"
+  ]
+}

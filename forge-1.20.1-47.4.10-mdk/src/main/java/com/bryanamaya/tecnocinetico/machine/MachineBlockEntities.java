@@ -1,0 +1,29 @@
+package com.bryanamaya.tecnocinetico.machine;
+
+import com.bryanamaya.tecnocinetico.Tecnocinetico;
+import com.bryanamaya.tecnocinetico.block.ModBlocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+/** Tipos de entidad de bloque de las máquinas eléctricas. */
+public final class MachineBlockEntities {
+
+    public static final DeferredRegister<BlockEntityType<?>> TYPES =
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Tecnocinetico.MOD_ID);
+
+    public static final RegistryObject<BlockEntityType<RefinerBlockEntity>> REFINER = TYPES.register("electric_refiner",
+            () -> BlockEntityType.Builder.of(RefinerBlockEntity::new, ModBlocks.ELECTRIC_REFINER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ChargerBlockEntity>> CHARGER = TYPES.register("cell_charger",
+            () -> BlockEntityType.Builder.of(ChargerBlockEntity::new, ModBlocks.CELL_CHARGER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<AmmoFabricatorBlockEntity>> AMMO_FABRICATOR = TYPES.register("ammo_fabricator",
+            () -> BlockEntityType.Builder.of(AmmoFabricatorBlockEntity::new, ModBlocks.AMMO_FABRICATOR.get()).build(null));
+
+    private MachineBlockEntities() {}
+
+    public static void register(IEventBus bus) {
+        TYPES.register(bus);
+    }
+}

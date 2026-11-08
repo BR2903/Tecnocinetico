@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IGI",
+    "SPS",
+    "ICI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "minecraft:grindstone"
+    },
+    "S": {
+      "item": "tecnocinetico:kinetic_servo"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "C": {
+      "item": "tecnocinetico:crude_kinetic_coupler"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:electric_refiner",
+    "count": 1
+  }
+}

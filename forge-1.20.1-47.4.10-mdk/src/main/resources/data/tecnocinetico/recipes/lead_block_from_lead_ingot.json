@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "tecnocinetico:lead_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:lead_block",
+    "count": 1
+  }
+}

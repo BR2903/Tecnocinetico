@@ -146,3 +146,7 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `sound_gen.generate_weapons()`: riel, impulso, arco, lanzagranadas, lanzacohetes, giro de la minigun y tajo de onda (sintetizados).
 - El sonido de cada arma lo elige `LongGunItem.fireSound()` por id del objeto.
 - `pistol_gen.py` no conserva `display.gui`: tras regenerarla, vuelve a pasar `gui_fit` (o recupera la vista de la versión anterior).
+
+## Metales y máquinas eléctricas
+- `python tools/metals_gen.py`: plomo, estaño, titanio (texturas, modelos, botín, etiquetas forge, generación, recetas), los 10 polvos del Refinador y los bloques de las máquinas (frente 64 px + cuerpo del Ensamblador). Luego `python tools/sync_lang.py`.
+- `python tools/machine_gui_gen.py`: interfaces `gui/<máquina>.png` (posiciones = `MachineKind`).

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "tecnocinetico:tin_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:tin_block",
+    "count": 1
+  }
+}

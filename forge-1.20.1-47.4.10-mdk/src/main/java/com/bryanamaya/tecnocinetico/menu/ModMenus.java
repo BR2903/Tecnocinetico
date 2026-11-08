@@ -26,6 +26,20 @@ public final class ModMenus {
     public static final RegistryObject<MenuType<TacticalMenu>> TACTICAL_GEAR =
             MENUS.register("tactical_gear", () -> new MenuType<>(TacticalMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
+    /** Una interfaz por máquina eléctrica (todas usan MachineMenu / MachineScreen). */
+    private static final java.util.Map<com.bryanamaya.tecnocinetico.machine.MachineKind, RegistryObject<MenuType<MachineMenu>>> MACHINES =
+            new java.util.EnumMap<>(com.bryanamaya.tecnocinetico.machine.MachineKind.class);
+
+    static {
+        for (var kind : com.bryanamaya.tecnocinetico.machine.MachineKind.values()) {
+            MACHINES.put(kind, MENUS.register(kind.id, () -> IForgeMenuType.create((id, inv, buf) -> new MachineMenu(kind, id, inv, buf))));
+        }
+    }
+
+    public static RegistryObject<MenuType<MachineMenu>> machine(com.bryanamaya.tecnocinetico.machine.MachineKind kind) {
+        return MACHINES.get(kind);
+    }
+
     private ModMenus() {}
 
     public static void register(IEventBus bus) {

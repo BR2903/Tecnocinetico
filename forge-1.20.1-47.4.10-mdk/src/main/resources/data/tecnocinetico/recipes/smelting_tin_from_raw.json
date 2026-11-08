@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "tecnocinetico:raw_tin"
+  },
+  "result": "tecnocinetico:tin_ingot",
+  "experience": 0.7,
+  "cookingtime": 200
+}

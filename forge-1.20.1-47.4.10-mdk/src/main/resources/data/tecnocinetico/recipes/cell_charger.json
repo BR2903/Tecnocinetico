@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "CRC",
+    "LBL",
+    "CPC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "R": {
+      "item": "tecnocinetico:resistor_330_ohm"
+    },
+    "L": {
+      "item": "tecnocinetico:lead_ingot"
+    },
+    "B": {
+      "item": "minecraft:redstone_block"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:cell_charger",
+    "count": 1
+  }
+}

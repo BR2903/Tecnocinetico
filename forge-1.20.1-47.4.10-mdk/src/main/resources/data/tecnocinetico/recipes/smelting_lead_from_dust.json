@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "tecnocinetico:lead_dust"
+  },
+  "result": "tecnocinetico:lead_ingot",
+  "experience": 0.3,
+  "cookingtime": 200
+}

@@ -37,6 +37,18 @@
     "tecnocinetico:swarm_comb",
     "tecnocinetico:weapon_assembler",
     "tecnocinetico:piroxite_ore",
-    "tecnocinetico:nullite_ore"
+    "tecnocinetico:nullite_ore",
+    "tecnocinetico:lead_ore",
+    "tecnocinetico:deepslate_lead_ore",
+    "tecnocinetico:lead_block",
+    "tecnocinetico:tin_ore",
+    "tecnocinetico:deepslate_tin_ore",
+    "tecnocinetico:tin_block",
+    "tecnocinetico:titanium_ore",
+    "tecnocinetico:deepslate_titanium_ore",
+    "tecnocinetico:titanium_block",
+    "tecnocinetico:electric_refiner",
+    "tecnocinetico:cell_charger",
+    "tecnocinetico:ammo_fabricator"
   ]
 }

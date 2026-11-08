@@ -4,6 +4,9 @@
     "tecnocinetico:cinetrite_ore",
     "tecnocinetico:deepslate_cinetrite_ore",
     "tecnocinetico:inercita_ore",
-    "tecnocinetico:deepslate_inercita_ore"
+    "tecnocinetico:deepslate_inercita_ore",
+    "#forge:ores/lead",
+    "#forge:ores/tin",
+    "#forge:ores/titanium"
   ]
 }

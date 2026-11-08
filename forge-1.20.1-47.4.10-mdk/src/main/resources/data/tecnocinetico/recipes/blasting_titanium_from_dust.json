@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "tecnocinetico:titanium_dust"
+  },
+  "result": "tecnocinetico:titanium_ingot",
+  "experience": 0.3,
+  "cookingtime": 100
+}

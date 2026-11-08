@@ -37,6 +37,31 @@ public class ModItems {
     public static final RegistryObject<Item> RESISTOR_330_OHM = ITEMS.register("resistor_330_ohm",
             () -> new Item(new Item.Properties()));
 
+    // --- METALES COMUNES (plomo, estaño, titanio) y POLVOS del Refinador Cinético ---
+    public static final RegistryObject<Item> RAW_LEAD = simple("raw_lead");
+    public static final RegistryObject<Item> LEAD_INGOT = simple("lead_ingot");
+    public static final RegistryObject<Item> LEAD_NUGGET = simple("lead_nugget");
+    public static final RegistryObject<Item> RAW_TIN = simple("raw_tin");
+    public static final RegistryObject<Item> TIN_INGOT = simple("tin_ingot");
+    public static final RegistryObject<Item> TIN_NUGGET = simple("tin_nugget");
+    public static final RegistryObject<Item> RAW_TITANIUM = simple("raw_titanium");
+    public static final RegistryObject<Item> TITANIUM_INGOT = simple("titanium_ingot");
+    public static final RegistryObject<Item> TITANIUM_NUGGET = simple("titanium_nugget");
+    public static final RegistryObject<Item> IRON_DUST = simple("iron_dust");
+    public static final RegistryObject<Item> GOLD_DUST = simple("gold_dust");
+    public static final RegistryObject<Item> COPPER_DUST = simple("copper_dust");
+    public static final RegistryObject<Item> LEAD_DUST = simple("lead_dust");
+    public static final RegistryObject<Item> TIN_DUST = simple("tin_dust");
+    public static final RegistryObject<Item> TITANIUM_DUST = simple("titanium_dust");
+    public static final RegistryObject<Item> CINETRITE_DUST = simple("cinetrite_dust");
+    public static final RegistryObject<Item> INERCITA_DUST = simple("inercita_dust");
+    public static final RegistryObject<Item> PIROXITE_DUST = ITEMS.register("piroxite_dust", () -> new Item(new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> NULLITE_DUST = simple("nullite_dust");
+
+    private static RegistryObject<Item> simple(String name) {
+        return ITEMS.register(name, () -> new Item(new Item.Properties()));
+    }
+
     // --- EL MARTILLO DE INICIO ---
     public static final RegistryObject<Item> KINETIC_HAMMER = ITEMS.register("kinetic_hammer",
             () -> new KineticHammerItem(new Item.Properties()));

@@ -53,6 +53,7 @@ public class Tecnocinetico {
         ModBlocks.register(modEventBus);
         ModWorldBlocks.init();   // bloques del mundo post-apocalíptico
         ModBlockEntities.register(modEventBus);
+        com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.register(modEventBus);
         ModEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModParticles.register(modEventBus);
@@ -110,6 +111,9 @@ public class Tecnocinetico {
                 MenuScreens.register(ModMenus.AUTO_KINETIC_PRESS.get(), AutoKineticPressScreen::new);
                 MenuScreens.register(ModMenus.WEAPON_ASSEMBLER.get(), com.bryanamaya.tecnocinetico.client.WeaponAssemblerScreen::new);
                 MenuScreens.register(ModMenus.TACTICAL_GEAR.get(), com.bryanamaya.tecnocinetico.client.TacticalScreen::new);
+                for (var kind : com.bryanamaya.tecnocinetico.machine.MachineKind.values()) {
+                    MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.MachineScreen::new);
+                }
                 ItemProperties.register(ModItems.KINETIC_PISTOL.get(),
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
                         (stack, level, entity, seed) -> {

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "tecnocinetico:piroxite_dust"
+  },
+  "result": "tecnocinetico:piroxite_ingot",
+  "experience": 0.3,
+  "cookingtime": 200
+}

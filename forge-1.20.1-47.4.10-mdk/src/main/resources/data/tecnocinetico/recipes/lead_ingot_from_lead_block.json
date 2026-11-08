@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tecnocinetico:lead_block"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:lead_ingot",
+    "count": 9
+  }
+}

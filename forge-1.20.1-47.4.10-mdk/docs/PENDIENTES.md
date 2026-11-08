@@ -7,7 +7,6 @@
 ## Ideas propuestas (el usuario elige el orden)
 - **Ruinas antiguas**: estructuras con Aleación Antigua y glifos, Cuerpos de Enjambre de guardia, cofres con módulos/piezas (encaja con el lore).
 - **Equipo de Inercita**: herramientas y armadura de nivel 2 (diseño realista + detalles del mod).
-- **Nuevas máquinas eléctricas** (Forge Energy, con interfaz y luz de estado como la prensa): p. ej. Refinador Cinético que duplica minerales.
 - **Rediseño visual de la Prensa Automática** al estilo de las máquinas de Create (sigue con la textura antigua reescalada).
 - **Más armas realistas** (p. ej. rifle cinético) con sus propios módulos en el banco.
 - Más habilidades (el sistema está preparado: ver `Skill.java`).
@@ -17,7 +16,6 @@
 ## Limitaciones conocidas / deuda técnica
 - **Equilibrio del mundo**: la Inercita (nivel diamante) aparece en 9 vetas de 7 por chunk → más común que el diamante. Cinetrita: 14 vetas de 9. Revisar `worldgen/placed_feature`.
 - **Receta de Aleación Antigua** usa 8 hierro + cinetrita, pero el lore dice que el hierro "se deformaba" con la cinetrita → quizá debería llevar Inercita.
-- **Resistor 330 Ω** existe pero no tiene receta ni uso.
 - La Prensa Automática no sincroniza su inventario con el cliente fuera del menú (no hace falta salvo que se añada un renderizador de los objetos).
 - Las bonificaciones de la pistola no se recalculan si se cambia de módulos durante una recarga (la recarga en curso termina con su duración original).
 - `run/` contiene mundos de prueba con objetos que ya no existen (objetos "Vista 1-5"): el aviso de "registros no identificados" al cargarlos es inofensivo.
@@ -38,3 +36,7 @@
 - Indicador en pantalla del enfriamiento del Impulsor de Esquiva (`DashClient.cooldown` ya existe); verlo puesto en el personaje.
 
 - **Nave mejorable (idea del usuario, no implementar hasta que lo pida):** se fabrica con el Motor Dimensional (botín de la Araña de Asedio); primero solo por tierra y para viajar al siguiente mundo nuevo; vencer al jefe del Nether desbloquea saltar al Nether, y al del End, al End. El Caza del Núcleo actual vuela y salta libremente: habrá que adaptarlo.
+
+- **Máquinas, fase 2** (pedida): líquidos propios (ácido sulfúrico, disolvente...) con cubos y tuberías de Create; **Laboratorio Químico** con tanques; **Cámara de reacción** (procesa con un haz: ajustar intensidad y frecuencia).
+- **Máquinas, fase 3** (pedida): **reactor generador** de FE (combustible, sobrecalentamiento), **rediseño de la Prensa Automática** estilo Create, e **integrar plomo/estaño/titanio** en recetas existentes (balas, circuitos/soldadura, armaduras y armas de tier 2-3).
+- Categorías de JEI para el Refinador y el Fabricador (ahora solo se ven en el código / bitácora).

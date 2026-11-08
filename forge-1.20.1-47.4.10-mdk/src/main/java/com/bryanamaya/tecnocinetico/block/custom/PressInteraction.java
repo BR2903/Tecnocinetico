@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
 
 /** Lógica común de clic derecho para las prensas: meter ingredientes o recoger objetos. */
-final class PressInteraction {
+public final class PressInteraction {
 
     private PressInteraction() {}
 
@@ -53,7 +53,7 @@ final class PressInteraction {
         }
     }
 
-    static void dropContents(Level level, BlockPos pos, IItemHandler handler) {
+    public static void dropContents(Level level, BlockPos pos, IItemHandler handler) {
         for (int i = 0; i < handler.getSlots(); i++) {
             Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i).copy());
         }

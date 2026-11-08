@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "tecnocinetico:lead_ore"
+  },
+  "result": "tecnocinetico:lead_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
+}

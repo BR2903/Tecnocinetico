@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IPI",
+    "MTM",
+    "ILI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "T": {
+      "item": "minecraft:crafting_table"
+    },
+    "L": {
+      "item": "tecnocinetico:lead_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:ammo_fabricator",
+    "count": 1
+  }
+}

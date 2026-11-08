@@ -8,6 +8,12 @@
     "tecnocinetico:ancient_alloy_tr",
     "tecnocinetico:ancient_alloy_bl",
     "tecnocinetico:ancient_alloy_br",
-    "tecnocinetico:kinetic_assembly_press"
+    "tecnocinetico:kinetic_assembly_press",
+    "tecnocinetico:titanium_ore",
+    "tecnocinetico:deepslate_titanium_ore",
+    "tecnocinetico:titanium_block",
+    "tecnocinetico:electric_refiner",
+    "tecnocinetico:cell_charger",
+    "tecnocinetico:ammo_fabricator"
   ]
 }

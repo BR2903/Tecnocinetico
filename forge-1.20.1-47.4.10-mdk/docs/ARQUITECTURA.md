@@ -126,3 +126,10 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - JEI 15.74.0.234 (compileOnly API + runtimeOnly).
 - Solo desarrollo (runtimeOnly): Create 6.0.8-291 (slim), Ponder 1.0.91, Flywheel 1.0.6-beta-266, Registrate MC1.20-1.3.3, mixinextras-forge 0.4.1, Create Crafts & Additions forge-1.20.1-1.3.3.
 - El código **no compila contra Create**: solo usa Forge Energy. Si en el futuro se necesita la API de Create, cambiar a `implementation` y declarar la dependencia en `mods.toml`.
+
+## Máquinas eléctricas (`machine/`)
+- `MachineKind`: cada máquina (id, posiciones de huecos y flecha, capacidad FE). Debe coincidir con `tools/machine_gui_gen.py`.
+- `ElectricMachineBlockEntity`: base (batería `Battery` que solo recibe, inventario entradas+salidas con vistas por cara, `advance(ticks, FE/tick)`, `fits`/`output`, datos de interfaz con energía /10). Subclases: `RefinerBlockEntity`, `ChargerBlockEntity`, `AmmoFabricatorBlockEntity`.
+- `ElectricMachineBlock` (FACING + POWERED, abre `MachineMenu`), `MachineBlockEntities` (registro), `MachineRecipes` (refinado y fabricación en código).
+- `menu/MachineMenu` + `client/MachineScreen`: comunes; `ModMenus.machine(kind)` da el MenuType de cada una.
+- Para añadir una máquina: valor en `MachineKind`, subclase de la entidad, tipo en `MachineBlockEntities`, bloque en `ModBlocks`, entrada en `machine_gui_gen.py` y `metals_gen.py` (`MACHINES`, frente).

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "tecnocinetico:inercita_dust"
+  },
+  "result": "tecnocinetico:inercita_ingot",
+  "experience": 0.3,
+  "cookingtime": 100
+}

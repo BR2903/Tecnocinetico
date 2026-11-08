@@ -269,7 +269,7 @@ public class WorldgenGameTests {
         });
     }
 
-    @GameTest(template = "empty", timeoutTicks = 400)
+    @GameTest(template = "empty", timeoutTicks = 400, batch = "enjambre")   // aparte: los enemigos de otras pruebas la distraían
     public static void swarmAttacksTarget(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         // al aire libre: 12 bloques por encima del terreno (si no, mueren asfixiadas y la prueba miente)
