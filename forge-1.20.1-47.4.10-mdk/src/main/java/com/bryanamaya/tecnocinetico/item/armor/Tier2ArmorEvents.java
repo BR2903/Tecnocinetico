@@ -118,6 +118,84 @@ public final class Tier2ArmorEvents {
         event.setDamageMultiplier(event.getDamageMultiplier() * 0.5F);
     }
 
+    // ------------------------------------------------------------------ tier 3
+
+    private static final String TAG_CORE_HURT = "TecnoCoreHurt";
+    public static final float CORE_SHIELD = 8.0F;
+
+    /** Piroxita: inmune al fuego. Nulita: esquiva por desfase y perlas sin daño. (Antes de que el golpe cuente.) */
+    @SubscribeEvent
+    public static void onAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
+        LivingEntity e = event.getEntity();
+        var src = event.getSource();
+        if (src.is(DamageTypeTags.IS_FIRE) && Tier2ArmorItem.hasFullSet(e, Kind.PIROXITE)) {
+            event.setCanceled(true);
+            e.clearFire();
+            return;
+        }
+        if (!Tier2ArmorItem.hasFullSet(e, Kind.NULLITE) || e.level().isClientSide) {
+            return;
+        }
+        if (src.getDirectEntity() instanceof net.minecraft.world.entity.projectile.ThrownEnderpearl) {
+            event.setCanceled(true);
+            return;
+        }
+        if (src.getEntity() != null && !src.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && e.getRandom().nextFloat() < 0.15F) {
+            for (int i = 0; i < 12; i++) {                                     // desfase: aparece unos bloques más allá
+                double x = e.getX() + (e.getRandom().nextDouble() - 0.5) * 8.0;
+                double y = e.getY() + e.getRandom().nextInt(5) - 2;
+                double z = e.getZ() + (e.getRandom().nextDouble() - 0.5) * 8.0;
+                Vec3 from = e.position();
+                if (e.randomTeleport(x, y, z, true)) {
+                    if (e.level() instanceof ServerLevel server) {
+                        server.sendParticles(net.minecraft.core.particles.ParticleTypes.REVERSE_PORTAL, from.x, from.y + 1, from.z,
+                                30, 0.3, 0.6, 0.3, 0.05);
+                    }
+                    e.level().playSound(null, from.x, from.y, from.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.8F, 1.4F);
+                    event.setCanceled(true);
+                    return;
+                }
+            }
+        }
+    }
+
+    /** Nulita: los enderman no se enfadan al mirarlos. */
+    @SubscribeEvent
+    public static void onEndermanAnger(net.minecraftforge.event.entity.living.EnderManAngerEvent event) {
+        if (Tier2ArmorItem.hasFullSet(event.getPlayer(), Kind.NULLITE)) {
+            event.setCanceled(true);
+        }
+    }
+
+    /** Piroxita: quien golpea cuerpo a cuerpo arde. Núcleo: apunta cuándo se recibió daño (para el escudo). */
+    @SubscribeEvent
+    public static void onHurtT3(LivingHurtEvent event) {
+        LivingEntity e = event.getEntity();
+        var src = event.getSource();
+        if (src.getEntity() instanceof LivingEntity attacker && src.getDirectEntity() == attacker
+                && Tier2ArmorItem.hasFullSet(e, Kind.PIROXITE)) {
+            attacker.setSecondsOnFire(4);
+        }
+        if (e instanceof Player p) {
+            p.getPersistentData().putLong(TAG_CORE_HURT, p.level().getGameTime());
+        }
+    }
+
+    /** Núcleo: el escudo (absorción) se recarga 1 corazón por segundo tras 8 s sin recibir daño. */
+    private static void coreShield(Player p) {
+        if (!Tier2ArmorItem.hasFullSet(p, Kind.CORE)) {
+            return;
+        }
+        long since = p.level().getGameTime() - p.getPersistentData().getLong(TAG_CORE_HURT);
+        if (since >= 160 && p.getAbsorptionAmount() < CORE_SHIELD) {
+            boolean empty = p.getAbsorptionAmount() <= 0;
+            p.setAbsorptionAmount(Math.min(CORE_SHIELD, p.getAbsorptionAmount() + 2.0F));
+            if (empty) {
+                p.level().playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 0.4F, 1.8F);
+            }
+        }
+    }
+
     /** Táctica: +15 % de velocidad con el set completo (modificador temporal). */
     @SubscribeEvent
     public static void onTick(TickEvent.PlayerTickEvent event) {
@@ -125,6 +203,12 @@ public final class Tier2ArmorEvents {
             return;
         }
         Player p = event.player;
+        if (p.tickCount % 20 == 0) {
+            coreShield(p);
+        }
+        if (Tier2ArmorItem.hasFullSet(p, Kind.PIROXITE) && p.isOnFire()) {
+            p.clearFire();
+        }
         AttributeInstance speed = p.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speed == null) {
             return;

@@ -26,6 +26,10 @@ public final class AssemblerRecipes {
         return new ItemStack(item, n);
     }
 
+    private static Recipe armor(net.minecraftforge.registries.RegistryObject<Item> out, ItemStack... inputs) {
+        return new Recipe(List.of(inputs), new ItemStack(out.get()), 300);
+    }
+
     public static List<Recipe> all() {
         if (recipes == null) {
             recipes = List.of(
@@ -43,6 +47,31 @@ public final class AssemblerRecipes {
                             s(ModItems.CINETRITE_INGOT.get(), 6), s(ModItems.PRECISION_MECHANISM.get(), 2),
                             s(ModItems.PIEZO_TRANSDUCER.get(), 2), s(ModItems.INERCITA_PLATE.get(), 2)),
                             new ItemStack(ModItems.PULSE_CANNON.get()), 400),
+                    // ---- armaduras tier 3
+                    armor(ModItems.CORE_HELMET, s(ModItems.CORE_PROCESSOR.get(), 1), s(ModItems.INERCITA_PLATE.get(), 4),
+                            s(ModItems.PRECISION_MECHANISM.get(), 1), s(ModItems.CINETRITE_INGOT.get(), 2)),
+                    armor(ModItems.CORE_CHESTPLATE, s(ModItems.CORE_PROCESSOR.get(), 1), s(ModItems.INERCITA_PLATE.get(), 6),
+                            s(ModItems.KINETIC_SERVO.get(), 2), s(ModItems.PRECISION_MECHANISM.get(), 2), s(ModItems.CINETRITE_INGOT.get(), 3)),
+                    armor(ModItems.CORE_LEGGINGS, s(ModItems.INERCITA_PLATE.get(), 5), s(ModItems.KINETIC_SERVO.get(), 2),
+                            s(ModItems.PRECISION_MECHANISM.get(), 1), s(ModItems.CINETRITE_INGOT.get(), 2)),
+                    armor(ModItems.CORE_BOOTS, s(ModItems.INERCITA_PLATE.get(), 3), s(ModItems.KINETIC_SERVO.get(), 2),
+                            s(ModItems.CINETRITE_INGOT.get(), 1)),
+                    armor(ModItems.PIROXITE_HELMET, s(ModItems.PIROXITE_INGOT.get(), 4), s(ModItems.INERCITA_PLATE.get(), 1),
+                            s(ModItems.BALLISTIC_FABRIC.get(), 1)),
+                    armor(ModItems.PIROXITE_CHESTPLATE, s(ModItems.PIROXITE_INGOT.get(), 7), s(ModItems.INERCITA_PLATE.get(), 2),
+                            s(ModItems.KINETIC_SERVO.get(), 1), s(ModItems.BALLISTIC_FABRIC.get(), 2)),
+                    armor(ModItems.PIROXITE_LEGGINGS, s(ModItems.PIROXITE_INGOT.get(), 6), s(ModItems.INERCITA_PLATE.get(), 2),
+                            s(ModItems.BALLISTIC_FABRIC.get(), 2)),
+                    armor(ModItems.PIROXITE_BOOTS, s(ModItems.PIROXITE_INGOT.get(), 3), s(ModItems.INERCITA_PLATE.get(), 1),
+                            s(ModItems.BALLISTIC_FABRIC.get(), 1)),
+                    armor(ModItems.NULLITE_HELMET, s(ModItems.NULLITE_INGOT.get(), 4), s(Items.ENDER_PEARL, 2),
+                            s(ModItems.PRECISION_MECHANISM.get(), 1)),
+                    armor(ModItems.NULLITE_CHESTPLATE, s(ModItems.NULLITE_INGOT.get(), 7), s(Items.ENDER_PEARL, 4),
+                            s(ModItems.PRECISION_MECHANISM.get(), 1), s(ModItems.KINETIC_SERVO.get(), 1)),
+                    armor(ModItems.NULLITE_LEGGINGS, s(ModItems.NULLITE_INGOT.get(), 6), s(Items.ENDER_PEARL, 3),
+                            s(ModItems.PRECISION_MECHANISM.get(), 1)),
+                    armor(ModItems.NULLITE_BOOTS, s(ModItems.NULLITE_INGOT.get(), 3), s(Items.ENDER_PEARL, 2),
+                            s(ModItems.KINETIC_SERVO.get(), 1)),
                     // munición especial
                     new Recipe(List.of(s(ModItems.INERCITA_INGOT.get(), 1), s(ModItems.CINETRITE_SHARD.get(), 2), s(Items.IRON_INGOT, 2)),
                             new ItemStack(ModItems.RAIL_SLUG.get(), 4), 80),

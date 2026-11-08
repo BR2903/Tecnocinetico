@@ -41,6 +41,15 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE)
                     .strength(6.5f, 6.0f).requiresCorrectToolForDrops()));
 
+    // --- PIROXITA (Nether: disipa el calor) y NULITA (End: sin fricción) ---
+    public static final RegistryObject<Block> PIROXITE_ORE = registerBlock("piroxite_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERRACK)
+                    .strength(4.0f, 6.0f).requiresCorrectToolForDrops().lightLevel(s -> 3)));
+
+    public static final RegistryObject<Block> NULLITE_ORE = registerBlock("nullite_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.END_STONE)
+                    .strength(5.0f, 9.0f).requiresCorrectToolForDrops()));
+
     // --- ALEACIÓN ANTIGUA ---
     public static final RegistryObject<Block> ANCIENT_ALLOY_BLOCK = registerBlock("ancient_alloy_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f).sound(SoundType.NETHERITE_BLOCK)));

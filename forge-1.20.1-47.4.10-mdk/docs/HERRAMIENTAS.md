@@ -120,3 +120,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/assembler_gui_gen.py <gui/weapon_assembler.png> <preview.png>`: interfaz del Ensamblador (6 huecos).
 - `weapons_gen.py`: `rail_rifle`, `assault_rifle`, `grenade_launcher`, `pulse_cannon` (+ fotograma de recarga) y munición 3D; armas con `gui_fit "y-90;z25"`, munición con `"y-135;x30"`.
 - Nota: la vista previa (`render_model.py`) a veces esconde un elemento tapado por otro más ancho (p. ej. el cuerpo de la granada bajo su banda); en el juego se ve bien.
+
+## armor_t3_gen.py
+- `python tools/armor_t3_gen.py [preview.png]`: armaduras del Núcleo, Piroxita y Nulita (capas + iconos), lingotes/en bruto de piroxita y nulita (recoloreados de los de inercita) y las capas de cristal de las menas (`block/*_ore_overlay.png`, 16x16 sobre la piedra vanilla).

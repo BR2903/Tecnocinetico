@@ -36,6 +36,11 @@ import java.util.function.Supplier;
  * - EXO: exoesqueleto cinético. Protección casi de diamante. Bono: acumula carga cinética al recibir golpes
  *   (agacharse + saltar = salto cinético; con la carga llena, el siguiente golpe cuerpo a cuerpo suelta una onda
  *   que empuja a los enemigos) y la mitad de daño por caída.
+ * Tier 3 (Ensamblador; protección de netherita, una por dimensión):
+ * - CORE (Overworld, Procesador del Núcleo): escudo de 4 corazones que se recarga tras 8 s sin recibir daño.
+ * - PIROXITE (Nether): inmune al fuego y la lava; quien te golpea cuerpo a cuerpo arde.
+ * - NULLITE (End): 15 % de esquivar un golpe "desfasándose" unos bloques; los enderman no se enfadan; las perlas
+ *   de ender no hacen daño.
  */
 public class Tier2ArmorItem extends ArmorItem {
 
@@ -45,7 +50,14 @@ public class Tier2ArmorItem extends ArmorItem {
         TACTICAL("tactical", new int[]{2, 6, 5, 2}, 20, 1.0F, 0.0F, () -> Ingredient.of(ModItems.BALLISTIC_FABRIC.get()),
                 SoundEvents.ARMOR_EQUIP_LEATHER),
         EXO("exo", new int[]{3, 7, 6, 3}, 26, 2.0F, 0.05F, () -> Ingredient.of(ModItems.KINETIC_SERVO.get()),
-                SoundEvents.ARMOR_EQUIP_IRON);
+                SoundEvents.ARMOR_EQUIP_IRON),
+        // ---- tier 3 (Ensamblador de Armas): una por dimensión, protección de netherita
+        CORE("core", new int[]{3, 8, 6, 3}, 37, 3.0F, 0.1F, () -> Ingredient.of(ModItems.INERCITA_PLATE.get()),
+                SoundEvents.ARMOR_EQUIP_NETHERITE),
+        PIROXITE("piroxite", new int[]{3, 8, 6, 3}, 37, 3.0F, 0.1F, () -> Ingredient.of(ModItems.PIROXITE_INGOT.get()),
+                SoundEvents.ARMOR_EQUIP_NETHERITE),
+        NULLITE("nullite", new int[]{3, 8, 6, 3}, 37, 3.0F, 0.05F, () -> Ingredient.of(ModItems.NULLITE_INGOT.get()),
+                SoundEvents.ARMOR_EQUIP_DIAMOND);
 
         public final String id;
         final ArmorMaterial material;

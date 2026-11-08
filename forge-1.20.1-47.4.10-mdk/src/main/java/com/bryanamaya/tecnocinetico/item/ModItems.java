@@ -248,6 +248,37 @@ public class ModItems {
                     6, () -> PULSE_CELL.get(), 1, 12.0F, 8.0D, 0.0F, 0.0F, 14, 30, 6.0F, 2.0F, 0.9F, 1.0F),
                     new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
 
+    // ---------------------------------------------------------------- materiales del Nether y el End (lore)
+    public static final RegistryObject<Item> RAW_PIROXITE = ITEMS.register("raw_piroxite", () -> new Item(new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> PIROXITE_INGOT = ITEMS.register("piroxite_ingot", () -> new Item(new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> RAW_NULLITE = ITEMS.register("raw_nullite", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> NULLITE_INGOT = ITEMS.register("nullite_ingot", () -> new Item(new Item.Properties()));
+    // ---------------------------------------------------------------- armaduras tier 3 (una por dimensión)
+    public static final RegistryObject<Item> CORE_HELMET = ITEMS.register("core_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.CORE, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> CORE_CHESTPLATE = ITEMS.register("core_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.CORE, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> CORE_LEGGINGS = ITEMS.register("core_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.CORE, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> CORE_BOOTS = ITEMS.register("core_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.CORE, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> PIROXITE_HELMET = ITEMS.register("piroxite_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.PIROXITE, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> PIROXITE_CHESTPLATE = ITEMS.register("piroxite_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.PIROXITE, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> PIROXITE_LEGGINGS = ITEMS.register("piroxite_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.PIROXITE, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> PIROXITE_BOOTS = ITEMS.register("piroxite_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.PIROXITE, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> NULLITE_HELMET = ITEMS.register("nullite_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.NULLITE, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> NULLITE_CHESTPLATE = ITEMS.register("nullite_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.NULLITE, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> NULLITE_LEGGINGS = ITEMS.register("nullite_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.NULLITE, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> NULLITE_BOOTS = ITEMS.register("nullite_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.NULLITE, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

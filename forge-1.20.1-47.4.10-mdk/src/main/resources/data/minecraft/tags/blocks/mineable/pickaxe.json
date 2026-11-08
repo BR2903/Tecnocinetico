@@ -35,6 +35,8 @@
     "tecnocinetico:vitrified_sand",
     "tecnocinetico:cinetrite_cluster",
     "tecnocinetico:swarm_comb",
-    "tecnocinetico:weapon_assembler"
+    "tecnocinetico:weapon_assembler",
+    "tecnocinetico:piroxite_ore",
+    "tecnocinetico:nullite_ore"
   ]
 }

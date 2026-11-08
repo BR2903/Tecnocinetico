@@ -313,4 +313,31 @@ public class AmmoGameTests {
             helper.succeed();
         });
     }
+
+    /** Armaduras tier 3: el Ensamblador hace la coraza del Núcleo; la Piroxita completa anula el daño de la lava. */
+    @GameTest(template = "empty")
+    public static void tier3Armor(GameTestHelper helper) {
+        var inv = new net.minecraftforge.items.ItemStackHandler(6);
+        inv.setStackInSlot(0, new ItemStack(ModItems.CORE_PROCESSOR.get()));
+        inv.setStackInSlot(1, new ItemStack(ModItems.INERCITA_PLATE.get(), 6));
+        inv.setStackInSlot(2, new ItemStack(ModItems.KINETIC_SERVO.get(), 2));
+        inv.setStackInSlot(3, new ItemStack(ModItems.PRECISION_MECHANISM.get(), 2));
+        inv.setStackInSlot(4, new ItemStack(ModItems.CINETRITE_INGOT.get(), 3));
+        var r = com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.find(inv, 6);
+        helper.assertTrue(r != null && r.output().is(ModItems.CORE_CHESTPLATE.get()), "El ensamblador no reconoce la coraza del Núcleo");
+
+        Player player = helper.makeMockPlayer();
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD, new ItemStack(ModItems.PIROXITE_HELMET.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST, new ItemStack(ModItems.PIROXITE_CHESTPLATE.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.LEGS, new ItemStack(ModItems.PIROXITE_LEGGINGS.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET, new ItemStack(ModItems.PIROXITE_BOOTS.get()));
+        float hp = player.getHealth();
+        player.hurt(player.damageSources().lava(), 6.0F);
+        helper.assertTrue(player.getHealth() == hp, "La Piroxita no anuló la lava (" + player.getHealth() + ")");
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD, ItemStack.EMPTY);
+        player.invulnerableTime = 0;
+        player.hurt(player.damageSources().lava(), 6.0F);
+        helper.assertTrue(player.getHealth() < hp, "Sin el set completo la lava debería herir");
+        helper.succeed();
+    }
 }

@@ -7,7 +7,9 @@ Para gestionar la red crearon una IA, el **Núcleo Directriz**, que acabó viend
 Los jugadores son los **Ingenieros Supervivientes**: empiezan de cero entre ruinas, recuperan tecnología y deben destruir el Núcleo Directriz (batalla final en el End).
 
 Materiales ya en el mod: Cinetrita, Inercita, Aleación Antigua (+ 4 glifos rúnicos: Zyr, Vex, Kael, Oth).
-Pendientes del lore: Piroxita, Nulita, Radionita, Crioprisma, drones, Núcleo Directriz, ruinas.
+Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (Piroxita y Nulita ya están: menas del Nether y End.)
+
+**Progresión por dimensiones (usuario, 2026-11-08):** tiers 1-3 en Overworld, Nether y End; tiers 4 y 5 en 3 dimensiones nuevas del mod.
 
 ## Dirección del proyecto (decidida por el usuario)
 

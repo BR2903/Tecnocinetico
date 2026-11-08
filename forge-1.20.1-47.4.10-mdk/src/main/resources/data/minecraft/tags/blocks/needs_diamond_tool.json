@@ -4,6 +4,8 @@
     "tecnocinetico:inercita_ore",
     "tecnocinetico:deepslate_inercita_ore",
     "tecnocinetico:auto_kinetic_press",
-    "tecnocinetico:weapon_assembler"
+    "tecnocinetico:weapon_assembler",
+    "tecnocinetico:piroxite_ore",
+    "tecnocinetico:nullite_ore"
   ]
 }

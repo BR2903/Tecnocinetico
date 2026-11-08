@@ -314,3 +314,13 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Animaciones en primera persona: `client/GrenadeClientExtensions` (sube al quitar la anilla, el brazo se echa atrás según la fuerza, tiembla en el último segundo de mecha; tercera persona con la pose de lanzar tridente) y carga del Rifle de Riel en `LongGunClientExtensions` (se recoge contra el hombro y vibra más cuanto más carga; pulso a carga completa).
 - GameTest `tier3Weapons` comprueba también el lanzamiento a mano.
 
+## 2026-11-08 — Claude — Armaduras tier 3 (una por dimensión), Piroxita y Nulita
+- Aclaración del usuario: los tiers 1-3 se consiguen en Overworld, Nether y End; los tiers 4 y 5 exigirán **3 dimensiones nuevas**. Decisiones: una armadura por dimensión, crear ya las menas del lore, fabricación en el Ensamblador de Armas.
+- **Piroxita** (Nether, "disipa el calor"): `piroxite_ore` en el netherrack de todo el Nether (y=10-117, 8 vetas de 5 por chunk), emite algo de luz. **Nulita** (End, "sin fricción, servidores de la IA"): `nullite_ore` en el end stone solo de las islas exteriores (etiqueta `tecnocinetico:has_nullite`). Ambas: pico de diamante, fortuna, toque de seda; en bruto → lingote (horno y alto horno). Modelo de dos capas: la piedra vanilla (referenciada, no copiada) + capa de cristales `*_ore_overlay` (recorte).
+- Armaduras tier 3 (nuevos `Tier2ArmorItem.Kind` CORE/PIROXITE/NULLITE; protección y dureza de netherita), en el Ensamblador (`AssemblerRecipes`, 15 s cada pieza):
+  - **Égida del Núcleo** (Overworld; casco y coraza piden Procesador del Núcleo): escudo de 4 corazones (absorción) que se recarga 1 corazón/s tras 8 s sin recibir daño.
+  - **Disipador de Piroxita** (Nether; resistente a la lava como objeto): inmune al fuego y la lava; quien golpea cuerpo a cuerpo arde 4 s.
+  - **Desfase de Nulita** (End; con perlas de ender): 15 % de esquivar un golpe teletransportándose unos bloques; los enderman no se enfadan; las perlas de ender no hacen daño.
+  - Eventos en `Tier2ArmorEvents` (`LivingAttackEvent`, `EnderManAngerEvent`, escudo en el tick del jugador).
+- Arte: `tools/armor_t3_gen.py` (capas puestas e iconos; lingotes y en bruto recoloreados por luminancia desde los de inercita; capas de cristal de las menas).
+- GameTest `tier3Armor` (18 en total, todos pasan).

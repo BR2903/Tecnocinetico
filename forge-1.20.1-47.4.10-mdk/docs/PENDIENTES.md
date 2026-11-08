@@ -11,7 +11,8 @@
 - **Rediseño visual de la Prensa Automática** al estilo de las máquinas de Create (sigue con la textura antigua reescalada).
 - **Más armas realistas** (p. ej. rifle cinético) con sus propios módulos en el banco.
 - Más habilidades (el sistema está preparado: ver `Skill.java`).
-- Materiales del lore aún no implementados: Piroxita (Nether), Nulita (End), Radionita, Crioprisma; drones; Núcleo Directriz (jefe final).
+- Materiales del lore aún no implementados: Radionita, Crioprisma (¿para las dimensiones nuevas de los tiers 4-5?); Núcleo Directriz (jefe final).
+- Tiers 4 y 5: 3 dimensiones nuevas (por diseñar).
 
 ## Limitaciones conocidas / deuda técnica
 - **Equilibrio del mundo**: la Inercita (nivel diamante) aparece en 9 vetas de 7 por chunk → más común que el diamante. Cinetrita: 14 vetas de 9. Revisar `worldgen/placed_feature`.
