@@ -408,8 +408,10 @@ MATERIALS = {"slide": m_slide, "frame": m_frame, "grip": m_grip, "barrel": m_bar
              "optic_frame": m_optic_frame, "optic_glass": m_optic_glass, "reticle": m_reticle}
 
 # Bits de los módulos (deben coincidir con el orden de WeaponModule.java)
-OPTIC, EXTENDED_MAG, INERCITA_BARREL, QUICK_RELOAD = 1, 2, 4, 8
-MODULE_IDS = {OPTIC: "optic", EXTENDED_MAG: "extended_mag", INERCITA_BARREL: "inercita_barrel", QUICK_RELOAD: "quick_reload"}
+OPTIC, EXTENDED_MAG, INERCITA_BARREL, QUICK_RELOAD, SEEKER = 1, 2, 4, 8, 16
+MODULE_IDS = {OPTIC: "optic", EXTENDED_MAG: "extended_mag", INERCITA_BARREL: "inercita_barrel", QUICK_RELOAD: "quick_reload",
+              SEEKER: "seeker"}
+MASKS = 32                                     # combinaciones de módulos (2^5)
 
 # ---------------------------------------------------------------- geometría (unidades de modelo)
 GRIP_ROT = {"angle": -22.5, "axis": "x", "origin": [8, 11, 11]}
@@ -459,6 +461,12 @@ ELEMENTS = [
     {"name": "mag_base_ext", "group": "mag", "mat": "inercita", "from": [7.1, 2.3, 9.15], "to": [8.9, 2.9, 12.65], "rotation": GRIP_ROT, "if": EXTENDED_MAG},
     {"name": "inercita_barrel", "mat": "comp_inercita", "from": [7.1, 12.15, -1.8], "to": [8.9, 14.35, 1.6], "if": INERCITA_BARREL},
     {"name": "magwell", "mat": "magwell", "from": [6.75, 5.15, 8.85], "to": [9.25, 6.2, 12.95], "rotation": GRIP_ROT, "if": QUICK_RELOAD},
+    # Guía de Enjambre: sensor biomecánico bajo el armazón delantero (riel, cuerpo con circuitos, lente cian, aletas de cobre)
+    {"name": "seeker_rail", "mat": "steel", "from": [7.4, 10.75, 2.7], "to": [8.6, 11.0, 5.5], "if": SEEKER},
+    {"name": "seeker_body", "mat": "coupler", "from": [7.25, 9.85, 2.85], "to": [8.75, 10.75, 5.3], "if": SEEKER},
+    {"name": "seeker_lens", "mat": "cell", "from": [7.5, 10.0, 2.78], "to": [8.5, 10.6, 2.85], "if": SEEKER, "glow": True},
+    {"name": "seeker_fin_l", "mat": "copper", "from": [7.05, 10.05, 4.5], "to": [7.25, 10.55, 5.2], "if": SEEKER},
+    {"name": "seeker_fin_r", "mat": "copper", "from": [8.75, 10.05, 4.5], "to": [8.95, 10.55, 5.2], "if": SEEKER},
 ]
 
 DISPLAY = {
@@ -576,7 +584,7 @@ FRAMES = [
 ]
 
 # El inventario usa el propio modelo 3D (como los mods de armas realistas); gui_fit.py añade la vista "gui".
-# Un modelo por combinación de módulos (16) y fotograma de recarga (base + 4).
+# Un modelo por combinación de módulos (MASKS = 32) y fotograma de recarga (base + 4).
 # Minecraft elige el ÚLTIMO override cuyos predicados se cumplen (valor >= umbral), así que se ordenan
 # por máscara y luego por progreso de recarga: para la máscara M gana el bloque de M.
 def pistol_name(mask, frame=0):
@@ -585,7 +593,7 @@ def pistol_name(mask, frame=0):
 
 
 overrides = []
-for mask in range(16):
+for mask in range(MASKS):
     write(pistol_name(mask), model((0, 0, 0), mask=mask))
     if mask:
         overrides.append({"predicate": {"tecnocinetico:modules": mask, "tecnocinetico:reload": 0},

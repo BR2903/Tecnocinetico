@@ -174,3 +174,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-07 — Claude — Trazo del disparo recto al acertar
 - El trazo se torcía hacia abajo al dar a mobs pequeños/cercanos: `EntityHitResult#getLocation()` de `ProjectileUtil.getEntityHitResult(level, ...)` devuelve los **pies** del mob. Nuevo `KineticPistolItem.impactPoint`: punto donde el rayo recto entra en la caja del mob; solo si acertó gracias a la puntería asistida (Mira) se dibuja hacia el punto de la caja más cercano al rayo.
+
+## 2026-11-07 — Claude — Módulo Guía de Enjambre (trayectoria automática)
+- Petición del usuario: la puntería asistida debe ser una mejora aparte y **extremadamente difícil** de fabricar.
+- La **Mira** ya no corrige la trayectoria (solo zoom y retícula; texto actualizado). Nuevo módulo `SEEKER` (bit 16) **Guía de Enjambre**: margen de búsqueda 1.1 bloques alrededor del rayo; el trazo se curva hacia el mob solo cuando acierta gracias a él.
+- Receta (mesa de crafteo): 3 **Núcleos de Enjambre** (= 3 Nodos de Colmena derrotados) + 2 Sustratos Lógicos + 2 lingotes de Inercita + Transductor Piezo + **consume una Mira**. Ningún superviviente lo vende ni aparece en botín.
+- Visual: sensor bajo el armazón delantero (riel, cuerpo de cobre, lente cian brillante, aletas). `pistol_gen.py` ahora genera 32 combinaciones (160 modelos, 191 overrides). Quinta ranura en el Banco de Armas (`MODULE_POS` + `bench_gui_gen.py`).

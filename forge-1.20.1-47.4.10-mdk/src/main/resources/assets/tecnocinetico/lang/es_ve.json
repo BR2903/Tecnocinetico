@@ -41,7 +41,7 @@
   "item.tecnocinetico.module_extended_mag": "Cargador Ampliado",
   "item.tecnocinetico.module_inercita_barrel": "Cañón de Inercita",
   "item.tecnocinetico.module_quick_reload": "Acelerador de Recarga",
-  "tooltip.tecnocinetico.module_optic": "Puntería asistida: la bala se dirige a objetivos cercanos al disparo",
+  "tooltip.tecnocinetico.module_optic": "Zoom y retícula al apuntar",
   "tooltip.tecnocinetico.module_extended_mag": "Cargador de 10 balas (en vez de 6)",
   "tooltip.tecnocinetico.module_inercita_barrel": "+3 de daño y alcance de 35 bloques",
   "tooltip.tecnocinetico.module_quick_reload": "Recarga un 30% más rápida",
@@ -158,5 +158,7 @@
   "subtitles.tecnocinetico.swarm_wasp.death": "Avispa muere",
   "subtitles.tecnocinetico.hive_node.ambient": "Nodo de Colmena late",
   "subtitles.tecnocinetico.hive_node.pulse": "Pulso del Nodo",
-  "block.tecnocinetico.swarm_comb": "Panal de Enjambre"
+  "block.tecnocinetico.swarm_comb": "Panal de Enjambre",
+  "item.tecnocinetico.module_seeker": "Guía de Enjambre",
+  "tooltip.tecnocinetico.module_seeker": "Trayectoria automática: la bala busca al enemigo más cercano a la línea de tiro"
 }

@@ -65,6 +65,7 @@ public class ModItems {
     public static final RegistryObject<Item> MODULE_EXTENDED_MAG = module(WeaponModule.EXTENDED_MAG);
     public static final RegistryObject<Item> MODULE_INERCITA_BARREL = module(WeaponModule.INERCITA_BARREL);
     public static final RegistryObject<Item> MODULE_QUICK_RELOAD = module(WeaponModule.QUICK_RELOAD);
+    public static final RegistryObject<Item> MODULE_SEEKER = module(WeaponModule.SEEKER);
 
     /** Objeto que corresponde a cada módulo. */
     public static Item moduleItem(WeaponModule module) {
@@ -73,6 +74,7 @@ public class ModItems {
             case EXTENDED_MAG -> MODULE_EXTENDED_MAG.get();
             case INERCITA_BARREL -> MODULE_INERCITA_BARREL.get();
             case QUICK_RELOAD -> MODULE_QUICK_RELOAD.get();
+            case SEEKER -> MODULE_SEEKER.get();
         };
     }
 

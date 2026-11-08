@@ -63,7 +63,8 @@ public class KineticPistolItem extends Item {
     private static final int EXTENDED_MAG_SIZE = 10;
     private static final double INERCITA_RANGE = 35.0D;
     private static final float INERCITA_DAMAGE_BONUS = 3.0F;
-    private static final float OPTIC_AIM_ASSIST = 0.35F;
+    /** Guía de Enjambre: margen de "búsqueda" alrededor del rayo (la bala se desvía hacia el mob). */
+    private static final float SEEKER_AIM_ASSIST = 1.1F;
     private static final float QUICK_RELOAD_FACTOR = 0.7F;
 
     // ------------------------------------------------------------------ estadísticas según los módulos
@@ -81,7 +82,7 @@ public class KineticPistolItem extends Item {
     }
 
     public static float getAimAssist(ItemStack stack) {
-        return WeaponModule.has(stack, WeaponModule.OPTIC) ? OPTIC_AIM_ASSIST : AIM_ASSIST;
+        return WeaponModule.has(stack, WeaponModule.SEEKER) ? SEEKER_AIM_ASSIST : AIM_ASSIST;
     }
 
     public static int getReloadTicks(ItemStack stack, int weaponLevel) {
@@ -222,7 +223,7 @@ public class KineticPistolItem extends Item {
      * {@code ProjectileUtil.getEntityHitResult} devuelve los PIES del mob, no el punto del rayo; usarlo torcía
      * el trazo hacia abajo al dar a mobs pequeños o cercanos.
      * - Disparo recto: donde el rayo entra en la caja del mob (la línea sigue siendo recta).
-     * - Si solo acertó gracias a la puntería asistida (el rayo pasa cerca pero no toca la caja): el punto de
+     * - Si solo acertó gracias a la Guía de Enjambre (el rayo pasa cerca pero no toca la caja): el punto de
      *   la caja más cercano al rayo, así se ve cómo la bala se desvía hacia el objetivo (solo con la mejora).
      */
     private static Vec3 impactPoint(Entity target, Vec3 eye, Vec3 end) {
@@ -253,7 +254,7 @@ public class KineticPistolItem extends Item {
 
         AABB search = player.getBoundingBox().expandTowards(end.subtract(eye)).inflate(1.0D);
         // Arma base: disparo recto, solo acierta si el rayo toca la caja real del objetivo.
-        // Con la Mira de Puntería Cinética se añade un margen y la bala "busca" mobs cercanos al rayo.
+        // Con la Guía de Enjambre se añade un margen y la bala "busca" mobs cercanos al rayo.
         EntityHitResult entityHit = ProjectileUtil.getEntityHitResult(level, player, eye, end, search,
                 e -> !e.isSpectator() && e.isPickable(), getAimAssist(pistol));
         if (entityHit != null) {

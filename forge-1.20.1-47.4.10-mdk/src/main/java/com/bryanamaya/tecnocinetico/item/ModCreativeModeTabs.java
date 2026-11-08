@@ -52,6 +52,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.MODULE_EXTENDED_MAG.get());
                         pOutput.accept(ModItems.MODULE_INERCITA_BARREL.get());
                         pOutput.accept(ModItems.MODULE_QUICK_RELOAD.get());
+                        pOutput.accept(ModItems.MODULE_SEEKER.get());
                         pOutput.accept(ModItems.SWARM_BODY_SPAWN_EGG.get());
                         pOutput.accept(ModItems.SURVIVOR_SPAWN_EGG.get());
                         pOutput.accept(ModItems.SWARM_WASP_SPAWN_EGG.get());

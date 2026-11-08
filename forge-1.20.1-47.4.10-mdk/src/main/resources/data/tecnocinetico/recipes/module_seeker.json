@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SCS",
+    "COC",
+    "IPI"
+  ],
+  "key": {
+    "S": {
+      "item": "tecnocinetico:deepslate_logic_substrate"
+    },
+    "C": {
+      "item": "tecnocinetico:swarm_core"
+    },
+    "O": {
+      "item": "tecnocinetico:module_optic"
+    },
+    "I": {
+      "item": "tecnocinetico:inercita_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:piezo_transducer"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:module_seeker",
+    "count": 1
+  }
+}

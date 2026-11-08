@@ -9,14 +9,19 @@ import net.minecraft.world.item.ItemStack;
  * Se guardan en el NBT del arma como una máscara de bits ("Modules").
  */
 public enum WeaponModule {
-    /** Mira de Puntería Cinética: la bala corrige ligeramente hacia objetivos cercanos al rayo. */
+    /** Mira de Puntería Cinética: zoom y retícula al apuntar (no corrige la trayectoria). */
     OPTIC("optic"),
     /** Cargador Ampliado: más balas por cargador. */
     EXTENDED_MAG("extended_mag"),
     /** Cañón de Inercita: más daño y alcance. */
     INERCITA_BARREL("inercita_barrel"),
     /** Acelerador de Recarga: recarga más rápida. */
-    QUICK_RELOAD("quick_reload");
+    QUICK_RELOAD("quick_reload"),
+    /**
+     * Guía de Enjambre: trayectoria automática; la bala busca al mob más cercano al rayo. Se fabrica con
+     * Núcleos de Enjambre (Nodos de Colmena) y es, a propósito, el módulo más caro del mod.
+     */
+    SEEKER("seeker");
 
     private static final String TAG = "Modules";
 

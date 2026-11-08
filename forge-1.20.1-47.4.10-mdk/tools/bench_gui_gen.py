@@ -73,6 +73,7 @@ MODULES = {  # posición del objeto en la ranura -> punto de la silueta
     "extended_mag": ((66, 76), (71, 74)),
     "inercita_barrel": ((150, 36), (148, 42)),
     "quick_reload": ((40, 70), (61, 72)),
+    "seeker": ((120, 72), (126, 52)),
 }
 for (sx, sy), (tx, ty) in MODULES.values():
     cx, cy = sx + 8, sy + 8

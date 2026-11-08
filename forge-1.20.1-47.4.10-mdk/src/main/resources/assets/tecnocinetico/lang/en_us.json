@@ -41,7 +41,7 @@
   "item.tecnocinetico.module_extended_mag": "Extended Magazine",
   "item.tecnocinetico.module_inercita_barrel": "Inercite Barrel",
   "item.tecnocinetico.module_quick_reload": "Reload Accelerator",
-  "tooltip.tecnocinetico.module_optic": "Aim assist: shots home in on targets close to the line of fire",
+  "tooltip.tecnocinetico.module_optic": "Zoom and reticle when aiming",
   "tooltip.tecnocinetico.module_extended_mag": "10-round magazine (instead of 6)",
   "tooltip.tecnocinetico.module_inercita_barrel": "+3 damage and 35-block range",
   "tooltip.tecnocinetico.module_quick_reload": "30% faster reload",
@@ -158,5 +158,7 @@
   "subtitles.tecnocinetico.swarm_wasp.death": "Wasp dies",
   "subtitles.tecnocinetico.hive_node.ambient": "Hive Node throbs",
   "subtitles.tecnocinetico.hive_node.pulse": "Hive Node pulses",
-  "block.tecnocinetico.swarm_comb": "Swarm Comb"
+  "block.tecnocinetico.swarm_comb": "Swarm Comb",
+  "item.tecnocinetico.module_seeker": "Swarm Guidance",
+  "tooltip.tecnocinetico.module_seeker": "Automatic trajectory: the bullet seeks the enemy closest to the line of fire"
 }

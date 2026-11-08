@@ -63,3 +63,6 @@ Automática: 20 000 FE, 40 FE/tick (4 000 FE por pieza, 5 s). Tolvas: entrada ar
 
 ### Cuerpo de Enjambre
 Monstruo del Overworld (peso 15, de noche/cuevas). 34 vida, 6 daño, 6 armadura. Salto cinético a 3-10 bloques. Núcleo y ojos brillan. Suelta fragmentos, a veces Inercita en bruto.
+
+## Módulo Guía de Enjambre (trayectoria automática)
+- El arma base y la Mira disparan **recto**. La única forma de que la bala "busque" a los mobs es la Guía de Enjambre, que el usuario quiere **extremadamente difícil** de conseguir (3 Núcleos de Enjambre + consume una Mira). No añadirla a botín ni comercio sin preguntar.

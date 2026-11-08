@@ -12,7 +12,7 @@ $A = "src\main\resources\assets\tecnocinetico"
 
 | Script | Genera | Después ejecutar |
 |---|---|---|
-| `tools/pistol_gen.py $A` | Pistola: textura 128 px, `kinetic_pistol.json` (overrides), 80 modelos `kinetic_pistol*_3d.json` (16 combinaciones de módulos × 5 fotogramas de recarga), modelos de los 4 módulos | `gui_fit` (ver abajo) |
+| `tools/pistol_gen.py $A` | Pistola: textura 128 px, `kinetic_pistol.json` (overrides), 160 modelos `kinetic_pistol*_3d.json` (32 combinaciones de módulos × 5 fotogramas de recarga), modelos de los 5 módulos | `gui_fit` (ver abajo) |
 | `tools/hammer_gen.py $A` | Martillo: textura + `kinetic_hammer_3d.json` + `kinetic_hammer.json` | `python tools/gui_fit.py $A "0,25,-45" kinetic_hammer_3d` |
 | `tools/bench_gen.py $A` | Banco de Armas: textura, modelo de bloque/item, blockstate | — |
 | `tools/bench_gui_gen.py <png> <preview.png>` | Interfaz del banco (`textures/gui/weapon_bench.png`) | — |
@@ -29,12 +29,12 @@ $A = "src\main\resources\assets\tecnocinetico"
 
 ```powershell
 # Pistola: una llamada por combinación de módulos (cada una con su propio tamaño), mismos valores para sus 5 fotogramas
-foreach ($m in 0..15) {
+foreach ($m in 0..31) {
   $p = if ($m -eq 0) { "kinetic_pistol" } else { "kinetic_pistol_m$m" }
   $names = @("${p}_3d") + (1..4 | % { "${p}_reload_${_}_3d" })
   python tools/gui_fit.py $A "y-90;z25" @names
 }
-foreach ($m in "optic","extended_mag","inercita_barrel","quick_reload") { python tools/gui_fit.py $A "y-135;x30" "module_$m" }
+foreach ($m in "optic","extended_mag","inercita_barrel","quick_reload","seeker") { python tools/gui_fit.py $A "y-135;x30" "module_$m" }
 ```
 
 - Rotación como `"rx,ry,rz"` (ángulos de Minecraft) o como pasos en pantalla `"y-90;z25"` (primero Y −90, luego Z +25).
@@ -54,7 +54,7 @@ python tools/render_model.py $A preview.png kinetic_pistol_3d kinetic_pistol_m15
 En `pistol_gen.py`:
 1. Añadir un material (función `m_xxx(f, x, y)` que devuelve RGBA) y registrarlo en `MATERIALS`.
 2. Añadir el elemento a `ELEMENTS` con `"mat"`. Opcional: `"group": "slide"` (se mueve al montar), `"group": "mag"` (cae al recargar), `"if": BIT` / `"unless": BIT` (solo con/sin un módulo), `"rotation": GRIP_ROT` (inclinado con la empuñadura).
-3. Un módulo nuevo: nuevo bit en `WeaponModule.java` **y** en `pistol_gen.py` (`OPTIC, EXTENDED_MAG, ...`); el script genera 2^n combinaciones (ojo: con 5 módulos serían 160 modelos).
+3. Un módulo nuevo: nuevo bit en `WeaponModule.java` **y** en `pistol_gen.py` (`OPTIC, EXTENDED_MAG, ...`); el script genera 2^n combinaciones (con 5 módulos ya son 160 modelos; un 6º módulo daría 320: plantéate una pieza sin variantes visuales).
 4. Regenerar, ejecutar `gui_fit`, previsualizar.
 
 Los resultados de los scripts actuales son reproducibles (semillas aleatorias fijas): regenerar sin cambios produce archivos idénticos.

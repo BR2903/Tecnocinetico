@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 /**
  * Banco de Armas Cinético.
- * Hueco 0: el arma. Huecos 1-4: un módulo por ranura (en el orden de WeaponModule).
+ * Hueco 0: el arma. Huecos 1-5: un módulo por ranura (en el orden de WeaponModule).
  *
  * Los huecos de módulo son una "vista" de los módulos instalados en el arma:
  * - al poner un arma, sus módulos aparecen en sus ranuras;
@@ -39,6 +39,7 @@ public class WeaponBenchMenu extends AbstractContainerMenu {
             {66, 76},   // EXTENDED_MAG: debajo de la empuñadura
             {150, 36},  // INERCITA_BARREL: delante del cañón
             {40, 70},   // QUICK_RELOAD: junto a la boca de la empuñadura
+            {120, 72},  // SEEKER: bajo la parte delantera del armazón
     };
     public static final int INVENTORY_Y = 108;
 
