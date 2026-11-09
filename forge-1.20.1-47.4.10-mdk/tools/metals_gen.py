@@ -259,6 +259,24 @@ def machine_front(kind):
         for i in range(8):                                                     # barra de carga
             c = cyan if i < 5 else steel[1]
             d.rectangle([14 + i * 5, 52, 17 + i * 5, 56], fill=c)
+    elif kind == "chemical_lab":                                               # vitrina con matraces y tuberías
+        d.rectangle([9, 8, 54, 44], fill=(14, 22, 28), outline=steel[3])
+        d.line([(10, 9), (53, 9)], fill=(200, 215, 225))
+        flasks = ((16, (215, 214, 90)), (31, (80, 200, 240)), (45, (120, 230, 120)))
+        for (cx, col) in flasks:
+            d.rectangle([cx - 1, 14, cx + 1, 24], outline=(170, 190, 200))     # cuello
+            d.ellipse([cx - 6, 23, cx + 6, 40], fill=(40, 50, 58), outline=(170, 190, 200))
+            d.ellipse([cx - 5, 30, cx + 5, 39], fill=col)
+            d.point((cx - 3, 27), fill=(230, 240, 245))
+        d.line([(16, 12), (31, 12), (45, 12)], fill=(190, 120, 70), width=2)   # tubería de cobre
+        for (cx, col) in flasks:
+            d.line([(cx, 12), (cx, 14)], fill=(190, 120, 70))
+        for i, col in enumerate(((215, 214, 90), (80, 200, 240))):           # indicadores de los tanques
+            x0 = 11 + i * 15
+            d.rectangle([x0, 49, x0 + 12, 57], fill=steel[0], outline=steel[3])
+            d.rectangle([x0 + 2, 52, x0 + 10, 55], fill=col)
+        d.rectangle([44, 49, 51, 57], fill=(220, 180, 40))                      # peligro químico
+        d.polygon([(47, 50), (50, 56), (44, 56)], fill=(30, 30, 30))
     elif kind == "reaction_chamber":                                           # mirilla con el haz y el núcleo
         d.ellipse([12, 8, 51, 47], fill=steel[0], outline=steel[3])
         d.ellipse([15, 11, 48, 44], fill=(10, 30, 36), outline=steel[1])
@@ -393,7 +411,7 @@ def worldgen(name, cfg):
                                                                        "features": f"tecnocinetico:{name}_ore_placed", "step": "underground_ores"})
 
 
-MACHINES = ["electric_refiner", "cell_charger", "ammo_fabricator", "reaction_chamber"]
+MACHINES = ["electric_refiner", "cell_charger", "ammo_fabricator", "reaction_chamber", "chemical_lab"]
 REACTOR_ONLY = ("titanium", "uranium")
 
 
@@ -467,6 +485,9 @@ def main():
                                                        "M": "tecnocinetico:precision_mechanism", "R": "minecraft:redstone_block",
                                                        "L": "tecnocinetico:lead_block", "C": "tecnocinetico:crude_kinetic_coupler"},
            "tecnocinetico:reaction_chamber")
+    shaped("chemical_lab", ["TBT", "PCP", "TST"], {"T": "tecnocinetico:tin_ingot", "B": "minecraft:brewing_stand",
+                                                   "P": "tecnocinetico:inercita_plate", "C": "minecraft:cauldron",
+                                                   "S": "tecnocinetico:kinetic_servo"}, "tecnocinetico:chemical_lab")
     # el titanio ya no se funde: borrar recetas viejas de horno
     for old in ("titanium_from_raw", "titanium_from_ore", "titanium_from_deepslate_ore", "titanium_from_dust"):
         for kind in ("smelting", "blasting"):

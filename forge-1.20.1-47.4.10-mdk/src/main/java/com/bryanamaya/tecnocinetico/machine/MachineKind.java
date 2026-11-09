@@ -12,7 +12,9 @@ public enum MachineKind {
     /** Fabricador de munición: hace munición en lote. */
     AMMO_FABRICATOR("ammo_fabricator", new int[][]{{26, 35}, {44, 35}, {62, 35}}, new int[][]{{116, 35}}, 85, 35, 20_000, 1_000),
     /** Cámara de Reacción: procesa titanio y uranio ajustando frecuencia e intensidad (4 datos extra). */
-    REACTION_CHAMBER("reaction_chamber", new int[][]{{30, 30}}, new int[][]{{86, 30}, {112, 30}}, 54, 30, 100_000, 5_000, 4);
+    REACTION_CHAMBER("reaction_chamber", new int[][]{{30, 30}}, new int[][]{{86, 30}, {112, 30}}, 54, 30, 100_000, 5_000, 4),
+    /** Laboratorio Químico: 2 ingredientes + tanque de entrada -> producto + tanque de salida (4 datos extra: los tanques). */
+    CHEMICAL_LAB("chemical_lab", new int[][]{{34, 25}, {34, 45}}, new int[][]{{90, 35}}, 58, 35, 40_000, 2_000, 4);
 
     public static final int ENERGY_X = 152, ENERGY_Y = 17, ENERGY_W = 14, ENERGY_H = 52;
     public static final int ARROW_W = 22, ARROW_H = 16;

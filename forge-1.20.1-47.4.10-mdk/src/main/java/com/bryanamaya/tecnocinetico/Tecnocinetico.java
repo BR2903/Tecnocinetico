@@ -54,6 +54,7 @@ public class Tecnocinetico {
         ModWorldBlocks.init();   // bloques del mundo post-apocalíptico
         ModBlockEntities.register(modEventBus);
         com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.register(modEventBus);
+        com.bryanamaya.tecnocinetico.fluid.ModFluids.register(modEventBus);
         ModEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModParticles.register(modEventBus);
@@ -111,8 +112,14 @@ public class Tecnocinetico {
                 MenuScreens.register(ModMenus.AUTO_KINETIC_PRESS.get(), AutoKineticPressScreen::new);
                 MenuScreens.register(ModMenus.WEAPON_ASSEMBLER.get(), com.bryanamaya.tecnocinetico.client.WeaponAssemblerScreen::new);
                 MenuScreens.register(ModMenus.TACTICAL_GEAR.get(), com.bryanamaya.tecnocinetico.client.TacticalScreen::new);
+                for (var f : java.util.List.of(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID, com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT)) {
+                    net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(f.source.get(), net.minecraft.client.renderer.RenderType.translucent());
+                    net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(f.flowing.get(), net.minecraft.client.renderer.RenderType.translucent());
+                }
                 for (var kind : com.bryanamaya.tecnocinetico.machine.MachineKind.values()) {
-                    if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.REACTION_CHAMBER) {
+                    if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.CHEMICAL_LAB) {
+                        MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.ChemicalLabScreen::new);
+                    } else if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.REACTION_CHAMBER) {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.ReactionChamberScreen::new);
                     } else {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.MachineScreen::new);
@@ -174,6 +181,9 @@ public class Tecnocinetico {
         @SubscribeEvent
         public static void registerItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
             com.bryanamaya.tecnocinetico.client.MetalColors.register(event);    // lingotes = el de hierro vanilla teñido
+            for (var f : java.util.List.of(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID, com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT)) {
+                event.register(new net.minecraftforge.client.model.DynamicFluidContainerModel.Colors(), f.bucket.get());   // cubos teñidos
+            }
         }
 
         @SubscribeEvent

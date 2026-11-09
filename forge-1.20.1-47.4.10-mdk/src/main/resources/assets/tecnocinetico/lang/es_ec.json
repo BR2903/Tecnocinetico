@@ -492,5 +492,18 @@
   "jei.tecnocinetico.charger_gadget": "%s FE por punto de batería",
   "jei.tecnocinetico.charger_any": "También baterías FE de otros mods",
   "jei.tecnocinetico.titanium_info": "El titanio no se funde ni se refina: solo se procesa en la Cámara de Reacción, ajustando la frecuencia y la intensidad correctas (ver sus recetas). El polvo de titanio sale del Refinador como subproducto del hierro.",
-  "jei.tecnocinetico.uranium_info": "Radiactivo: llevarlo encima o estar cerca de él daña (atraviesa la armadura) y da hambre; cuanto más, peor. Solo se procesa en la Cámara de Reacción."
+  "jei.tecnocinetico.uranium_info": "Radiactivo: llevarlo encima o estar cerca de él daña (atraviesa la armadura) y da hambre; cuanto más, peor. Solo se procesa en la Cámara de Reacción.",
+  "fluid_type.tecnocinetico.sulfuric_acid": "Ácido sulfúrico",
+  "block.tecnocinetico.sulfuric_acid": "Ácido sulfúrico",
+  "item.tecnocinetico.sulfuric_acid_bucket": "Cubo de ácido sulfúrico",
+  "fluid_type.tecnocinetico.coolant": "Refrigerante",
+  "block.tecnocinetico.coolant": "Refrigerante",
+  "item.tecnocinetico.coolant_bucket": "Cubo de refrigerante",
+  "block.tecnocinetico.chemical_lab": "Laboratorio Químico",
+  "gui.tecnocinetico.lab.tank_in": "Tanque de entrada",
+  "gui.tecnocinetico.lab.tank_out": "Tanque de salida",
+  "gui.tecnocinetico.lab.empty": "Vacío",
+  "gui.tecnocinetico.lab.amount": "%s / %s mB",
+  "gui.tecnocinetico.lab.bucket_hint": "Clic derecho al bloque con un cubo para llenar/vaciar",
+  "jei.tecnocinetico.lab_any_order": "Ingredientes en cualquier orden"
 }

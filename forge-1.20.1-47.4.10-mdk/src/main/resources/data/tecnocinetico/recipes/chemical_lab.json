@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TBT",
+    "PCP",
+    "TST"
+  ],
+  "key": {
+    "T": {
+      "item": "tecnocinetico:tin_ingot"
+    },
+    "B": {
+      "item": "minecraft:brewing_stand"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "C": {
+      "item": "minecraft:cauldron"
+    },
+    "S": {
+      "item": "tecnocinetico:kinetic_servo"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:chemical_lab",
+    "count": 1
+  }
+}

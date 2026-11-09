@@ -53,6 +53,7 @@
     "tecnocinetico:uranium_ore",
     "tecnocinetico:deepslate_uranium_ore",
     "tecnocinetico:uranium_block",
-    "tecnocinetico:reaction_chamber"
+    "tecnocinetico:reaction_chamber",
+    "tecnocinetico:chemical_lab"
   ]
 }

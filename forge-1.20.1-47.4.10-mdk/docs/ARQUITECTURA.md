@@ -133,3 +133,5 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `ElectricMachineBlock` (FACING + POWERED, abre `MachineMenu`), `MachineBlockEntities` (registro), `MachineRecipes` (refinado y fabricación en código).
 - `menu/MachineMenu` + `client/MachineScreen`: comunes; `ModMenus.machine(kind)` da el MenuType de cada una.
 - Para añadir una máquina: valor en `MachineKind`, subclase de la entidad, tipo en `MachineBlockEntities`, bloque en `ModBlocks`, entrada en `machine_gui_gen.py` y `metals_gen.py` (`MACHINES`, frente).
+- `ChemicalLabBlockEntity`: dos `FluidTank` y una vista `IFluidHandler` para tuberías/cubos (llenar = entrada, vaciar = salida); `ElectricMachineBlock.use` deriva los cubos a `useContainer`. Pantalla `client/ChemicalLabScreen` (líquidos por id de registro en los datos extra).
+- Líquidos: `fluid/ModFluids` (`FluidSet` registra tipo, fuente, flujo, bloque y cubo; los bloques y cubos entran en los registros de `ModBlocks`/`ModItems`).

@@ -82,6 +82,75 @@ public final class MachineRecipes {
         return null;
     }
 
+    /**
+     * Laboratorio Químico: hasta 2 ingredientes (cualquier orden) + líquido del tanque de entrada -> producto y/o
+     * líquido en el tanque de salida. `out`/`outFluid` pueden ser null.
+     */
+    public record Lab(List<Ingredient> items, Supplier<net.minecraft.world.level.material.Fluid> inFluid, int inAmount,
+                      Supplier<Item> out, int outCount, Supplier<net.minecraft.world.level.material.Fluid> outFluid, int outAmount,
+                      int ticks, int perTick) {}
+
+    private static final Supplier<net.minecraft.world.level.material.Fluid> WATER = () -> net.minecraft.world.level.material.Fluids.WATER;
+    private static final Supplier<net.minecraft.world.level.material.Fluid> ACID = com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID::get;
+    private static final Supplier<net.minecraft.world.level.material.Fluid> COOLANT = com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT::get;
+
+    /** Lixiviación: la mena se disuelve en ácido y da 3 polvos (el Refinador da 2). */
+    private static Lab leach(Supplier<Item> raw, Supplier<Item> dust, int acid, int ticks, int perTick) {
+        return new Lab(List.of(of(raw, 1)), ACID, acid, dust, 3, null, 0, ticks, perTick);
+    }
+
+    public static final List<Lab> LAB = List.of(
+            new Lab(List.of(of(v(Items.GUNPOWDER), 2)), WATER, 1000, null, 0, ACID, 1000, 100, 40),
+            new Lab(List.of(of(v(Items.SNOWBALL), 4), of(v(Items.LAPIS_LAZULI), 1)), WATER, 1000, null, 0, COOLANT, 1000, 100, 40),
+            leach(v(Items.RAW_IRON), ModItems.IRON_DUST, 250, 120, 40),
+            leach(v(Items.RAW_COPPER), ModItems.COPPER_DUST, 250, 120, 40),
+            leach(v(Items.RAW_GOLD), ModItems.GOLD_DUST, 250, 120, 40),
+            leach(ModItems.RAW_LEAD, ModItems.LEAD_DUST, 250, 120, 40),
+            leach(ModItems.RAW_TIN, ModItems.TIN_DUST, 250, 120, 40),
+            leach(ModItems.RAW_CINETRITE, ModItems.CINETRITE_DUST, 250, 140, 50),
+            leach(ModItems.RAW_INERCITA, ModItems.INERCITA_DUST, 500, 180, 60),
+            leach(ModItems.RAW_PIROXITE, ModItems.PIROXITE_DUST, 500, 220, 80),
+            leach(ModItems.RAW_NULLITE, ModItems.NULLITE_DUST, 500, 220, 80),
+            new Lab(List.of(of(ModItems.SCRAP_METAL, 2)), ACID, 100, ModItems.IRON_DUST, 3, null, 0, 100, 30));
+
+    public static boolean isLabFluid(net.minecraft.world.level.material.Fluid f) {
+        return LAB.stream().anyMatch(r -> r.inFluid().get().isSame(f));
+    }
+
+    public static boolean isLabIngredient(ItemStack stack) {
+        return LAB.stream().anyMatch(r -> r.items().stream().anyMatch(i -> stack.is(i.item().get())));
+    }
+
+    /** ¿Están todos los ingredientes en los huecos (y no sobra ningún tipo de objeto)? */
+    private static boolean matches(List<Ingredient> needed, List<ItemStack> slots) {
+        for (Ingredient i : needed) {
+            int have = 0;
+            for (ItemStack s : slots) {
+                if (s.is(i.item().get())) {
+                    have += s.getCount();
+                }
+            }
+            if (have < i.count()) {
+                return false;
+            }
+        }
+        for (ItemStack s : slots) {
+            if (!s.isEmpty() && needed.stream().noneMatch(i -> s.is(i.item().get()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static Lab lab(List<ItemStack> slots, net.minecraftforge.fluids.FluidStack tank) {
+        for (Lab r : LAB) {
+            if (!tank.isEmpty() && tank.getFluid().isSame(r.inFluid().get()) && tank.getAmount() >= r.inAmount() && matches(r.items(), slots)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
     public static Refine refine(ItemStack in) {
         for (Refine r : REFINE) {
             if (in.is(r.in().get())) {

@@ -492,5 +492,18 @@
   "jei.tecnocinetico.charger_gadget": "%s FE per battery point",
   "jei.tecnocinetico.charger_any": "Also FE batteries from other mods",
   "jei.tecnocinetico.titanium_info": "Titanium can't be smelted or refined: it is only processed in the Reaction Chamber, tuned to the right frequency and intensity (see its recipes). Titanium dust comes from the Refiner as an iron byproduct.",
-  "jei.tecnocinetico.uranium_info": "Radioactive: carrying it or standing near it hurts (bypasses armor) and drains hunger; the more, the worse. Only processed in the Reaction Chamber."
+  "jei.tecnocinetico.uranium_info": "Radioactive: carrying it or standing near it hurts (bypasses armor) and drains hunger; the more, the worse. Only processed in the Reaction Chamber.",
+  "fluid_type.tecnocinetico.sulfuric_acid": "Sulfuric Acid",
+  "block.tecnocinetico.sulfuric_acid": "Sulfuric Acid",
+  "item.tecnocinetico.sulfuric_acid_bucket": "Sulfuric Acid Bucket",
+  "fluid_type.tecnocinetico.coolant": "Coolant",
+  "block.tecnocinetico.coolant": "Coolant",
+  "item.tecnocinetico.coolant_bucket": "Coolant Bucket",
+  "block.tecnocinetico.chemical_lab": "Chemical Lab",
+  "gui.tecnocinetico.lab.tank_in": "Input tank",
+  "gui.tecnocinetico.lab.tank_out": "Output tank",
+  "gui.tecnocinetico.lab.empty": "Empty",
+  "gui.tecnocinetico.lab.amount": "%s / %s mB",
+  "gui.tecnocinetico.lab.bucket_hint": "Right-click the block with a bucket to fill/empty",
+  "jei.tecnocinetico.lab_any_order": "Ingredients in any order"
 }

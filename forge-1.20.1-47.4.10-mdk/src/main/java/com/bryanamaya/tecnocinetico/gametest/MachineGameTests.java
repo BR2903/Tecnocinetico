@@ -96,6 +96,34 @@ public class MachineGameTests {
         });
     }
 
+    @GameTest(template = "empty", timeoutTicks = 400)
+    public static void chemicalLabMakesAcidAndLeaches(GameTestHelper helper) {
+        var lab = (com.bryanamaya.tecnocinetico.machine.ChemicalLabBlockEntity) place(helper, ModBlocks.CHEMICAL_LAB.get());
+        var acid = com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID.get();
+        // por tubería: entra agua al tanque de entrada; con pólvora sale ácido al de salida
+        int in = lab.fluidHandler().fill(new net.minecraftforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.WATER, 2000),
+                net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+        helper.assertTrue(in == 2000, "El tanque debería aceptar agua: " + in);
+        helper.assertTrue(lab.fluidHandler().fill(new net.minecraftforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.LAVA, 1000),
+                net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.SIMULATE) == 0, "No debe aceptar lava");
+        lab.getItems().insertItem(0, new ItemStack(Items.GUNPOWDER, 2), false);
+        helper.runAfterDelay(110, () -> {
+            helper.assertTrue(lab.outputTank().getFluid().getFluid().isSame(acid) && lab.outputTank().getFluidAmount() == 1000,
+                    "Debería haber 1000 mB de ácido: " + lab.outputTank().getFluid().getAmount());
+            // el ácido sacado por tubería vuelve al tanque de entrada para lixiviar plomo
+            var drained = lab.fluidHandler().drain(1000, net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+            lab.inputTank().setFluid(net.minecraftforge.fluids.FluidStack.EMPTY);
+            lab.fluidHandler().fill(drained, net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+            lab.getItems().insertItem(0, new ItemStack(ModItems.RAW_LEAD.get()), false);
+        });
+        helper.runAfterDelay(250, () -> {
+            ItemStack out = lab.getItems().getStackInSlot(2);
+            helper.assertTrue(out.is(ModItems.LEAD_DUST.get()) && out.getCount() == 3, "La lixiviación debería dar 3 polvos de plomo: " + out);
+            helper.assertTrue(lab.inputTank().getFluidAmount() == 750, "Debería gastar 250 mB de ácido: " + lab.inputTank().getFluidAmount());
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void fabricatorMakesAmmo(GameTestHelper helper) {
         ElectricMachineBlockEntity be = place(helper, ModBlocks.AMMO_FABRICATOR.get());

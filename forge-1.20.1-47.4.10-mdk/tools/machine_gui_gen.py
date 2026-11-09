@@ -19,7 +19,10 @@ KINDS = {
     "cell_charger": ([(44, 35)], [(104, 35)], (68, 35)),
     "ammo_fabricator": ([(26, 35), (44, 35), (62, 35)], [(116, 35)], (85, 35)),
     "reaction_chamber": ([(30, 30)], [(86, 30), (112, 30)], (54, 30)),
+    "chemical_lab": ([(34, 25), (34, 45)], [(90, 35)], (58, 35)),
 }
+# Laboratorio Químico: marcos de los tanques (x; = ChemicalLabScreen.IN_X / OUT_X, y 17, 16x52)
+TANKS = {"chemical_lab": [10, 122]}
 # Cámara de Reacción: barras de resonancia y estabilidad (= ReactionChamberScreen)
 BARS = {"reaction_chamber": [(132, 192, ((255, 120, 60), (70, 230, 120))), (141, 200, ((200, 60, 40), (240, 200, 60)))]}
 
@@ -91,5 +94,10 @@ if __name__ == "__main__":
                 t = yy / 51
                 c = tuple(int(hi[i] + (lo[i] - hi[i]) * t) for i in range(3)) + (255,)
                 d.line([(u, 17 + yy), (u + 5, 17 + yy)], fill=c)
+        for tx in TANKS.get(kid, []):
+            d.rectangle([tx - 1, 16, tx + 16, 69], fill=(52, 58, 66, 255))
+            d.line([(tx - 1, 16), (tx + 15, 16)], fill=SLOT_DARK); d.line([(tx - 1, 16), (tx - 1, 68)], fill=SLOT_DARK)
+            d.line([(tx, 69), (tx + 16, 69)], fill=LIGHT); d.line([(tx + 16, 17), (tx + 16, 69)], fill=LIGHT)
+            d.line([(tx + 12, 18), (tx + 12, 67)], fill=(80, 88, 98, 255))       # reflejo del cristal
         img.save(OUT / f"{kid}.png")
     print("ok: interfaces de las máquinas")

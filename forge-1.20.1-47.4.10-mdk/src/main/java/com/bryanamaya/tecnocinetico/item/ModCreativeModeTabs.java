@@ -32,6 +32,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModBlocks.CELL_CHARGER.get());
                         out.accept(ModBlocks.AMMO_FABRICATOR.get());
                         out.accept(ModBlocks.REACTION_CHAMBER.get());
+                        out.accept(ModBlocks.CHEMICAL_LAB.get());
                         out.accept(ModBlocks.CREATIVE_ENERGY_SOURCE.get());
                         out.accept(ModBlocks.ANCIENT_ALLOY_TL.get());
                         out.accept(ModBlocks.ANCIENT_ALLOY_TR.get());
@@ -242,6 +243,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.URANIUM_INGOT.get());
                         out.accept(ModItems.URANIUM_NUGGET.get());
                         out.accept(ModBlocks.URANIUM_BLOCK.get());
+                        out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID.bucket.get());
+                        out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT.bucket.get());
                         out.accept(ModItems.IRON_DUST.get());
                         out.accept(ModItems.GOLD_DUST.get());
                         out.accept(ModItems.COPPER_DUST.get());

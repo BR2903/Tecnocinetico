@@ -85,6 +85,12 @@ public class ElectricMachineBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (level.getBlockEntity(pos) instanceof ChemicalLabBlockEntity lab && net.minecraftforge.fluids.FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent()) {
+            if (!level.isClientSide()) {
+                lab.useContainer(player, hand);                                   // cubos: llenar / vaciar tanques
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        }
         if (!level.isClientSide() && player instanceof ServerPlayer sp && level.getBlockEntity(pos) instanceof ElectricMachineBlockEntity m) {
             NetworkHooks.openScreen(sp, m, pos);
         }

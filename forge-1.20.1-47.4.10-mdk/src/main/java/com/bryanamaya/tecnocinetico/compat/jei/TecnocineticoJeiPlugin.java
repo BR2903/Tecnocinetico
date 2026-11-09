@@ -40,6 +40,7 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new AssemblerRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         // máquinas eléctricas
         var gui = registration.getJeiHelpers().getGuiHelper();
+        registration.addRecipeCategories(new LabRecipeCategory(gui));
         for (var t : List.of(MachineRecipeCategory.REFINER, MachineRecipeCategory.CHARGER, MachineRecipeCategory.FABRICATOR, MachineRecipeCategory.REACTION)) {
             registration.addRecipeCategories(new MachineRecipeCategory(gui, t, MachineRecipeCategory.block(t)));
         }
@@ -53,6 +54,7 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
         registration.addRecipes(MachineRecipeCategory.CHARGER, MachineRecipeCategory.charger());
         registration.addRecipes(MachineRecipeCategory.FABRICATOR, MachineRecipeCategory.fabricator());
         registration.addRecipes(MachineRecipeCategory.REACTION, MachineRecipeCategory.reaction());
+        registration.addRecipes(LabRecipeCategory.TYPE, com.bryanamaya.tecnocinetico.machine.MachineRecipes.LAB);
         // titanio y uranio: solo en la Cámara de Reacción; el uranio es radiactivo
         registration.addIngredientInfo(List.of(new ItemStack(ModItems.RAW_TITANIUM.get()), new ItemStack(ModItems.TITANIUM_DUST.get()),
                         new ItemStack(ModBlocks.TITANIUM_ORE.get()), new ItemStack(ModBlocks.DEEPSLATE_TITANIUM_ORE.get())),
@@ -85,6 +87,7 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModItems.KINETIC_HAMMER.get()), PressRecipeCategory.TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.AUTO_KINETIC_PRESS.get()), PressRecipeCategory.TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.WEAPON_ASSEMBLER.get()), AssemblerRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.CHEMICAL_LAB.get()), LabRecipeCategory.TYPE);
         for (var t : List.of(MachineRecipeCategory.REFINER, MachineRecipeCategory.CHARGER, MachineRecipeCategory.FABRICATOR, MachineRecipeCategory.REACTION)) {
             registration.addRecipeCatalyst(new ItemStack(MachineRecipeCategory.block(t)), t);
         }
