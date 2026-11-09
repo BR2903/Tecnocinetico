@@ -95,9 +95,9 @@ if __name__ == "__main__":
                 c = tuple(int(hi[i] + (lo[i] - hi[i]) * t) for i in range(3)) + (255,)
                 d.line([(u, 17 + yy), (u + 5, 17 + yy)], fill=c)
         for tx in TANKS.get(kid, []):
-            d.rectangle([tx - 1, 16, tx + 16, 69], fill=(52, 58, 66, 255))
-            d.line([(tx - 1, 16), (tx + 15, 16)], fill=SLOT_DARK); d.line([(tx - 1, 16), (tx - 1, 68)], fill=SLOT_DARK)
-            d.line([(tx, 69), (tx + 16, 69)], fill=LIGHT); d.line([(tx + 16, 17), (tx + 16, 69)], fill=LIGHT)
-            d.line([(tx + 12, 18), (tx + 12, 67)], fill=(80, 88, 98, 255))       # reflejo del cristal
+            d.rectangle([tx - 1, 16, tx + 16, 61], fill=(52, 58, 66, 255))     # 16x44 (debajo, el botón de vaciar)
+            d.line([(tx - 1, 16), (tx + 15, 16)], fill=SLOT_DARK); d.line([(tx - 1, 16), (tx - 1, 60)], fill=SLOT_DARK)
+            d.line([(tx, 61), (tx + 16, 61)], fill=LIGHT); d.line([(tx + 16, 17), (tx + 16, 61)], fill=LIGHT)
+            d.line([(tx + 12, 18), (tx + 12, 59)], fill=(80, 88, 98, 255))       # reflejo del cristal
         img.save(OUT / f"{kid}.png")
     print("ok: interfaces de las máquinas")

@@ -19,10 +19,27 @@ import java.util.List;
 /** Laboratorio Químico: lo común + dos tanques con el líquido dibujado (entrada a la izquierda, salida a la derecha). */
 public class ChemicalLabScreen extends MachineScreen {
 
-    public static final int IN_X = 10, OUT_X = 122, TANK_Y = 17, TANK_W = 16, TANK_H = 52;
+    public static final int IN_X = 10, OUT_X = 122, TANK_Y = 17, TANK_W = 16, TANK_H = 44, BTN_Y = 63;
 
     public ChemicalLabScreen(MachineMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        button(IN_X + 3, BTN_Y, 10, "✕", ChemicalLabBlockEntity.BTN_CLEAR_IN, "gui.tecnocinetico.lab.clear_in");
+        button(OUT_X + 3, BTN_Y, 10, "✕", ChemicalLabBlockEntity.BTN_CLEAR_OUT, "gui.tecnocinetico.lab.clear_out");
+        button(59, 56, 20, "⇄", ChemicalLabBlockEntity.BTN_SWAP, "gui.tecnocinetico.lab.swap");
+    }
+
+    private void button(int x, int y, int w, String label, int id, String tip) {
+        addRenderableWidget(net.minecraft.client.gui.components.Button.builder(Component.literal(label), b -> {
+                    if (minecraft != null && minecraft.gameMode != null) {
+                        minecraft.gameMode.handleInventoryButtonClick(menu.containerId, id);
+                    }
+                }).bounds(leftPos + x, topPos + y, w, 10)
+                .tooltip(net.minecraft.client.gui.components.Tooltip.create(Component.translatable(tip))).build());
     }
 
     private Fluid fluid(int idSlot) {

@@ -110,10 +110,11 @@ public class MachineGameTests {
         helper.runAfterDelay(110, () -> {
             helper.assertTrue(lab.outputTank().getFluid().getFluid().isSame(acid) && lab.outputTank().getFluidAmount() == 1000,
                     "Debería haber 1000 mB de ácido: " + lab.outputTank().getFluid().getAmount());
-            // el ácido sacado por tubería vuelve al tanque de entrada para lixiviar plomo
-            var drained = lab.fluidHandler().drain(1000, net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
-            lab.inputTank().setFluid(net.minecraftforge.fluids.FluidStack.EMPTY);
-            lab.fluidHandler().fill(drained, net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+            // botones: vaciar la entrada (queda agua) e intercambiar -> el ácido pasa a la entrada para lixiviar plomo
+            lab.onButton(com.bryanamaya.tecnocinetico.machine.ChemicalLabBlockEntity.BTN_CLEAR_IN);
+            helper.assertTrue(lab.inputTank().isEmpty(), "El botón de vaciar debería dejar la entrada vacía");
+            lab.onButton(com.bryanamaya.tecnocinetico.machine.ChemicalLabBlockEntity.BTN_SWAP);
+            helper.assertTrue(lab.outputTank().isEmpty() && lab.inputTank().getFluidAmount() == 1000, "El intercambio debería pasar el ácido a la entrada");
             lab.getItems().insertItem(0, new ItemStack(ModItems.RAW_LEAD.get()), false);
         });
         helper.runAfterDelay(250, () -> {

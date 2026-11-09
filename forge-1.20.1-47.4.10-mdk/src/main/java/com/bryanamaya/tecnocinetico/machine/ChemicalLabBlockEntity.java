@@ -33,6 +33,8 @@ public class ChemicalLabBlockEntity extends ElectricMachineBlockEntity {
 
     public static final int TANK = 8_000;
     public static final int EXTRA_IN_FLUID = 0, EXTRA_IN_AMOUNT = 1, EXTRA_OUT_FLUID = 2, EXTRA_OUT_AMOUNT = 3;
+    /** Botones: vaciar entrada, vaciar salida, intercambiar los dos tanques. */
+    public static final int BTN_CLEAR_IN = 0, BTN_CLEAR_OUT = 1, BTN_SWAP = 2;
 
     private final FluidTank input = new FluidTank(TANK, fs -> MachineRecipes.isLabFluid(fs.getFluid())) {
         @Override
@@ -141,6 +143,24 @@ public class ChemicalLabBlockEntity extends ElectricMachineBlockEntity {
             level.playSound(null, worldPosition, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 0.5F, 0.9F);
         }
         return true;
+    }
+
+    @Override
+    public void onButton(int id) {
+        switch (id) {
+            case BTN_CLEAR_IN -> input.setFluid(FluidStack.EMPTY);
+            case BTN_CLEAR_OUT -> output.setFluid(FluidStack.EMPTY);
+            case BTN_SWAP -> {                                                 // p. ej. el ácido recién hecho pasa a la entrada
+                FluidStack a = input.getFluid().copy();
+                input.setFluid(output.getFluid().copy());
+                output.setFluid(a);
+            }
+            default -> {
+                return;
+            }
+        }
+        progress = 0;
+        setChanged();
     }
 
     /** Clic derecho con un cubo u otro recipiente: llena el tanque de entrada o vacía el de salida. */

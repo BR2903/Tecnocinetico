@@ -501,5 +501,8 @@
   "gui.tecnocinetico.lab.empty": "Empty",
   "gui.tecnocinetico.lab.amount": "%s / %s mB",
   "gui.tecnocinetico.lab.bucket_hint": "Right-click the block with a bucket to fill/empty",
-  "jei.tecnocinetico.lab_any_order": "Ingredients in any order"
+  "jei.tecnocinetico.lab_any_order": "Ingredients in any order",
+  "gui.tecnocinetico.lab.clear_in": "Empty the input tank (the liquid is lost)",
+  "gui.tecnocinetico.lab.clear_out": "Empty the output tank (the liquid is lost)",
+  "gui.tecnocinetico.lab.swap": "Swap the input and output liquids"
 }
