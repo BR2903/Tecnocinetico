@@ -45,6 +45,12 @@ public final class RadiationEvents {
         if (i == ModBlocks.URANIUM_BLOCK.get().asItem()) {
             return 9.0F;
         }
+        if (i == ModItems.URANIUM_FUEL_ROD.get()) {
+            return 3.0F;
+        }
+        if (i == ModItems.DEPLETED_FUEL_ROD.get()) {
+            return 5.0F;                                                       // productos de fisión: más radiactiva
+        }
         return 0.0F;
     }
 
@@ -63,8 +69,12 @@ public final class RadiationEvents {
         BlockPos c = p.blockPosition();
         Block block = ModBlocks.URANIUM_BLOCK.get(), ore = ModBlocks.URANIUM_ORE.get(), deep = ModBlocks.DEEPSLATE_URANIUM_ORE.get();
         for (BlockPos q : BlockPos.betweenClosed(c.offset(-RADIUS, -RADIUS, -RADIUS), c.offset(RADIUS, RADIUS + 1, RADIUS))) {
-            Block b = level.getBlockState(q).getBlock();
+            var st = level.getBlockState(q);
+            Block b = st.getBlock();
             float k = b == block ? 6.0F : (b == ore || b == deep) ? 0.6F : 0.0F;
+            if (b == ModBlocks.FISSION_REACTOR.get() && st.getValue(com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock.POWERED)) {
+                k = 8.0F;                                                      // reactor quemando
+            }
             if (k > 0) {
                 dose += k / (1.0F + (float) Math.sqrt(q.distSqr(c)));
             }

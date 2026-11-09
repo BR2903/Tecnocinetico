@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "tecnocinetico:block/universal_reservoir_side",
+    "top": "tecnocinetico:block/universal_reservoir_top",
+    "bottom": "tecnocinetico:block/universal_reservoir_top"
+  }
+}

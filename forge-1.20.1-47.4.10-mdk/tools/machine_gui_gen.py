@@ -20,11 +20,13 @@ KINDS = {
     "ammo_fabricator": ([(26, 35), (44, 35), (62, 35)], [(116, 35)], (85, 35)),
     "reaction_chamber": ([(30, 30)], [(86, 30), (112, 30)], (54, 30)),
     "chemical_lab": ([(34, 25), (34, 45)], [(90, 35)], (58, 35)),
+    "fission_reactor": ([(26, 30)], [(76, 30)], (48, 30)),
 }
 # Laboratorio Químico: marcos de los tanques (x; = ChemicalLabScreen.IN_X / OUT_X, y 17, 16x52)
-TANKS = {"chemical_lab": [10, 122]}
+TANKS = {"chemical_lab": [10, 122], "fission_reactor": [100]}
 # Cámara de Reacción: barras de resonancia y estabilidad (= ReactionChamberScreen)
-BARS = {"reaction_chamber": [(132, 192, ((255, 120, 60), (70, 230, 120))), (141, 200, ((200, 60, 40), (240, 200, 60)))]}
+BARS = {"reaction_chamber": [(132, 192, ((255, 120, 60), (70, 230, 120))), (141, 200, ((200, 60, 40), (240, 200, 60)))],
+        "fission_reactor": [(124, 192, ((70, 200, 90), (230, 40, 30)))]}     # termómetro: verde abajo, rojo arriba
 
 
 def make(inputs, outputs, arrow_pos):

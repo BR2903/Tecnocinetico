@@ -33,6 +33,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModBlocks.AMMO_FABRICATOR.get());
                         out.accept(ModBlocks.REACTION_CHAMBER.get());
                         out.accept(ModBlocks.CHEMICAL_LAB.get());
+                        out.accept(ModBlocks.FISSION_REACTOR.get());
+                        out.accept(com.bryanamaya.tecnocinetico.reservoir.ReservoirRegistry.RESERVOIR_ITEM.get());
                         out.accept(ModBlocks.CREATIVE_ENERGY_SOURCE.get());
                         // gadgets del Equipo Táctico (por tier)
                         out.accept(ModItems.NIGHT_VISION_VISOR.get());
@@ -239,6 +241,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.URANIUM_INGOT.get());
                         out.accept(ModItems.URANIUM_NUGGET.get());
                         out.accept(ModBlocks.URANIUM_BLOCK.get());
+                        out.accept(ModItems.URANIUM_FUEL_ROD.get());
+                        out.accept(ModItems.DEPLETED_FUEL_ROD.get());
                         out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID.bucket.get());
                         out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT.bucket.get());
                         out.accept(ModItems.IRON_DUST.get());

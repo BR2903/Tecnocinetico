@@ -98,6 +98,11 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
     /** ¿Se puede meter este objeto en este hueco de entrada? */
     protected abstract boolean accepts(int slot, ItemStack stack);
 
+    /** ¿Enciende la luz de estado? (por defecto: tiene energía; el reactor: está quemando combustible). */
+    protected boolean isLit() {
+        return energy.getEnergyStored() > 0;
+    }
+
     /** Datos extra para la interfaz (ver MachineKind.extraData). */
     protected int getExtra(int i) {
         return 0;
@@ -115,11 +120,14 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, ElectricMachineBlockEntity be) {
         boolean working = be.work();
+        if (be.isRemoved() || !level.getBlockState(pos).is(state.getBlock())) {
+            return;                                                           // p. ej. el reactor explotó
+        }
         if (!working && be.progress != 0) {
             be.progress = 0;
             be.setChanged();
         }
-        boolean lit = be.energy.getEnergyStored() > 0;
+        boolean lit = be.isLit();
         if (state.hasProperty(ElectricMachineBlock.POWERED) && state.getValue(ElectricMachineBlock.POWERED) != lit) {
             level.setBlock(pos, state.setValue(ElectricMachineBlock.POWERED, lit), Block.UPDATE_CLIENTS);
         }
@@ -276,6 +284,13 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
             int d = Math.min(energy, amount);
             energy -= d;
             return d;
+        }
+
+        /** Energía generada por la propia máquina (reactor). Devuelve lo que cupo. */
+        public int produce(int amount) {
+            int p = Math.min(amount, capacity - energy);
+            energy += p;
+            return p;
         }
 
         public void set(int value) {

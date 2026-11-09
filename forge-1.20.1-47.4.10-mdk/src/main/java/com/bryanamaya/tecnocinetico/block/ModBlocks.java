@@ -121,6 +121,10 @@ public class ModBlocks {
             () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.CHEMICAL_LAB,
                     com.bryanamaya.tecnocinetico.machine.ChemicalLabBlockEntity::new, false));
 
+    public static final RegistryObject<Block> FISSION_REACTOR = registerBlock("fission_reactor",
+            () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.FISSION_REACTOR,
+                    com.bryanamaya.tecnocinetico.machine.FissionReactorBlockEntity::new));
+
     // --- SOLO PRUEBAS (creativo): energía infinita. Sin receta ni drops. ---
     public static final RegistryObject<Block> CREATIVE_ENERGY_SOURCE = registerBlock("creative_energy_source",
             CreativeEnergySourceBlock::new);

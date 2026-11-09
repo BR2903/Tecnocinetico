@@ -29,7 +29,7 @@ import java.util.List;
  * salida (ver MachineRecipes.LAB). Los tanques se llenan/vacían con cubos (clic derecho al bloque) o con
  * tuberías: lo que entra va al tanque de entrada, lo que se saca sale del de salida.
  */
-public class ChemicalLabBlockEntity extends ElectricMachineBlockEntity {
+public class ChemicalLabBlockEntity extends ElectricMachineBlockEntity implements FluidMachine {
 
     public static final int TANK = 8_000;
     public static final int EXTRA_IN_FLUID = 0, EXTRA_IN_AMOUNT = 1, EXTRA_OUT_FLUID = 2, EXTRA_OUT_AMOUNT = 3;
@@ -164,6 +164,7 @@ public class ChemicalLabBlockEntity extends ElectricMachineBlockEntity {
     }
 
     /** Clic derecho con un cubo u otro recipiente: llena el tanque de entrada o vacía el de salida. */
+    @Override
     public boolean useContainer(Player player, InteractionHand hand) {
         if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent()) {
             return FluidUtil.interactWithFluidHandler(player, hand, pipes);

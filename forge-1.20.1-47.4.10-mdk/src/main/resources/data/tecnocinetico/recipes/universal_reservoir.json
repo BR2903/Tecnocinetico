@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TGT",
+    "GCG",
+    "TGT"
+  ],
+  "key": {
+    "T": {
+      "item": "tecnocinetico:titanium_ingot"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "C": {
+      "item": "minecraft:cauldron"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:universal_reservoir",
+    "count": 1
+  }
+}

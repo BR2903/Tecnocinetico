@@ -50,6 +50,8 @@ public class ModItems {
     public static final RegistryObject<Item> RAW_URANIUM = radioactive("raw_uranium", true);
     public static final RegistryObject<Item> URANIUM_INGOT = radioactive("uranium_ingot", false);
     public static final RegistryObject<Item> URANIUM_NUGGET = radioactive("uranium_nugget", false);
+    public static final RegistryObject<Item> URANIUM_FUEL_ROD = radioactive("uranium_fuel_rod", false);
+    public static final RegistryObject<Item> DEPLETED_FUEL_ROD = radioactive("depleted_fuel_rod", true);
     public static final RegistryObject<Item> IRON_DUST = simple("iron_dust");
     public static final RegistryObject<Item> GOLD_DUST = simple("gold_dust");
     public static final RegistryObject<Item> COPPER_DUST = simple("copper_dust");

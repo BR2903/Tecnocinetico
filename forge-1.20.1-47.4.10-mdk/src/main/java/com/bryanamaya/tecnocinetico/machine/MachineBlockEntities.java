@@ -27,6 +27,9 @@ public final class MachineBlockEntities {
     public static final RegistryObject<BlockEntityType<ChemicalLabBlockEntity>> CHEMICAL_LAB = TYPES.register("chemical_lab",
             () -> BlockEntityType.Builder.of(ChemicalLabBlockEntity::new, ModBlocks.CHEMICAL_LAB.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<FissionReactorBlockEntity>> FISSION_REACTOR = TYPES.register("fission_reactor",
+            () -> BlockEntityType.Builder.of(FissionReactorBlockEntity::new, ModBlocks.FISSION_REACTOR.get()).build(null));
+
     private MachineBlockEntities() {}
 
     public static void register(IEventBus bus) {

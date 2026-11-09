@@ -63,6 +63,11 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
                         new ItemStack(ModBlocks.URANIUM_ORE.get()), new ItemStack(ModBlocks.DEEPSLATE_URANIUM_ORE.get()),
                         new ItemStack(ModBlocks.URANIUM_BLOCK.get())),
                 VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.uranium_info"));
+        registration.addIngredientInfo(List.of(new ItemStack(ModBlocks.FISSION_REACTOR.get()), new ItemStack(ModItems.URANIUM_FUEL_ROD.get()),
+                        new ItemStack(ModItems.DEPLETED_FUEL_ROD.get())),
+                VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.reactor_info"));
+        registration.addIngredientInfo(new ItemStack(com.bryanamaya.tecnocinetico.reservoir.ReservoirRegistry.RESERVOIR_ITEM.get()),
+                VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.reservoir_info"));
 
         // Información: cómo se montan los módulos
         List<ItemStack> stacks = new ArrayList<>();

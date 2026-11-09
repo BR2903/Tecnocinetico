@@ -71,7 +71,8 @@ public final class MachineRecipes {
             new React(ModItems.TITANIUM_DUST, ModItems.TITANIUM_INGOT, 1, ModItems.TITANIUM_NUGGET, 0.10F, 4, 3, 100, 150),
             new React(ModItems.RAW_URANIUM, ModItems.URANIUM_INGOT, 1, ModItems.URANIUM_NUGGET, 0.25F, 7, 5, 200, 300),
             new React(block(com.bryanamaya.tecnocinetico.block.ModBlocks.URANIUM_ORE), ModItems.URANIUM_INGOT, 2, ModItems.URANIUM_NUGGET, 0.25F, 7, 7, 240, 320),
-            new React(block(com.bryanamaya.tecnocinetico.block.ModBlocks.DEEPSLATE_URANIUM_ORE), ModItems.URANIUM_INGOT, 2, ModItems.URANIUM_NUGGET, 0.25F, 7, 7, 240, 320));
+            new React(block(com.bryanamaya.tecnocinetico.block.ModBlocks.DEEPSLATE_URANIUM_ORE), ModItems.URANIUM_INGOT, 2, ModItems.URANIUM_NUGGET, 0.25F, 7, 7, 240, 320),
+            new React(ModItems.DEPLETED_FUEL_ROD, ModItems.URANIUM_INGOT, 1, ModItems.TITANIUM_NUGGET, 0.5F, 8, 9, 300, 400));     // reprocesado
 
     public static React react(ItemStack in) {
         for (React r : REACT) {

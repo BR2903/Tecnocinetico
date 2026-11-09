@@ -259,6 +259,22 @@ def machine_front(kind):
         for i in range(8):                                                     # barra de carga
             c = cyan if i < 5 else steel[1]
             d.rectangle([14 + i * 5, 52, 17 + i * 5, 56], fill=c)
+    elif kind == "fission_reactor":                                            # vasija con mirilla al núcleo
+        d.rectangle([10, 6, 53, 46], fill=steel[0], outline=steel[3])
+        d.ellipse([16, 9, 47, 40], fill=(20, 26, 30), outline=steel[3])
+        d.ellipse([19, 12, 44, 37], fill=(12, 40, 60))
+        for i, x in enumerate(range(22, 42, 4)):                                # barras de combustible brillando
+            d.rectangle([x, 15, x + 2, 34], fill=(120, 230, 90) if i % 2 == 0 else (90, 200, 240))
+        d.ellipse([19, 12, 44, 37], outline=(60, 150, 200))
+        for (gx, col) in ((14, (230, 70, 50)), (31, (230, 200, 60))):          # manómetros
+            d.ellipse([gx, 49, gx + 9, 58], fill=steel[1], outline=steel[4])
+            d.line([(gx + 4, 53), (gx + 7, 50)], fill=col)
+        d.rectangle([46, 49, 55, 58], fill=(220, 180, 40))                      # radiación
+        d.ellipse([49, 52, 52, 55], fill=(30, 30, 30))
+        for a in (90, 210, 330):
+            x = 50.5 + 3.5 * math.cos(math.radians(a))
+            y = 53.5 + 3.5 * math.sin(math.radians(a))
+            d.rectangle([x - 1, y - 1, x, y], fill=(30, 30, 30))
     elif kind == "chemical_lab":                                               # vitrina con matraces y tuberías
         d.rectangle([9, 8, 54, 44], fill=(14, 22, 28), outline=steel[3])
         d.line([(10, 9), (53, 9)], fill=(200, 215, 225))
@@ -411,7 +427,62 @@ def worldgen(name, cfg):
                                                                        "features": f"tecnocinetico:{name}_ore_placed", "step": "underground_ores"})
 
 
-MACHINES = ["electric_refiner", "cell_charger", "ammo_fabricator", "reaction_chamber", "chemical_lab"]
+def reservoir_art():
+    """Reservorio Universal: marco de acero con remaches y una gran mirilla de vidrio con marcas de nivel."""
+    steel = [(22, 24, 30), (40, 44, 52), (62, 66, 76), (92, 98, 110), (140, 146, 158)]
+    S = 32
+    side = Image.new("RGBA", (S, S))
+    d = ImageDraw.Draw(side)
+    d.rectangle([0, 0, S - 1, S - 1], fill=steel[2])
+    d.rectangle([0, 0, S - 1, S - 1], outline=steel[0])
+    d.line([(1, 1), (S - 2, 1)], fill=steel[4]); d.line([(1, 1), (1, S - 2)], fill=steel[3])
+    d.rectangle([5, 5, S - 6, S - 6], fill=(18, 40, 52), outline=steel[0])     # mirilla
+    for y in range(6, S - 6):                                                 # degradado del cristal
+        t = (y - 6) / (S - 12)
+        d.line([(6, y), (S - 7, y)], fill=(int(30 + 30 * t), int(70 + 60 * t), int(90 + 70 * t)))
+    d.line([(8, 7), (8, S - 8)], fill=(170, 220, 235))                        # reflejo
+    for y in range(9, S - 7, 4):
+        d.line([(S - 10, y), (S - 8, y)], fill=(200, 230, 240))               # marcas de nivel
+    for (x, y) in ((2, 2), (S - 3, 2), (2, S - 3), (S - 3, S - 3), (S // 2, 2), (S // 2, S - 3)):
+        d.point((x, y), fill=steel[4])
+    side.save(T / "block/universal_reservoir_side.png")
+    top = Image.new("RGBA", (S, S))
+    d = ImageDraw.Draw(top)
+    d.rectangle([0, 0, S - 1, S - 1], fill=steel[2], outline=steel[0])
+    d.ellipse([8, 8, S - 9, S - 9], fill=steel[1], outline=steel[4])          # tapa
+    d.ellipse([13, 13, S - 14, S - 14], fill=steel[3])
+    for (x, y) in ((3, 3), (S - 4, 3), (3, S - 4), (S - 4, S - 4)):
+        d.point((x, y), fill=steel[4])
+    d.rectangle([S // 2 - 1, 2, S // 2, 7], fill=(190, 120, 70))              # boca de entrada (cobre)
+    top.save(T / "block/universal_reservoir_top.png")
+    jw(A / "models/block/universal_reservoir.json", {"parent": "minecraft:block/cube_bottom_top", "textures": {
+        "side": "tecnocinetico:block/universal_reservoir_side", "top": "tecnocinetico:block/universal_reservoir_top",
+        "bottom": "tecnocinetico:block/universal_reservoir_top"}})
+    simple_state("universal_reservoir")
+    block_item("universal_reservoir")
+
+
+def fuel_rods():
+    """Barras de combustible (16 px, en diagonal como un palo): revestimiento de titanio con ventanas verdes;
+    la agotada, oscura y apagada."""
+    for name, glow, clad in (("uranium_fuel_rod", (140, 240, 90), (170, 168, 190)), ("depleted_fuel_rod", (70, 90, 60), (100, 96, 104))):
+        img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+        for i in range(12):                                                  # de abajo-izq. a arriba-der.
+            x, y = 2 + i, 13 - i
+            for dx, dy, c in ((0, 0, clad), (1, 0, tuple(int(v * 0.7) for v in clad)), (0, -1, tuple(min(255, int(v * 1.2)) for v in clad)),
+                              (1, 1, tuple(int(v * 0.5) for v in clad)), (-1, -1, tuple(min(255, int(v * 1.3)) for v in clad))):
+                if not (0 <= x + dx < 16 and 0 <= y + dy < 16):
+                    continue
+                img.putpixel((x + dx, y + dy), c + (255,))
+            if 2 <= i <= 9 and i % 2 == 0:
+                img.putpixel((x, y), glow + (255,))                          # ventana del combustible
+        for (x, y) in ((1, 14), (2, 14), (1, 13), (14, 1), (14, 2), (13, 1)):  # tapones
+            img.putpixel((x, y), (60, 62, 70, 255))
+        img.save(T / f"item/{name}.png")
+        gen_item(name)
+
+
+MACHINES = ["electric_refiner", "cell_charger", "ammo_fabricator", "reaction_chamber", "chemical_lab", "fission_reactor"]
 REACTOR_ONLY = ("titanium", "uranium")
 
 
@@ -493,6 +564,8 @@ def main():
     for old in ("titanium_from_raw", "titanium_from_ore", "titanium_from_deepslate_ore", "titanium_from_dust"):
         for kind in ("smelting", "blasting"):
             (D / f"tecnocinetico/recipes/{kind}_{old}.json").unlink(missing_ok=True)
+    reservoir_art()
+    fuel_rods()
     print("ok: metales, polvos y máquinas")
 
 

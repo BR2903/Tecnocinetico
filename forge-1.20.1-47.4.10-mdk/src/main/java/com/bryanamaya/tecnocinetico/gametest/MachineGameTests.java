@@ -126,6 +126,53 @@ public class MachineGameTests {
     }
 
     @GameTest(template = "empty", timeoutTicks = 200)
+    public static void reactorGeneratesAndStaysCool(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(1, 2, 1);
+        helper.setBlock(pos, ModBlocks.FISSION_REACTOR.get());
+        var reactor = (com.bryanamaya.tecnocinetico.machine.FissionReactorBlockEntity) helper.getBlockEntity(pos);
+        reactor.coolantTank().fill(new net.minecraftforge.fluids.FluidStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT.get(), 8000),
+                net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+        reactor.getItems().insertItem(0, new ItemStack(ModItems.URANIUM_FUEL_ROD.get()), false);
+        reactor.setThrottle(100);
+        helper.assertTrue(reactor.getItems().insertItem(0, new ItemStack(Items.COAL), true).getCount() == 1, "Solo acepta barras de uranio");
+        helper.runAfterDelay(120, () -> {
+            int e = reactor.getEnergy().getEnergyStored();
+            helper.assertTrue(e > 50_000, "Al 100 % debería haber generado ~70.000 FE: " + e);
+            helper.assertTrue(reactor.heat() < 100, "Con refrigerante no debería calentarse: " + reactor.heat());
+            helper.assertTrue(reactor.getEnergy().receiveEnergy(1000, true) == 0 || reactor.getCapability(
+                    net.minecraftforge.common.capabilities.ForgeCapabilities.ENERGY).map(s -> s.receiveEnergy(1000, true)).orElse(0) == 0,
+                    "No se le puede meter energía al reactor");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "empty")
+    public static void reservoirStoresAnything(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(1, 2, 1);
+        helper.setBlock(pos, com.bryanamaya.tecnocinetico.reservoir.ReservoirRegistry.RESERVOIR.get());
+        var r = (com.bryanamaya.tecnocinetico.reservoir.ReservoirBlockEntity) helper.getBlockEntity(pos);
+        var exec = net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+        var h = r.fluidHandler();
+        for (int i = 0; i < 3; i++) {                                         // 3 x 2.000 millones de mB de agua
+            helper.assertTrue(h.fill(new net.minecraftforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.WATER, 2_000_000_000), exec) == 2_000_000_000,
+                    "Debería aceptar cualquier cantidad");
+        }
+        h.fill(new net.minecraftforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.LAVA, 5000), exec);
+        h.fill(new net.minecraftforge.fluids.FluidStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID.get(), 750), exec);
+        helper.assertTrue(r.fluids().size() == 3 && r.fluids().get(0).amount == 6_000_000_000L, "3 líquidos, 6.000 millones de mB de agua");
+        helper.assertTrue(h.drain(1000, exec).getFluid() == net.minecraft.world.level.material.Fluids.WATER, "Sale el elegido (agua)");
+        r.onButton(1);                                                        // elegir la lava
+        helper.assertTrue(h.drain(1000, exec).getFluid() == net.minecraft.world.level.material.Fluids.LAVA, "Ahora sale lava");
+        r.onButton(102);                                                      // desechar el ácido
+        helper.assertTrue(r.fluids().size() == 2, "El ácido debería haberse desechado");
+        // se conserva al guardar/cargar
+        var tag = r.writeFluids(new net.minecraft.nbt.CompoundTag());
+        r.readFluids(tag);
+        helper.assertTrue(r.fluids().size() == 2 && r.fluids().get(1).amount == 4000, "Debería conservar el contenido: " + tag);
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 200)
     public static void fabricatorMakesAmmo(GameTestHelper helper) {
         ElectricMachineBlockEntity be = place(helper, ModBlocks.AMMO_FABRICATOR.get());
         be.getItems().insertItem(0, new ItemStack(ModItems.CINETRITE_SHARD.get(), 2), false);

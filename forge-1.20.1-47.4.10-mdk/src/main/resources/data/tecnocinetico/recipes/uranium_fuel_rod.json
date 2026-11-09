@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TUT",
+    "TUT",
+    "TUT"
+  ],
+  "key": {
+    "T": {
+      "item": "tecnocinetico:titanium_ingot"
+    },
+    "U": {
+      "item": "tecnocinetico:uranium_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:uranium_fuel_rod",
+    "count": 1
+  }
+}
