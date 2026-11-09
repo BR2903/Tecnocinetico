@@ -122,18 +122,16 @@ def m_slide(f, x, y):
             if v < 0.1:
                 return col(STEEL_LO)
             return shaded(BARREL, (150, 154, 160), BARREL_LO, f, x, y, 0.02)
-        # glifo rúnico grabado (lado izquierdo), como los de la Aleación Antigua
-        # (rombo fino con trazo central, 1 px de grosor)
+        # placa de serie grabada (lado izquierdo): marco fino y dos líneas de "número de serie"
         if f.name == "west" and 0.53 < z < 0.67 and 0.22 < v < 0.78:
-            # en la cara oeste la u avanza con z, así que x local = x - inicio de la zona
             gx0, gw = int(0.53 * f.w) + 1, int(0.14 * f.w) - 1
             gy0, gh = int(0.22 * f.h) + 1, int(0.56 * f.h) - 1
             lx, ly = x - gx0, y - gy0
-            cx, cy = gw // 2, gh // 2
             if 0 <= lx < gw and 0 <= ly < gh:
-                diamond = abs(abs(lx - cx) + abs(ly - cy) * cx / max(cy, 1) - cx) < 0.6
-                if diamond or (lx == cx and abs(ly - cy) <= cy - 1):
-                    return col(CYAN, 0.65)
+                frame = lx in (0, gw - 1) or ly in (0, gh - 1)
+                text = 1 < lx < gw - 2 and ly in (gh // 3, 2 * gh // 3) and (lx % 3) != 0
+                if frame or text:
+                    return col(STEEL_HI, 0.75)
         # linea de mecanizado
         if abs(v - 0.84) < 0.5 / f.h:
             return col(STEEL_HI, 0.9)

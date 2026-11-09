@@ -34,10 +34,6 @@ public class ModCreativeModeTabs {
                         out.accept(ModBlocks.REACTION_CHAMBER.get());
                         out.accept(ModBlocks.CHEMICAL_LAB.get());
                         out.accept(ModBlocks.CREATIVE_ENERGY_SOURCE.get());
-                        out.accept(ModBlocks.ANCIENT_ALLOY_TL.get());
-                        out.accept(ModBlocks.ANCIENT_ALLOY_TR.get());
-                        out.accept(ModBlocks.ANCIENT_ALLOY_BL.get());
-                        out.accept(ModBlocks.ANCIENT_ALLOY_BR.get());
                         // gadgets del Equipo Táctico (por tier)
                         out.accept(ModItems.NIGHT_VISION_VISOR.get());
                         out.accept(ModItems.VISOR_BATTERY.get());

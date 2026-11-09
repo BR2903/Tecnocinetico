@@ -5,7 +5,7 @@
 - Ajustes de equilibrio de habilidades (XP por acción) tras jugar un rato.
 
 ## Ideas propuestas (el usuario elige el orden)
-- **Ruinas antiguas**: estructuras con Aleación Antigua y glifos, Cuerpos de Enjambre de guardia, cofres con módulos/piezas (encaja con el lore).
+- **Ruinas antiguas**: estructuras tecnológicas con Aleación Antigua (sin glifos ni magia), Cuerpos de Enjambre de guardia, cofres con módulos/piezas (encaja con el lore).
 - **Equipo de Inercita**: herramientas y armadura de nivel 2 (diseño realista + detalles del mod).
 - **Rediseño visual de la Prensa Automática** al estilo de las máquinas de Create (sigue con la textura antigua reescalada).
 - **Más armas realistas** (p. ej. rifle cinético) con sus propios módulos en el banco.

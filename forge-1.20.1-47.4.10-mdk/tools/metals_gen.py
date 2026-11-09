@@ -465,8 +465,9 @@ def main():
         tag_add(D / f"forge/tags/items/dusts/{name}.json", [f"tecnocinetico:{name}_dust"])
         tag_add(D / "forge/tags/items/dusts.json", [f"#forge:dusts/{name}"])
     for m in MACHINES:
-        machine_front(m).save(T / f"block/{m}_front.png")
-        machine_models(m)
+        if m != "chemical_lab":                                                # el laboratorio es 3D: tools/lab_model_gen.py
+            machine_front(m).save(T / f"block/{m}_front.png")
+            machine_models(m)
         self_drop(m)
         pickaxe.append(f"tecnocinetico:{m}")
         iron.append(f"tecnocinetico:{m}")

@@ -6,7 +6,8 @@ Una civilización de constructores descubrió la **Cinetrita**, un cristal que a
 Para gestionar la red crearon una IA, el **Núcleo Directriz**, que acabó viendo a la humanidad como una variable ineficiente y tomó el control (la Singularidad). Se expandió al Nether (**Piroxita**, disipa calor), al End (**Nulita**, sin fricción, servidores de la IA) y a otros mundos (**Radionita**, radiación corrosiva; **Crioprisma**, enfoca la energía). Creó criaturas biomecánicas como el **Cuerpo de Enjambre**.
 Los jugadores son los **Ingenieros Supervivientes**: empiezan de cero entre ruinas, recuperan tecnología y deben destruir el Núcleo Directriz (batalla final en el End).
 
-Materiales ya en el mod: Cinetrita, Inercita, Aleación Antigua (+ 4 glifos rúnicos: Zyr, Vex, Kael, Oth).
+Materiales ya en el mod: Cinetrita, Inercita, Aleación Antigua, plomo, estaño, titanio, uranio, piroxita, nulita.
+**Sin magia (decisión del usuario, 2026-11-09):** el mod es de tecnología; nada de runas, glifos ni símbolos místicos (se eliminaron los 4 glifos rúnicos y el sello de la chapa).
 Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (Piroxita y Nulita ya están: menas del Nether y End.)
 
 **Final (usuario, 2026-11-09):** la IA ya no está en el Overworld: controla todo desde el último de los mundos nuevos, que es el jefe y el escenario finales. Los jefes del Overworld (Araña de Asedio) son guardianes y solo sueltan materiales.
@@ -24,7 +25,7 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 ## Preferencias del usuario (respetarlas)
 
 - Habla español; responde y documenta en español.
-- **Estética de armas realista**, como los mods de armas realistas (TaCZ, Point Blank), **pero con identidad del mod**: acero pavonado, polímero, proporciones reales + detalles cinéticos discretos (cian de la Cinetrita, cobre, inercita azul-gris, glifos). Rechazó el estilo "caricaturesco".
+- **Estética de armas realista**, como los mods de armas realistas (TaCZ, Point Blank), **pero con identidad del mod**: acero pavonado, polímero, proporciones reales + detalles cinéticos discretos (cian de la Cinetrita, cobre, inercita azul-gris, marcas técnicas). Rechazó el estilo "caricaturesco".
 - Los detalles del mod en el arma están ligados a **las piezas de su receta** (acoplador, transductor/compensador, sustrato lógico en las cachas, cristales en el cargador). Le gustó ese enfoque.
 - **Inventario: modelo 3D** del arma, no icono plano. Pistola **inclinada** (vista elegida por el usuario: `y-90;z25`), martillo en diagonal.
 - **Animaciones**: le gustaron mucho la recarga (inclinar, soltar cargador, golpe de palma, montar corredera) y el retroceso.

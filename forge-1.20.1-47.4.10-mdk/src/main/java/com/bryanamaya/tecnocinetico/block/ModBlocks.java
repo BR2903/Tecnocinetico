@@ -54,17 +54,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> ANCIENT_ALLOY_BLOCK = registerBlock("ancient_alloy_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f).sound(SoundType.NETHERITE_BLOCK)));
 
-    public static final RegistryObject<Block> ANCIENT_ALLOY_TL = registerBlock("ancient_alloy_tl",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f)));
 
-    public static final RegistryObject<Block> ANCIENT_ALLOY_TR = registerBlock("ancient_alloy_tr",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f)));
 
-    public static final RegistryObject<Block> ANCIENT_ALLOY_BL = registerBlock("ancient_alloy_bl",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f)));
 
-    public static final RegistryObject<Block> ANCIENT_ALLOY_BR = registerBlock("ancient_alloy_br",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f)));
 
     // --- MAQUINARIA ---
     public static final RegistryObject<Block> KINETIC_ASSEMBLY_PRESS = registerBlock("kinetic_assembly_press",
@@ -127,7 +119,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> CHEMICAL_LAB = registerBlock("chemical_lab",
             () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.CHEMICAL_LAB,
-                    com.bryanamaya.tecnocinetico.machine.ChemicalLabBlockEntity::new));
+                    com.bryanamaya.tecnocinetico.machine.ChemicalLabBlockEntity::new, false));
 
     // --- SOLO PRUEBAS (creativo): energía infinita. Sin receta ni drops. ---
     public static final RegistryObject<Block> CREATIVE_ENERGY_SOURCE = registerBlock("creative_energy_source",

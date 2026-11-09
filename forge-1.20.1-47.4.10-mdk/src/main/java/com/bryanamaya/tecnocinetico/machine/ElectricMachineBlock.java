@@ -41,10 +41,20 @@ public class ElectricMachineBlock extends Block implements EntityBlock {
 
     public ElectricMachineBlock(Supplier<? extends BlockEntityType<? extends ElectricMachineBlockEntity>> type,
                                 BiFunction<BlockPos, BlockState, ? extends ElectricMachineBlockEntity> factory) {
-        super(Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5.0f, 6.0f).sound(SoundType.NETHERITE_BLOCK));
+        this(type, factory, true);
+    }
+
+    /** fullCube = false para máquinas con modelo 3D que no ocupan todo el bloque (p. ej. el Laboratorio Químico). */
+    public ElectricMachineBlock(Supplier<? extends BlockEntityType<? extends ElectricMachineBlockEntity>> type,
+                                BiFunction<BlockPos, BlockState, ? extends ElectricMachineBlockEntity> factory, boolean fullCube) {
+        super(fullCube ? baseProps() : baseProps().noOcclusion());
         this.type = type;
         this.factory = factory;
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(POWERED, false));
+    }
+
+    private static Properties baseProps() {
+        return Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5.0f, 6.0f).sound(SoundType.NETHERITE_BLOCK);
     }
 
     @Nullable
