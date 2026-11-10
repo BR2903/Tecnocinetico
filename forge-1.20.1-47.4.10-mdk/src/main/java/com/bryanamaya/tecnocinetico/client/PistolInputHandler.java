@@ -70,6 +70,7 @@ public final class PistolInputHandler {
                     var g = (com.bryanamaya.tecnocinetico.item.weapon.LongGunItem) mc.player.getMainHandItem().getItem();
                     if (g.canFireNow(mc.player, mc.player.getMainHandItem())) {
                         railCharge = 0.001F;                                  // empieza a cargar; dispara al soltar
+                        ModNetwork.CHANNEL.sendToServer(new ModNetwork.RailChargePacket());   // el servidor mide la carga
                         mc.player.playSound(com.bryanamaya.tecnocinetico.sound.ModSounds.ANCHOR_CHARGE.get(), 0.6F, 1.8F);
                     } else {
                         ModNetwork.CHANNEL.sendToServer(new ModNetwork.FirePistolPacket(false));   // vacío: recarga

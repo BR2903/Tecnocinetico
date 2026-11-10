@@ -73,6 +73,9 @@ public class CoreFighterEntity extends Entity {
     private boolean leftGun;
     private double lerpX, lerpY, lerpZ, lerpYRot, lerpXRot;
     private double lastSpeedSeen;
+    private Vec3 lastMove = Vec3.ZERO;
+    /** Vida con la que quedan los restos al destruirse (hay que repararlos con Placas de Inercita). */
+    public static final float WRECK_HEALTH = 15.0F;
     @Nullable
     private ResourceKey<Level> jumpTo;
     @Nullable
@@ -231,7 +234,9 @@ public class CoreFighterEntity extends Entity {
     private void destroy() {
         level().explode(this, getX(), getY() + PIVOT, getZ(), 4.0F, Level.ExplosionInteraction.NONE);
         ejectPassengers();
-        spawnAtLocation(new ItemStack(ModItems.CORE_FIGHTER.get()));                // los restos se pueden recuperar
+        ItemStack wreck = new ItemStack(ModItems.CORE_FIGHTER.get());          // los restos se pueden recuperar,
+        wreck.getOrCreateTag().putFloat("Health", WRECK_HEALTH);              // pero muy dañados
+        spawnAtLocation(wreck);
         discard();
     }
 
@@ -328,7 +333,10 @@ public class CoreFighterEntity extends Entity {
         // choque: frenazo brusco a mucha velocidad
         Vec3 moved = new Vec3(getX() - xo, getY() - yo, getZ() - zo);
         double seen = moved.length();
-        if (lastSpeedSeen > 0.9D && seen < lastSpeedSeen * 0.3D && pilot != null) {
+        // La posición la manda el cliente: si en un tick no llega su paquete parece un frenazo. Solo es choque si
+        // de verdad hay algo sólido delante.
+        if (lastSpeedSeen > 0.9D && seen < lastSpeedSeen * 0.3D && pilot != null
+                && !level().noCollision(this, getBoundingBox().move(lastMove.normalize().scale(0.6D)))) {
             float dmg = (float) (lastSpeedSeen * 14.0D);
             setHealth(health() - dmg);
             pilot.hurt(damageSources().flyIntoWall(), dmg * 0.25F);
@@ -339,6 +347,9 @@ public class CoreFighterEntity extends Entity {
             }
         }
         lastSpeedSeen = seen;
+        if (seen > 1.0E-4D) {
+            lastMove = moved;
+        }
         if (gunCd > 0) {
             gunCd--;
         }

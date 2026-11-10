@@ -37,6 +37,9 @@ public class CoreFighterItem extends Item {
         if (!level.noCollision(ship, ship.getBoundingBox())) {
             return InteractionResult.FAIL;                                        // no cabe aquí
         }
+        if (ctx.getItemInHand().getTag() != null && ctx.getItemInHand().getTag().contains("Health")) {
+            ship.setHealth(ctx.getItemInHand().getTag().getFloat("Health"));     // restos de una nave destruida
+        }
         level.addFreshEntity(ship);
         if (ctx.getPlayer() == null || !ctx.getPlayer().getAbilities().instabuild) {
             ctx.getItemInHand().shrink(1);
@@ -47,6 +50,10 @@ public class CoreFighterItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.tecnocinetico.core_fighter").withStyle(ChatFormatting.GRAY));
+        if (stack.getTag() != null && stack.getTag().contains("Health")) {
+            tooltip.add(Component.translatable("tooltip.tecnocinetico.core_fighter_wreck", Math.round(stack.getTag().getFloat("Health")),
+                    Math.round(com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity.MAX_HEALTH)).withStyle(ChatFormatting.RED));
+        }
         tooltip.add(Component.translatable("tooltip.tecnocinetico.core_fighter_keys").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

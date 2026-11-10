@@ -519,3 +519,15 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 ## 2026-11-10 — Claude — Fuego amigo y botón "+" de JEI en las máquinas
 - **Fuego amigo** (`rules/FriendlyFire`): regla general, por defecto desactivada. En LAN se elige con un botón nuevo en la pantalla "Abrir en LAN" (solo ahí; se aplica si de verdad se abre). En servidor dedicado: `serverconfig/tecnocinetico-server.toml`. Desactivado, ningún jugador hiere a otro (armas, golpes, proyectiles, explosiones) y el lanzallamas/cuchilla/cañón de pulso/rifle de riel tampoco queman ni empujan a compañeros. GameTest nuevo (34 pasan).
 - **JEI "+"**: pasar la receta a las máquinas (refinador, cargador, fabricador, cámara de reacción, laboratorio, ensamblador industrial, prensa automática y ensamblador de armas), con cantidades.
+
+## 2026-11-10 — Claude — Revisión externa: errores confirmados y arreglados
+- **Jetpack en servidor dedicado**: vanilla expulsaba por "volar" (allow-flight=false). Mientras empuja se reinicia `aboveGroundTickCount` (`gear/FlightKick`, reflexión con nombre SRG `f_9737_`). La nave no tenía el problema (sin gravedad: vanilla no la revisa; y un pasajero no se comprueba).
+- **Rifle de Riel**: la carga ya no la dicta el cliente: `RailChargePacket` al empezar; el servidor limita la carga al tiempo real (+3 ticks).
+- **Ensamblador de Armas**: recetas con los mismos tipos (Lanzagranadas/Lanzacohetes/Minigun, cascos/pantalones de Piroxita, Nulita y Mk III, Rifle de Riel/Peto del Núcleo) → gana la más exigente que se cumpla; con las cantidades justas (o el "+" de JEI) sale cada una. GameTest que lo prueba con todas.
+- **Jefe en Pacífico**: si la Araña de Asedio se descarta sin morir, la consola se reinicia y la barrera se abre.
+- **Reactor**: ahora sí irradia (busca núcleos encendidos a 12 bloques; antes buscaba a 3 y el núcleo queda a ≥5).
+- **Recarga del Impulsor de Esquiva** con clic derecho: faltaba el cinturón.
+- **Prensa Automática**: espera 1 s con la receta estable antes de empezar y reinicia el progreso si cambia (tolvas). Sigue siendo cierto que si falta el cobre los cristales solos se convierten en fragmentos (anotado en PENDIENTES).
+- **Caza del Núcleo**: el choque solo cuenta si hay algo sólido delante (el lag ya no da daño fantasma); al destruirse suelta los restos con 15/150 de casco.
+- **Menores**: la resonancia de la Cámara llega al cliente; las máquinas y la prensa solo se sincronizan si trabajan o cambió algo; R con un arma larga en la mano secundaria no la recarga; gadgets sin Reparación por yunque; los kits no se despliegan encima de jugadores o criaturas.
+- ARQUITECTURA (registros) al día. 35 GameTests pasan.

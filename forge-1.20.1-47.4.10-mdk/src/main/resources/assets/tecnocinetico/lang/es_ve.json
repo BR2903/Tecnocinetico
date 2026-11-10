@@ -548,5 +548,7 @@
   "gui.tecnocinetico.friendly_fire": "Fuego amigo",
   "gui.tecnocinetico.friendly_fire.tooltip": "Activado: los jugadores pueden herirse entre sí (armas, golpes, explosiones, fuego). Solo se puede elegir aquí, al abrir el mundo a LAN.",
   "message.tecnocinetico.friendly_fire_on": "Fuego amigo ACTIVADO: los jugadores pueden herirse entre sí.",
-  "message.tecnocinetico.friendly_fire_off": "Fuego amigo DESACTIVADO: los jugadores no pueden herirse entre sí."
+  "message.tecnocinetico.friendly_fire_off": "Fuego amigo DESACTIVADO: los jugadores no pueden herirse entre sí.",
+  "message.tecnocinetico.kit_blocked_entity": "No cabe (%s): %s está en medio",
+  "tooltip.tecnocinetico.core_fighter_wreck": "Restos dañados: casco %s/%s (repáralo con Placas de Inercita)"
 }

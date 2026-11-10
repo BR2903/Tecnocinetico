@@ -192,6 +192,9 @@ public final class GearEvents {
                 THRUSTING.remove(p.getUUID());
             } else {
                 p.fallDistance = 0.0F;
+                if (p instanceof net.minecraft.server.level.ServerPlayer sp) {
+                    FlightKick.allow(sp);                                       // vuelo legítimo: sin expulsión
+                }
                 // El movimiento del jugador lo calcula el cliente, pero el servidor sigue sumando gravedad a su propia
                 // copia de la velocidad. Al recibir daño el servidor se la manda al cliente (markHurt/empuje) y lo
                 // estampaba contra el suelo: mientras empuja, la velocidad vertical del servidor no baja de 0.

@@ -53,6 +53,14 @@ public class StructureKitItem extends Item {
             }
             return InteractionResult.FAIL;
         }
+        var inside = t.entitiesInside(level, origin, facing);
+        if (!inside.isEmpty()) {
+            if (!level.isClientSide) {
+                ctx.getPlayer().displayClientMessage(Component.translatable("message.tecnocinetico.kit_blocked_entity", sizeText,
+                        inside.get(0).getDisplayName()).withStyle(ChatFormatting.RED), true);
+            }
+            return InteractionResult.FAIL;
+        }
         if (!level.isClientSide) {
             t.place(level, origin, facing, s -> s.setValue(MultiblockMachineBlock.FACING, facing.getOpposite()));
             level.playSound(null, start, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 0.8F, 0.7F);

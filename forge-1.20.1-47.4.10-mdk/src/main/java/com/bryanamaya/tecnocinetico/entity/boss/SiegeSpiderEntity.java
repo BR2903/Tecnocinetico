@@ -271,6 +271,16 @@ public class SiegeSpiderEntity extends Monster {
         }
     }
 
+    /** Descartada sin morir (dificultad Pacífica, comandos...): la consola se reinicia y la barrera se abre. */
+    @Override
+    public void remove(RemovalReason reason) {
+        if (reason == RemovalReason.DISCARDED && !level().isClientSide && console != null
+                && level().getBlockEntity(console) instanceof CoreConsoleBlockEntity c && c.isActive()) {
+            c.reset();
+        }
+        super.remove(reason);
+    }
+
     private void resetFight() {
         if (console != null && level().getBlockEntity(console) instanceof CoreConsoleBlockEntity c) {
             c.reset();

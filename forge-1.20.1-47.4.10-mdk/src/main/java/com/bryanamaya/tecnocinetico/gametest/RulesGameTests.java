@@ -31,4 +31,19 @@ public class RulesGameTests {
         }
         helper.succeed();
     }
+
+    /** Recetas del Ensamblador de Armas con los mismos tipos: cada una sale con sus cantidades (antes ganaba la primera). */
+    @GameTest(template = "empty", batch = "reglas")
+    public static void assemblerPicksExactRecipe(GameTestHelper helper) {
+        for (var r : com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.all()) {
+            var inv = new net.minecraftforge.items.ItemStackHandler(6);
+            for (int i = 0; i < r.inputs().size(); i++) {
+                inv.setStackInSlot(i, r.inputs().get(i).copy());
+            }
+            var found = com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.find(inv, 6);
+            helper.assertTrue(found == r, "con los ingredientes de " + r.output().getHoverName().getString()
+                    + " sale " + (found == null ? "nada" : found.output().getHoverName().getString()));
+        }
+        helper.succeed();
+    }
 }

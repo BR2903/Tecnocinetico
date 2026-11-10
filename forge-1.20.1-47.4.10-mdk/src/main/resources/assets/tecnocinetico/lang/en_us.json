@@ -548,5 +548,7 @@
   "gui.tecnocinetico.friendly_fire": "Friendly Fire",
   "gui.tecnocinetico.friendly_fire.tooltip": "On: players can hurt each other (weapons, melee, explosions, fire). It can only be chosen here, when opening the world to LAN.",
   "message.tecnocinetico.friendly_fire_on": "Friendly fire ON: players can hurt each other.",
-  "message.tecnocinetico.friendly_fire_off": "Friendly fire OFF: players can't hurt each other."
+  "message.tecnocinetico.friendly_fire_off": "Friendly fire OFF: players can't hurt each other.",
+  "message.tecnocinetico.kit_blocked_entity": "It doesn't fit (%s): %s is in the way",
+  "tooltip.tecnocinetico.core_fighter_wreck": "Damaged wreck: hull %s/%s (repair it with Inercita Plates)"
 }

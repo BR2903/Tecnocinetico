@@ -72,11 +72,33 @@ public final class RadiationEvents {
             var st = level.getBlockState(q);
             Block b = st.getBlock();
             float k = b == block ? 6.0F : (b == ore || b == deep) ? 0.6F : 0.0F;
-            if (b == ModBlocks.FISSION_REACTOR.get() && st.getValue(com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock.POWERED)) {
-                k = 8.0F;                                                      // reactor quemando
-            }
             if (k > 0) {
                 dose += k / (1.0F + (float) Math.sqrt(q.distSqr(c)));
+            }
+        }
+        return dose + reactorDose(level, c);
+    }
+
+    /** Alcance de la radiación de un reactor encendido (desde su núcleo, que queda en el centro de la estructura 9x9). */
+    public static final int REACTOR_RANGE = 12;
+
+    /** Reactores de Fisión quemando combustible cerca (se buscan sus núcleos entre las entidades de bloque). */
+    private static float reactorDose(Level level, BlockPos c) {
+        float dose = 0.0F;
+        for (int cx = (c.getX() - REACTOR_RANGE) >> 4; cx <= (c.getX() + REACTOR_RANGE) >> 4; cx++) {
+            for (int cz = (c.getZ() - REACTOR_RANGE) >> 4; cz <= (c.getZ() + REACTOR_RANGE) >> 4; cz++) {
+                if (!level.hasChunk(cx, cz)) {
+                    continue;
+                }
+                for (var be : level.getChunk(cx, cz).getBlockEntities().values()) {
+                    if (be instanceof com.bryanamaya.tecnocinetico.machine.FissionReactorBlockEntity
+                            && be.getBlockState().getValue(com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock.POWERED)) {
+                        double d = Math.sqrt(be.getBlockPos().distSqr(c));
+                        if (d <= REACTOR_RANGE) {
+                            dose += 12.0F / (1.0F + (float) d);              // ~2 pegado a la carcasa, ~1 a 10 bloques
+                        }
+                    }
+                }
             }
         }
         return dose;

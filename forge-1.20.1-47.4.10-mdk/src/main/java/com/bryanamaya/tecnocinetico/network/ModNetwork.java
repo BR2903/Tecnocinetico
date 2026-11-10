@@ -59,6 +59,8 @@ public final class ModNetwork {
         CHANNEL.registerMessage(12, ShipJumpPacket.class, (m, b) -> b.writeUtf(m.dimension()),
                 b -> new ShipJumpPacket(b.readUtf(256)), ShipJumpPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(14, RailChargePacket.class, (m, b) -> {}, b -> new RailChargePacket(), RailChargePacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(13, DashPacket.class, (m, b) -> {}, b -> new DashPacket(), DashPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
@@ -131,7 +133,7 @@ public final class ModNetwork {
                 for (InteractionHand hand : InteractionHand.values()) {
                     ItemStack stack = player.getItemInHand(hand);
                     // Con dos pistolas, recarga la primera que lo necesite
-                    if (stack.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem gun) {
+                    if (hand == InteractionHand.MAIN_HAND && stack.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem gun) {
                         gun.startReload(player, stack);
                         return;
                     }
@@ -207,13 +209,41 @@ public final class ModNetwork {
         }
     }
 
-    /** Cliente -> servidor: suelta el disparo cargado (Rifle de Riel) con la carga alcanzada (0..1). */
+    private static final String RAIL_START = "tecnocinetico_rail_start";
+
+    /** Cliente -> servidor: empieza a cargar el Rifle de Riel (el servidor apunta el tick). */
+    public record RailChargePacket() {
+        public static void handle(RailChargePacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null) {
+                    p.getPersistentData().putLong(RAIL_START, p.level().getGameTime());
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /**
+     * Cliente -> servidor: suelta el disparo cargado (Rifle de Riel). La carga que manda el cliente nunca puede pasar
+     * de la que da el tiempo real desde que empezó a cargar (medido aquí; +3 ticks de margen por el lag).
+     */
     public record FireChargedPacket(boolean aiming, float charge) {
         public static void handle(FireChargedPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> {
                 ServerPlayer p = ctx.get().getSender();
                 if (p != null && p.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g) {
-                    g.tryFire(p, msg.aiming(), Math.max(0.0F, Math.min(1.0F, msg.charge())));
+                    var data = p.getPersistentData();
+                    if (!data.contains(RAIL_START)) {
+                        return;                                                // no empezó a cargar
+                    }
+                    long held = p.level().getGameTime() - data.getLong(RAIL_START);
+                    data.remove(RAIL_START);
+                    float allowed = (held + 3) / (float) com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem.CHARGE_TICKS;
+                    float charge = Math.max(0.0F, Math.min(Math.min(1.0F, msg.charge()), allowed));
+                    if (charge >= com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem.MIN_CHARGE) {
+                        g.tryFire(p, msg.aiming(), charge);
+                    }
                 }
             });
             ctx.get().setPacketHandled(true);

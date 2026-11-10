@@ -47,6 +47,18 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
     public static final int ENERGY_PER_TICK = 40;     // 4.000 FE por pieza
 
     private int progress = 0;
+    /** Receta en curso y ticks que lleva sin cambiar (espera 1 s antes de empezar: los ingredientes llegan por tolvas). */
+    private net.minecraft.world.item.Item lastRecipe;
+    private int settle;
+    /** Hay cambios que el cliente aún no ha visto (para no mandar la máquina parada una y otra vez). */
+    private boolean syncDirty = true;
+    private static final int SETTLE_TICKS = 20;
+
+    @Override
+    public void setChanged() {
+        syncDirty = true;
+        super.setChanged();
+    }
 
     // --- Datos que se sincronizan con la interfaz (valores de 16 bits: caben hasta 32.767) ---
     public static final int DATA_ENERGY = 0;
@@ -142,7 +154,8 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
         if (level.isClientSide()) {
             return;
         }
-        if (level.getGameTime() % 4 == 0) {
+        if (level.getGameTime() % 4 == 0 && (entity.progress > 0 || entity.syncDirty)) {
+            entity.syncDirty = false;
             level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);          // piezas y cabezal visibles
         }
         // Luz de estado del bloque: encendida (cian) si hay electricidad suficiente
@@ -152,10 +165,24 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
         }
         ItemStack result = PressRecipes.findResult(entity.itemHandler, INPUT_SLOTS, true);
         if (result.isEmpty() || !entity.canOutput(result)) {
+            entity.lastRecipe = null;
+            entity.settle = 0;
             if (entity.progress != 0) {
                 entity.progress = 0;
                 entity.setChanged();
             }
+            return;
+        }
+        if (result.getItem() != entity.lastRecipe) {                           // cambió la receta: empezar de cero
+            entity.lastRecipe = result.getItem();
+            entity.settle = 0;
+            if (entity.progress != 0) {
+                entity.progress = 0;
+                entity.setChanged();
+            }
+        }
+        if (entity.settle < SETTLE_TICKS) {                                    // ¿falta algún ingrediente por llegar?
+            entity.settle++;
             return;
         }
 

@@ -14,10 +14,12 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 |---|---|
 | `item/ModItems` | todos los items (minerales, componentes, martillo, pistola, módulos, huevo). `moduleItem(WeaponModule)` mapea módulo → item |
 | `block/ModBlocks` | bloques + su BlockItem (`registerBlock`) |
-| `block/entity/ModBlockEntities` | prensa manual, prensa automática, fuente creativa |
-| `entity/ModEntities` | Cuerpo de Enjambre |
-| `menu/ModMenus` | Banco de Armas, Prensa Automática |
-| `particle/ModParticles` | `kinetic_tracer`, `kinetic_spark`, `kinetic_burst` |
+| `block/entity/ModBlockEntities` | prensa manual, prensa automática, ensamblador de armas, consola del Núcleo, fuente creativa |
+| `machine/MachineBlockEntities` | máquinas eléctricas (`MachineKind`): refinador, cargador, fabricador, cámara de reacción, laboratorio, reactor, ensamblador industrial |
+| `entity/ModEntities` | enjambre (cuerpo, avispa, nodo de colmena), superviviente, torreta, dron, corrompidos (humano, tirador, araña, araña de cueva, ahogado, creeper), Anclador, granada, Caza del Núcleo y su misil, Araña de Asedio (jefe), cohete guiado |
+| `menu/ModMenus` | Banco de Armas, Prensa Automática, Ensamblador de Armas, Equipo Táctico y una interfaz por máquina eléctrica (`MachineMenu`) |
+| `particle/ModParticles` | `kinetic_tracer`, `kinetic_spark`, `kinetic_burst`, `flame_stream` |
+| `fluid/ModFluids` | ácido sulfúrico, refrigerante, Celda Universal |
 | `item/ModCreativeModeTabs` | pestañas creativas: principal (máquinas, gadgets, nave, huevos), Armas, Armaduras, Munición y cargadores, Materiales (cada una por tier 1→3) y Mundo |
 
 - `block/ModWorldBlocks` — bloques del mundo post-apocalíptico (hormigón y familia, escombros, asfalto, metal oxidado, chatarra, ceniza, vitrificado, racimo de cinetrita, madera muerta) y su lista `ALL` para la pestaña creativa "Mundo". Clases especiales: `AshLayerBlock` (capas que no se derriten), `RoadLineBlock` (línea orientable).

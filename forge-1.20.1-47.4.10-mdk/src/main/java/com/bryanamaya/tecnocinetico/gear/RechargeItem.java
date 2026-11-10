@@ -45,7 +45,7 @@ public class RechargeItem extends Item {
             return InteractionResultHolder.pass(held);
         }
         ItemStack target = ItemStack.EMPTY;
-        for (int slot : new int[]{TacticalGear.FACE, TacticalGear.BACK, TacticalGear.FEET}) {
+        for (int slot : new int[]{TacticalGear.FACE, TacticalGear.BACK, TacticalGear.FEET, TacticalGear.BELT}) {
             if (gear.get().get(slot).is(gadget.get())) {
                 target = gear.get().get(slot);
             }

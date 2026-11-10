@@ -39,6 +39,14 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
 
     protected final MachineKind kind;
     protected int progress, maxProgress, usage;
+    /** Hay cambios que el cliente aún no ha visto. */
+    private boolean syncDirty = true;
+
+    @Override
+    public void setChanged() {
+        syncDirty = true;
+        super.setChanged();
+    }
 
     protected final Battery energy;
     protected final ItemStackHandler items;
@@ -174,7 +182,8 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
             be.progress = 0;
             be.setChanged();
         }
-        if (be.syncsToClient() && level.getGameTime() % 5 == 0) {
+        if (be.syncsToClient() && level.getGameTime() % 5 == 0 && (working || be.syncDirty)) {
+            be.syncDirty = false;
             level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);       // objetos y progreso visibles
         }
         if (be.showsEffects(working) && level instanceof net.minecraft.server.level.ServerLevel server) {

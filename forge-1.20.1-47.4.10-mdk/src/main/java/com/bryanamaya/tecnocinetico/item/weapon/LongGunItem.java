@@ -420,7 +420,7 @@ public class LongGunItem extends Item {
         if (!isLoading(gun)) {
             return;
         }
-        if (!selected) {
+        if (!selected || player.getMainHandItem() != gun) {                   // (en la otra mano "selected" puede ser true)
             stopLoading(player, gun);                                         // cambiar de objeto cancela
             return;
         }

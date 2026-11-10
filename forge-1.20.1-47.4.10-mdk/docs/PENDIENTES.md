@@ -40,3 +40,10 @@
 - Radiación: hay traje; ¿caja de plomo para guardar uranio sin que irradie? Equilibrio de la Cámara (FE, tiempos, pérdida de estabilidad) tras probarla.
 - Reactor: probar el equilibrio en el juego (600 FE/t, duración de la barra, calor). ¿Modelo 3D propio? ¿Multibloque más adelante?
 - Estructuras grandes: probar en el juego (despliegue, desmontaje, brazos y barras visibles). Más recetas para el Ensamblador Industrial (nave mejorable, tier 4-5).
+
+## De la revisión externa (2026-11-10), sin arreglar: decide el usuario
+- **World presets vanilla sobrescritos** (`data/minecraft/worldgen/world_preset/`): chocan con otros mods de worldgen (Terralith, BoP). Alternativa: TerraBlender o un preset propio.
+- **Licencia contradictoria**: `mod_license=All Rights Reserved` pero `LICENSE.txt` es el LGPL de Forge del MDK. Elegir una.
+- **README.txt / CREDITS.txt** del MDK: falta un README del mod.
+- **Tamaño del repo**: `texturas_originales_backup/` (21 MB) y `tools/sound_sources/` (7 MB): Git LFS o fuera del repo.
+- **Prensa**: receta de fragmentación (cristal solo) es subconjunto de Transductor y Servo; con tolvas, si falta el cobre los cristales se fragmentan.

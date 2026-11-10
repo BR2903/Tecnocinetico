@@ -53,6 +53,12 @@ public class GadgetItem extends Item {
         return false;
     }
 
+    /** Tampoco con libros en el yunque: la durabilidad es la batería (con Reparación se cargaría con experiencia). */
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
+    }
+
     @Override
     public int getBarColor(ItemStack stack) {
         return 0x46E3F5;

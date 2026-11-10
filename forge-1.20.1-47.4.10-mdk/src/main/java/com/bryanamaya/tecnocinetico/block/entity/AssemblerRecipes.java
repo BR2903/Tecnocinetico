@@ -105,9 +105,15 @@ public final class AssemblerRecipes {
         return recipes;
     }
 
-    /** Receta que encaja con lo que hay en los huecos (todo lo que hay debe ser ingrediente y alcanzar). */
+    /**
+     * Receta que encaja con lo que hay en los huecos (todo lo que hay debe ser ingrediente y alcanzar). Varias recetas
+     * usan los mismos tipos con distintas cantidades (Lanzagranadas / Lanzacohetes / Minigun, casco / pantalones):
+     * gana la más exigente que se cumpla, así que para la menor hay que poner justo sus cantidades (el "+" de JEI lo hace).
+     */
     @Nullable
     public static Recipe find(IItemHandler inv, int slots) {
+        Recipe best = null;
+        int bestTotal = -1;
         outer:
         for (Recipe r : all()) {
             for (int i = 0; i < slots; i++) {
@@ -116,14 +122,19 @@ public final class AssemblerRecipes {
                     continue outer;
                 }
             }
+            int total = 0;
             for (ItemStack in : r.inputs()) {
                 if (count(inv, slots, in.getItem()) < in.getCount()) {
                     continue outer;
                 }
+                total += in.getCount();
             }
-            return r;
+            if (total > bestTotal) {
+                best = r;
+                bestTotal = total;
+            }
         }
-        return null;
+        return best;
     }
 
     public static boolean isIngredient(ItemStack stack) {

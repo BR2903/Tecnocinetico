@@ -104,6 +104,14 @@ public final class MultiblockTemplate {
         return null;
     }
 
+    /** Jugadores, criaturas y vehículos que quedarían dentro de la estructura (los objetos sueltos no cuentan). */
+    public java.util.List<net.minecraft.world.entity.Entity> entitiesInside(Level level, BlockPos origin, Direction facing) {
+        var box = new net.minecraft.world.phys.AABB(toWorld(origin, facing, 0, 0, 0))
+                .minmax(new net.minecraft.world.phys.AABB(toWorld(origin, facing, width - 1, height - 1, depth - 1)));
+        return level.getEntities((net.minecraft.world.entity.Entity) null, box, e -> e.isAlive() && !e.isSpectator()
+                && !(e instanceof net.minecraft.world.entity.item.ItemEntity) && !(e instanceof net.minecraft.world.entity.ExperienceOrb));
+    }
+
     /**
      * Coloca la estructura. El núcleo mira hacia el jugador (FACING = opuesto a `facing`); las piezas guardan dónde
      * está el núcleo. Devuelve la posición del núcleo.

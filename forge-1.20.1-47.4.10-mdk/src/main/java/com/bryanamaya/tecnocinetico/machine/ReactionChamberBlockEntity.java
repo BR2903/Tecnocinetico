@@ -173,6 +173,7 @@ public class ReactionChamberBlockEntity extends ElectricMachineBlockEntity {
         tag.putInt("frequency", frequency);
         tag.putInt("intensity", intensity);
         tag.putInt("stability", stability);
+        tag.putInt("resonance", resonance);
     }
 
     @Override
@@ -181,6 +182,7 @@ public class ReactionChamberBlockEntity extends ElectricMachineBlockEntity {
         frequency = tag.contains("frequency") ? tag.getInt("frequency") : 5;
         intensity = tag.contains("intensity") ? tag.getInt("intensity") : 5;
         stability = tag.contains("stability") ? tag.getInt("stability") : STABILITY_MAX;
+        resonance = tag.getInt("resonance");
     }
 
     @Override
