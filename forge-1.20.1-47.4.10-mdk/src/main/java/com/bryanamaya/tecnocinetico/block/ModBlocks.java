@@ -113,9 +113,12 @@ public class ModBlocks {
             () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.AMMO_FABRICATOR,
                     com.bryanamaya.tecnocinetico.machine.AmmoFabricatorBlockEntity::new));
 
-    public static final RegistryObject<Block> REACTION_CHAMBER = registerBlock("reaction_chamber",
-            () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.REACTION_CHAMBER,
-                    com.bryanamaya.tecnocinetico.machine.ReactionChamberBlockEntity::new));
+    public static final RegistryObject<Block> REACTION_CHAMBER = BLOCKS.register("reaction_chamber",
+            () -> new com.bryanamaya.tecnocinetico.structure.MultiblockMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.REACTION_CHAMBER,
+                    com.bryanamaya.tecnocinetico.machine.ReactionChamberBlockEntity::new, () -> com.bryanamaya.tecnocinetico.structure.Structures.CHAMBER,
+                    ModItems.REACTION_CHAMBER_KIT));
+    public static final RegistryObject<Block> REACTION_CHAMBER_PART = BLOCKS.register("reaction_chamber_part",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(true, false));
 
     public static final RegistryObject<Block> CHEMICAL_LAB = registerBlock("chemical_lab",
             () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.CHEMICAL_LAB,

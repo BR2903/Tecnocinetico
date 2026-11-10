@@ -78,6 +78,15 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> ROCKET_LAUNCH = register("item.gun.rocket_launch");
     public static final RegistryObject<SoundEvent> BLADE_WAVE = register("item.gun.blade_wave");
 
+    // Máquinas trabajando (tools/sound_gen.generate_machines)
+    public static final RegistryObject<SoundEvent> MACHINE_REFINER = register("block.machine.refiner");
+    public static final RegistryObject<SoundEvent> MACHINE_CHARGER = register("block.machine.charger");
+    public static final RegistryObject<SoundEvent> MACHINE_FABRICATOR = register("block.machine.fabricator");
+    public static final RegistryObject<SoundEvent> MACHINE_REACTION = register("block.machine.reaction");
+    public static final RegistryObject<SoundEvent> MACHINE_LAB = register("block.machine.lab");
+    public static final RegistryObject<SoundEvent> MACHINE_REACTOR = register("block.machine.reactor");
+    public static final RegistryObject<SoundEvent> MACHINE_ASSEMBLER = register("block.machine.assembler");
+
     // Gadgets del Equipo Táctico
     public static final RegistryObject<SoundEvent> JETPACK_THRUST = register("item.jetpack.thrust");
 

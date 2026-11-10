@@ -98,6 +98,38 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
     /** ¿Se puede meter este objeto en este hueco de entrada? */
     protected abstract boolean accepts(int slot, ItemStack stack);
 
+    /** ¿Se ven/oyen los efectos de trabajo? Solo trabajando y con energía (el reactor: mientras genera). */
+    protected boolean showsEffects(boolean working) {
+        return working && progress > 0 && energy.getEnergyStored() > 0;
+    }
+
+    /** Partículas y sonido mientras trabaja (servidor; cada máquina el suyo). */
+    protected void effects(net.minecraft.server.level.ServerLevel level, long time) {
+    }
+
+    /** Sonido de trabajo cada `period` ticks (los sonidos duran ~2 s). */
+    protected void loop(net.minecraft.sounds.SoundEvent sound, long time, int period) {
+        if (time % period == 0) {
+            level.playSound(null, worldPosition, sound, net.minecraft.sounds.SoundSource.BLOCKS, 0.6F, 0.95F + level.random.nextFloat() * 0.1F);
+        }
+    }
+
+    /** Punto en coordenadas locales de la estructura (u derecha, v arriba, w adelante; núcleo suelto: su bloque). */
+    protected net.minecraft.world.phys.Vec3 local(double u, double v, double w) {
+        BlockState st = getBlockState();
+        if (st.getBlock() instanceof com.bryanamaya.tecnocinetico.structure.MultiblockMachineBlock mb) {
+            Direction facing = st.getValue(ElectricMachineBlock.FACING).getOpposite();
+            var t = mb.template();
+            BlockPos cell = com.bryanamaya.tecnocinetico.structure.MultiblockTemplate.toWorld(t.originFromCore(worldPosition, facing), facing,
+                    (int) Math.floor(u), (int) Math.floor(v), (int) Math.floor(w));
+            Direction right = facing.getClockWise();
+            double fu = u - Math.floor(u) - 0.5, fv = v - Math.floor(v), fw = w - Math.floor(w) - 0.5;
+            return new net.minecraft.world.phys.Vec3(cell.getX() + 0.5 + right.getStepX() * fu + facing.getStepX() * fw, cell.getY() + fv,
+                    cell.getZ() + 0.5 + right.getStepZ() * fu + facing.getStepZ() * fw);
+        }
+        return net.minecraft.world.phys.Vec3.atBottomCenterOf(worldPosition).add(u - 0.5, v, w - 0.5);
+    }
+
     /** ¿Envía su contenido al cliente (para dibujar los objetos que procesa)? */
     protected boolean syncsToClient() {
         return false;
@@ -144,6 +176,9 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
         }
         if (be.syncsToClient() && level.getGameTime() % 5 == 0) {
             level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);       // objetos y progreso visibles
+        }
+        if (be.showsEffects(working) && level instanceof net.minecraft.server.level.ServerLevel server) {
+            be.effects(server, level.getGameTime());                          // partículas y sonido de trabajo
         }
         boolean lit = be.isLit();
         if (state.hasProperty(ElectricMachineBlock.POWERED) && state.getValue(ElectricMachineBlock.POWERED) != lit) {

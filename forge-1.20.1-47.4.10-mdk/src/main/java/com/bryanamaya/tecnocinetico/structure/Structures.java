@@ -16,6 +16,12 @@ public final class Structures {
             {"AAA", "AAA", "AAA"}},
             () -> ModBlocks.INDUSTRIAL_ASSEMBLER.get(), Map.of('A', () -> ModBlocks.ASSEMBLER_PART.get()));
 
+    /** Cámara de Reacción 2x2x2: el núcleo es la esquina delantera izquierda de abajo (tools/chamber_model_gen.py). */
+    public static final MultiblockTemplate CHAMBER = new MultiblockTemplate(new String[][]{
+            {"CA", "AA"},
+            {"AA", "AA"}},
+            () -> ModBlocks.REACTION_CHAMBER.get(), Map.of('A', () -> ModBlocks.REACTION_CHAMBER_PART.get()));
+
     /**
      * Reactor de Fisión 9x9x6: estructura maciza de piezas invisibles; se ve como UNA máquina gracias a 18 trozos de
      * modelo (tools/reactor_model_gen.py) que dibujan los centros de cada bloque de 3x3x3 (el núcleo, en (4, 1, 4),

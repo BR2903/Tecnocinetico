@@ -49,9 +49,9 @@ public class MachineRecipeCategory implements IRecipeCategory<MachineRecipeCateg
     private final Component title;
     private final IDrawable icon, slot, arrow;
 
-    public MachineRecipeCategory(IGuiHelper gui, RecipeType<Entry> type, Block block) {
+    public MachineRecipeCategory(IGuiHelper gui, RecipeType<Entry> type, net.minecraft.world.level.ItemLike block) {
         this.type = type;
-        this.title = block.getName();
+        this.title = new ItemStack(block).getHoverName();
         this.icon = gui.createDrawableItemStack(new ItemStack(block));
         this.slot = gui.getSlotDrawable();
         this.arrow = gui.getRecipeArrow();
@@ -164,7 +164,7 @@ public class MachineRecipeCategory implements IRecipeCategory<MachineRecipeCateg
     }
 
     /** Bloques de cada categoría (catalizadores). */
-    public static Block block(RecipeType<Entry> t) {
+    public static net.minecraft.world.level.ItemLike block(RecipeType<Entry> t) {
         if (t == REFINER) {
             return ModBlocks.ELECTRIC_REFINER.get();
         }
@@ -174,6 +174,6 @@ public class MachineRecipeCategory implements IRecipeCategory<MachineRecipeCateg
         if (t == FABRICATOR) {
             return ModBlocks.AMMO_FABRICATOR.get();
         }
-        return ModBlocks.REACTION_CHAMBER.get();
+        return ModItems.REACTION_CHAMBER_KIT.get();
     }
 }

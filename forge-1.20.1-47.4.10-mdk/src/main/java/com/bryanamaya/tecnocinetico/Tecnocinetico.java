@@ -187,6 +187,8 @@ public class Tecnocinetico {
                     com.bryanamaya.tecnocinetico.client.IndustrialAssemblerRenderer::new);
             event.registerBlockEntityRenderer(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.FISSION_REACTOR.get(),
                     com.bryanamaya.tecnocinetico.client.FissionReactorRenderer::new);
+            event.registerBlockEntityRenderer(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.REACTION_CHAMBER.get(),
+                    com.bryanamaya.tecnocinetico.client.ReactionChamberRenderer::new);
         }
 
         @SubscribeEvent
@@ -194,6 +196,7 @@ public class Tecnocinetico {
             event.register(com.bryanamaya.tecnocinetico.client.IndustrialAssemblerRenderer.ARM);
             event.register(com.bryanamaya.tecnocinetico.client.FissionReactorRenderer.ROD);
             event.register(com.bryanamaya.tecnocinetico.client.FissionReactorRenderer.ROD_SPENT);
+            event.register(com.bryanamaya.tecnocinetico.client.ReactionChamberRenderer.BEAM);
         }
 
         @SubscribeEvent

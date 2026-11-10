@@ -241,4 +241,14 @@ public class ChemicalLabBlockEntity extends ElectricMachineBlockEntity implement
     public IFluidHandler fluidHandler() {
         return pipes;
     }
+
+    @Override
+    protected void effects(net.minecraft.server.level.ServerLevel level, long time) {
+        loop(com.bryanamaya.tecnocinetico.sound.ModSounds.MACHINE_LAB.get(), time, 46);
+        if (time % 4 == 0) {
+            var p = worldPosition.getCenter();
+            level.sendParticles(net.minecraft.core.particles.ParticleTypes.BUBBLE_POP, p.x + (level.random.nextFloat() - 0.5) * 0.6, p.y + 0.6, p.z, 1, 0.05, 0.0, 0.05, 0.0);
+            level.sendParticles(net.minecraft.core.particles.ParticleTypes.EFFECT, p.x, p.y + 0.7, p.z, 1, 0.15, 0.05, 0.15, 0.0);
+        }
+    }
 }

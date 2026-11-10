@@ -16,6 +16,9 @@ import random
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from gunkit import resolve_zfight  # noqa: E402
 
 A = Path(__file__).resolve().parent.parent / "src/main/resources/assets/tecnocinetico"
 ZONE = 32                                           # px por zona; atlas 128 -> 1 unidad UV = 8 px
@@ -300,7 +303,7 @@ def main():
         for k in range(3):
             for i in range(3):
                 n = 1 + i + 3 * k + 9 * j
-                els = segment_elements(geom, i, j, k)
+                els = resolve_zfight(segment_elements(geom, i, j, k))
                 total += len(els)
                 model = {"parent": "minecraft:block/block", "render_type": "minecraft:translucent", "ambientocclusion": False,
                          "textures": {"0": "tecnocinetico:block/reactor", "particle": "tecnocinetico:block/reactor"},

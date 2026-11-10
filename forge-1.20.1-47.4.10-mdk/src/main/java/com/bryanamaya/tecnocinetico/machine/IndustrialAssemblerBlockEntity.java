@@ -97,4 +97,9 @@ public class IndustrialAssemblerBlockEntity extends ElectricMachineBlockEntity {
     public AABB getRenderBoundingBox() {
         return new AABB(worldPosition).inflate(1.5);
     }
+
+    @Override
+    protected void effects(net.minecraft.server.level.ServerLevel level, long time) {
+        loop(com.bryanamaya.tecnocinetico.sound.ModSounds.MACHINE_ASSEMBLER.get(), time, 48);
+    }
 }

@@ -101,4 +101,13 @@ public class ChargerBlockEntity extends ElectricMachineBlockEntity {
         progress = 0;
         level.playSound(null, worldPosition, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 0.3F, 2.0F);
     }
+
+    @Override
+    protected void effects(net.minecraft.server.level.ServerLevel level, long time) {
+        loop(com.bryanamaya.tecnocinetico.sound.ModSounds.MACHINE_CHARGER.get(), time, 44);
+        if (time % 3 == 0) {
+            var p = worldPosition.getCenter();
+            level.sendParticles(net.minecraft.core.particles.ParticleTypes.ELECTRIC_SPARK, p.x, p.y + 0.55, p.z, 2, 0.25, 0.05, 0.25, 0.05);
+        }
+    }
 }

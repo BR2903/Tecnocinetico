@@ -372,8 +372,12 @@ def resolve_zfight(elements, eps=0.015):
                         if abs(a[key][ax] - b[key][ax]) > 1e-4:
                             continue
                         if all(min(a["to"][k], b["to"][k]) - max(a["from"][k], b["from"][k]) > 1e-4 for k in range(3) if k != ax):
-                            small = a if vol(a) <= vol(b) else b
-                            small[key][ax] = round(small[key][ax] + sign * eps, 4)
+                            small, big = (a, b) if vol(a) <= vol(b) else (b, a)
+                            moved = round(small[key][ax] + sign * eps, 4)
+                            if -16 <= moved <= 32:
+                                small[key][ax] = moved                     # la pequeña sale un poco
+                            else:                                          # en el límite del modelo: la grande entra un poco
+                                big[key][ax] = round(big[key][ax] - sign * eps, 4)
                             changed = True
         if not changed:
             break

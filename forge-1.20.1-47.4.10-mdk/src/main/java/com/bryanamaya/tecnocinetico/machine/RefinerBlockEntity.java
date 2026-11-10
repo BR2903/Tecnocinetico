@@ -39,4 +39,13 @@ public class RefinerBlockEntity extends ElectricMachineBlockEntity {
         }
         return true;
     }
+
+    @Override
+    protected void effects(net.minecraft.server.level.ServerLevel level, long time) {
+        loop(com.bryanamaya.tecnocinetico.sound.ModSounds.MACHINE_REFINER.get(), time, 44);
+        if (!input(0).isEmpty() && level.random.nextFloat() < 0.4F) {                // polvo de la mena molida
+            var p = worldPosition.getCenter();
+            level.sendParticles(new net.minecraft.core.particles.ItemParticleOption(net.minecraft.core.particles.ParticleTypes.ITEM, input(0)), p.x, p.y + 0.55, p.z, 2, 0.15, 0.02, 0.15, 0.05);
+        }
+    }
 }

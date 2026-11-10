@@ -832,6 +832,94 @@ def generate_weapons():
     save("blade_wave", blade_wave(), "guns")
 
 
+# =================================================================== máquinas (sonido de trabajo, ~2 s, se repite)
+def motor_hum(dur, f0, seed, rough=0.3):
+    """Zumbido de motor eléctrico: fundamental + armónicos con un poco de aspereza (no un tono limpio)."""
+    n = n_of(dur)
+    t = np.arange(n) / SR
+    wob = 1 + 0.004 * np.sin(2 * np.pi * 3 * t)
+    sig = sum(np.sin(2 * np.pi * f0 * k * wob * t) / k ** 1.3 for k in range(1, 7))
+    return band(sig + rough * band(noise(dur, seed), f0, f0 * 8), 40, 4000)
+
+
+def machine_refiner():
+    seed = 6000
+    dur = 2.0
+    grind = grains(dur, seed, 400, 300, 4000, grain=0.004) * 1.2                  # roca molida
+    rumble = low(noise(dur, seed + 1), 160) * 1.5
+    return reverb(mix(dur, (motor_hum(dur, 55, seed + 2), 0, 0.5), (grind, 0, 1.0), (rumble, 0, 0.6)), seed + 3, tail=0.3, wet=0.15)
+
+
+def machine_charger():
+    seed = 6100
+    dur = 2.0
+    hum = motor_hum(dur, 100, seed, rough=0.15)
+    crack = sparks(dur, seed + 1, rate=40) * 0.5
+    return reverb(mix(dur, (hum, 0, 0.7), (crack, 0, 1.0)), seed + 2, tail=0.3, wet=0.12)
+
+
+def machine_fabricator():
+    seed = 6200
+    dur = 2.0
+    out = [(motor_hum(dur, 70, seed, rough=0.2), 0, 0.25)]
+    for i, t0 in enumerate((0.15, 1.15)):                                          # dos golpes de troquel
+        out.append((clank(0.4, 900 + 60 * i, seed + 1 + i, q=(20, 50)), t0, 1.0))
+        out.append((low(noise(0.3, seed + 5 + i), 200) * decay(n_of(0.3), 0.03) * 2, t0, 0.8))
+        out.append((servo(0.35, 300, 600, seed + 9 + i), t0 + 0.35, 0.4))
+    return reverb(mix(dur, *out), seed + 20, tail=0.4, wet=0.2)
+
+
+def machine_reaction():
+    seed = 6300
+    dur = 2.0
+    src = band(noise(dur, seed), 200, 6000)
+    beam = band(comb_glide(src, 330, 360, feedback=0.93), 150, 6000) * 0.6          # haz resonando
+    hum = motor_hum(dur, 60, seed + 1, rough=0.1)
+    return reverb(mix(dur, (beam, 0, 1.0), (hum, 0, 0.4), (sparks(dur, seed + 2, rate=25), 0, 0.3)), seed + 3, tail=0.6, wet=0.3)
+
+
+def machine_lab():
+    seed = 6400
+    dur = 2.0
+    r = rng_of(seed)
+    out = [(hiss(dur, seed, 800, 4000, 0.2) * 0.15, 0, 1.0), (motor_hum(dur, 50, seed + 1, rough=0.1), 0, 0.2)]
+    for _ in range(14):                                                           # burbujas
+        f = r.uniform(250, 900)
+        b = np.sin(2 * np.pi * np.cumsum(np.linspace(f, f * 1.6, n_of(0.06))) / SR) * decay(n_of(0.06), 0.02)
+        out.append((b, r.uniform(0, dur - 0.1), r.uniform(0.3, 0.7)))
+    return reverb(mix(dur, *out), seed + 2, tail=0.4, wet=0.25)
+
+
+def machine_reactor():
+    seed = 6500
+    dur = 3.0
+    rumble = low(noise(dur, seed), 90, order=6) * 3
+    hum = motor_hum(dur, 45, seed + 1, rough=0.2)
+    r = rng_of(seed + 2)
+    clicks = np.zeros(n_of(dur))                                                  # contador Geiger
+    for _ in range(18):
+        s = int(r.uniform(0, dur - 0.01) * SR)
+        c = high(r.standard_normal(60), 2000) * decay(60, 0.0004)
+        clicks[s:s + 60] += c
+    return reverb(mix(dur, (rumble, 0, 1.0), (hum, 0, 0.5), (clicks, 0, 0.6)), seed + 3, tail=0.8, wet=0.3, damp=2500)
+
+
+def machine_assembler():
+    seed = 6600
+    dur = 2.0
+    out = [(servo(0.6, 250, 700, seed), 0.0, 0.6), (servo(0.5, 700, 300, seed + 1), 0.8, 0.6),
+           (clank(0.3, 1200, seed + 2, q=(25, 60)), 0.62, 0.8), (sparks(0.5, seed + 3, rate=200), 1.3, 0.5),
+           (motor_hum(dur, 65, seed + 4, rough=0.1), 0, 0.2)]
+    return reverb(mix(dur, *out), seed + 5, tail=0.4, wet=0.2)
+
+
+def generate_machines():
+    for name, fn in (("refiner", machine_refiner), ("charger", machine_charger), ("fabricator", machine_fabricator),
+                     ("reaction", machine_reaction), ("lab", machine_lab), ("reactor", machine_reactor),
+                     ("assembler", machine_assembler)):
+        save(name, fn(), "machines", peak=0.7)
+
+
 def generate_turret():
     save("charge", turret_charge(), "sentry_turret")
 
@@ -848,3 +936,4 @@ if __name__ == "__main__":
     generate_siege()
     generate_flame()
     generate_weapons()
+    generate_machines()

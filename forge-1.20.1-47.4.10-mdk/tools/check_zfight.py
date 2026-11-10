@@ -1,7 +1,7 @@
 """Busca parpadeo de texturas (z-fighting) en modelos de objetos: dos caras en el mismo plano, mirando al mismo
 lado y que se solapan (Minecraft dibuja las dos y el color "titila" al mover la cámara).
 
-python tools/check_zfight.py [modelo ...]     (sin argumentos: todos los modelos de models/item con elementos)
+python tools/check_zfight.py [modelo ...]     (sin argumentos: todos los modelos de models/item y models/block)
 Solo compara elementos con la misma rotación (las caras de piezas giradas distinto no pueden coincidir exactamente).
 """
 import json
@@ -20,6 +20,8 @@ def overlap(a0, a1, b0, b1):
 
 def check(path):
     data = json.loads(path.read_text(encoding="utf-8"))
+    if "overlay" in data.get("textures", {}):
+        return []                                                     # menas: capa encima a propósito (render cutout)
     els = data.get("elements") or []
     found = []
     for i, a in enumerate(els):
@@ -41,10 +43,11 @@ def check(path):
 
 
 def main():
-    names = sys.argv[1:] or sorted(p.stem for p in ROOT.glob("*.json"))
+    paths = [ROOT / f"{n}.json" for n in sys.argv[1:]] or sorted(ROOT.glob("*.json")) + sorted((ROOT.parent / "block").glob("*.json"))
     bad = 0
-    for n in names:
-        res = check(ROOT / f"{n}.json")
+    for path in paths:
+        n = path.parent.name + "/" + path.stem
+        res = check(path)
         if res:
             bad += 1
             print(f"{n}: " + ", ".join(f"#{i}/#{j} {f} ({area})" for i, j, f, area in res))

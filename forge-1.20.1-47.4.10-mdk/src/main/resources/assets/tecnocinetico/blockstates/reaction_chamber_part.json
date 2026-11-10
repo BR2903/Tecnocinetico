@@ -1,0 +1,16 @@
+{
+ "variants": {
+  "facing=north": {
+   "model": "tecnocinetico:block/reaction_chamber_part"
+  },
+  "facing=east": {
+   "model": "tecnocinetico:block/reaction_chamber_part"
+  },
+  "facing=south": {
+   "model": "tecnocinetico:block/reaction_chamber_part"
+  },
+  "facing=west": {
+   "model": "tecnocinetico:block/reaction_chamber_part"
+  }
+ }
+}

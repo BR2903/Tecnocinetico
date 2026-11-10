@@ -529,5 +529,14 @@
   "block.tecnocinetico.assembler_part": "Ensamblador Industrial",
   "tooltip.tecnocinetico.kit": "Estructura de %s: úsalo sobre el suelo para desplegarla delante de ti",
   "message.tecnocinetico.kit_blocked": "No cabe la estructura de %s: estorba %s en %s, %s, %s",
-  "block.tecnocinetico.reactor_shell": "Reactor de Fisión"
+  "block.tecnocinetico.reactor_shell": "Reactor de Fisión",
+  "subtitles.tecnocinetico.machine.refiner": "Refinador moliendo",
+  "subtitles.tecnocinetico.machine.charger": "Cargador zumba",
+  "subtitles.tecnocinetico.machine.fabricator": "Fabricador troquela",
+  "subtitles.tecnocinetico.machine.reaction": "Cámara de Reacción resuena",
+  "subtitles.tecnocinetico.machine.lab": "Laboratorio burbujea",
+  "subtitles.tecnocinetico.machine.reactor": "Reactor retumba",
+  "subtitles.tecnocinetico.machine.assembler": "Ensamblador trabaja",
+  "item.tecnocinetico.reaction_chamber": "Cámara de Reacción",
+  "block.tecnocinetico.reaction_chamber_part": "Cámara de Reacción"
 }

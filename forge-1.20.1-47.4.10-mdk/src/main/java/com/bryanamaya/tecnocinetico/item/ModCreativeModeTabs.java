@@ -31,7 +31,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModBlocks.ELECTRIC_REFINER.get());
                         out.accept(ModBlocks.CELL_CHARGER.get());
                         out.accept(ModBlocks.AMMO_FABRICATOR.get());
-                        out.accept(ModBlocks.REACTION_CHAMBER.get());
+                        out.accept(ModItems.REACTION_CHAMBER_KIT.get());
                         out.accept(ModBlocks.CHEMICAL_LAB.get());
                         out.accept(ModItems.INDUSTRIAL_ASSEMBLER_KIT.get());
                         out.accept(ModItems.FISSION_REACTOR_KIT.get());

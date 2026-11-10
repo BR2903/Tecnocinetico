@@ -10,6 +10,9 @@ import random
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from gunkit import resolve_zfight  # noqa: E402  (sin parpadeo de caras coplanares)
 
 A = Path(__file__).resolve().parent.parent / "src/main/resources/assets/tecnocinetico"
 D = Path(__file__).resolve().parent.parent / "src/main/resources/data"
@@ -269,7 +272,7 @@ def main():
             "parent": "minecraft:block/block", "texture_size": [64, 64],
             "textures": {"0": "tecnocinetico:block/industrial_assembler", "lamp": f"tecnocinetico:block/{lamp}",
                          "particle": "tecnocinetico:block/industrial_assembler"},
-            "elements": assembler_elements(),
+            "elements": resolve_zfight(assembler_elements()),
             "display": {"gui": {"rotation": [30, 225, 0], "translation": [0, 0, 0], "scale": [0.2, 0.2, 0.2]},
                         "ground": {"translation": [0, 3, 0], "scale": [0.1, 0.1, 0.1]},
                         "fixed": {"scale": [0.25, 0.25, 0.25]},
@@ -278,7 +281,7 @@ def main():
     machine_states("industrial_assembler", "industrial_assembler")
     jw(A / "models/block/industrial_assembler_arm.json", {"textures": {"0": "tecnocinetico:block/industrial_assembler",
                                                                       "particle": "tecnocinetico:block/industrial_assembler"},
-                                                          "texture_size": [64, 64], "elements": arm_elements()})
+                                                          "texture_size": [64, 64], "elements": resolve_zfight(arm_elements())})
     jw(A / "models/item/industrial_assembler.json", {"parent": "tecnocinetico:block/industrial_assembler"})
     jw(A / "models/block/assembler_part.json", {"textures": {"particle": "tecnocinetico:block/industrial_assembler"}})
     part_states("assembler_part", "assembler_part")

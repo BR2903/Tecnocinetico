@@ -529,5 +529,14 @@
   "block.tecnocinetico.assembler_part": "Industrial Assembler",
   "tooltip.tecnocinetico.kit": "%s structure: use it on the ground to deploy it in front of you",
   "message.tecnocinetico.kit_blocked": "The %s structure doesn't fit: %s is in the way at %s, %s, %s",
-  "block.tecnocinetico.reactor_shell": "Fission Reactor"
+  "block.tecnocinetico.reactor_shell": "Fission Reactor",
+  "subtitles.tecnocinetico.machine.refiner": "Refiner grinds",
+  "subtitles.tecnocinetico.machine.charger": "Charger hums",
+  "subtitles.tecnocinetico.machine.fabricator": "Fabricator stamps",
+  "subtitles.tecnocinetico.machine.reaction": "Reaction Chamber resonates",
+  "subtitles.tecnocinetico.machine.lab": "Lab bubbles",
+  "subtitles.tecnocinetico.machine.reactor": "Reactor rumbles",
+  "subtitles.tecnocinetico.machine.assembler": "Assembler works",
+  "item.tecnocinetico.reaction_chamber": "Reaction Chamber",
+  "block.tecnocinetico.reaction_chamber_part": "Reaction Chamber"
 }

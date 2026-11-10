@@ -265,6 +265,26 @@ public class MachineGameTests {
         });
     }
 
+    @GameTest(template = "empty")
+    public static void reactionChamberDeploys(GameTestHelper helper) {
+        var t = com.bryanamaya.tecnocinetico.structure.Structures.CHAMBER;
+        var level = helper.getLevel();
+        var dir = net.minecraft.core.Direction.NORTH;
+        BlockPos origin = helper.absolutePos(new BlockPos(1, 2, 2));
+        BlockPos core = t.place(level, origin, dir, s -> s.setValue(com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock.FACING, dir.getOpposite()));
+        helper.assertTrue(t.occupied(origin, dir).size() == 8, "2x2x2 = 8 bloques");
+        BlockPos top = com.bryanamaya.tecnocinetico.structure.MultiblockTemplate.toWorld(origin, dir, 1, 1, 1);
+        var cap = level.getBlockEntity(top).getCapability(net.minecraftforge.common.capabilities.ForgeCapabilities.ENERGY, null).orElse(null);
+        helper.assertTrue(cap != null && cap.receiveEnergy(3000, false) == 3000, "La energía debería entrar por cualquier pieza");
+        helper.assertTrue(((com.bryanamaya.tecnocinetico.machine.ElectricMachineBlockEntity) level.getBlockEntity(core)).getEnergy().getEnergyStored() == 3000,
+                "El núcleo debería tenerla");
+        level.destroyBlock(top, false);
+        helper.assertTrue(level.getBlockState(core).isAir(), "Romper una pieza desmonta la cámara");
+        level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(core).inflate(3))
+                .forEach(net.minecraft.world.entity.Entity::discard);
+        helper.succeed();
+    }
+
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void fabricatorMakesAmmo(GameTestHelper helper) {
         ElectricMachineBlockEntity be = place(helper, ModBlocks.AMMO_FABRICATOR.get());

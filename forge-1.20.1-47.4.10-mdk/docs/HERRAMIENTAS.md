@@ -154,3 +154,4 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/structures_gen.py`: Ensamblador Industrial (atlas, modelo 3x3x3 en -16..32, brazo), Reactor (texturas de piezas, núcleo, barras, kit) y estados. El reactor ya no sale de `metals_gen.py`.
 - `python tools/reactor_model_gen.py`: reactor 9x9x6 como modelo continuo troceado en 18 modelos 3x3x3 (+ atlas `block/reactor.png`, estados de `reactor_shell`, modelo del núcleo).
 - `python tools/render_zbuffer.py <salida.png> <modelo.json> [yaw pitch escala]`: vista previa con profundidad real (para unir los 18 trozos, ver la entrada de la bitácora del 2026-11-09).
+- `python tools/chamber_model_gen.py`: Cámara de Reacción 2x2x2 (usa el sistema de `reactor_model_gen.py` con su propio atlas), haz y kit.

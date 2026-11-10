@@ -56,4 +56,14 @@ public class AmmoFabricatorBlockEntity extends ElectricMachineBlockEntity {
         }
         return true;
     }
+
+    @Override
+    protected void effects(net.minecraft.server.level.ServerLevel level, long time) {
+        loop(com.bryanamaya.tecnocinetico.sound.ModSounds.MACHINE_FABRICATOR.get(), time, 46);
+        if (time % 23 == 3) {                                                 // golpe del troquel
+            var p = worldPosition.getCenter();
+            level.sendParticles(net.minecraft.core.particles.ParticleTypes.SMOKE, p.x, p.y + 0.55, p.z, 4, 0.2, 0.05, 0.2, 0.01);
+            level.sendParticles(net.minecraft.core.particles.ParticleTypes.CRIT, p.x, p.y + 0.55, p.z, 5, 0.15, 0.05, 0.15, 0.2);
+        }
+    }
 }

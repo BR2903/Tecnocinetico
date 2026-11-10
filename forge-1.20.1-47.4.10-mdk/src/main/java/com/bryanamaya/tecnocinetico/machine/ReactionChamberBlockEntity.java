@@ -34,6 +34,28 @@ public class ReactionChamberBlockEntity extends ElectricMachineBlockEntity {
     }
 
     @Override
+    protected boolean syncsToClient() {
+        return true;                                                          // la carga se ve por la mirilla
+    }
+
+    public ItemStack load() {
+        return input(0);
+    }
+
+    public boolean beamOn() {
+        return progress > 0;
+    }
+
+    public int resonance() {
+        return resonance;
+    }
+
+    @Override
+    public net.minecraft.world.phys.AABB getRenderBoundingBox() {
+        return new net.minecraft.world.phys.AABB(worldPosition).inflate(2);
+    }
+
+    @Override
     protected boolean accepts(int slot, ItemStack stack) {
         return MachineRecipes.react(stack) != null;
     }
@@ -159,5 +181,14 @@ public class ReactionChamberBlockEntity extends ElectricMachineBlockEntity {
         frequency = tag.contains("frequency") ? tag.getInt("frequency") : 5;
         intensity = tag.contains("intensity") ? tag.getInt("intensity") : 5;
         stability = tag.contains("stability") ? tag.getInt("stability") : STABILITY_MAX;
+    }
+
+    @Override
+    protected void effects(net.minecraft.server.level.ServerLevel level, long time) {
+        loop(com.bryanamaya.tecnocinetico.sound.ModSounds.MACHINE_REACTION.get(), time, 50);
+        if (time % 2 == 0) {                                                  // chispas en el emisor del techo
+            var p = local(1.0, 2.0, 1.0);
+            level.sendParticles(com.bryanamaya.tecnocinetico.particle.ModParticles.KINETIC_SPARK.get(), p.x, p.y, p.z, 1, 0.08, 0.02, 0.08, 0.02);
+        }
     }
 }

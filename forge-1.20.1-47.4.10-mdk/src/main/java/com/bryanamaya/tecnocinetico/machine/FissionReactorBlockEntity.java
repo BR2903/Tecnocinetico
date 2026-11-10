@@ -154,6 +154,11 @@ public class FissionReactorBlockEntity extends ElectricMachineBlockEntity implem
     }
 
     @Override
+    protected boolean showsEffects(boolean working) {
+        return output > 0;
+    }
+
+    @Override
     protected boolean isLit() {
         return output > 0;
     }
@@ -344,5 +349,16 @@ public class FissionReactorBlockEntity extends ElectricMachineBlockEntity implem
         super.invalidateCaps();
         lazyFluid.invalidate();
         lazyOut.invalidate();
+    }
+
+    @Override
+    protected void effects(net.minecraft.server.level.ServerLevel level, long time) {
+        loop(com.bryanamaya.tecnocinetico.sound.ModSounds.MACHINE_REACTOR.get(), time, 74);
+        if (time % 4 == 0) {                                                  // vapor por los respiraderos del tejado
+            for (double[] v : new double[][]{{1.15, 1.15}, {7.85, 1.15}, {1.15, 7.85}, {7.85, 7.85}}) {
+                var p = local(v[0], 6.0, v[1]);
+                level.sendParticles(net.minecraft.core.particles.ParticleTypes.CLOUD, p.x, p.y, p.z, 1, 0.15, 0.0, 0.15, 0.02);
+            }
+        }
     }
 }

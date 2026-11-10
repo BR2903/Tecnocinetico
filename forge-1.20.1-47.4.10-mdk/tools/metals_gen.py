@@ -447,7 +447,7 @@ def fuel_rods():
         gen_item(name)
 
 
-MACHINES = ["electric_refiner", "cell_charger", "ammo_fabricator", "reaction_chamber", "chemical_lab"]   # reactor: structures_gen.py
+MACHINES = ["electric_refiner", "cell_charger", "ammo_fabricator", "chemical_lab"]   # cámara: chamber_model_gen.py   # reactor: structures_gen.py
 REACTOR_ONLY = ("titanium", "uranium")
 
 

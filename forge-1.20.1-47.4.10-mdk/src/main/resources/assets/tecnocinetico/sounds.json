@@ -510,5 +510,68 @@
         "attenuation_distance": 24
       }
     ]
+  },
+  "block.machine.refiner": {
+    "subtitle": "subtitles.tecnocinetico.machine.refiner",
+    "sounds": [
+      {
+        "name": "tecnocinetico:machines/refiner",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "block.machine.charger": {
+    "subtitle": "subtitles.tecnocinetico.machine.charger",
+    "sounds": [
+      {
+        "name": "tecnocinetico:machines/charger",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "block.machine.fabricator": {
+    "subtitle": "subtitles.tecnocinetico.machine.fabricator",
+    "sounds": [
+      {
+        "name": "tecnocinetico:machines/fabricator",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "block.machine.reaction": {
+    "subtitle": "subtitles.tecnocinetico.machine.reaction",
+    "sounds": [
+      {
+        "name": "tecnocinetico:machines/reaction",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "block.machine.lab": {
+    "subtitle": "subtitles.tecnocinetico.machine.lab",
+    "sounds": [
+      {
+        "name": "tecnocinetico:machines/lab",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "block.machine.reactor": {
+    "subtitle": "subtitles.tecnocinetico.machine.reactor",
+    "sounds": [
+      {
+        "name": "tecnocinetico:machines/reactor",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "block.machine.assembler": {
+    "subtitle": "subtitles.tecnocinetico.machine.assembler",
+    "sounds": [
+      {
+        "name": "tecnocinetico:machines/assembler",
+        "attenuation_distance": 16
+      }
+    ]
   }
 }
