@@ -192,6 +192,12 @@ public class Tecnocinetico {
         }
 
         @SubscribeEvent
+        public static void registerReloadListeners(net.minecraftforge.client.event.RegisterClientReloadListenersEvent event) {
+            event.registerReloadListener((net.minecraft.server.packs.resources.ResourceManagerReloadListener) rm ->
+                    com.bryanamaya.tecnocinetico.client.Armor3DModels.clear());          // armaduras 3D: recargar con F3+T
+        }
+
+        @SubscribeEvent
         public static void registerExtraModels(net.minecraftforge.client.event.ModelEvent.RegisterAdditional event) {
             event.register(com.bryanamaya.tecnocinetico.client.IndustrialAssemblerRenderer.ARM);
             event.register(com.bryanamaya.tecnocinetico.client.FissionReactorRenderer.ROD);

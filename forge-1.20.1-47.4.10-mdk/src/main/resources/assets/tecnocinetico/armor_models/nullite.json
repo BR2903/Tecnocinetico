@@ -1,0 +1,529 @@
+{
+ "texture": [
+  128,
+  128
+ ],
+ "slots": {
+  "head": [
+   {
+    "bone": "head",
+    "uv": [
+     0,
+     0
+    ],
+    "from": [
+     -4,
+     -8,
+     -4
+    ],
+    "size": [
+     8,
+     8,
+     8
+    ],
+    "inflate": 1.0,
+    "mirror": false
+   },
+   {
+    "bone": "head",
+    "uv": [
+     0,
+     24
+    ],
+    "from": [
+     -4.0,
+     -6.2,
+     -5.3
+    ],
+    "size": [
+     8,
+     2,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "head",
+    "uv": [
+     60,
+     16
+    ],
+    "from": [
+     -4.8,
+     -10.0,
+     -3.0
+    ],
+    "size": [
+     1,
+     4,
+     2
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "head",
+    "uv": [
+     66,
+     16
+    ],
+    "from": [
+     3.8,
+     -10.0,
+     -3.0
+    ],
+    "size": [
+     1,
+     4,
+     2
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "head",
+    "uv": [
+     22,
+     24
+    ],
+    "from": [
+     -0.5,
+     -9.6,
+     -4.6
+    ],
+    "size": [
+     1,
+     1,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   }
+  ],
+  "chest": [
+   {
+    "bone": "body",
+    "uv": [
+     32,
+     0
+    ],
+    "from": [
+     -4,
+     0,
+     -2
+    ],
+    "size": [
+     8,
+     12,
+     4
+    ],
+    "inflate": 1.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     88,
+     0
+    ],
+    "from": [
+     -3.0,
+     1.0,
+     -3.5
+    ],
+    "size": [
+     2,
+     8,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     94,
+     0
+    ],
+    "from": [
+     1.0,
+     1.0,
+     -3.5
+    ],
+    "size": [
+     2,
+     8,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     90,
+     16
+    ],
+    "from": [
+     -1.0,
+     3.0,
+     -3.6
+    ],
+    "size": [
+     2,
+     3,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     96,
+     16
+    ],
+    "from": [
+     -3.0,
+     0.0,
+     2.6
+    ],
+    "size": [
+     6,
+     2,
+     2
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "right_arm",
+    "uv": [
+     56,
+     0
+    ],
+    "from": [
+     -3,
+     -2,
+     -2
+    ],
+    "size": [
+     4,
+     12,
+     4
+    ],
+    "inflate": 0.8,
+    "mirror": false
+   },
+   {
+    "bone": "left_arm",
+    "uv": [
+     56,
+     0
+    ],
+    "from": [
+     -1,
+     -2,
+     -2
+    ],
+    "size": [
+     4,
+     12,
+     4
+    ],
+    "inflate": 0.8,
+    "mirror": true
+   },
+   {
+    "bone": "right_arm",
+    "uv": [
+     0,
+     16
+    ],
+    "from": [
+     -4.6,
+     -3.6,
+     -2.6
+    ],
+    "size": [
+     4,
+     3,
+     5
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_arm",
+    "uv": [
+     0,
+     16
+    ],
+    "from": [
+     0.6,
+     -3.6,
+     -2.6
+    ],
+    "size": [
+     4,
+     3,
+     5
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   },
+   {
+    "bone": "right_arm",
+    "uv": [
+     18,
+     24
+    ],
+    "from": [
+     -5.0,
+     -5.0,
+     -0.5
+    ],
+    "size": [
+     1,
+     2,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_arm",
+    "uv": [
+     18,
+     24
+    ],
+    "from": [
+     4.0,
+     -5.0,
+     -0.5
+    ],
+    "size": [
+     1,
+     2,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   },
+   {
+    "bone": "right_arm",
+    "uv": [
+     72,
+     16
+    ],
+    "from": [
+     -3.6,
+     6.0,
+     -2.7
+    ],
+    "size": [
+     4,
+     1,
+     5
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_arm",
+    "uv": [
+     72,
+     16
+    ],
+    "from": [
+     -0.4,
+     6.0,
+     -2.7
+    ],
+    "size": [
+     4,
+     1,
+     5
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   }
+  ],
+  "legs": [
+   {
+    "bone": "body",
+    "uv": [
+     100,
+     0
+    ],
+    "from": [
+     -4,
+     7,
+     -2
+    ],
+    "size": [
+     8,
+     5,
+     4
+    ],
+    "inflate": 0.5,
+    "mirror": false
+   },
+   {
+    "bone": "right_leg",
+    "uv": [
+     72,
+     0
+    ],
+    "from": [
+     -2,
+     0,
+     -2
+    ],
+    "size": [
+     4,
+     9,
+     4
+    ],
+    "inflate": 0.5,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     72,
+     0
+    ],
+    "from": [
+     -2,
+     0,
+     -2
+    ],
+    "size": [
+     4,
+     9,
+     4
+    ],
+    "inflate": 0.5,
+    "mirror": true
+   },
+   {
+    "bone": "right_leg",
+    "uv": [
+     34,
+     16
+    ],
+    "from": [
+     -2.4,
+     0.5,
+     -2.8
+    ],
+    "size": [
+     2,
+     6,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     34,
+     16
+    ],
+    "from": [
+     0.4,
+     0.5,
+     -2.8
+    ],
+    "size": [
+     2,
+     6,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   }
+  ],
+  "feet": [
+   {
+    "bone": "right_leg",
+    "uv": [
+     18,
+     16
+    ],
+    "from": [
+     -2,
+     8,
+     -2
+    ],
+    "size": [
+     4,
+     4,
+     4
+    ],
+    "inflate": 1.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     18,
+     16
+    ],
+    "from": [
+     -2,
+     8,
+     -2
+    ],
+    "size": [
+     4,
+     4,
+     4
+    ],
+    "inflate": 1.0,
+    "mirror": true
+   },
+   {
+    "bone": "right_leg",
+    "uv": [
+     40,
+     16
+    ],
+    "from": [
+     -2.0,
+     11.0,
+     -3.6
+    ],
+    "size": [
+     4,
+     1,
+     6
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     40,
+     16
+    ],
+    "from": [
+     -2.0,
+     11.0,
+     -3.6
+    ],
+    "size": [
+     4,
+     1,
+     6
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   }
+  ]
+ }
+}

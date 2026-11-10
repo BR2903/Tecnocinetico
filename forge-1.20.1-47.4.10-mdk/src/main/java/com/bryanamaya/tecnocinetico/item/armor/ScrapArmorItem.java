@@ -112,4 +112,23 @@ public class ScrapArmorItem extends ArmorItem {
         tooltip.add(Component.translatable("tooltip.tecnocinetico.scrap_set").withStyle(ChatFormatting.GOLD));
         tooltip.add(Component.translatable("tooltip.tecnocinetico.scrap_set_bonus").withStyle(ChatFormatting.GRAY));
     }
+
+    /** Modelo 3D propio (client/Armor3DModels, generado por tools/armor3d_gen.py). */
+    @Override
+    public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
+        consumer.accept(new net.minecraftforge.client.extensions.common.IClientItemExtensions() {
+            @Override
+            public net.minecraft.client.model.HumanoidModel<?> getHumanoidArmorModel(net.minecraft.world.entity.LivingEntity entity, ItemStack stack,
+                                                                                    net.minecraft.world.entity.EquipmentSlot slot,
+                                                                                    net.minecraft.client.model.HumanoidModel<?> original) {
+                var m = com.bryanamaya.tecnocinetico.client.Armor3DModels.get("scrap", slot);
+                return m != null ? m : original;
+            }
+        });
+    }
+
+    @Override
+    public String getArmorTexture(ItemStack stack, net.minecraft.world.entity.Entity entity, net.minecraft.world.entity.EquipmentSlot slot, String type) {
+        return "tecnocinetico:textures/models/armor/3d/" + "scrap" + ".png";
+    }
 }

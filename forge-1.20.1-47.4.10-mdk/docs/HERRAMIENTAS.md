@@ -155,3 +155,4 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/reactor_model_gen.py`: reactor 9x9x6 como modelo continuo troceado en 18 modelos 3x3x3 (+ atlas `block/reactor.png`, estados de `reactor_shell`, modelo del núcleo).
 - `python tools/render_zbuffer.py <salida.png> <modelo.json> [yaw pitch escala]`: vista previa con profundidad real (para unir los 18 trozos, ver la entrada de la bitácora del 2026-11-09).
 - `python tools/chamber_model_gen.py`: Cámara de Reacción 2x2x2 (usa el sistema de `reactor_model_gen.py` con su propio atlas), haz y kit.
+- `python tools/armor3d_gen.py [carpeta]`: armaduras 3D (modelos por pieza + texturas); con carpeta, vistas previas de cada set en un maniquí (`render_zbuffer.py <png> <carpeta>/<set>_preview.json 200 15 14`).

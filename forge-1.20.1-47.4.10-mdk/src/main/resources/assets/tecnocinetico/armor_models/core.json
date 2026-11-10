@@ -1,0 +1,548 @@
+{
+ "texture": [
+  128,
+  128
+ ],
+ "slots": {
+  "head": [
+   {
+    "bone": "head",
+    "uv": [
+     0,
+     0
+    ],
+    "from": [
+     -4,
+     -8,
+     -4
+    ],
+    "size": [
+     8,
+     8,
+     8
+    ],
+    "inflate": 1.0,
+    "mirror": false
+   },
+   {
+    "bone": "head",
+    "uv": [
+     0,
+     25
+    ],
+    "from": [
+     -4.0,
+     -6.0,
+     -5.3
+    ],
+    "size": [
+     8,
+     2,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "head",
+    "uv": [
+     24,
+     25
+    ],
+    "from": [
+     -4.6,
+     -9.6,
+     -0.5
+    ],
+    "size": [
+     9,
+     1,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "head",
+    "uv": [
+     80,
+     16
+    ],
+    "from": [
+     -5.3,
+     -6.0,
+     -2.0
+    ],
+    "size": [
+     1,
+     2,
+     4
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "head",
+    "uv": [
+     90,
+     16
+    ],
+    "from": [
+     4.3,
+     -6.0,
+     -2.0
+    ],
+    "size": [
+     1,
+     2,
+     4
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   }
+  ],
+  "chest": [
+   {
+    "bone": "body",
+    "uv": [
+     32,
+     0
+    ],
+    "from": [
+     -4,
+     0,
+     -2
+    ],
+    "size": [
+     8,
+     12,
+     4
+    ],
+    "inflate": 1.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     108,
+     16
+    ],
+    "from": [
+     -2.0,
+     2.0,
+     -3.6
+    ],
+    "size": [
+     4,
+     4,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     18,
+     25
+    ],
+    "from": [
+     -1.0,
+     3.0,
+     -4.2
+    ],
+    "size": [
+     2,
+     2,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     44,
+     25
+    ],
+    "from": [
+     -4.0,
+     7.0,
+     -3.2
+    ],
+    "size": [
+     8,
+     1,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     88,
+     0
+    ],
+    "from": [
+     -2.5,
+     1.0,
+     3.2
+    ],
+    "size": [
+     5,
+     7,
+     2
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "body",
+    "uv": [
+     100,
+     16
+    ],
+    "from": [
+     -1.5,
+     2.0,
+     5.2
+    ],
+    "size": [
+     3,
+     5,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "right_arm",
+    "uv": [
+     56,
+     0
+    ],
+    "from": [
+     -3,
+     -2,
+     -2
+    ],
+    "size": [
+     4,
+     12,
+     4
+    ],
+    "inflate": 0.8,
+    "mirror": false
+   },
+   {
+    "bone": "left_arm",
+    "uv": [
+     56,
+     0
+    ],
+    "from": [
+     -1,
+     -2,
+     -2
+    ],
+    "size": [
+     4,
+     12,
+     4
+    ],
+    "inflate": 0.8,
+    "mirror": true
+   },
+   {
+    "bone": "right_arm",
+    "uv": [
+     102,
+     0
+    ],
+    "from": [
+     -4.2,
+     -3.0,
+     -2.8
+    ],
+    "size": [
+     5,
+     3,
+     6
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_arm",
+    "uv": [
+     102,
+     0
+    ],
+    "from": [
+     -0.8,
+     -3.0,
+     -2.8
+    ],
+    "size": [
+     5,
+     3,
+     6
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   },
+   {
+    "bone": "right_arm",
+    "uv": [
+     40,
+     16
+    ],
+    "from": [
+     -4.3,
+     -1.0,
+     -0.5
+    ],
+    "size": [
+     1,
+     6,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_arm",
+    "uv": [
+     40,
+     16
+    ],
+    "from": [
+     3.3,
+     -1.0,
+     -0.5
+    ],
+    "size": [
+     1,
+     6,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   }
+  ],
+  "legs": [
+   {
+    "bone": "body",
+    "uv": [
+     0,
+     16
+    ],
+    "from": [
+     -4,
+     7,
+     -2
+    ],
+    "size": [
+     8,
+     5,
+     4
+    ],
+    "inflate": 0.5,
+    "mirror": false
+   },
+   {
+    "bone": "right_leg",
+    "uv": [
+     72,
+     0
+    ],
+    "from": [
+     -2,
+     0,
+     -2
+    ],
+    "size": [
+     4,
+     9,
+     4
+    ],
+    "inflate": 0.5,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     72,
+     0
+    ],
+    "from": [
+     -2,
+     0,
+     -2
+    ],
+    "size": [
+     4,
+     9,
+     4
+    ],
+    "inflate": 0.5,
+    "mirror": true
+   },
+   {
+    "bone": "right_leg",
+    "uv": [
+     44,
+     16
+    ],
+    "from": [
+     -2.4,
+     0.0,
+     -2.8
+    ],
+    "size": [
+     4,
+     6,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     44,
+     16
+    ],
+    "from": [
+     -1.6,
+     0.0,
+     -2.8
+    ],
+    "size": [
+     4,
+     6,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   },
+   {
+    "bone": "right_leg",
+    "uv": [
+     54,
+     16
+    ],
+    "from": [
+     -2.6,
+     2.0,
+     -0.5
+    ],
+    "size": [
+     1,
+     6,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     54,
+     16
+    ],
+    "from": [
+     1.6,
+     2.0,
+     -0.5
+    ],
+    "size": [
+     1,
+     6,
+     1
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   }
+  ],
+  "feet": [
+   {
+    "bone": "right_leg",
+    "uv": [
+     24,
+     16
+    ],
+    "from": [
+     -2,
+     8,
+     -2
+    ],
+    "size": [
+     4,
+     4,
+     4
+    ],
+    "inflate": 1.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     24,
+     16
+    ],
+    "from": [
+     -2,
+     8,
+     -2
+    ],
+    "size": [
+     4,
+     4,
+     4
+    ],
+    "inflate": 1.0,
+    "mirror": true
+   },
+   {
+    "bone": "right_leg",
+    "uv": [
+     58,
+     16
+    ],
+    "from": [
+     -2.4,
+     11.0,
+     -3.2
+    ],
+    "size": [
+     5,
+     1,
+     6
+    ],
+    "inflate": 0.0,
+    "mirror": false
+   },
+   {
+    "bone": "left_leg",
+    "uv": [
+     58,
+     16
+    ],
+    "from": [
+     -2.6,
+     11.0,
+     -3.2
+    ],
+    "size": [
+     5,
+     1,
+     6
+    ],
+    "inflate": 0.0,
+    "mirror": true
+   }
+  ]
+ }
+}
