@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "LLL",
+    "LPL",
+    "L L"
+  ],
+  "key": {
+    "L": {
+      "item": "tecnocinetico:lead_ingot"
+    },
+    "P": {
+      "item": "minecraft:leather_leggings"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:hazmat_leggings",
+    "count": 1
+  }
+}

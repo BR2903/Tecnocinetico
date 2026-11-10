@@ -144,6 +144,10 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.TACTICAL_CHESTPLATE.get());
                         out.accept(ModItems.TACTICAL_LEGGINGS.get());
                         out.accept(ModItems.TACTICAL_BOOTS.get());
+                        out.accept(ModItems.HAZMAT_HELMET.get());
+                        out.accept(ModItems.HAZMAT_CHESTPLATE.get());
+                        out.accept(ModItems.HAZMAT_LEGGINGS.get());
+                        out.accept(ModItems.HAZMAT_BOOTS.get());
                         out.accept(ModItems.EXO_HELMET.get());
                         out.accept(ModItems.EXO_CHESTPLATE.get());
                         out.accept(ModItems.EXO_LEGGINGS.get());

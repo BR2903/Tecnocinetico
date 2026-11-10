@@ -89,6 +89,8 @@ public final class RadiationEvents {
             return;
         }
         float dose = exposure(p);
+        int suit = com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.hazmatPieces(p);
+        dose = suit >= 4 ? 0.0F : dose * (1.0F - 0.2F * suit);                // traje antirradiación
         if (dose < 0.5F) {
             return;
         }

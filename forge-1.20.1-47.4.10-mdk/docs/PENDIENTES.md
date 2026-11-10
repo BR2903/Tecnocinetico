@@ -37,7 +37,7 @@
 
 - **Nave mejorable (idea del usuario, no implementar hasta que lo pida):** se fabrica con el Motor Dimensional (botín de la Araña de Asedio); primero solo por tierra y para viajar al siguiente mundo nuevo; vencer al jefe del Nether desbloquea saltar al Nether, y al del End, al End. El Caza del Núcleo actual vuela y salta libremente: habrá que adaptarlo.
 
-- **Siguiente, en este orden (pedido)**: protección antirradiación (traje de plomo / caja de plomo) -> metales en recetas + Prensa Automática estilo Create. Detalle: **reactor generador** de FE (combustible de uranio, sobrecalentamiento), **rediseño de la Prensa Automática** estilo Create, e **integrar plomo/estaño/titanio** en recetas existentes (balas, circuitos/soldadura, armaduras y armas de tier 2-3).
-- Radiación: protección (traje antirradiación / blindaje de plomo) aún no existe. Equilibrio de la Cámara (FE, tiempos, pérdida de estabilidad) tras probarla.
+- **Siguiente (pedido)**: metales en recetas + Prensa Automática estilo Create. Detalle: **reactor generador** de FE (combustible de uranio, sobrecalentamiento), **rediseño de la Prensa Automática** estilo Create, e **integrar plomo/estaño/titanio** en recetas existentes (balas, circuitos/soldadura, armaduras y armas de tier 2-3).
+- Radiación: hay traje; ¿caja de plomo para guardar uranio sin que irradie? Equilibrio de la Cámara (FE, tiempos, pérdida de estabilidad) tras probarla.
 - Reactor: probar el equilibrio en el juego (600 FE/t, duración de la barra, calor). ¿Modelo 3D propio? ¿Multibloque más adelante?
 - Estructuras grandes: probar en el juego (despliegue, desmontaje, brazos y barras visibles). Más recetas para el Ensamblador Industrial (nave mejorable, tier 4-5).

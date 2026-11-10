@@ -538,5 +538,11 @@
   "subtitles.tecnocinetico.machine.reactor": "Reactor rumbles",
   "subtitles.tecnocinetico.machine.assembler": "Assembler works",
   "item.tecnocinetico.reaction_chamber": "Reaction Chamber",
-  "block.tecnocinetico.reaction_chamber_part": "Reaction Chamber"
+  "block.tecnocinetico.reaction_chamber_part": "Reaction Chamber",
+  "item.tecnocinetico.hazmat_helmet": "Hazmat Helmet",
+  "item.tecnocinetico.hazmat_chestplate": "Hazmat Suit",
+  "item.tecnocinetico.hazmat_leggings": "Hazmat Pants",
+  "item.tecnocinetico.hazmat_boots": "Hazmat Boots",
+  "tooltip.tecnocinetico.hazmat_set": "Lead-lined protective gear",
+  "tooltip.tecnocinetico.hazmat_set_bonus": "Each piece: -20% radiation. Full suit: immune to radiation and acid. Little protection against hits."
 }

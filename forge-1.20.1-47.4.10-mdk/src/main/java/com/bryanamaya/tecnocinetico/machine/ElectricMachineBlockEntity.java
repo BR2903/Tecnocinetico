@@ -265,6 +265,7 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
     protected void saveAdditional(CompoundTag tag) {
         tag.put("inventory", items.serializeNBT());
         tag.putInt("progress", progress);
+        tag.putInt("max_progress", maxProgress);                               // el cliente lo necesita para animar
         tag.putInt("energy", energy.getEnergyStored());
         super.saveAdditional(tag);
     }
@@ -276,6 +277,7 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
         inv.putInt("Size", kind.slots());
         items.deserializeNBT(inv);
         progress = tag.getInt("progress");
+        maxProgress = tag.getInt("max_progress");
         energy.set(tag.getInt("energy"));
     }
 

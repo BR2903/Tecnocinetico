@@ -259,6 +259,19 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.INERCITA, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> INERCITA_BOOTS = ITEMS.register("inercita_boots",
             () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.INERCITA, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
+    // Equipo de protección: traje antirradiación (forrado de plomo)
+    public static final RegistryObject<Item> HAZMAT_HELMET = ITEMS.register("hazmat_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.HAZMAT,
+                    net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> HAZMAT_CHESTPLATE = ITEMS.register("hazmat_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.HAZMAT,
+                    net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> HAZMAT_LEGGINGS = ITEMS.register("hazmat_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.HAZMAT,
+                    net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> HAZMAT_BOOTS = ITEMS.register("hazmat_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.HAZMAT,
+                    net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
     public static final RegistryObject<Item> TACTICAL_HELMET = ITEMS.register("tactical_helmet",
             () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.TACTICAL, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
     public static final RegistryObject<Item> TACTICAL_CHESTPLATE = ITEMS.register("tactical_chestplate",

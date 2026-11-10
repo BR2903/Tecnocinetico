@@ -66,7 +66,10 @@ public class Tier2ArmorItem extends ArmorItem {
         COMBAT_MK2("combat_mk2", new int[]{3, 7, 6, 3}, 28, 2.0F, 0.05F, () -> Ingredient.of(ModItems.INERCITA_PLATE.get()),
                 SoundEvents.ARMOR_EQUIP_NETHERITE, 0.03, 2.0, 0.04),
         COMBAT_MK3("combat_mk3", new int[]{4, 9, 7, 4}, 40, 3.5F, 0.1F, () -> Ingredient.of(ModItems.INERCITA_PLATE.get()),
-                SoundEvents.ARMOR_EQUIP_NETHERITE, 0.04, 3.0, 0.06);
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 0.04, 3.0, 0.06),
+        // ---- equipo de protección: traje antirradiación forrado de plomo (poca protección contra golpes, pesa un poco)
+        HAZMAT("hazmat", new int[]{1, 3, 2, 1}, 15, 0.0F, 0.0F, () -> Ingredient.of(ModItems.LEAD_INGOT.get()),
+                SoundEvents.ARMOR_EQUIP_LEATHER, -0.02, 0, 0);
 
         public final String id;
         final ArmorMaterial material;
@@ -188,6 +191,17 @@ public class Tier2ArmorItem extends ArmorItem {
             }
         }
         return true;
+    }
+
+    /** Piezas del traje antirradiación puestas (0-4). Cada una quita un 20 % de radiación; las 4, toda. */
+    public static int hazmatPieces(LivingEntity e) {
+        int n = 0;
+        for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+            if (e.getItemBySlot(slot).getItem() instanceof Tier2ArmorItem a && a.kind == Kind.HAZMAT) {
+                n++;
+            }
+        }
+        return n;
     }
 
     /** Multiplicador de retroceso de las armas (armadura táctica completa: -30 %). Lo usa el cliente. */

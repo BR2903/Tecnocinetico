@@ -120,7 +120,9 @@ public final class ModFluids {
 
         @Override
         public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-            if (!level.isClientSide && entity instanceof LivingEntity living && living.tickCount % 10 == 0) {
+            if (!level.isClientSide && entity instanceof LivingEntity living && living.tickCount % 10 == 0
+                    && !com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.hasFullSet(living,
+                    com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.HAZMAT)) {   // el traje completo protege del ácido
                 living.hurt(level.damageSources().magic(), 2.0F);
             }
         }

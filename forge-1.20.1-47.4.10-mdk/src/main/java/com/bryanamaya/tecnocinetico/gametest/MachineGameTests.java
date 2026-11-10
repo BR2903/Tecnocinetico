@@ -95,6 +95,14 @@ public class MachineGameTests {
         player.getInventory().add(new ItemStack(ModItems.URANIUM_INGOT.get(), 10));
         float dose = com.bryanamaya.tecnocinetico.effect.RadiationEvents.exposure(player);
         helper.assertTrue(dose >= com.bryanamaya.tecnocinetico.effect.RadiationEvents.LEVEL_2, "10 lingotes deberían dar radiación nivel II: " + dose);
+        // el traje completo anula la radiación
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD, new ItemStack(ModItems.HAZMAT_HELMET.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST, new ItemStack(ModItems.HAZMAT_CHESTPLATE.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.LEGS, new ItemStack(ModItems.HAZMAT_LEGGINGS.get()));
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.hazmatPieces(player) == 3, "3 piezas puestas");
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET, new ItemStack(ModItems.HAZMAT_BOOTS.get()));
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.hasFullSet(player,
+                com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.HAZMAT), "Traje completo");
         var pig = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.PIG, new BlockPos(1, 2, 1));
         pig.addEffect(new net.minecraft.world.effect.MobEffectInstance(com.bryanamaya.tecnocinetico.effect.ModEffects.RADIATION.get(), 100, 2));
         helper.runAfterDelay(45, () -> {

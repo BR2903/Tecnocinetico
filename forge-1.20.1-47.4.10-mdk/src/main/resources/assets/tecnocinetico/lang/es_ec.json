@@ -538,5 +538,11 @@
   "subtitles.tecnocinetico.machine.reactor": "Reactor retumba",
   "subtitles.tecnocinetico.machine.assembler": "Ensamblador trabaja",
   "item.tecnocinetico.reaction_chamber": "Cámara de Reacción",
-  "block.tecnocinetico.reaction_chamber_part": "Cámara de Reacción"
+  "block.tecnocinetico.reaction_chamber_part": "Cámara de Reacción",
+  "item.tecnocinetico.hazmat_helmet": "Casco antirradiación",
+  "item.tecnocinetico.hazmat_chestplate": "Traje antirradiación",
+  "item.tecnocinetico.hazmat_leggings": "Pantalones antirradiación",
+  "item.tecnocinetico.hazmat_boots": "Botas antirradiación",
+  "tooltip.tecnocinetico.hazmat_set": "Equipo de protección forrado de plomo",
+  "tooltip.tecnocinetico.hazmat_set_bonus": "Cada pieza: -20 % de radiación. Traje completo: inmune a la radiación y al ácido. Poca protección contra golpes."
 }
