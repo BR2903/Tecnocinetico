@@ -73,6 +73,9 @@ public class ReactionChamberBlockEntity extends ElectricMachineBlockEntity {
         }
         maxProgress = r.ticks();
         usage = r.perTick();
+        if (energy.getEnergyStored() < r.perTick()) {
+            return true;                                                      // sin energía el haz está apagado: nada cambia
+        }
         if (miss == 0) {
             stability = Math.min(STABILITY_MAX, stability + 4);
         } else if (miss == 1) {

@@ -66,6 +66,14 @@ public class MachineGameTests {
         helper.assertTrue(furnace.isEmpty(), "El titanio no debería fundirse en el horno");
         helper.assertTrue(com.bryanamaya.tecnocinetico.machine.MachineRecipes.refine(new ItemStack(ModItems.RAW_URANIUM.get())) == null,
                 "El uranio no debería refinarse");
+        // sin energía: mal ajustada no pierde estabilidad ni desintegra la carga
+        BlockPos dark = new BlockPos(3, 2, 1);
+        helper.setBlock(dark, ModBlocks.REACTION_CHAMBER.get());
+        var unpowered = (com.bryanamaya.tecnocinetico.machine.ReactionChamberBlockEntity) helper.getBlockEntity(dark);
+        unpowered.configure(1, 1);
+        unpowered.getItems().insertItem(0, new ItemStack(ModItems.RAW_TITANIUM.get(), 1), false);
+        helper.runAfterDelay(380, () -> helper.assertTrue(unpowered.getItems().getStackInSlot(0).getCount() == 1,
+                "Sin energía la carga no debería desintegrarse"));
         ElectricMachineBlockEntity be = place(helper, ModBlocks.REACTION_CHAMBER.get());
         var chamber = (com.bryanamaya.tecnocinetico.machine.ReactionChamberBlockEntity) be;
         chamber.configure(1, 1);                                              // mal ajustada: no avanza
@@ -77,8 +85,8 @@ public class MachineGameTests {
         helper.runAfterDelay(250, () -> {
             ItemStack out = be.getItems().getStackInSlot(1);
             helper.assertTrue(out.is(ModItems.TITANIUM_INGOT.get()), "Bien ajustada debería dar un lingote de titanio: " + out);
-            helper.succeed();
         });
+        helper.runAfterDelay(390, helper::succeed);
     }
 
     @GameTest(template = "empty", timeoutTicks = 100)

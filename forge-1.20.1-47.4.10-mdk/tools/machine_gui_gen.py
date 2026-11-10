@@ -5,6 +5,9 @@ Las posiciones deben coincidir con machine/MachineKind.java (mismo estilo que to
 """
 from pathlib import Path
 from PIL import Image, ImageDraw
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from status_strip import add_status_strip  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "src/main/resources/assets/tecnocinetico/textures/gui"
 W, H = 176, 166
@@ -102,5 +105,5 @@ if __name__ == "__main__":
             d.line([(tx - 1, 16), (tx + 15, 16)], fill=SLOT_DARK); d.line([(tx - 1, 16), (tx - 1, 60)], fill=SLOT_DARK)
             d.line([(tx, 61), (tx + 16, 61)], fill=LIGHT); d.line([(tx + 16, 17), (tx + 16, 61)], fill=LIGHT)
             d.line([(tx + 12, 18), (tx + 12, 59)], fill=(80, 88, 98, 255))       # reflejo del cristal
-        img.save(OUT / f"{kid}.png")
+        add_status_strip(img).save(OUT / f"{kid}.png")
     print("ok: interfaces de las máquinas")

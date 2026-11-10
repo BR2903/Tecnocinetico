@@ -72,26 +72,22 @@ public class ReactionChamberScreen extends MachineScreen {
 
     @Override
     protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
-        g.drawString(font, title, titleLabelX, titleLabelY, 0x404040, false);
-        g.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, 0x404040, false);
+        super.renderLabels(g, mouseX, mouseY);
         g.drawString(font, Component.translatable("gui.tecnocinetico.reaction.frequency"), FREQ_X, ROW_Y - 10, 0x404040, false);
         g.drawString(font, Component.translatable("gui.tecnocinetico.reaction.intensity"), INT_X, ROW_Y - 10, 0x404040, false);
         g.drawCenteredString(font, String.valueOf(frequency()), FREQ_X + 22, ROW_Y + 2, 0x7FE7F5);
         g.drawCenteredString(font, String.valueOf(intensity()), INT_X + 22, ROW_Y + 2, 0x7FE7F5);
-        Component status;
-        int color = 0x1E8C9E;
+    }
+
+    @Override
+    protected Component status() {
         if (menu.energy() <= 0) {
-            status = Component.translatable("gui.tecnocinetico.press.no_power");
-            color = 0xC03030;
-        } else if (stability() < ReactionChamberBlockEntity.STABILITY_MAX / 3) {
-            status = Component.translatable("gui.tecnocinetico.reaction.unstable");
-            color = 0xC03030;
-        } else if (menu.progress() > 0 && menu.maxProgress() > 0) {
-            status = Component.translatable("gui.tecnocinetico.press.working", menu.progress() * 100 / menu.maxProgress());
-        } else {
-            status = Component.translatable("gui.tecnocinetico.press.ready");
+            return Component.translatable("gui.tecnocinetico.press.no_power").withStyle(s -> s.withColor(0xFF5050));
         }
-        g.drawString(font, status, imageWidth - 8 - font.width(status), titleLabelY, color, false);
+        if (stability() < ReactionChamberBlockEntity.STABILITY_MAX / 3) {
+            return Component.translatable("gui.tecnocinetico.reaction.unstable").withStyle(s -> s.withColor(0xFF5050));
+        }
+        return super.status();
     }
 
     @Override

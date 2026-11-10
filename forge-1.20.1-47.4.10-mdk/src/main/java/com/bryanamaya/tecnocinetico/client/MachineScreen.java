@@ -22,7 +22,8 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     public MachineScreen(MachineMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageHeight = 178;                                               // +12: franja de estado
+        this.inventoryLabelY = 85;
         this.texture = ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/gui/" + menu.kind().id + ".png");
     }
 
@@ -41,25 +42,21 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         }
     }
 
+    /** Estado de la máquina y su color (las pantallas especiales lo cambian). */
+    protected Component status() {
+        if (menu.energy() <= 0) {
+            return Component.translatable("gui.tecnocinetico.press.no_power").withStyle(s -> s.withColor(0xFF5050));
+        }
+        if (menu.progress() > 0 && menu.maxProgress() > 0) {
+            return Component.translatable("gui.tecnocinetico.press.working", menu.progress() * 100 / menu.maxProgress()).withStyle(s -> s.withColor(0x7FE7F5));
+        }
+        return Component.translatable("gui.tecnocinetico.press.ready").withStyle(s -> s.withColor(0x7FE7F5));
+    }
+
     @Override
     protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
         super.renderLabels(g, mouseX, mouseY);
-        Component status;
-        int color = 0x1E8C9E;
-        if (menu.energy() <= 0) {
-            status = Component.translatable("gui.tecnocinetico.press.no_power");
-            color = 0xC03030;
-        } else if (menu.progress() > 0 && menu.maxProgress() > 0) {
-            status = Component.translatable("gui.tecnocinetico.press.working", menu.progress() * 100 / menu.maxProgress());
-        } else {
-            status = Component.translatable("gui.tecnocinetico.press.ready");
-        }
-        boolean low = java.util.Arrays.stream(menu.kind().inputs).anyMatch(p -> p[1] > 40);
-        if (low) {
-            g.drawString(font, status, imageWidth - 8 - font.width(status), titleLabelY, color, false);
-        } else {
-            g.drawString(font, status, menu.kind().inputs[0][0], 58, color, false);
-        }
+        g.drawString(font, status(), 10, 74, 0x7FE7F5, false);                 // franja de estado (y 72..83)
     }
 
     @Override

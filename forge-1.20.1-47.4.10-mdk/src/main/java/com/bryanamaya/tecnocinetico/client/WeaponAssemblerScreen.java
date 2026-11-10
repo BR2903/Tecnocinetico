@@ -24,7 +24,8 @@ public class WeaponAssemblerScreen extends AbstractContainerScreen<WeaponAssembl
     public WeaponAssemblerScreen(WeaponAssemblerMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageHeight = 178;                                               // +12: franja de estado
+        this.inventoryLabelY = 85;
     }
 
     @Override
@@ -64,7 +65,7 @@ public class WeaponAssemblerScreen extends AbstractContainerScreen<WeaponAssembl
             status = Component.translatable("gui.tecnocinetico.press.ready");
             color = 0x1E8C9E;
         }
-        g.drawString(font, status, 26, 64, color, false);
+        g.drawString(font, status, 10, 74, brighten(color), false);                // en la franja de estado
     }
 
     @Override
@@ -83,5 +84,10 @@ public class WeaponAssemblerScreen extends AbstractContainerScreen<WeaponAssembl
                             WeaponAssemblerBlockEntity.ENERGY_PER_TICK).withStyle(ChatFormatting.GRAY)),
                     mouseX, mouseY);
         }
+    }
+
+    /** Colores pensados para fondo claro, aclarados para la franja oscura. */
+    private static int brighten(int c) {
+        return c == 0xC03030 ? 0xFF5050 : 0x7FE7F5;
     }
 }

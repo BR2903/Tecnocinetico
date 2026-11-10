@@ -80,6 +80,9 @@ bolt = [(158, 6), (156, 10), (158, 10), (156, 14), (161, 9), (159, 9), (161, 6)]
 d.polygon(bolt, fill=CYAN, outline=CYAN_LO)
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from status_strip import add_status_strip  # noqa: E402
+img = add_status_strip(img)
 img.save(OUT)
-img.crop((0, 0, 200, H)).resize((600, H * 3), Image.NEAREST).save(Path(sys.argv[2]))
+img.crop((0, 0, 200, H + 12)).resize((600, (H + 12) * 3), Image.NEAREST).save(Path(sys.argv[2]))
 print("ok")

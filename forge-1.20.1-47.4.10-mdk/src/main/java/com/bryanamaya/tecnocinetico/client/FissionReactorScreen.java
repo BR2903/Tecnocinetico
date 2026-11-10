@@ -84,23 +84,21 @@ public class FissionReactorScreen extends MachineScreen {
 
     @Override
     protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
-        g.drawString(font, title, titleLabelX, titleLabelY, 0x404040, false);
-        g.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, 0x404040, false);
+        super.renderLabels(g, mouseX, mouseY);
         g.drawString(font, Component.translatable("gui.tecnocinetico.reactor.power"), CTRL_X, ROW_Y - 10, 0x404040, false);
         g.drawCenteredString(font, extra(FissionReactorBlockEntity.EXTRA_THROTTLE) + "%", CTRL_X + 26, ROW_Y + 2, 0x7FE7F5);
+    }
+
+    @Override
+    protected Component status() {
         int heat = extra(FissionReactorBlockEntity.EXTRA_HEAT), out = extra(FissionReactorBlockEntity.EXTRA_OUTPUT);
-        Component status;
-        int color = 0x1E8C9E;
         if (heat >= FissionReactorBlockEntity.ALARM) {
-            status = Component.translatable("gui.tecnocinetico.reactor.meltdown");
-            color = 0xE02020;
-        } else if (out > 0) {
-            status = Component.translatable("gui.tecnocinetico.reactor.generating", out);
-        } else {
-            status = Component.translatable("gui.tecnocinetico.reactor.idle");
-            color = 0x808080;
+            return Component.translatable("gui.tecnocinetico.reactor.meltdown").withStyle(s -> s.withColor(0xFF4040));
         }
-        g.drawString(font, status, imageWidth - 8 - font.width(status), titleLabelY, color, false);
+        if (out > 0) {
+            return Component.translatable("gui.tecnocinetico.reactor.generating", out).withStyle(s -> s.withColor(0x7FE7F5));
+        }
+        return Component.translatable("gui.tecnocinetico.reactor.idle").withStyle(s -> s.withColor(0xA0A0A0));
     }
 
     @Override

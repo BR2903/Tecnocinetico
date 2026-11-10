@@ -19,7 +19,7 @@ import java.util.List;
 /** Laboratorio Químico: lo común + dos tanques con el líquido dibujado (entrada a la izquierda, salida a la derecha). */
 public class ChemicalLabScreen extends MachineScreen {
 
-    public static final int IN_X = 10, OUT_X = 122, TANK_Y = 17, TANK_W = 16, TANK_H = 44, BTN_Y = 63;
+    public static final int IN_X = 10, OUT_X = 122, TANK_Y = 17, TANK_W = 16, TANK_H = 44, BTN_Y = 61;
 
     public ChemicalLabScreen(MachineMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -77,20 +77,10 @@ public class ChemicalLabScreen extends MachineScreen {
 
     @Override
     protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
-        g.drawString(font, title, titleLabelX, titleLabelY, 0x404040, false);
-        g.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, 0x404040, false);
-        Component status;
-        int color = 0x1E8C9E;
-        if (menu.energy() <= 0) {
-            status = Component.translatable("gui.tecnocinetico.press.no_power");
-            color = 0xC03030;
-        } else if (menu.progress() > 0 && menu.maxProgress() > 0) {
-            status = Component.translatable("gui.tecnocinetico.press.working", menu.progress() * 100 / menu.maxProgress());
-        } else {
-            status = Component.translatable("gui.tecnocinetico.press.ready");
-        }
-        g.drawString(font, status, imageWidth - 8 - font.width(status), titleLabelY, color, false);
+        super.renderLabels(g, mouseX, mouseY);
+
     }
+
 
     @Override
     public void render(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
