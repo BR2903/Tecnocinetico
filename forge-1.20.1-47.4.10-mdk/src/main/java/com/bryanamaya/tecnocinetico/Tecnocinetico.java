@@ -65,6 +65,7 @@ public class Tecnocinetico {
         com.bryanamaya.tecnocinetico.item.ModRecipes.register(modEventBus);
         com.bryanamaya.tecnocinetico.worldgen.structure.ModStructures.register(modEventBus);
         ModNetwork.register();
+        context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.SERVER, com.bryanamaya.tecnocinetico.rules.FriendlyFire.SPEC);
     }
 
     /** Eventos comunes (cliente y servidor) del bus del mod. */

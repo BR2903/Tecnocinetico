@@ -66,6 +66,9 @@ public class PulseCannonItem extends LongGunItem {
                     .getType() != HitResult.Type.MISS) {
                 continue;                                                          // detrás de una pared
             }
+            if (com.bryanamaya.tecnocinetico.rules.FriendlyFire.blocks(player, t)) {                // sin fuego amigo: ni daño, ni empuje, ni efectos
+                continue;
+            }
             float dmg = (float) (damage(gun) * (1.0 - d / (RANGE + 2.0)));
             t.invulnerableTime = 0;
             if (t.hurt(level.damageSources().playerAttack(player), dmg)) {

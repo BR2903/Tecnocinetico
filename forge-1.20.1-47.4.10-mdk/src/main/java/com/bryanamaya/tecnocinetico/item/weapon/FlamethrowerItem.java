@@ -48,6 +48,9 @@ public class FlamethrowerItem extends LongGunItem {
                     .getType() != HitResult.Type.MISS) {
                 continue;
             }
+            if (com.bryanamaya.tecnocinetico.rules.FriendlyFire.blocks(player, t)) {                // sin fuego amigo: no quema a compañeros
+                continue;
+            }
             t.invulnerableTime = 0;
             t.hurt(level.damageSources().playerAttack(player), damage(gun));
             t.setSecondsOnFire(6);

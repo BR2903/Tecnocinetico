@@ -544,5 +544,9 @@
   "item.tecnocinetico.hazmat_leggings": "Pantalones antirradiación",
   "item.tecnocinetico.hazmat_boots": "Botas antirradiación",
   "tooltip.tecnocinetico.hazmat_set": "Equipo de protección forrado de plomo",
-  "tooltip.tecnocinetico.hazmat_set_bonus": "Cada pieza: -20 % de radiación. Traje completo: inmune a la radiación y al ácido. Poca protección contra golpes."
+  "tooltip.tecnocinetico.hazmat_set_bonus": "Cada pieza: -20 % de radiación. Traje completo: inmune a la radiación y al ácido. Poca protección contra golpes.",
+  "gui.tecnocinetico.friendly_fire": "Fuego amigo",
+  "gui.tecnocinetico.friendly_fire.tooltip": "Activado: los jugadores pueden herirse entre sí (armas, golpes, explosiones, fuego). Solo se puede elegir aquí, al abrir el mundo a LAN.",
+  "message.tecnocinetico.friendly_fire_on": "Fuego amigo ACTIVADO: los jugadores pueden herirse entre sí.",
+  "message.tecnocinetico.friendly_fire_off": "Fuego amigo DESACTIVADO: los jugadores no pueden herirse entre sí."
 }

@@ -89,7 +89,7 @@ public class KineticBladeItem extends SwordItem {
             for (LivingEntity t : level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(6.0),
                     t -> t != player && t.isAlive() && !t.isSpectator())) {
                 Vec3 to = t.getBoundingBox().getCenter().subtract(eye);
-                if (to.length() <= 6.5 && to.normalize().dot(look) > Math.cos(Math.toRadians(60))) {
+                if (to.length() <= 6.5 && to.normalize().dot(look) > Math.cos(Math.toRadians(60)) && !com.bryanamaya.tecnocinetico.rules.FriendlyFire.blocks(player, t)) {
                     t.invulnerableTime = 0;
                     t.hurt(level.damageSources().playerAttack(player), 14.0F);
                     t.knockback(1.2, -look.x, -look.z);

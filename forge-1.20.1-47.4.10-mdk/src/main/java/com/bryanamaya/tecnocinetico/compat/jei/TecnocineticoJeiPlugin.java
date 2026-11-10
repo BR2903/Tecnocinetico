@@ -16,8 +16,30 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import com.bryanamaya.tecnocinetico.block.entity.AutoKineticPressBlockEntity;
+import com.bryanamaya.tecnocinetico.block.entity.WeaponAssemblerBlockEntity;
+import com.bryanamaya.tecnocinetico.machine.MachineKind;
+import com.bryanamaya.tecnocinetico.menu.AutoKineticPressMenu;
+import com.bryanamaya.tecnocinetico.menu.MachineMenu;
+import com.bryanamaya.tecnocinetico.menu.ModMenus;
+import com.bryanamaya.tecnocinetico.menu.WeaponAssemblerMenu;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.transfer.IRecipeTransferError;
+import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
+import mezz.jei.api.recipe.transfer.IRecipeTransferHandlerHelper;
+import mezz.jei.api.recipe.transfer.IRecipeTransferInfo;
+import mezz.jei.api.registration.IRecipeTransferRegistration;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Integración con JEI (visor de recetas). Solo se carga si JEI está instalado.
@@ -86,6 +108,61 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
     public void onRuntimeAvailable(IJeiRuntime runtime) {
         runtime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK,
                 List.of(new ItemStack(ModBlocks.CREATIVE_ENERGY_SOURCE.get())));
+    }
+
+    /**
+     * Botón "+" de JEI: pasa los ingredientes del inventario a los huecos de entrada de la máquina abierta (en el
+     * mismo orden en que JEI los dibuja). Los líquidos del laboratorio no se pasan: solo los objetos.
+     */
+    @Override
+    public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+        var h = registration.getTransferHelper();
+        machine(registration, MachineKind.REFINER, MachineRecipeCategory.REFINER);
+        machine(registration, MachineKind.CHARGER, MachineRecipeCategory.CHARGER);
+        machine(registration, MachineKind.AMMO_FABRICATOR, MachineRecipeCategory.FABRICATOR);
+        machine(registration, MachineKind.REACTION_CHAMBER, MachineRecipeCategory.REACTION);
+        machine(registration, MachineKind.CHEMICAL_LAB, LabRecipeCategory.TYPE);
+        machine(registration, MachineKind.INDUSTRIAL_ASSEMBLER, AssemblyRecipeCategory.TYPE);
+        itemsOnly(registration, h.createBasicRecipeTransferInfo(AutoKineticPressMenu.class, ModMenus.AUTO_KINETIC_PRESS.get(),
+                PressRecipeCategory.TYPE, 0, AutoKineticPressBlockEntity.INPUT_SLOTS, AutoKineticPressBlockEntity.INPUT_SLOTS + 1, 36));
+        itemsOnly(registration, h.createBasicRecipeTransferInfo(WeaponAssemblerMenu.class, ModMenus.WEAPON_ASSEMBLER.get(),
+                AssemblerRecipeCategory.TYPE, 0, WeaponAssemblerBlockEntity.INPUT_SLOTS, WeaponAssemblerBlockEntity.INPUT_SLOTS + 1, 36));
+    }
+
+    private static <R> void machine(IRecipeTransferRegistration registration, MachineKind kind, RecipeType<R> type) {
+        itemsOnly(registration, registration.getTransferHelper().createBasicRecipeTransferInfo(MachineMenu.class,
+                ModMenus.machine(kind).get(), type, 0, kind.inputs.length, kind.slots(), 36));
+    }
+
+    /** El manejador básico de JEI, pero ignorando las entradas que no son objetos (tanques de líquido). */
+    private static <C extends AbstractContainerMenu, R> void itemsOnly(IRecipeTransferRegistration registration, IRecipeTransferInfo<C, R> info) {
+        IRecipeTransferHandlerHelper h = registration.getTransferHelper();
+        IRecipeTransferHandler<C, R> base = h.createUnregisteredRecipeTransferHandler(info);
+        registration.addRecipeTransferHandler(new IRecipeTransferHandler<C, R>() {
+            @Override
+            public Class<? extends C> getContainerClass() {
+                return base.getContainerClass();
+            }
+
+            @Override
+            public Optional<MenuType<C>> getMenuType() {
+                return base.getMenuType();
+            }
+
+            @Override
+            public RecipeType<R> getRecipeType() {
+                return base.getRecipeType();
+            }
+
+            @Override
+            public @Nullable IRecipeTransferError transferRecipe(C container, R recipe, IRecipeSlotsView slots, Player player,
+                                                                 boolean maxTransfer, boolean doTransfer) {
+                List<IRecipeSlotView> views = slots.getSlotViews().stream()
+                        .filter(v -> v.getRole() != RecipeIngredientRole.INPUT || v.getItemStacks().findAny().isPresent())
+                        .toList();
+                return base.transferRecipe(container, recipe, h.createRecipeSlotsView(views), player, maxTransfer, doTransfer);
+            }
+        }, info.getRecipeType());
     }
 
     @Override

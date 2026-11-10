@@ -85,6 +85,9 @@ public class RailRifleItem extends LongGunItem {
                 .stream().sorted(Comparator.comparingDouble(e -> e.distanceToSqr(eye))).limit(MAX_PIERCE).toList();
         float dmg = damage(gun) * charge;
         for (Entity t : hits) {
+            if (com.bryanamaya.tecnocinetico.rules.FriendlyFire.blocks(player, t)) {                // sin fuego amigo: lo atraviesa sin empujarlo
+                continue;
+            }
             t.invulnerableTime = 0;
             boolean hurt = t.hurt(level.damageSources().playerAttack(player), dmg);
             if (hurt && t instanceof Enemy) {

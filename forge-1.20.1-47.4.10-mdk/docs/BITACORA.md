@@ -515,3 +515,7 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-09 — Claude — El mod es para multijugador
 - El usuario lo jugará con amigos. Revisión rápida: paquetes validados en el servidor, capacidades sincronizadas (entrar, reaparecer, dimensión, seguimiento), efectos de armas y máquinas enviados desde el servidor, menús con distancia, estado estático con clave por dimensión/UUID. No se encontraron fallos. Regla añadida en AGENTS.md §4 y DISENO.md.
+
+## 2026-11-10 — Claude — Fuego amigo y botón "+" de JEI en las máquinas
+- **Fuego amigo** (`rules/FriendlyFire`): regla general, por defecto desactivada. En LAN se elige con un botón nuevo en la pantalla "Abrir en LAN" (solo ahí; se aplica si de verdad se abre). En servidor dedicado: `serverconfig/tecnocinetico-server.toml`. Desactivado, ningún jugador hiere a otro (armas, golpes, proyectiles, explosiones) y el lanzallamas/cuchilla/cañón de pulso/rifle de riel tampoco queman ni empujan a compañeros. GameTest nuevo (34 pasan).
+- **JEI "+"**: pasar la receta a las máquinas (refinador, cargador, fabricador, cámara de reacción, laboratorio, ensamblador industrial, prensa automática y ensamblador de armas), con cantidades.

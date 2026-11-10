@@ -544,5 +544,9 @@
   "item.tecnocinetico.hazmat_leggings": "Hazmat Pants",
   "item.tecnocinetico.hazmat_boots": "Hazmat Boots",
   "tooltip.tecnocinetico.hazmat_set": "Lead-lined protective gear",
-  "tooltip.tecnocinetico.hazmat_set_bonus": "Each piece: -20% radiation. Full suit: immune to radiation and acid. Little protection against hits."
+  "tooltip.tecnocinetico.hazmat_set_bonus": "Each piece: -20% radiation. Full suit: immune to radiation and acid. Little protection against hits.",
+  "gui.tecnocinetico.friendly_fire": "Friendly Fire",
+  "gui.tecnocinetico.friendly_fire.tooltip": "On: players can hurt each other (weapons, melee, explosions, fire). It can only be chosen here, when opening the world to LAN.",
+  "message.tecnocinetico.friendly_fire_on": "Friendly fire ON: players can hurt each other.",
+  "message.tecnocinetico.friendly_fire_off": "Friendly fire OFF: players can't hurt each other."
 }

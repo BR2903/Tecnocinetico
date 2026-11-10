@@ -115,6 +115,10 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 
 ### Compatibilidad (`compat/jei/`)
 - `TecnocineticoJeiPlugin` (categoría de la prensa, información de módulos/banco, oculta la fuente creativa) y `PressRecipeCategory`. JEI es dependencia solo de compilación/desarrollo; el mod funciona sin él.
+- Botón **"+"** (pasar la receta): `registerRecipeTransferHandlers` registra el manejador básico de JEI para las 6 máquinas eléctricas (`MachineMenu`, uno por `MenuType`), la Prensa Automática y el Ensamblador de Armas. Envuelto en `itemsOnly`, que quita de la receta las entradas que no son objetos (los tanques del laboratorio) para que cuadren con los huecos. Las entradas se pasan en el orden en que la categoría las añade: **ese orden debe coincidir con el de los huecos de la máquina**. En servidor dedicado, JEI tiene que estar también en el servidor para que funcione.
+
+### Reglas de partida (`rules/`)
+- `FriendlyFire`: configuración de SERVIDOR (`<mundo>/serverconfig/tecnocinetico-server.toml`, `friendlyFire`, por defecto false). Si está apagado, cancela `LivingAttackEvent` cuando un jugador (o su proyectil/explosión) ataca a OTRO jugador; las armas de área del mod (lanzallamas, cuchilla, cañón de pulso, rifle de riel) además se saltan a los compañeros para no quemarlos ni empujarlos. `client/LanFriendlyFireOption` añade el botón a la pantalla "Abrir en LAN" y lo aplica solo si el mundo se abre de verdad. GameTest `RulesGameTests` (lote "reglas").
 
 ## Datos (`src/main/resources/data`)
 - `tecnocinetico/recipes/` — recetas de crafteo (martillo, pistola, prensas, banco, módulos, bloques).
