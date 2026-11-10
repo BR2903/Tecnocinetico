@@ -38,8 +38,8 @@ public final class PressRecipes {
                     // Transductor Piezo-Cúprico
                     new Recipe(List.of(Items.COPPER_INGOT, ModItems.CINETRITE_INGOT.get()),
                             new ItemStack(ModItems.PIEZO_TRANSDUCER.get())),
-                    // Sustrato Lógico de Pizarra
-                    new Recipe(List.of(Items.COBBLED_DEEPSLATE_SLAB, Items.REDSTONE, ModItems.CINETRITE_INGOT.get()),
+                    // Sustrato Lógico de Pizarra (las pistas se sueldan con estaño)
+                    new Recipe(List.of(Items.COBBLED_DEEPSLATE_SLAB, Items.REDSTONE, ModItems.TIN_INGOT.get()),
                             new ItemStack(ModItems.DEEPSLATE_LOGIC_SUBSTRATE.get())),
                     // Acoplador Cinético Bruto
                     new Recipe(List.of(Items.IRON_INGOT, ModBlocks.ANCIENT_ALLOY_BLOCK.get().asItem(), ModItems.CINETRITE_SHARD.get()),

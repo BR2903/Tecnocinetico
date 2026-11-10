@@ -493,3 +493,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 ## 2026-11-09 — Claude — Iconos de las armaduras a juego (modelo 3D en el inventario)
 - Los iconos planos de las armaduras no casaban con los diseños 3D. Ahora `tools/armor3d_gen.py` escribe también el modelo de inventario de cada pieza (`models/item/<set>_<pieza>.json`): los mismos cubos y la misma textura que la pieza puesta, de frente y algo girada, escalada para caber en la casilla (como las armas: el usuario prefiere el modelo 3D a los iconos planos). `weapons_gen.py` ya no escribe modelos planos de armaduras.
 - Arreglo: los iconos se veían **morados y negros** porque la textura de la armadura (`textures/models/armor/3d/`) no estaba en el atlas de bloques/objetos (solo entran `block/` e `item/`). Se añadió `assets/minecraft/atlases/blocks.json` con esa carpeta, y `check_models.py` avisa ahora de texturas fuera del atlas.
+
+## 2026-11-09 — Claude — Plomo, estaño y titanio en las recetas de siempre
+- **Plomo** (munición y pilas): balas cinéticas = 2 esquirlas + cobre + 2 pepitas de plomo (antes 4 esquirlas + cobre); balas de rifle y cartuchos llevan una pepita de plomo (en vez de pepita de hierro / chatarra); pilas del visor, del propulsor y del impulsor de esquiva llevan una pepita de plomo; la Célula de Impulso del Ensamblador lleva 2 lingotes de plomo.
+- **Estaño** (soldadura): el Sustrato Lógico de Pizarra se prensa con estaño en vez de cinetrita.
+- **Titanio** (solo tier 3, porque sale de la Cámara de Reacción, que se fabrica en tier 2): rifle de riel, fusil de asalto, lanzagranadas, lanzacohetes, minigun, proyectiles de riel y las armaduras del Núcleo y de combate Mk III (2-3 lingotes por pieza).
