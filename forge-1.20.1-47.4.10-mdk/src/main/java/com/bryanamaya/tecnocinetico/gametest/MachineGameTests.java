@@ -147,28 +147,25 @@ public class MachineGameTests {
     }
 
     @GameTest(template = "empty")
-    public static void reservoirStoresAnything(GameTestHelper helper) {
-        BlockPos pos = new BlockPos(1, 2, 1);
-        helper.setBlock(pos, com.bryanamaya.tecnocinetico.reservoir.ReservoirRegistry.RESERVOIR.get());
-        var r = (com.bryanamaya.tecnocinetico.reservoir.ReservoirBlockEntity) helper.getBlockEntity(pos);
+    public static void universalCellHoldsAnyFluid(GameTestHelper helper) {
         var exec = net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
-        var h = r.fluidHandler();
-        for (int i = 0; i < 3; i++) {                                         // 3 x 2.000 millones de mB de agua
-            helper.assertTrue(h.fill(new net.minecraftforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.WATER, 2_000_000_000), exec) == 2_000_000_000,
-                    "Debería aceptar cualquier cantidad");
+        for (var fluid : java.util.List.of(net.minecraft.world.level.material.Fluids.WATER, net.minecraft.world.level.material.Fluids.LAVA,
+                com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID.get(), com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT.get())) {
+            ItemStack cell = new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.UNIVERSAL_CELL.get());
+            var h = net.minecraftforge.fluids.FluidUtil.getFluidHandler(cell).orElseThrow(IllegalStateException::new);
+            int in = h.fill(new net.minecraftforge.fluids.FluidStack(fluid, 5000), exec);
+            helper.assertTrue(in == 1000, "Una celda guarda 1 cubo: " + in);
+            var out = net.minecraftforge.fluids.FluidUtil.getFluidContained(cell).orElse(net.minecraftforge.fluids.FluidStack.EMPTY);
+            helper.assertTrue(out.getFluid().isSame(fluid) && out.getAmount() == 1000, "Debería contener " + fluid);
         }
-        h.fill(new net.minecraftforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.LAVA, 5000), exec);
-        h.fill(new net.minecraftforge.fluids.FluidStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID.get(), 750), exec);
-        helper.assertTrue(r.fluids().size() == 3 && r.fluids().get(0).amount == 6_000_000_000L, "3 líquidos, 6.000 millones de mB de agua");
-        helper.assertTrue(h.drain(1000, exec).getFluid() == net.minecraft.world.level.material.Fluids.WATER, "Sale el elegido (agua)");
-        r.onButton(1);                                                        // elegir la lava
-        helper.assertTrue(h.drain(1000, exec).getFluid() == net.minecraft.world.level.material.Fluids.LAVA, "Ahora sale lava");
-        r.onButton(102);                                                      // desechar el ácido
-        helper.assertTrue(r.fluids().size() == 2, "El ácido debería haberse desechado");
-        // se conserva al guardar/cargar
-        var tag = r.writeFluids(new net.minecraft.nbt.CompoundTag());
-        r.readFluids(tag);
-        helper.assertTrue(r.fluids().size() == 2 && r.fluids().get(1).amount == 4000, "Debería conservar el contenido: " + tag);
+        // de una celda al laboratorio y de vuelta
+        BlockPos pos = new BlockPos(1, 2, 1);
+        helper.setBlock(pos, ModBlocks.CHEMICAL_LAB.get());
+        var lab = (com.bryanamaya.tecnocinetico.machine.ChemicalLabBlockEntity) helper.getBlockEntity(pos);
+        ItemStack water = new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.UNIVERSAL_CELL.get());
+        net.minecraftforge.fluids.FluidUtil.getFluidHandler(water).ifPresent(h -> h.fill(new net.minecraftforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.WATER, 1000), exec));
+        var res = net.minecraftforge.fluids.FluidUtil.tryEmptyContainer(water, lab.fluidHandler(), 1000, null, true);
+        helper.assertTrue(res.isSuccess() && lab.inputTank().getFluidAmount() == 1000, "La celda debería vaciarse en el laboratorio");
         helper.succeed();
     }
 

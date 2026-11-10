@@ -42,6 +42,10 @@ public final class ModFluids {
     /** Refrigerante: azul claro, para el reactor. */
     public static final FluidSet COOLANT = new FluidSet("coolant", 0xC84FC8F0, 1100, 1000, false);
 
+    /** Celda Universal de Fluidos (1 cubo de cualquier líquido). */
+    public static final net.minecraftforge.registries.RegistryObject<Item> UNIVERSAL_CELL = ModItems.ITEMS.register("universal_fluid_cell",
+            () -> new UniversalCellItem(new Item.Properties().stacksTo(64)));
+
     private ModFluids() {}
 
     public static void register(IEventBus bus) {

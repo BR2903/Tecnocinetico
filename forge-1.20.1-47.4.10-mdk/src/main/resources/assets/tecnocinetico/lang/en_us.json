@@ -506,7 +506,6 @@
   "gui.tecnocinetico.lab.clear_out": "Empty the output tank (the liquid is lost)",
   "gui.tecnocinetico.lab.swap": "Swap the input and output liquids",
   "block.tecnocinetico.fission_reactor": "Fission Reactor",
-  "block.tecnocinetico.universal_reservoir": "Universal Reservoir",
   "item.tecnocinetico.uranium_fuel_rod": "Uranium Fuel Rod",
   "item.tecnocinetico.depleted_fuel_rod": "Depleted Fuel Rod",
   "gui.tecnocinetico.reactor.power": "Control rods",
@@ -520,10 +519,8 @@
   "gui.tecnocinetico.reactor.coolant": "Cooling",
   "gui.tecnocinetico.reactor.coolant_hint": "Coolant (best) or water; buckets or pipes",
   "gui.tecnocinetico.reactor.fuel": "Current rod: %s%% left",
-  "gui.tecnocinetico.reservoir.empty": "Empty",
-  "gui.tecnocinetico.reservoir.discard": "Discard this liquid",
-  "gui.tecnocinetico.reservoir.hint": "Click: choose the output liquid",
-  "tooltip.tecnocinetico.reservoir_empty": "Empty: stores any liquid, in any amount",
   "jei.tecnocinetico.reactor_info": "Fission Reactor: burns Uranium Fuel Rods and generates up to 600 FE/t (pushed to adjacent blocks). Adjust power with the control rods. It heats up: needs coolant (handles 100%) or water (~85%). At 1000° it EXPLODES. It irradiates while running. Depleted rods are reprocessed in the Reaction Chamber.",
-  "jei.tecnocinetico.reservoir_info": "Universal Reservoir: stores any liquid, several at once, in any amount. Fill with buckets or pipes; the liquid chosen in its screen comes out. Keeps its contents when broken."
+  "item.tecnocinetico.universal_fluid_cell": "Universal Fluid Cell",
+  "item.tecnocinetico.universal_fluid_cell.filled": "Universal Cell (%s)",
+  "jei.tecnocinetico.cell_info": "Universal Fluid Cell: holds 1 bucket of any liquid (from other mods too). Right-click to pick up a source or pour it; works with machines and pipes. Empty cells stack to 64."
 }

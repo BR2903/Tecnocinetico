@@ -55,7 +55,6 @@ public class Tecnocinetico {
         ModBlockEntities.register(modEventBus);
         com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.register(modEventBus);
         com.bryanamaya.tecnocinetico.fluid.ModFluids.register(modEventBus);
-        com.bryanamaya.tecnocinetico.reservoir.ReservoirRegistry.register(modEventBus);
         ModEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModParticles.register(modEventBus);
@@ -117,8 +116,6 @@ public class Tecnocinetico {
                     net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(f.source.get(), net.minecraft.client.renderer.RenderType.translucent());
                     net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(f.flowing.get(), net.minecraft.client.renderer.RenderType.translucent());
                 }
-                MenuScreens.register(com.bryanamaya.tecnocinetico.reservoir.ReservoirRegistry.RESERVOIR_MENU.get(),
-                        com.bryanamaya.tecnocinetico.client.ReservoirScreen::new);
                 for (var kind : com.bryanamaya.tecnocinetico.machine.MachineKind.values()) {
                     if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.FISSION_REACTOR) {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.FissionReactorScreen::new);
@@ -189,6 +186,8 @@ public class Tecnocinetico {
             for (var f : java.util.List.of(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID, com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT)) {
                 event.register(new net.minecraftforge.client.model.DynamicFluidContainerModel.Colors(), f.bucket.get());   // cubos teñidos
             }
+            event.register(new net.minecraftforge.client.model.DynamicFluidContainerModel.Colors(),
+                    com.bryanamaya.tecnocinetico.fluid.ModFluids.UNIVERSAL_CELL.get());          // la celda: el líquido de dentro
         }
 
         @SubscribeEvent

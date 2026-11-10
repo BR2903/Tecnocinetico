@@ -427,41 +427,6 @@ def worldgen(name, cfg):
                                                                        "features": f"tecnocinetico:{name}_ore_placed", "step": "underground_ores"})
 
 
-def reservoir_art():
-    """Reservorio Universal: marco de acero con remaches y una gran mirilla de vidrio con marcas de nivel."""
-    steel = [(22, 24, 30), (40, 44, 52), (62, 66, 76), (92, 98, 110), (140, 146, 158)]
-    S = 32
-    side = Image.new("RGBA", (S, S))
-    d = ImageDraw.Draw(side)
-    d.rectangle([0, 0, S - 1, S - 1], fill=steel[2])
-    d.rectangle([0, 0, S - 1, S - 1], outline=steel[0])
-    d.line([(1, 1), (S - 2, 1)], fill=steel[4]); d.line([(1, 1), (1, S - 2)], fill=steel[3])
-    d.rectangle([5, 5, S - 6, S - 6], fill=(18, 40, 52), outline=steel[0])     # mirilla
-    for y in range(6, S - 6):                                                 # degradado del cristal
-        t = (y - 6) / (S - 12)
-        d.line([(6, y), (S - 7, y)], fill=(int(30 + 30 * t), int(70 + 60 * t), int(90 + 70 * t)))
-    d.line([(8, 7), (8, S - 8)], fill=(170, 220, 235))                        # reflejo
-    for y in range(9, S - 7, 4):
-        d.line([(S - 10, y), (S - 8, y)], fill=(200, 230, 240))               # marcas de nivel
-    for (x, y) in ((2, 2), (S - 3, 2), (2, S - 3), (S - 3, S - 3), (S // 2, 2), (S // 2, S - 3)):
-        d.point((x, y), fill=steel[4])
-    side.save(T / "block/universal_reservoir_side.png")
-    top = Image.new("RGBA", (S, S))
-    d = ImageDraw.Draw(top)
-    d.rectangle([0, 0, S - 1, S - 1], fill=steel[2], outline=steel[0])
-    d.ellipse([8, 8, S - 9, S - 9], fill=steel[1], outline=steel[4])          # tapa
-    d.ellipse([13, 13, S - 14, S - 14], fill=steel[3])
-    for (x, y) in ((3, 3), (S - 4, 3), (3, S - 4), (S - 4, S - 4)):
-        d.point((x, y), fill=steel[4])
-    d.rectangle([S // 2 - 1, 2, S // 2, 7], fill=(190, 120, 70))              # boca de entrada (cobre)
-    top.save(T / "block/universal_reservoir_top.png")
-    jw(A / "models/block/universal_reservoir.json", {"parent": "minecraft:block/cube_bottom_top", "textures": {
-        "side": "tecnocinetico:block/universal_reservoir_side", "top": "tecnocinetico:block/universal_reservoir_top",
-        "bottom": "tecnocinetico:block/universal_reservoir_top"}})
-    simple_state("universal_reservoir")
-    block_item("universal_reservoir")
-
-
 def fuel_rods():
     """Barras de combustible (16 px, en diagonal como un palo): revestimiento de titanio con ventanas verdes;
     la agotada, oscura y apagada."""
@@ -564,7 +529,6 @@ def main():
     for old in ("titanium_from_raw", "titanium_from_ore", "titanium_from_deepslate_ore", "titanium_from_dust"):
         for kind in ("smelting", "blasting"):
             (D / f"tecnocinetico/recipes/{kind}_{old}.json").unlink(missing_ok=True)
-    reservoir_art()
     fuel_rods()
     print("ok: metales, polvos y máquinas")
 

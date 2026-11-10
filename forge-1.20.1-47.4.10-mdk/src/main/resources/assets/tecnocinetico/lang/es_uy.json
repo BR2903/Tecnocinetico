@@ -506,7 +506,6 @@
   "gui.tecnocinetico.lab.clear_out": "Vaciar el tanque de salida (se pierde el líquido)",
   "gui.tecnocinetico.lab.swap": "Intercambiar los líquidos de entrada y salida",
   "block.tecnocinetico.fission_reactor": "Reactor de Fisión",
-  "block.tecnocinetico.universal_reservoir": "Reservorio Universal",
   "item.tecnocinetico.uranium_fuel_rod": "Barra de combustible de uranio",
   "item.tecnocinetico.depleted_fuel_rod": "Barra de combustible agotada",
   "gui.tecnocinetico.reactor.power": "Barras de control",
@@ -520,10 +519,8 @@
   "gui.tecnocinetico.reactor.coolant": "Refrigeración",
   "gui.tecnocinetico.reactor.coolant_hint": "Refrigerante (lo mejor) o agua; con cubos o tuberías",
   "gui.tecnocinetico.reactor.fuel": "Barra actual: queda %s%%",
-  "gui.tecnocinetico.reservoir.empty": "Vacío",
-  "gui.tecnocinetico.reservoir.discard": "Desechar este líquido",
-  "gui.tecnocinetico.reservoir.hint": "Clic: elegir el líquido que sale",
-  "tooltip.tecnocinetico.reservoir_empty": "Vacío: guarda cualquier líquido, en cualquier cantidad",
   "jei.tecnocinetico.reactor_info": "Reactor de Fisión: quema Barras de combustible de uranio y genera hasta 600 FE/t (la energía sale sola a lo que tenga al lado). Ajusta la potencia con las barras de control. Se calienta: necesita refrigerante (aguanta el 100 %) o agua (~85 %). A 1000° EXPLOTA. Mientras funciona, irradia. Las barras agotadas se reprocesan en la Cámara de Reacción.",
-  "jei.tecnocinetico.reservoir_info": "Reservorio Universal: guarda cualquier líquido, varios a la vez y en cualquier cantidad. Cubos o tuberías para llenarlo; sale el líquido elegido en su interfaz. Al romperlo conserva el contenido."
+  "item.tecnocinetico.universal_fluid_cell": "Celda universal de fluidos",
+  "item.tecnocinetico.universal_fluid_cell.filled": "Celda universal (%s)",
+  "jei.tecnocinetico.cell_info": "Celda universal de fluidos: guarda 1 cubo de cualquier líquido (también de otros mods). Clic derecho para recoger una fuente o verterla; sirve en máquinas y tuberías. Vacías se apilan hasta 64."
 }

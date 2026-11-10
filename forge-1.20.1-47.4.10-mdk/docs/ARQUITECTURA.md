@@ -136,4 +136,4 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `ChemicalLabBlockEntity`: dos `FluidTank` y una vista `IFluidHandler` para tuberías/cubos (llenar = entrada, vaciar = salida); `ElectricMachineBlock.use` deriva los cubos a `useContainer`. Pantalla `client/ChemicalLabScreen` (líquidos por id de registro en los datos extra).
 - Líquidos: `fluid/ModFluids` (`FluidSet` registra tipo, fuente, flujo, bloque y cubo; los bloques y cubos entran en los registros de `ModBlocks`/`ModItems`).
 - `FissionReactorBlockEntity`: genera con `Battery.produce`, expone una vista de energía solo de salida y empuja a los vecinos; tanque de refrigeración; `FluidMachine` (cubos). Pantalla `client/FissionReactorScreen`.
-- `reservoir/`: `ReservoirBlock`, `ReservoirBlockEntity` (lista de líquidos con cantidades `long`, `IFluidHandler` con un tanque libre extra, sincronización por `getUpdateTag`), `ReservoirMenu` (sin huecos; botones = elegir/desechar), `ReservoirRegistry`; pantalla `client/ReservoirScreen` (lee la entidad del cliente).
+- `fluid/UniversalCellItem`: Celda Universal de Fluidos (1 cubo de cualquier líquido, modelo forge:fluid_container).

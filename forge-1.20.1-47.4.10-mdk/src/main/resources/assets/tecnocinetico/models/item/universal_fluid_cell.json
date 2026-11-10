@@ -1,0 +1,11 @@
+{
+  "parent": "forge:item/default",
+  "loader": "forge:fluid_container",
+  "fluid": "minecraft:empty",
+  "textures": {
+    "base": "tecnocinetico:item/universal_fluid_cell",
+    "fluid": "tecnocinetico:item/universal_fluid_cell_mask",
+    "cover": "tecnocinetico:item/universal_fluid_cell_cover",
+    "particle": "tecnocinetico:item/universal_fluid_cell"
+  }
+}
