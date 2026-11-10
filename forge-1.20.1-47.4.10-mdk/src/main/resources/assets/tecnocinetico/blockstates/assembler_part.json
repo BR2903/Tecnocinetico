@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "tecnocinetico:block/assembler_part"
+    },
+    "facing=east": {
+      "model": "tecnocinetico:block/assembler_part"
+    },
+    "facing=south": {
+      "model": "tecnocinetico:block/assembler_part"
+    },
+    "facing=west": {
+      "model": "tecnocinetico:block/assembler_part"
+    }
+  }
+}

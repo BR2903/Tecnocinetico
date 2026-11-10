@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "tecnocinetico:block/reactor_vessel_glass"
+    },
+    "facing=east": {
+      "model": "tecnocinetico:block/reactor_vessel_glass"
+    },
+    "facing=south": {
+      "model": "tecnocinetico:block/reactor_vessel_glass"
+    },
+    "facing=west": {
+      "model": "tecnocinetico:block/reactor_vessel_glass"
+    }
+  }
+}

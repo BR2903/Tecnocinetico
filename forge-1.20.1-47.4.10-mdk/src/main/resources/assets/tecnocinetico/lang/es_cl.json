@@ -522,5 +522,16 @@
   "jei.tecnocinetico.reactor_info": "Reactor de Fisión: quema Barras de combustible de uranio y genera hasta 600 FE/t (la energía sale sola a lo que tenga al lado). Ajusta la potencia con las barras de control. Se calienta: necesita refrigerante (aguanta el 100 %) o agua (~85 %). A 1000° EXPLOTA. Mientras funciona, irradia. Las barras agotadas se reprocesan en la Cámara de Reacción.",
   "item.tecnocinetico.universal_fluid_cell": "Celda universal de fluidos",
   "item.tecnocinetico.universal_fluid_cell.filled": "Celda universal (%s)",
-  "jei.tecnocinetico.cell_info": "Celda universal de fluidos: guarda 1 cubo de cualquier líquido (también de otros mods). Clic derecho para recoger una fuente o verterla; sirve en máquinas y tuberías. Vacías se apilan hasta 64."
+  "jei.tecnocinetico.cell_info": "Celda universal de fluidos: guarda 1 cubo de cualquier líquido (también de otros mods). Clic derecho para recoger una fuente o verterla; sirve en máquinas y tuberías. Vacías se apilan hasta 64.",
+  "item.tecnocinetico.industrial_assembler": "Ensamblador Industrial",
+  "block.tecnocinetico.industrial_assembler": "Ensamblador Industrial",
+  "item.tecnocinetico.fission_reactor_kit": "Reactor de Fisión (kit)",
+  "block.tecnocinetico.assembler_part": "Ensamblador Industrial",
+  "block.tecnocinetico.reactor_casing": "Blindaje del reactor",
+  "block.tecnocinetico.reactor_port": "Escotilla del reactor",
+  "block.tecnocinetico.reactor_window": "Ventana del reactor",
+  "block.tecnocinetico.reactor_vessel_glass": "Vasija del reactor",
+  "block.tecnocinetico.reactor_vent": "Respiradero del reactor",
+  "tooltip.tecnocinetico.kit": "Estructura de %s: úsalo sobre el suelo para desplegarla delante de ti",
+  "message.tecnocinetico.kit_blocked": "No cabe la estructura de %s: estorba %s en %s, %s, %s"
 }

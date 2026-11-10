@@ -137,3 +137,4 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - Líquidos: `fluid/ModFluids` (`FluidSet` registra tipo, fuente, flujo, bloque y cubo; los bloques y cubos entran en los registros de `ModBlocks`/`ModItems`).
 - `FissionReactorBlockEntity`: genera con `Battery.produce`, expone una vista de energía solo de salida y empuja a los vecinos; tanque de refrigeración; `FluidMachine` (cubos). Pantalla `client/FissionReactorScreen`.
 - `fluid/UniversalCellItem`: Celda Universal de Fluidos (1 cubo de cualquier líquido, modelo forge:fluid_container).
+- `structure/`: estructuras grandes que se despliegan desde un kit (`MultiblockTemplate`, `StructureKitItem`, `StructurePartBlock(Entity)`, `MultiblockMachineBlock`, `Structures`). El núcleo es una máquina eléctrica normal; las piezas le pasan todo. Renderizadores: `client/IndustrialAssemblerRenderer`, `client/FissionReactorRenderer` (modelos extra registrados en `ModelEvent.RegisterAdditional`).

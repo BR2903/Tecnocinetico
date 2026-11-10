@@ -170,6 +170,83 @@ public class MachineGameTests {
     }
 
     @GameTest(template = "empty", timeoutTicks = 200)
+    public static void assemblerDeploysBuildsAndDismantles(GameTestHelper helper) {
+        var t = com.bryanamaya.tecnocinetico.structure.Structures.ASSEMBLER;
+        BlockPos origin = helper.absolutePos(new BlockPos(1, 2, 1));
+        var level = helper.getLevel();
+        helper.assertTrue(t.firstObstacle(level, origin, net.minecraft.core.Direction.SOUTH) == null, "El espacio debería estar libre");
+        BlockPos core = t.place(level, origin, net.minecraft.core.Direction.SOUTH,
+                s -> s.setValue(com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock.FACING, net.minecraft.core.Direction.NORTH));
+        helper.assertTrue(t.occupied(origin, net.minecraft.core.Direction.SOUTH).size() == 27, "3x3x3 = 27 bloques");
+        var be = (com.bryanamaya.tecnocinetico.machine.IndustrialAssemblerBlockEntity) level.getBlockEntity(core);
+        // la energía entra por cualquier pieza (la pieza la pasa al núcleo)
+        BlockPos part = origin;
+        var cap = level.getBlockEntity(part).getCapability(net.minecraftforge.common.capabilities.ForgeCapabilities.ENERGY, null).orElse(null);
+        helper.assertTrue(cap != null && cap.receiveEnergy(5000, false) == 5000, "Las piezas deberían pasar energía al núcleo");
+        for (int i = 0; i < 60; i++) {
+            be.getEnergy().receiveEnergy(10_000, false);
+        }
+        var recipe = com.bryanamaya.tecnocinetico.machine.MachineRecipes.ASSEMBLY.get(0);
+        for (int i = 0; i < recipe.in().size(); i++) {
+            var ing = recipe.in().get(i);
+            be.getItems().insertItem(i, new ItemStack(ing.item().get(), ing.count()), false);
+        }
+        helper.assertTrue(be.currentResult().is(ModItems.FISSION_REACTOR_KIT.get()), "Debería estar fabricando el kit del reactor");
+        helper.runAfterDelay(5, () -> {
+            helper.assertTrue(be.progress() > 0, "Debería avanzar");
+            // romper una pieza desmonta todo y suelta el kit
+            level.destroyBlock(part, false);
+            helper.assertTrue(level.getBlockState(core).isAir(), "El núcleo debería desaparecer");
+            for (BlockPos p : t.occupied(origin, net.minecraft.core.Direction.SOUTH)) {
+                helper.assertTrue(level.getBlockState(p).isAir(), "Queda una pieza en " + p);
+            }
+            var kits = level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(core).inflate(2),
+                    e -> e.getItem().is(ModItems.INDUSTRIAL_ASSEMBLER_KIT.get()));
+            helper.assertTrue(kits.size() == 1, "Debería soltar el kit");
+            kits.forEach(net.minecraft.world.entity.Entity::discard);
+            level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(core).inflate(2))
+                    .forEach(net.minecraft.world.entity.Entity::discard);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 200, batch = "reactor")   // aparte: ocupa 9x9x6
+    public static void reactorStructureDeploys(GameTestHelper helper) {
+        var t = com.bryanamaya.tecnocinetico.structure.Structures.REACTOR;
+        var level = helper.getLevel();
+        var dir = net.minecraft.core.Direction.EAST;
+        BlockPos origin = helper.absolutePos(new BlockPos(0, 2, 0));
+        for (BlockPos p : BlockPos.betweenClosed(origin.offset(-1, 0, -10), origin.offset(10, 6, 10))) {
+            level.setBlock(p, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 3);
+        }
+        helper.assertTrue(t.firstObstacle(level, origin, dir) == null, "El espacio 9x9x6 debería estar libre");
+        BlockPos core = t.place(level, origin, dir, s -> s.setValue(com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock.FACING, dir.getOpposite()));
+        int parts = 0;
+        for (BlockPos p : t.occupied(origin, dir)) {
+            if (level.getBlockState(p).getBlock() instanceof com.bryanamaya.tecnocinetico.structure.StructurePartBlock) {
+                parts++;
+            }
+        }
+        helper.assertTrue(parts > 250, "Deberían colocarse cientos de piezas: " + parts);
+        var reactor = (com.bryanamaya.tecnocinetico.machine.FissionReactorBlockEntity) level.getBlockEntity(core);
+        // el refrigerante entra por una pieza cualquiera del muro
+        BlockPos wall = com.bryanamaya.tecnocinetico.structure.MultiblockTemplate.toWorld(origin, dir, 0, 2, 0);
+        var fluid = level.getBlockEntity(wall).getCapability(net.minecraftforge.common.capabilities.ForgeCapabilities.FLUID_HANDLER, null).orElse(null);
+        helper.assertTrue(fluid != null && fluid.fill(new net.minecraftforge.fluids.FluidStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT.get(), 4000),
+                net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE) == 4000, "El muro debería pasar el refrigerante al núcleo");
+        helper.assertTrue(reactor.coolantTank().getFluidAmount() == 4000, "El núcleo debería tener el refrigerante");
+        // romper el muro desmonta el reactor entero y da el kit
+        level.destroyBlock(wall, false);
+        helper.assertTrue(level.getBlockState(core).isAir(), "El núcleo debería desaparecer");
+        var kits = level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(core).inflate(3),
+                e -> e.getItem().is(ModItems.FISSION_REACTOR_KIT.get()));
+        helper.assertTrue(kits.size() == 1, "Debería soltar el kit del reactor");
+        level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(core).inflate(6))
+                .forEach(net.minecraft.world.entity.Entity::discard);
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 200)
     public static void fabricatorMakesAmmo(GameTestHelper helper) {
         ElectricMachineBlockEntity be = place(helper, ModBlocks.AMMO_FABRICATOR.get());
         be.getItems().insertItem(0, new ItemStack(ModItems.CINETRITE_SHARD.get(), 2), false);

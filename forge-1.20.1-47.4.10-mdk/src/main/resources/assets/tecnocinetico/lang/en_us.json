@@ -522,5 +522,16 @@
   "jei.tecnocinetico.reactor_info": "Fission Reactor: burns Uranium Fuel Rods and generates up to 600 FE/t (pushed to adjacent blocks). Adjust power with the control rods. It heats up: needs coolant (handles 100%) or water (~85%). At 1000° it EXPLODES. It irradiates while running. Depleted rods are reprocessed in the Reaction Chamber.",
   "item.tecnocinetico.universal_fluid_cell": "Universal Fluid Cell",
   "item.tecnocinetico.universal_fluid_cell.filled": "Universal Cell (%s)",
-  "jei.tecnocinetico.cell_info": "Universal Fluid Cell: holds 1 bucket of any liquid (from other mods too). Right-click to pick up a source or pour it; works with machines and pipes. Empty cells stack to 64."
+  "jei.tecnocinetico.cell_info": "Universal Fluid Cell: holds 1 bucket of any liquid (from other mods too). Right-click to pick up a source or pour it; works with machines and pipes. Empty cells stack to 64.",
+  "item.tecnocinetico.industrial_assembler": "Industrial Assembler",
+  "block.tecnocinetico.industrial_assembler": "Industrial Assembler",
+  "item.tecnocinetico.fission_reactor_kit": "Fission Reactor (kit)",
+  "block.tecnocinetico.assembler_part": "Industrial Assembler",
+  "block.tecnocinetico.reactor_casing": "Reactor Casing",
+  "block.tecnocinetico.reactor_port": "Reactor Hatch",
+  "block.tecnocinetico.reactor_window": "Reactor Window",
+  "block.tecnocinetico.reactor_vessel_glass": "Reactor Vessel",
+  "block.tecnocinetico.reactor_vent": "Reactor Vent",
+  "tooltip.tecnocinetico.kit": "%s structure: use it on the ground to deploy it in front of you",
+  "message.tecnocinetico.kit_blocked": "The %s structure doesn't fit: %s is in the way at %s, %s, %s"
 }

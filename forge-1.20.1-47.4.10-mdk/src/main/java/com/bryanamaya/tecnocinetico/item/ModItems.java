@@ -52,6 +52,12 @@ public class ModItems {
     public static final RegistryObject<Item> URANIUM_NUGGET = radioactive("uranium_nugget", false);
     public static final RegistryObject<Item> URANIUM_FUEL_ROD = radioactive("uranium_fuel_rod", false);
     public static final RegistryObject<Item> DEPLETED_FUEL_ROD = radioactive("depleted_fuel_rod", true);
+    public static final RegistryObject<Item> INDUSTRIAL_ASSEMBLER_KIT = ITEMS.register("industrial_assembler",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructureKitItem(() -> com.bryanamaya.tecnocinetico.block.ModBlocks.INDUSTRIAL_ASSEMBLER.get(),
+                    "3x3x3", new Item.Properties().stacksTo(1).rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> FISSION_REACTOR_KIT = ITEMS.register("fission_reactor_kit",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructureKitItem(() -> com.bryanamaya.tecnocinetico.block.ModBlocks.FISSION_REACTOR.get(),
+                    "9x9x6", new Item.Properties().stacksTo(1).rarity(net.minecraft.world.item.Rarity.EPIC)));
     public static final RegistryObject<Item> IRON_DUST = simple("iron_dust");
     public static final RegistryObject<Item> GOLD_DUST = simple("gold_dust");
     public static final RegistryObject<Item> COPPER_DUST = simple("copper_dust");

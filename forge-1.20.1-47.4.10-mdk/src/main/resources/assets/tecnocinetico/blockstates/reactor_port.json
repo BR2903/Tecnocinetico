@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "tecnocinetico:block/reactor_port"
+    },
+    "facing=east": {
+      "model": "tecnocinetico:block/reactor_port"
+    },
+    "facing=south": {
+      "model": "tecnocinetico:block/reactor_port"
+    },
+    "facing=west": {
+      "model": "tecnocinetico:block/reactor_port"
+    }
+  }
+}

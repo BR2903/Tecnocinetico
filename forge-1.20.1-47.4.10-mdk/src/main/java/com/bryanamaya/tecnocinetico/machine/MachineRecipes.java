@@ -152,6 +152,33 @@ public final class MachineRecipes {
         return null;
     }
 
+    /** Ensamblador Industrial: hasta 9 ingredientes (cualquier orden, un tipo por hueco) -> producto. */
+    public record Assembly(List<Ingredient> in, Supplier<Item> out, int count, int ticks, int perTick) {}
+
+    private static Supplier<Item> blockItem(Supplier<? extends net.minecraft.world.level.block.Block> b) {
+        return () -> b.get().asItem();
+    }
+
+    public static final List<Assembly> ASSEMBLY = List.of(
+            new Assembly(List.of(of(blockItem(com.bryanamaya.tecnocinetico.block.ModBlocks.LEAD_BLOCK), 16),
+                    of(ModItems.TITANIUM_INGOT, 32), of(v(Items.GLASS), 24), of(ModItems.CORE_PROCESSOR, 2),
+                    of(ModItems.PRECISION_MECHANISM, 8), of(ModItems.KINETIC_SERVO, 6), of(ModItems.INERCITA_PLATE, 16),
+                    of(v(Items.COPPER_BLOCK), 8), of(v(Items.REDSTONE_BLOCK), 4)),
+                    ModItems.FISSION_REACTOR_KIT, 1, 1200, 400));
+
+    public static boolean isAssemblyIngredient(ItemStack stack) {
+        return ASSEMBLY.stream().anyMatch(a -> a.in().stream().anyMatch(i -> stack.is(i.item().get())));
+    }
+
+    public static Assembly assembly(List<ItemStack> slots) {
+        for (Assembly a : ASSEMBLY) {
+            if (matches(a.in(), slots)) {
+                return a;
+            }
+        }
+        return null;
+    }
+
     public static Refine refine(ItemStack in) {
         for (Refine r : REFINE) {
             if (in.is(r.in().get())) {

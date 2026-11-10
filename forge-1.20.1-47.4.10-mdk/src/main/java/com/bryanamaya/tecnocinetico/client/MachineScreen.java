@@ -54,7 +54,12 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         } else {
             status = Component.translatable("gui.tecnocinetico.press.ready");
         }
-        g.drawString(font, status, menu.kind().inputs[0][0], 58, color, false);
+        boolean low = java.util.Arrays.stream(menu.kind().inputs).anyMatch(p -> p[1] > 40);
+        if (low) {
+            g.drawString(font, status, imageWidth - 8 - font.width(status), titleLabelY, color, false);
+        } else {
+            g.drawString(font, status, menu.kind().inputs[0][0], 58, color, false);
+        }
     }
 
     @Override

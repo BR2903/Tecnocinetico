@@ -30,6 +30,14 @@ public final class MachineBlockEntities {
     public static final RegistryObject<BlockEntityType<FissionReactorBlockEntity>> FISSION_REACTOR = TYPES.register("fission_reactor",
             () -> BlockEntityType.Builder.of(FissionReactorBlockEntity::new, ModBlocks.FISSION_REACTOR.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<IndustrialAssemblerBlockEntity>> INDUSTRIAL_ASSEMBLER = TYPES.register("industrial_assembler",
+            () -> BlockEntityType.Builder.of(IndustrialAssemblerBlockEntity::new, ModBlocks.INDUSTRIAL_ASSEMBLER.get()).build(null));
+    /** Piezas de las estructuras grandes (pasan energía, líquidos y objetos al núcleo). */
+    public static final RegistryObject<BlockEntityType<com.bryanamaya.tecnocinetico.structure.StructurePartBlockEntity>> STRUCTURE_PART =
+            TYPES.register("structure_part", () -> BlockEntityType.Builder.of(com.bryanamaya.tecnocinetico.structure.StructurePartBlockEntity::new,
+                    ModBlocks.ASSEMBLER_PART.get(), ModBlocks.REACTOR_CASING.get(), ModBlocks.REACTOR_PORT.get(), ModBlocks.REACTOR_WINDOW.get(),
+                    ModBlocks.REACTOR_VESSEL_GLASS.get(), ModBlocks.REACTOR_VENT.get()).build(null));
+
     private MachineBlockEntities() {}
 
     public static void register(IEventBus bus) {

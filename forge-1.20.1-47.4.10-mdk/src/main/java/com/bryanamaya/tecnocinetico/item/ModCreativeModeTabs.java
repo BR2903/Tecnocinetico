@@ -33,7 +33,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModBlocks.AMMO_FABRICATOR.get());
                         out.accept(ModBlocks.REACTION_CHAMBER.get());
                         out.accept(ModBlocks.CHEMICAL_LAB.get());
-                        out.accept(ModBlocks.FISSION_REACTOR.get());
+                        out.accept(ModItems.INDUSTRIAL_ASSEMBLER_KIT.get());
+                        out.accept(ModItems.FISSION_REACTOR_KIT.get());
                         out.accept(ModBlocks.CREATIVE_ENERGY_SOURCE.get());
                         // gadgets del Equipo Táctico (por tier)
                         out.accept(ModItems.NIGHT_VISION_VISOR.get());

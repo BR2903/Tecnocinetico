@@ -181,6 +181,22 @@ public class Tecnocinetico {
         }
 
         @SubscribeEvent
+        public static void registerMachineRenderers(net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
+            // máquinas grandes: se ven los objetos que procesan
+            event.registerBlockEntityRenderer(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.INDUSTRIAL_ASSEMBLER.get(),
+                    com.bryanamaya.tecnocinetico.client.IndustrialAssemblerRenderer::new);
+            event.registerBlockEntityRenderer(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.FISSION_REACTOR.get(),
+                    com.bryanamaya.tecnocinetico.client.FissionReactorRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerExtraModels(net.minecraftforge.client.event.ModelEvent.RegisterAdditional event) {
+            event.register(com.bryanamaya.tecnocinetico.client.IndustrialAssemblerRenderer.ARM);
+            event.register(com.bryanamaya.tecnocinetico.client.FissionReactorRenderer.ROD);
+            event.register(com.bryanamaya.tecnocinetico.client.FissionReactorRenderer.ROD_SPENT);
+        }
+
+        @SubscribeEvent
         public static void registerItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
             com.bryanamaya.tecnocinetico.client.MetalColors.register(event);    // lingotes = el de hierro vanilla teñido
             for (var f : java.util.List.of(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID, com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT)) {

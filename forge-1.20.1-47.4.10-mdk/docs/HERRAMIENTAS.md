@@ -150,3 +150,5 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 ## Metales y máquinas eléctricas
 - `python tools/metals_gen.py`: plomo, estaño, titanio (texturas, modelos, botín, etiquetas forge, generación, recetas), los 10 polvos del Refinador y los bloques de las máquinas (frente 64 px + cuerpo del Ensamblador). Luego `python tools/sync_lang.py`.
 - `python tools/machine_gui_gen.py`: interfaces `gui/<máquina>.png` (posiciones = `MachineKind`).
+
+- `python tools/structures_gen.py`: Ensamblador Industrial (atlas, modelo 3x3x3 en -16..32, brazo), Reactor (texturas de piezas, núcleo, barras, kit) y estados. El reactor ya no sale de `metals_gen.py`.

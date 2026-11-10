@@ -130,6 +130,29 @@ public class FissionReactorBlockEntity extends ElectricMachineBlockEntity implem
     }
 
     @Override
+    protected boolean syncsToClient() {
+        return true;
+    }
+
+    /** Para dibujar: barras esperando en el hueco de entrada. */
+    public int waitingRods() {
+        return input(0).getCount();
+    }
+
+    public boolean burning() {
+        return burnLeft > 0;
+    }
+
+    public int throttle() {
+        return throttle;
+    }
+
+    @Override
+    public net.minecraft.world.phys.AABB getRenderBoundingBox() {
+        return new net.minecraft.world.phys.AABB(worldPosition).inflate(1.5, 0, 1.5).expandTowards(0, 4, 0);
+    }
+
+    @Override
     protected boolean isLit() {
         return output > 0;
     }
@@ -216,7 +239,7 @@ public class FissionReactorBlockEntity extends ElectricMachineBlockEntity implem
     private void meltdown() {
         Level lvl = level;
         BlockPos p = worldPosition;
-        lvl.removeBlock(p, false);
+        com.bryanamaya.tecnocinetico.structure.MultiblockMachineBlock.destroyWithoutKit(lvl, p);   // se desmonta sin dar el kit
         lvl.explode(null, p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 6.0F, true, Level.ExplosionInteraction.BLOCK);
         lvl.setBlock(p, Blocks.MAGMA_BLOCK.defaultBlockState(), 3);                     // restos del núcleo
     }

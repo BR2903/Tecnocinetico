@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "tecnocinetico:block/reactor_window"
+    },
+    "facing=east": {
+      "model": "tecnocinetico:block/reactor_window"
+    },
+    "facing=south": {
+      "model": "tecnocinetico:block/reactor_window"
+    },
+    "facing=west": {
+      "model": "tecnocinetico:block/reactor_window"
+    }
+  }
+}

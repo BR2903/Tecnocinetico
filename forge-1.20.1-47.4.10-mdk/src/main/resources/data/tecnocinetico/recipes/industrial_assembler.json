@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TPT",
+    "MAM",
+    "TCT"
+  ],
+  "key": {
+    "T": {
+      "item": "tecnocinetico:titanium_ingot"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "A": {
+      "item": "tecnocinetico:weapon_assembler"
+    },
+    "C": {
+      "item": "tecnocinetico:core_processor"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:industrial_assembler",
+    "count": 1
+  }
+}

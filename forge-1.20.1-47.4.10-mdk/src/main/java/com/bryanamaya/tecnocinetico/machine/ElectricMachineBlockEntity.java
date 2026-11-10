@@ -98,6 +98,21 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
     /** ¿Se puede meter este objeto en este hueco de entrada? */
     protected abstract boolean accepts(int slot, ItemStack stack);
 
+    /** ¿Envía su contenido al cliente (para dibujar los objetos que procesa)? */
+    protected boolean syncsToClient() {
+        return false;
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return syncsToClient() ? saveWithoutMetadata() : super.getUpdateTag();
+    }
+
+    @Override
+    public @Nullable net.minecraft.network.protocol.Packet<net.minecraft.network.protocol.game.ClientGamePacketListener> getUpdatePacket() {
+        return syncsToClient() ? net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket.create(this) : null;
+    }
+
     /** ¿Enciende la luz de estado? (por defecto: tiene energía; el reactor: está quemando combustible). */
     protected boolean isLit() {
         return energy.getEnergyStored() > 0;
@@ -126,6 +141,9 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
         if (!working && be.progress != 0) {
             be.progress = 0;
             be.setChanged();
+        }
+        if (be.syncsToClient() && level.getGameTime() % 5 == 0) {
+            level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);       // objetos y progreso visibles
         }
         boolean lit = be.isLit();
         if (state.hasProperty(ElectricMachineBlock.POWERED) && state.getValue(ElectricMachineBlock.POWERED) != lit) {

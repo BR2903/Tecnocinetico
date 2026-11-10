@@ -121,9 +121,27 @@ public class ModBlocks {
             () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.CHEMICAL_LAB,
                     com.bryanamaya.tecnocinetico.machine.ChemicalLabBlockEntity::new, false));
 
-    public static final RegistryObject<Block> FISSION_REACTOR = registerBlock("fission_reactor",
-            () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.FISSION_REACTOR,
-                    com.bryanamaya.tecnocinetico.machine.FissionReactorBlockEntity::new));
+    // --- ESTRUCTURAS GRANDES (se despliegan desde un kit; núcleo + piezas, sin objeto propio) ---
+    public static final RegistryObject<Block> FISSION_REACTOR = BLOCKS.register("fission_reactor",
+            () -> new com.bryanamaya.tecnocinetico.structure.MultiblockMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.FISSION_REACTOR,
+                    com.bryanamaya.tecnocinetico.machine.FissionReactorBlockEntity::new, () -> com.bryanamaya.tecnocinetico.structure.Structures.REACTOR,
+                    ModItems.FISSION_REACTOR_KIT));
+    public static final RegistryObject<Block> INDUSTRIAL_ASSEMBLER = BLOCKS.register("industrial_assembler",
+            () -> new com.bryanamaya.tecnocinetico.structure.MultiblockMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.INDUSTRIAL_ASSEMBLER,
+                    com.bryanamaya.tecnocinetico.machine.IndustrialAssemblerBlockEntity::new, () -> com.bryanamaya.tecnocinetico.structure.Structures.ASSEMBLER,
+                    ModItems.INDUSTRIAL_ASSEMBLER_KIT));
+    public static final RegistryObject<Block> ASSEMBLER_PART = BLOCKS.register("assembler_part",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(true, false));
+    public static final RegistryObject<Block> REACTOR_CASING = BLOCKS.register("reactor_casing",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, false));
+    public static final RegistryObject<Block> REACTOR_PORT = BLOCKS.register("reactor_port",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, false));
+    public static final RegistryObject<Block> REACTOR_WINDOW = BLOCKS.register("reactor_window",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, true));
+    public static final RegistryObject<Block> REACTOR_VESSEL_GLASS = BLOCKS.register("reactor_vessel_glass",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, true));
+    public static final RegistryObject<Block> REACTOR_VENT = BLOCKS.register("reactor_vent",
+            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, false));
 
     // --- SOLO PRUEBAS (creativo): energía infinita. Sin receta ni drops. ---
     public static final RegistryObject<Block> CREATIVE_ENERGY_SOURCE = registerBlock("creative_energy_source",
