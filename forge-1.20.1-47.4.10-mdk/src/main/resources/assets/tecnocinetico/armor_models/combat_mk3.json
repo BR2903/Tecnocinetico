@@ -40,7 +40,7 @@
      3,
      8
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -59,7 +59,7 @@
      3,
      8
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -192,7 +192,7 @@
      4,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -270,7 +270,7 @@
      8,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -289,7 +289,7 @@
      1,
      5
     ],
-    "inflate": 0.0,
+    "inflate": 0.024,
     "mirror": false
    },
    {
@@ -308,7 +308,7 @@
      1,
      5
     ],
-    "inflate": 0.0,
+    "inflate": 0.024,
     "mirror": false
    },
    {
@@ -327,7 +327,7 @@
      4,
      5
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -346,7 +346,7 @@
      4,
      5
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -536,7 +536,7 @@
      4,
      5
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -555,7 +555,7 @@
      4,
      5
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": true
    },
    {
@@ -745,7 +745,7 @@
      1,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -764,7 +764,7 @@
      1,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": true
    }
   ],
@@ -804,7 +804,7 @@
      9,
      4
     ],
-    "inflate": 0.5,
+    "inflate": 0.536,
     "mirror": false
    },
    {
@@ -823,7 +823,7 @@
      9,
      4
     ],
-    "inflate": 0.5,
+    "inflate": 0.512,
     "mirror": true
    },
    {
@@ -861,7 +861,7 @@
      3,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.024,
     "mirror": false
    },
    {
@@ -918,7 +918,7 @@
      4,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": false
    },
    {
@@ -937,7 +937,7 @@
      4,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": true
    },
    {
@@ -1072,7 +1072,7 @@
      4,
      4
     ],
-    "inflate": 0.6,
+    "inflate": 0.624,
     "mirror": false
    },
    {
@@ -1129,7 +1129,7 @@
      1,
      6
     ],
-    "inflate": 0.0,
+    "inflate": 0.012,
     "mirror": true
    },
    {
@@ -1148,7 +1148,7 @@
      2,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.036,
     "mirror": false
    },
    {
@@ -1186,7 +1186,7 @@
      4,
      1
     ],
-    "inflate": 0.0,
+    "inflate": 0.024,
     "mirror": false
    },
    {

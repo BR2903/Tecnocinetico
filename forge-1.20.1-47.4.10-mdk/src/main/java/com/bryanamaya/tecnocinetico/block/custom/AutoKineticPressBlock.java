@@ -35,12 +35,13 @@ public class AutoKineticPressBlock extends Block implements EntityBlock {
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     public AutoKineticPressBlock() {
-        // Es un cubo completo: no necesita noOcclusion() ni forma personalizada
+        // Modelo 3D abierto (columnas y cabezal, estilo Create): no tapa a sus vecinos
         super(Properties.of()
                 .mapColor(MapColor.METAL)
                 .requiresCorrectToolForDrops()
                 .strength(6.0f, 6.0f)
-                .sound(SoundType.NETHERITE_BLOCK));
+                .sound(SoundType.NETHERITE_BLOCK)
+                .noOcclusion());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(POWERED, false));
     }
 

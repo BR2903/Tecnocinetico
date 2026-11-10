@@ -142,6 +142,9 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
         if (level.isClientSide()) {
             return;
         }
+        if (level.getGameTime() % 4 == 0) {
+            level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);          // piezas y cabezal visibles
+        }
         // Luz de estado del bloque: encendida (cian) si hay electricidad suficiente
         boolean powered = entity.energy.getEnergyStored() >= ENERGY_PER_TICK;
         if (state.getValue(AutoKineticPressBlock.POWERED) != powered) {
@@ -161,6 +164,13 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
             return;
         }
         entity.progress++;
+        if (entity.progress % 20 == 19 && level instanceof net.minecraft.server.level.ServerLevel server) {   // golpe del cabezal
+            server.sendParticles(net.minecraft.core.particles.ParticleTypes.CRIT, pos.getX() + 0.5, pos.getY() + 0.45, pos.getZ() + 0.5,
+                    6, 0.15, 0.02, 0.15, 0.15);
+            server.sendParticles(net.minecraft.core.particles.ParticleTypes.SMOKE, pos.getX() + 0.5, pos.getY() + 0.45, pos.getZ() + 0.5,
+                    2, 0.15, 0.02, 0.15, 0.01);
+            level.playSound(null, pos, SoundEvents.ANVIL_LAND, SoundSource.BLOCKS, 0.12F, 1.6F + level.random.nextFloat() * 0.2F);
+        }
         if (entity.progress >= CYCLE_TICKS) {
             entity.progress = 0;
             PressRecipes.consumeInputs(entity.itemHandler, INPUT_SLOTS);
@@ -183,6 +193,16 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
         }
         return ItemHandlerHelper.canItemStacksStack(out, result)
                 && out.getCount() + result.getCount() <= out.getMaxStackSize();
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
+    }
+
+    @Override
+    public @Nullable net.minecraft.network.protocol.Packet<net.minecraft.network.protocol.game.ClientGamePacketListener> getUpdatePacket() {
+        return net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket.create(this);
     }
 
     public IItemHandler getItemHandler() {

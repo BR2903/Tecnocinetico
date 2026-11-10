@@ -386,7 +386,7 @@
      9,
      4
     ],
-    "inflate": 0.5,
+    "inflate": 0.536,
     "mirror": false
    },
    {
@@ -405,7 +405,7 @@
      9,
      4
     ],
-    "inflate": 0.5,
+    "inflate": 0.512,
     "mirror": true
    },
    {
@@ -464,7 +464,7 @@
      4,
      4
     ],
-    "inflate": 1.0,
+    "inflate": 1.024,
     "mirror": false
    },
    {
@@ -502,7 +502,7 @@
      1,
      6
     ],
-    "inflate": 0.0,
+    "inflate": 0.024,
     "mirror": false
    },
    {

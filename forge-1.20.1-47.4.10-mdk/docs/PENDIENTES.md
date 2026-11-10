@@ -7,7 +7,6 @@
 ## Ideas propuestas (el usuario elige el orden)
 - **Ruinas antiguas**: estructuras tecnológicas con Aleación Antigua (sin glifos ni magia), Cuerpos de Enjambre de guardia, cofres con módulos/piezas (encaja con el lore).
 - **Equipo de Inercita**: herramientas y armadura de nivel 2 (diseño realista + detalles del mod).
-- **Rediseño visual de la Prensa Automática** al estilo de las máquinas de Create (sigue con la textura antigua reescalada).
 - **Más armas realistas** (p. ej. rifle cinético) con sus propios módulos en el banco.
 - Más habilidades (el sistema está preparado: ver `Skill.java`).
 - Materiales del lore aún no implementados: Radionita, Crioprisma (¿para las dimensiones nuevas de los tiers 4-5?); Núcleo Directriz (jefe final).
@@ -37,7 +36,7 @@
 
 - **Nave mejorable (idea del usuario, no implementar hasta que lo pida):** se fabrica con el Motor Dimensional (botín de la Araña de Asedio); primero solo por tierra y para viajar al siguiente mundo nuevo; vencer al jefe del Nether desbloquea saltar al Nether, y al del End, al End. El Caza del Núcleo actual vuela y salta libremente: habrá que adaptarlo.
 
-- **Siguiente (pedido)**: (metales en recetas: hecho) + Prensa Automática estilo Create. Detalle: **reactor generador** de FE (combustible de uranio, sobrecalentamiento), **rediseño de la Prensa Automática** estilo Create, e **integrar plomo/estaño/titanio** en recetas existentes (balas, circuitos/soldadura, armaduras y armas de tier 2-3).
+- (Pedidos de máquinas terminados: metales en recetas y prensa estilo Create hechos.) + Prensa Automática estilo Create. Detalle: **reactor generador** de FE (combustible de uranio, sobrecalentamiento), **rediseño de la Prensa Automática** estilo Create, e **integrar plomo/estaño/titanio** en recetas existentes (balas, circuitos/soldadura, armaduras y armas de tier 2-3).
 - Radiación: hay traje; ¿caja de plomo para guardar uranio sin que irradie? Equilibrio de la Cámara (FE, tiempos, pérdida de estabilidad) tras probarla.
 - Reactor: probar el equilibrio en el juego (600 FE/t, duración de la barra, calor). ¿Modelo 3D propio? ¿Multibloque más adelante?
 - Estructuras grandes: probar en el juego (despliegue, desmontaje, brazos y barras visibles). Más recetas para el Ensamblador Industrial (nave mejorable, tier 4-5).

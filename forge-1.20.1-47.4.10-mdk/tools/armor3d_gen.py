@@ -459,7 +459,32 @@ SETS = [lambda: combat(1), lambda: combat(2), lambda: combat(3), scrap, inercita
 
 
 # =================================================================== salida y vista previa
+def fix_zfight(cubes, eps=0.012):
+    """Caras coplanares que miran al mismo lado parpadean: la pieza más pequeña se infla un poco (la UV no cambia)."""
+    def box(c):
+        px, py, pz = PIVOT[c.bone]
+        lo = [c.f[0] - c.inflate + px, c.f[1] - c.inflate + py, c.f[2] - c.inflate + pz]
+        return lo, [lo[0] + c.s[0] + 2 * c.inflate, lo[1] + c.s[1] + 2 * c.inflate, lo[2] + c.s[2] + 2 * c.inflate]
+
+    for _ in range(6):
+        changed = False
+        for i in range(len(cubes)):
+            for j in range(i + 1, len(cubes)):
+                a, b = cubes[i], cubes[j]
+                (alo, ahi), (blo, bhi) = box(a), box(b)
+                for ax in range(3):
+                    same = abs(alo[ax] - blo[ax]) < 1e-4 or abs(ahi[ax] - bhi[ax]) < 1e-4
+                    if same and all(min(ahi[k], bhi[k]) - max(alo[k], blo[k]) > 1e-4 for k in range(3) if k != ax):
+                        small = a if a.s[0] * a.s[1] * a.s[2] <= b.s[0] * b.s[1] * b.s[2] else b
+                        small.inflate = round(small.inflate + eps, 4)
+                        changed = True
+        if not changed:
+            return
+
+
 def write(s):
+    for slot_cubes in s.slots.values():
+        fix_zfight(slot_cubes)
     cubes = [c for slot in s.slots.values() for c in slot]
     pack(cubes)
     img = Image.new("RGBA", (TEX, TEX), (0, 0, 0, 0))
