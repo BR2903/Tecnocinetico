@@ -493,6 +493,8 @@ def main():
             tag_add(D / f"forge/tags/items/{kind}.json", [f"#forge:{kind}/{name}"])
     for name in OLD_INGOTS:
         vanilla_tinted(f"{name}_ingot", "iron_ingot")
+    for name in ("cinetrite", "piroxite", "nullite"):                      # en bruto: el hierro en bruto vanilla teñido
+        vanilla_tinted(f"raw_{name}", "raw_iron")
     for name in DUSTS:
         dust(name).save(T / f"item/{name}_dust.png")
         gen_item(f"{name}_dust")

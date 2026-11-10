@@ -708,6 +708,45 @@ def machete():
     return els
 
 
+# ---------------------------------------------------------------- componentes en 3D
+def cinetrite_shard():
+    """Fragmento de cinetrita: racimo de cristales cian (uno alto, dos laterales) saliendo de un trozo de roca."""
+    zr = lambda a, ox: {"angle": a, "axis": "z", "origin": [ox, 4, 8]}
+    xr = lambda a: {"angle": a, "axis": "x", "origin": [8, 4, 8]}
+    return [el([5.5, 2.0, 5.5], [10.5, 4.5, 10.5], "steel_dark"),                     # roca madre
+            el([6.5, 1.5, 6.0], [9.5, 3.0, 11.0], "steel"),
+            el([7.0, 4.0, 7.0], [9.0, 13.0, 9.0], "cyan", rot=zr(-22.5, 8)),          # cristal principal
+            el([7.4, 13.0, 7.4], [8.6, 14.6, 8.6], "cyan", rot=zr(-22.5, 8)),         # punta
+            el([7.6, 4.0, 7.6], [8.8, 9.5, 8.8], "cyan", rot=zr(22.5, 8.5)),          # lateral
+            el([7.2, 4.0, 7.8], [8.4, 8.0, 9.0], "cyan", rot=xr(22.5)),               # trasero
+            el([7.2, 4.0, 6.8], [8.2, 7.0, 7.8], "cyan", rot=xr(-22.5))]
+
+
+def resistor():
+    """Resistencia de 330 ohmios: cuerpo de cerámica con los extremos abombados, bandas naranja-naranja-marrón-dorado
+    y patas de alambre."""
+    return [el([5.0, 7.1, 7.1], [11.0, 8.9, 8.9], "ceramic"),
+            el([4.2, 6.8, 6.8], [5.6, 9.2, 9.2], "ceramic"), el([10.4, 6.8, 6.8], [11.8, 9.2, 9.2], "ceramic"),
+            el([6.0, 7.0, 7.0], [6.6, 9.0, 9.0], "copper"), el([7.2, 7.0, 7.0], [7.8, 9.0, 9.0], "copper"),   # 3 3
+            el([8.4, 7.0, 7.0], [9.0, 9.0, 9.0], "wood_dark"),                                               # x10
+            el([9.6, 7.0, 7.0], [10.0, 9.0, 9.0], "brass"),                                                  # 5 %
+            el([0.5, 7.8, 7.8], [4.2, 8.2, 8.2], "steel_hi"), el([11.8, 7.8, 7.8], [15.5, 8.2, 8.2], "steel_hi")]
+
+
+def piezo_transducer():
+    """Transductor piezo-cúprico: disco de cobre, cerámica piezoeléctrica blanca, electrodo plateado con un punto de
+    cinetrita y dos cables (rojo y negro)."""
+    oct45 = {"angle": 45, "axis": "y", "origin": [8, 8, 8]}
+    return [el([3.0, 7.0, 3.0], [13.0, 7.6, 13.0], "copper"),                        # disco (octógono: dos cuadrados)
+            el([3.0, 7.0, 3.0], [13.0, 7.6, 13.0], "copper", rot=oct45),
+            el([4.6, 7.6, 4.6], [11.4, 8.1, 11.4], "ceramic"),                        # cerámica
+            el([4.6, 7.6, 4.6], [11.4, 8.1, 11.4], "ceramic", rot=oct45),
+            el([6.0, 8.1, 6.0], [10.0, 8.4, 10.0], "steel_hi"),                       # electrodo
+            el([7.6, 8.4, 7.6], [8.4, 8.7, 8.4], "cyan"),                             # cinetrita
+            el([8.6, 8.4, 9.0], [9.2, 8.8, 15.5], "shell_red"),                       # cable rojo
+            el([4.0, 7.6, 10.0], [4.6, 8.0, 15.5], "rubber")]                         # cable negro (al cobre)
+
+
 def shell():
     return [el([7.2, 2.0, 7.2], [8.8, 3.4, 8.8], "brass"), el([7.3, 3.4, 7.3], [8.7, 10.0, 8.7], "shell_red"),
             el([7.4, 10.0, 7.4], [8.6, 10.3, 8.6], "wood_dark")]
@@ -808,6 +847,9 @@ if __name__ == "__main__":
         model(f"module_{mid}", parts, SMALL)
     model("scrap_machete", machete(), HANDHELD)
     model("shotgun_shell", shell(), SMALL)
+    model("cinetrite_shard", cinetrite_shard(), SMALL)
+    model("resistor_330_ohm", resistor(), SMALL)
+    model("piezo_transducer", piezo_transducer(), SMALL)
     model("rifle_round", rifle_round(), SMALL)
     flat = []                                                    # armaduras: modelo 3D de inventario en tools/armor3d_gen.py
     flat += ["inercita_plate", "precision_mechanism", "kinetic_servo", "ballistic_fabric"]          # tools/armor_t2_gen.py

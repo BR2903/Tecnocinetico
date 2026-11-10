@@ -25,7 +25,11 @@ public final class MetalColors {
             Map.entry(ModItems.CINETRITE_INGOT, 0x5AD7F0),
             Map.entry(ModItems.INERCITA_INGOT, 0x8492C4),
             Map.entry(ModItems.PIROXITE_INGOT, 0xF08A40),
-            Map.entry(ModItems.NULLITE_INGOT, 0xBDAAF2));
+            Map.entry(ModItems.NULLITE_INGOT, 0xBDAAF2),
+            // en bruto (colores compensados por el tono beige del hierro en bruto)
+            Map.entry(ModItems.RAW_CINETRITE, 0x51EBFF),
+            Map.entry(ModItems.RAW_PIROXITE, 0xED8146),
+            Map.entry(ModItems.RAW_NULLITE, 0xB1A4FF));
 
     public static void register(RegisterColorHandlersEvent.Item event) {
         COLORS.forEach((item, color) -> event.register((stack, layer) -> layer == 0 ? 0xFF000000 | color : -1, item.get()));
