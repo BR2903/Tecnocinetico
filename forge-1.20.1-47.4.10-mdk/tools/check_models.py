@@ -11,6 +11,20 @@ import sys
 from pathlib import Path
 
 ASSETS = Path(__file__).resolve().parent.parent / "src/main/resources/assets/tecnocinetico"
+import json as _json
+_ATLAS_DIRS = ["block/", "item/"]
+_atlas = ASSETS.parent / "minecraft" / "atlases" / "blocks.json"     # el atlas se amplía en el espacio minecraft
+if _atlas.exists():
+    for src in _json.loads(_atlas.read_text(encoding="utf-8")).get("sources", []):
+        if src.get("type") == "directory":
+            _ATLAS_DIRS.append(src["source"].rstrip("/") + "/")
+
+
+def in_atlas(path):
+    """Las texturas de modelos de bloque/objeto deben estar en el atlas: carpetas block/, item/ o las añadidas."""
+    return any(path.startswith(d) for d in _ATLAS_DIRS)
+
+
 problems = []
 for path in sorted((ASSETS / "models").rglob("*.json")):
     rel = path.relative_to(ASSETS)
@@ -30,6 +44,9 @@ for path in sorted((ASSETS / "models").rglob("*.json")):
         if isinstance(tex, str) and tex.startswith("tecnocinetico:"):
             if not (ASSETS / "textures" / (tex.split(":", 1)[1] + ".png")).exists():
                 problems.append(f"{rel}: falta la textura {tex}")
+            elif not in_atlas(tex.split(":", 1)[1]):
+                problems.append(f"{rel}: la textura {tex} no está en el atlas de bloques/objetos (se vería morada y negra; "
+                                f"añade su carpeta a atlases/blocks.json)")
     for ov in m.get("overrides", []):
         target = ov.get("model", "")
         if target.startswith("tecnocinetico:") and not (ASSETS / "models" / (target.split(":", 1)[1] + ".json")).exists():

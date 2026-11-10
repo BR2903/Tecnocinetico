@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "models/armor/3d",
+      "prefix": "models/armor/3d/"
+    }
+  ]
+}

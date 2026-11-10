@@ -492,3 +492,4 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-09 — Claude — Iconos de las armaduras a juego (modelo 3D en el inventario)
 - Los iconos planos de las armaduras no casaban con los diseños 3D. Ahora `tools/armor3d_gen.py` escribe también el modelo de inventario de cada pieza (`models/item/<set>_<pieza>.json`): los mismos cubos y la misma textura que la pieza puesta, de frente y algo girada, escalada para caber en la casilla (como las armas: el usuario prefiere el modelo 3D a los iconos planos). `weapons_gen.py` ya no escribe modelos planos de armaduras.
+- Arreglo: los iconos se veían **morados y negros** porque la textura de la armadura (`textures/models/armor/3d/`) no estaba en el atlas de bloques/objetos (solo entran `block/` e `item/`). Se añadió `assets/minecraft/atlases/blocks.json` con esa carpeta, y `check_models.py` avisa ahora de texturas fuera del atlas.
