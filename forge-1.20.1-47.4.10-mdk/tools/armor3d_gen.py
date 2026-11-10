@@ -504,12 +504,54 @@ def preview_model(s, cubes):
     return {"textures": {"0": f"tecnocinetico:models/armor/3d/{s.name}"}, "elements": els}
 
 
+PIECE = {"head": "helmet", "chest": "chestplate", "legs": "leggings", "feet": "boots"}
+FACE_NAMES = {"front": "north", "back": "south", "top": "up", "bottom": "down", "right": "west", "left": "east"}
+
+
+def item_models(s):
+    """Modelo de inventario de cada pieza: los mismos cubos y la misma textura (la pieza en 3D, de frente)."""
+    k = 16.0 / TEX
+    for slot, cubes in s.slots.items():
+        boxes = []
+        for c in cubes:
+            px, py, pz = PIVOT[c.bone]
+            x0, y0, z0 = c.f[0] - c.inflate + px, c.f[1] - c.inflate + py, c.f[2] - c.inflate + pz
+            x1, y1, z1 = x0 + c.s[0] + 2 * c.inflate, y0 + c.s[1] + 2 * c.inflate, z0 + c.s[2] + 2 * c.inflate
+            boxes.append((c, [x0, -y1, z0], [x1, -y0, z1]))                     # y hacia arriba
+        lo = [min(b[1][i] for b in boxes) for i in range(3)]
+        hi = [max(b[2][i] for b in boxes) for i in range(3)]
+        off = [8 - (lo[i] + hi[i]) / 2 for i in range(3)]
+        span = max(hi[i] - lo[i] for i in range(3))
+        els = []
+        for c, fr, to in boxes:
+            faces = {}
+            for face, (u0, v0, w, h) in regions(c).items():
+                uv = [u0 * k, v0 * k, (u0 + w) * k, (v0 + h) * k]
+                if c.mirror:
+                    uv = [uv[2], uv[1], uv[0], uv[3]]
+                faces[FACE_NAMES[face]] = {"uv": [round(v, 4) for v in uv], "texture": "#0"}
+            els.append({"from": [round(fr[i] + off[i], 3) for i in range(3)], "to": [round(to[i] + off[i], 3) for i in range(3)], "faces": faces})
+        gui = round(12.5 / span, 3)                                              # que la pieza respire en la casilla
+        tex = f"tecnocinetico:models/armor/3d/{s.name}"
+        model = {"credit": "Tecnocinetico - armor3d_gen.py", "texture_size": [TEX, TEX], "textures": {"0": tex, "particle": tex},
+                 "elements": els,
+                 "display": {"gui": {"rotation": [18, 200, 0], "translation": [0, 0, 0], "scale": [gui, gui, gui]},
+                             "ground": {"translation": [0, 2, 0], "scale": [0.3, 0.3, 0.3]},
+                             "fixed": {"rotation": [0, 180, 0], "scale": [gui * 0.9] * 3},
+                             "thirdperson_righthand": {"rotation": [75, 180, 0], "translation": [0, 2.5, 0], "scale": [0.3, 0.3, 0.3]},
+                             "thirdperson_lefthand": {"rotation": [75, 180, 0], "translation": [0, 2.5, 0], "scale": [0.3, 0.3, 0.3]},
+                             "firstperson_righthand": {"rotation": [0, 135, 0], "translation": [0, 2, 0], "scale": [0.35, 0.35, 0.35]},
+                             "firstperson_lefthand": {"rotation": [0, 135, 0], "translation": [0, 2, 0], "scale": [0.35, 0.35, 0.35]}}}
+        (ROOT / f"models/item/{s.name}_{PIECE[slot]}.json").write_text(json.dumps(model, indent=1), encoding="utf-8")
+
+
 def main():
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else None
     names = []
     for make in SETS:
         s = make()
         cubes = write(s)
+        item_models(s)
         names.append(s.name)
         if out:
             (out / f"{s.name}_preview.json").write_text(json.dumps(preview_model(s, cubes)), encoding="utf-8")

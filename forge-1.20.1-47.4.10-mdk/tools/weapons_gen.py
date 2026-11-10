@@ -809,7 +809,7 @@ if __name__ == "__main__":
     model("scrap_machete", machete(), HANDHELD)
     model("shotgun_shell", shell(), SMALL)
     model("rifle_round", rifle_round(), SMALL)
-    flat = [f"{s_}_{piece}" for s_ in ("scrap", "inercita", "tactical", "exo") for piece in ("helmet", "chestplate", "leggings", "boots")]
+    flat = []                                                    # armaduras: modelo 3D de inventario en tools/armor3d_gen.py
     flat += ["inercita_plate", "precision_mechanism", "kinetic_servo", "ballistic_fabric"]          # tools/armor_t2_gen.py
     flat += ["core_processor"]                                                                       # tools/tier3_art.py
     for name in flat:
