@@ -17,19 +17,18 @@ public final class Structures {
             () -> ModBlocks.INDUSTRIAL_ASSEMBLER.get(), Map.of('A', () -> ModBlocks.ASSEMBLER_PART.get()));
 
     /**
-     * Reactor de Fisión 9x9x6: suelo y muros de blindaje, ventanas en los 4 lados, la vasija de vidrio 5x5 en el
-     * centro (con el núcleo abajo y las barras visibles dentro), tejado con claraboya sobre la vasija y
-     * respiraderos en las esquinas. F = blindaje, P = escotilla, V = ventana, G = vidrio de la vasija, X = respiradero.
+     * Reactor de Fisión 9x9x6: estructura maciza de piezas invisibles; se ve como UNA máquina gracias a 18 trozos de
+     * modelo (tools/reactor_model_gen.py) que dibujan los centros de cada bloque de 3x3x3 (el núcleo, en (4, 1, 4),
+     * dibuja el trozo central de abajo). Dentro, la vasija con las barras visibles (client/FissionReactorRenderer).
      */
     public static final MultiblockTemplate REACTOR = new MultiblockTemplate(new String[][]{
-            {"FFFFFFFFF", "FFFFFFFFF", "FFFFFFFFF", "FFFFFFFFF", "FFFFFFFFF", "FFFFFFFFF", "FFFFFFFFF", "FFFFFFFFF", "FFFFFFFFF"},
-            {"FFFFPFFFF", "F       F", "F FFFFF F", "F FFFFF F", "F FFCFF F", "F FFFFF F", "F FFFFF F", "F       F", "FFFFFFFFF"},
-            {"FFFVVVFFF", "F       F", "F GGGGG F", "V G   G V", "V G   G V", "V G   G V", "F GGGGG F", "F       F", "FFFVVVFFF"},
-            {"FFFVVVFFF", "F       F", "F GGGGG F", "V G   G V", "V G   G V", "V G   G V", "F GGGGG F", "F       F", "FFFVVVFFF"},
-            {"FFFFFFFFF", "F       F", "F GGGGG F", "F G   G F", "F G   G F", "F G   G F", "F GGGGG F", "F       F", "FFFFFFFFF"},
-            {"XFFFFFFFX", "FFFFFFFFF", "FFFFFFFFF", "FFFVVVFFF", "FFFVVVFFF", "FFFVVVFFF", "FFFFFFFFF", "FFFFFFFFF", "XFFFFFFFX"}},
-            () -> ModBlocks.FISSION_REACTOR.get(), Map.of(
-            'F', () -> ModBlocks.REACTOR_CASING.get(), 'P', () -> ModBlocks.REACTOR_PORT.get(),
-            'V', () -> ModBlocks.REACTOR_WINDOW.get(), 'G', () -> ModBlocks.REACTOR_VESSEL_GLASS.get(),
-            'X', () -> ModBlocks.REACTOR_VENT.get()));
+            {"SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS"},
+            {"SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSCSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS"},
+            {"SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS"},
+            {"SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS"},
+            {"SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS"},
+            {"SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS", "SSSSSSSSS"}},
+            () -> ModBlocks.FISSION_REACTOR.get(), Map.of('S', () -> ModBlocks.REACTOR_SHELL.get()))
+            .withPartState((p, st) -> st.hasProperty(SegmentedPartBlock.SEGMENT)
+                    ? st.setValue(SegmentedPartBlock.SEGMENT, SegmentedPartBlock.segmentAt(p[0], p[1], p[2])) : st);
 }

@@ -35,8 +35,7 @@ public final class MachineBlockEntities {
     /** Piezas de las estructuras grandes (pasan energía, líquidos y objetos al núcleo). */
     public static final RegistryObject<BlockEntityType<com.bryanamaya.tecnocinetico.structure.StructurePartBlockEntity>> STRUCTURE_PART =
             TYPES.register("structure_part", () -> BlockEntityType.Builder.of(com.bryanamaya.tecnocinetico.structure.StructurePartBlockEntity::new,
-                    ModBlocks.ASSEMBLER_PART.get(), ModBlocks.REACTOR_CASING.get(), ModBlocks.REACTOR_PORT.get(), ModBlocks.REACTOR_WINDOW.get(),
-                    ModBlocks.REACTOR_VESSEL_GLASS.get(), ModBlocks.REACTOR_VENT.get()).build(null));
+                    ModBlocks.ASSEMBLER_PART.get(), ModBlocks.REACTOR_SHELL.get()).build(null));
 
     private MachineBlockEntities() {}
 

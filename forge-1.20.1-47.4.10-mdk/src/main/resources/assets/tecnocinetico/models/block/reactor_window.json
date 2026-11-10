@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "tecnocinetico:block/reactor_window"
-  },
-  "render_type": "minecraft:translucent"
-}

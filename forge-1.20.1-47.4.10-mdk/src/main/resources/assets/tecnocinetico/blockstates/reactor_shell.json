@@ -1,0 +1,289 @@
+{
+ "variants": {
+  "facing=north,segment=0": {
+   "model": "tecnocinetico:block/reactor_shell_empty"
+  },
+  "facing=north,segment=1": {
+   "model": "tecnocinetico:block/reactor_shell_1"
+  },
+  "facing=north,segment=2": {
+   "model": "tecnocinetico:block/reactor_shell_2"
+  },
+  "facing=north,segment=3": {
+   "model": "tecnocinetico:block/reactor_shell_3"
+  },
+  "facing=north,segment=4": {
+   "model": "tecnocinetico:block/reactor_shell_4"
+  },
+  "facing=north,segment=5": {
+   "model": "tecnocinetico:block/reactor_shell_5"
+  },
+  "facing=north,segment=6": {
+   "model": "tecnocinetico:block/reactor_shell_6"
+  },
+  "facing=north,segment=7": {
+   "model": "tecnocinetico:block/reactor_shell_7"
+  },
+  "facing=north,segment=8": {
+   "model": "tecnocinetico:block/reactor_shell_8"
+  },
+  "facing=north,segment=9": {
+   "model": "tecnocinetico:block/reactor_shell_9"
+  },
+  "facing=north,segment=10": {
+   "model": "tecnocinetico:block/reactor_shell_10"
+  },
+  "facing=north,segment=11": {
+   "model": "tecnocinetico:block/reactor_shell_11"
+  },
+  "facing=north,segment=12": {
+   "model": "tecnocinetico:block/reactor_shell_12"
+  },
+  "facing=north,segment=13": {
+   "model": "tecnocinetico:block/reactor_shell_13"
+  },
+  "facing=north,segment=14": {
+   "model": "tecnocinetico:block/reactor_shell_14"
+  },
+  "facing=north,segment=15": {
+   "model": "tecnocinetico:block/reactor_shell_15"
+  },
+  "facing=north,segment=16": {
+   "model": "tecnocinetico:block/reactor_shell_16"
+  },
+  "facing=north,segment=17": {
+   "model": "tecnocinetico:block/reactor_shell_17"
+  },
+  "facing=north,segment=18": {
+   "model": "tecnocinetico:block/reactor_shell_18"
+  },
+  "facing=east,segment=0": {
+   "model": "tecnocinetico:block/reactor_shell_empty",
+   "y": 90
+  },
+  "facing=east,segment=1": {
+   "model": "tecnocinetico:block/reactor_shell_1",
+   "y": 90
+  },
+  "facing=east,segment=2": {
+   "model": "tecnocinetico:block/reactor_shell_2",
+   "y": 90
+  },
+  "facing=east,segment=3": {
+   "model": "tecnocinetico:block/reactor_shell_3",
+   "y": 90
+  },
+  "facing=east,segment=4": {
+   "model": "tecnocinetico:block/reactor_shell_4",
+   "y": 90
+  },
+  "facing=east,segment=5": {
+   "model": "tecnocinetico:block/reactor_shell_5",
+   "y": 90
+  },
+  "facing=east,segment=6": {
+   "model": "tecnocinetico:block/reactor_shell_6",
+   "y": 90
+  },
+  "facing=east,segment=7": {
+   "model": "tecnocinetico:block/reactor_shell_7",
+   "y": 90
+  },
+  "facing=east,segment=8": {
+   "model": "tecnocinetico:block/reactor_shell_8",
+   "y": 90
+  },
+  "facing=east,segment=9": {
+   "model": "tecnocinetico:block/reactor_shell_9",
+   "y": 90
+  },
+  "facing=east,segment=10": {
+   "model": "tecnocinetico:block/reactor_shell_10",
+   "y": 90
+  },
+  "facing=east,segment=11": {
+   "model": "tecnocinetico:block/reactor_shell_11",
+   "y": 90
+  },
+  "facing=east,segment=12": {
+   "model": "tecnocinetico:block/reactor_shell_12",
+   "y": 90
+  },
+  "facing=east,segment=13": {
+   "model": "tecnocinetico:block/reactor_shell_13",
+   "y": 90
+  },
+  "facing=east,segment=14": {
+   "model": "tecnocinetico:block/reactor_shell_14",
+   "y": 90
+  },
+  "facing=east,segment=15": {
+   "model": "tecnocinetico:block/reactor_shell_15",
+   "y": 90
+  },
+  "facing=east,segment=16": {
+   "model": "tecnocinetico:block/reactor_shell_16",
+   "y": 90
+  },
+  "facing=east,segment=17": {
+   "model": "tecnocinetico:block/reactor_shell_17",
+   "y": 90
+  },
+  "facing=east,segment=18": {
+   "model": "tecnocinetico:block/reactor_shell_18",
+   "y": 90
+  },
+  "facing=south,segment=0": {
+   "model": "tecnocinetico:block/reactor_shell_empty",
+   "y": 180
+  },
+  "facing=south,segment=1": {
+   "model": "tecnocinetico:block/reactor_shell_1",
+   "y": 180
+  },
+  "facing=south,segment=2": {
+   "model": "tecnocinetico:block/reactor_shell_2",
+   "y": 180
+  },
+  "facing=south,segment=3": {
+   "model": "tecnocinetico:block/reactor_shell_3",
+   "y": 180
+  },
+  "facing=south,segment=4": {
+   "model": "tecnocinetico:block/reactor_shell_4",
+   "y": 180
+  },
+  "facing=south,segment=5": {
+   "model": "tecnocinetico:block/reactor_shell_5",
+   "y": 180
+  },
+  "facing=south,segment=6": {
+   "model": "tecnocinetico:block/reactor_shell_6",
+   "y": 180
+  },
+  "facing=south,segment=7": {
+   "model": "tecnocinetico:block/reactor_shell_7",
+   "y": 180
+  },
+  "facing=south,segment=8": {
+   "model": "tecnocinetico:block/reactor_shell_8",
+   "y": 180
+  },
+  "facing=south,segment=9": {
+   "model": "tecnocinetico:block/reactor_shell_9",
+   "y": 180
+  },
+  "facing=south,segment=10": {
+   "model": "tecnocinetico:block/reactor_shell_10",
+   "y": 180
+  },
+  "facing=south,segment=11": {
+   "model": "tecnocinetico:block/reactor_shell_11",
+   "y": 180
+  },
+  "facing=south,segment=12": {
+   "model": "tecnocinetico:block/reactor_shell_12",
+   "y": 180
+  },
+  "facing=south,segment=13": {
+   "model": "tecnocinetico:block/reactor_shell_13",
+   "y": 180
+  },
+  "facing=south,segment=14": {
+   "model": "tecnocinetico:block/reactor_shell_14",
+   "y": 180
+  },
+  "facing=south,segment=15": {
+   "model": "tecnocinetico:block/reactor_shell_15",
+   "y": 180
+  },
+  "facing=south,segment=16": {
+   "model": "tecnocinetico:block/reactor_shell_16",
+   "y": 180
+  },
+  "facing=south,segment=17": {
+   "model": "tecnocinetico:block/reactor_shell_17",
+   "y": 180
+  },
+  "facing=south,segment=18": {
+   "model": "tecnocinetico:block/reactor_shell_18",
+   "y": 180
+  },
+  "facing=west,segment=0": {
+   "model": "tecnocinetico:block/reactor_shell_empty",
+   "y": 270
+  },
+  "facing=west,segment=1": {
+   "model": "tecnocinetico:block/reactor_shell_1",
+   "y": 270
+  },
+  "facing=west,segment=2": {
+   "model": "tecnocinetico:block/reactor_shell_2",
+   "y": 270
+  },
+  "facing=west,segment=3": {
+   "model": "tecnocinetico:block/reactor_shell_3",
+   "y": 270
+  },
+  "facing=west,segment=4": {
+   "model": "tecnocinetico:block/reactor_shell_4",
+   "y": 270
+  },
+  "facing=west,segment=5": {
+   "model": "tecnocinetico:block/reactor_shell_5",
+   "y": 270
+  },
+  "facing=west,segment=6": {
+   "model": "tecnocinetico:block/reactor_shell_6",
+   "y": 270
+  },
+  "facing=west,segment=7": {
+   "model": "tecnocinetico:block/reactor_shell_7",
+   "y": 270
+  },
+  "facing=west,segment=8": {
+   "model": "tecnocinetico:block/reactor_shell_8",
+   "y": 270
+  },
+  "facing=west,segment=9": {
+   "model": "tecnocinetico:block/reactor_shell_9",
+   "y": 270
+  },
+  "facing=west,segment=10": {
+   "model": "tecnocinetico:block/reactor_shell_10",
+   "y": 270
+  },
+  "facing=west,segment=11": {
+   "model": "tecnocinetico:block/reactor_shell_11",
+   "y": 270
+  },
+  "facing=west,segment=12": {
+   "model": "tecnocinetico:block/reactor_shell_12",
+   "y": 270
+  },
+  "facing=west,segment=13": {
+   "model": "tecnocinetico:block/reactor_shell_13",
+   "y": 270
+  },
+  "facing=west,segment=14": {
+   "model": "tecnocinetico:block/reactor_shell_14",
+   "y": 270
+  },
+  "facing=west,segment=15": {
+   "model": "tecnocinetico:block/reactor_shell_15",
+   "y": 270
+  },
+  "facing=west,segment=16": {
+   "model": "tecnocinetico:block/reactor_shell_16",
+   "y": 270
+  },
+  "facing=west,segment=17": {
+   "model": "tecnocinetico:block/reactor_shell_17",
+   "y": 270
+  },
+  "facing=west,segment=18": {
+   "model": "tecnocinetico:block/reactor_shell_18",
+   "y": 270
+  }
+ }
+}

@@ -527,11 +527,7 @@
   "block.tecnocinetico.industrial_assembler": "Industrial Assembler",
   "item.tecnocinetico.fission_reactor_kit": "Fission Reactor (kit)",
   "block.tecnocinetico.assembler_part": "Industrial Assembler",
-  "block.tecnocinetico.reactor_casing": "Reactor Casing",
-  "block.tecnocinetico.reactor_port": "Reactor Hatch",
-  "block.tecnocinetico.reactor_window": "Reactor Window",
-  "block.tecnocinetico.reactor_vessel_glass": "Reactor Vessel",
-  "block.tecnocinetico.reactor_vent": "Reactor Vent",
   "tooltip.tecnocinetico.kit": "%s structure: use it on the ground to deploy it in front of you",
-  "message.tecnocinetico.kit_blocked": "The %s structure doesn't fit: %s is in the way at %s, %s, %s"
+  "message.tecnocinetico.kit_blocked": "The %s structure doesn't fit: %s is in the way at %s, %s, %s",
+  "block.tecnocinetico.reactor_shell": "Fission Reactor"
 }

@@ -132,16 +132,8 @@ public class ModBlocks {
                     ModItems.INDUSTRIAL_ASSEMBLER_KIT));
     public static final RegistryObject<Block> ASSEMBLER_PART = BLOCKS.register("assembler_part",
             () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(true, false));
-    public static final RegistryObject<Block> REACTOR_CASING = BLOCKS.register("reactor_casing",
-            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, false));
-    public static final RegistryObject<Block> REACTOR_PORT = BLOCKS.register("reactor_port",
-            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, false));
-    public static final RegistryObject<Block> REACTOR_WINDOW = BLOCKS.register("reactor_window",
-            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, true));
-    public static final RegistryObject<Block> REACTOR_VESSEL_GLASS = BLOCKS.register("reactor_vessel_glass",
-            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, true));
-    public static final RegistryObject<Block> REACTOR_VENT = BLOCKS.register("reactor_vent",
-            () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(false, false));
+    public static final RegistryObject<Block> REACTOR_SHELL = BLOCKS.register("reactor_shell",
+            com.bryanamaya.tecnocinetico.structure.SegmentedPartBlock::new);
 
     // --- SOLO PRUEBAS (creativo): energía infinita. Sin receta ni drops. ---
     public static final RegistryObject<Block> CREATIVE_ENERGY_SOURCE = registerBlock("creative_energy_source",

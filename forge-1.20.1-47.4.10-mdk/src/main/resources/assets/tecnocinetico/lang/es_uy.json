@@ -527,11 +527,7 @@
   "block.tecnocinetico.industrial_assembler": "Ensamblador Industrial",
   "item.tecnocinetico.fission_reactor_kit": "Reactor de Fisión (kit)",
   "block.tecnocinetico.assembler_part": "Ensamblador Industrial",
-  "block.tecnocinetico.reactor_casing": "Blindaje del reactor",
-  "block.tecnocinetico.reactor_port": "Escotilla del reactor",
-  "block.tecnocinetico.reactor_window": "Ventana del reactor",
-  "block.tecnocinetico.reactor_vessel_glass": "Vasija del reactor",
-  "block.tecnocinetico.reactor_vent": "Respiradero del reactor",
   "tooltip.tecnocinetico.kit": "Estructura de %s: úsalo sobre el suelo para desplegarla delante de ti",
-  "message.tecnocinetico.kit_blocked": "No cabe la estructura de %s: estorba %s en %s, %s, %s"
+  "message.tecnocinetico.kit_blocked": "No cabe la estructura de %s: estorba %s en %s, %s, %s",
+  "block.tecnocinetico.reactor_shell": "Reactor de Fisión"
 }

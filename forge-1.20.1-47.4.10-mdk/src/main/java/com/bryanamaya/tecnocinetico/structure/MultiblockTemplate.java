@@ -24,6 +24,13 @@ public final class MultiblockTemplate {
     private final Map<Character, Supplier<Block>> parts;
     private final Supplier<Block> core;
     private final int cx, cy, cz;
+    /** Ajuste del estado de cada pieza según su posición local (p. ej. qué trozo del modelo dibuja). */
+    private java.util.function.BiFunction<int[], BlockState, BlockState> partState = (p, s) -> s;
+
+    public MultiblockTemplate withPartState(java.util.function.BiFunction<int[], BlockState, BlockState> f) {
+        this.partState = f;
+        return this;
+    }
 
     public MultiblockTemplate(String[][] layers, Supplier<Block> core, Map<Character, Supplier<Block>> parts) {
         this.layers = layers;
@@ -115,6 +122,7 @@ public final class MultiblockTemplate {
                         if (s.hasProperty(StructurePartBlock.FACING)) {
                             s = s.setValue(StructurePartBlock.FACING, facing.getOpposite());
                         }
+                        s = partState.apply(new int[]{x, y, z}, s);
                         level.setBlock(p, s, 3);
                         if (level.getBlockEntity(p) instanceof StructurePartBlockEntity part) {
                             part.setCore(corePos);

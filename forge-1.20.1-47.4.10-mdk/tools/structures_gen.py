@@ -238,20 +238,8 @@ def rod(img, d, glow):
 
 
 def reactor():
-    tex32("reactor_casing", casing)
-    tex32("reactor_port", port)
-    tex32("reactor_window", window)
-    tex32("reactor_vessel_glass", vessel)
-    tex32("reactor_vent", vent)
     tex32("reactor_rod_active", lambda i, d: rod(i, d, (140, 245, 100)))
     tex32("reactor_rod_idle", lambda i, d: rod(i, d, (60, 80, 60)))
-    for name, rt in (("reactor_casing", None), ("reactor_port", None), ("reactor_vent", None),
-                     ("reactor_window", "minecraft:translucent"), ("reactor_vessel_glass", "minecraft:translucent")):
-        m = {"parent": "minecraft:block/cube_all", "textures": {"all": f"tecnocinetico:block/{name}"}}
-        if rt:
-            m["render_type"] = rt
-        jw(A / f"models/block/{name}.json", m)
-        part_states(name, name)
     # barras (bloque de alto; el renderizador las estira)
     for name, tex in (("reactor_fuel_rod", "reactor_rod_active"), ("reactor_fuel_rod_idle", "reactor_rod_idle")):
         t = f"tecnocinetico:block/{tex}"
@@ -259,15 +247,7 @@ def reactor():
             {"from": [6.5, 0, 6.5], "to": [9.5, 16, 9.5], "faces": {f: {"uv": [0, 0, 6, 16], "texture": "#0"}
                                                                     for f in ("north", "south", "east", "west")}},
             {"from": [6, 15, 6], "to": [10, 16, 10], "faces": {f: {"uv": [0, 0, 4, 4], "texture": "#0"} for f in ("north", "south", "east", "west", "up")}}]})
-    # núcleo: soporte de las barras con anillo luminoso (luz de estado)
-    for suffix, lamp in (("", "press_lamp_off"), ("_on", "press_lamp_on")):
-        jw(A / f"models/block/fission_reactor{suffix}.json", {
-            "parent": "minecraft:block/block", "textures": {"0": "tecnocinetico:block/reactor_casing", "lamp": f"tecnocinetico:block/{lamp}",
-                                                            "particle": "tecnocinetico:block/reactor_casing"},
-            "elements": [
-                {"from": [0, 0, 0], "to": [16, 12, 16], "faces": {f: {"uv": [0, 0, 16, 12], "texture": "#0"} for f in ("north", "south", "east", "west")}
-                 | {"up": {"uv": [0, 0, 16, 16], "texture": "#0"}, "down": {"uv": [0, 0, 16, 16], "texture": "#0"}}},
-                {"from": [5, 12, 5], "to": [11, 16, 11], "faces": {f: {"uv": [0, 0, 16, 16], "texture": "#lamp"} for f in ("north", "south", "east", "west", "up")}}]})
+    # núcleo: su modelo es el trozo 5 del reactor (tools/reactor_model_gen.py)
     machine_states("fission_reactor", "fission_reactor")
     # kit del reactor: caja de transporte con el símbolo
     img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
