@@ -235,6 +235,16 @@ public class MachineGameTests {
         helper.assertTrue(fluid != null && fluid.fill(new net.minecraftforge.fluids.FluidStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT.get(), 4000),
                 net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE) == 4000, "El muro debería pasar el refrigerante al núcleo");
         helper.assertTrue(reactor.coolantTank().getFluidAmount() == 4000, "El núcleo debería tener el refrigerante");
+        // una máquina pegada por FUERA al muro recibe la energía que genera
+        BlockPos outside = com.bryanamaya.tecnocinetico.structure.MultiblockTemplate.toWorld(origin, dir, 0, 2, -1);
+        level.setBlock(outside, ModBlocks.CELL_CHARGER.get().defaultBlockState(), 3);
+        reactor.getItems().insertItem(0, new ItemStack(ModItems.URANIUM_FUEL_ROD.get()), false);
+        reactor.setThrottle(100);
+        helper.runAfterDelay(60, () -> {
+            var charger = (com.bryanamaya.tecnocinetico.machine.ElectricMachineBlockEntity) level.getBlockEntity(outside);
+            helper.assertTrue(charger.getEnergy().getEnergyStored() > 10_000, "La máquina de fuera debería recibir energía: "
+                    + charger.getEnergy().getEnergyStored());
+            level.setBlock(outside, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 3);
         // romper el muro desmonta el reactor entero y da el kit
         level.destroyBlock(wall, false);
         helper.assertTrue(level.getBlockState(core).isAir(), "El núcleo debería desaparecer");
@@ -244,6 +254,7 @@ public class MachineGameTests {
         level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(core).inflate(6))
                 .forEach(net.minecraft.world.entity.Entity::discard);
         helper.succeed();
+        });
     }
 
     @GameTest(template = "empty", timeoutTicks = 200)

@@ -32,7 +32,8 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Reactor de Fisión: quema Barras de Combustible de Uranio y genera electricidad (hasta 600 FE/t), que empuja
- * solo a lo que tenga al lado. La potencia se ajusta con las barras de control (0-100 %).
+ * sola a los cables y máquinas pegados a CUALQUIER cara exterior de la estructura (no necesita energía para
+ * funcionar; los cables también pueden sacarla de cualquier pieza). La potencia se ajusta con las barras de control (0-100 %).
  * Calor: sube con la potencia (4 °/t al 100 %); lo quita el refrigerante del tanque (hasta 6 °/t, 1 mB cada 2 °)
  * o el agua (hasta 3 °/t, 1 mB por grado); sin nada solo se disipa 0,4 °/t. A 900 ° suena la alarma; a 1000 °
  * el núcleo se funde y el reactor EXPLOTA. Mientras quema, irradia a su alrededor (ver RadiationEvents).
@@ -217,20 +218,57 @@ public class FissionReactorBlockEntity extends ElectricMachineBlockEntity implem
         heat = Math.max(AMBIENT, heat - c);
     }
 
+    /** Bloques pegados por fuera a la estructura que aceptan energía (se revisa cada 2 s). */
+    private final java.util.List<java.util.Map.Entry<BlockPos, Direction>> targets = new java.util.ArrayList<>();
+    private java.util.List<java.util.Map.Entry<BlockPos, Direction>> exterior;
+
+    /** Caras exteriores de la estructura: cada vecino de una pieza que no es parte de ella (o del núcleo, si va suelto). */
+    private java.util.List<java.util.Map.Entry<BlockPos, Direction>> exterior() {
+        if (exterior == null) {
+            java.util.Set<BlockPos> inside = new java.util.HashSet<>();
+            BlockState st = getBlockState();
+            if (st.getBlock() instanceof com.bryanamaya.tecnocinetico.structure.MultiblockMachineBlock mb) {
+                Direction facing = st.getValue(ElectricMachineBlock.FACING).getOpposite();
+                var t = mb.template();
+                inside.addAll(t.occupied(t.originFromCore(worldPosition, facing), facing));
+            }
+            inside.add(worldPosition);
+            exterior = new java.util.ArrayList<>();
+            for (BlockPos p : inside) {
+                for (Direction d : Direction.values()) {
+                    BlockPos n = p.relative(d);
+                    if (!inside.contains(n)) {
+                        exterior.add(java.util.Map.entry(n.immutable(), d.getOpposite()));
+                    }
+                }
+            }
+        }
+        return exterior;
+    }
+
+    /** Reparte la energía a cables y máquinas pegados a cualquier cara exterior del reactor. */
     private void push() {
-        for (Direction d : Direction.values()) {
+        if (level.getGameTime() % 40 == 0 || targets.isEmpty() && level.getGameTime() % 10 == 0) {
+            targets.clear();
+            for (var e : exterior()) {
+                BlockEntity n = level.isLoaded(e.getKey()) ? level.getBlockEntity(e.getKey()) : null;
+                if (n != null && !(n instanceof com.bryanamaya.tecnocinetico.structure.StructurePartBlockEntity) && !(n instanceof FissionReactorBlockEntity)
+                        && n.getCapability(ForgeCapabilities.ENERGY, e.getValue()).map(IEnergyStorage::canReceive).orElse(false)) {
+                    targets.add(e);
+                }
+            }
+        }
+        for (var e : targets) {
             if (energy.getEnergyStored() <= 0) {
                 return;
             }
-            BlockEntity n = level.getBlockEntity(worldPosition.relative(d));
-            if (n == null || n instanceof FissionReactorBlockEntity) {
+            BlockEntity n = level.getBlockEntity(e.getKey());
+            if (n == null) {
                 continue;
             }
-            n.getCapability(ForgeCapabilities.ENERGY, d.getOpposite()).ifPresent(target -> {
-                if (target.canReceive()) {
-                    int sent = target.receiveEnergy(Math.min(PUSH_PER_TICK, energy.getEnergyStored()), false);
-                    energy.drain(sent);
-                }
+            n.getCapability(ForgeCapabilities.ENERGY, e.getValue()).ifPresent(target -> {
+                int sent = target.receiveEnergy(Math.min(PUSH_PER_TICK, energy.getEnergyStored()), false);
+                energy.drain(sent);
             });
         }
     }
