@@ -507,3 +507,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - **En bruto** (cinetrita, piroxita, nulita): como los metales nuevos, el hierro en bruto vanilla teñido (`client/MetalColors`, colores compensados; modelos de `metals_gen.py`).
 - **Fragmento de cinetrita, Resistencia 330 Ω y Transductor Piezo-Cúprico**: modelos 3D en el inventario (`weapons_gen.py`, textura propia por objeto con `gunkit`): racimo de cristales cian sobre roca; resistencia con extremos abombados, bandas naranja-naranja-marrón-dorado y patas; disco de cobre octogonal con cerámica, electrodo, punto de cinetrita y cables rojo y negro.
 - **Cambio (a pedido del usuario)**: fragmento, resistencia y transductor vuelven a **arte plano 16x16** (prefiere arte normal en materiales y componentes pequeños; 3D solo en armas, armaduras y máquinas). Nuevo `tools/parts_art.py`: cristal cian en diagonal, resistencia beige en diagonal con bandas y patas, disco de cobre con cerámica, electrodo y cables. Se quitaron sus modelos 3D de `weapons_gen.py`.
+
+## 2026-11-09 — Claude — La cinetrita se ve como cristal, no como metal
+- **Cinetrita en Bruto**: trozo de roca con puntas de cristal cian (ya no el hierro en bruto teñido).
+- **Cristal de Cinetrita** (id `cinetrite_ingot`, se conserva para no romper recetas ni mundos): cristal tallado (prisma hexagonal con dos puntas y destello), ya no el lingote vanilla teñido.
+- Arte en `tools/parts_art.py`; se quitaron de `metals_gen.py` (OLD_INGOTS y en bruto) y de `client/MetalColors`.

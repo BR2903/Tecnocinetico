@@ -1,5 +1,5 @@
-"""Arte plano (16x16, estilo vanilla) de componentes y materiales pequeños: fragmento de cinetrita, Resistencia 330 Ω y
-Transductor Piezo-Cúprico. El usuario prefiere arte normal (no 3D) en estos objetos.
+"""Arte plano (16x16, estilo vanilla) de componentes y materiales pequeños: cinetrita (en bruto, cristal refinado y
+fragmento), Resistencia 330 Ω y Transductor Piezo-Cúprico. La cinetrita es un CRISTAL, no un metal: nada de lingotes. El usuario prefiere arte normal (no 3D) en estos objetos.
 
 python tools/parts_art.py      (desde forge-1.20.1-47.4.10-mdk)
 """
@@ -40,6 +40,48 @@ SHARD = [
     "................",
 ]
 SHARD_PAL = {"o": (14, 70, 86), "W": (230, 255, 255), "h": (150, 240, 252), "m": (70, 200, 228), "d": (34, 130, 160)}
+
+# cinetrita en bruto: trozo de roca con puntas de cristal cian saliendo (como una geoda partida)
+RAW_CINETRITE = [
+    "................",
+    "................",
+    "........o.......",
+    "...o...oWo......",
+    "..oWo..oWho..o..",
+    "..ohdo.oWhdooWo.",
+    "..ohdo.ohmdoohdo",
+    "..ohmdoohmdoohdo",
+    "..rohmdohmdohdr.",
+    ".rrRohmdmdohdRr.",
+    ".rRRRoddddoRRRr.",
+    ".rRgRRRoooRRgRr.",
+    ".rRRRgRRRRRRRRr.",
+    "..rrRRRRgRRRrr..",
+    "....rrrrrrrrr...",
+    "................",
+]
+RAW_CINETRITE_PAL = dict(SHARD_PAL, r=(38, 38, 44), R=(92, 92, 100), g=(128, 128, 138))
+
+# cristal de cinetrita (procesado): cristal tallado, prisma hexagonal con dos puntas, facetas y destello
+CINETRITE_CRYSTAL = [
+    "................",
+    ".......o........",
+    "......oWo...+...",
+    ".....oWWho.+*+..",
+    "....oWWhhmo.+...",
+    "....oWhhmdo.....",
+    "....oWhmmdo.....",
+    "....oWhmmdo.....",
+    "....oWhmmdo.....",
+    "....oWhmmdo.....",
+    "....ohhmmdo.....",
+    "....ohmmddo.....",
+    ".....ohmdo......",
+    "......omo.......",
+    ".......o........",
+    "................",
+]
+CINETRITE_CRYSTAL_PAL = dict(SHARD_PAL, **{"+": (120, 230, 250), "*": (240, 255, 255)})
 
 # resistencia de 330 Ω (dibujada por cálculo): cuerpo beige en diagonal con extremos abombados, bandas
 # naranja-naranja-marrón-dorado bien marcadas y patas de alambre
@@ -94,7 +136,9 @@ PIEZO_PAL = {"o": (86, 46, 24), "c": (176, 100, 56), "C": (214, 140, 84), "w": (
 
 
 def main():
-    for name, img in (("cinetrite_shard", draw(SHARD, SHARD_PAL)), ("resistor_330_ohm", resistor_img()),
+    for name, img in (("raw_cinetrite", draw(RAW_CINETRITE, RAW_CINETRITE_PAL)),
+                      ("cinetrite_ingot", draw(CINETRITE_CRYSTAL, CINETRITE_CRYSTAL_PAL)),   # id antiguo; es el Cristal de Cinetrita
+                      ("cinetrite_shard", draw(SHARD, SHARD_PAL)), ("resistor_330_ohm", resistor_img()),
                       ("piezo_transducer", draw(PIEZO, PIEZO_PAL))):
         img.save(A / f"textures/item/{name}.png")
         (A / f"models/item/{name}.json").write_text(json.dumps(

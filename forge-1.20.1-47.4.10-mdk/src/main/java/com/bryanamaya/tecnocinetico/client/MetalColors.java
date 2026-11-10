@@ -22,12 +22,10 @@ public final class MetalColors {
             Map.entry(ModItems.TIN_INGOT, 0xE4E8DE), Map.entry(ModItems.TIN_NUGGET, 0xE4E8DE), Map.entry(ModItems.RAW_TIN, 0xDAFFFF),
             Map.entry(ModItems.TITANIUM_INGOT, 0xC6C0E4), Map.entry(ModItems.TITANIUM_NUGGET, 0xC6C0E4), Map.entry(ModItems.RAW_TITANIUM, 0xB5CCFF),
             Map.entry(ModItems.URANIUM_INGOT, 0x9BE05A), Map.entry(ModItems.URANIUM_NUGGET, 0x9BE05A), Map.entry(ModItems.RAW_URANIUM, 0x85E367),
-            Map.entry(ModItems.CINETRITE_INGOT, 0x5AD7F0),
             Map.entry(ModItems.INERCITA_INGOT, 0x8492C4),
             Map.entry(ModItems.PIROXITE_INGOT, 0xF08A40),
             Map.entry(ModItems.NULLITE_INGOT, 0xBDAAF2),
             // en bruto (colores compensados por el tono beige del hierro en bruto)
-            Map.entry(ModItems.RAW_CINETRITE, 0x51EBFF),
             Map.entry(ModItems.RAW_PIROXITE, 0xED8146),
             Map.entry(ModItems.RAW_NULLITE, 0xB1A4FF));
 

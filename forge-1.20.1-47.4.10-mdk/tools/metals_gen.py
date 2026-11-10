@@ -353,7 +353,7 @@ def vanilla_tinted(name, vanilla):
     jw(A / f"models/item/{name}.json", {"parent": "minecraft:item/generated", "textures": {"layer0": f"minecraft:item/{vanilla}"}})
 
 
-OLD_INGOTS = ["cinetrite", "inercita", "piroxite", "nullite"]   # lingotes del mod que también pasan al lingote vanilla teñido
+OLD_INGOTS = ["inercita", "piroxite", "nullite"]   # lingotes del mod que también pasan al lingote vanilla teñido (la cinetrita no: es un cristal, ver parts_art.py)
 
 
 def gen_item(name):
@@ -493,7 +493,7 @@ def main():
             tag_add(D / f"forge/tags/items/{kind}.json", [f"#forge:{kind}/{name}"])
     for name in OLD_INGOTS:
         vanilla_tinted(f"{name}_ingot", "iron_ingot")
-    for name in ("cinetrite", "piroxite", "nullite"):                      # en bruto: el hierro en bruto vanilla teñido
+    for name in ("piroxite", "nullite"):                      # en bruto: el hierro en bruto vanilla teñido
         vanilla_tinted(f"raw_{name}", "raw_iron")
     for name in DUSTS:
         dust(name).save(T / f"item/{name}_dust.png")
