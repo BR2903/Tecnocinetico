@@ -847,9 +847,7 @@ if __name__ == "__main__":
         model(f"module_{mid}", parts, SMALL)
     model("scrap_machete", machete(), HANDHELD)
     model("shotgun_shell", shell(), SMALL)
-    model("cinetrite_shard", cinetrite_shard(), SMALL)
-    model("resistor_330_ohm", resistor(), SMALL)
-    model("piezo_transducer", piezo_transducer(), SMALL)
+    # fragmento, resistencia y transductor: arte plano (tools/parts_art.py; el usuario lo prefiere en estos objetos)
     model("rifle_round", rifle_round(), SMALL)
     flat = []                                                    # armaduras: modelo 3D de inventario en tools/armor3d_gen.py
     flat += ["inercita_plate", "precision_mechanism", "kinetic_servo", "ballistic_fabric"]          # tools/armor_t2_gen.py

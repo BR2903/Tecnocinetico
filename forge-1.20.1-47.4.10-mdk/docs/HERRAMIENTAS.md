@@ -157,3 +157,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/chamber_model_gen.py`: Cámara de Reacción 2x2x2 (usa el sistema de `reactor_model_gen.py` con su propio atlas), haz y kit.
 - `python tools/armor3d_gen.py [carpeta]`: armaduras 3D (modelos por pieza + texturas); con carpeta, vistas previas de cada set en un maniquí (`render_zbuffer.py <png> <carpeta>/<set>_preview.json 200 15 14`).
 - `python tools/press_model_gen.py`: Prensa Automática estilo Create (atlas, cuerpo, cabezal animado y modelo del objeto).
+
+## parts_art.py
+- `python tools/parts_art.py`: arte plano 16x16 (`item/generated`) del fragmento de cinetrita, la Resistencia 330 Ω y el Transductor Piezo-Cúprico. Materiales y componentes pequeños van en plano (preferencia del usuario).
