@@ -110,7 +110,7 @@ def head():
     """Cabezal + eje (el renderizador lo baja y lo sube): bloque 0..16 con el cabezal a la altura de reposo."""
     return [box([4, 9, 4], [12, 11, 12], "head", up="frame"),
             box([4.5, 8.4, 4.5], [11.5, 9, 11.5], "frame"),
-            box([7, 11, 7], [9, 16, 9], "shaft"),
+            box([7, 11, 7], [9, 15.5, 9], "shaft"),                                  # no llega a la tapa (parpadeaba)
             box([6.8, 10.8, 7.8], [9.2, 11.2, 8.2], "glow")]
 
 
