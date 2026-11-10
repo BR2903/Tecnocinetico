@@ -236,7 +236,7 @@ public class AmmoGameTests {
         inv.setStackInSlot(0, new ItemStack(ModItems.CORE_PROCESSOR.get(), 2));
         inv.setStackInSlot(1, new ItemStack(ModItems.INERCITA_PLATE.get(), 5));
         inv.setStackInSlot(2, new ItemStack(ModItems.PRECISION_MECHANISM.get(), 3));
-        inv.setStackInSlot(3, new ItemStack(net.minecraft.world.item.Items.IRON_INGOT, 10));
+        inv.setStackInSlot(3, new ItemStack(ModItems.TITANIUM_INGOT.get(), 6));          // pide 4: sobran 2
         inv.setStackInSlot(4, new ItemStack(ModItems.BALLISTIC_FABRIC.get(), 2));
         var recipe = com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.find(inv, 6);
         helper.assertTrue(recipe != null && recipe.output().is(ModItems.ASSAULT_RIFLE.get()), "El ensamblador no reconoce el fusil");
@@ -323,6 +323,7 @@ public class AmmoGameTests {
         inv.setStackInSlot(2, new ItemStack(ModItems.KINETIC_SERVO.get(), 2));
         inv.setStackInSlot(3, new ItemStack(ModItems.PRECISION_MECHANISM.get(), 2));
         inv.setStackInSlot(4, new ItemStack(ModItems.CINETRITE_INGOT.get(), 3));
+        inv.setStackInSlot(5, new ItemStack(ModItems.TITANIUM_INGOT.get(), 3));
         var r = com.bryanamaya.tecnocinetico.block.entity.AssemblerRecipes.find(inv, 6);
         helper.assertTrue(r != null && r.output().is(ModItems.CORE_CHESTPLATE.get()), "El ensamblador no reconoce la coraza del Núcleo");
 
