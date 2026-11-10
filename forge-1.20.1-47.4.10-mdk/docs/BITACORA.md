@@ -512,3 +512,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - **Cinetrita en Bruto**: trozo de roca con puntas de cristal cian (ya no el hierro en bruto teñido).
 - **Cristal de Cinetrita** (id `cinetrite_ingot`, se conserva para no romper recetas ni mundos): cristal tallado (prisma hexagonal con dos puntas y destello), ya no el lingote vanilla teñido.
 - Arte en `tools/parts_art.py`; se quitaron de `metals_gen.py` (OLD_INGOTS y en bruto) y de `client/MetalColors`.
+
+## 2026-11-09 — Claude — El mod es para multijugador
+- El usuario lo jugará con amigos. Revisión rápida: paquetes validados en el servidor, capacidades sincronizadas (entrar, reaparecer, dimensión, seguimiento), efectos de armas y máquinas enviados desde el servidor, menús con distancia, estado estático con clave por dimensión/UUID. No se encontraron fallos. Regla añadida en AGENTS.md §4 y DISENO.md.

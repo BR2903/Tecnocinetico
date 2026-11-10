@@ -24,6 +24,9 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 ## Preferencias del usuario (respetarlas)
 
+- **Se juega con amigos en multijugador**: cada sistema nuevo debe funcionar en servidor dedicado y tener sentido con varios jugadores (ver AGENTS.md §4).
+- **Arte plano** en materiales y componentes pequeños; 3D solo en armas, armaduras y máquinas. La cinetrita es un cristal, no un metal.
+
 - Habla español; responde y documenta en español.
 - **Estética de armas realista**, como los mods de armas realistas (TaCZ, Point Blank), **pero con identidad del mod**: acero pavonado, polímero, proporciones reales + detalles cinéticos discretos (cian de la Cinetrita, cobre, inercita azul-gris, marcas técnicas). Rechazó el estilo "caricaturesco".
 - Los detalles del mod en el arma están ligados a **las piezas de su receta** (acoplador, transductor/compensador, sustrato lógico en las cachas, cristales en el cargador). Le gustó ese enfoque.

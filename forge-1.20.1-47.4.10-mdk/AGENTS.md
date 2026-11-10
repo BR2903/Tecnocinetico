@@ -58,6 +58,7 @@ cmd /c ".\gradlew.bat runData 2>&1"               # regenera src/generated/resou
 
 ## 4. Reglas y convenciones
 
+- **El mod se juega en MULTIJUGADOR con amigos** (servidor dedicado o LAN). Todo debe funcionar en servidor: la lógica y el daño se deciden en el servidor (los paquetes del cliente solo piden, el servidor valida); efectos que otros deben ver (partículas, sonidos) con `ServerLevel.sendParticles` / `playSound(null, ...)`; datos por jugador (capacidades) sincronizados al entrar, reaparecer, cambiar de dimensión y a quien lo ve (`StartTracking`); nada de estado `static` compartido entre jugadores o mundos (si hace falta, clave por dimensión + posición o UUID y limpiarlo al salir); menús con `stillValid` por distancia. Pensar también en el balance para varios jugadores.
 - Registros con `DeferredRegister` y la constante `Tecnocinetico.MOD_ID` (no escribir `"tecnocinetico"` a mano).
 - `ResourceLocation.fromNamespaceAndPath(...)` (el constructor está obsoleto). El constructor del mod recibe `FMLJavaModLoadingContext`.
 - Código solo-cliente en `client/` y referenciado solo desde suscriptores `Dist.CLIENT` o `initializeClient`. Clases "de datos" compartidas (p. ej. `ClientSkillData`, `GunAnimState`) **no** importan clases de cliente.
