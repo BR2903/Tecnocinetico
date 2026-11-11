@@ -48,7 +48,8 @@ public final class CoreShots {
             end = block.getLocation();
         }
         EntityHitResult hit = ProjectileUtil.getEntityHitResult(shooter.level(), shooter, from, end, new AABB(from, end).inflate(1.0D),
-                e -> e instanceof LivingEntity && e != shooter && !ally.isInstance(e) && !e.isSpectator(), heavy ? 0.35F : 0.15F);
+                e -> e instanceof LivingEntity && e != shooter && !ally.isInstance(e)
+                        && !shooter.isAlliedTo(e) && !e.isSpectator(), heavy ? 0.35F : 0.15F);
         if (hit != null) {
             end = hit.getEntity().getBoundingBox().clip(from, end).orElse(hit.getEntity().getBoundingBox().getCenter());
             hit.getEntity().hurt(shooter.damageSources().mobProjectile(shooter, shooter), damage);   // bala: proyectil

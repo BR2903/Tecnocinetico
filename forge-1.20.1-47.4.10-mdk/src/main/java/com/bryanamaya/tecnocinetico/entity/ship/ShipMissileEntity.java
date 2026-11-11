@@ -46,7 +46,8 @@ public class ShipMissileEntity extends ThrowableItemProjectile {
 
     @Override
     protected boolean canHitEntity(Entity e) {
-        return super.canHitEntity(e) && !(e instanceof CoreFighterEntity) && !(e instanceof ShipMissileEntity);
+        return super.canHitEntity(e) && !(e instanceof CoreFighterEntity) && !(e instanceof ShipMissileEntity)
+                && (getOwner() == null || !getOwner().isAlliedTo(e));
     }
 
     @Override

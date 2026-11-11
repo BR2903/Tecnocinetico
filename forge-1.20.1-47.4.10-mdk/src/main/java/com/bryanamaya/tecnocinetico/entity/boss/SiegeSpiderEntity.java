@@ -171,6 +171,9 @@ public class SiegeSpiderEntity extends Monster {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (source.getEntity() instanceof DroneEntity) {
+            return false;
+        }
         if (level().isClientSide) {
             return super.hurt(source, amount);
         }
@@ -193,6 +196,18 @@ public class SiegeSpiderEntity extends Monster {
             playSound(ModSounds.SIEGE_ROAR.get(), 3.0F, 1.4F);
         }
         return hurt;
+    }
+
+    @Override
+    public boolean isAlliedTo(net.minecraft.world.entity.Entity other) {
+        return other instanceof DroneEntity || super.isAlliedTo(other);
+    }
+
+    @Override
+    public void setTarget(@Nullable LivingEntity target) {
+        if (target == null || !isAlliedTo(target)) {
+            super.setTarget(target);
+        }
     }
 
     /** 0 nada, 1 cargando disparo, 2 preparando pisotón, 3 cargando haz de arrastre, 4 desplomada (pata rota). */

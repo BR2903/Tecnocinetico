@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.custom;
 
+import com.bryanamaya.tecnocinetico.entity.boss.SiegeSpiderEntity;
 import com.bryanamaya.tecnocinetico.sound.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -104,6 +105,9 @@ public class DroneEntity extends Monster {
 
     /** Fija un objetivo (pruebas automáticas o alarma de otro dron). */
     public void engage(LivingEntity t) {
+        if (isAlliedTo(t)) {
+            return;
+        }
         if (getTarget() == null) {
             playSound(ModSounds.DRONE_ALERT.get(), 1.4F, 1.0F);
         }
@@ -303,11 +307,27 @@ public class DroneEntity extends Monster {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        // Incluye proyectiles y explosiones: getEntity devuelve al responsable del ataque.
+        if (source.getEntity() instanceof SiegeSpiderEntity) {
+            return false;
+        }
         boolean hurt = super.hurt(source, amount);
         if (hurt && source.getEntity() instanceof LivingEntity attacker && !(attacker instanceof DroneEntity)) {
             engage(attacker);
         }
         return hurt;
+    }
+
+    @Override
+    public boolean isAlliedTo(net.minecraft.world.entity.Entity other) {
+        return other instanceof SiegeSpiderEntity || super.isAlliedTo(other);
+    }
+
+    @Override
+    public void setTarget(@Nullable LivingEntity target) {
+        if (target == null || !isAlliedTo(target)) {
+            super.setTarget(target);
+        }
     }
 
     @Override

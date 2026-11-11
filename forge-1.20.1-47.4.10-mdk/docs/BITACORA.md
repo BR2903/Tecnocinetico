@@ -537,3 +537,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Revisadas las instrucciones, documentación, controles de red, disparo, menú común de máquinas y despliegue de estructuras. Sin cambios en las mecánicas.
 - Registrados en PENDIENTES dos fallos de validación del servidor: disparo normal que evita la carga del Rifle de Riel y cadencia automática que permite varios disparos de minigun en el mismo tick. Hallazgos por lectura de código; no reproducidos con un cliente modificado.
 - Validación: compileJava + runGameTestServer, 35 pruebas requeridas superadas y BUILD SUCCESSFUL; tools/check_models.py sin errores. Falta valoración visual y equilibrio jugando en supervivencia/multijugador.
+
+## 2026-11-10 — Codex — La Araña de Asedio y los drones no se atacan
+- Corregido el fuego entre jefe y drones: `isAlliedTo` mutuo, rechazo de objetivos aliados y bloqueo del daño atribuido a la otra entidad antes de aplicar daño o registrar represalias. Incluye las explosiones de los misiles del jefe y funciona también con drones ya existentes.
+- `CoreShots` ignora aliados al buscar impactos; `ShipMissileEntity` no colisiona con aliados de su propietario. Un dron interpuesto ya no recibe los tiros del jefe ni interrumpe su trayectoria hacia el enemigo, y viceversa.
+- GameTest `siegeSpiderAndDronesAreAllies`: daño cuerpo a cuerpo, balas, explosión atribuida al jefe, objetivos, agresor de represalia, disparos con aliados interpuestos en ambos sentidos y vulnerabilidad al jugador. `compileJava` correcto y las 36 pruebas requeridas de `runGameTestServer` superadas.
