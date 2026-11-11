@@ -18,7 +18,6 @@ def human(corrupted):
         elif "arm" in name: r.cube(name,"skin_arm",(-1 if name=="left_arm" else -3,-2,-2),(4,12,4))
         else: r.cube(name,"skin_leg",(-2,0,-2),(4,12,4))
     if corrupted:
-        panel(r,"cheekImplant","head",(-2.8,-2.5,-4.5),(3,4,2),(0,0,-.14),"human_metal")
         panel(r,"clavicle","body",(2.8,1.5,-2.7),(4,2,2),(0,0,-.4),"human_metal")
         panel(r,"ribCable","body",(2,5.5,-2.8),(1,7,1),(0,0,.25),"human_copper")
         panel(r,"infectedShoulder","left_arm",(1,-2,0),(5,3,5),(0,0,-.2),"human_fiber")

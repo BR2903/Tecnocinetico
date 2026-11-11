@@ -166,8 +166,9 @@ def turret():
     r.cube("base","copper",(-2,-8,-2),(4,6,4))
     for i in range(3):
         a=i*math.pi*2/3
-        p=panel(r,f"stabilizer{i}","base",(math.sin(a)*5,-1,math.cos(a)*5),(3,2,7),(0,a,0),"dark")
-        r.cube(p,"copper",(-1,-1,-3),(2,2,1))
+        # Los soportes se encastran dentro del espesor de la placa, sin caras coplanares.
+        p=panel(r,f"stabilizer{i}","base",(math.sin(a)*5,-.8,math.cos(a)*5),(3,1.2,7),(0,a,0),"dark")
+        r.cube(p,"copper",(-1,-.8,-3),(2,1,1))
     r.part("head","root",(0,12,0))
     r.cube("head","armor",(-4,-3,-4),(8,6,9))
     for i,side in enumerate((-1,1)):
@@ -209,6 +210,11 @@ def corrupted_spider():
     r=Rig(); r.part("body","root",(0,17,3))
     r.cube("body","fiber",(-5,-3,-2),(10,6,12))
     for i,z in enumerate((0,4,8)): panel(r,f"shell{i}","body",(0,-3.5,z),(11-i,2,5),(-.05*i,0,0))
+    # Cefalotórax continuo: incluye los ocho anclajes incluso al levantar las patas.
+    # Se solapa con el abdomen y con la cabeza en su pivote de giro.
+    r.part("thorax","root",(0,17,-2))
+    r.cube("thorax","fiber",(-4.5,-2.5,-4.5),(9,5,9))
+    panel(r,"thoraxPlate","thorax",(0,-2.5,0),(8,1.5,7))
     r.part("head","root",(0,17,-5))
     r.cube("head","fiber",(-3,-2.5,-4),(6,5,6))
     for x in (-2,0,2): r.cube("head","glow",(x-.5,-1,-4.7),(1,1,1))

@@ -1,8 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.SpiderModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -11,8 +9,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.Spider;
 
 /**
- * Arañas Corruptas (normal x1,15 y de cueva x0,8): modelo vanilla de araña con textura propia
- * (tools/corrupted_spider_texture.py) y capa luminosa de ojos y cristales.
+ * Arañas Corruptas (normal x1,15 y de cueva x0,8): rig propio con cefalotórax continuo
+ * (tools/mob_remodel_rigs.py) y capa luminosa de ojos.
  */
 public class CorruptedSpiderRenderer extends MobRenderer<Spider, CorruptedSpiderModel> {
 
