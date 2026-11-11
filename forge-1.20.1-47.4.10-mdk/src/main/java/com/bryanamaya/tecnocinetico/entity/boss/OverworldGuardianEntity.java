@@ -43,6 +43,8 @@ public class OverworldGuardianEntity extends Monster {
     @Nullable private BlockPos console;
     @Nullable private BlockPos home;
     private int cooldown = 40, charge, attacks, lonely, stun, rushing, volley, volleyTimer;
+    private int retreatTicks, summonCooldown = 80;
+    private final java.util.Set<java.util.UUID> minions = new java.util.HashSet<>();
     private final float[] capacitorDamage = new float[2];
     private final java.util.Set<java.util.UUID> rushed = new java.util.HashSet<>();
     private Vec3 lock = Vec3.ZERO;
@@ -60,6 +62,7 @@ public class OverworldGuardianEntity extends Monster {
     public int mode() { return entityData.get(MODE); }
     public boolean capacitorBroken(int i) { return (entityData.get(BROKEN) & (1 << i)) != 0; }
     public boolean stunned() { return isWatcher() && stun > 0; }
+    public boolean ownsMinion(java.util.UUID id) { return minions.contains(id); }
     public int phase() { return getHealth() > getMaxHealth() * .6F ? 1 : getHealth() > getMaxHealth() * .3F ? 2 : 3; }
     public void setConsole(BlockPos p) { console = p; home = blockPosition(); }
 
@@ -93,6 +96,10 @@ public class OverworldGuardianEntity extends Monster {
         if (source.getEntity() != null && isAlliedTo(source.getEntity())) return false;
         int capacitor = isWatcher() && !stunned() ? capacitorHit(source) : -1;
         boolean hurt = super.hurt(source, stunned() ? amount * 1.5F : amount);
+        if (hurt && isWatcher() && !stunned() && source.getEntity() instanceof Player player && enemy(player)) {
+            setTarget(player);
+            if (distanceTo(player) < 6) { retreatTicks = 50; cooldown = Math.min(cooldown, 10); }
+        }
         if (hurt && capacitor >= 0 && isAlive()) {
             capacitorDamage[capacitor] += amount;
             if (capacitorDamage[capacitor] >= 24) {
@@ -168,21 +175,13 @@ public class OverworldGuardianEntity extends Monster {
             charge = 0; rushing = 0; volley = 0;
             entityData.set(MODE, (byte) 0);
             getNavigation().stop();
-            if (isWatcher()) setDeltaMovement(Vec3.atCenterOf(home).subtract(position()).scale(.035));
+            if (isWatcher()) watcherFlight(null);
             return;
         }
         getLookControl().setLookAt(t, 25, 25);
-        boolean special = attacks % (isWatcher() ? 3 : 2) == (isWatcher() ? 2 : 1);
-        if (volley > 0) {
-            if (--volleyTimer <= 0) {
-                CoreShots.fire(this, getEyePosition(), lock.subtract(getEyePosition()), 56, 18 + phase() * 2, 0,
-                        OverworldGuardianEntity.class, true);
-                volley--; volleyTimer = 4;
-                playSound(ModSounds.PISTOL_FIRE.get(), 2, .7F);
-                if (volley == 0) finishAttack();
-            }
-            return;
-        }
+        if (isWatcher()) { watcherFlight(t); watcherCombat(server, t); return; }
+        tickMinions(server);
+        boolean special = attacks % 2 == 1;
         if (rushing > 0) {
             rushing--;
             for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(.8), this::enemy))
@@ -195,23 +194,14 @@ public class OverworldGuardianEntity extends Monster {
         if (charge > 0) {
             charge++;
             getNavigation().stop();
-            if (isWatcher()) setDeltaMovement(getDeltaMovement().scale(.7));
-            int preparation = isWatcher() ? 26 - phase() * 2 : 24 - phase() * 2;
+            int preparation = 24 - phase() * 2;
             if (charge <= preparation - 10) lock = CoreShots.aimPoint(t);
             if (!special) CoreShots.laser(this, getEyePosition(), lock);
             else if (charge % 2 == 0) {
-                if (isWatcher()) ring(server, pulseCenter(), 10, ParticleTypes.ELECTRIC_SPARK);
-                else for (Vec3 p : bombardmentCenters()) ring(server, p, 5.5, ParticleTypes.ELECTRIC_SPARK);
+                for (Vec3 p : bombardmentCenters()) ring(server, p, 5.5, ParticleTypes.ELECTRIC_SPARK);
             }
             if (charge >= preparation) {
-                if (isWatcher()) {
-                    if (special) {
-                        // Pulso: castiga estar cerca; la zona se avisa antes de descargar.
-                        ring(server, pulseCenter(), 10, ParticleTypes.EXPLOSION);
-                        areaDamage(pulseCenter(), 10, 20 + phase() * 2);
-                        finishAttack();
-                    } else { volley = phase() == 3 ? 4 : 3; volleyTimer = 0; charge = 0; }
-                } else if (special) {
+                if (special) {
                     // Tres impactos simultáneos, cada uno marcado durante la preparación.
                     for (Vec3 p : bombardmentCenters()) {
                         ring(server, p, 5.5, ParticleTypes.EXPLOSION);
@@ -223,23 +213,155 @@ public class OverworldGuardianEntity extends Monster {
                     setDeltaMovement(dir.scale(1.5).add(0, .1, 0));
                     rushed.clear(); rushing = 14; charge = 0;
                 }
-                playSound(ModSounds.ANCHOR_STOMP.get(), 2.5F, isWatcher() ? 1.4F : .65F);
+                playSound(ModSounds.ANCHOR_STOMP.get(), 2.5F, .65F);
             }
             return;
         }
         if (cooldown > 0) cooldown--;
-        if (isWatcher()) {
-            Vec3 anchor = Vec3.atCenterOf(home);
-            double angle = tickCount * .025;
-            Vec3 want = anchor.add(Math.cos(angle) * 9, 2 + Math.sin(tickCount * .06), Math.sin(angle) * 9);
-            setDeltaMovement(getDeltaMovement().lerp(want.subtract(position()).scale(.06), .15));
-        } else if (distanceTo(t) > 4) getNavigation().moveTo(t, 1.25);
+        if (distanceTo(t) > 4) getNavigation().moveTo(t, 1.25);
         else getNavigation().stop();
-        if (cooldown <= 0 && hasLineOfSight(t) && (isWatcher() || distanceTo(t) < 20)) {
+        if (cooldown <= 0 && hasLineOfSight(t) && distanceTo(t) < 20) {
             charge = 1; lock = CoreShots.aimPoint(t);
             entityData.set(MODE, (byte) (special ? 2 : 1));
-            playSound(ModSounds.SENTRY_TURRET_CHARGE.get(), 2, isWatcher() ? 1 : .65F);
+            playSound(ModSounds.SENTRY_TURRET_CHARGE.get(), 2, .65F);
         }
+    }
+
+    /** Mantiene altura y separación también durante cargas y salvas: nunca se queda a esperar junto al jugador. */
+    private void watcherFlight(@Nullable LivingEntity target) {
+        Vec3 anchor = Vec3.atCenterOf(home);
+        double floor = home.getY() - (console == null ? 0 : 4);
+        Vec3 want;
+        if (target == null) {
+            want = new Vec3(anchor.x, floor + 8, anchor.z);
+        } else {
+            if (retreatTicks > 0) retreatTicks--;
+            Vec3 away = position().subtract(target.position()).multiply(1, 0, 1);
+            double angle = away.lengthSqr() < .1 ? tickCount * .04 : Math.atan2(away.z, away.x) + .12;
+            double radius = retreatTicks > 0 || away.lengthSqr() < 100 ? 16 : 12;
+            Vec3 horizontal = target.position().add(Math.cos(angle) * radius, 0, Math.sin(angle) * radius)
+                    .subtract(anchor).multiply(1, 0, 1);
+            if (horizontal.length() > 28) horizontal = horizontal.normalize().scale(28);
+            want = new Vec3(anchor.x + horizontal.x, Math.max(floor + 8, target.getY() + 7) + Math.sin(tickCount * .06),
+                    anchor.z + horizontal.z);
+        }
+        Vec3 delta = want.subtract(position());
+        Vec3 velocity = delta.lengthSqr() < .01 ? Vec3.ZERO : delta.normalize().scale(Math.min(.65, delta.length() * .15));
+        if (!level().noCollision(this, getBoundingBox().move(velocity.scale(3)))) {
+            Vec3 evade = new Vec3(-velocity.z, .55, velocity.x);
+            velocity = level().noCollision(this, getBoundingBox().move(evade.scale(3))) ? evade
+                    : new Vec3(velocity.z, .55, -velocity.x);
+        }
+        setDeltaMovement(getDeltaMovement().lerp(velocity, .25));
+    }
+
+    /** Ciclo visible de cuatro ataques distintos; los objetivos se fijan antes de impactar para poder esquivarlos. */
+    private void watcherCombat(ServerLevel server, LivingEntity target) {
+        int kind = Math.floorMod(attacks, 4); // ráfaga, bombardeo, barrido y EMP
+        if (volley > 0) {
+            if (kind == 0 && volleyTimer > 5) lock = CoreShots.aimPoint(target);
+            Vec3 aim = kind == 2 ? sweepPoint() : lock;
+            if (tickCount % 2 == 0) CoreShots.laser(this, getEyePosition(), aim);
+            if (--volleyTimer <= 0) {
+                CoreShots.fire(this, getEyePosition(), aim.subtract(getEyePosition()), 56, 14 + phase() * 2, 0,
+                        OverworldGuardianEntity.class, true);
+                playSound(ModSounds.PISTOL_FIRE.get(), 2, kind == 2 ? 1.3F : .7F);
+                volley--; volleyTimer = kind == 2 ? 3 : 10;
+                if (volley == 0) finishAttack();
+            }
+            return;
+        }
+        if (charge > 0) {
+            charge++;
+            int preparation = kind == 3 ? 30 : 26 - phase() * 2;
+            if (kind != 3 && charge <= (kind == 1 ? 6 : preparation - 10)) lock = CoreShots.aimPoint(target);
+            if (tickCount % 2 == 0) {
+                if (kind == 0 || kind == 2) {
+                    CoreShots.laser(this, getEyePosition(), lock);
+                    if (kind == 2) for (int side : new int[]{-1, 1})
+                        CoreShots.laser(this, getEyePosition(), getEyePosition().add(lock.subtract(getEyePosition()).yRot(side * .52F)));
+                } else if (kind == 1) {
+                    for (Vec3 p : watcherBombardment()) ring(server, p, 3, ParticleTypes.FLAME);
+                } else ring(server, lock, 6, ParticleTypes.ELECTRIC_SPARK);
+            }
+            if (charge >= preparation) {
+                if (kind == 0 || kind == 2) {
+                    volley = kind == 2 ? (phase() == 3 ? 9 : 7) : (phase() == 3 ? 4 : 3);
+                    volleyTimer = 8; charge = 0;
+                } else {
+                    if (kind == 1) for (Vec3 p : watcherBombardment()) {
+                        ring(server, p, 3, ParticleTypes.EXPLOSION);
+                        areaDamage(p, 3, 18 + phase() * 2);
+                    }
+                    else {
+                        ring(server, lock, 6, ParticleTypes.EXPLOSION);
+                        for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, new AABB(lock, lock).inflate(6), this::enemy))
+                            if (e.distanceToSqr(lock) < 36 && hasLineOfSight(e)
+                                    && e.hurt(damageSources().mobAttack(this), 16 + phase() * 2))
+                                e.addEffect(new net.minecraft.world.effect.MobEffectInstance(
+                                        com.bryanamaya.tecnocinetico.effect.ModEffects.INERTIA_ANCHOR.get(), 40), this);
+                    }
+                    playSound(ModSounds.ANCHOR_STOMP.get(), 3, kind == 3 ? 1.4F : .8F);
+                    finishAttack();
+                }
+            }
+            return;
+        }
+        if (cooldown > 0) cooldown--;
+        if (cooldown <= 0 && hasLineOfSight(target)) {
+            charge = 1; lock = CoreShots.aimPoint(target);
+            entityData.set(MODE, (byte) (kind == 0 ? 1 : kind == 1 ? 2 : kind == 2 ? 4 : 5));
+            playSound(ModSounds.SENTRY_TURRET_CHARGE.get(), 2, kind == 3 ? .6F : 1.1F);
+        }
+    }
+    private Vec3 sweepPoint() {
+        int total = phase() == 3 ? 9 : 7;
+        float angle = -.52F + 1.04F * (total - volley) / (total - 1);
+        return getEyePosition().add(lock.subtract(getEyePosition()).normalize().yRot(angle).scale(56));
+    }
+    private java.util.List<Vec3> watcherBombardment() {
+        return java.util.List.of(lock.add(-3, 0, -2), lock.add(3, 0, -2), lock.add(0, 0, 3));
+    }
+
+    private void tickMinions(ServerLevel server) {
+        minions.removeIf(id -> !(server.getEntity(id) instanceof MatriarchMinionEntity m) || !m.isAlive());
+        if (--summonCooldown > 0) {
+            if (summonCooldown <= 20 && summonCooldown % 4 == 0)
+                ring(server, position(), 4, ParticleTypes.ELECTRIC_SPARK);
+            return;
+        }
+        int remaining = Math.min(phase() + 1, 6 - minions.size());
+        for (int attempt = 0; attempt < 32 && remaining > 0; attempt++) {
+            double angle = attempt * Math.PI / 8 + random.nextDouble() * .2;
+            int x = (int) Math.floor(getX() + Math.cos(angle) * 4), z = (int) Math.floor(getZ() + Math.sin(angle) * 4);
+            for (int dy : new int[]{0, 1, -1, 2, -2}) {
+                BlockPos p = new BlockPos(x, (int) Math.floor(getY()) + dy, z);
+                if (!level().hasChunkAt(p) || !level().getWorldBorder().isWithinBounds(p)
+                        || !level().getBlockState(p.below()).isFaceSturdy(level(), p.below(), net.minecraft.core.Direction.UP)) continue;
+                var minion = ModEntities.MATRIARCH_MINION.get().create(level());
+                if (minion == null) continue;
+                minion.moveTo(x + .5, p.getY(), z + .5, random.nextFloat() * 360, 0);
+                if (!level().noCollision(minion) || !level().getEntities(minion, minion.getBoundingBox(), e -> e.isAlive()
+                        && !(e instanceof net.minecraft.world.entity.item.ItemEntity)
+                        && !(e instanceof net.minecraft.world.entity.ExperienceOrb)).isEmpty()) continue;
+                minion.finalizeSpawn(server, server.getCurrentDifficultyAt(p), net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null, null);
+                minion.bind(this);
+                if (server.addFreshEntity(minion)) {
+                    minions.add(minion.getUUID()); remaining--;
+                    server.sendParticles(ParticleTypes.SMOKE, x + .5, p.getY() + .3, z + .5, 12, .3, .3, .3, .04);
+                }
+                break;
+            }
+        }
+        summonCooldown = 280 - phase() * 40; // 12 / 10 / 8 s, sin tocar los ataques actuales de la Matriarca
+        playSound(ModSounds.SWARM_BODY_AMBIENT.get(), 2, 1.4F);
+    }
+    private void clearMinions() {
+        if (level() instanceof ServerLevel server) for (var id : minions) {
+            Entity e = server.getEntity(id);
+            if (e instanceof MatriarchMinionEntity) e.discard();
+        }
+        minions.clear();
     }
 
     private void finishAttack() {
@@ -250,7 +372,6 @@ public class OverworldGuardianEntity extends Monster {
     private java.util.List<Vec3> bombardmentCenters() {
         return java.util.List.of(lock, lock.add(5, 0, 0), lock.add(-5, 0, 0));
     }
-    private Vec3 pulseCenter() { return new Vec3(getX(), home.getY() - 4, getZ()); }
     private void areaDamage(Vec3 center, double radius, float damage) {
         for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, new AABB(center, center).inflate(radius), this::enemy)) {
             if (e.distanceToSqr(center) < radius * radius && hasLineOfSight(e)) e.hurt(damageSources().mobAttack(this), damage);
@@ -266,10 +387,12 @@ public class OverworldGuardianEntity extends Monster {
         if (isWatcher()) move(MoverType.SELF, getDeltaMovement()); else super.travel(input);
     }
     @Override public void die(DamageSource source) {
+        clearMinions();
         super.die(source);
         if (!level().isClientSide && console != null && level().getBlockEntity(console) instanceof CoreConsoleBlockEntity c) c.defeated();
     }
     @Override public void remove(RemovalReason reason) {
+        if (reason == RemovalReason.DISCARDED || reason == RemovalReason.KILLED) clearMinions();
         if (reason == RemovalReason.DISCARDED && !level().isClientSide && console != null
                 && level().getBlockEntity(console) instanceof CoreConsoleBlockEntity c && c.isActive()) c.reset();
         super.remove(reason);
@@ -283,6 +406,10 @@ public class OverworldGuardianEntity extends Monster {
         tag.putFloat("Capacitor0", capacitorDamage[0]); tag.putFloat("Capacitor1", capacitorDamage[1]);
         tag.putInt("Stun", stun);
         tag.putInt("GuardianBalance", 2);
+        tag.putInt("SummonCooldown", summonCooldown);
+        tag.putInt("MinionCount", minions.size());
+        int i = 0;
+        for (var id : minions) tag.putUUID("Minion" + i++, id);
     }
     @Override public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
@@ -299,6 +426,10 @@ public class OverworldGuardianEntity extends Monster {
         if (tag.contains("Console")) console = NbtUtils.readBlockPos(tag.getCompound("Console"));
         if (tag.contains("Home")) home = NbtUtils.readBlockPos(tag.getCompound("Home"));
         attacks = tag.getInt("Attacks");
+        summonCooldown = tag.contains("SummonCooldown") ? Math.max(1, Math.min(240, tag.getInt("SummonCooldown"))) : 80;
+        minions.clear();
+        for (int i = 0; i < Math.min(6, tag.getInt("MinionCount")); i++)
+            if (tag.hasUUID("Minion" + i)) minions.add(tag.getUUID("Minion" + i));
         entityData.set(BROKEN, isWatcher() ? tag.getByte("BrokenCapacitors") : 0);
         capacitorDamage[0] = tag.getFloat("Capacitor0"); capacitorDamage[1] = tag.getFloat("Capacitor1");
         stun = isWatcher() ? Math.max(0, Math.min(60, tag.getInt("Stun"))) : 0;

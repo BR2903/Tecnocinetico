@@ -76,6 +76,7 @@ public class Tecnocinetico {
         public static void registerAttributes(EntityAttributeCreationEvent event) {
             event.put(ModEntities.NETWORK_WATCHER.get(), com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity.attributes(true).build());
             event.put(ModEntities.SWARM_MATRIARCH.get(), com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity.attributes(false).build());
+            event.put(ModEntities.MATRIARCH_MINION.get(), com.bryanamaya.tecnocinetico.entity.boss.MatriarchMinionEntity.attributes().build());
             event.put(ModEntities.SWARM_BODY.get(), SwarmBodyEntity.createAttributes().build());
             event.put(ModEntities.SWARM_WASP.get(), com.bryanamaya.tecnocinetico.entity.swarm.SwarmWaspEntity.createAttributes().build());
             event.put(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.swarm.HiveNodeEntity.createAttributes().build());
@@ -280,6 +281,7 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.SIEGE_SPIDER.get(), com.bryanamaya.tecnocinetico.entity.client.SiegeSpiderRenderer::new);
             event.registerEntityRenderer(ModEntities.NETWORK_WATCHER.get(), ctx -> new com.bryanamaya.tecnocinetico.entity.client.OverworldGuardianRenderer(ctx, true));
             event.registerEntityRenderer(ModEntities.SWARM_MATRIARCH.get(), ctx -> new com.bryanamaya.tecnocinetico.entity.client.OverworldGuardianRenderer(ctx, false));
+            event.registerEntityRenderer(ModEntities.MATRIARCH_MINION.get(), com.bryanamaya.tecnocinetico.entity.client.MatriarchMinionRenderer::new);
             event.registerEntityRenderer(ModEntities.GUIDED_ROCKET.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
             event.registerEntityRenderer(ModEntities.ANCHOR.get(), com.bryanamaya.tecnocinetico.entity.client.AnchorRenderer::new);
             event.registerEntityRenderer(ModEntities.CORRUPTED.get(), com.bryanamaya.tecnocinetico.entity.client.CorruptedHumanRenderer::new);

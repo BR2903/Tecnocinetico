@@ -20,7 +20,7 @@ public class OverworldGuardianRenderer extends MobRenderer<OverworldGuardianEnti
         addLayer(new RenderLayer<>(this) {
             @Override public void render(PoseStack pose, MultiBufferSource buffers, int light, OverworldGuardianEntity e,
                     float swing, float amount, float partial, float age, float yaw, float pitch) {
-                String suffix = e.mode() == 3 ? "_exposed" : (e.mode() == 1 || e.mode() == 2) && e.tickCount % 4 < 2 ? "_charge" : "_glow";
+                String suffix = e.mode() == 3 ? "_exposed" : e.mode() != 0 && e.tickCount % 4 < 2 ? "_charge" : "_glow";
                 getParentModel().renderToBuffer(pose, buffers.getBuffer(RenderType.eyes(tex(id + suffix))), 15728640,
                         OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
             }

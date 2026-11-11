@@ -559,5 +559,6 @@
   "item.tecnocinetico.vector_thruster": "Vector Thruster",
   "item.tecnocinetico.adaptive_flight_core": "Adaptive Flight Core",
   "tooltip.tecnocinetico.vector_thruster": "Core Fighter component. Recovered from the Network Watcher.",
-  "tooltip.tecnocinetico.adaptive_flight_core": "Core Fighter component. Recovered from the Swarm Matriarch."
+  "tooltip.tecnocinetico.adaptive_flight_core": "Core Fighter component. Recovered from the Swarm Matriarch.",
+  "entity.tecnocinetico.matriarch_minion": "Matriarch Broodling"
 }

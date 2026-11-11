@@ -59,6 +59,6 @@ MATRIARCH_PARTS
             body.getChild("abdomen").yScale = 1 + Mth.sin(age * .1F) * .025F;
             if (e.mode() == 1) body.xRot = .08F;
         }
-        if (e.mode() == 1 || e.mode() == 2) body.x += Mth.sin(age * 3) * .1F;
+        if (e.mode() != 0 && e.mode() != 3) body.x += Mth.sin(age * 3) * .1F;
     }
 }

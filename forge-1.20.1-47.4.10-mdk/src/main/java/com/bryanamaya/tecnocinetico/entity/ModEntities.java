@@ -154,4 +154,8 @@ public class ModEntities {
             ENTITY_TYPES.register("swarm_matriarch", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity>of(
                     com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity::new, MobCategory.MONSTER)
                     .sized(3.8F, 2.6F).fireImmune().clientTrackingRange(12).build("swarm_matriarch"));
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.boss.MatriarchMinionEntity>> MATRIARCH_MINION =
+            ENTITY_TYPES.register("matriarch_minion", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.boss.MatriarchMinionEntity>of(
+                    com.bryanamaya.tecnocinetico.entity.boss.MatriarchMinionEntity::new, MobCategory.MONSTER)
+                    .sized(.54F, .54F).clientTrackingRange(8).build("matriarch_minion"));
 }

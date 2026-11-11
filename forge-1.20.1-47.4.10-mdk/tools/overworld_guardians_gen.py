@@ -73,12 +73,14 @@ def main():
     components()
     for locale, values in {
         "es_es": {"entity.tecnocinetico.network_watcher": "Vigía de la Red", "entity.tecnocinetico.swarm_matriarch": "Matriarca del Enjambre",
+                  "entity.tecnocinetico.matriarch_minion": "Cría de la Matriarca",
                   "item.tecnocinetico.network_watcher_spawn_egg": "Huevo de Vigía de la Red", "item.tecnocinetico.swarm_matriarch_spawn_egg": "Huevo de Matriarca del Enjambre",
                   "message.tecnocinetico.guardian_wake": "%s ha despertado.",
                   "item.tecnocinetico.vector_thruster": "Propulsor Vectorial", "item.tecnocinetico.adaptive_flight_core": "Núcleo de Vuelo Adaptativo",
                   "tooltip.tecnocinetico.vector_thruster": "Componente del Caza del Núcleo. Recuperado del Vigía de la Red.",
                   "tooltip.tecnocinetico.adaptive_flight_core": "Componente del Caza del Núcleo. Recuperado de la Matriarca del Enjambre."},
         "en_us": {"entity.tecnocinetico.network_watcher": "Network Watcher", "entity.tecnocinetico.swarm_matriarch": "Swarm Matriarch",
+                  "entity.tecnocinetico.matriarch_minion": "Matriarch Broodling",
                   "item.tecnocinetico.network_watcher_spawn_egg": "Network Watcher Spawn Egg", "item.tecnocinetico.swarm_matriarch_spawn_egg": "Swarm Matriarch Spawn Egg",
                   "message.tecnocinetico.guardian_wake": "%s has awakened.",
                   "item.tecnocinetico.vector_thruster": "Vector Thruster", "item.tecnocinetico.adaptive_flight_core": "Adaptive Flight Core",

@@ -18,6 +18,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 **Dificultad, debilidades y caza (usuario, 2026-11-10):** Araña < Vigía < Matriarca. El Vigía debe tener una debilidad aprovechable como la Araña; la Matriarca no debe tener puntos débiles ni exposición automática. Los dos deben mejorar visualmente y soltar un componente exclusivo para el futuro crafteo del caza: Propulsor Vectorial (Vigía) y Núcleo de Vuelo Adaptativo (Matriarca), además del Motor Dimensional existente (Araña). La receta del caza sigue pendiente.
 
+**Prueba jugando (usuario, 2026-11-10):** la dificultad base de la Matriarca está bien; añadir mini enemigos que invoque. El Vigía resultó demasiado fácil (se pudo matar con espada de madera y parecía tener un solo ataque): corregir vuelo, separación y variedad de ataques, manteniendo su debilidad trasera. No solucionar la queja únicamente aumentando su vida.
+
 ## Dirección del proyecto (decidida por el usuario)
 
 - **Complemento de Create.** Las máquinas automáticas funcionan con **electricidad de Create Crafts & Additions** (Forge Energy). **No** usar la rotación/energía cinética de Create como fuente de energía de nuestras máquinas.

@@ -18,6 +18,94 @@ import net.minecraftforge.gametest.PrefixGameTestTemplate;
 @GameTestHolder(Tecnocinetico.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class GuardianGameTests {
+    /** Persigue al Vigía desde debajo como un atacante cuerpo a cuerpo: debe volar y completar sus cuatro ataques. */
+    @GameTest(template = "empty", timeoutTicks = 560, batch = "vigia_vuelo")
+    public static void watcherKeepsFlyingAndVariesAttacks(GameTestHelper h) {
+        var level = h.getLevel();
+        BlockPos p = air(h);
+        var watcher = ModEntities.NETWORK_WATCHER.get().create(level);
+        watcher.moveTo(p, 0, 0); // como un huevo sobre el suelo: no regalar altura inicial a la prueba
+        level.addFreshEntity(watcher);
+        var target = EntityType.PIG.create(level);
+        target.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(2000);
+        target.setHealth(2000); target.setNoAi(true); target.setNoGravity(true);
+        target.moveTo(p.offset(3, 0, 0), 0, 0); level.addFreshEntity(target);
+        watcher.setTarget(target);
+        var seen = new java.util.HashSet<Integer>();
+        double[] lowest = {Double.MAX_VALUE};
+        boolean[] hit = {false};
+        for (int tick = 1; tick < 500; tick++) {
+            int time = tick;
+            h.runAfterDelay(tick, () -> {
+                if (watcher.mode() != 0) seen.add(watcher.mode());
+                if (target.getHealth() < target.getMaxHealth() && target.getLastHurtByMob() == watcher) hit[0] = true;
+                // Simular que el atacante lo sigue en el suelo, incluso mientras el jefe carga o dispara.
+                if (time > 120) {
+                    var delta = watcher.position().subtract(target.position()).multiply(1, 0, 1);
+                    if (delta.length() > .28) delta = delta.normalize().scale(.28);
+                    target.setPos(target.getX() + delta.x, p.getY(), target.getZ() + delta.z);
+                }
+                if (time > 100) lowest[0] = Math.min(lowest[0], watcher.getY() - target.getY());
+            });
+        }
+        h.runAfterDelay(500, () -> {
+            boolean alive = watcher.isAlive();
+            watcher.discard(); target.discard();
+            h.assertTrue(alive && lowest[0] > 5, "El Vigía bajó a distancia de espada durante un ataque: altura " + lowest[0]);
+            h.assertTrue(seen.containsAll(java.util.Set.of(1, 2, 4, 5)), "No se observaron ráfaga, bombardeo, barrido y EMP: " + seen);
+            h.assertTrue(hit[0], "El Vigía voló y animó ataques, pero no logró dañar al objetivo real");
+            h.succeed();
+        });
+    }
+
+    /** Invocación real, alianzas, guardado, límite de seis y limpieza al morir la Matriarca. */
+    @GameTest(template = "empty", timeoutTicks = 520, batch = "matriarca_refuerzos")
+    public static void matriarchSummonsAlliedBrood(GameTestHelper h) {
+        var level = h.getLevel();
+        BlockPos p = air(h);
+        for (int x = -16; x <= 16; x++) for (int z = -16; z <= 16; z++)
+            level.setBlock(p.offset(x, -1, z), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
+        var mother = ModEntities.SWARM_MATRIARCH.get().create(level);
+        mother.moveTo(p, 0, 0); mother.setHealth(250); level.addFreshEntity(mother);
+        var target = EntityType.PIG.create(level);
+        target.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(20000);
+        target.setHealth(20000); target.setNoAi(true); target.setNoGravity(true);
+        target.moveTo(p.offset(4, 0, 0), 0, 0); level.addFreshEntity(target);
+        mother.setTarget(target);
+        h.runAfterDelay(110, () -> {
+            var brood = level.getEntitiesOfClass(com.bryanamaya.tecnocinetico.entity.boss.MatriarchMinionEntity.class,
+                    new AABB(p).inflate(30), m -> mother.ownsMinion(m.getUUID()));
+            h.assertTrue(!brood.isEmpty() && brood.size() <= 6, "La Matriarca no invocó crías o excedió el límite");
+            var child = brood.get(0);
+            h.assertTrue(child.isAlliedTo(mother) && mother.isAlliedTo(child), "Las crías no reconocen a su madre como aliada");
+            h.assertFalse(child.hurt(level.damageSources().mobAttack(mother), 100), "La madre puede matar a sus crías");
+            h.assertFalse(mother.hurt(level.damageSources().mobAttack(child), 100), "Una cría puede herir a su madre");
+            child.setTarget(mother);
+            h.assertTrue(child.getTarget() != mother, "La cría puede elegir como objetivo a la Matriarca");
+            h.assertTrue(child.getLootTable().equals(net.minecraft.world.level.storage.loot.BuiltInLootTables.EMPTY), "Las crías permiten cultivar botín");
+            var saved = new net.minecraft.nbt.CompoundTag(); mother.addAdditionalSaveData(saved); mother.readAdditionalSaveData(saved);
+            h.assertTrue(mother.ownsMinion(child.getUUID()), "El guardado perdió la propiedad de las crías");
+            mother.setNoAi(true); mother.getNavigation().stop(); mother.setDeltaMovement(net.minecraft.world.phys.Vec3.ZERO);
+        });
+        h.runAfterDelay(230, () -> {
+            h.assertTrue(target.getLastHurtByMob() instanceof com.bryanamaya.tecnocinetico.entity.boss.MatriarchMinionEntity,
+                    "Las crías aparecen, pero no atacan al enemigo real");
+            mother.setNoAi(false);
+        });
+        h.runAfterDelay(470, () -> {
+            var brood = level.getEntitiesOfClass(com.bryanamaya.tecnocinetico.entity.boss.MatriarchMinionEntity.class,
+                    new AABB(p).inflate(40), m -> mother.ownsMinion(m.getUUID()));
+            boolean capped = !brood.isEmpty() && brood.size() <= 6;
+            mother.kill();
+            boolean cleaned = brood.stream().noneMatch(net.minecraft.world.entity.Entity::isAlive);
+            mother.discard(); target.discard();
+            for (int x = -16; x <= 16; x++) for (int z = -16; z <= 16; z++) level.removeBlock(p.offset(x, -1, z), false);
+            h.assertTrue(capped, "Las oleadas no respetan el límite de seis crías");
+            h.assertTrue(cleaned, "Las crías permanecen tras la muerte de la Matriarca");
+            h.succeed();
+        });
+    }
+
     /** Debilidad real y persistente del Vigía; ni los impactos frontales ni la Matriarca tienen ese efecto. */
     @GameTest(template = "empty", batch = "guardianes")
     public static void watcherCapacitorsAndMatriarchArmor(GameTestHelper h) {

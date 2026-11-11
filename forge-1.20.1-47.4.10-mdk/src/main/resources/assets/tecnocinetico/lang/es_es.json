@@ -559,5 +559,6 @@
   "item.tecnocinetico.vector_thruster": "Propulsor Vectorial",
   "item.tecnocinetico.adaptive_flight_core": "Núcleo de Vuelo Adaptativo",
   "tooltip.tecnocinetico.vector_thruster": "Componente del Caza del Núcleo. Recuperado del Vigía de la Red.",
-  "tooltip.tecnocinetico.adaptive_flight_core": "Componente del Caza del Núcleo. Recuperado de la Matriarca del Enjambre."
+  "tooltip.tecnocinetico.adaptive_flight_core": "Componente del Caza del Núcleo. Recuperado de la Matriarca del Enjambre.",
+  "entity.tecnocinetico.matriarch_minion": "Cría de la Matriarca"
 }
