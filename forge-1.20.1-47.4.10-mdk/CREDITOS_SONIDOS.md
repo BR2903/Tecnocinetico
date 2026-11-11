@@ -12,6 +12,7 @@ Sonidos de terceros usados en Tecnocinético. Los originales están en `tools/so
 | `sounds/guns/semi1-3`, `auto1-3`, `minigun1-2.ogg` | Mismo paquete — `sks.wav` (fusil SKS) | Vincent Sevedge ("Tabasco"), 2009 | **CC-BY 3.0** |
 | `sounds/guns/shotgun1-2.ogg` | Mismo paquete — `shotty.wav` (escopeta) | Vincent Sevedge ("Tabasco"), 2009 | **CC-BY 3.0** |
 | `sounds/pistol/mag_out.ogg`, `mag_in.ogg`, `slide.ogg` | "Handgun Reload Sound Effect" — `reload.wav` — https://opengameart.org/content/handgun-reload-sound-effect | zer0_sol | CC0 |
+| `sounds/guns/pump.ogg` | Mismo "Handgun Reload Sound Effect", recorte corto independiente para accionar la escopeta | zer0_sol | CC0 |
 | `sounds/pistol/dry_fire.ogg` | "Gun Reload Sound Effects" — `singlebullet1.wav` — https://opengameart.org/content/gun-reload-sound-effects | BMacZero | CC0 |
 | (fuente disponible, no usada aún) `clipload1.wav`, `clipload2.wav` | "Gun Reload Sound Effects" | BMacZero | CC0 |
 

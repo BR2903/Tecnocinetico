@@ -457,3 +457,22 @@ BLUEPRINTS={name:globals()[name] for name in (
 
 def build_weapon(name,mods=0,reload=False,spin=0):
     return BLUEPRINTS[name](mods,reload,spin)
+
+
+# Centros reales de las bocas en las mismas coordenadas que las cajas anteriores.
+MUZZLES={"pipe_shotgun":(8,13.15,-12.6),"bolt_rifle":(8,13,-15.5),
+         "pump_shotgun":(8,13,-12.8),"semi_rifle":(8,13,-14.6),"kinetic_smg":(8,13,-6.2),
+         "assault_rifle":(8,13,-15.7),"rail_rifle":(8,13,-15.4),"grenade_launcher":(8,13.1,-10),
+         "pulse_cannon":(8,13,-12.2),"revolver":(8,12.64,-2.768),"flamethrower":(8,13,-14),
+         "light_machine_gun":(8,13,-15.4),"kinetic_sniper":(8,13,-16),"rocket_launcher":(8,12.8,-13),
+         "arc_caster":(8,13.075,-12.65),"minigun":(8,5.1,-12.5)}
+
+
+def muzzle_point(name,mods=0):
+    x,y,z=MUZZLES[name]
+    if name in {"pipe_shotgun","pump_shotgun"}:
+        if mods&2: z=-4.8 if name=="pipe_shotgun" else -4.6
+        if mods&1: z-=.6 if name=="pipe_shotgun" else .7
+    if name in {"bolt_rifle","semi_rifle"} and mods&4:
+        z=-16 if name=="bolt_rifle" else -15.8
+    return x,y,z

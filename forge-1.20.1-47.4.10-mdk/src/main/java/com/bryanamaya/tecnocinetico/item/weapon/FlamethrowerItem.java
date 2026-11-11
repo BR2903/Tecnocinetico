@@ -57,16 +57,9 @@ public class FlamethrowerItem extends LongGunItem {
         }
         if (level instanceof ServerLevel server) {
             // chorro: gotas ardiendo con la velocidad de la boquilla (count 0 = velocidad exacta), algo de dispersión
-            Vec3 right = Vec3.directionFromRotation(0, player.getYRot() + 90.0F);
-            Vec3 muzzle = eye.add(look.scale(1.1)).add(right.scale(aiming ? 0.0 : 0.22)).add(0, aiming ? -0.12 : -0.28, 0);
+            Vec3 muzzle = WeaponEffects.muzzle(player, gun, aiming);
             var r = player.getRandom();
-            for (int i = 0; i < 9; i++) {
-                double sp = 0.72 + r.nextDouble() * 0.16;
-                Vec3 v = look.scale(sp).add(r.nextGaussian() * 0.045, r.nextGaussian() * 0.045, r.nextGaussian() * 0.045)
-                        .add(player.getDeltaMovement());
-                Vec3 at = muzzle.add(look.scale(r.nextDouble() * 0.3));
-                server.sendParticles(com.bryanamaya.tecnocinetico.particle.ModParticles.FLAME_STREAM.get(), at.x, at.y, at.z, 0, v.x, v.y, v.z, 1.0);
-            }
+            WeaponEffects.send(player, gun, aiming, com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.FLAME, look, false);
             if (r.nextFloat() < 0.4F) {                                          // humo negro del combustible
                 Vec3 sm = muzzle.add(look.scale(4 + r.nextDouble() * 3));
                 server.sendParticles(ParticleTypes.LARGE_SMOKE, sm.x, sm.y + 0.5, sm.z, 1, 0.3, 0.2, 0.3, 0.01);

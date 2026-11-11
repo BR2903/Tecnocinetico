@@ -47,9 +47,9 @@ public class ArcCasterItem extends PulseCannonItem {
         }
         EntityHitResult hit = ProjectileUtil.getEntityHitResult(level, player, eye, end, new AABB(eye, end).inflate(1.0),
                 e -> e instanceof LivingEntity && !e.isSpectator() && e.isPickable(), 0.6F);
-        Vec3 from = eye.add(look.scale(0.8)).add(0, -0.2, 0);
+        Vec3 from = WeaponEffects.muzzle(player, gun, aiming);
         if (hit == null) {
-            bolt(level, from, end);
+            WeaponEffects.send(player, gun, aiming, com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.ARC, end, true);
             return;
         }
         List<Entity> struck = new ArrayList<>();
@@ -57,7 +57,8 @@ public class ArcCasterItem extends PulseCannonItem {
         float dmg = damage(gun);
         for (int i = 0; i <= CHAIN && cur != null; i++) {
             Vec3 at = cur.getBoundingBox().getCenter();
-            bolt(level, from, at);
+            if (i == 0) WeaponEffects.send(player, gun, aiming, com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.ARC, at, true);
+            else bolt(level, from, at);
             cur.invulnerableTime = 0;
             if (cur.hurt(level.damageSources().playerAttack(player), dmg) && cur instanceof Enemy) {
                 PlayerSkills.addXp(player, Skill.WEAPON_HANDLING, 1 + (cur.isAlive() ? 0 : 4));

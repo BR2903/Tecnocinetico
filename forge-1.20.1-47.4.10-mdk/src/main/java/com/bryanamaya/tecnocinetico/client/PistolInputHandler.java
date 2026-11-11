@@ -103,7 +103,8 @@ public final class PistolInputHandler {
                 } else {
                     player.setXRot(player.getXRot() - gun.stats().pitchKick() * mult);
                     player.setYRot(player.getYRot() + (player.getRandom().nextFloat() - 0.5F) * gun.stats().yawKick() * mult);
-                    GunAnimState.onShot(player.level().getGameTime(), mult * 1.3F, player.getRandom().nextFloat() * 2.0F - 1.0F);
+                    GunAnimState.onShot(player.level().getGameTime(), mult * (gun.action() == com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO ? .6F : 1.3F),
+                            player.getRandom().nextFloat() * 2.0F - 1.0F);
                 }
                 player.getCooldowns().addCooldown(gun, gun.cooldown(pistol));
             }

@@ -91,6 +91,8 @@ GUNS = Path(sys.argv[1]) / "guns" if len(sys.argv) > 1 else None
 
 
 def save_gun(name, y, peak=0.95):
+    if "--feedback-only" in sys.argv and name not in {"shotgun1","shotgun2","rifle1","rifle2","rifle3","bolt","pump","sniper1","sniper2"}:
+        return
     GUNS.mkdir(parents=True, exist_ok=True)
     y = y / (np.max(np.abs(y)) + 1e-9) * peak
     sf.write(GUNS / f"{name}.ogg", y.astype(np.float32), SR, format="OGG", subtype="VORBIS")
@@ -133,7 +135,8 @@ def import_guns():
     sks = load("sks_gunshots.wav")                           # fusil semiautomático SKS
     shotty = load("shotgun_gunshot.wav")                     # escopeta
     cz_t = [0.004, 2.82, 4.05, 5.03]
-    mosin_t = [0.44, 3.56, 5.98, 8.75, 11.69]
+    # El último estampido está en 12,24: 11,69 era el cerrojo previo al disparo.
+    mosin_t = [0.46, 3.64, 6.01, 8.86, 12.24]
     sks_t = [0.34, 2.29, 6.00, 7.70, 9.72, 11.45]
 
     # Revólver: la pistola más grave y con más cuerpo (cartucho más potente)
@@ -141,16 +144,18 @@ def import_guns():
         y = thump(pitch(shot_at(cz, t, 1.2), 0.84), 220, 0.8)
         save_gun(f"revolver{i}", y + kinetic_crackle(len(y), 70 + i))
     # Escopetas
-    sg = shot_at(shotty, 0.03, 0.66, fade=0.2)
+    # Separar el estampido de la corredera grabada en la misma toma.
+    sg = shot_at(shotty, 0.16, 0.18, fade=0.07)
     save_gun("shotgun1", thump(sg, 160, 0.6))
     save_gun("shotgun2", thump(pitch(sg, 0.93), 160, 0.7))
     # Rifle de cerrojo y su cerrojo (abrir + cerrar, grabado entre disparos)
     for i, t in enumerate(mosin_t[1:4], start=1):
-        save_gun(f"rifle{i}", shot_at(mosin, t, 1.25))
-    save_gun("bolt", cut(mosin, 7.45, 8.12, fade_out=0.05, attack_db=-30), peak=0.8)
+        save_gun(f"rifle{i}", shot_at(mosin, t, 0.65, fade=0.18))
+    save_gun("bolt", cut(mosin, 7.55, 8.03, fade_out=0.07, attack_db=-30), peak=0.7)
+    save_gun("pump", cut(load("handgun_reload.wav"), 1.01, 1.34, fade_out=0.06), peak=0.65)
     # Francotirador: el rifle más grave, con más golpe y la cola larga del campo de tiro
-    save_gun("sniper1", thump(pitch(shot_at(mosin, mosin_t[0], 1.9, fade=0.5), 0.9), 150, 1.0))
-    save_gun("sniper2", thump(pitch(shot_at(mosin, mosin_t[4], 1.7, fade=0.5), 0.88), 150, 1.0))
+    save_gun("sniper1", thump(pitch(shot_at(mosin, mosin_t[0], 0.65, fade=0.2), 0.9), 150, 1.0))
+    save_gun("sniper2", thump(pitch(shot_at(mosin, mosin_t[4], 0.65, fade=0.2), 0.88), 150, 1.0))
     # Semiautomático
     for i, t in enumerate(sks_t[:3], start=1):
         save_gun(f"semi{i}", shot_at(sks, t, 0.85))
@@ -164,5 +169,6 @@ def import_guns():
 
 
 if __name__ == "__main__":
-    main()
+    if "--feedback-only" not in sys.argv:
+        main()
     import_guns()

@@ -17,6 +17,7 @@ def run(script,*args,quiet=False):
 
 def main():
     run("weapons_gen.py","--weapons-only")
+    run("weapon_muzzles_gen.py")
     fitted=0
     for group in GROUPS+sorted(EXTRA_WEAPONS):
         models={p.stem for p in (ASSETS/"models/item").glob(group+"*.json")}

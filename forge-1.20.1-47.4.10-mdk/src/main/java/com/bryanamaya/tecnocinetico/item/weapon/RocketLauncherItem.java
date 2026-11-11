@@ -26,14 +26,14 @@ public class RocketLauncherItem extends LongGunItem {
     protected void shoot(Level level, ServerPlayer player, ItemStack gun, boolean aiming, float charge) {
         Vec3 look = player.getLookAngle();
         GuidedRocketEntity r = new GuidedRocketEntity(level, player);
-        Vec3 from = player.getEyePosition().add(look.scale(1.2)).add(0, -0.15, 0);
+        Vec3 from = WeaponEffects.muzzle(player, gun, aiming);
         r.setPos(from.x, from.y, from.z);
         r.setDeltaMovement(look.scale(0.9));
         level.addFreshEntity(r);
         if (level instanceof ServerLevel server) {
             Vec3 back = player.getEyePosition().subtract(look.scale(1.0));
             server.sendParticles(ParticleTypes.LARGE_SMOKE, back.x, back.y, back.z, 10, 0.2, 0.2, 0.2, 0.05);   // rebufo
-            server.sendParticles(ModParticles.KINETIC_BURST.get(), from.x, from.y, from.z, 0, 0.45, 0, 0, 1);
+            WeaponEffects.send(player, gun, aiming, com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.FLASH, from, true);
         }
     }
 }

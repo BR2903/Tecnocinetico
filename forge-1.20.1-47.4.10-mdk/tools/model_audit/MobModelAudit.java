@@ -67,5 +67,6 @@ public final class MobModelAudit {
             }
         }
         System.out.println("MODELOS CORRECTOS: "+baked+" modelos construidos, seis rodillas conservadas y "+count+" texturas de 128 px.");
+        WeaponMuzzleAudit.run(Path.of(args[0]));
     }
 }

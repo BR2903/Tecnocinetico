@@ -22,12 +22,12 @@ public class GrenadeLauncherItem extends LongGunItem {
     @Override
     protected void shoot(Level level, ServerPlayer player, ItemStack gun, boolean aiming, float charge) {
         KineticGrenadeEntity g = new KineticGrenadeEntity(level, player);
+        Vec3 from = WeaponEffects.muzzle(player, gun, aiming);
+        g.setPos(from.x, from.y, from.z);
         g.shootFromRotation(player, player.getXRot() - 4.0F, player.getYRot(), 0.0F, 1.35F, spread(gun, aiming));
         level.addFreshEntity(g);
         if (level instanceof ServerLevel server) {
-            Vec3 m = player.getEyePosition().add(player.getLookAngle().scale(1.2)).add(0, -0.15, 0);
-            server.sendParticles(ModParticles.KINETIC_BURST.get(), m.x, m.y, m.z, 0, 0.45, 0, 0, 1);
-            server.sendParticles(net.minecraft.core.particles.ParticleTypes.SMOKE, m.x, m.y, m.z, 6, 0.06, 0.06, 0.06, 0.02);
+            WeaponEffects.send(player, gun, aiming, com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.FLASH, from, true);
         }
     }
 }

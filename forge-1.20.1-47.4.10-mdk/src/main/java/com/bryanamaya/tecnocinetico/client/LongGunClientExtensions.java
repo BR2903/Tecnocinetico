@@ -20,7 +20,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
  */
 public class LongGunClientExtensions implements IClientItemExtensions {
 
-    private static final float AIM_X_RIGHT = 0.0625F, AIM_X_LEFT = 0.031F;
+    private static final float AIM_X_RIGHT = 0.0625F, AIM_X_LEFT = -0.03125F;
     private static final float AIM_Y = -0.45F, AIM_Z = -0.38F;
 
     @Override
@@ -68,6 +68,7 @@ public class LongGunClientExtensions implements IClientItemExtensions {
                 float tt = player.tickCount + partialTick;
                 pose.translate(Mth.sin(tt * 7.3F) * 0.004F, Mth.cos(tt * 9.1F) * 0.004F, 0.015F);
             }
+            ClientWeaponEffects.capture(pose, stack, arm);
             return true;
         }
         // minigun: sin retroceso hacia arriba; mientras giran los cañones el arma vibra y se apoya contra el cuerpo
@@ -77,15 +78,26 @@ public class LongGunClientExtensions implements IClientItemExtensions {
                 float tt = player.tickCount + partialTick;
                 pose.translate(Mth.sin(tt * 9.1F) * 0.006F * sp, Mth.cos(tt * 11.7F) * 0.006F * sp, 0.03F * sp + Mth.sin(tt * 13.3F) * 0.004F * sp);
             }
+            ClientWeaponEffects.capture(pose, stack, arm);
             return true;
         }
-        // retroceso: más fuerte y más lento que la pistola
+        // Automáticas: impulso axial corto, sin cabeceo ni balanceo de una escopeta.
+        if (stack.getItem() instanceof LongGunItem gun && gun.action() == LongGunItem.Action.AUTO) {
+            if (t >= 0 && t < 3) {
+                float k = (float) Math.exp(-t * 1.8F) * GunAnimState.kickStrength;
+                pose.translate(0, 0, .025F * k);
+            }
+            ClientWeaponEffects.capture(pose, stack, arm);
+            return true;
+        }
+        // Armas lentas: mantienen su retroceso amplio.
         if (recoiling) {
             float k = recoil(t) * GunAnimState.kickStrength;
             pose.translate(0, 0.05F * k, 0.28F * k);
             pose.mulPose(Axis.XP.rotationDegrees(18.0F * k));
             pose.mulPose(Axis.ZP.rotationDegrees(side * 3.5F * GunAnimState.roll * k));
         }
+        ClientWeaponEffects.capture(pose, stack, arm);
         return true;
     }
 

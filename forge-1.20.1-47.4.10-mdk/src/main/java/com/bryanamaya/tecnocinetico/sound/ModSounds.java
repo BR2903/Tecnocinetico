@@ -66,6 +66,7 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> RIFLE_FIRE = register("item.gun.rifle");
     public static final RegistryObject<SoundEvent> RIFLE_BOLT = register("item.gun.bolt");
     public static final RegistryObject<SoundEvent> SNIPER_FIRE = register("item.gun.sniper");
+    public static final RegistryObject<SoundEvent> SHOTGUN_PUMP = register("item.gun.pump");
     public static final RegistryObject<SoundEvent> SEMI_FIRE = register("item.gun.semi");
     public static final RegistryObject<SoundEvent> SMG_FIRE = register("item.gun.smg");
     public static final RegistryObject<SoundEvent> AUTO_FIRE = register("item.gun.auto");

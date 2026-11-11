@@ -101,12 +101,6 @@ public class RailRifleItem extends LongGunItem {
         }
         if (level instanceof ServerLevel server) {
             effects(server, player, dir, end, stop, aiming, true);
-            Vec3 path = end.subtract(eye);
-            int steps = (int) (path.length() * 3);
-            for (int i = 2; i <= steps; i++) {                                 // estela azul gruesa
-                Vec3 p = eye.add(path.scale(i / (double) steps));
-                server.sendParticles(ParticleTypes.ELECTRIC_SPARK, p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0.0);
-            }
             server.sendParticles(ModParticles.KINETIC_SPARK.get(), end.x, end.y, end.z, 16, 0.1, 0.1, 0.1, 0.3);
         }
         if (charge >= 0.99F) {                                                // retroceso a carga completa

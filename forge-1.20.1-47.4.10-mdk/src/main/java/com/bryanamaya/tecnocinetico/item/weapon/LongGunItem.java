@@ -69,7 +69,7 @@ public class LongGunItem extends Item {
     }
 
     private static final String TAG_AMMO = "Ammo", TAG_LOADING = "Loading", TAG_TIMER = "LoadTimer", TAG_HEAT = "Heat",
-            TAG_LAST = "LastShot";
+            TAG_LAST = "LastShot", TAG_CYCLE = "CycleSoundAt";
     private static final int XP_PER_HIT = 1, XP_PER_KILL = 4;
 
     private final Stats stats;
@@ -228,7 +228,9 @@ public class LongGunItem extends Item {
         }
         boolean creative = player.getAbilities().instabuild;
         if (isLoading(gun)) {
-            stopLoading(player, gun);                                         // disparar interrumpe la recarga
+            // Interrumpir no debe reproducir un cierre justo antes del estampido.
+            gun.getOrCreateTag().putBoolean(TAG_LOADING, false);
+            gun.getOrCreateTag().remove(TAG_TIMER);
         }
         if (!creative && getAmmo(gun) <= 0) {
             startReload(player, gun);
@@ -254,13 +256,10 @@ public class LongGunItem extends Item {
         if (action != Action.AUTO) {
             player.getCooldowns().addCooldown(this, cooldown(gun));
         }
-        switch (action) {                                                     // accionar el mecanismo
-            case BOLT -> level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.RIFLE_BOLT.get(),
-                    SoundSource.PLAYERS, 0.9F, 0.95F + level.random.nextFloat() * 0.1F);
-            case PUMP -> level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_SLIDE.get(),
-                    SoundSource.PLAYERS, 1.0F, 0.6F);
-            default -> {
-            }
+        if (action == Action.BOLT || action == Action.PUMP) {
+            // Primero dispara; el mecanismo se acciona después, sin insertar munición.
+            int delay = Math.max(3, Math.min(action == Action.PUMP ? 6 : 10, cooldown(gun) / 2));
+            gun.getOrCreateTag().putLong(TAG_CYCLE, now + delay);
         }
     }
 
@@ -353,19 +352,11 @@ public class LongGunItem extends Item {
 
     protected static void effects(ServerLevel server, Player player, Vec3 dir, Vec3 end, @Nullable BlockHitResult block,
                                 boolean aiming, boolean flash) {
-        boolean rightHand = player.getMainArm() == HumanoidArm.RIGHT;
-        Vec3 right = Vec3.directionFromRotation(0, player.getYRot() + 90.0F);
-        Vec3 muzzle = player.getEyePosition().add(dir.scale(1.4D)).add(right.scale(aiming ? 0 : rightHand ? 0.26D : -0.26D))
-                .add(0, aiming ? -0.06D : -0.1D, 0);
-        if (flash) {
-            server.sendParticles(ModParticles.KINETIC_BURST.get(), muzzle.x, muzzle.y, muzzle.z, 0, 0.45, 0, 0, 1);
-            server.sendParticles(ParticleTypes.SMOKE, muzzle.x, muzzle.y, muzzle.z, 4, 0.04, 0.04, 0.04, 0.02);
-        }
-        Vec3 path = end.subtract(muzzle);
-        int steps = Math.max(1, (int) (path.length() * 2));
-        for (int i = 0; i <= steps; i++) {
-            Vec3 p = muzzle.add(path.scale(i / (double) steps));
-            server.sendParticles(ModParticles.KINETIC_TRACER.get(), p.x, p.y, p.z, 0, 0, 0, 0, 0);
+        if (player instanceof ServerPlayer sp) {
+            WeaponEffects.send(sp, player.getMainHandItem(), aiming,
+                    player.getMainHandItem().getItem() instanceof RailRifleItem
+                            ? com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.ARC
+                            : com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.TRACER, end, flash);
         }
         server.sendParticles(ModParticles.KINETIC_SPARK.get(), end.x, end.y, end.z, 4, 0.04, 0.04, 0.04, 0.15);
         if (block != null && block.getType() == HitResult.Type.BLOCK) {
@@ -390,6 +381,7 @@ public class LongGunItem extends Item {
             return;
         }
         CompoundTag tag = gun.getOrCreateTag();
+        tag.remove(TAG_CYCLE);
         tag.putBoolean(TAG_LOADING, true);
         tag.putInt(TAG_TIMER, reloadStep(gun));
         float pitch = switch (action) {                                       // abrir la escopeta / el cerrojo / sacar el cargador
@@ -412,6 +404,20 @@ public class LongGunItem extends Item {
     public void inventoryTick(ItemStack gun, Level level, Entity entity, int slot, boolean selected) {
         if (level.isClientSide || !(entity instanceof Player player)) {
             return;
+        }
+        CompoundTag pending = gun.getTag();
+        if (pending != null && pending.contains(TAG_CYCLE)) {
+            long due = pending.getLong(TAG_CYCLE);
+            if (!selected || player.getMainHandItem() != gun || !player.isAlive() || isLoading(gun)) {
+                pending.remove(TAG_CYCLE);
+            } else if (level.getGameTime() >= due) {
+                pending.remove(TAG_CYCLE);
+                if (level.getGameTime() - due <= 2) { // No reproducir ciclos antiguos al cargar un mundo.
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                            action == Action.PUMP ? ModSounds.SHOTGUN_PUMP.get() : ModSounds.RIFLE_BOLT.get(),
+                            SoundSource.PLAYERS, .65F, 1.0F);
+                }
+            }
         }
         if (action == Action.AUTO && gun.getTag() != null && gun.getTag().getFloat(TAG_HEAT) > 0
                 && level.getGameTime() - gun.getTag().getLong(TAG_LAST) > 3) {

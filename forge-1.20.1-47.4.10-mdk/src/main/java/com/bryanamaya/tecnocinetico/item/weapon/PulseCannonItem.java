@@ -86,20 +86,8 @@ public class PulseCannonItem extends LongGunItem {
         if (hits > 0) {
             player.playNotifySound(ModSounds.PISTOL_HIT.get(), SoundSource.PLAYERS, 0.5F, 0.6F);
         }
-        if (level instanceof ServerLevel server) {                               // cono de la onda
-            Vec3 up = Math.abs(look.y) > 0.95 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
-            Vec3 right = look.cross(up).normalize(), up2 = right.cross(look).normalize();
-            for (double r = 1.0; r <= RANGE; r += 0.8) {
-                double rad = r * Math.tan(Math.toRadians(30));
-                for (int k = 0; k < 10; k++) {
-                    double a = k / 10.0 * Math.PI * 2 + r;
-                    Vec3 p = eye.add(look.scale(r)).add(right.scale(Math.cos(a) * rad)).add(up2.scale(Math.sin(a) * rad));
-                    server.sendParticles(ModParticles.KINETIC_SPARK.get(), p.x, p.y, p.z, 1, 0, 0, 0, 0.02);
-                }
-            }
-            Vec3 m = eye.add(look.scale(1.2)).add(0, -0.15, 0);
-            server.sendParticles(ModParticles.KINETIC_BURST.get(), m.x, m.y, m.z, 0, 0.45, 0, 0, 1);
-        }
+        WeaponEffects.send(player, gun, aiming, com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.PULSE,
+                eye.add(look.scale(RANGE)), true);
         Vec3 back = look.scale(-0.3);                                              // el cañón empuja al que dispara
         player.setDeltaMovement(player.getDeltaMovement().add(back.x, 0.0, back.z));
         player.hurtMarked = true;

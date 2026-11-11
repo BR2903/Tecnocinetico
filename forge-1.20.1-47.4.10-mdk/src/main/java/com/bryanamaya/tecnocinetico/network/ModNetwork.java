@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 /** Canal de red del mod: el cliente avisa al servidor de acciones con teclas (p. ej. recargar). */
 public final class ModNetwork {
 
-    private static final String VERSION = "1";
+    private static final String VERSION = "2";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "main"),
@@ -29,6 +29,8 @@ public final class ModNetwork {
     private ModNetwork() {}
 
     public static void register() {
+        CHANNEL.registerMessage(15, WeaponEffectPacket.class, WeaponEffectPacket::encode, WeaponEffectPacket::decode,
+                WeaponEffectPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(0, ReloadPistolPacket.class,
                 ReloadPistolPacket::encode, ReloadPistolPacket::decode, ReloadPistolPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));

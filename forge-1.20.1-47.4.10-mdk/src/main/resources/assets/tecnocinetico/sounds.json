@@ -359,6 +359,10 @@
       }
     ]
   },
+  "item.gun.pump": {
+    "subtitle": "subtitles.tecnocinetico.gun.pump",
+    "sounds": [{"name": "tecnocinetico:guns/pump", "attenuation_distance": 16}]
+  },
   "item.gun.sniper": {
     "subtitle": "subtitles.tecnocinetico.gun.sniper",
     "sounds": [

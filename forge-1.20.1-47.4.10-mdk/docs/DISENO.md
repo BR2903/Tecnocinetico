@@ -30,6 +30,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 **Armas desde cero (usuario, 2026-11-11):** la primera remodelación gustó, pero parecía una modificación de lo existente. Pide modelos completos nuevos, con siluetas y geometrías propias, manteniendo la exclusión de la pistola. El resultado anterior se conserva en el commit `d269d67` para poder recuperarlo si prefiere esa versión.
 
+**Modelos aceptados y presentación (usuario, 2026-11-11):** le gustaron los modelos desde cero y se quedan. Corregir sonidos de corredera/francotirador que se mezclan o adelantan al disparo, fuego del lanzallamas saliendo desde el depósito y desalineación de otras armas. Las automáticas deben tener un retroceso visual corto y estable; la animación amplia sí gusta en escopetas, revólver y armas lentas.
+
 - **Complemento de Create.** Las máquinas automáticas funcionan con **electricidad de Create Crafts & Additions** (Forge Energy). **No** usar la rotación/energía cinética de Create como fuente de energía de nuestras máquinas.
 - **Progresión:** al inicio solo máquinas **sin energía** (Prensa de Ensamblaje manual con martillo). Las automáticas requieren electricidad.
 - La **Fuente de Energía Creativa** es **solo para pruebas**: sin receta, sin drops, irrompible en supervivencia, oculta en JEI. No debe poder conseguirse jugando.

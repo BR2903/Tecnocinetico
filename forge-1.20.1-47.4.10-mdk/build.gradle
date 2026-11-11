@@ -246,8 +246,14 @@ tasks.withType(JavaCompile).configureEach {
 
 // Construye los modelos de cliente sin abrir Minecraft: las pruebas de servidor no cargan sus jerarquías.
 def mobAuditClasses = layout.buildDirectory.dir('classes/mobModelAudit')
+tasks.register('generateWeaponMuzzleProfiles', Exec) {
+    commandLine 'python', 'tools/weapon_muzzles_gen.py', '--profiles-only'
+    inputs.files('tools/weapon_blueprints.py', 'tools/weapon_muzzles_gen.py')
+    outputs.file(layout.buildDirectory.file('weapon_muzzles/profiles.json'))
+}
 tasks.register('compileMobModelAudit', JavaCompile) {
     dependsOn tasks.named('classes')
+    dependsOn tasks.named('generateWeaponMuzzleProfiles')
     source = fileTree('tools/model_audit') { include '**/*.java' }
     classpath = sourceSets.main.runtimeClasspath
     destinationDirectory = mobAuditClasses
