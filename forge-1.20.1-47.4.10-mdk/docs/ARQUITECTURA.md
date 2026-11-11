@@ -159,3 +159,9 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `FissionReactorBlockEntity`: genera con `Battery.produce`, expone una vista de energía solo de salida y empuja a los vecinos; tanque de refrigeración; `FluidMachine` (cubos). Pantalla `client/FissionReactorScreen`.
 - `fluid/UniversalCellItem`: Celda Universal de Fluidos (1 cubo de cualquier líquido, modelo forge:fluid_container).
 - `structure/`: estructuras grandes que se despliegan desde un kit (`MultiblockTemplate`, `StructureKitItem`, `StructurePartBlock(Entity)`, `MultiblockMachineBlock`, `Structures`). El núcleo es una máquina eléctrica normal; las piezas le pasan todo. Renderizadores: `client/IndustrialAssemblerRenderer`, `client/FissionReactorRenderer` (modelos extra registrados en `ModelEvent.RegisterAdditional`).
+
+
+## Nether, primera entrega
+- `nether/NetherMobEvents`: suscriptor Forge para mejorar enemigos vanilla exclusivamente en el Nether. Guarda atributos/arma originales en NBT, evita acumular mejoras al cargar y los restaura al salir de la dimensión. Memorias de ira para piglins aun con oro; rifle con ráfagas; bolas del ghast, abanico del blaze y avance del esqueleto wither. No registra contenido nuevo ni cambia generadores o equipo.
+- `gametest/NetherMobGameTests`: prueba las mejoras, la hostilidad con oro, persistencia/restauración, potencia de proyectiles, abanico y avance, respetando creativo.
+- El resto del Nether queda en una rama local de trabajo para entregarlo por partes; ver `docs/PLAN_NETHER.md`. No mezclarla entera ni duplicar los suscriptores de combate.

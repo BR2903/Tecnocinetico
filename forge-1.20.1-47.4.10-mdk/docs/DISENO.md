@@ -103,3 +103,7 @@ Monstruo del Overworld (peso 15, de noche/cuevas). 34 vida, 6 daño, 6 armadura.
 ## Equipo Táctico (desde 2026-11-07)
 - Apartado extra del inventario **inspirado en Techguns** (idea pedida por el usuario), pero con diseño, código y recursos propios. Munición, comida (se come sola) y gadgets con batería. Ideas para más gadgets: tanque de oxígeno, botas de impacto, escáner de minerales, paracaídas.
 - **Impulsor de Esquiva (usuario, 2026-11-10):** batería triplicada de 300 a **900**; conserva coste de 10 por esquiva (30 → 90 usos por carga), enfriamiento y recarga completa con su célula. Se aplica también a los impulsores existentes, conservando el desgaste consumido.
+
+
+## Nether por partes (usuario, 2026-11-11)
+- Entregar una parte funcional y dejar que el usuario la pruebe antes de continuar. Esperar sus comentarios entre entregas. No juntar enemigos, biomas, estructuras, equipo y jefes en una sola entrega. El avance completo se conserva aparte; ver `PLAN_NETHER.md`.
