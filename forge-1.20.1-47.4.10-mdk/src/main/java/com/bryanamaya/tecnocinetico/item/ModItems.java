@@ -369,7 +369,7 @@ public class ModItems {
 
     // ---------------------------------------------------------------- Impulsor de Esquiva (gadget de cinturón)
     public static final RegistryObject<Item> DASH_THRUSTER = ITEMS.register("dash_thruster",
-            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.BELT, 300,
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.BELT, 900,
                     "tooltip.tecnocinetico.dash_thruster", new Item.Properties()));
     public static final RegistryObject<Item> DASH_CELL = ITEMS.register("dash_cell",
             () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> DASH_THRUSTER.get(), new Item.Properties()));
