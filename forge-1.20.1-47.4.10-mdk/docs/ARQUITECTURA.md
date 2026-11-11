@@ -26,6 +26,13 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 
 ## Sistemas
 
+### Instalaciones y guardianes del Overworld
+- `worldgen/structure/OverworldSiteStructure` + `OverworldSitePiece`: cinco estructuras, elegidas por `site` (0 antena, 1 centro de datos, 2 búnker, 3 laboratorio, 4 ciudad sumergida). Piezas por coordenadas absolutas, semilla guardada y posiciones locales para una generación independiente del orden de chunks. Se registran con el tipo `overworld_site`; cada estructura tiene su JSON, separación y etiquetas de biomas.
+- `entity/boss/OverworldGuardianEntity`: dos tipos registrados (`network_watcher`, `swarm_matriarch`) con modos sincronizados, tres fases, barra de jefe, ataques decididos en servidor y ventana de vulnerabilidad. El Vigía vuela y usa rayos/pulsos; la Matriarca navega por tierra y embiste/bombardea. No dañan aliados del Enjambre ni drones. Consola y centro del combate se guardan por entidad.
+- `CoreConsoleBlockEntity.configureGuardian`: tipo y punto de aparición para las nuevas arenas; NBT sin estos campos mantiene el comportamiento de la Araña. `defeated` abre sellos definitivamente y `reset` permite reintentar tras abandonar. Los nuevos jefes notifican ambos estados, también al descartarse por comandos o Pacífica.
+- `entity/client/OverworldGuardianModel/Renderer`: dos siluetas, animación de rotores/patas y brillo de carga/núcleo expuesto, exclusivamente en cliente. Arte propio de `tools/overworld_guardians_gen.py`.
+- Datos y botín: `tools/overworld_sites_gen.py`, llamado también por `world_structures_gen.py`. Libros de archivo con lore y botín independiente para cada jefe. `GuardianGameTests` comprueba consolas, guardado y ataques reales; `WorldgenGameTests` incluye las cinco estructuras.
+
 ### Prensas (`block/custom`, `block/entity`)
 - `PressRecipes` — **única fuente de recetas** (lista de `Recipe(inputs, output)`), `findResult`, `isIngredient`, `consumeInputs`. JEI lee `all()`.
 - `KineticAssemblyPressBlock` + `KineticAssemblyPressBlockEntity` — prensa manual: clic derecho mete/saca (vía `PressInteraction`), golpes de martillo con `strike(level,pos,strikesNeeded)`. Usa Ingeniería.

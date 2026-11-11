@@ -1,0 +1,8 @@
+{
+  "type": "tecnocinetico:overworld_site",
+  "biomes": "#tecnocinetico:has_structure/swarm_laboratory",
+  "step": "underground_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "site": 3
+}

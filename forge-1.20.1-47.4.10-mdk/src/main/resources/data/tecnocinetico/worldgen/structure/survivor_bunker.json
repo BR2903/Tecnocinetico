@@ -1,0 +1,8 @@
+{
+  "type": "tecnocinetico:overworld_site",
+  "biomes": "#tecnocinetico:has_structure/survivor_bunker",
+  "step": "underground_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "site": 2
+}

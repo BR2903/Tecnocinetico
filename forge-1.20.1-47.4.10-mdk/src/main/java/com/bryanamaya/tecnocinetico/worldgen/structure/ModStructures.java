@@ -47,6 +47,11 @@ public final class ModStructures {
 
     private ModStructures() {}
 
+    public static final RegistryObject<StructureType<OverworldSiteStructure>> OVERWORLD_SITE =
+            TYPES.register("overworld_site", () -> () -> OverworldSiteStructure.CODEC);
+    public static final RegistryObject<StructurePieceType> OVERWORLD_SITE_PIECE =
+            PIECES.register("overworld_site", () -> (StructurePieceType.ContextlessType) OverworldSitePiece::new);
+
     public static void register(IEventBus bus) {
         TYPES.register(bus);
         PIECES.register(bus);

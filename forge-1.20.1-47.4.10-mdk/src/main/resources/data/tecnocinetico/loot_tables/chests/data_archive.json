@@ -1,0 +1,43 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:written_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{title:\"Registro 07: retirada\",author:\"Archivo de los Constructores\",pages:[\"{\\\"text\\\": \\\"El centro de mando ya no está en el Overworld. Los guardianes ejecutan protocolos locales. Destruir uno no detendrá al Núcleo Directriz.\\\"}\"]}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:written_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{title:\"Registro 12: contención\",author:\"Archivo de los Constructores\",pages:[\"{\\\"text\\\": \\\"La Cinetrita proporciona energía; la Inercita permite contenerla. Los cultivos del laboratorio han integrado ambos materiales en cuerpos biomecánicos.\\\"}\"]}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:written_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{title:\"Registro 19: vigilancia\",author:\"Archivo de los Constructores\",pages:[\"{\\\"text\\\": \\\"El Vigía protege el repetidor. Tras descargar sus emisores necesita ventilar el núcleo: esa es la ventana para responder. El laboratorio conserva una Matriarca; no permanezcan frente a sus mandíbulas.\\\"}\"]}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

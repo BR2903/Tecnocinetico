@@ -74,6 +74,13 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/render_dump.py salida.png run/gametest_dump/a.txt [b.txt ...]` las dibuja en isométrico (colores aproximados; bloques sin color = magenta, añádelos a `COLORS`).
 - `tools/empty_template_gen.py` creó `structures/empty.nbt` (plantilla vacía de los GameTests); no hace falta volver a ejecutarlo.
 
+## Instalaciones y guardianes restantes del Overworld
+- `python tools/overworld_sites_gen.py`: datos de antena, centro de datos, búnker, laboratorio y ciudad sumergida; botín de cofres/guardianes y libros de lore. También lo ejecuta `world_structures_gen.py`. La geometría está en `OverworldSitePiece`.
+- `python tools/overworld_guardians_gen.py`: texturas 128x128 (normal, brillo, carga y exposición), modelos de huevos, textos ES/EN y aproximaciones estáticas de los dos modelos Java en `build/guardian_previews/*.json`.
+- Después: `python tools/sync_lang.py`; `python tools/check_models.py`. Previsualizar con `python tools/render_zbuffer.py build/guardian_previews/network_watcher.png build/guardian_previews/network_watcher.json 205 20 10` (y lo mismo con `swarm_matriarch`). Las vistas estáticas aproximan las patas/brazos; en el juego se articulan y giran.
+- `runGameTestServer` vuelca también las nuevas estructuras. Para interiores, usar `render_dump.py --maxy=N`; los volcados incluyen el terreno circundante, por lo que conviene recortarlo al volumen construido antes de renderizar.
+- `python tools/preview_overworld_sites.py`: hace ese recorte y genera `build/overworld_previews/estructuras.png`, una comparativa de las cinco instalaciones; oculta techos interiores y agua para ver la ciudad. Son colores aproximados de bloques, no capturas del cliente.
+
 ## survivor_skin_gen.py (pieles de los Supervivientes)
 - `python tools/survivor_skin_gen.py [preview.png]` genera `textures/entity/survivor/{scrapper,gunsmith,farmer}.png` (formato piel de jugador 64x64 con capas exteriores) y una vista previa de frente y espalda.
 

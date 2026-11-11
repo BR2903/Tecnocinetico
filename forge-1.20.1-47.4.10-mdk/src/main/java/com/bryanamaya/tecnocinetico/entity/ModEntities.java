@@ -145,4 +145,13 @@ public class ModEntities {
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }
+
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity>> NETWORK_WATCHER =
+            ENTITY_TYPES.register("network_watcher", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity>of(
+                    com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity::new, MobCategory.MONSTER)
+                    .sized(3.6F, 2.2F).fireImmune().clientTrackingRange(12).build("network_watcher"));
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity>> SWARM_MATRIARCH =
+            ENTITY_TYPES.register("swarm_matriarch", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity>of(
+                    com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity::new, MobCategory.MONSTER)
+                    .sized(3.8F, 2.6F).fireImmune().clientTrackingRange(12).build("swarm_matriarch"));
 }

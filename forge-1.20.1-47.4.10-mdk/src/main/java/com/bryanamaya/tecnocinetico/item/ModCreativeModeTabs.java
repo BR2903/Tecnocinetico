@@ -68,6 +68,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.SENTRY_TURRET_SPAWN_EGG.get());
                         out.accept(ModItems.ANCHOR_SPAWN_EGG.get());
                         out.accept(ModItems.SIEGE_SPIDER_SPAWN_EGG.get());
+                        out.accept(ModItems.NETWORK_WATCHER_SPAWN_EGG.get());
+                        out.accept(ModItems.SWARM_MATRIARCH_SPAWN_EGG.get());
                         out.accept(ModBlocks.CORE_CONSOLE.get());
                     })
                     .build());

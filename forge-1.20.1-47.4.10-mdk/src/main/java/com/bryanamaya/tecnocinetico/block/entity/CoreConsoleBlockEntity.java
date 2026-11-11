@@ -33,6 +33,8 @@ import java.util.Map;
 public class CoreConsoleBlockEntity extends BlockEntity {
 
     private boolean active, beaten;
+    private String guardian = "siege_spider";
+    private BlockPos spawnAt;
     private final List<BlockPos> seal = new ArrayList<>();
     /** Bloques que había donde se puso la barrera (NBT del estado; se lee al abrir, cuando ya hay mundo). */
     private final Map<BlockPos, CompoundTag> saved = new LinkedHashMap<>();
@@ -46,6 +48,15 @@ public class CoreConsoleBlockEntity extends BlockEntity {
         seal.addAll(positions);
         setChanged();
     }
+
+    /** Configuración de las arenas nuevas; las consolas antiguas conservan la Araña y su posición original. */
+    public void configureGuardian(String guardian, BlockPos spawnAt) {
+        this.guardian = guardian;
+        this.spawnAt = spawnAt;
+        setChanged();
+    }
+
+    public String guardian() { return guardian; }
 
     public boolean isActive() {
         return active;
@@ -68,21 +79,26 @@ public class CoreConsoleBlockEntity extends BlockEntity {
             player.displayClientMessage(Component.translatable("message.tecnocinetico.console_active").withStyle(ChatFormatting.RED), true);
             return;
         }
-        SiegeSpiderEntity boss = ModEntities.SIEGE_SPIDER.get().create(server);
+        net.minecraft.world.entity.monster.Monster boss = switch (guardian) {
+            case "network_watcher" -> ModEntities.NETWORK_WATCHER.get().create(server);
+            case "swarm_matriarch" -> ModEntities.SWARM_MATRIARCH.get().create(server);
+            default -> ModEntities.SIEGE_SPIDER.get().create(server);
+        };
         if (boss == null) {
             return;
         }
-        BlockPos at = worldPosition.south(7);
+        BlockPos at = spawnAt != null ? spawnAt : worldPosition.south(7);
         boss.moveTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5, 180.0F, 0.0F);
         boss.finalizeSpawn(server, server.getCurrentDifficultyAt(at), MobSpawnType.EVENT, null, null);
-        boss.setConsole(worldPosition);
+        if (boss instanceof SiegeSpiderEntity spider) spider.setConsole(worldPosition);
+        if (boss instanceof com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity other) other.setConsole(worldPosition);
         boss.setTarget(player);
-        server.addFreshEntity(boss);
+        if (!server.addFreshEntity(boss)) return;
         closeSeal(server);
         active = true;
         setChanged();
         server.playSound(null, worldPosition, ModSounds.SIEGE_ROAR.get(), SoundSource.HOSTILE, 6.0F, 0.8F);
-        player.displayClientMessage(Component.translatable("message.tecnocinetico.console_wake").withStyle(ChatFormatting.DARK_PURPLE), true);
+        player.displayClientMessage(Component.translatable("message.tecnocinetico.guardian_wake", boss.getDisplayName()).withStyle(ChatFormatting.DARK_PURPLE), true);
     }
 
     private void closeSeal(ServerLevel server) {
@@ -125,6 +141,8 @@ public class CoreConsoleBlockEntity extends BlockEntity {
         super.saveAdditional(tag);
         tag.putBoolean("Active", active);
         tag.putBoolean("Beaten", beaten);
+        tag.putString("Guardian", guardian);
+        if (spawnAt != null) tag.put("GuardianSpawn", NbtUtils.writeBlockPos(spawnAt));
         ListTag s = new ListTag();
         seal.forEach(p -> s.add(NbtUtils.writeBlockPos(p)));
         tag.put("Seal", s);
@@ -143,6 +161,8 @@ public class CoreConsoleBlockEntity extends BlockEntity {
         super.load(tag);
         active = tag.getBoolean("Active");
         beaten = tag.getBoolean("Beaten");
+        guardian = tag.contains("Guardian") ? tag.getString("Guardian") : "siege_spider";
+        spawnAt = tag.contains("GuardianSpawn") ? NbtUtils.readBlockPos(tag.getCompound("GuardianSpawn")) : null;
         seal.clear();
         for (Tag t : tag.getList("Seal", Tag.TAG_COMPOUND)) {
             seal.add(NbtUtils.readBlockPos((CompoundTag) t));

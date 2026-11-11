@@ -550,5 +550,10 @@
   "message.tecnocinetico.friendly_fire_on": "Friendly fire ON: players can hurt each other.",
   "message.tecnocinetico.friendly_fire_off": "Friendly fire OFF: players can't hurt each other.",
   "message.tecnocinetico.kit_blocked_entity": "It doesn't fit (%s): %s is in the way",
-  "tooltip.tecnocinetico.core_fighter_wreck": "Damaged wreck: hull %s/%s (repair it with Inercita Plates)"
+  "tooltip.tecnocinetico.core_fighter_wreck": "Damaged wreck: hull %s/%s (repair it with Inercita Plates)",
+  "entity.tecnocinetico.network_watcher": "Network Watcher",
+  "entity.tecnocinetico.swarm_matriarch": "Swarm Matriarch",
+  "item.tecnocinetico.network_watcher_spawn_egg": "Network Watcher Spawn Egg",
+  "item.tecnocinetico.swarm_matriarch_spawn_egg": "Swarm Matriarch Spawn Egg",
+  "message.tecnocinetico.guardian_wake": "%s has awakened."
 }

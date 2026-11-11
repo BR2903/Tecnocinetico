@@ -27,9 +27,10 @@ import net.minecraftforge.gametest.PrefixGameTestTemplate;
 public class WorldgenGameTests {
 
     private static final String[] STRUCTURES = {"ruined_building_megacity", "ruined_building_urban",
-            "ruined_building_overgrown", "ruined_building_frozen", "survivor_settlement", "abandoned_factory", "swarm_hive", "ai_installation"};
+            "ruined_building_overgrown", "ruined_building_frozen", "survivor_settlement", "abandoned_factory", "swarm_hive", "ai_installation",
+            "relay_antenna", "data_center", "survivor_bunker", "swarm_laboratory", "sunken_city"};
 
-    @GameTest(template = "empty", timeoutTicks = 400)
+    @GameTest(template = "empty", timeoutTicks = 800)
     public static void structuresGenerate(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         ChunkGenerator gen = level.getChunkSource().getGenerator();
@@ -45,13 +46,16 @@ public class WorldgenGameTests {
             // estructura y se prueban chunks hasta encontrar terreno donde quepa (llano y sin agua), como en el juego
             var biome = structure.biomes().stream().findFirst().orElseThrow();
             StructureStart start = StructureStart.INVALID_START;
-            for (int tries = 0; tries < 64 && !start.isValid(); tries++) {
-                ChunkPos cp = new ChunkPos(base.offset(i * 1024 + (tries % 8) * 48, 0, (tries / 8) * 48));
+            int attempts = STRUCTURES[i].equals("sunken_city") ? 512 : i >= 8 ? 256 : 64;
+            for (int tries = 0; tries < attempts && !start.isValid(); tries++) {
+                int stride = i >= 8 ? 128 : 48;
+                int columns = i >= 8 ? 16 : 8;
+                ChunkPos cp = new ChunkPos(base.offset(i * 1024 + (tries % columns) * stride, 0, (tries / columns) * stride));
                 start = structure.generate(level.registryAccess(), gen, new FixedBiomeSource(biome),
                         level.getChunkSource().randomState(), level.getStructureManager(), level.getSeed(), cp, 0, level,
                         b -> true);
             }
-            helper.assertTrue(start.isValid(), "No se pudo colocar " + key.location() + " en 64 intentos");
+            helper.assertTrue(start.isValid(), "No se pudo colocar " + key.location() + " en " + attempts + " intentos");
             StructureStart placed = start;
             BoundingBox bb = start.getBoundingBox();
             ChunkPos.rangeClosed(new ChunkPos(bb.minX() >> 4, bb.minZ() >> 4), new ChunkPos(bb.maxX() >> 4, bb.maxZ() >> 4))
@@ -60,6 +64,26 @@ public class WorldgenGameTests {
                                     c.getMaxBlockX(), level.getMaxBuildHeight(), c.getMaxBlockZ()), c));
             Tecnocinetico.LOGGER.info("[GameTest] {} generado en {}", key.location(), bb);
             dump(level, placed.getPieces().get(0).getBoundingBox().inflatedBy(2), STRUCTURES[i]);
+            if (i >= 8) {
+                BoundingBox raw = placed.getPieces().get(0).getBoundingBox();
+                BlockPos origin = new BlockPos(raw.minX(), raw.minY() + 4, raw.minZ());
+                if (STRUCTURES[i].equals("relay_antenna") || STRUCTURES[i].equals("swarm_laboratory")) {
+                    boolean relay = STRUCTURES[i].equals("relay_antenna");
+                    var console = level.getBlockEntity(origin.offset(16, 1, relay ? 12 : 10));
+                    helper.assertTrue(console instanceof com.bryanamaya.tecnocinetico.block.entity.CoreConsoleBlockEntity c
+                                    && c.guardian().equals(relay ? "network_watcher" : "swarm_matriarch"),
+                            "La arena generada no tiene una consola configurada para su jefe");
+                }
+                if (STRUCTURES[i].equals("survivor_bunker")) {
+                    helper.assertTrue(level.getBlockState(origin.offset(4, 1, 4)).is(net.minecraft.world.level.block.Blocks.LADDER)
+                                    && level.getBlockState(origin.offset(4, 1, 5)).isAir(),
+                            "El pozo del búnker no conecta con su interior");
+                }
+                if (STRUCTURES[i].equals("sunken_city")) {
+                    helper.assertTrue(level.getFluidState(origin.offset(16, 1, 20)).is(net.minecraft.tags.FluidTags.WATER),
+                            "La avenida de la ciudad sumergida está bloqueada o no está inundada");
+                }
+            }
             if (STRUCTURES[i].equals("survivor_settlement")) {
                 var survivors = level.getEntitiesOfClass(com.bryanamaya.tecnocinetico.entity.custom.SurvivorEntity.class,
                         net.minecraft.world.phys.AABB.of(placed.getPieces().get(0).getBoundingBox()));

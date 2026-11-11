@@ -14,6 +14,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 **Progresión por dimensiones (usuario, 2026-11-08):** tiers 1-3 en Overworld, Nether y End; tiers 4 y 5 en 3 dimensiones nuevas del mod.
 
+**Jefes del Overworld (usuario, 2026-11-10):** tres en total, contando a la Araña de Asedio. Se añaden el Vigía de la Red (antena repetidora) y la Matriarca del Enjambre (laboratorio subterráneo), con ataques y arenas distintos. Son guardianes locales, no el Núcleo Directriz final. Distribución y valores en `PLAN_MUNDO.md`.
+
 ## Dirección del proyecto (decidida por el usuario)
 
 - **Complemento de Create.** Las máquinas automáticas funcionan con **electricidad de Create Crafts & Additions** (Forge Energy). **No** usar la rotación/energía cinética de Create como fuente de energía de nuestras máquinas.

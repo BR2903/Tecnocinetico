@@ -48,11 +48,11 @@ Se reutiliza la **forma del terreno vanilla** (montañas, ríos, cuevas…) y se
 | Rascacielos colapsados | — | Megaciudad | Varias plantas, botín bueno |
 | **Fábrica abandonada** | — | Selva Industrial, Praderas | Botín con piezas de **Create** |
 | **Instalación de la IA** | mansión / fortalezas | Cicatrices, Tierras Fracturadas | Mazmorra con drones/torretas, módulos y planos |
-| Antena repetidora | — | Cumbres | Señal de la IA; posible evento |
-| Centro de datos | — | Varios | **Registros del Núcleo Directriz** (lore jugable) |
-| Búnker | — | Subsuelo | Refugio con botín |
-| Laboratorio del Enjambre | ciudad antigua | Instalación Profunda | Generador de Cuerpos de Enjambre |
-| Ciudad sumergida | monumento / ruinas oceánicas | Mar de Escombros | |
+| Antena repetidora (`relay_antenna`) | — | Cumbres, Tierras Fracturadas | Torre con paneles, drones y arena del **Vigía de la Red** |
+| Centro de datos (`data_center`) | — | Megaciudad, Selva Industrial, Ruinas Invadidas | Racks, torretas y **registros del Núcleo Directriz** en libros |
+| Búnker (`survivor_bunker`) | — | Subsuelo de Praderas, Taiga, Tundra y Tierras Fracturadas | Refugio con dormitorios, taller, despensa y pozo de acceso |
+| Laboratorio del Enjambre (`swarm_laboratory`) | ciudad antigua | Instalación Profunda | Cultivos, Cuerpos de Enjambre y arena de la **Matriarca del Enjambre** |
+| Ciudad sumergida (`sunken_city`) | monumento / ruinas oceánicas | Mar de Escombros y variantes | Tres edificios inundados, avenida, pasarela y botín; requiere al menos 18 bloques de profundidad |
 | Fortaleza (stronghold) | — | Se **mantiene** (necesaria para ir al End) hasta diseñar otro acceso | Añadir nuestros biomas a su tag |
 
 ## 4. Ambiente
@@ -75,17 +75,24 @@ Texturas 16×16 o 32×32 (potencia de 2), estilo coherente con el mod.
    - **noise_settings propios** (`data/tecnocinetico/worldgen/noise_settings/overworld.json`): copia de vanilla con **reglas de superficie** nuevas (hormigón, ceniza, vidrio, grava con chatarra…).
 3. **Estructuras vanilla**: desaparecen solas porque dependen de tags de bioma (`#minecraft:has_structure/village_*`…) en los que nuestros biomas no estarán. Excepción: **stronghold** (añadir nuestros biomas a su tag).
 4. **Compatibilidad**: añadir todos nuestros biomas a `#minecraft:is_overworld` y tags de Forge (`#forge:is_*`) para que **Create** (zinc), Crafts & Additions y otros mods sigan generando minerales y criaturas.
-5. **Estructuras nuevas**: jigsaw (`template_pool`, `structure`, `structure_set`) con plantillas `.nbt` construidas en el juego con bloques de estructura.
+5. **Estructuras nuevas**: tipos Java y piezas procedurales persistentes, con JSON de `structure` / `structure_set` y etiquetas de biomas. Las cinco instalaciones finales comparten `OverworldSiteStructure` / `OverworldSitePiece`, con una variante de distribución por instalación. Los aleatorios salen de la semilla y coordenadas locales, no del orden de los chunks.
 6. Mundos ya existentes: los chunks ya generados no cambian; probar siempre en **mundos nuevos**.
 
 ## Fases propuestas
 1. **Bloques del mundo** (paleta de la sección 5). ✅ Hecho (2026-11-07), falta el fluido refrigerante.
 2. **Biomas + sustitución del Overworld** (datagen del mapa de biomas, efectos, superficies, tags). ✅ Hecho (2026-11-07): 19 biomas (se añadieron Mar de Escombros Profundo y Helado); `mushroom_fields` → Praderas de Chatarra, `cherry_grove` → Ruinas Invadidas. Se mantienen minas abandonadas y fortalezas; el resto de estructuras vanilla ya no aparecen.
 3. **Detalles del terreno** (features): cráteres, chatarra, cristales, árboles muertos/invadidos, escombros. 🔶 Hecho en parte (`tools/world_features_gen.py`): montones, pedazos, ceniza, cráteres, restos de muros, árboles muertos, cristales de cinetrita. Falta: autopistas/vías, más vegetación invadida, refrigerante.
-4. **Estructuras** empezando por Asentamiento de Supervivientes, ruinas y fábrica. 🔶 Hecho: edificios en ruinas (4 variantes, incluye los "rascacielos" de la Megaciudad). Hecho: Asentamiento de Supervivientes (sin NPC todavía). NPC Superviviente hecho (3 oficios). Fábrica abandonada hecha. Instalación de la IA hecha (con Torretas Centinela). Siguiente: antena, centro de datos, búnker, laboratorio del Enjambre, ciudad sumergida; drones.
+4. **Estructuras**: implementadas las ruinas (4 variantes), asentamiento con NPC (3 oficios), fábrica, colmena, Instalación de la IA y las cinco instalaciones de la tabla. Falta ajustar su aspecto y frecuencia tras explorarlas en el juego.
 5. **Ambiente** (partículas, sonidos, clima).
 6. Nether y End.
 
 ## Pendiente de decidir
 - ¿Se mantienen los hostiles vanilla (zombis, esqueletos…) o se sustituyen por criaturas de la IA? (sugerencia: mantener algunos, reducirlos, y añadir drones/criaturas del mod).
 - ¿Acceso al End: stronghold vanilla o una instalación propia?
+
+## Tres jefes del Overworld (usuario, 2026-11-10)
+- **Araña de Asedio**: se mantiene en la Instalación de la IA; conserva el Motor Dimensional como recompensa.
+- **Vigía de la Red**: 360 de vida; guardián aéreo de la antena. Rayos con línea de aviso y pulso de radio 8 cada tercer ataque. Tres fases de cadencia; núcleo expuesto 24 ticks tras atacar (+50 % de daño recibido). Botín: procesador, mecanismos, inercita y chatarra.
+- **Matriarca del Enjambre**: 520 de vida; guardiana terrestre del laboratorio. Embestida con preparación y bombardeo de radio 4,5 a un punto que deja de seguirte antes de impactar. Tres fases y la misma ventana de respuesta. Botín: núcleo de enjambre, procesador, cinetrita e inercita.
+- Los nuevos guardianes se activan con una consola configurada por la estructura. Victoria: salida abierta y consola vencida permanente. Abandono durante 60 s sin jugadores de supervivencia cerca: se descartan y permiten reintentar. Tipo de jefe, punto de aparición y sellos se guardan en NBT; las consolas antiguas siguen invocando a la Araña.
+- Son guardianes locales; el Núcleo Directriz sigue siendo el jefe final de las dimensiones futuras. Ninguno entrega la Guía de Enjambre.

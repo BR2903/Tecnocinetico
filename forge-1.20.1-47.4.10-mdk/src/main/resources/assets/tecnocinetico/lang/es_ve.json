@@ -550,5 +550,10 @@
   "message.tecnocinetico.friendly_fire_on": "Fuego amigo ACTIVADO: los jugadores pueden herirse entre sí.",
   "message.tecnocinetico.friendly_fire_off": "Fuego amigo DESACTIVADO: los jugadores no pueden herirse entre sí.",
   "message.tecnocinetico.kit_blocked_entity": "No cabe (%s): %s está en medio",
-  "tooltip.tecnocinetico.core_fighter_wreck": "Restos dañados: casco %s/%s (repáralo con Placas de Inercita)"
+  "tooltip.tecnocinetico.core_fighter_wreck": "Restos dañados: casco %s/%s (repáralo con Placas de Inercita)",
+  "entity.tecnocinetico.network_watcher": "Vigía de la Red",
+  "entity.tecnocinetico.swarm_matriarch": "Matriarca del Enjambre",
+  "item.tecnocinetico.network_watcher_spawn_egg": "Huevo de Vigía de la Red",
+  "item.tecnocinetico.swarm_matriarch_spawn_egg": "Huevo de Matriarca del Enjambre",
+  "message.tecnocinetico.guardian_wake": "%s ha despertado."
 }

@@ -72,6 +72,8 @@ def chest(name, pools):
 
 
 def main():
+    from overworld_sites_gen import generate
+    generate()
     # ------------------------------------------------ edificios en ruinas
     structure("ruined_building_megacity", "ruined_building", ["dead_megacity"],
               {"floors": uniform(2, 6), "width": uniform(7, 13), "style": "urban"}, 9, 3, 74120931, avoid="survivor_settlement")

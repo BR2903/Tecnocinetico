@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "tecnocinetico:data_center",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 34,
+    "separation": 11,
+    "salt": 74121001,
+    "exclusion_zone": {
+      "other_set": "tecnocinetico:survivor_settlement",
+      "chunk_count": 3
+    }
+  }
+}

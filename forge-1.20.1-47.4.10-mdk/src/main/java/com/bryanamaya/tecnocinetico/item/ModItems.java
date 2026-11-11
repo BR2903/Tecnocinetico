@@ -453,4 +453,9 @@ public class ModItems {
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
+
+    public static final RegistryObject<Item> NETWORK_WATCHER_SPAWN_EGG = ITEMS.register("network_watcher_spawn_egg",
+            () -> new net.minecraftforge.common.ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.entity.ModEntities.NETWORK_WATCHER, 0x344959, 0x41DCF5, new Item.Properties()));
+    public static final RegistryObject<Item> SWARM_MATRIARCH_SPAWN_EGG = ITEMS.register("swarm_matriarch_spawn_egg",
+            () -> new net.minecraftforge.common.ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.entity.ModEntities.SWARM_MATRIARCH, 0x3B4E44, 0x73EB96, new Item.Properties()));
 }
