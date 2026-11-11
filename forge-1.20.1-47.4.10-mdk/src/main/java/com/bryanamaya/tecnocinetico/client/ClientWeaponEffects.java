@@ -40,6 +40,7 @@ public final class ClientWeaponEffects {
     }
 
     private static void clear() {
+        HandMuzzleEffects.clear();
         capturedLevel = null; capturedItem = null; cameraOffset = null; inverseWorldProjection = null; captureTick = 0;
     }
 
@@ -58,13 +59,10 @@ public final class ClientWeaponEffects {
                 || stack != mc.player.getMainHandItem()) return;
         var model = mc.getItemRenderer().getModel(stack, mc.level, mc.player, 0);
         boolean left = arm == HumanoidArm.LEFT;
-        PoseStack copy = new PoseStack();
-        copy.mulPoseMatrix(pose.last().pose());
-        model.getTransforms().getTransform(left ? ItemDisplayContext.FIRST_PERSON_LEFT_HAND : ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
-                .apply(left, copy);
         Vec3 raw = WeaponMuzzles.modelPoint(stack);
-        Vector3f hand = copy.last().pose().transformPosition(new Vector3f((float) raw.x / 16 - .5F,
-                (float) raw.y / 16 - .5F, (float) raw.z / 16 - .5F));
+        Vector3f hand = HandMuzzleGeometry.tip(pose.last().pose(), model.getTransforms().getTransform(
+                left ? ItemDisplayContext.FIRST_PERSON_LEFT_HAND : ItemDisplayContext.FIRST_PERSON_RIGHT_HAND), left, raw);
+        HandMuzzleEffects.render(stack, hand, inverseWorldProjection);
         Vector3f view = MuzzleProjection.toWorldView(hand, RenderSystem.getProjectionMatrix(), inverseWorldProjection);
         RenderSystem.getInverseViewRotationMatrix().transform(view);
         cameraOffset = new Vec3(view.x, view.y, view.z);
@@ -75,6 +73,7 @@ public final class ClientWeaponEffects {
         Minecraft mc = Minecraft.getInstance();
         var level = mc.level;
         if (level == null || mc.player == null) return;
+        if (HandMuzzleEffects.queue(packet)) return;
         Vec3 muzzle = packet.origin();
         if (packet.owner() == mc.player.getId() && capturedLevel == level && cameraOffset != null
                 && capturedItem == Item.byId(packet.item()) && mc.player.getMainHandItem().is(capturedItem)
