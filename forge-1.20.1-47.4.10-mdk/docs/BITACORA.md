@@ -531,3 +531,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - **Caza del Núcleo**: el choque solo cuenta si hay algo sólido delante (el lag ya no da daño fantasma); al destruirse suelta los restos con 15/150 de casco.
 - **Menores**: la resonancia de la Cámara llega al cliente; las máquinas y la prensa solo se sincronizan si trabajan o cambió algo; R con un arma larga en la mano secundaria no la recarga; gadgets sin Reparación por yunque; los kits no se despliegan encima de jugadores o criaturas.
 - ARQUITECTURA (registros) al día. 35 GameTests pasan.
+
+
+## 2026-11-10 — Codex — Revisión del estado actual
+- Revisadas las instrucciones, documentación, controles de red, disparo, menú común de máquinas y despliegue de estructuras. Sin cambios en las mecánicas.
+- Registrados en PENDIENTES dos fallos de validación del servidor: disparo normal que evita la carga del Rifle de Riel y cadencia automática que permite varios disparos de minigun en el mismo tick. Hallazgos por lectura de código; no reproducidos con un cliente modificado.
+- Validación: compileJava + runGameTestServer, 35 pruebas requeridas superadas y BUILD SUCCESSFUL; tools/check_models.py sin errores. Falta valoración visual y equilibrio jugando en supervivencia/multijugador.
