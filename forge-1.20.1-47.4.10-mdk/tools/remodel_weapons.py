@@ -4,7 +4,7 @@ import sys
 import re
 from pathlib import Path
 from weapons_gen import GROUPS
-from weapon_remodel import EXTRA_WEAPONS
+from weapon_blueprints import EXTRA_WEAPONS
 
 ROOT=Path(__file__).resolve().parent.parent
 ASSETS=ROOT/"src/main/resources/assets/tecnocinetico"

@@ -28,6 +28,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 **Arsenal (usuario, 2026-11-11):** le gusta la dirección visual de los modelos y pide remodelar las armas, exceptuando expresamente la Pistola Cinética. Mantener proporciones realistas, identidad por arma y los mecanismos visibles de módulos, recarga y giro. Aplicar también al machete y a la cuchilla.
 
+**Armas desde cero (usuario, 2026-11-11):** la primera remodelación gustó, pero parecía una modificación de lo existente. Pide modelos completos nuevos, con siluetas y geometrías propias, manteniendo la exclusión de la pistola. El resultado anterior se conserva en el commit `d269d67` para poder recuperarlo si prefiere esa versión.
+
 - **Complemento de Create.** Las máquinas automáticas funcionan con **electricidad de Create Crafts & Additions** (Forge Energy). **No** usar la rotación/energía cinética de Create como fuente de energía de nuestras máquinas.
 - **Progresión:** al inicio solo máquinas **sin energía** (Prensa de Ensamblaje manual con martillo). Las automáticas requieren electricidad.
 - La **Fuente de Energía Creativa** es **solo para pruebas**: sin receta, sin drops, irrompible en supervivencia, oculta en JEI. No debe poder conseguirse jugando.
