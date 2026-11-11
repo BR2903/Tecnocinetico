@@ -36,6 +36,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 **Onda del fogonazo (usuario, 2026-11-11):** alineación y proyectiles ya correctos en las armas lentas, pero el efecto de boca aparece como cuadro/píxeles blancos. Recuperar la onda celeste original sin alterar la posición aprobada ni las trazadoras.
 
+**Estela de la bala (usuario, 2026-11-11):** debe dejar partículas celestes; corregir el blanco que aún quedaba en la estela, conservando la alineación y la onda de boca ya ajustadas.
+
 - **Complemento de Create.** Las máquinas automáticas funcionan con **electricidad de Create Crafts & Additions** (Forge Energy). **No** usar la rotación/energía cinética de Create como fuente de energía de nuestras máquinas.
 - **Progresión:** al inicio solo máquinas **sin energía** (Prensa de Ensamblaje manual con martillo). Las automáticas requieren electricidad.
 - La **Fuente de Energía Creativa** es **solo para pruebas**: sin receta, sin drops, irrompible en supervivencia, oculta en JEI. No debe poder conseguirse jugando.

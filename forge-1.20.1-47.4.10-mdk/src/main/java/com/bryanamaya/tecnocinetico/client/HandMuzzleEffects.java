@@ -21,12 +21,12 @@ import java.util.Set;
 public final class HandMuzzleEffects {
     private static final Set<String> WEAPONS = Set.of("pipe_shotgun", "pump_shotgun", "bolt_rifle", "semi_rifle",
             "rail_rifle", "kinetic_sniper", "revolver", "grenade_launcher", "rocket_launcher");
-    private static final RenderType GLOW = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(
-            Tecnocinetico.MOD_ID, "textures/particle/kinetic_glow.png"));
+    private static final RenderType GLOW = RenderType.entityTranslucentEmissive(ResourceLocation.fromNamespaceAndPath(
+            Tecnocinetico.MOD_ID, "textures/particle/kinetic_glow.png"), false);
     // El anillo necesita alfa real: el modo aditivo de ojos muestra el RGB de texeles transparentes.
     private static final RenderType RING = RenderType.entityTranslucentEmissive(ResourceLocation.fromNamespaceAndPath(
             Tecnocinetico.MOD_ID, "textures/particle/kinetic_ring.png"), false);
-    private static final float BURST_TICKS = 7, TRACER_TICKS = 2;
+    private static final float BURST_TICKS = 7, TRACER_TICKS = 6;
     private record Shot(WeaponEffectPacket packet, double received) {}
     private static final ArrayList<Shot> shots = new ArrayList<>();
 
@@ -68,13 +68,15 @@ public final class HandMuzzleEffects {
                 billboard(ring, muzzle, radius, .30F, .88F, 1, .95F*(1-t*t));
             }
             if (shot.packet.kind() == WeaponEffectPacket.FLASH || age>=TRACER_TICKS) continue;
-            float fade = 1-age/TRACER_TICKS;
+            float t = age/TRACER_TICKS;
+            float fade = .95F*(1-t*t);
+            float radius = .09F+(.02F-.09F)*t;
             var relative = shot.packet.end().subtract(camera);
             Vector3f target = worldToView.transform(new Vector3f((float)relative.x, (float)relative.y, (float)relative.z));
             target = MuzzleProjection.toHandView(target, worldProjection, inverseHandProjection);
             if (target.z < -.05F) {
                 var tracer = mc.renderBuffers().bufferSource().getBuffer(GLOW);
-                beam(tracer, muzzle, target, shot.packet.kind()==WeaponEffectPacket.ARC ? .012F : .005F, fade);
+                trail(tracer, muzzle, target, radius*(shot.packet.kind()==WeaponEffectPacket.ARC ? 1.3F : 1), fade);
             }
         }
     }
@@ -85,10 +87,10 @@ public final class HandMuzzleEffects {
                 i==1||i==2?1:0,i<2?1:0,r,g,b,alpha);
     }
 
-    private static void beam(VertexConsumer out, Vector3f start, Vector3f end, float width, float alpha) {
-        var points = HandMuzzleGeometry.beam(start,end,width);
-        for (int i=0;i<4;i++) vertex(out,points[i].x,points[i].y,points[i].z,
-                i==1||i==2?1:0,i<2?1:0,.35F,.85F,1,alpha);
+    private static void trail(VertexConsumer out, Vector3f start, Vector3f end, float radius, float alpha) {
+        // Igual que las trazadoras del mundo: partículas separadas, no una textura estirada a todo el rayo.
+        for (Vector3f point : HandMuzzleGeometry.trail(start,end))
+            billboard(out,point,radius,.30F,.88F,1,alpha);
     }
 
     private static void vertex(VertexConsumer out,float x,float y,float z,float u,float v,float r,float g,float b,float a) {

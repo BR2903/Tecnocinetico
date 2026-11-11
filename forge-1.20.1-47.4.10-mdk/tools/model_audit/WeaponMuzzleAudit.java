@@ -59,8 +59,12 @@ public final class WeaponMuzzleAudit {
                     Vector3f actual=animated.last().pose().transformPosition(new Vector3f(point));
                     var quad=HandMuzzleGeometry.flash(tip,.085F);
                     Vector3f center=new Vector3f(); for(var corner:quad) center.add(corner); center.div(4);
-                    var beam=HandMuzzleGeometry.beam(tip,new Vector3f(0,0,-30),.005F);
-                    Vector3f start=new Vector3f(beam[0]).add(beam[3]).mul(.5F);
+                    Vector3f target=new Vector3f(0,0,-30);
+                    var trail=HandMuzzleGeometry.trail(tip,target);
+                    var first=HandMuzzleGeometry.flash(trail[0],.09F);
+                    Vector3f start=new Vector3f(); for (var corner:first) start.add(corner); start.div(4);
+                    if (trail[trail.length-1].distance(target)>.00001 || trail.length>513)
+                        throw new IllegalStateException("Estela sin impacto o sin limite de particulas: "+name);
                     if (center.distance(actual)>.00001 || start.distance(actual)>.00001)
                         throw new IllegalStateException("Efecto separado del cañon en retroceso: "+name+" kick="+kick);
                     if (previous!=null && kick==1.3F && actual.distance(previous)<.1)

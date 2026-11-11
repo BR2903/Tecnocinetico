@@ -20,12 +20,10 @@ public final class HandMuzzleGeometry {
         return new Vector3f[]{new Vector3f(p.x-radius,p.y-radius,p.z),new Vector3f(p.x+radius,p.y-radius,p.z),
                 new Vector3f(p.x+radius,p.y+radius,p.z),new Vector3f(p.x-radius,p.y+radius,p.z)};
     }
-    public static Vector3f[] beam(Vector3f start, Vector3f end, float width) {
-        float dx=end.x-start.x,dy=end.y-start.y;
-        float length=(float)Math.sqrt(dx*dx+dy*dy);
-        float x=length>.0001F ? -dy/length*width : width;
-        float y=length>.0001F ? dx/length*width : 0;
-        return new Vector3f[]{new Vector3f(start.x-x,start.y-y,start.z),new Vector3f(end.x-x,end.y-y,end.z),
-                new Vector3f(end.x+x,end.y+y,end.z),new Vector3f(start.x+x,start.y+y,start.z)};
+    public static Vector3f[] trail(Vector3f start, Vector3f end) {
+        int steps=Math.min(512,Math.max(1,(int)(start.distance(end)*2)));
+        Vector3f[] points=new Vector3f[steps+1];
+        for (int i=0;i<=steps;i++) points[i]=new Vector3f(start).lerp(end,i/(float)steps);
+        return points;
     }
 }
