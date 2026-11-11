@@ -23,6 +23,10 @@ public final class HandMuzzleEffects {
             "rail_rifle", "kinetic_sniper", "revolver", "grenade_launcher", "rocket_launcher");
     private static final RenderType GLOW = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(
             Tecnocinetico.MOD_ID, "textures/particle/kinetic_glow.png"));
+    // El anillo necesita alfa real: el modo aditivo de ojos muestra el RGB de texeles transparentes.
+    private static final RenderType RING = RenderType.entityTranslucentEmissive(ResourceLocation.fromNamespaceAndPath(
+            Tecnocinetico.MOD_ID, "textures/particle/kinetic_ring.png"), false);
+    private static final float BURST_TICKS = 7, TRACER_TICKS = 2;
     private record Shot(WeaponEffectPacket packet, double received) {}
     private static final ArrayList<Shot> shots = new ArrayList<>();
 
@@ -47,25 +51,31 @@ public final class HandMuzzleEffects {
         var mc = Minecraft.getInstance();
         if (mc.level == null || shots.isEmpty()) return;
         double now = mc.level.getGameTime() + mc.getFrameTime();
-        shots.removeIf(s -> now-s.received > 2 || now<s.received-1 || Item.byId(s.packet.item()) != stack.getItem());
+        shots.removeIf(s -> now-s.received >= (s.packet.flash() ? BURST_TICKS : TRACER_TICKS)
+                || now<s.received-1 || Item.byId(s.packet.item()) != stack.getItem());
         if (shots.isEmpty() || muzzle.z >= -.05F) return;
-        var consumer = mc.renderBuffers().bufferSource().getBuffer(GLOW);
         Matrix4f worldProjection = new Matrix4f(inverseWorldProjection).invert();
         Matrix4f inverseHandProjection = new Matrix4f(RenderSystem.getProjectionMatrix()).invert();
         Matrix3f worldToView = new Matrix3f(RenderSystem.getInverseViewRotationMatrix()).invert();
         var camera = mc.gameRenderer.getMainCamera().getPosition();
         for (Shot shot : shots) {
-            float fade = (float) Math.max(0, 1-(now-shot.received)/2);
+            float age = (float)Math.max(0, now-shot.received);
             if (shot.packet.flash()) {
-                billboard(consumer, muzzle, .085F, .8F, .95F, 1, fade);
-                billboard(consumer, muzzle, .025F, 1, 1, 1, fade);
+                // Mismo tamaño, color y expansión que KineticParticle.Kind.BURST (escala .45).
+                float t = Math.min(1, age/BURST_TICKS);
+                float radius = (.12F + (.9F-.12F)*t)*.45F;
+                var ring = mc.renderBuffers().bufferSource().getBuffer(RING);
+                billboard(ring, muzzle, radius, .30F, .88F, 1, .95F*(1-t*t));
             }
-            if (shot.packet.kind() == WeaponEffectPacket.FLASH) continue;
+            if (shot.packet.kind() == WeaponEffectPacket.FLASH || age>=TRACER_TICKS) continue;
+            float fade = 1-age/TRACER_TICKS;
             var relative = shot.packet.end().subtract(camera);
             Vector3f target = worldToView.transform(new Vector3f((float)relative.x, (float)relative.y, (float)relative.z));
             target = MuzzleProjection.toHandView(target, worldProjection, inverseHandProjection);
-            if (target.z < -.05F) beam(consumer, muzzle, target,
-                    shot.packet.kind()==WeaponEffectPacket.ARC ? .012F : .005F, fade);
+            if (target.z < -.05F) {
+                var tracer = mc.renderBuffers().bufferSource().getBuffer(GLOW);
+                beam(tracer, muzzle, target, shot.packet.kind()==WeaponEffectPacket.ARC ? .012F : .005F, fade);
+            }
         }
     }
 
