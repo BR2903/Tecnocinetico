@@ -27,12 +27,22 @@ public class CorruptedHumanModel<T extends Monster> extends PlayerModel<T> {
     }
 
     public static LayerDefinition createLayer() {
-        return LayerDefinition.create(PlayerModel.createMesh(CubeDeformation.NONE, false), 64, 64);
+        return RemodeledMobLayers.corruptedHuman();
     }
 
     @Override
     public void setupAnim(T e, float limbSwing, float limbSwingAmount, float age, float netHeadYaw, float headPitch) {
         super.setupAnim(e, limbSwing, limbSwingAmount, age, netHeadYaw, headPitch);
+        String skin = e instanceof com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSkin s ? s.skinName() : "wanderer";
+        body.getChild("worker_pack").visible = skin.equals("worker");
+        head.getChild("worker_helmet").visible = skin.equals("worker");
+        leftArm.getChild("crystal_growth").visible = skin.equals("crystal");
+        rightArm.getChild("raider_pad").visible = skin.equals("raider") || skin.equals("soldier");
+        head.getChild("soldier_helmet").visible = skin.equals("soldier");
+        body.getChild("soldier_chest").visible = skin.equals("soldier");
+        head.getChild("raider_mask").visible = skin.equals("raider");
+        body.getChild("drowned_tank").visible = skin.equals("drowned");
+        head.getChild("drowned_mask").visible = skin.equals("drowned");
         boolean armed = !e.getMainHandItem().isEmpty();
         if (e instanceof CorruptedGunnerEntity && armed && e.isAggressive()) {
             if (e.getMainHandItem().getItem() instanceof LongGunItem) {

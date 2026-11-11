@@ -17,11 +17,12 @@ import net.minecraft.world.entity.monster.Creeper;
  */
 public class CorruptedCreeperRenderer extends CreeperRenderer {
 
-    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("corrupted_creeper");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("corrupted_creeper_glow"));
+    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/corrupted_creeper");
+    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/corrupted_creeper_glow"));
 
     public CorruptedCreeperRenderer(EntityRendererProvider.Context ctx) {
         super(ctx);
+        this.model = new RemodeledCreeperModel(ctx.bakeLayer(RemodeledCreeperModel.LAYER));
         addLayer(new RenderLayer<Creeper, CreeperModel<Creeper>>(this) {
             @Override
             public void render(PoseStack pose, MultiBufferSource buffers, int light, Creeper e, float limbSwing, float limbSwingAmount,

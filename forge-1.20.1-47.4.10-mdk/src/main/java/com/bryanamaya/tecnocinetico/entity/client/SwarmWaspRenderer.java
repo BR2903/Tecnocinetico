@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 /** Avispa del Enjambre: textura según su papel y capa luminosa (ojos y bandas de cinetrita). */
 public class SwarmWaspRenderer extends MobRenderer<SwarmWaspEntity, SwarmWaspModel<SwarmWaspEntity>> {
 
-    private static final RenderType GLOW = RenderType.eyes(tex("swarm_wasp/glow"));
+    private static final RenderType GLOW = RenderType.eyes(tex("remodel/swarm_wasp/glow"));
 
     public SwarmWaspRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new SwarmWaspModel<>(ctx.bakeLayer(SwarmWaspModel.LAYER)), 0.3F);
@@ -30,7 +30,7 @@ public class SwarmWaspRenderer extends MobRenderer<SwarmWaspEntity, SwarmWaspMod
 
     @Override
     public ResourceLocation getTextureLocation(SwarmWaspEntity e) {
-        return tex("swarm_wasp/" + e.getRole().id);
+        return tex("remodel/swarm_wasp/" + e.getRole().id);
     }
 
     @Override

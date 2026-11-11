@@ -239,6 +239,9 @@ public class Tecnocinetico {
                     com.bryanamaya.tecnocinetico.entity.client.OverworldGuardianModel::watcherLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.OverworldGuardianModel.MATRIARCH,
                     com.bryanamaya.tecnocinetico.entity.client.OverworldGuardianModel::matriarchLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.HiveNodeModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.HiveNodeModel::createLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.CorruptedSpiderModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.CorruptedSpiderModel::createLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.RemodeledCreeperModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.RemodeledCreeperModel::createLayer);
             event.registerLayerDefinition(SwarmBodyModel.LAYER, SwarmBodyModel::createBodyLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SwarmWaspModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.SwarmWaspModel::createLayer);

@@ -16,9 +16,9 @@ import net.minecraft.resources.ResourceLocation;
  */
 public class SentryTurretRenderer extends MobRenderer<SentryTurretEntity, SentryTurretModel> {
 
-    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("sentry_turret");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("sentry_turret_glow"));
-    private static final RenderType GLOW_CHARGE = RenderType.eyes(SwarmWaspRenderer.tex("sentry_turret_charge"));
+    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/sentry_turret");
+    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/sentry_turret_glow"));
+    private static final RenderType GLOW_CHARGE = RenderType.eyes(SwarmWaspRenderer.tex("remodel/sentry_turret_charge"));
 
     public SentryTurretRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new SentryTurretModel(ctx.bakeLayer(SentryTurretModel.LAYER)), 0.6F);

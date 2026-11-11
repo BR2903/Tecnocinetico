@@ -14,15 +14,15 @@ import net.minecraft.world.entity.monster.Spider;
  * Arañas Corruptas (normal x1,15 y de cueva x0,8): modelo vanilla de araña con textura propia
  * (tools/corrupted_spider_texture.py) y capa luminosa de ojos y cristales.
  */
-public class CorruptedSpiderRenderer extends MobRenderer<Spider, SpiderModel<Spider>> {
+public class CorruptedSpiderRenderer extends MobRenderer<Spider, CorruptedSpiderModel> {
 
-    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("corrupted_spider");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("corrupted_spider_glow"));
+    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/corrupted_spider");
+    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/corrupted_spider_glow"));
 
     private final float scale;
 
     public CorruptedSpiderRenderer(EntityRendererProvider.Context ctx, float scale) {
-        super(ctx, new SpiderModel<>(ctx.bakeLayer(ModelLayers.SPIDER)), 0.9F * scale);
+        super(ctx, new CorruptedSpiderModel(ctx.bakeLayer(CorruptedSpiderModel.LAYER)), 0.9F * scale);
         this.scale = scale;
         addLayer(new EyesLayer<>(this) {
             @Override

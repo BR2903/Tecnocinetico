@@ -166,5 +166,11 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/armor3d_gen.py [carpeta]`: armaduras 3D (modelos por pieza + texturas); con carpeta, vistas previas de cada set en un maniquí (`render_zbuffer.py <png> <carpeta>/<set>_preview.json 200 15 14`).
 - `python tools/press_model_gen.py`: Prensa Automática estilo Create (atlas, cuerpo, cabezal animado y modelo del objeto).
 
-## parts_art.py
+## Remodelación de mobs (2026-11-11)
+- `python tools/remodel_mobs.py`: regenera modelos Java, atlas de 128 px y geometrías de previsualización de la Araña, máquinas, enjambre, corruptos y supervivientes. Fuentes editables: `mob_remodel_rigs.py` y `mob_humanoid_rigs.py`. Conserva los modelos aprobados del Vigía y la Matriarca.
+- `python tools/preview_mob_remodel.py`: genera 20 vistas y la comparativa `build/mob_remodel/todos_los_mobs.png`, usando la misma geometría que Minecraft y profundidad real de `render_zbuffer.py`.
+- `cmd /c ".\gradlew.bat auditMobModels"`: construye 13 modelos reales sin ventana ni contexto OpenGL; comprueba piezas usadas por animaciones, anclajes de las seis rodillas y atlas. Complementa las pruebas de servidor, que no cargan modelos de cliente.
+- Los atlas finales están en `textures/entity/remodel/`. Los scripts antiguos de pieles siguen siendo las fuentes base de los humanoides: tras modificarlos, ejecutar `remodel_mobs.py` para actualizar las nuevas pieles y accesorios.
+
+## parts_art.py (componentes)
 - `python tools/parts_art.py`: arte plano 16x16 (`item/generated`) del fragmento de cinetrita, la Resistencia 330 Ω y el Transductor Piezo-Cúprico. Materiales y componentes pequeños van en plano (preferencia del usuario).

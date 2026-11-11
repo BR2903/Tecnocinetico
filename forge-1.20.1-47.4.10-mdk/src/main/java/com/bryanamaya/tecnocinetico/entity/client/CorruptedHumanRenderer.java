@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Corruptos humanos (Corrupto y Tirador Corrupto): textura por variante en textures/entity/corrupted/ y capa
+ * Corruptos humanos (Corrupto y Tirador Corrupto): textura por variante en textures/entity/remodel/corrupted/ y capa
  * luminosa (_glow: ojos y cristales de cinetrita) a plena luz. Muestra armadura y el arma en la mano.
  */
 public class CorruptedHumanRenderer<T extends Monster & CorruptedSkin> extends HumanoidMobRenderer<T, CorruptedHumanModel<T>> {
@@ -43,7 +43,7 @@ public class CorruptedHumanRenderer<T extends Monster & CorruptedSkin> extends H
 
     private static ResourceLocation tex(String name) {
         return TEX.computeIfAbsent(name, n -> ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID,
-                "textures/entity/corrupted/" + n + ".png"));
+                "textures/entity/remodel/corrupted/" + n + ".png"));
     }
 
     @Override

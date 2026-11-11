@@ -11,9 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 public class SwarmBodyRenderer extends MobRenderer<SwarmBodyEntity, SwarmBodyModel> {
 
     private static final ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/swarm_body.png");
+            ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/remodel/swarm_body.png");
     private static final RenderType GLOW =
-            RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/swarm_body_glow.png"));
+            RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/remodel/swarm_body_glow.png"));
 
     public SwarmBodyRenderer(EntityRendererProvider.Context context) {
         super(context, new SwarmBodyModel(context.bakeLayer(SwarmBodyModel.LAYER)), 0.75F);

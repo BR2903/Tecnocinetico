@@ -243,3 +243,22 @@ publishing {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
+
+// Construye los modelos de cliente sin abrir Minecraft: las pruebas de servidor no cargan sus jerarquías.
+def mobAuditClasses = layout.buildDirectory.dir('classes/mobModelAudit')
+tasks.register('compileMobModelAudit', JavaCompile) {
+    dependsOn tasks.named('classes')
+    source = fileTree('tools/model_audit') { include '**/*.java' }
+    classpath = sourceSets.main.runtimeClasspath
+    destinationDirectory = mobAuditClasses
+    javaCompiler = javaToolchains.compilerFor { languageVersion = JavaLanguageVersion.of(17) }
+}
+tasks.register('auditMobModels', JavaExec) {
+    dependsOn tasks.named('compileMobModelAudit')
+    workingDir layout.buildDirectory.get().asFile
+    classpath = files(mobAuditClasses) + sourceSets.main.runtimeClasspath
+    mainClass = 'com.bryanamaya.tecnocinetico.audit.MobModelAudit'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(17) }
+    jvmArgs '-Djava.awt.headless=true'
+    args projectDir.absolutePath
+}

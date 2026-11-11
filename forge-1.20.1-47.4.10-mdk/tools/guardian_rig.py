@@ -161,7 +161,9 @@ def preview(r, name):
             elements.append({"from": np.min(pts,0).tolist(), "to": np.max(pts,0).tolist(), "preview_vertices": verts,
                              "faces": {face: {"texture": "#all", "uv": [n/8 for n in uv]} for face,uv in faces.items()}})
     out = ROOT / "build/guardian_previews"; out.mkdir(parents=True, exist_ok=True)
-    (out/f"{name}.json").write_text(json.dumps({"textures": {"all": f"tecnocinetico:entity/{name}"}, "elements": elements}), encoding="utf-8")
+    target = out / f"{name}.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps({"textures": {"all": f"tecnocinetico:entity/{name}"}, "elements": elements}), encoding="utf-8")
 
 
 def generate_model(template):

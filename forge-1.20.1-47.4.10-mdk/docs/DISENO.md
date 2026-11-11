@@ -22,6 +22,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 ## Dirección del proyecto (decidida por el usuario)
 
+**Remodelación de criaturas (usuario, 2026-11-11):** le gustaron mucho los nuevos modelos del Vigía y la Matriarca; extender ese nivel de detalle a la Araña y los demás mobs existentes antes de implementar el Nether. Estilo tecnológico/biomecánico con siluetas propias, piezas mecánicas y accesorios por variante. Mantener el combate y las debilidades existentes.
+
 - **Complemento de Create.** Las máquinas automáticas funcionan con **electricidad de Create Crafts & Additions** (Forge Energy). **No** usar la rotación/energía cinética de Create como fuente de energía de nuestras máquinas.
 - **Progresión:** al inicio solo máquinas **sin energía** (Prensa de Ensamblaje manual con martillo). Las automáticas requieren electricidad.
 - La **Fuente de Energía Creativa** es **solo para pruebas**: sin receta, sin drops, irrompible en supervivencia, oculta en JEI. No debe poder conseguirse jugando.

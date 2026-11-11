@@ -16,9 +16,9 @@ import net.minecraft.resources.ResourceLocation;
  */
 public class DroneRenderer extends MobRenderer<DroneEntity, DroneModel> {
 
-    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("drone");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("drone_glow"));
-    private static final RenderType GLOW_ALERT = RenderType.eyes(SwarmWaspRenderer.tex("drone_alert"));
+    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/drone");
+    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/drone_glow"));
+    private static final RenderType GLOW_ALERT = RenderType.eyes(SwarmWaspRenderer.tex("remodel/drone_alert"));
 
     public DroneRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new DroneModel(ctx.bakeLayer(DroneModel.LAYER)), 0.5F);

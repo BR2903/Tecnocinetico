@@ -13,9 +13,9 @@ import net.minecraft.resources.ResourceLocation;
 /** Anclador: núcleo y cristal azul-violeta que brillan; parpadean blancos mientras carga el haz o el pisotón. */
 public class AnchorRenderer extends MobRenderer<AnchorEntity, AnchorModel> {
 
-    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("anchor");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("anchor_glow"));
-    private static final RenderType GLOW_CHARGE = RenderType.eyes(SwarmWaspRenderer.tex("anchor_charge"));
+    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/anchor");
+    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/anchor_glow"));
+    private static final RenderType GLOW_CHARGE = RenderType.eyes(SwarmWaspRenderer.tex("remodel/anchor_charge"));
 
     public AnchorRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new AnchorModel(ctx.bakeLayer(AnchorModel.LAYER)), 1.0F);

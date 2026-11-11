@@ -13,10 +13,10 @@ import net.minecraft.resources.ResourceLocation;
 /** Araña de Asedio: modelo x2, sensor y núcleo que brillan (rojo en la fase 3, blanco al cargar un ataque). */
 public class SiegeSpiderRenderer extends MobRenderer<SiegeSpiderEntity, SiegeSpiderModel> {
 
-    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("siege_spider");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("siege_spider_glow"));
-    private static final RenderType GLOW_RAGE = RenderType.eyes(SwarmWaspRenderer.tex("siege_spider_rage"));
-    private static final RenderType GLOW_CHARGE = RenderType.eyes(SwarmWaspRenderer.tex("siege_spider_charge"));
+    private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/siege_spider");
+    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_glow"));
+    private static final RenderType GLOW_RAGE = RenderType.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_rage"));
+    private static final RenderType GLOW_CHARGE = RenderType.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_charge"));
 
     public SiegeSpiderRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new SiegeSpiderModel(ctx.bakeLayer(SiegeSpiderModel.LAYER)), 3.0F);
