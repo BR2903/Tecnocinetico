@@ -143,6 +143,10 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 - `python tools/combat_armor_gen.py [preview.png]`: armaduras de combate Mk I-III (capas + iconos). El Impulsor de Esquiva y su célula: `weapons_gen.py`.
 
 ## gunkit.py (texturas de las armas)
+
+- Remodelación actual: `python tools/remodel_weapons.py` genera **solo el arsenal sin pistola**, ajusta el inventario para las 93 variantes/fotogramas y produce `build/weapon_remodel/arsenal_remodelado.png` y `variantes_y_recargas.png`.
+- La geometría adicional y las sustituciones están en `tools/weapon_remodel.py`, aplicada por `weapons_gen.model` antes del empaquetado. Las poses móviles conservan pivotes y desplazamientos originales. `weapons_gen.py --weapons-only` regenera solo modelos/atlas, conservando el encuadre de inventario existente; usar el script completo anterior cuando cambie el tamaño.
+- `preview_weapon_remodel.py` usa texturas finales, transforma las rotaciones de cada elemento JSON y renderiza con profundidad real. Incluye recargas, variantes con todos los módulos y giro de la Minigun. No modifica el renderizador compartido.
 - Vista de inventario: armas largas `gui_fit.py $A "y-90;z25" <modelos>`; machete y cuchilla (geometría ya en diagonal) `gui_fit.py $A "0,0,0" scrap_machete kinetic_blade`.
 - La vista previa oculta caras cuyo centro cae dentro de otra pieza (acanaladuras, espigas, tambores): para revisar esas armas, copia `render_model.py` con `hidden()` devolviendo `False`.
 - Lo usa `weapons_gen.py`: cada arma se pinta en su propia textura `textures/item/gun/<arma>.png` por pintores de material (ver la cabecera del archivo). Para un arma nueva: escribe su función de geometría con `el(desde, hasta, material, front=..., rot=...)`, regístrala con `model(...)` (añade su nombre base a `GROUPS` si tiene variantes) y ejecuta `python tools/weapons_gen.py`; luego `gui_fit.py` y otra vez `weapons_gen.py`.

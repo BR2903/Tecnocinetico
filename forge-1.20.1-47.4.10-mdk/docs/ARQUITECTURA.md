@@ -46,6 +46,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `CreativeEnergySourceBlock(Entity)` — solo pruebas; empuja 100 000 FE/tick a cada vecino y permite extracción infinita.
 
 ### Armas (`item/custom`)
+- Arte del arsenal: `tools/weapons_gen.py` define las bases, variantes y predicados; `weapon_remodel.py` sustituye o detalla la geometría de 19 armas/objetos de combate sin tocar la Pistola Cinética. `remodel_weapons.py` regenera solo esos recursos y ajusta inventario por variante. Atlas compartido por arma mediante `gunkit`, máximo 128 px y caras coplanares corregidas antes del empaquetado. No cambia clases Java, estadísticas ni animación del jugador.
 - `KineticPistolItem` — disparo hitscan (`fire`), efectos (`spawnShotEffects`: partículas propias + `ItemParticleOption` del fragmento + polvo del bloque), munición/recarga en NBT (`Ammo`, `ReloadTicks`, `ReloadTotal`), estadísticas según módulos (`getMagSize`, `getShotDamage`, `getRange`, `getAimAssist`, `getReloadTicks`), XP de Manejo de Armas. `initializeClient` → `PistolClientExtensions`.
 - `GunAnimState` — último disparo (para la animación de retroceso). Solo datos.
 - `WeaponModule` (enum, máscara de bits en NBT `Modules`) + `WeaponModuleItem`.

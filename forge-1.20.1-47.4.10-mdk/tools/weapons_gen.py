@@ -1,6 +1,9 @@
-"""Armas tier 1 en 3D: textura atlas textures/item/weapons_t1.png (64x64, zonas de 8x8) y modelos de
-pipe_shotgun (+ _open), bolt_rifle (+ _bolt), scrap_machete, shotgun_shell y rifle_round; modelos planos de la
-armadura de chatarra (iconos de tools/armor_gen.py).
+"""Arsenal 3D de tiers 1-3, variantes de módulos/recarga, munición y varios componentes.
+Cada arma comparte su atlas textures/item/gun/<nombre>.png con todas sus variantes.
+La remodelación se aplica desde weapon_remodel.py, sin modificar la Pistola Cinética.
+
+Para regenerar solo las armas, ajustar el inventario y generar vistas: python tools/remodel_weapons.py.
+Con --weapons-only, este generador omite munición, módulos sueltos, gadgets, nave y componentes.
 
 Uso (desde forge-1.20.1-47.4.10-mdk):
     python tools/weapons_gen.py
@@ -21,6 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent / "src/main/resources/assets/tecno
 
 import gunkit  # noqa: E402
 from gunkit import el, scaled  # noqa: E402,F401  (cada arma se pinta en su propia textura item/gun/<grupo>.png)
+from weapon_remodel import remodel, EXTRA_WEAPONS
 
 # grupos de textura: todas las variantes de un arma comparten su textura
 GROUPS = ["pipe_shotgun", "bolt_rifle", "pump_shotgun", "semi_rifle", "rail_rifle", "assault_rifle", "grenade_launcher",
@@ -779,6 +783,11 @@ MINIGUN_DISPLAY["firstperson_lefthand"] = {"translation": [-0.5, 5.5, -3]}
 
 def model(name, elements, display, overrides=None):
     group = max((g for g in GROUPS if name == g or name.startswith(g + "_")), key=len, default=name)
+    weapon = group in GROUPS or group in EXTRA_WEAPONS
+    if "--weapons-only" in sys.argv and not weapon:
+        return
+    if weapon:
+        elements = remodel(group, name, elements)
     gunkit.model(name, elements, display, overrides, group)
 
 
@@ -853,6 +862,8 @@ if __name__ == "__main__":
     flat += ["inercita_plate", "precision_mechanism", "kinetic_servo", "ballistic_fabric"]          # tools/armor_t2_gen.py
     flat += ["core_processor"]                                                                       # tools/tier3_art.py
     for name in flat:
+        if "--weapons-only" in sys.argv:
+            continue
         (ROOT / "models/item" / f"{name}.json").write_text(json.dumps(
             {"parent": "minecraft:item/generated", "textures": {"layer0": f"tecnocinetico:item/{name}"}}, indent=2), encoding="utf-8")
     gunkit.flush()

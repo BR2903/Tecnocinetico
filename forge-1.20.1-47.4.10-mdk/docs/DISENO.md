@@ -26,6 +26,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 **Revisión jugando (usuario, 2026-11-11):** quitar el implante saliente de la mejilla de los zombis; las arañas normales y de cueva deben tener cabeza y patas unidas al cuerpo, sin piezas flotantes. Corregir el parpadeo de caras superpuestas en la base de la Torreta Centinela.
 
+**Arsenal (usuario, 2026-11-11):** le gusta la dirección visual de los modelos y pide remodelar las armas, exceptuando expresamente la Pistola Cinética. Mantener proporciones realistas, identidad por arma y los mecanismos visibles de módulos, recarga y giro. Aplicar también al machete y a la cuchilla.
+
 - **Complemento de Create.** Las máquinas automáticas funcionan con **electricidad de Create Crafts & Additions** (Forge Energy). **No** usar la rotación/energía cinética de Create como fuente de energía de nuestras máquinas.
 - **Progresión:** al inicio solo máquinas **sin energía** (Prensa de Ensamblaje manual con martillo). Las automáticas requieren electricidad.
 - La **Fuente de Energía Creativa** es **solo para pruebas**: sin receta, sin drops, irrompible en supervivencia, oculta en JEI. No debe poder conseguirse jugando.
