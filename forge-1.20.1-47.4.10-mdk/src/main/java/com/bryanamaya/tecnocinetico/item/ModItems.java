@@ -458,4 +458,17 @@ public class ModItems {
             () -> new net.minecraftforge.common.ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.entity.ModEntities.NETWORK_WATCHER, 0x344959, 0x41DCF5, new Item.Properties()));
     public static final RegistryObject<Item> SWARM_MATRIARCH_SPAWN_EGG = ITEMS.register("swarm_matriarch_spawn_egg",
             () -> new net.minecraftforge.common.ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.entity.ModEntities.SWARM_MATRIARCH, 0x3B4E44, 0x73EB96, new Item.Properties()));
+
+    public static final RegistryObject<Item> VECTOR_THRUSTER = ITEMS.register("vector_thruster", () -> shipComponent("vector_thruster"));
+    public static final RegistryObject<Item> ADAPTIVE_FLIGHT_CORE = ITEMS.register("adaptive_flight_core", () -> shipComponent("adaptive_flight_core"));
+
+    private static Item shipComponent(String id) {
+        return new Item(new Item.Properties().stacksTo(1).fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)) {
+            @Override public void appendHoverText(net.minecraft.world.item.ItemStack stack,
+                    @org.jetbrains.annotations.Nullable net.minecraft.world.level.Level level,
+                    java.util.List<net.minecraft.network.chat.Component> tooltip, net.minecraft.world.item.TooltipFlag flag) {
+                tooltip.add(net.minecraft.network.chat.Component.translatable("tooltip.tecnocinetico." + id).withStyle(net.minecraft.ChatFormatting.GRAY));
+            }
+        };
+    }
 }

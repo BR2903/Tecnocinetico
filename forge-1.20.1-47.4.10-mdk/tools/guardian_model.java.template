@@ -1,0 +1,64 @@
+package com.bryanamaya.tecnocinetico.entity.client;
+
+import com.bryanamaya.tecnocinetico.Tecnocinetico;
+import com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+
+/** Generado por tools/guardian_rig.py + guardian_model.java.template. Editar el rig, no las cajas generadas. */
+public class OverworldGuardianModel extends HierarchicalModel<OverworldGuardianEntity> {
+    public static final ModelLayerLocation WATCHER = layer("network_watcher"), MATRIARCH = layer("swarm_matriarch");
+    private final ModelPart root, body;
+    private final boolean watcher;
+    private static ModelLayerLocation layer(String id) {
+        return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, id), "main");
+    }
+    public OverworldGuardianModel(ModelPart root, boolean watcher) {
+        this.root = root; this.body = root.getChild("body"); this.watcher = watcher;
+    }
+    public static LayerDefinition watcherLayer() {
+        var mesh = new MeshDefinition();
+        var root = mesh.getRoot();
+WATCHER_PARTS
+        return LayerDefinition.create(mesh, 128, 128);
+    }
+    public static LayerDefinition matriarchLayer() {
+        var mesh = new MeshDefinition();
+        var root = mesh.getRoot();
+MATRIARCH_PARTS
+        return LayerDefinition.create(mesh, 128, 128);
+    }
+    @Override public ModelPart root() { return root; }
+    @Override public void setupAnim(OverworldGuardianEntity e, float swing, float amount, float age, float yaw, float pitch) {
+        root.getAllParts().forEach(ModelPart::resetPose);
+        if (watcher) {
+            body.y += Mth.sin(age * .12F) * .3F;
+            for (int i = 0; i < 4; i++) body.getChild("turbine" + i).getChild("fan" + i).yRot = age * (i % 2 == 0 ? 1.7F : -1.7F);
+            for (int i = 0; i < 2; i++) {
+                body.getChild("gun" + i).xRot = Mth.clamp(pitch, -40, 40) * Mth.DEG_TO_RAD;
+                body.getChild("capacitor" + i).visible = !e.capacitorBroken(i);
+            }
+            if (e.mode() == 3) body.zRot = .2F + Mth.sin(age * .3F) * .04F;
+        } else {
+            for (int i = 0; i < 6; i++) {
+                var leg = body.getChild("leg" + i);
+                float step = swing * .7F + (i % 2) * Mth.PI;
+                leg.yRot += Mth.sin(step) * amount * .3F;
+                leg.y -= Math.max(0, Mth.cos(step)) * amount * 2;
+                leg.getChild("knee" + i).getChild("shin" + i).xRot += Mth.cos(step) * amount * .15F;
+            }
+            ModelPart head = body.getChild("head");
+            head.yRot = Mth.clamp(yaw, -35, 35) * Mth.DEG_TO_RAD * .4F;
+            head.getChild("jaw0").yRot -= .1F * Mth.sin(age * .2F) + (e.mode() == 1 ? .3F : 0);
+            head.getChild("jaw1").yRot += .1F * Mth.sin(age * .2F) + (e.mode() == 1 ? .3F : 0);
+            body.getChild("abdomen").yScale = 1 + Mth.sin(age * .1F) * .025F;
+            if (e.mode() == 1) body.xRot = .08F;
+        }
+        if (e.mode() == 1 || e.mode() == 2) body.x += Mth.sin(age * 3) * .1F;
+    }
+}

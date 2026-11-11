@@ -74,8 +74,8 @@ public class Tecnocinetico {
 
         @SubscribeEvent
         public static void registerAttributes(EntityAttributeCreationEvent event) {
-            event.put(ModEntities.NETWORK_WATCHER.get(), com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity.attributes(360).build());
-            event.put(ModEntities.SWARM_MATRIARCH.get(), com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity.attributes(520).build());
+            event.put(ModEntities.NETWORK_WATCHER.get(), com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity.attributes(true).build());
+            event.put(ModEntities.SWARM_MATRIARCH.get(), com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity.attributes(false).build());
             event.put(ModEntities.SWARM_BODY.get(), SwarmBodyEntity.createAttributes().build());
             event.put(ModEntities.SWARM_WASP.get(), com.bryanamaya.tecnocinetico.entity.swarm.SwarmWaspEntity.createAttributes().build());
             event.put(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.swarm.HiveNodeEntity.createAttributes().build());

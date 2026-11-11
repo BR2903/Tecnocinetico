@@ -6,6 +6,16 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "tecnocinetico:adaptive_flight_core",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
           "name": "tecnocinetico:swarm_core",
           "weight": 1
         }

@@ -25,7 +25,8 @@
 - Drones: ya patrullan las antenas repetidoras. Ajustar su dificultad en el juego si hace falta (los valores actuales están en `DroneEntity`).
 
 - **Nuevas estructuras del Overworld**: probar la integración con el terreno y la frecuencia de antenas, centros de datos, búnkeres, laboratorios y ciudades sumergidas en chunks nuevos. Autopistas/vías continuas y torres caídas siguen siendo una fase de infraestructura posterior.
-- **Tres jefes del Overworld**: Araña existente + Vigía de la Red y Matriarca del Enjambre. Probar el equilibrio con varios jugadores (cadencias, ventana de exposición de 24 ticks y botín); ajustar apariencia/animaciones tras verlos en el juego. El Vigía y la Matriarca usan sonidos propios ya existentes del mod.
+- **Tres jefes del Overworld**: dificultad Araña < Vigía < Matriarca; probar en grupo los nuevos valores, condensadores traseros del Vigía y Matriarca sin debilidad (ya no existe la exposición automática de 24 ticks). Modelos rediseñados y previsualizados; comprobar articulaciones y contraste en el juego. Usan sonidos propios ya existentes del mod.
+- **Crafteo del caza**: sigue pendiente. Ya están las tres piezas exclusivas garantizadas: Motor Dimensional (Araña), Propulsor Vectorial (Vigía), Núcleo de Vuelo Adaptativo (Matriarca). Diseñar su receta en el Ensamblador Industrial cuando se pida.
 
 - Corruptos: decidir si también se sustituyen aldeanos zombi y otros mobs; sonidos propios (ahora usan los vanilla con tono más grave).
 

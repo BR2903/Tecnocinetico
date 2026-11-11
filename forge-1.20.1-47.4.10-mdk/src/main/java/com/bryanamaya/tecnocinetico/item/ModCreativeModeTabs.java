@@ -276,6 +276,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.RAW_NULLITE.get());
                         out.accept(ModItems.NULLITE_INGOT.get());
                         out.accept(ModItems.DIMENSIONAL_DRIVE.get());
+                        out.accept(ModItems.VECTOR_THRUSTER.get());
+                        out.accept(ModItems.ADAPTIVE_FLIGHT_CORE.get());
                     })
                     .build());
 

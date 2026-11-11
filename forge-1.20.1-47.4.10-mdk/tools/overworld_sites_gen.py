@@ -35,13 +35,15 @@ def generate():
     chest("data_archive", [{"rolls": 1, "entries": [
         record("Registro 07: retirada", "El centro de mando ya no está en el Overworld. Los guardianes ejecutan protocolos locales. Destruir uno no detendrá al Núcleo Directriz."),
         record("Registro 12: contención", "La Cinetrita proporciona energía; la Inercita permite contenerla. Los cultivos del laboratorio han integrado ambos materiales en cuerpos biomecánicos."),
-        record("Registro 19: vigilancia", "El Vigía protege el repetidor. Tras descargar sus emisores necesita ventilar el núcleo: esa es la ventana para responder. El laboratorio conserva una Matriarca; no permanezcan frente a sus mandíbulas.")]}])
+        record("Registro 19: vigilancia", "El Vigía supera al guardián arácnido. Sus dos condensadores traseros pueden romperse: flanquearlo interrumpe sus ataques durante tres segundos. La Matriarca es todavía más peligrosa; su blindaje no presenta puntos débiles. Esquiven sus embestidas y las tres zonas de bombardeo.")]}])
     entity_loot("network_watcher", [
+        {"rolls": 1, "entries": [item("vector_thruster", 1)]},
         {"rolls": 1, "entries": [item("core_processor", 1)]},
         {"rolls": 1, "entries": [item("precision_mechanism", 1, 2, 4)]},
         {"rolls": 1, "entries": [item("inercita_ingot", 1, 3, 6)]},
         {"rolls": 1, "entries": [item("scrap_metal", 1, 6, 12)]}])
     entity_loot("swarm_matriarch", [
+        {"rolls": 1, "entries": [item("adaptive_flight_core", 1)]},
         {"rolls": 1, "entries": [item("swarm_core", 1)]},
         {"rolls": 1, "entries": [item("core_processor", 1)]},
         {"rolls": 1, "entries": [item("cinetrite_ingot", 1, 4, 8)]},

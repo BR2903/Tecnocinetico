@@ -555,5 +555,9 @@
   "entity.tecnocinetico.swarm_matriarch": "Matriarca del Enjambre",
   "item.tecnocinetico.network_watcher_spawn_egg": "Huevo de Vigía de la Red",
   "item.tecnocinetico.swarm_matriarch_spawn_egg": "Huevo de Matriarca del Enjambre",
-  "message.tecnocinetico.guardian_wake": "%s ha despertado."
+  "message.tecnocinetico.guardian_wake": "%s ha despertado.",
+  "item.tecnocinetico.vector_thruster": "Propulsor Vectorial",
+  "item.tecnocinetico.adaptive_flight_core": "Núcleo de Vuelo Adaptativo",
+  "tooltip.tecnocinetico.vector_thruster": "Componente del Caza del Núcleo. Recuperado del Vigía de la Red.",
+  "tooltip.tecnocinetico.adaptive_flight_core": "Componente del Caza del Núcleo. Recuperado de la Matriarca del Enjambre."
 }

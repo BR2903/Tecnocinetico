@@ -6,6 +6,16 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "tecnocinetico:vector_thruster",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
           "name": "tecnocinetico:core_processor",
           "weight": 1
         }

@@ -60,7 +60,9 @@ def render(model, yaw=35, pitch=25, scale=4, size=900):
             tx = texs[path]
             th, tw = tx.shape[:2]
             u0, v0, u1, v1 = fd.get("uv", [0, 0, 16, 16])
-            q = [proj(p) for p in corners(e["from"], e["to"], face)]
+            # Los modelos articulados Java exportan vértices transformados para una vista fiel del mismo rig.
+            vertices = e.get("preview_vertices", {}).get(face, corners(e["from"], e["to"], face))
+            q = [proj(p) for p in vertices]
             # rasterizar el cuadrilátero como dos triángulos con coordenadas (s, t) bilineales
             uvq = [(u0, v0), (u1, v0), (u1, v1), (u0, v1)]
             for tri in ((0, 1, 2), (0, 2, 3)):

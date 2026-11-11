@@ -33,7 +33,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{title:\"Registro 19: vigilancia\",author:\"Archivo de los Constructores\",pages:[\"{\\\"text\\\": \\\"El Vigía protege el repetidor. Tras descargar sus emisores necesita ventilar el núcleo: esa es la ventana para responder. El laboratorio conserva una Matriarca; no permanezcan frente a sus mandíbulas.\\\"}\"]}"
+              "tag": "{title:\"Registro 19: vigilancia\",author:\"Archivo de los Constructores\",pages:[\"{\\\"text\\\": \\\"El Vigía supera al guardián arácnido. Sus dos condensadores traseros pueden romperse: flanquearlo interrumpe sus ataques durante tres segundos. La Matriarca es todavía más peligrosa; su blindaje no presenta puntos débiles. Esquiven sus embestidas y las tres zonas de bombardeo.\\\"}\"]}"
             }
           ]
         }

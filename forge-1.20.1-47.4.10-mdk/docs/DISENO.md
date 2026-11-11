@@ -16,6 +16,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 **Jefes del Overworld (usuario, 2026-11-10):** tres en total, contando a la Araña de Asedio. Se añaden el Vigía de la Red (antena repetidora) y la Matriarca del Enjambre (laboratorio subterráneo), con ataques y arenas distintos. Son guardianes locales, no el Núcleo Directriz final. Distribución y valores en `PLAN_MUNDO.md`.
 
+**Dificultad, debilidades y caza (usuario, 2026-11-10):** Araña < Vigía < Matriarca. El Vigía debe tener una debilidad aprovechable como la Araña; la Matriarca no debe tener puntos débiles ni exposición automática. Los dos deben mejorar visualmente y soltar un componente exclusivo para el futuro crafteo del caza: Propulsor Vectorial (Vigía) y Núcleo de Vuelo Adaptativo (Matriarca), además del Motor Dimensional existente (Araña). La receta del caza sigue pendiente.
+
 ## Dirección del proyecto (decidida por el usuario)
 
 - **Complemento de Create.** Las máquinas automáticas funcionan con **electricidad de Create Crafts & Additions** (Forge Energy). **No** usar la rotación/energía cinética de Create como fuente de energía de nuestras máquinas.
