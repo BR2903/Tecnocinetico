@@ -14,11 +14,12 @@ Sonidos de terceros usados en Tecnocinético. Los originales están en `tools/so
 | `sounds/pistol/mag_out.ogg`, `mag_in.ogg`, `slide.ogg` | "Handgun Reload Sound Effect" — `reload.wav` — https://opengameart.org/content/handgun-reload-sound-effect | zer0_sol | CC0 |
 | `sounds/guns/pump.ogg` | Mismo "Handgun Reload Sound Effect", recorte corto independiente para accionar la escopeta | zer0_sol | CC0 |
 | `sounds/pistol/dry_fire.ogg` | "Gun Reload Sound Effects" — `singlebullet1.wav` — https://opengameart.org/content/gun-reload-sound-effects | BMacZero | CC0 |
+| `sounds/drill/drilling.ogg`, `rev.ogg`, `bite1-3.ogg`, `refuel.ogg`, `refuel_end.ogg` (parte grabada) | "68 workshop sounds" — `drill long`, `drill short 1`, `scrape3`, `clink`, `clink2` — https://opengameart.org/content/68-workshop-sounds | bart (Bart Kelsey) | CC0 (el autor agradece el crédito) |
 | (fuente disponible, no usada aún) `clipload1.wav`, `clipload2.wav` | "Gun Reload Sound Effects" | BMacZero | CC0 |
 
 Sonidos **propios** (sintetizados con `tools/sound_gen.py`, sin material de terceros): impacto y confirmación de
 acierto de la pistola, todos los sonidos del Cuerpo de Enjambre, y en `sounds/guns/` el riel, el cañón de impulso, el arco
-voltaico, el lanzagranadas, el lanzacohetes, el giro de la minigun y el tajo de la cuchilla; el rugido del lanzallamas.
+voltaico, el lanzagranadas, el lanzacohetes, el giro de la minigun y el tajo de la cuchilla; el rugido del lanzallamas; el motor de dos tiempos del Taladro de Combustión (`tools/drill_sounds.py`, mezclado con las grabaciones de taladro de arriba: ralentí, aceleración, ahogo y gasolina entrando).
 
 Cambios realizados sobre las grabaciones (exigido por CC-BY): recortadas, convertidas a mono 44,1 kHz,
 normalizadas y, en los disparos, mezcladas con un chisporroteo eléctrico sintetizado.

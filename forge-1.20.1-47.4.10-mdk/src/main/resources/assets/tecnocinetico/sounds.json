@@ -361,7 +361,12 @@
   },
   "item.gun.pump": {
     "subtitle": "subtitles.tecnocinetico.gun.pump",
-    "sounds": [{"name": "tecnocinetico:guns/pump", "attenuation_distance": 16}]
+    "sounds": [
+      {
+        "name": "tecnocinetico:guns/pump",
+        "attenuation_distance": 16
+      }
+    ]
   },
   "item.gun.sniper": {
     "subtitle": "subtitles.tecnocinetico.gun.sniper",
@@ -576,6 +581,56 @@
         "name": "tecnocinetico:machines/assembler",
         "attenuation_distance": 16
       }
+    ]
+  },
+  "item.drill.idle": {
+    "subtitle": "subtitles.tecnocinetico.drill.idle",
+    "sounds": [
+      {
+        "name": "tecnocinetico:drill/idle",
+        "stream": true
+      }
+    ]
+  },
+  "item.drill.drilling": {
+    "subtitle": "subtitles.tecnocinetico.drill.drilling",
+    "sounds": [
+      {
+        "name": "tecnocinetico:drill/drilling",
+        "stream": true
+      }
+    ]
+  },
+  "item.drill.rev": {
+    "subtitle": "subtitles.tecnocinetico.drill.rev",
+    "sounds": [
+      "tecnocinetico:drill/rev"
+    ]
+  },
+  "item.drill.bite": {
+    "subtitle": "subtitles.tecnocinetico.drill.bite",
+    "sounds": [
+      "tecnocinetico:drill/bite1",
+      "tecnocinetico:drill/bite2",
+      "tecnocinetico:drill/bite3"
+    ]
+  },
+  "item.drill.refuel": {
+    "subtitle": "subtitles.tecnocinetico.drill.refuel",
+    "sounds": [
+      "tecnocinetico:drill/refuel"
+    ]
+  },
+  "item.drill.refuel_end": {
+    "subtitle": "subtitles.tecnocinetico.drill.refuel_end",
+    "sounds": [
+      "tecnocinetico:drill/refuel_end"
+    ]
+  },
+  "item.drill.sputter": {
+    "subtitle": "subtitles.tecnocinetico.drill.sputter",
+    "sounds": [
+      "tecnocinetico:drill/sputter"
     ]
   }
 }

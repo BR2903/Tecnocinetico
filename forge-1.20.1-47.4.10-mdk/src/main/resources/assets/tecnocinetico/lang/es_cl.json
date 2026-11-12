@@ -588,5 +588,12 @@
   "tooltip.tecnocinetico.magazine_ammo": "Se llena con %s (%s paquetes)",
   "tooltip.tecnocinetico.magazine_fill_plain": "R con el cargador en la mano: llenarlo",
   "tooltip.tecnocinetico.uses_magazine": "Cargador: %s (%s). R: recargar",
-  "message.tecnocinetico.no_magazine_for": "Necesitas un %s cargado"
+  "message.tecnocinetico.no_magazine_for": "Necesitas un %s cargado",
+  "subtitles.tecnocinetico.drill.idle": "Motor de taladro al ralentí",
+  "subtitles.tecnocinetico.drill.drilling": "Taladro perforando",
+  "subtitles.tecnocinetico.drill.rev": "Taladro acelera",
+  "subtitles.tecnocinetico.drill.bite": "La broca muerde la roca",
+  "subtitles.tecnocinetico.drill.refuel": "Repostando gasolina",
+  "subtitles.tecnocinetico.drill.refuel_end": "Tapón cerrado",
+  "subtitles.tecnocinetico.drill.sputter": "Taladro sin gasolina"
 }

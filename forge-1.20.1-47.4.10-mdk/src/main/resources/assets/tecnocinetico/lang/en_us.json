@@ -588,5 +588,12 @@
   "tooltip.tecnocinetico.magazine_ammo": "Filled with %s (%s packs)",
   "tooltip.tecnocinetico.magazine_fill_plain": "R with the magazine in hand: fill it",
   "tooltip.tecnocinetico.uses_magazine": "Magazine: %s (%s). R: reload",
-  "message.tecnocinetico.no_magazine_for": "You need a loaded %s"
+  "message.tecnocinetico.no_magazine_for": "You need a loaded %s",
+  "subtitles.tecnocinetico.drill.idle": "Drill engine idles",
+  "subtitles.tecnocinetico.drill.drilling": "Drill bores",
+  "subtitles.tecnocinetico.drill.rev": "Drill revs",
+  "subtitles.tecnocinetico.drill.bite": "Drill bit bites rock",
+  "subtitles.tecnocinetico.drill.refuel": "Refueling",
+  "subtitles.tecnocinetico.drill.refuel_end": "Fuel cap closes",
+  "subtitles.tecnocinetico.drill.sputter": "Drill runs dry"
 }

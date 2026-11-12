@@ -687,3 +687,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-11 — Codex (modelo) — Encuadre del taladro
 - Primera persona: cuerpo en la esquina inferior, broca nivelada hacia delante con 10° hacia dentro; la cruz y el bloque que se taladra quedan libres (primer intento lo centraba y tapaba la vista; corregido). Tercera persona en pose de dos manos con la broca horizontal. Solo `display` de `combustion_drill(_spin).json` y `DISPLAY` en `combustion_drill_gen.py`; vistas en `build/combustion_drill/`.
+
+## 2026-11-12 — Claude — Sonido del Taladro de Combustión
+- Pedido del usuario: "ponle un buen sonido". Grabaciones reales de taladro (CC0, "68 workshop sounds" de bart; licencia comprobada en la página y anotada en `tools/sound_sources/workshop_LICENSE.txt` y `CREDITOS_SONIDOS.md`) mezcladas con un motor de dos tiempos sintetizado (`tools/drill_sounds.py`): bucle de ralentí, bucle de taladrado (motor acelerado + broca más grave + roca), arranque, mordisco al romper bloque (x3), repostaje, tapón y motor ahogándose al acabarse la gasolina. Revisados por espectrograma (no se pueden escuchar desde aquí): se oscurecieron mordiscos y taladrado para que suenen a gasolina, no a siseo.
+- `client/DrillSounds`: cada jugador cercano con taladro con gasolina lleva dos bucles que le siguen y se funden (ralentí ↔ taladrando) y el arranque al empezar. Multijugador: el servidor avisa a quien lo ve (`DrillActivityPacket`, al empezar a picar y en cada bloque) para que oigan el motor acelerar. Mordisco, repostaje y ahogo se reproducen desde el servidor (los oyen todos).
+- La sesión se cortó a mitad de esta integración y Bryan encontró `compileJava` roto (Codex lo anotó en PENDIENTES); ya está completo: compila y pasan las 52 pruebas.

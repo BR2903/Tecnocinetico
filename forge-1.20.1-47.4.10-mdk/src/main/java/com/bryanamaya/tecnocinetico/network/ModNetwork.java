@@ -63,6 +63,9 @@ public final class ModNetwork {
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(14, RailChargePacket.class, (m, b) -> {}, b -> new RailChargePacket(), RailChargePacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(16, DrillActivityPacket.class, (m, b) -> b.writeVarInt(m.entityId()),
+                b -> new DrillActivityPacket(b.readVarInt()), DrillActivityPacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(13, DashPacket.class, (m, b) -> {}, b -> new DashPacket(), DashPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
@@ -290,6 +293,15 @@ public final class ModNetwork {
                     ship.startJump(key);
                 }
             });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Servidor -> cliente: este jugador está taladrando (para el sonido de su motor en los demás clientes). */
+    public record DrillActivityPacket(int entityId) {
+        public static void handle(DrillActivityPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT,
+                    () -> () -> com.bryanamaya.tecnocinetico.client.DrillSounds.remoteActivity(msg.entityId())));
             ctx.get().setPacketHandled(true);
         }
     }

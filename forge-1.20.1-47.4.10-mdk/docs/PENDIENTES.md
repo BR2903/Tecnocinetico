@@ -55,3 +55,7 @@
 
 ## Pruebas frágiles
 - `GuardianGameTests.watcherAttacks` (y probablemente otras que usan el heightmap) dependen del terreno del mundo de prueba `run/world`, que no está en git y tiene semilla al azar: en una copia nueva del repo puede fallar. Fijar `level-seed` para el servidor de pruebas o montar el suelo en la propia prueba.
+
+## ~~Bloqueo de compilación reportado por Bryan (2026-11-11, para Claude)~~ — RESUELTO (2026-11-12)
+- Resuelto: era la integración de los sonidos del taladro a medias (la sesión se cortó a mitad). Registrados en `ModSounds` y `sounds.json`; compila y pasan las pruebas.
+- Nota original: `compileJava` falla en `client/DrillSounds.java:90,103,104`: usa `ModSounds.DRILL_REV`, `DRILL_IDLE` y `DRILL_LOOP`, pero no existen en `sound/ModSounds.java`. El cliente y los audios `sounds/drill/` est?n sin seguimiento: parece una integraci?n todav?a incompleta. Completar los tres registros y sus entradas en `sounds.json` apuntando a los OGG adecuados; comprobar despu?s `compileJava` y `runGameTestServer`. Codex solo diagnostic?; no modific? Java ni los sonidos. El aviso de Gradle 9 no causa este fallo.

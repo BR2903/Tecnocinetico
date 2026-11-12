@@ -1,0 +1,3 @@
+Fuente: "68 workshop sounds" de bart (Bart Kelsey), https://opengameart.org/content/68-workshop-sounds
+Licencia: CC0 (dominio público). "Credit appreciated" (se da crédito en CREDITOS_SONIDOS.md).
+Archivos: workshop - drill long, drill short 1, clink, clink2, scrape3.

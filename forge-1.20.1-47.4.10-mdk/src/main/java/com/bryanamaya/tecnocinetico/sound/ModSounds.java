@@ -70,6 +70,14 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> SEMI_FIRE = register("item.gun.semi");
     public static final RegistryObject<SoundEvent> SMG_FIRE = register("item.gun.smg");
     public static final RegistryObject<SoundEvent> AUTO_FIRE = register("item.gun.auto");
+    // Taladro de Combustión (tools/drill_sounds.py)
+    public static final RegistryObject<SoundEvent> DRILL_IDLE = register("item.drill.idle");
+    public static final RegistryObject<SoundEvent> DRILL_LOOP = register("item.drill.drilling");
+    public static final RegistryObject<SoundEvent> DRILL_REV = register("item.drill.rev");
+    public static final RegistryObject<SoundEvent> DRILL_BITE = register("item.drill.bite");
+    public static final RegistryObject<SoundEvent> DRILL_REFUEL = register("item.drill.refuel");
+    public static final RegistryObject<SoundEvent> DRILL_REFUEL_END = register("item.drill.refuel_end");
+    public static final RegistryObject<SoundEvent> DRILL_SPUTTER = register("item.drill.sputter");
     public static final RegistryObject<SoundEvent> MINIGUN_FIRE = register("item.gun.minigun");
     public static final RegistryObject<SoundEvent> MINIGUN_SPIN = register("item.gun.minigun_spin");
     public static final RegistryObject<SoundEvent> RAIL_FIRE = register("item.gun.rail");

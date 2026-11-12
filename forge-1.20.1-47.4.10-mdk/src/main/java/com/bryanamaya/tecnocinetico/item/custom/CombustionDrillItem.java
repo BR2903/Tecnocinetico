@@ -110,7 +110,8 @@ public class CombustionDrillItem extends Item {
             return;
         }
         drill.getOrCreateTag().putLong(TAG_REFUEL_END, player.level().getGameTime() + REFUEL_TICKS);
-        player.level().playSound(null, player.blockPosition(), SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 0.7F, 0.7F);
+        player.level().playSound(null, player.blockPosition(), com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_REFUEL.get(),
+                SoundSource.PLAYERS, 0.8F, 1.0F);
     }
 
     @Override
@@ -147,7 +148,8 @@ public class CombustionDrillItem extends Item {
             used++;
         }
         if (used > 0) {
-            player.level().playSound(null, player.blockPosition(), SoundEvents.BUCKET_FILL, SoundSource.PLAYERS, 0.8F, 0.8F);
+            player.level().playSound(null, player.blockPosition(), com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_REFUEL_END.get(),
+                    SoundSource.PLAYERS, 0.8F, 1.0F);
             player.displayClientMessage(Component.translatable("message.tecnocinetico.drill_refuel", used, fuel(drill), TANK)
                     .withStyle(ChatFormatting.GOLD), true);
         } else {
@@ -202,7 +204,12 @@ public class CombustionDrillItem extends Item {
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miner) {
         if (!level.isClientSide && state.getDestroySpeed(level, pos) != 0.0F
                 && !(miner instanceof Player p && p.getAbilities().instabuild)) {
+            boolean had = hasFuel(stack);
             setFuel(stack, fuel(stack) - FUEL_PER_BLOCK);                     // cada bloque roto (central o extra)
+            if (had && !hasFuel(stack)) {                                     // se acabó: el motor se ahoga
+                level.playSound(null, miner.getX(), miner.getY(), miner.getZ(),
+                        com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_SPUTTER.get(), SoundSource.PLAYERS, 0.9F, 1.0F);
+            }
         }
         return true;
     }
@@ -219,7 +226,9 @@ public class CombustionDrillItem extends Item {
         }
         var level = player.serverLevel();
         BlockPos center = event.getPos();
-        level.playSound(null, center, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.6F, 0.6F + level.random.nextFloat() * 0.2F);
+        level.playSound(null, center, com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_BITE.get(), SoundSource.BLOCKS, 0.9F,
+                0.9F + level.random.nextFloat() * 0.2F);
+        activity(player);
         if (player.isShiftKeyDown()) {
             return;                                                           // agachado: un solo bloque
         }
@@ -239,6 +248,23 @@ public class CombustionDrillItem extends Item {
             }
         } finally {
             BREAKING.remove(player.getUUID());
+        }
+    }
+
+    /** Avisa a los jugadores que lo ven de que está taladrando (para su sonido de motor). */
+    private static void activity(ServerPlayer player) {
+        com.bryanamaya.tecnocinetico.network.ModNetwork.CHANNEL.send(
+                net.minecraftforge.network.PacketDistributor.TRACKING_ENTITY.with(() -> player),
+                new com.bryanamaya.tecnocinetico.network.ModNetwork.DrillActivityPacket(player.getId()));
+    }
+
+    /** Empieza a picar un bloque con el taladro: los demás oyen el motor acelerar. */
+    @SubscribeEvent
+    public static void onStartMining(net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock event) {
+        if (event.getAction() == net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock.Action.START
+                && event.getEntity() instanceof ServerPlayer player && player.getMainHandItem().getItem() instanceof CombustionDrillItem
+                && hasFuel(player.getMainHandItem()) && !isRefueling(player.getMainHandItem())) {
+            activity(player);
         }
     }
 
