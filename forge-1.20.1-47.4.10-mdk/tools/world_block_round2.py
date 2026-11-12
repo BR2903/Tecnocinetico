@@ -116,26 +116,9 @@ def log(v,end=False):
 
 
 def sand(v):
-    if v=='A':
-        im=field((58,65,64),4211,3);d=ImageDraw.Draw(im)
-        # Flujo vítreo continuo y escamas con reflejo; arena residual solo en los bordes.
-        d.polygon([(0,0),(4,0),(3,2),(1,3),(0,2)],fill=(151,130,91))
-        d.polygon([(8,15),(12,13),(15,14),(15,15)],fill=(119,105,77))
-        d.polygon([(0,8),(5,5),(12,6),(15,3),(15,8),(9,11),(3,12)],fill=(31,42,43))
-        d.line([(0,8),(5,5),(11,6),(15,3)],fill=(103,124,123))
-        d.line([(3,9),(7,7),(10,8)],fill=(64,86,86))
-        d.line([(7,1),(10,2),(13,1),(15,2)],fill=(81,99,97))
-        d.line((4,5,6,5),fill=(168,178,165));d.line((11,5,12,5),fill=(136,155,149))
-        for x,y in ((1,1),(3,0),(12,14),(14,15)):d.point((x,y),fill=(184,159,111))
-        for x,y in ((1,12),(12,3),(13,8)):d.point((x,y),fill=(20,31,31));d.point((x,y+1),fill=(85,103,98))
-    else:
-        im=field((162,154,126),4217,4);d=ImageDraw.Draw(im)
-        d.polygon([(1,2),(5,0),(8,2),(7,5),(3,6),(1,4)],fill=(104,77,40));d.polygon([(3,2),(5,1),(7,2),(6,4),(3,4)],fill=(166,117,53))
-        d.line([(3,2),(5,1),(6,2)],fill=(210,177,101))
-        d.polygon([(10,10),(14,8),(15,10),(14,14),(10,15),(8,13)],fill=(114,91,48));d.line([(10,11),(13,9),(14,10)],fill=(206,174,95))
-        d.line([(0,10),(4,8),(7,9),(9,7),(10,3),(15,2)],fill=(104,107,86));d.line([(1,11),(4,9),(6,10)],fill=(191,185,150))
-        for x,y in ((2,13),(9,1),(12,5),(6,12)):d.point((x,y),fill=(71,81,66));d.point((x+1,y),fill=(205,196,154))
-    return im
+    # Tercera ronda: conservar el generador público sin recuperar las lentes grandes rechazadas.
+    from vitrified_sand_art import texture
+    return texture(v,0)
 
 
 def textures(v='A'):
@@ -225,6 +208,10 @@ def snapshot():
 
 
 def install(v='A',block='all'):
+    if block=='vitrified_sand':
+        from vitrified_sand_art import install as install_sand
+        install_sand(v)
+        return
     snapshot();images=textures(v);models,states=family()
     for name,im in images.items():
         if block=='all' or name==block or name.startswith(block+'_'):im.save(A/f'textures/block/{name}.png')
@@ -251,4 +238,7 @@ def install(v='A',block='all'):
     files += ['tools/world_blocks_gen.py','tools/world_block_remodel.py','tools/world_block_round2.py',
               'tools/preview_world_block_remodel.py','tools/preview_world_block_round2.py','docs/HERRAMIENTAS.md']
     save(OUT/'archivos_ronda2.json',files)
+    if block=='all':
+        from vitrified_sand_art import install as install_sand
+        install_sand(v)
     print('Segunda ronda instalada:',v,block,'(solo arte, texturas 16x16)')

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "tecnocinetico:block/vitrified_sand_v3"
+  }
+}
