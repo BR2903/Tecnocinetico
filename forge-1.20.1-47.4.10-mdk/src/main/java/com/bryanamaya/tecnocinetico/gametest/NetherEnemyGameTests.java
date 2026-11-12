@@ -174,15 +174,21 @@ public class NetherEnemyGameTests {
             }
             helper.assertTrue(chests == 2 && casing > 10, id + ": " + chests + " cofres y " + casing + " bloques de carcasa");
             if (id.equals("infernal_watchpost")) {
-                var guards = level.getEntitiesOfClass(InfernalEntity.class, net.minecraft.world.phys.AABB.of(bb).inflate(2), InfernalEntity::sentinel);
-                helper.assertTrue(guards.size() == 2 && guards.stream().allMatch(net.minecraft.world.entity.Mob::isPersistenceRequired),
-                        "El puesto de vigilancia tiene " + guards.size() + " centinelas");
-                guards.forEach(net.minecraft.world.entity.Entity::discard);
+                // las entidades de un chunk recién forzado se ven al tick siguiente: comprobar los centinelas después
+                var guardBox = net.minecraft.world.phys.AABB.of(bb).inflate(2);
+                helper.runAfterDelay(10, () -> {
+                    var guards = level.getEntitiesOfClass(InfernalEntity.class, guardBox, InfernalEntity::sentinel);
+                    guards.forEach(net.minecraft.world.entity.Entity::discard);
+                    forced.forEach(c -> level.setChunkForced(c.x, c.z, false));
+                    helper.assertTrue(guards.size() == 2 && guards.stream().allMatch(net.minecraft.world.entity.Mob::isPersistenceRequired),
+                            "El puesto de vigilancia tiene " + guards.size() + " centinelas");
+                    helper.succeed();
+                });
+            } else {
+                forced.forEach(c -> level.setChunkForced(c.x, c.z, false));
             }
-            forced.forEach(c -> level.setChunkForced(c.x, c.z, false));
             Tecnocinetico.LOGGER.info("[GameTest] {} generado en el Nether en {}", id, bb);
             i++;
         }
-        helper.succeed();
     }
 }
