@@ -39,6 +39,9 @@ public final class ModWorldgen {
     /** Carreteras rotas: calles de la Megaciudad y autopistas (una vez por chunk, solo en su chunk). */
     public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature> ROAD =
             FEATURES.register("road", com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature::new);
+    /** Vehículos abandonados, sobre todo en las carreteras. */
+    public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.VehicleFeature> VEHICLE =
+            FEATURES.register("vehicle", com.bryanamaya.tecnocinetico.worldgen.feature.VehicleFeature::new);
     /** Farolas y postes eléctricos abandonados (de pie, doblados o caídos). */
     public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature> STREET_PROP =
             FEATURES.register("street_prop", com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature::new);

@@ -604,5 +604,8 @@
   "block.tecnocinetico.street_lamp_bent": "Bent Street Lamp",
   "block.tecnocinetico.utility_pole": "Utility Pole",
   "block.tecnocinetico.utility_crossarm": "Utility Pole Crossarm",
-  "block.tecnocinetico.power_cable": "Power Cable"
+  "block.tecnocinetico.power_cable": "Power Cable",
+  "block.tecnocinetico.car_wreck": "Abandoned Car",
+  "block.tecnocinetico.truck_wreck": "Abandoned Truck",
+  "block.tecnocinetico.bus_wreck": "Abandoned Bus"
 }

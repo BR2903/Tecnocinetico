@@ -54,6 +54,9 @@
     "tecnocinetico:fission_reactor",
     "tecnocinetico:street_lamp_pole",
     "tecnocinetico:street_lamp_head",
-    "tecnocinetico:street_lamp_bent"
+    "tecnocinetico:street_lamp_bent",
+    "tecnocinetico:car_wreck",
+    "tecnocinetico:truck_wreck",
+    "tecnocinetico:bus_wreck"
   ]
 }

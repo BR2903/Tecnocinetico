@@ -604,5 +604,8 @@
   "block.tecnocinetico.street_lamp_bent": "Farola Doblada",
   "block.tecnocinetico.utility_pole": "Poste de Luz",
   "block.tecnocinetico.utility_crossarm": "Cruceta de Poste",
-  "block.tecnocinetico.power_cable": "Cable Eléctrico"
+  "block.tecnocinetico.power_cable": "Cable Eléctrico",
+  "block.tecnocinetico.car_wreck": "Coche Abandonado",
+  "block.tecnocinetico.truck_wreck": "Camión Abandonado",
+  "block.tecnocinetico.bus_wreck": "Autobús Abandonado"
 }
