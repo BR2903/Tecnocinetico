@@ -1,9 +1,0 @@
-{
-  "type": "tecnocinetico:vehicle",
-  "config": {
-    "car": 6,
-    "truck": 2,
-    "bus": 2,
-    "offroad": 0.15
-  }
-}

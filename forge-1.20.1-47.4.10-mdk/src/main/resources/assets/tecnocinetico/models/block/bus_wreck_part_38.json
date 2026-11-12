@@ -1,9 +1,0 @@
-{
- "parent": "minecraft:block/block",
- "ambientocclusion": true,
- "textures": {
-  "0": "tecnocinetico:block/bus_wreck",
-  "particle": "tecnocinetico:block/bus_wreck"
- },
- "elements": []
-}

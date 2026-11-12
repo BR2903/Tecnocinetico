@@ -172,5 +172,5 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `entity/client/NetherRemodelRenderers`: renderizadores vanilla sustituidos (piglin, bruto, zombificado, ghast, blaze, esqueleto wither); modelo/textura/brillo remodelados solo en el Nether. Geometría en `NetherRemodelLayers` (generada por Codex).
 
 ### Overworld arrasado (2026-11-12)
-- `worldgen/feature/RoadFeature` (calles de la ciudad y autopistas, cuadrícula fija por semilla, una vez por chunk), `StreetPropFeature` (farolas y postes, `block/custom/StreetPropBlocks`) y `VehicleFeature` (vehículos sobre las carreteras, `block/custom/WreckBlock` + `WreckItem`). Reparto en `tools/world_features_gen.py`; vegetación vanilla quitada con `forge:remove_features`.
+- `worldgen/feature/RoadFeature` (calles de la ciudad y autopistas, cuadrícula fija por semilla, una vez por chunk), `StreetPropFeature` (farolas y postes, `block/custom/StreetPropBlocks`). Reparto en `tools/world_features_gen.py`; vegetación vanilla quitada con `forge:remove_features`.
 - Nether industrial: `worldgen/InfernalBiomes` + `InfernalBiomeSource` (en los world presets Postapocalíptico), `worldgen/feature/InfernalDepositFeature`, `worldgen/structure/InfernalSiteStructure/Piece` (site 2 depósito, 3 puesto de vigilancia; 0-1 reservados a los jefes).

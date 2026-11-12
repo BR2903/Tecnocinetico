@@ -42,9 +42,6 @@ public final class ModWorldgen {
     /** Carreteras rotas: calles de la Megaciudad y autopistas (una vez por chunk, solo en su chunk). */
     public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature> ROAD =
             FEATURES.register("road", com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature::new);
-    /** Vehículos abandonados, sobre todo en las carreteras. */
-    public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.VehicleFeature> VEHICLE =
-            FEATURES.register("vehicle", com.bryanamaya.tecnocinetico.worldgen.feature.VehicleFeature::new);
     /** Costras, columnas y árboles carbonizados del Nether industrial. */
     public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.InfernalDepositFeature> INFERNAL_DEPOSITS =
             FEATURES.register("infernal_deposits", com.bryanamaya.tecnocinetico.worldgen.feature.InfernalDepositFeature::new);

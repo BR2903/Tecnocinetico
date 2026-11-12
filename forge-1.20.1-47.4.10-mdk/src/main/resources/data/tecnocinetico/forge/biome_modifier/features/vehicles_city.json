@@ -1,8 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "tecnocinetico:dead_megacity",
-  "features": [
-    "tecnocinetico:vehicles_city"
-  ],
-  "step": "surface_structures"
-}

@@ -262,16 +262,6 @@ def main():
                                 "ruined_tundra", "scrap_coast", "ash_taiga", "vitrified_desert", "extraction_scars",
                                 "coolant_swamp"], ["roads"], "raw_generation")
 
-    # ------------------------------------------------ vehículos abandonados (VehicleFeature), sobre todo en carreteras
-    configured("vehicles_city", rl("vehicle"), {"car": 6, "truck": 2, "bus": 2, "offroad": 0.15})
-    configured("vehicles", rl("vehicle"), {"car": 7, "truck": 3, "bus": 0, "offroad": 0.05})
-    placed_custom("vehicles_city", "vehicles_city", [{"type": "minecraft:count", "count": 2}])
-    placed_custom("vehicles", "vehicles", [])
-    modifier("features/vehicles_city", ["dead_megacity"], ["vehicles_city"], "surface_structures")
-    modifier("features/vehicles", ["scrap_meadows", "overgrown_ruins", "industrial_jungle", "fractured_lands", "ruined_tundra",
-                                   "scrap_coast", "ash_taiga", "vitrified_desert", "extraction_scars", "coolant_swamp"],
-             ["vehicles"], "surface_structures")
-
     # ------------------------------------------------ farolas y postes eléctricos (StreetPropFeature)
     configured("street_lamps", rl("street_prop"), {"kind": "lamp", "standing": 3, "fallen": 3})
     configured("street_lamps_ruined", rl("street_prop"), {"kind": "lamp", "standing": 1, "fallen": 4})

@@ -119,7 +119,7 @@ public class NetherEnemyGameTests {
      * Postapocalíptico usan su fuente, y el depósito y el puesto de vigilancia se generan en una caverna con cofres
      * (el puesto, con sus centinelas).
      */
-    @GameTest(template = "empty", batch = "nether_biomas", timeoutTicks = 400)
+    @GameTest(template = "empty", batch = "nether_biomas", timeoutTicks = 1600)
     public static void netherBiomesAndSites(GameTestHelper helper) {
         var access = helper.getLevel().registryAccess();
         var biomes = access.registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
@@ -140,13 +140,15 @@ public class NetherEnemyGameTests {
         var gen = level.getChunkSource().getGenerator();
         var structures = access.registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE);
         int i = 0;
+        // zona nueva en cada ejecución: el mundo de prueba se guarda y traería centinelas de ejecuciones anteriores
+        int base = 4000 + level.getRandom().nextInt(400) * 1024;
         for (String id : new String[]{"cooling_depot", "infernal_watchpost"}) {
             var structure = structures.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, id));
             helper.assertTrue(structure != null, "Falta la estructura " + id);
             var biome = biomes.getHolderOrThrow(com.bryanamaya.tecnocinetico.worldgen.InfernalBiomes.SLAG_FORGES);
             var start = net.minecraft.world.level.levelgen.structure.StructureStart.INVALID_START;
             for (int tries = 0; tries < 200 && !start.isValid(); tries++) {
-                var cp = new net.minecraft.world.level.ChunkPos(new BlockPos(4000 + i * 2048 + (tries % 10) * 64, 0, 4000 + (tries / 10) * 64));
+                var cp = new net.minecraft.world.level.ChunkPos(new BlockPos(base + i * 2048 + (tries % 10) * 64, 0, 4000 + (tries / 10) * 64));
                 start = structure.generate(access, gen, new net.minecraft.world.level.biome.FixedBiomeSource(biome), level.getChunkSource().randomState(),
                         level.getStructureManager(), level.getSeed(), cp, 0, level, b -> true);
             }
@@ -160,33 +162,37 @@ public class NetherEnemyGameTests {
                 level.setChunkForced(c.x, c.z, true);
                 forced.add(c);
             });
-            // el mundo de prueba se guarda entre ejecuciones: quitar lo que dejaron las anteriores
-            level.getEntitiesOfClass(InfernalEntity.class, net.minecraft.world.phys.AABB.of(bb).inflate(2)).forEach(net.minecraft.world.entity.Entity::discard);
-            net.minecraft.world.level.ChunkPos.rangeClosed(new net.minecraft.world.level.ChunkPos(bb.minX() >> 4, bb.minZ() >> 4),
-                    new net.minecraft.world.level.ChunkPos(bb.maxX() >> 4, bb.maxZ() >> 4)).forEach(c -> placed.placeInChunk(level,
-                    level.structureManager(), gen, level.getRandom(), new net.minecraft.world.level.levelgen.structure.BoundingBox(c.getMinBlockX(),
-                    level.getMinBuildHeight(), c.getMinBlockZ(), c.getMaxBlockX(), level.getMaxBuildHeight(), c.getMaxBlockZ()), c));
-            int chests = 0, casing = 0;
-            for (BlockPos p : BlockPos.betweenClosed(bb.minX(), bb.minY(), bb.minZ(), bb.maxX(), bb.maxY(), bb.maxZ())) {
-                var st = level.getBlockState(p);
-                if (st.is(Blocks.CHEST)) chests++;
-                if (st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.INFERNAL_CASING.get())) casing++;
-            }
-            helper.assertTrue(chests == 2 && casing > 10, id + ": " + chests + " cofres y " + casing + " bloques de carcasa");
-            if (id.equals("infernal_watchpost")) {
-                // las entidades de un chunk recién forzado se ven al tick siguiente: comprobar los centinelas después
-                var guardBox = net.minecraft.world.phys.AABB.of(bb).inflate(2);
-                helper.runAfterDelay(10, () -> {
-                    var guards = level.getEntitiesOfClass(InfernalEntity.class, guardBox, InfernalEntity::sentinel);
-                    guards.forEach(net.minecraft.world.entity.Entity::discard);
+            // las entidades de un chunk recién forzado se cargan unos ticks después: colocar cuando ya está activo
+            final String fid = id;
+            helper.runAfterDelay(20, () -> {
+                level.getEntitiesOfClass(InfernalEntity.class, net.minecraft.world.phys.AABB.of(bb).inflate(2)).forEach(net.minecraft.world.entity.Entity::discard);
+                net.minecraft.world.level.ChunkPos.rangeClosed(new net.minecraft.world.level.ChunkPos(bb.minX() >> 4, bb.minZ() >> 4),
+                        new net.minecraft.world.level.ChunkPos(bb.maxX() >> 4, bb.maxZ() >> 4)).forEach(c -> placed.placeInChunk(level,
+                        level.structureManager(), gen, level.getRandom(), new net.minecraft.world.level.levelgen.structure.BoundingBox(c.getMinBlockX(),
+                        level.getMinBuildHeight(), c.getMinBlockZ(), c.getMaxBlockX(), level.getMaxBuildHeight(), c.getMaxBlockZ()), c));
+                int chests = 0, casing = 0;
+                for (BlockPos p : BlockPos.betweenClosed(bb.minX(), bb.minY(), bb.minZ(), bb.maxX(), bb.maxY(), bb.maxZ())) {
+                    var st = level.getBlockState(p);
+                    if (st.is(Blocks.CHEST)) chests++;
+                    if (st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.INFERNAL_CASING.get())) casing++;
+                }
+                helper.assertTrue(chests == 2 && casing > 10, fid + ": " + chests + " cofres y " + casing + " bloques de carcasa");
+                if (!fid.equals("infernal_watchpost")) {
                     forced.forEach(c -> level.setChunkForced(c.x, c.z, false));
+                    return;
+                }
+                // las entidades de un chunk nuevo no se ven hasta que pasa a activo (~200 ticks en el servidor de prueba): esperar
+                var guardBox = net.minecraft.world.phys.AABB.of(bb).inflate(2);
+                long t0 = level.getGameTime();
+                helper.succeedWhen(() -> {
+                    var guards = level.getEntitiesOfClass(InfernalEntity.class, guardBox, InfernalEntity::sentinel);
                     helper.assertTrue(guards.size() == 2 && guards.stream().allMatch(net.minecraft.world.entity.Mob::isPersistenceRequired),
                             "El puesto de vigilancia tiene " + guards.size() + " centinelas");
-                    helper.succeed();
+                    Tecnocinetico.LOGGER.info("[GameTest] centinelas del puesto vistos a los {} ticks", level.getGameTime() - t0);
+                    guards.forEach(net.minecraft.world.entity.Entity::discard);
+                    forced.forEach(c -> level.setChunkForced(c.x, c.z, false));
                 });
-            } else {
-                forced.forEach(c -> level.setChunkForced(c.x, c.z, false));
-            }
+            });
             Tecnocinetico.LOGGER.info("[GameTest] {} generado en el Nether en {}", id, bb);
             i++;
         }

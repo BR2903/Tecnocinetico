@@ -132,28 +132,6 @@ public final class ModWorldBlocks {
     public static final RegistryObject<Block> INFERNAL_CASING = block("infernal_casing", () -> new Block(Properties.of()
             .mapColor(MapColor.COLOR_GRAY).strength(8.0F, 12.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
 
-    // ------------------------------------------------------------------ vehículos abandonados (troceados por celdas)
-    public static final RegistryObject<Block> CAR_WRECK = vehicle("car_wreck",
-            () -> new com.bryanamaya.tecnocinetico.block.custom.WreckBlock.Car(wreck()));
-    public static final RegistryObject<Block> TRUCK_WRECK = vehicle("truck_wreck",
-            () -> new com.bryanamaya.tecnocinetico.block.custom.WreckBlock.Truck(wreck()));
-    public static final RegistryObject<Block> BUS_WRECK = vehicle("bus_wreck",
-            () -> new com.bryanamaya.tecnocinetico.block.custom.WreckBlock.Bus(wreck()));
-
-    private static Properties wreck() {
-        return Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).strength(4.0F, 8.0F).sound(SoundType.METAL)
-                .requiresCorrectToolForDrops().noOcclusion();
-    }
-
-    /** Vehículo: su objeto coloca el vehículo entero (WreckItem). */
-    private static RegistryObject<Block> vehicle(String name, Supplier<Block> factory) {
-        RegistryObject<Block> block = ModBlocks.BLOCKS.register(name, factory);
-        ModItems.ITEMS.register(name, () -> new com.bryanamaya.tecnocinetico.block.custom.WreckItem(
-                (com.bryanamaya.tecnocinetico.block.custom.WreckBlock) block.get(), new Item.Properties().stacksTo(1)));
-        ALL.add(block);
-        return block;
-    }
-
     private ModWorldBlocks() {}
 
     /** Se llama desde el constructor del mod para que esta clase registre sus bloques a tiempo. */
