@@ -56,6 +56,10 @@ public class CombustionDrillItem extends Item {
     /** Un vecino del 3x3 solo se rompe si su dureza no pasa de (dureza central x4 + 1). */
     private static final float HARDNESS_FACTOR = 4.0F;
     private static final String TAG_FUEL = "Fuel";
+    /** Tick de juego en que termina el repostaje en curso (no existe si no se está repostando). */
+    private static final String TAG_REFUEL_END = "RefuelEnd";
+    /** Lo que tarda en entrar la gasolina (1,5 s); mientras, el taladro no pica. */
+    public static final int REFUEL_TICKS = 30;
 
     /** Jugadores rompiendo ahora mismo los bloques extra (evita que cada bloque extra vuelva a abrir otro 3x3). */
     private static final Set<UUID> BREAKING = new HashSet<>();
@@ -78,9 +82,53 @@ public class CombustionDrillItem extends Item {
         return fuel(stack) >= FUEL_PER_BLOCK;
     }
 
+    /** Progreso del repostaje (0..1) o -1 si no se está repostando. Lo usa la animación. */
+    public static float refuelProgress(ItemStack stack, float gameTime) {
+        if (stack.getTag() == null || !stack.getTag().contains(TAG_REFUEL_END)) {
+            return -1;
+        }
+        float left = stack.getTag().getLong(TAG_REFUEL_END) - gameTime;
+        return Mth.clamp(1.0F - left / REFUEL_TICKS, 0.0F, 1.0F);
+    }
+
+    public static boolean isRefueling(ItemStack stack) {
+        return stack.getTag() != null && stack.getTag().contains(TAG_REFUEL_END);
+    }
+
     /**
-     * Tecla R: echa Depósitos de Combustible del inventario hasta llenar el tanque (usa uno si caben al menos la
-     * mitad de su contenido; lo que sobra se pierde). En creativo llena gratis.
+     * Tecla R: empieza a repostar si hay sitio y un Depósito de Combustible (o en creativo). La gasolina entra al
+     * terminar ({@link #REFUEL_TICKS}); cambiar de objeto lo cancela sin gastar nada.
+     */
+    public static void startRefuel(ServerPlayer player, ItemStack drill) {
+        if (isRefueling(drill)) {
+            return;
+        }
+        boolean room = TANK - fuel(drill) >= FUEL_PER_CANISTER / 2;
+        if (!room || (!player.getAbilities().instabuild && canisterSlot(player) < 0)) {
+            player.displayClientMessage(Component.translatable(!room ? "message.tecnocinetico.drill_full"
+                    : "message.tecnocinetico.drill_no_canister").withStyle(ChatFormatting.RED), true);
+            return;
+        }
+        drill.getOrCreateTag().putLong(TAG_REFUEL_END, player.level().getGameTime() + REFUEL_TICKS);
+        player.level().playSound(null, player.blockPosition(), SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 0.7F, 0.7F);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, net.minecraft.world.entity.Entity entity, int slot, boolean selected) {
+        if (level.isClientSide || !(entity instanceof ServerPlayer player) || !isRefueling(stack)) {
+            return;
+        }
+        if (player.getMainHandItem() != stack) {
+            stack.removeTagKey(TAG_REFUEL_END);                               // cambió de objeto: se cancela
+        } else if (level.getGameTime() >= stack.getTag().getLong(TAG_REFUEL_END)) {
+            stack.removeTagKey(TAG_REFUEL_END);
+            refuel(player, stack);
+        }
+    }
+
+    /**
+     * Echa Depósitos de Combustible del inventario hasta llenar el tanque (usa uno si caben al menos la mitad de su
+     * contenido; lo que sobra se pierde). En creativo llena gratis. Lo llama el final del repostaje.
      */
     public static void refuel(ServerPlayer player, ItemStack drill) {
         if (player.getAbilities().instabuild) {
@@ -128,7 +176,21 @@ public class CombustionDrillItem extends Item {
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
+        if (isRefueling(stack)) {
+            return 0.0F;                                                      // con el bidón puesto no se taladra
+        }
         return hasFuel(stack) && canDrill(state) ? SPEED : 1.0F;
+    }
+
+    /** Sin golpe de brazo al picar o pegar: el taladro se sostiene firme (la animación está en DrillClientExtensions). */
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        return true;
+    }
+
+    @Override
+    public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
+        consumer.accept(new com.bryanamaya.tecnocinetico.client.DrillClientExtensions());
     }
 
     @Override

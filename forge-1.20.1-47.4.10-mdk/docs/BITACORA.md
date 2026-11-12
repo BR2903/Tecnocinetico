@@ -675,3 +675,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Recetas: Cabezal de Perforación (6 titanio, 4 diamantes, 2 placas de inercita, 1 servo) y Motor de Combustión (4 titanio, 2 mecanismos, 2 servos, 8 cobre) en el Ensamblador Industrial; taladro = cabezal + motor + 4 titanio + 2 placas + 1 depósito en el Ensamblador de Armas. Salen en JEI.
 - Predicado de modelo `tecnocinetico:drill_spin` (alterna 0/1 cada 2 ticks mientras pica; en otros jugadores, mientras balancean el brazo). Modelo 3D y las dos piezas (arte plano) encargados a Codex.
 - GameTest `DrillGameTests`: 3x3 exacto en el plano, gasolina gastada, botín, agachado, obsidiana sí / lecho de roca no, vecino más duro respetado, sin gasolina no pica, repostaje. 51 pruebas pasan.
+
+## 2026-11-11 — Claude — Taladro: animaciones (prueba del usuario)
+- El usuario: no había animación de recarga, golpeaba el bloque como un objeto cualquiera y en primera persona se inclinaba hacia él.
+- `onEntitySwing` devuelve true: sin golpe de brazo. `client/DrillClientExtensions`: se sostiene firme (sin el bajón tras cada golpe), en tercera persona a dos manos; taladrando empuja hacia delante y vibra con el motor; al ralentí, temblor leve. El predicado `drill_spin` y la animación leen el taladro real de la mano (el que dibuja el brazo puede ir un tick por detrás y apagaba el giro).
+- Repostar ya no es instantáneo: R empieza (`startRefuel`, 1,5 s con el taladro bajado e inclinado, sonido de bidón) y la gasolina entra al terminar; cambiar de objeto lo cancela sin gastar; mientras, no pica. GameTest actualizado.
+- La inclinación en primera persona es del encuadre del modelo: encargada a Codex.

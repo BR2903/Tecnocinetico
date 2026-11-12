@@ -173,8 +173,10 @@ public class Tecnocinetico {
                 // Taladro: alterna 0/1 cada 2 ticks mientras pica con combustible (modelo con la broca girada 45°)
                 ItemProperties.register(ModItems.COMBUSTION_DRILL.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "drill_spin"),
                         (stack, level, entity, seed) -> {
-                            if (entity == null || entity.getMainHandItem() != stack
-                                    || !com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem.hasFuel(stack)) {
+                            // el objeto dibujado puede ir un tick por detrás del real: mirar el de la mano
+                            if (entity == null || !entity.getMainHandItem().is(stack.getItem())
+                                    || !com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem.hasFuel(entity.getMainHandItem())
+                                    || com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem.isRefueling(entity.getMainHandItem())) {
                                 return 0.0F;
                             }
                             var mc = net.minecraft.client.Minecraft.getInstance();

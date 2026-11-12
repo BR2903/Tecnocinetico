@@ -78,7 +78,12 @@ public class DrillGameTests {
 
             // 5) repostar: 3 depósitos llenan los 300; con el tanque casi lleno no gasta ninguno
             player.getInventory().add(new ItemStack(ModItems.FUEL_CANISTER.get(), 5));
-            CombustionDrillItem.refuel(player, drill);
+            player.setItemInHand(InteractionHand.MAIN_HAND, drill);
+            CombustionDrillItem.startRefuel(player, drill);
+            h.assertTrue(CombustionDrillItem.isRefueling(drill) && drill.getDestroySpeed(Blocks.STONE.defaultBlockState()) == 0
+                    && CombustionDrillItem.fuel(drill) == 0, "Repostar debe tardar y no picar mientras");
+            drill.getTag().putLong("RefuelEnd", level.getGameTime());                                       // ya pasó el tiempo
+            drill.inventoryTick(level, player, 0, true);
             h.assertTrue(CombustionDrillItem.fuel(drill) == CombustionDrillItem.TANK && count(player) == 2,
                     "Repostar: gasolina " + CombustionDrillItem.fuel(drill) + ", depósitos " + count(player));
             CombustionDrillItem.setFuel(drill, CombustionDrillItem.TANK - 20);

@@ -140,7 +140,7 @@ public final class ModNetwork {
                     return;
                 }
                 if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem) {
-                    com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem.refuel(player, player.getMainHandItem());   // gasolina
+                    com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem.startRefuel(player, player.getMainHandItem());   // gasolina
                     return;
                 }
                 for (InteractionHand hand : InteractionHand.values()) {
