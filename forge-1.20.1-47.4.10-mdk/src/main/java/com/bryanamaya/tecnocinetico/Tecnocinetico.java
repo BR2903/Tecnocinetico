@@ -170,6 +170,17 @@ public class Tecnocinetico {
                             long t = entity.level().getGameTime();
                             return ((t / (s >= 1.0F ? 1 : 2)) % 3) / 2.0F;
                         });
+                // Taladro: alterna 0/1 cada 2 ticks mientras pica con combustible (modelo con la broca girada 45°)
+                ItemProperties.register(ModItems.COMBUSTION_DRILL.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "drill_spin"),
+                        (stack, level, entity, seed) -> {
+                            if (entity == null || entity.getMainHandItem() != stack
+                                    || !com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem.hasFuel(stack)) {
+                                return 0.0F;
+                            }
+                            var mc = net.minecraft.client.Minecraft.getInstance();
+                            boolean mining = entity == mc.player ? mc.gameMode != null && mc.gameMode.isDestroying() : entity.swinging;
+                            return mining ? (entity.level().getGameTime() / 2) % 2 : 0.0F;
+                        });
                 // Jetpack: nivel 1-3 (el modelo añade piezas en Mk II y Mk III)
                 ItemProperties.register(ModItems.JETPACK.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "level"),
                         (stack, level, entity, seed) -> com.bryanamaya.tecnocinetico.gear.JetpackItem.level(stack));

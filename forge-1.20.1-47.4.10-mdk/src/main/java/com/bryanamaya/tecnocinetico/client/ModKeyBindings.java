@@ -91,7 +91,8 @@ public final class ModKeyBindings {
                         || mc.player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KineticPistolItem;
                 boolean holdingMag = mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem
                         || mc.player.getOffhandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem;
-                if (holdingPistol) {
+                boolean holdingDrill = mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem;
+                if (holdingPistol || holdingDrill) {
                     ModNetwork.CHANNEL.sendToServer(new ModNetwork.ReloadPistolPacket());
                 } else if (holdingMag) {
                     // R llena el cargador con Bala Cinética; Mayús+R con Munición Guiada

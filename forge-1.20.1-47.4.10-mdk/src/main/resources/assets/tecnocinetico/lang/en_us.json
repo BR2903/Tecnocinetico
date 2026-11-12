@@ -567,5 +567,14 @@
   "entity.tecnocinetico.ash_sentinel": "Ash Sentinel",
   "item.tecnocinetico.ash_sentinel_spawn_egg": "Ash Sentinel Spawn Egg",
   "item.tecnocinetico.slag_alloy": "Slag Alloy",
-  "item.tecnocinetico.sulfur_dust": "Industrial Sulfur"
+  "item.tecnocinetico.sulfur_dust": "Industrial Sulfur",
+  "item.tecnocinetico.combustion_drill": "Combustion Drill",
+  "item.tecnocinetico.drill_head": "Drill Head",
+  "item.tecnocinetico.combustion_engine": "Combustion Engine",
+  "tooltip.tecnocinetico.drill_fuel": "Fuel: %s / %s",
+  "tooltip.tecnocinetico.drill": "Mines 3x3 and can break obsidian. Each block uses fuel.",
+  "tooltip.tecnocinetico.drill_keys": "R: refuel with Fuel Canisters · Sneak: single block",
+  "message.tecnocinetico.drill_refuel": "Refueled with %s canister(s): %s / %s",
+  "message.tecnocinetico.drill_full": "The tank is already full",
+  "message.tecnocinetico.drill_no_canister": "You have no Fuel Canisters"
 }

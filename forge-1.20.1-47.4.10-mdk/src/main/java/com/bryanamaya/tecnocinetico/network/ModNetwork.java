@@ -139,6 +139,10 @@ public final class ModNetwork {
                 if (player == null) {
                     return;
                 }
+                if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem) {
+                    com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem.refuel(player, player.getMainHandItem());   // gasolina
+                    return;
+                }
                 for (InteractionHand hand : InteractionHand.values()) {
                     ItemStack stack = player.getItemInHand(hand);
                     // Con dos pistolas, recarga la primera que lo necesite

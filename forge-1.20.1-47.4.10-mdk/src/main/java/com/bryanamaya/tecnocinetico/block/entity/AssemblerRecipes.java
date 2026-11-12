@@ -91,6 +91,10 @@ public final class AssemblerRecipes {
                     new Recipe(List.of(s(ModItems.CORE_PROCESSOR.get(), 1), s(ModItems.INERCITA_PLATE.get(), 6), s(ModItems.KINETIC_SERVO.get(), 3),
                             s(ModItems.PRECISION_MECHANISM.get(), 2), s(ModItems.TITANIUM_INGOT.get(), 6)),
                             new ItemStack(ModItems.MINIGUN.get()), 400),
+                    // Taladro de Combustión: las dos piezas vienen del Ensamblador Industrial
+                    new Recipe(List.of(s(ModItems.DRILL_HEAD.get(), 1), s(ModItems.COMBUSTION_ENGINE.get(), 1), s(ModItems.TITANIUM_INGOT.get(), 4),
+                            s(ModItems.INERCITA_PLATE.get(), 2), s(ModItems.FUEL_CANISTER.get(), 1)),
+                            new ItemStack(ModItems.COMBUSTION_DRILL.get()), 300),
                     new Recipe(List.of(s(ModItems.INERCITA_INGOT.get(), 1), s(Items.GUNPOWDER, 4), s(ModItems.CINETRITE_SHARD.get(), 2), s(Items.IRON_INGOT, 2)),
                             new ItemStack(ModItems.GUIDED_ROCKET.get(), 2), 80),
                     // munición especial

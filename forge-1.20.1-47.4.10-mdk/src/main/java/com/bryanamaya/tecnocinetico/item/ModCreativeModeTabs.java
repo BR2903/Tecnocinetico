@@ -115,6 +115,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.ROCKET_LAUNCHER.get());
                         out.accept(ModItems.ARC_CASTER.get());
                         out.accept(ModItems.MINIGUN.get());
+                        out.accept(ModItems.COMBUSTION_DRILL.get());                 // herramienta de tier 3
                         out.accept(ModItems.MODULE_SEEKER.get());
                     })
                     .build());
@@ -282,6 +283,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.DIMENSIONAL_DRIVE.get());
                         out.accept(ModItems.VECTOR_THRUSTER.get());
                         out.accept(ModItems.ADAPTIVE_FLIGHT_CORE.get());
+                        out.accept(ModItems.DRILL_HEAD.get());
+                        out.accept(ModItems.COMBUSTION_ENGINE.get());
                     })
                     .build());
 

@@ -567,5 +567,14 @@
   "entity.tecnocinetico.ash_sentinel": "Centinela de Ceniza",
   "item.tecnocinetico.ash_sentinel_spawn_egg": "Generar Centinela de Ceniza",
   "item.tecnocinetico.slag_alloy": "Aleación de Escoria",
-  "item.tecnocinetico.sulfur_dust": "Azufre Industrial"
+  "item.tecnocinetico.sulfur_dust": "Azufre Industrial",
+  "item.tecnocinetico.combustion_drill": "Taladro de Combustión",
+  "item.tecnocinetico.drill_head": "Cabezal de Perforación",
+  "item.tecnocinetico.combustion_engine": "Motor de Combustión",
+  "tooltip.tecnocinetico.drill_fuel": "Gasolina: %s / %s",
+  "tooltip.tecnocinetico.drill": "Rompe en 3x3 y llega a la obsidiana. Cada bloque gasta gasolina.",
+  "tooltip.tecnocinetico.drill_keys": "R: repostar con Depósitos de Combustible · Agachado: un solo bloque",
+  "message.tecnocinetico.drill_refuel": "Repostado con %s depósito(s): %s / %s",
+  "message.tecnocinetico.drill_full": "El tanque ya está lleno",
+  "message.tecnocinetico.drill_no_canister": "No tienes Depósitos de Combustible"
 }

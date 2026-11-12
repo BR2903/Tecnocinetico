@@ -164,7 +164,14 @@ public final class MachineRecipes {
                     of(ModItems.TITANIUM_INGOT, 32), of(v(Items.GLASS), 24), of(ModItems.CORE_PROCESSOR, 2),
                     of(ModItems.PRECISION_MECHANISM, 8), of(ModItems.KINETIC_SERVO, 6), of(ModItems.INERCITA_PLATE, 16),
                     of(v(Items.COPPER_BLOCK), 8), of(v(Items.REDSTONE_BLOCK), 4)),
-                    ModItems.FISSION_REACTOR_KIT, 1, 1200, 400));
+                    ModItems.FISSION_REACTOR_KIT, 1, 1200, 400),
+            // piezas del Taladro de Combustión (se termina en el Ensamblador de Armas)
+            new Assembly(List.of(of(ModItems.TITANIUM_INGOT, 6), of(v(Items.DIAMOND), 4), of(ModItems.INERCITA_PLATE, 2),
+                    of(ModItems.KINETIC_SERVO, 1)),
+                    ModItems.DRILL_HEAD, 1, 600, 250),
+            new Assembly(List.of(of(ModItems.TITANIUM_INGOT, 4), of(ModItems.PRECISION_MECHANISM, 2), of(ModItems.KINETIC_SERVO, 2),
+                    of(v(Items.COPPER_INGOT), 8)),
+                    ModItems.COMBUSTION_ENGINE, 1, 600, 250));
 
     public static boolean isAssemblyIngredient(ItemStack stack) {
         return ASSEMBLY.stream().anyMatch(a -> a.in().stream().anyMatch(i -> stack.is(i.item().get())));

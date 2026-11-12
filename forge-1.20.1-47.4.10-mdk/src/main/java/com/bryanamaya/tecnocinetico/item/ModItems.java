@@ -426,6 +426,14 @@ public class ModItems {
 
     // ---------------------------------------------------------------- más armas (tiers 1-3)
     public static final RegistryObject<Item> FUEL_CANISTER = ITEMS.register("fuel_canister", () -> new Item(new Item.Properties().stacksTo(16)));
+
+    // ---- Taladro de Combustión (tier 3): se monta en el Ensamblador de Armas con dos piezas del Ensamblador Industrial
+    public static final RegistryObject<Item> COMBUSTION_DRILL = ITEMS.register("combustion_drill",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem(new Item.Properties().rarity(net.minecraft.world.item.Rarity.EPIC)));
+    public static final RegistryObject<Item> DRILL_HEAD = ITEMS.register("drill_head",
+            () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> COMBUSTION_ENGINE = ITEMS.register("combustion_engine",
+            () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
     public static final RegistryObject<Item> GUIDED_ROCKET = ITEMS.register("guided_rocket", () -> new Item(new Item.Properties().stacksTo(8)));
     /** Revólver (tier 1): 6 balas cinéticas cargadas una a una, 9 de daño. */
     public static final RegistryObject<Item> REVOLVER = ITEMS.register("revolver",
