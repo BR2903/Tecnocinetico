@@ -89,6 +89,13 @@ public final class ModNetwork {
                 ServerPlayer player = ctx.get().getSender();
                 if (player != null) {
                     if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem gun) {
+                        // Las armas de carga (Rifle de Riel) solo disparan por FireChargedPacket, que mide la carga en
+                        // el servidor. Por aquí solo se acepta la petición de recarga cuando está vacía.
+                        if (gun.action() == com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.CHARGE
+                                && (player.getAbilities().instabuild
+                                || com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.getAmmo(player.getMainHandItem()) > 0)) {
+                            return;
+                        }
                         gun.tryFire(player, msg.aiming());
                     } else {
                         KineticPistolItem.tryFire(player, msg.aiming());

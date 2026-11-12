@@ -47,8 +47,6 @@
 - Estructuras grandes: probar en el juego (despliegue, desmontaje, brazos y barras visibles). Más recetas para el Ensamblador Industrial (nave mejorable, tier 4-5).
 
 ## De la revisión externa (2026-11-10), sin arreglar: decide el usuario
-- **Rifle de Riel / red**: `FirePistolPacket` acepta cualquier `LongGunItem` y llama a `tryFire(player, aiming)`, que usa carga 1. Un cliente modificado puede disparar el rifle sin pasar por la medición de carga de `FireChargedPacket`. Restringir el camino de disparo normal para `Action.CHARGE`, conservando la petición de recarga cuando está vacío.
-- **Cadencia automática / red**: `LongGunItem.tryFire` compara el tiempo transcurrido con `cooldown(gun) - 1`. Para la minigun (cooldown 1), varios paquetes en el mismo tick pasan el control cuando ya gira; para las otras automáticas se permite un tick menos que la cadencia configurada. Validar el intervalo completo en el servidor.
 - **World presets vanilla sobrescritos** (`data/minecraft/worldgen/world_preset/`): chocan con otros mods de worldgen (Terralith, BoP). Alternativa: TerraBlender o un preset propio.
 - **Licencia contradictoria**: `mod_license=All Rights Reserved` pero `LICENSE.txt` es el LGPL de Forge del MDK. Elegir una.
 - **README.txt / CREDITS.txt** del MDK: falta un README del mod.

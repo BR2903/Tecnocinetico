@@ -217,7 +217,8 @@ public class LongGunItem extends Item {
         }
         long now = player.level().getGameTime();
         if (action == Action.AUTO) {
-            if (now - gun.getOrCreateTag().getLong(TAG_LAST) < cooldown(gun) - 1) {
+            // un tick de margen por el lag, pero nunca dos disparos en el mismo tick (minigun: cadencia 1)
+            if (now - gun.getOrCreateTag().getLong(TAG_LAST) < Math.max(1, cooldown(gun) - 1)) {
                 return;
             }
         } else if (player.getCooldowns().isOnCooldown(this)) {
