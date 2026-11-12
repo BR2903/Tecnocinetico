@@ -65,3 +65,11 @@ Bryan lo probará más adelante; no dar por aprobado hasta entonces.
 - **Taladro de Combustión**: encuadre en primera/tercera persona, animaciones (taladrar sin golpe de brazo, vibración, giro de la broca, repostaje de 1,5 s) y **sonidos** (ralentí, taladrado, arranque, mordisco, repostaje, ahogo; volumen y si el bucle se nota).
 - **Munición en paquetes y cargadores**: modelos de Codex, llenar con R, recarga de cada arma desde su cargador, revólver con 1 paquete, escopetas con paquetes abiertos, cinta y cajas de minigun/ametralladora, recetas de pólvora (mesa, Refinador, Laboratorio). Confirmar la interpretación de "francotiradores con las mismas balas y cargadores" (Rifle de Riel = Balas de Rifle + Peine; Balas de Riel obsoletas).
 - **Nether parte 2**: Ácaro de Escoria, Centinela de Ceniza, mobs vanilla remodelados (solo en el Nether), todos los piglins armados.
+- **Overworld arrasado (2026-11-12)**: vegetación mitad y mitad, densidad de restos y edificios, llanuras = Megaciudad Muerta, farolas y postes. Probar en un mundo NUEVO de tipo "Postapocalíptico" (o chunks nuevos). Ajustar densidades si se pasa o se queda corto.
+
+## Overworld arrasado: lo que falta de la lista acordada (2026-11-12)
+- Carreteras y autopistas rotas con línea pintada y quitamiedos.
+- Vehículos abandonados (coches, autobuses, camiones): modelos de Codex.
+- Ambiente: cielo/niebla grisáceos y ceniza en el aire en más biomas, agua contaminada.
+- Criaturas: menos hostiles vanilla, más corrompidos y drones de noche.
+- Cabeza de farola tumbada (Codex: hace falta otra orientación para que la cabeza caída quede de lado).
