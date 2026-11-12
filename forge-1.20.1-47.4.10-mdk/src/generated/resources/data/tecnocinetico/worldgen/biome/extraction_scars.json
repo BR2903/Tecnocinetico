@@ -8,7 +8,7 @@
   },
   "downfall": 0.0,
   "effects": {
-    "fog_color": 10535112,
+    "fog_color": 11449010,
     "foliage_color": 8027726,
     "grass_color": 9080410,
     "mood_sound": {
@@ -23,7 +23,13 @@
       "replace_current_music": false,
       "sound": "minecraft:music.overworld.badlands"
     },
-    "sky_color": 9414840,
+    "particle": {
+      "options": {
+        "type": "minecraft:ash"
+      },
+      "probability": 0.008
+    },
+    "sky_color": 10133668,
     "water_color": 4094084,
     "water_fog_color": 1060922
   },

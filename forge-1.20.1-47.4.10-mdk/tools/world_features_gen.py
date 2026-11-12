@@ -255,6 +255,13 @@ def main():
     modifier("vegetation/sickly_trees_hills", ["fractured_lands"], ["vegetation/sickly_spruce_hills"])
     modifier("vegetation/sickly_trees_tundra", ["ruined_tundra"], ["vegetation/sickly_spruce_tundra"])
 
+    # ------------------------------------------------ carreteras (RoadFeature): una vez por chunk, antes que todo lo demás
+    configured("roads", rl("road"), {})
+    placed_custom("roads", "roads", [])
+    modifier("features/roads", ["dead_megacity", "scrap_meadows", "overgrown_ruins", "industrial_jungle", "fractured_lands",
+                                "ruined_tundra", "scrap_coast", "ash_taiga", "vitrified_desert", "extraction_scars",
+                                "coolant_swamp"], ["roads"], "raw_generation")
+
     # ------------------------------------------------ farolas y postes eléctricos (StreetPropFeature)
     configured("street_lamps", rl("street_prop"), {"kind": "lamp", "standing": 3, "fallen": 3})
     configured("street_lamps_ruined", rl("street_prop"), {"kind": "lamp", "standing": 1, "fallen": 4})

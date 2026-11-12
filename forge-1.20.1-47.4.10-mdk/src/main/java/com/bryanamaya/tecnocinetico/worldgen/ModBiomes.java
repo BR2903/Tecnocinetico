@@ -110,10 +110,11 @@ public final class ModBiomes {
         context.register(INDUSTRIAL_JUNGLE, retheme(OverworldBiomes.jungle(pf, cv),
                 look(0x86A8B0, 0xA8C0B8, 0x356E6A, 0x0C2A28).grass(0x4F9A38).foliage(0x3F8A2C)));
         context.register(SCRAP_MEADOWS, retheme(OverworldBiomes.plains(pf, cv, false, false, false),
-                look(0x9AACB4, 0xBEC6C2, 0x46707A, 0x102A30).grass(0x8A9A50).foliage(0x7A8A44)));
+                look(0x96A0A6, 0xB0B6B4, 0x46707A, 0x102A30).grass(0x8A9A50).foliage(0x7A8A44)
+                        .particle(ParticleTypes.WHITE_ASH, 0.006F)));
         context.register(DEAD_MEGACITY, retheme(OverworldBiomes.plains(pf, cv, false, false, false),
-                look(0x9AA2A8, 0xA9ADB0, 0x4A6670, 0x14262C).grass(0x7A8A54).foliage(0x6A7A48)
-                        .particle(ParticleTypes.WHITE_ASH, 0.004F)));
+                look(0x8E9498, 0x9DA1A3, 0x4A6670, 0x14262C).grass(0x7A8A54).foliage(0x6A7A48)
+                        .particle(ParticleTypes.WHITE_ASH, 0.012F)));
         context.register(COOLANT_SWAMP, retheme(OverworldBiomes.swamp(pf, cv),
                 look(0x8EA6A0, 0x9DB8A8, 0x3FA89A, 0x1D5A50).grass(0x5E7A40).foliage(0x4E6A34)
                         .particle(ParticleTypes.SPORE_BLOSSOM_AIR, 0.002F)));
@@ -127,19 +128,20 @@ public final class ModBiomes {
                         .particle(ParticleTypes.ASH, 0.012F)
                         .additions(0.0111D)));
         context.register(EXTRACTION_SCARS, retheme(OverworldBiomes.badlands(pf, cv, false),
-                look(0x8FA8B8, 0xA0C0C8, 0x3E7884, 0x10303A).grass(0x8A8E5A).foliage(0x7A7E4E)));
+                look(0x9AA0A4, 0xAEB2B2, 0x3E7884, 0x10303A).grass(0x8A8E5A).foliage(0x7A7E4E)
+                        .particle(ParticleTypes.ASH, 0.008F)));
         context.register(VITRIFIED_DESERT, retheme(OverworldBiomes.desert(pf, cv),
-                look(0xC8B490, 0xD8C8A8, 0x5A8090, 0x1A3038)));
+                look(0xC0B08E, 0xCFC2A4, 0x5A8090, 0x1A3038).particle(ParticleTypes.WHITE_ASH, 0.008F)));
 
         // Frío y montaña
         context.register(ANTENNA_PEAKS, retheme(OverworldBiomes.jaggedPeaks(pf, cv),
                 look(0x9CB0C4, 0xC0CCD6, 0x3A6680, 0x0E2436)));
         context.register(RUINED_TUNDRA, retheme(OverworldBiomes.plains(pf, cv, false, true, false),
-                look(0xA4B4C4, 0xC8D0D8, 0x3A5E78, 0x0E2234)));
+                look(0xA0A8B0, 0xC0C6CC, 0x3A5E78, 0x0E2234).particle(ParticleTypes.WHITE_ASH, 0.006F)));
 
         // Agua
         context.register(SCRAP_COAST, retheme(OverworldBiomes.beach(pf, cv, false, false),
-                look(0x9AB0BC, 0xB8C6CA, 0x3E6E78, 0x10282E)));
+                look(0x98A4AC, 0xB2BABC, 0x3E6E78, 0x10282E).particle(ParticleTypes.WHITE_ASH, 0.004F)));
         context.register(DEBRIS_SEA, retheme(OverworldBiomes.ocean(pf, cv, false),
                 look(0x96AEBC, 0xB4C2C8, 0x3A6A70, 0x24484C)));
         context.register(DEEP_DEBRIS_SEA, retheme(OverworldBiomes.ocean(pf, cv, true),

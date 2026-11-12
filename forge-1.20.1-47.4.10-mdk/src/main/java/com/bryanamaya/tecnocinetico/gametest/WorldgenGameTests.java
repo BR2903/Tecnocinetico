@@ -457,4 +457,53 @@ public class WorldgenGameTests {
         }
         h.succeed();
     }
+
+    /** Carreteras: calles de 7 cada 48 bloques solo en la ciudad; autopistas de 9 con quitamiedos; pintado sobre suelo. */
+    @GameTest(template = "empty", batch = "tipos_de_mundo")
+    public static void roads(GameTestHelper h) {
+        long seed = 12345L;
+        // calles: a lo largo de una fila, exactamente 7 columnas de cada 48 son calle (sin contar autopistas)
+        int street = 0;
+        for (int x = 0; x < 48; x++) {
+            var r = com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature.roadAt(seed, x, 20, true);
+            if (r != null && !r.highway() && r.along() == net.minecraft.core.Direction.Axis.Z) street++;
+        }
+        h.assertTrue(street == 7, "Calles: " + street + " columnas de 48 (se esperaban 7)");
+        h.assertTrue(java.util.stream.IntStream.range(0, 48).noneMatch(x -> {
+            var r = com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature.roadAt(seed, x, 20, false);
+            return r != null && !r.highway();
+        }), "Hay calles fuera de la ciudad");
+        int hw = 0;
+        for (int x = 0; x < 512; x++) {
+            var r = com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature.roadAt(seed, x, 7, false);
+            if (r != null && r.highway() && r.along() == net.minecraft.core.Direction.Axis.Z) hw++;
+        }
+        h.assertTrue(hw == 11, "Autopista: " + hw + " columnas de 512 (9 de calzada + 2 de quitamiedos)");
+        // pintado sobre piedra: asfalto/línea/bache en la calzada y nada encima
+        var level = h.getLevel();
+        BlockPos base = h.absolutePos(BlockPos.ZERO).atY(200);
+        try {
+            int painted = 0;
+            for (int i = 0; i < 20; i++) {
+                BlockPos top = base.offset(i, 0, 0);
+                level.setBlock(top, net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(), 2);
+                level.setBlock(top.above(), net.minecraft.world.level.block.Blocks.GRASS.defaultBlockState(), 2);
+                var road = new com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature.Road(net.minecraft.core.Direction.Axis.X, 1, 3, false);
+                if (com.bryanamaya.tecnocinetico.worldgen.feature.RoadFeature.paint(level, seed, top, top.getX(), top.getZ(), road)) {
+                    painted++;
+                    var st = level.getBlockState(top);
+                    h.assertTrue((st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.ASPHALT.get())
+                            || st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.CRACKED_ASPHALT.get())
+                            || st.is(net.minecraft.world.level.block.Blocks.GRAVEL)) && level.getBlockState(top.above()).isAir(),
+                            "Calzada mal pintada: " + st);
+                }
+            }
+            h.assertTrue(painted >= 12, "Se pintaron solo " + painted + " de 20 columnas");
+        } finally {
+            for (BlockPos p : BlockPos.betweenClosed(base.offset(-1, 0, -1), base.offset(21, 2, 1))) {
+                level.setBlock(p, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 2);
+            }
+        }
+        h.succeed();
+    }
 }
