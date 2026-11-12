@@ -56,6 +56,7 @@ public class Tecnocinetico {
         com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.register(modEventBus);
         com.bryanamaya.tecnocinetico.fluid.ModFluids.register(modEventBus);
         ModEntities.register(modEventBus);
+        com.bryanamaya.tecnocinetico.nether.NetherEntities.register(modEventBus);          // enemigos del Nether
         ModCreativeModeTabs.register(modEventBus);
         ModParticles.register(modEventBus);
         ModSounds.register(modEventBus);
@@ -278,6 +279,12 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.client.HiveNodeRenderer::new);
             event.registerEntityRenderer(ModEntities.SENTRY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.client.SentryTurretRenderer::new);
             event.registerEntityRenderer(ModEntities.DRONE.get(), com.bryanamaya.tecnocinetico.entity.client.DroneRenderer::new);
+            event.registerEntityRenderer(com.bryanamaya.tecnocinetico.nether.NetherEntities.MITE.get(), c ->
+                    new com.bryanamaya.tecnocinetico.entity.client.InfernalRenderer(c,
+                            com.bryanamaya.tecnocinetico.entity.client.InfernalRenderer.MITE, "slag_mite", 0.6F, 0.3F));
+            event.registerEntityRenderer(com.bryanamaya.tecnocinetico.nether.NetherEntities.SENTINEL.get(), c ->
+                    new com.bryanamaya.tecnocinetico.entity.client.InfernalRenderer(c,
+                            com.bryanamaya.tecnocinetico.entity.client.InfernalRenderer.SENTINEL, "ash_sentinel", 1.1F, 0.7F));
             event.registerEntityRenderer(ModEntities.KINETIC_GRENADE.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
             event.registerEntityRenderer(ModEntities.CORE_FIGHTER.get(), com.bryanamaya.tecnocinetico.entity.client.CoreFighterRenderer::new);
             event.registerEntityRenderer(ModEntities.SHIP_MISSILE.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);

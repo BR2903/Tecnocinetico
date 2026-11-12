@@ -561,5 +561,11 @@
   "item.tecnocinetico.adaptive_flight_core": "Adaptive Flight Core",
   "tooltip.tecnocinetico.vector_thruster": "Core Fighter component. Recovered from the Network Watcher.",
   "tooltip.tecnocinetico.adaptive_flight_core": "Core Fighter component. Recovered from the Swarm Matriarch.",
-  "entity.tecnocinetico.matriarch_minion": "Matriarch Broodling"
+  "entity.tecnocinetico.matriarch_minion": "Matriarch Broodling",
+  "entity.tecnocinetico.slag_mite": "Slag Mite",
+  "item.tecnocinetico.slag_mite_spawn_egg": "Slag Mite Spawn Egg",
+  "entity.tecnocinetico.ash_sentinel": "Ash Sentinel",
+  "item.tecnocinetico.ash_sentinel_spawn_egg": "Ash Sentinel Spawn Egg",
+  "item.tecnocinetico.slag_alloy": "Slag Alloy",
+  "item.tecnocinetico.sulfur_dust": "Industrial Sulfur"
 }

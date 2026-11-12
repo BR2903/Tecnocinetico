@@ -561,5 +561,11 @@
   "item.tecnocinetico.adaptive_flight_core": "Núcleo de Vuelo Adaptativo",
   "tooltip.tecnocinetico.vector_thruster": "Componente del Caza del Núcleo. Recuperado del Vigía de la Red.",
   "tooltip.tecnocinetico.adaptive_flight_core": "Componente del Caza del Núcleo. Recuperado de la Matriarca del Enjambre.",
-  "entity.tecnocinetico.matriarch_minion": "Cría de la Matriarca"
+  "entity.tecnocinetico.matriarch_minion": "Cría de la Matriarca",
+  "entity.tecnocinetico.slag_mite": "Ácaro de Escoria",
+  "item.tecnocinetico.slag_mite_spawn_egg": "Generar Ácaro de Escoria",
+  "entity.tecnocinetico.ash_sentinel": "Centinela de Ceniza",
+  "item.tecnocinetico.ash_sentinel_spawn_egg": "Generar Centinela de Ceniza",
+  "item.tecnocinetico.slag_alloy": "Aleación de Escoria",
+  "item.tecnocinetico.sulfur_dust": "Azufre Industrial"
 }

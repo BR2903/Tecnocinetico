@@ -651,3 +651,11 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-11 — Claude — Conexión con Codex para los modelos
 - Decisión del usuario: Codex hace modelos y arte; Claude, código y lógica. Probada la conexión con el chat de Codex del usuario (`codex exec resume`, respondió bien). `tools/ask_codex.sh` manda los encargos; reglas del reparto en `AGENTS.md` §3c.
+
+## 2026-11-11 — Claude — Nether, parte 2: enemigos nuevos (Ácaro de Escoria y Centinela de Ceniza)
+- Decisiones del usuario: activar los enemigos nuevos, que Codex remodele los mobs vanilla del Nether (encargo enviado por `ask_codex.sh`) y que los piglins sigan hostiles pero **sin soltar el Fusil de Asalto**.
+- **Código nuevo y legible** (no se mezcló la rama `work/nether-por-etapas`; de ella solo se tomó el arte de Codex: `InfernalModel`, texturas, huevos, botín y `infernal_spawns.json`): `nether/NetherEntities` (registro, atributos, reglas de aparición), `nether/InfernalEntity` (ácaro cuerpo a cuerpo y saltarín; centinela que fija un punto con láser 18 ticks y dispara ahí, golpea de cerca; aliados entre sí) y `entity/client/InfernalRenderer`.
+- `NetherMobEvents` reescrito con formato y comentarios del proyecto, mismo comportamiento de la parte 1; el fusil tiene probabilidad 0 de caer (también en piglins ya existentes; el hacha conserva 2,5 %). Nuevo: al excavar roca o minerales del Nether bajo Y 80, dentro de la roca, a veces sale un ácaro (1/18, espera de 12 s por jugador, máximo 6 cerca).
+- Aparición natural en todo el Nether (`forge:add_spawns`): ácaros (peso 18, bajo Y 80) y centinelas (peso 12). Sueltan Azufre Industrial y Aleación de Escoria (materiales del futuro equipo del Nether, ya registrados). Huevos en la pestaña principal.
+- GameTests `NetherEnemyGameTests`: aviso y disparo del centinela, alianza, ácaros al excavar (límite, sin aparecer en bloques ni al aire libre) y el fusil que nunca cae. 49 pruebas pasan.
+- Ojo: `GuardianGameTests.watcherAttacks` depende del terreno de `run/world`; en un mundo de prueba recién creado (otra semilla) falló 3 de 3. Anotado en PENDIENTES.

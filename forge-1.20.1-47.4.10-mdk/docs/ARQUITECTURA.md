@@ -165,3 +165,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `nether/NetherMobEvents`: suscriptor Forge para mejorar enemigos vanilla exclusivamente en el Nether. Guarda atributos/arma originales en NBT, evita acumular mejoras al cargar y los restaura al salir de la dimensión. Memorias de ira para piglins aun con oro; rifle con ráfagas; bolas del ghast, abanico del blaze y avance del esqueleto wither. No registra contenido nuevo ni cambia generadores o equipo.
 - `gametest/NetherMobGameTests`: prueba las mejoras, la hostilidad con oro, persistencia/restauración, potencia de proyectiles, abanico y avance, respetando creativo.
 - El resto del Nether queda en una rama local de trabajo para entregarlo por partes; ver `docs/PLAN_NETHER.md`. No mezclarla entera ni duplicar los suscriptores de combate.
+
+## Nether (`nether/`, por etapas — ver `PLAN_NETHER.md`)
+- `NetherMobEvents`: mejoras de los mobs vanilla solo dentro del Nether (se restauran al salir) y ácaros al excavar. Métodos públicos `join`, `enemyTick`, `isMiteNest`, `disturbMites` (los usan las pruebas).
+- `NetherEntities` + `InfernalEntity`: Ácaro de Escoria y Centinela de Ceniza (una clase; el tipo decide el comportamiento; preparada para los dos jefes). Cliente: `entity/client/InfernalModel` (arte de Codex) e `InfernalRenderer`.

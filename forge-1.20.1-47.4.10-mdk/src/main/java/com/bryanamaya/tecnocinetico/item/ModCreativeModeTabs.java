@@ -62,6 +62,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.CORRUPTED_DROWNED_SPAWN_EGG.get());
                         out.accept(ModItems.CORRUPTED_CREEPER_SPAWN_EGG.get());
                         out.accept(ModItems.SWARM_BODY_SPAWN_EGG.get());
+                        out.accept(ModItems.SLAG_MITE_SPAWN_EGG.get());
+                        out.accept(ModItems.ASH_SENTINEL_SPAWN_EGG.get());
                         out.accept(ModItems.SWARM_WASP_SPAWN_EGG.get());
                         out.accept(ModItems.HIVE_NODE_SPAWN_EGG.get());
                         out.accept(ModItems.DRONE_SPAWN_EGG.get());
@@ -272,6 +274,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModBlocks.PIROXITE_ORE.get());
                         out.accept(ModItems.RAW_PIROXITE.get());
                         out.accept(ModItems.PIROXITE_INGOT.get());
+                        out.accept(ModItems.SULFUR_DUST.get());                 // Nether: ácaros y centinelas
+                        out.accept(ModItems.SLAG_ALLOY.get());
                         out.accept(ModBlocks.NULLITE_ORE.get());
                         out.accept(ModItems.RAW_NULLITE.get());
                         out.accept(ModItems.NULLITE_INGOT.get());

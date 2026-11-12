@@ -182,6 +182,15 @@ public class ModItems {
     /** Núcleo de Enjambre: lo suelta el Nodo de Colmena. Base de la futura mejora de puntería asistida. */
     public static final RegistryObject<Item> SWARM_CORE = ITEMS.register("swarm_core",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON).stacksTo(16)));
+    // ---- Nether (parte 2): enemigos nuevos y lo que sueltan
+    public static final RegistryObject<Item> SLAG_MITE_SPAWN_EGG = ITEMS.register("slag_mite_spawn_egg",
+            () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.nether.NetherEntities.MITE, 0x352B29, 0xFF791B, new Item.Properties()));
+    public static final RegistryObject<Item> ASH_SENTINEL_SPAWN_EGG = ITEMS.register("ash_sentinel_spawn_egg",
+            () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.nether.NetherEntities.SENTINEL, 0x292C30, 0xF5A72A, new Item.Properties()));
+    /** Azufre industrial (lo sueltan los ácaros) y Aleación de escoria (los centinelas): materiales del equipo del Nether. */
+    public static final RegistryObject<Item> SULFUR_DUST = ITEMS.register("sulfur_dust", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SLAG_ALLOY = ITEMS.register("slag_alloy", () -> new Item(new Item.Properties().fireResistant()));
+
     public static final RegistryObject<Item> CORRUPTED_SPAWN_EGG = ITEMS.register("corrupted_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.CORRUPTED, 0x5C6A66, 0x34C8DC, new Item.Properties()));
     public static final RegistryObject<Item> CORRUPTED_GUNNER_SPAWN_EGG = ITEMS.register("corrupted_gunner_spawn_egg",

@@ -18,3 +18,11 @@ Probar en IntelliJ con `runClient`, entrando al Nether en supervivencia y con or
 La rama local `work/nether-por-etapas`, commit `49353b8`, conserva el trabajo adelantado de biomas, estructuras, mobs nuevos, gadgets, armaduras y dos jefes. **No está activado en `main`.** Pasó 50 GameTests y auditoría de 17 modelos antes de separarlo; requiere revisión con el usuario y entregar sus componentes gradualmente.
 
 Posibles siguientes partes, eligiendo con los comentarios del usuario: enemigos nuevos de túneles; biomas y estructuras; equipo de preparación; primer jefe; segundo jefe y recompensas. La idea global se mantiene: Nether industrial y biomecánico, dos jefes originales, mejora del caza y buenas recompensas. No mezclar la rama entera sobre `main` para introducir la siguiente parte: extraer solo lo acordado y evitar registrar dos veces los eventos de hostilidad.
+
+## Parte 2 (2026-11-11, Claude): enemigos nuevos — entregada, pendiente de prueba del usuario
+
+Ácaro de Escoria (18 de vida, túneles bajo Y 80 y al excavar roca) y Centinela de Ceniza (64 de vida, láser de aviso y disparo a un punto fijado). Código en `nether/`; modelos de Codex (`InfernalModel`). Los piglins ya no sueltan el Fusil de Asalto. En paralelo, Codex remodela los mobs vanilla del Nether (piglin, bruto, zombificado, ghast, blaze, esqueleto wither); Claude conecta los renderizadores (solo dentro del Nether).
+
+Probar en `runClient`, en el Nether y en supervivencia: excavar netherrack en túneles hasta que salgan ácaros; buscar centinelas (o usar los huevos de la pestaña principal) y comprobar que el láser avisa y que moverse esquiva el tiro. Funciona en mundos existentes (aparecen en chunks ya generados).
+
+Siguientes partes posibles: biomas y estructuras; equipo de preparación; primer jefe; segundo jefe y recompensas.

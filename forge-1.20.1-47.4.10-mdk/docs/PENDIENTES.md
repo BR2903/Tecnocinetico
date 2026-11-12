@@ -52,3 +52,6 @@
 - **README.txt / CREDITS.txt** del MDK: falta un README del mod.
 - **Tamaño del repo**: `texturas_originales_backup/` (21 MB) y `tools/sound_sources/` (7 MB): Git LFS o fuera del repo.
 - **Prensa**: receta de fragmentación (cristal solo) es subconjunto de Transductor y Servo; con tolvas, si falta el cobre los cristales se fragmentan.
+
+## Pruebas frágiles
+- `GuardianGameTests.watcherAttacks` (y probablemente otras que usan el heightmap) dependen del terreno del mundo de prueba `run/world`, que no está en git y tiene semilla al azar: en una copia nueva del repo puede fallar. Fijar `level-seed` para el servidor de pruebas o montar el suelo en la propia prueba.
