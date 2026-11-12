@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "tecnocinetico:block/utility_pole"
+    },
+    "axis=x": {
+      "model": "tecnocinetico:block/utility_pole",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "tecnocinetico:block/utility_pole",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "parent": "tecnocinetico:block/utility_crossarm",
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        -0.0099,
+        -0.6916,
+        0
+      ],
+      "scale": [
+        0.6971,
+        0.6971,
+        0.6971
+      ]
+    }
+  }
+}

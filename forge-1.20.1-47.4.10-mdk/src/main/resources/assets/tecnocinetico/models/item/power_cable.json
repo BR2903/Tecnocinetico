@@ -1,0 +1,22 @@
+{
+  "parent": "tecnocinetico:block/power_cable_ground",
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0.2599,
+        4.4592,
+        0
+      ],
+      "scale": [
+        0.7243,
+        0.7243,
+        0.7243
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "parent": "tecnocinetico:block/street_lamp_bent",
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        -4.6351,
+        2.173,
+        0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    }
+  }
+}

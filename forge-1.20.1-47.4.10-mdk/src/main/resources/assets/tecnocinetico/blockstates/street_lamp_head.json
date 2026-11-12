@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "tecnocinetico:block/street_lamp_head"
+    },
+    "facing=east": {
+      "model": "tecnocinetico:block/street_lamp_head",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "tecnocinetico:block/street_lamp_head",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "tecnocinetico:block/street_lamp_head",
+      "y": 270
+    }
+  }
+}

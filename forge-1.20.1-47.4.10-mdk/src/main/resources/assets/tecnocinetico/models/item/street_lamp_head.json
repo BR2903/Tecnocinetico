@@ -1,0 +1,22 @@
+{
+  "parent": "tecnocinetico:block/street_lamp_head",
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        -5.1145,
+        5.184,
+        0
+      ],
+      "scale": [
+        0.6666,
+        0.6666,
+        0.6666
+      ]
+    }
+  }
+}
