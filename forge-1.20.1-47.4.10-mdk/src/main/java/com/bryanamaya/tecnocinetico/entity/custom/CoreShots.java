@@ -55,12 +55,12 @@ public final class CoreShots {
             hit.getEntity().hurt(shooter.damageSources().mobProjectile(shooter, shooter), damage);   // bala: proyectil
         }
         if (shooter.level() instanceof ServerLevel server) {
-            Vec3 path = end.subtract(from);
-            int steps = (int) (path.length() * 3);
-            for (int i = 0; i <= steps; i++) {
-                Vec3 p = from.add(path.scale(i / (double) Math.max(1, steps)));
-                server.sendParticles(ModParticles.KINETIC_TRACER.get(), p.x, p.y, p.z, 0, 0, 0, 0, 0);
-            }
+            // trazadora: UN paquete a quien ve al tirador (el cliente dibuja la línea); antes eran ~3 paquetes por bloque
+            net.minecraft.world.item.Item held = shooter.getMainHandItem().getItem();
+            com.bryanamaya.tecnocinetico.network.ModNetwork.CHANNEL.send(
+                    net.minecraftforge.network.PacketDistributor.TRACKING_ENTITY.with(() -> shooter),
+                    new com.bryanamaya.tecnocinetico.network.WeaponEffectPacket(shooter.getId(), net.minecraft.world.item.Item.getId(held),
+                            com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.TRACER, false, from, end));
             server.sendParticles(ModParticles.KINETIC_SPARK.get(), end.x, end.y, end.z, heavy ? 14 : 3, 0.05, 0.05, 0.05, heavy ? 0.3 : 0.12);
             if (heavy) {
                 server.sendParticles(ParticleTypes.SMALL_FLAME, end.x, end.y, end.z, 6, 0.1, 0.1, 0.1, 0.03);

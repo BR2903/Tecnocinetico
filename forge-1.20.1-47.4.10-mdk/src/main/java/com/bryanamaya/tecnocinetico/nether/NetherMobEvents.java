@@ -24,7 +24,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
-import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.entity.monster.piglin.PiglinBrute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.LargeFireball;
@@ -46,13 +45,17 @@ import java.util.Comparator;
 /**
  * Nether hostil (por etapas, ver docs/PLAN_NETHER.md). Todo ocurre en el servidor y solo dentro del Nether.
  * <ul>
- *   <li><b>Parte 1 — enemigos vanilla mejorados</b>: piglins, brutos y zombificados más duros, armados (hacha de
- *       netherita o Fusil de Asalto, que NUNCA sueltan) y hostiles aunque lleves oro; endermen hostiles; ghasts con
+ *   <li><b>Parte 1 — enemigos vanilla mejorados</b>: piglins, brutos y zombificados (también los bebés) más duros,
+ *       TODOS armados (hacha de netherita o Fusil de Asalto, que NUNCA sueltan; si pierden el arma se rearman) y
+ *       hostiles aunque lleves oro; endermen hostiles; ghasts con
  *       bolas de potencia 3; blazes con un abanico extra de tres bolas; esqueletos wither que embisten. Al salir del
  *       Nether recuperan sus atributos y su arma.</li>
  *   <li><b>Parte 2 — enemigos nuevos</b>: al excavar roca o minerales del Nether por debajo de Y 80, a veces salen
  *       Ácaros de Escoria ({@link InfernalEntity}).</li>
  * </ul>
+ * Rendimiento: el Nether puede tener cientos de piglins zombificados. Cada mob trabaja solo 1 de cada 10 ticks y con
+ * un desfase según su id ({@link #clock}), así que la carga se reparte entre ticks; la línea de visión (lo caro) se
+ * comprueba solo con jugadores ya dentro del alcance; las trazadoras de los disparos son un paquete por disparo.
  */
 @Mod.EventBusSubscriber(modid = Tecnocinetico.MOD_ID)
 public final class NetherMobEvents {
@@ -128,10 +131,25 @@ public final class NetherMobEvents {
         mob.setHealth((float) (health * ratio));
         set(mob, Attributes.ARMOR, mob instanceof PiglinBrute ? 12 : mob instanceof Ghast ? 4 : 8);
         set(mob, Attributes.ATTACK_DAMAGE, mob instanceof PiglinBrute ? 15 : mob instanceof WitherSkeleton ? 12 : 9);
-        if (mob instanceof Piglin || mob instanceof PiglinBrute) {
-            mob.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(mob.getRandom().nextBoolean() ? Items.NETHERITE_AXE : ModItems.ASSAULT_RIFLE.get()));
-            disarmDrop(mob);
+        if (armedPiglin(mob)) {
+            arm(mob);
         }
+    }
+
+    /** Piglins, brutos y zombificados, de cualquier edad: todos llevan arma en el Nether. */
+    public static boolean armedPiglin(Mob mob) {
+        return mob instanceof AbstractPiglin || mob instanceof ZombifiedPiglin;
+    }
+
+    /** ¿Lleva ya una de las armas del Nether? */
+    public static boolean holdsNetherWeapon(Mob mob) {
+        return mob.getMainHandItem().is(Items.NETHERITE_AXE) || mob.getMainHandItem().is(ModItems.ASSAULT_RIFLE.get());
+    }
+
+    /** Hacha de netherita o Fusil de Asalto, mitad y mitad. */
+    private static void arm(Mob mob) {
+        mob.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(mob.getRandom().nextBoolean() ? Items.NETHERITE_AXE : ModItems.ASSAULT_RIFLE.get()));
+        disarmDrop(mob);
     }
 
     /**
@@ -139,7 +157,7 @@ public final class NetherMobEvents {
      * El hacha de netherita conserva una probabilidad pequeña.
      */
     private static void disarmDrop(Mob mob) {
-        if (mob instanceof Piglin || mob instanceof PiglinBrute) {
+        if (armedPiglin(mob)) {
             mob.setDropChance(EquipmentSlot.MAINHAND, mob.getMainHandItem().is(ModItems.ASSAULT_RIFLE.get()) ? 0.0F : 0.025F);
         }
     }
@@ -171,11 +189,27 @@ public final class NetherMobEvents {
 
     // ------------------------------------------------------------------ comportamiento (cada 10 ticks)
 
+    /**
+     * Reloj de cada mob: su edad desfasada por su id. Así no trabajan todos en el mismo tick (los que aparecen juntos
+     * tendrían la misma edad). Los ciclos de ataque (ráfaga, abanico, embestida) usan este reloj.
+     */
+    public static int clock(Mob mob) {
+        return mob.tickCount + Math.floorMod(mob.getId(), 10);
+    }
+
+    /** Para las pruebas: deja el reloj del mob en {@code value}. */
+    public static void setClock(Mob mob, int value) {
+        mob.tickCount = value - Math.floorMod(mob.getId(), 10);
+    }
+
     @SubscribeEvent
     public static void enemyTick(LivingEvent.LivingTickEvent event) {
         if (!(event.getEntity() instanceof Mob mob) || !(mob.level() instanceof ServerLevel server) || server.dimension() != Level.NETHER
-                || mob.tickCount % 10 != 0) {
+                || clock(mob) % 10 != 0) {
             return;
+        }
+        if (armedPiglin(mob) && mob.getPersistentData().getBoolean(UPGRADED) && !holdsNetherWeapon(mob)) {
+            arm(mob);                                                         // perdió o cambió el arma
         }
         if (mob.getTarget() instanceof Player old && (old.isCreative() || old.isSpectator())) {
             forget(mob);                                                      // pasó a creativo/espectador
@@ -193,7 +227,7 @@ public final class NetherMobEvents {
         if (target == null || !target.isAlive() || !mob.hasLineOfSight(target)) {
             return;
         }
-        int cycle = mob.tickCount % 100;                                      // aviso a los 60, ataque a los 80
+        int cycle = clock(mob) % 100;                                         // aviso a los 60, ataque a los 80
         if (mob instanceof Blaze) {
             blazeFan(server, mob, target, cycle);
         } else if (mob instanceof WitherSkeleton) {
@@ -236,7 +270,7 @@ public final class NetherMobEvents {
         if (mob.distanceToSqr(player) > 36) {
             mob.getNavigation().stop();                                       // dispara desde lejos, no carga
         }
-        int phase = mob.tickCount % 60;
+        int phase = clock(mob) % 60;
         if (phase == 40) {
             server.sendParticles(ParticleTypes.ELECTRIC_SPARK, mob.getX(), mob.getEyeY(), mob.getZ(), 8, 0.1, 0.1, 0.1, 0.01);
         }

@@ -34,7 +34,7 @@ public class NetherMobGameTests {
         try{
             var pig=EntityType.PIGLIN.create(s);pig.moveTo(at,0,0);
             NetherMobEvents.join(new EntityJoinLevelEvent(pig,s));
-            NetherMobEvents.enemyTick(new LivingEvent.LivingTickEvent(pig));
+            NetherMobEvents.setClock(pig,0);NetherMobEvents.enemyTick(new LivingEvent.LivingTickEvent(pig));
             h.assertTrue(pig.getMaxHealth()==36&&!pig.getMainHandItem().isEmpty(),"El piglin no mejora o no obtiene arma");
             var brute=EntityType.PIGLIN_BRUTE.create(s);NetherMobEvents.join(new EntityJoinLevelEvent(brute,s));
             h.assertTrue(brute.getMaxHealth()==72&&!brute.getMainHandItem().isEmpty(),"El bruto no supera sus atributos vanilla");
@@ -44,20 +44,20 @@ public class NetherMobGameTests {
             NetherMobEvents.join(new EntityJoinLevelEvent(restored,h.getLevel()));
             h.assertTrue(restored.getMaxHealth()==16&&!restored.getPersistentData().getBoolean("InfernalUpgrade"),"Las mejoras se conservan fuera del Nether");
             var zombie=EntityType.ZOMBIFIED_PIGLIN.create(s);zombie.moveTo(at,0,0);
-            NetherMobEvents.enemyTick(new LivingEvent.LivingTickEvent(zombie));
+            NetherMobEvents.setClock(zombie,0);NetherMobEvents.enemyTick(new LivingEvent.LivingTickEvent(zombie));
             h.assertTrue(zombie.getTarget()==player&&zombie.getRemainingPersistentAngerTime()>0,"El piglin zombificado sigue siendo neutral");
             var ghast=EntityType.GHAST.create(s);NetherMobEvents.join(new EntityJoinLevelEvent(ghast,s));
             var fireball=new LargeFireball(s,ghast,0,0,1,1);NetherMobEvents.join(new EntityJoinLevelEvent(fireball,s));
             h.assertTrue(ghast.getMaxHealth()==44&&fireball.saveWithoutId(new CompoundTag()).getByte("ExplosionPower")==3,"El ghast no tiene la mejora prevista");
-            var blaze=EntityType.BLAZE.create(s);blaze.moveTo(at,0,0);blaze.setTarget(player);blaze.tickCount=80;
+            var blaze=EntityType.BLAZE.create(s);blaze.moveTo(at,0,0);blaze.setTarget(player);NetherMobEvents.setClock(blaze,80);
             NetherMobEvents.enemyTick(new LivingEvent.LivingTickEvent(blaze));
             var shots=s.getEntitiesOfClass(SmallFireball.class,new net.minecraft.world.phys.AABB(at).inflate(2),f->f.getOwner()==blaze);
             h.assertTrue(shots.size()==3,"El blaze no dispara el abanico adicional");shots.forEach(Entity::discard);
-            var skeleton=EntityType.WITHER_SKELETON.create(s);skeleton.moveTo(at,0,0);skeleton.setTarget(player);skeleton.tickCount=80;
+            var skeleton=EntityType.WITHER_SKELETON.create(s);skeleton.moveTo(at,0,0);skeleton.setTarget(player);NetherMobEvents.setClock(skeleton,80);
             NetherMobEvents.enemyTick(new LivingEvent.LivingTickEvent(skeleton));
             h.assertTrue(skeleton.getDeltaMovement().horizontalDistance()>.7,"El esqueleto wither no embiste tras el aviso");
             player.setGameMode(GameType.CREATIVE);pig.setTarget(null);
-            NetherMobEvents.enemyTick(new LivingEvent.LivingTickEvent(pig));h.assertTrue(pig.getTarget()==null,"La hostilidad selecciona jugadores creativos");
+            NetherMobEvents.setClock(pig,0);NetherMobEvents.enemyTick(new LivingEvent.LivingTickEvent(pig));h.assertTrue(pig.getTarget()==null,"La hostilidad selecciona jugadores creativos");
         }finally{s.removePlayerImmediately(player,Entity.RemovalReason.DISCARDED);}
         h.succeed();
     }
