@@ -697,3 +697,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Decisión del usuario: dejar de sobrescribir los tipos de mundo vanilla. Los presets pasan a `data/tecnocinetico/worldgen/world_preset/post_apocalyptic{,_large_biomes,_amplified}.json` y aparecen en "Tipo de mundo" al crear un mundo como "Postapocalíptico" (+ biomas grandes / amplificado) por la etiqueta `minecraft:normal`. Normal, Biomas grandes y Amplificado vuelven a ser vanilla, así que el mod ya no choca con Terralith, Biomes O' Plenty, etc.
 - Mundos ya creados no cambian (el generador está guardado en `level.dat`). Mundo nuevo: elegir "Postapocalíptico". Servidor dedicado: `level-type=tecnocinetico:post_apocalyptic` en `server.properties` antes de generar el mundo.
 - GameTest `worldPresets`: los tres existen, salen en la lista y usan los biomas del mod; el vanilla ya no. 53 pruebas pasan.
+
+## 2026-11-12 — Claude — Licencia, README y créditos
+- Decisión del usuario: **CC BY-NC-SA 4.0** para código y recursos propios. `LICENSE.txt` (raíz y carpeta del mod) con aviso bilingüe, excepciones (sonidos de terceros con su licencia, archivos del MDK de Forge y Gradle Wrapper con las suyas, Minecraft/Create de sus dueños) y el texto legal completo de creativecommons.org. `mod_license` en `gradle.properties` (lo usa `mods.toml`); créditos de `mods.toml` con el sonido del taladro.
+- `README.md` en la raíz (lo muestra GitHub): qué es, qué trae, requisitos, cómo jugar (tipo de mundo Postapocalíptico, LAN con fuego amigo, servidor dedicado), compilar y licencia. `README.txt` y `CREDITS.txt` del MDK de Forge sustituidos por textos del mod.
+- Archivos grandes (texturas originales, grabaciones): se quedan en el repo (decisión del usuario). 53 pruebas pasan.

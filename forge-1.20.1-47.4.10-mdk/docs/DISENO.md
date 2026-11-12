@@ -46,6 +46,8 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 ## Preferencias del usuario (respetarlas)
 
+- **Licencia (usuario, 2026-11-12): CC BY-NC-SA 4.0** para código y arte propio (compartir y modificar con crédito, sin uso comercial, misma licencia). Los recursos de terceros que se añadan deben ser compatibles (CC0 o CC-BY; nada NoDerivs ni de otros mods). Las texturas originales y las grabaciones fuente se quedan en el repo.
+
 - **Se juega con amigos en multijugador**: cada sistema nuevo debe funcionar en servidor dedicado y tener sentido con varios jugadores (ver AGENTS.md §4).
 - **Arte plano** en materiales y componentes pequeños; 3D solo en armas, armaduras y máquinas. La cinetrita es un cristal, no un metal.
 

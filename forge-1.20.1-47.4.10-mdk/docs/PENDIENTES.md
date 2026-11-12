@@ -48,9 +48,9 @@
 
 ## De la revisión externa (2026-11-10), sin arreglar: decide el usuario
 - ~~**World presets vanilla sobrescritos**~~ RESUELTO 2026-11-12 (tipo de mundo propio "Postapocalíptico"): (`data/minecraft/worldgen/world_preset/`): chocan con otros mods de worldgen (Terralith, BoP). Alternativa: TerraBlender o un preset propio.
-- **Licencia contradictoria**: `mod_license=All Rights Reserved` pero `LICENSE.txt` es el LGPL de Forge del MDK. Elegir una.
-- **README.txt / CREDITS.txt** del MDK: falta un README del mod.
-- **Tamaño del repo**: `texturas_originales_backup/` (21 MB) y `tools/sound_sources/` (7 MB): Git LFS o fuera del repo.
+- ~~**Licencia contradictoria**~~ RESUELTO 2026-11-12 (CC BY-NC-SA 4.0, `LICENSE.txt`):: `mod_license=All Rights Reserved` pero `LICENSE.txt` es el LGPL de Forge del MDK. Elegir una.
+- ~~**README.txt / CREDITS.txt**~~ RESUELTO 2026-11-12 (`README.md` en la raíz; README/CREDITS del MDK reemplazados): del MDK: falta un README del mod.
+- **Tamaño del repo** (DECIDIDO 2026-11-12: se quedan en el repo):: `texturas_originales_backup/` (21 MB) y `tools/sound_sources/` (7 MB): Git LFS o fuera del repo.
 - **Prensa**: receta de fragmentación (cristal solo) es subconjunto de Transductor y Servo; con tolvas, si falta el cobre los cristales se fragmentan.
 
 ## Pruebas frágiles
