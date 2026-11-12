@@ -19,10 +19,13 @@
       "generator": {
         "type": "minecraft:noise",
         "biome_source": {
-          "type": "minecraft:multi_noise",
-          "preset": "minecraft:nether"
+          "type": "tecnocinetico:infernal",
+          "source": {
+            "type": "minecraft:multi_noise",
+            "preset": "minecraft:nether"
+          }
         },
-        "settings": "minecraft:nether"
+        "settings": "tecnocinetico:infernal_nether"
       }
     },
     "minecraft:the_end": {

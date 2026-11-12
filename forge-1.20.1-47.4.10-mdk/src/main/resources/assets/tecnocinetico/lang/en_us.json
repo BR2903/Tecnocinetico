@@ -607,5 +607,14 @@
   "block.tecnocinetico.power_cable": "Power Cable",
   "block.tecnocinetico.car_wreck": "Abandoned Car",
   "block.tecnocinetico.truck_wreck": "Abandoned Truck",
-  "block.tecnocinetico.bus_wreck": "Abandoned Bus"
+  "block.tecnocinetico.bus_wreck": "Abandoned Bus",
+  "block.tecnocinetico.compacted_slag": "Compacted Slag",
+  "block.tecnocinetico.sulfur_crust": "Sulfur Crust",
+  "block.tecnocinetico.carbonized_plate": "Carbonized Plate",
+  "block.tecnocinetico.infernal_casing": "Infernal Casing",
+  "biome.tecnocinetico.slag_forges": "Slag Forges",
+  "biome.tecnocinetico.sulfur_pits": "Sulfur Pits",
+  "biome.tecnocinetico.basalt_quarries": "Basalt Quarries",
+  "biome.tecnocinetico.carbon_forest": "Carbon Forest",
+  "biome.tecnocinetico.obsidian_wastes": "Obsidian Wastes"
 }

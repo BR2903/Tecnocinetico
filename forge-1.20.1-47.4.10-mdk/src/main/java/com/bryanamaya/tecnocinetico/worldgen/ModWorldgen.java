@@ -30,6 +30,9 @@ public final class ModWorldgen {
 
     public static final RegistryObject<Codec<? extends BiomeSource>> REMAPPED =
             BIOME_SOURCES.register("remapped", () -> RemappedBiomeSource.CODEC);
+    /** Nether industrial: la fuente vanilla del Nether con los biomas del mod (InfernalBiomes). */
+    public static final RegistryObject<Codec<? extends BiomeSource>> INFERNAL =
+            BIOME_SOURCES.register("infernal", () -> InfernalBiomeSource.CODEC);
 
     /** Features con código propio (los JSON que las usan los genera tools/world_features_gen.py). */
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Tecnocinetico.MOD_ID);
@@ -42,6 +45,9 @@ public final class ModWorldgen {
     /** Vehículos abandonados, sobre todo en las carreteras. */
     public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.VehicleFeature> VEHICLE =
             FEATURES.register("vehicle", com.bryanamaya.tecnocinetico.worldgen.feature.VehicleFeature::new);
+    /** Costras, columnas y árboles carbonizados del Nether industrial. */
+    public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.InfernalDepositFeature> INFERNAL_DEPOSITS =
+            FEATURES.register("infernal_deposits", com.bryanamaya.tecnocinetico.worldgen.feature.InfernalDepositFeature::new);
     /** Farolas y postes eléctricos abandonados (de pie, doblados o caídos). */
     public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature> STREET_PROP =
             FEATURES.register("street_prop", com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature::new);
@@ -49,6 +55,8 @@ public final class ModWorldgen {
     public static final ResourceKey<NoiseGeneratorSettings> OVERWORLD = noise("overworld");
     public static final ResourceKey<NoiseGeneratorSettings> LARGE_BIOMES = noise("large_biomes");
     public static final ResourceKey<NoiseGeneratorSettings> AMPLIFIED = noise("amplified");
+    /** Nether vanilla con las reglas de superficie traducidas a los biomas del mod. */
+    public static final ResourceKey<NoiseGeneratorSettings> INFERNAL_NETHER = noise("infernal_nether");
 
     private ModWorldgen() {}
 
@@ -67,6 +75,10 @@ public final class ModWorldgen {
         context.register(OVERWORLD, withModSurface(NoiseGeneratorSettings.overworld(context, false, false)));
         context.register(LARGE_BIOMES, withModSurface(NoiseGeneratorSettings.overworld(context, false, true)));
         context.register(AMPLIFIED, withModSurface(NoiseGeneratorSettings.overworld(context, true, false)));
+        NoiseGeneratorSettings n = NoiseGeneratorSettings.nether(context);
+        context.register(INFERNAL_NETHER, new NoiseGeneratorSettings(n.noiseSettings(), n.defaultBlock(), n.defaultFluid(), n.noiseRouter(),
+                InfernalBiomes.surface(), n.spawnTarget(), n.seaLevel(), n.disableMobGeneration(), n.aquifersEnabled(),
+                n.oreVeinsEnabled(), n.useLegacyRandomSource()));
     }
 
     private static NoiseGeneratorSettings withModSurface(NoiseGeneratorSettings v) {

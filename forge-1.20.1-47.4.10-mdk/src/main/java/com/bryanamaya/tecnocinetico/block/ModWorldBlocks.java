@@ -122,6 +122,16 @@ public final class ModWorldBlocks {
             () -> new com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Cable(Properties.of().mapColor(MapColor.COLOR_BLACK)
                     .strength(0.3F).sound(SoundType.WOOL).noOcclusion().noCollission()));
 
+    // ------------------------------------------------------------------ Nether industrial (arte de Codex)
+    public static final RegistryObject<Block> COMPACTED_SLAG = block("compacted_slag", () -> new Block(Properties.of()
+            .mapColor(MapColor.NETHER).strength(5.0F, 12.0F).sound(SoundType.NETHER_BRICKS).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> SULFUR_CRUST = block("sulfur_crust", () -> new Block(Properties.of()
+            .mapColor(MapColor.COLOR_YELLOW).strength(2.0F, 12.0F).sound(SoundType.NETHERRACK).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> CARBONIZED_PLATE = block("carbonized_plate", () -> new Block(Properties.of()
+            .mapColor(MapColor.COLOR_BLACK).strength(4.0F, 12.0F).sound(SoundType.BASALT).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> INFERNAL_CASING = block("infernal_casing", () -> new Block(Properties.of()
+            .mapColor(MapColor.COLOR_GRAY).strength(8.0F, 12.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
+
     // ------------------------------------------------------------------ vehículos abandonados (troceados por celdas)
     public static final RegistryObject<Block> CAR_WRECK = vehicle("car_wreck",
             () -> new com.bryanamaya.tecnocinetico.block.custom.WreckBlock.Car(wreck()));

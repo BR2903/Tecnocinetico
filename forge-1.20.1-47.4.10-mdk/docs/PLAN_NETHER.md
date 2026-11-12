@@ -28,3 +28,8 @@ Probar en `runClient`, en el Nether y en supervivencia: excavar netherrack en t�
 Siguientes partes posibles: biomas y estructuras; equipo de preparación; primer jefe; segundo jefe y recompensas.
 
 Mobs vanilla remodelados (Codex, conectados por Claude): piglin, bruto, zombificado, ghast, blaze y esqueleto wither cambian de aspecto solo dentro del Nether. Comprobarlos también en `runClient` (animaciones, armas en la mano, bebés piglin, armadura).
+
+## Parte 3 (2026-11-12, Claude): biomas y estructuras — entregada, pendiente de prueba del usuario
+Cinco biomas del Nether industrial (mundos nuevos tipo Postapocalíptico), depósitos que decoran cualquier Nether en chunks nuevos, Depósito de Refrigeración y Puesto de Vigilancia (con centinelas). Probar: `/locate biome tecnocinetico:sulfur_pits` (y los otros cuatro) y `/locate structure tecnocinetico:cooling_depot` / `infernal_watchpost` en un mundo nuevo.
+
+Siguientes partes: equipo de preparación (refrigerador térmico, filtro de ceniza, botas de anclaje, piroxita reforzada); primer jefe (Fundidor del Abismo con su fundición); segundo jefe (Devorador de Escoria con su excavación) y recompensas.

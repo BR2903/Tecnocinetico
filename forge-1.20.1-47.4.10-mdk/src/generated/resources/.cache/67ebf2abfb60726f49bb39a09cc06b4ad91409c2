@@ -1,9 +1,14 @@
-// 1.20.1	2026-11-07T17:08:46.6330302	Tags for minecraft:worldgen/biome mod id tecnocinetico
+// 1.20.1	2026-11-12T16:12:31.497159	Tags for minecraft:worldgen/biome mod id tecnocinetico
 00c6821cae4a73cdaa56de73e445ee6790b185b8 data/minecraft/tags/worldgen/biome/allows_surface_slime_spawns.json
 b9a430194bf366c6c141e832090a610ff847c4ba data/minecraft/tags/worldgen/biome/allows_tropical_fish_spawns_at_any_height.json
 15f66401f6580193dfb8ab3276a4281e223d2da1 data/minecraft/tags/worldgen/biome/has_closer_water_fog.json
+f01af4249b4c739e7a0f4c02abd37b11fef8e47d data/minecraft/tags/worldgen/biome/has_structure/bastion_remnant.json
 93d1be06b53cc28f77d60a0234c15a497ca631f5 data/minecraft/tags/worldgen/biome/has_structure/mineshaft.json
 3450358d000f83fb8bf53f3e9c01b9406ae61c43 data/minecraft/tags/worldgen/biome/has_structure/mineshaft_mesa.json
+f01af4249b4c739e7a0f4c02abd37b11fef8e47d data/minecraft/tags/worldgen/biome/has_structure/nether_fortress.json
+f01af4249b4c739e7a0f4c02abd37b11fef8e47d data/minecraft/tags/worldgen/biome/has_structure/nether_fossil.json
+f01af4249b4c739e7a0f4c02abd37b11fef8e47d data/minecraft/tags/worldgen/biome/has_structure/ruined_portal_nether.json
+f01af4249b4c739e7a0f4c02abd37b11fef8e47d data/minecraft/tags/worldgen/biome/is_nether.json
 9eb24dc2f7a2927147e495b7942e66ba6f2b5ec6 data/minecraft/tags/worldgen/biome/is_overworld.json
 a5aac9041fcc80135499addd19548c0a3c387995 data/minecraft/tags/worldgen/biome/more_frequent_drowned_spawns.json
 3c188a617f83a052d1fb40cd6083f85df515b108 data/minecraft/tags/worldgen/biome/plays_underwater_music.json

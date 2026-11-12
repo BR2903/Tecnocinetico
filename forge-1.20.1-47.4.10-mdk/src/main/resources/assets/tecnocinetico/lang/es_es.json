@@ -607,5 +607,14 @@
   "block.tecnocinetico.power_cable": "Cable Eléctrico",
   "block.tecnocinetico.car_wreck": "Coche Abandonado",
   "block.tecnocinetico.truck_wreck": "Camión Abandonado",
-  "block.tecnocinetico.bus_wreck": "Autobús Abandonado"
+  "block.tecnocinetico.bus_wreck": "Autobús Abandonado",
+  "block.tecnocinetico.compacted_slag": "Escoria Compactada",
+  "block.tecnocinetico.sulfur_crust": "Costra de Azufre",
+  "block.tecnocinetico.carbonized_plate": "Placa Carbonizada",
+  "block.tecnocinetico.infernal_casing": "Carcasa Infernal",
+  "biome.tecnocinetico.slag_forges": "Forjas de Escoria",
+  "biome.tecnocinetico.sulfur_pits": "Fosas de Azufre",
+  "biome.tecnocinetico.basalt_quarries": "Canteras de Basalto",
+  "biome.tecnocinetico.carbon_forest": "Bosque de Carbón",
+  "biome.tecnocinetico.obsidian_wastes": "Eriales de Obsidiana"
 }

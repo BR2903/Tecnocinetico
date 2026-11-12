@@ -57,6 +57,10 @@
     "tecnocinetico:street_lamp_bent",
     "tecnocinetico:car_wreck",
     "tecnocinetico:truck_wreck",
-    "tecnocinetico:bus_wreck"
+    "tecnocinetico:bus_wreck",
+    "tecnocinetico:compacted_slag",
+    "tecnocinetico:sulfur_crust",
+    "tecnocinetico:carbonized_plate",
+    "tecnocinetico:infernal_casing"
   ]
 }

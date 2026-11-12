@@ -39,7 +39,10 @@ public final class ModDataGenerators {
         ExistingFileHelper files = event.getExistingFileHelper();
 
         RegistrySetBuilder builder = new RegistrySetBuilder()
-                .add(Registries.BIOME, ModBiomes::bootstrap)
+                .add(Registries.BIOME, context -> {
+                    ModBiomes.bootstrap(context);
+                    com.bryanamaya.tecnocinetico.worldgen.InfernalBiomes.bootstrap(context);
+                })
                 .add(Registries.NOISE_SETTINGS, ModWorldgen::bootstrapNoise);
         DatapackBuiltinEntriesProvider entries = new DatapackBuiltinEntriesProvider(out, event.getLookupProvider(),
                 builder, Set.of(Tecnocinetico.MOD_ID));
@@ -74,6 +77,14 @@ public final class ModDataGenerators {
                 }
             }
             tag(BiomeTags.HAS_MINESHAFT_MESA).add(ModBiomes.EXTRACTION_SCARS);
+            // Nether industrial: siguen siendo Nether (criaturas, minerales, piglins) y conservan fortalezas y bastiones
+            for (var b : com.bryanamaya.tecnocinetico.worldgen.InfernalBiomes.ALL) {
+                tag(BiomeTags.IS_NETHER).add(b);
+                tag(BiomeTags.HAS_NETHER_FORTRESS).add(b);
+                tag(BiomeTags.HAS_BASTION_REMNANT).add(b);
+                tag(BiomeTags.HAS_RUINED_PORTAL_NETHER).add(b);
+                tag(BiomeTags.HAS_NETHER_FOSSIL).add(b);
+            }
 
             // Comportamientos vanilla que dependen de etiquetas (sin activar estructuras vanilla).
             tag(BiomeTags.WATER_ON_MAP_OUTLINES).add(ModBiomes.DEBRIS_SEA, ModBiomes.DEEP_DEBRIS_SEA,

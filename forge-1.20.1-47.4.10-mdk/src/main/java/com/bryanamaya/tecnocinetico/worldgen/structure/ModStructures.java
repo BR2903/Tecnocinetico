@@ -20,6 +20,12 @@ public final class ModStructures {
     public static final DeferredRegister<StructurePieceType> PIECES =
             DeferredRegister.create(Registries.STRUCTURE_PIECE, Tecnocinetico.MOD_ID);
 
+    /** Instalaciones del Nether industrial (depósito, puesto de vigilancia; más adelante fundición y excavación). */
+    public static final RegistryObject<StructureType<InfernalSiteStructure>> INFERNAL_SITE =
+            TYPES.register("infernal_site", () -> () -> InfernalSiteStructure.CODEC);
+    public static final RegistryObject<StructurePieceType> INFERNAL_PIECE =
+            PIECES.register("infernal_site", () -> (StructurePieceType.ContextlessType) InfernalSitePiece::new);
+
     public static final RegistryObject<StructureType<RuinedBuildingStructure>> RUINED_BUILDING =
             TYPES.register("ruined_building", () -> () -> RuinedBuildingStructure.CODEC);
     public static final RegistryObject<StructurePieceType> RUINED_BUILDING_PIECE =

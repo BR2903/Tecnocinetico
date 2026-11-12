@@ -113,4 +113,76 @@ public class NetherEnemyGameTests {
         helper.assertTrue(rifleSeen && axeSeen, "Los piglins no reciben las dos armas");
         helper.succeed();
     }
+
+    /**
+     * Nether industrial (parte 3): cinco biomas que siguen siendo Nether (fortalezas y bastiones), los tipos de mundo
+     * Postapocalíptico usan su fuente, y el depósito y el puesto de vigilancia se generan en una caverna con cofres
+     * (el puesto, con sus centinelas).
+     */
+    @GameTest(template = "empty", batch = "nether_biomas", timeoutTicks = 400)
+    public static void netherBiomesAndSites(GameTestHelper helper) {
+        var access = helper.getLevel().registryAccess();
+        var biomes = access.registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
+        for (var key : com.bryanamaya.tecnocinetico.worldgen.InfernalBiomes.ALL) {
+            var holder = biomes.getHolder(key);
+            helper.assertTrue(holder.isPresent() && holder.get().is(net.minecraft.tags.BiomeTags.IS_NETHER)
+                    && holder.get().is(net.minecraft.tags.BiomeTags.HAS_NETHER_FORTRESS)
+                    && holder.get().is(net.minecraft.tags.BiomeTags.HAS_BASTION_REMNANT), "Bioma del Nether mal etiquetado: " + key.location());
+        }
+        var preset = access.registryOrThrow(net.minecraft.core.registries.Registries.WORLD_PRESET).getOrThrow(
+                net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.WORLD_PRESET,
+                        net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "post_apocalyptic")));
+        var nether = preset.createWorldDimensions().dimensions().get(net.minecraft.world.level.dimension.LevelStem.NETHER);
+        helper.assertTrue(nether != null && nether.generator().getBiomeSource() instanceof com.bryanamaya.tecnocinetico.worldgen.InfernalBiomeSource,
+                "El tipo de mundo Postapocalíptico no usa el Nether industrial");
+
+        ServerLevel level = helper.getLevel().getServer().getLevel(Level.NETHER);
+        var gen = level.getChunkSource().getGenerator();
+        var structures = access.registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE);
+        int i = 0;
+        for (String id : new String[]{"cooling_depot", "infernal_watchpost"}) {
+            var structure = structures.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, id));
+            helper.assertTrue(structure != null, "Falta la estructura " + id);
+            var biome = biomes.getHolderOrThrow(com.bryanamaya.tecnocinetico.worldgen.InfernalBiomes.SLAG_FORGES);
+            var start = net.minecraft.world.level.levelgen.structure.StructureStart.INVALID_START;
+            for (int tries = 0; tries < 200 && !start.isValid(); tries++) {
+                var cp = new net.minecraft.world.level.ChunkPos(new BlockPos(4000 + i * 2048 + (tries % 10) * 64, 0, 4000 + (tries / 10) * 64));
+                start = structure.generate(access, gen, new net.minecraft.world.level.biome.FixedBiomeSource(biome), level.getChunkSource().randomState(),
+                        level.getStructureManager(), level.getSeed(), cp, 0, level, b -> true);
+            }
+            helper.assertTrue(start.isValid(), "No se encontró caverna para " + id);
+            var placed = start;
+            var bb = start.getBoundingBox();
+            // chunks forzados: así las entidades que pone la estructura (centinelas) quedan activas y se pueden buscar
+            var forced = new java.util.ArrayList<net.minecraft.world.level.ChunkPos>();
+            net.minecraft.world.level.ChunkPos.rangeClosed(new net.minecraft.world.level.ChunkPos(bb.minX() >> 4, bb.minZ() >> 4),
+                    new net.minecraft.world.level.ChunkPos(bb.maxX() >> 4, bb.maxZ() >> 4)).forEach(c -> {
+                level.setChunkForced(c.x, c.z, true);
+                forced.add(c);
+            });
+            // el mundo de prueba se guarda entre ejecuciones: quitar lo que dejaron las anteriores
+            level.getEntitiesOfClass(InfernalEntity.class, net.minecraft.world.phys.AABB.of(bb).inflate(2)).forEach(net.minecraft.world.entity.Entity::discard);
+            net.minecraft.world.level.ChunkPos.rangeClosed(new net.minecraft.world.level.ChunkPos(bb.minX() >> 4, bb.minZ() >> 4),
+                    new net.minecraft.world.level.ChunkPos(bb.maxX() >> 4, bb.maxZ() >> 4)).forEach(c -> placed.placeInChunk(level,
+                    level.structureManager(), gen, level.getRandom(), new net.minecraft.world.level.levelgen.structure.BoundingBox(c.getMinBlockX(),
+                    level.getMinBuildHeight(), c.getMinBlockZ(), c.getMaxBlockX(), level.getMaxBuildHeight(), c.getMaxBlockZ()), c));
+            int chests = 0, casing = 0;
+            for (BlockPos p : BlockPos.betweenClosed(bb.minX(), bb.minY(), bb.minZ(), bb.maxX(), bb.maxY(), bb.maxZ())) {
+                var st = level.getBlockState(p);
+                if (st.is(Blocks.CHEST)) chests++;
+                if (st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.INFERNAL_CASING.get())) casing++;
+            }
+            helper.assertTrue(chests == 2 && casing > 10, id + ": " + chests + " cofres y " + casing + " bloques de carcasa");
+            if (id.equals("infernal_watchpost")) {
+                var guards = level.getEntitiesOfClass(InfernalEntity.class, net.minecraft.world.phys.AABB.of(bb).inflate(2), InfernalEntity::sentinel);
+                helper.assertTrue(guards.size() == 2 && guards.stream().allMatch(net.minecraft.world.entity.Mob::isPersistenceRequired),
+                        "El puesto de vigilancia tiene " + guards.size() + " centinelas");
+                guards.forEach(net.minecraft.world.entity.Entity::discard);
+            }
+            forced.forEach(c -> level.setChunkForced(c.x, c.z, false));
+            Tecnocinetico.LOGGER.info("[GameTest] {} generado en el Nether en {}", id, bb);
+            i++;
+        }
+        helper.succeed();
+    }
 }
