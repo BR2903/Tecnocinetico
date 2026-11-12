@@ -184,3 +184,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## parts_art.py (componentes)
 - `python tools/parts_art.py`: arte plano 16x16 (`item/generated`) del fragmento de cinetrita, la Resistencia 330 Ω y el Transductor Piezo-Cúprico. Materiales y componentes pequeños van en plano (preferencia del usuario).
+
+## ask_codex.sh (encargar modelos a Codex)
+- `bash tools/ask_codex.sh <encargo.md> [respuesta.txt]`: manda el encargo al chat de Codex del usuario (sesión fija en el script, variable `CODEX_SESSION` para cambiarla) con `codex exec resume`. Respuesta final en el archivo de respuesta y registro completo en `.log`. Reparto y reglas en `AGENTS.md` §3c. Los encargos pueden tardar varios minutos: lanzarlo en segundo plano.

@@ -56,6 +56,15 @@ cmd /c ".\gradlew.bat runData 2>&1"               # regenera src/generated/resou
 - No subas `build/`, `run/`, `.gradle/` (ya están en `.gitignore`). No reescribas el historial (`push --force`) sin que el usuario lo pida.
 - Si algo se rompe, `git log` / `git diff` para ver qué cambió; `git revert` para deshacer un commit sin perder historial.
 
+## 3c. Reparto de trabajo entre agentes (decidido por el usuario, 2026-11-11)
+
+- **Codex hace los MODELOS y el ARTE**: geometría de armas, mobs, jefes, máquinas y armaduras, texturas, sus generadores de `tools/` y las vistas previas. Al usuario le gustan más sus modelos.
+- **Claude hace el CÓDIGO y la LÓGICA**: Java (mecánicas, IA, red, menús, máquinas, worldgen, multijugador), datos, recetas, pruebas, revisión y los commits.
+- **Cómo se encarga un modelo** (Claude → Codex): Claude escribe el encargo en un archivo y lo manda al chat de Codex del usuario con `bash tools/ask_codex.sh <encargo.md>` (reanuda la sesión de Codex con `codex exec resume`). El encargo dice: qué se modela, medidas y puntos de anclaje que necesita el código (huesos, nombres de piezas, bocas, tamaño de colisión), estilo (tecnología, sin magia; arte plano en materiales pequeños) y qué archivos puede tocar.
+- **Codex, cuando recibe un encargo de Claude**: toca solo arte (modelos JSON/Java de `entity/client/*Model*`, texturas, generadores y vistas previas); no cambia mecánicas, red ni datos; si el modelo necesita un cambio de código, lo describe en su respuesta en vez de hacerlo. Deja una vista previa en `build/` y **no hace commit ni push**: responde con la lista de archivos tocados y cómo regenerarlos.
+- **Claude, al recibirlo**: mira la vista previa, ejecuta `check_models.py`, `check_zfight.py`, compila y corre `runGameTestServer`, conecta el modelo con el código, actualiza la bitácora y sube. Nunca edita a la vez que Codex trabaja.
+- Si el usuario habla directamente con Codex, este reparto sigue valiendo: lo que sea lógica se anota en `docs/PENDIENTES.md` para Claude.
+
 ## 4. Reglas y convenciones
 
 - **El mod se juega en MULTIJUGADOR con amigos** (servidor dedicado o LAN). Todo debe funcionar en servidor: la lógica y el daño se deciden en el servidor (los paquetes del cliente solo piden, el servidor valida); efectos que otros deben ver (partículas, sonidos) con `ServerLevel.sendParticles` / `playSound(null, ...)`; datos por jugador (capacidades) sincronizados al entrar, reaparecer, cambiar de dimensión y a quien lo ve (`StartTracking`); nada de estado `static` compartido entre jugadores o mundos (si hace falta, clave por dimensión + posición o UUID y limpiarlo al salir); menús con `stillValid` por distancia. Pensar también en el balance para varios jugadores.

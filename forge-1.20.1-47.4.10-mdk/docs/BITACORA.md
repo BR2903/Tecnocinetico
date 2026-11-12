@@ -648,3 +648,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Revisado lo hecho por Codex desde `b840a62` (jefes Vigía y Matriarca, 5 estructuras, remodelado de mobs y arsenal, efectos de boca, primera parte del Nether). `runGameTestServer`: 47 pruebas; `check_models` y `check_zfight` limpios.
 - Arreglados los dos fallos de validación que Codex dejó en PENDIENTES: el Rifle de Riel ya no dispara por `FirePistolPacket` (solo recarga cuando está vacío; el disparo va por `FireChargedPacket`, que mide la carga) y las automáticas nunca disparan dos veces en el mismo tick (minigun).
 - Observaciones para el usuario (sin cambiar): piglins con Fusil de Asalto lo sueltan con 2,5 % (arma de tier 3 sin Procesador del Núcleo); piglins siempre hostiles = sin trueque; `NetherMobEvents` está sin comentarios ni formato del proyecto; la rama `work/nether-por-etapas` solo existe en local.
+
+## 2026-11-11 — Claude — Conexión con Codex para los modelos
+- Decisión del usuario: Codex hace modelos y arte; Claude, código y lógica. Probada la conexión con el chat de Codex del usuario (`codex exec resume`, respondió bien). `tools/ask_codex.sh` manda los encargos; reglas del reparto en `AGENTS.md` §3c.
