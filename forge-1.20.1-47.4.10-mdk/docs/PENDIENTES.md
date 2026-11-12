@@ -71,5 +71,5 @@ Bryan lo probará más adelante; no dar por aprobado hasta entonces.
 - ~~Carreteras y autopistas rotas~~ HECHO (pendiente de revisión en el juego).
 - ~~Vehículos abandonados~~ HECHO (pendiente de revisión). Ideas: volcados o aplastados; atascos en las autopistas.
 - ~~Ambiente gris y ceniza~~ HECHO (pendiente de revisión).
-- Criaturas: los hostiles vanilla ya son corrompidos siempre. Falta decidir si quitar animales vanilla o añadir drones patrullando de noche.
+- ~~Criaturas~~: animales vanilla se quedan (usuario); patrullas nocturnas de drones HECHO (pendiente de revisión: frecuencia y dificultad). Sin vehículos volcados ni atascos (usuario).
 - Cabeza de farola tumbada (Codex: hace falta otra orientación para que la cabeza caída quede de lado).

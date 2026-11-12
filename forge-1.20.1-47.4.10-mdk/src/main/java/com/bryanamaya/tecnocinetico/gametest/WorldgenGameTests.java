@@ -550,4 +550,40 @@ public class WorldgenGameTests {
         }
         h.succeed();
     }
+
+    /** Patrullas nocturnas: grupos de 2-3, tope de 5 alrededor, se guardan, desaparecen lejos y de día se van. */
+    @GameTest(template = "empty", batch = "patrullas", timeoutTicks = 100)
+    public static void nightPatrols(GameTestHelper h) {
+        var level = h.getLevel();
+        var player = h.makeMockPlayer();
+        BlockPos at = h.absolutePos(BlockPos.ZERO);
+        player.setPos(at.getX() + 0.5, level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, at.getX(), at.getZ()), at.getZ() + 0.5);
+        for (int cx = -5; cx <= 5; cx++) {
+            for (int cz = -5; cz <= 5; cz++) {
+                level.getChunk((at.getX() >> 4) + cx, (at.getZ() >> 4) + cz);
+            }
+        }
+        var all = new java.util.ArrayList<com.bryanamaya.tecnocinetico.entity.custom.DroneEntity>();
+        try {
+            var first = com.bryanamaya.tecnocinetico.entity.custom.NightPatrols.spawnPatrol(level, player);
+            all.addAll(first);
+            h.assertTrue(first.size() >= 2 && first.size() <= 3 && first.stream().allMatch(
+                    com.bryanamaya.tecnocinetico.entity.custom.DroneEntity::isNightPatrol), "Patrulla de " + first.size() + " drones");
+            for (int i = 0; i < 6; i++) {
+                all.addAll(com.bryanamaya.tecnocinetico.entity.custom.NightPatrols.spawnPatrol(level, player));
+            }
+            h.assertTrue(all.size() <= com.bryanamaya.tecnocinetico.entity.custom.NightPatrols.MAX_NEARBY,
+                    "Se acumularon " + all.size() + " drones de patrulla");
+            var d = first.get(0);
+            h.assertTrue(d.removeWhenFarAway(200 * 200), "Una patrulla no desaparece lejos de los jugadores");
+            var copy = com.bryanamaya.tecnocinetico.entity.ModEntities.DRONE.get().create(level);
+            copy.load(d.saveWithoutId(new net.minecraft.nbt.CompoundTag()));
+            h.assertTrue(copy.isNightPatrol(), "La patrulla no se guarda");
+            d.tick();
+            h.assertTrue(d.isLeaving() == level.isDay(), "De día debe irse y de noche patrullar (día=" + level.isDay() + ")");
+        } finally {
+            all.forEach(net.minecraft.world.entity.Entity::discard);
+        }
+        h.succeed();
+    }
 }

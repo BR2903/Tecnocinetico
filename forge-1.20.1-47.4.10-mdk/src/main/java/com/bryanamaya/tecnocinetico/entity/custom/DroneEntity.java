@@ -57,6 +57,15 @@ public class DroneEntity extends Monster {
     private Vec3 waypoint;
     private int charge, burstLeft, burstTimer, bursts, cooldown = 15, lostTicks;
     private Vec3 lockPoint = Vec3.ZERO;
+    // ---- patrulla nocturna (entity/custom/NightPatrols): cruza la zona en grupo y se va al amanecer
+    /** Dirección horizontal de la patrulla (null = dron normal que vigila su sitio). */
+    @Nullable
+    private Vec3 patrolHeading;
+    private int patrolTicks;
+    private boolean leaving;
+    /** Velocidad a la que avanza el punto de patrulla (bloques/tick). Duración máxima sin encontrar a nadie. */
+    public static final double PATROL_SPEED = 0.12D;
+    public static final int PATROL_LIFETIME = 3600, LEAVE_TICKS = 200;
     private int jinkSign = 1;
     private final float phase;
 
@@ -103,6 +112,29 @@ public class DroneEntity extends Monster {
         return super.finalizeSpawn(level, difficulty, reason, data, tag);
     }
 
+    /** Convierte el dron en patrulla nocturna que avanza hacia `heading` (horizontal). */
+    public void startPatrol(Vec3 heading) {
+        Vec3 h = new Vec3(heading.x, 0, heading.z);
+        patrolHeading = h.lengthSqr() > 1e-6 ? h.normalize() : new Vec3(1, 0, 0);
+        patrolTicks = 0;
+        leaving = false;
+        home = blockPosition();
+    }
+
+    public boolean isNightPatrol() {
+        return patrolHeading != null;
+    }
+
+    public boolean isLeaving() {
+        return leaving;
+    }
+
+    /** Las patrullas desaparecen lejos de los jugadores; los drones de estructuras se quedan. */
+    @Override
+    public boolean removeWhenFarAway(double distanceSqr) {
+        return isNightPatrol() || super.removeWhenFarAway(distanceSqr);
+    }
+
     /** Fija un objetivo (pruebas automáticas o alarma de otro dron). */
     public void engage(LivingEntity t) {
         if (isAlliedTo(t)) {
@@ -145,6 +177,9 @@ public class DroneEntity extends Monster {
             setMode(0);
             charge = 0;
             burstLeft = 0;
+            if (isNightPatrol() && patrolStep()) {
+                return;                                                        // se está yendo
+            }
             patrol();
             if (tickCount % 10 == 0) {
                 scanForPlayers();
@@ -157,18 +192,42 @@ public class DroneEntity extends Monster {
         attack(t);
     }
 
+    /**
+     * Patrulla nocturna sin objetivo: el punto de patrulla avanza en línea (el grupo cruza la zona) y al amanecer o
+     * pasado {@link #PATROL_LIFETIME} sube y se va. Devuelve true mientras se está yendo (no patrulla).
+     */
+    private boolean patrolStep() {
+        patrolTicks++;
+        if (!leaving && (level().isDay() || patrolTicks > PATROL_LIFETIME)) {
+            leaving = true;
+            patrolTicks = 0;
+        }
+        if (leaving) {
+            steer(position().add(patrolHeading.scale(4)).add(0, 3, 0), 0.3D);   // sube y se aleja
+            faceTowards(getDeltaMovement());
+            if (patrolTicks > LEAVE_TICKS) {
+                discard();
+            }
+            return true;
+        }
+        if (patrolTicks % 20 == 0) {
+            home = BlockPos.containing(Vec3.atCenterOf(home).add(patrolHeading.scale(PATROL_SPEED * 20)));
+        }
+        return false;
+    }
+
     private void patrol() {
         if (waypoint == null || position().distanceToSqr(waypoint) < 4 || tickCount % 120 == 0) {
             double a = phase + tickCount * 0.01 + random.nextDouble() * 1.5;
-            double r = 6 + random.nextDouble() * 10;
+            double r = isNightPatrol() ? 2 + random.nextDouble() * 4 : 6 + random.nextDouble() * 10;   // en patrulla, en formación
             double x = home.getX() + 0.5 + Math.cos(a) * r, z = home.getZ() + 0.5 + Math.sin(a) * r;
             int ground = level().getHeight(Heightmap.Types.MOTION_BLOCKING, (int) Math.floor(x), (int) Math.floor(z));
-            waypoint = new Vec3(x, ground + 7 + random.nextDouble() * 5, z);
+            waypoint = new Vec3(x, ground + (isNightPatrol() ? 10 : 7) + random.nextDouble() * 5, z);
         }
         steer(waypoint, 0.22D);
         faceTowards(getDeltaMovement());
         setXRot(getXRot() * 0.9F + 4.0F);       // en patrulla el cañón mira algo abajo
-        if (tickCount % 20 == 0 && level() instanceof ServerLevel server) {          // haz de escaneo hacia el suelo
+        if (tickCount % (isNightPatrol() ? 8 : 20) == 0 && level() instanceof ServerLevel server) {   // haz de escaneo hacia el suelo
             Vec3 eye = getEyePosition();
             Vec3 dir = Vec3.directionFromRotation(55.0F, getYRot());
             BlockHitResult hit = level().clip(new ClipContext(eye, eye.add(dir.scale(16)), ClipContext.Block.COLLIDER,
@@ -365,6 +424,12 @@ public class DroneEntity extends Monster {
         if (home != null) {
             tag.put("Home", NbtUtils.writeBlockPos(home));
         }
+        if (patrolHeading != null) {
+            tag.putDouble("PatrolX", patrolHeading.x);
+            tag.putDouble("PatrolZ", patrolHeading.z);
+            tag.putInt("PatrolTicks", patrolTicks);
+            tag.putBoolean("Leaving", leaving);
+        }
     }
 
     @Override
@@ -372,6 +437,11 @@ public class DroneEntity extends Monster {
         super.readAdditionalSaveData(tag);
         if (tag.contains("Home")) {
             home = NbtUtils.readBlockPos(tag.getCompound("Home"));
+        }
+        if (tag.contains("PatrolX")) {
+            patrolHeading = new Vec3(tag.getDouble("PatrolX"), 0, tag.getDouble("PatrolZ"));
+            patrolTicks = tag.getInt("PatrolTicks");
+            leaving = tag.getBoolean("Leaving");
         }
     }
 }
