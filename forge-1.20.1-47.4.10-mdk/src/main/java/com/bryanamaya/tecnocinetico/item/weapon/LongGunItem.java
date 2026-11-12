@@ -1,5 +1,8 @@
 package com.bryanamaya.tecnocinetico.item.weapon;
 
+import com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem;
+import com.bryanamaya.tecnocinetico.item.custom.MagazineItem;
+
 import com.bryanamaya.tecnocinetico.gear.TacticalGear;
 import com.bryanamaya.tecnocinetico.item.custom.WeaponModule;
 import com.bryanamaya.tecnocinetico.particle.ModParticles;
@@ -375,8 +378,9 @@ public class LongGunItem extends Item {
             return;
         }
         if (!player.getAbilities().instabuild && count(player) == 0) {
-            player.displayClientMessage(Component.translatable("message.tecnocinetico.no_ammo_for",
-                    stats.ammo().get().getDescription()).withStyle(ChatFormatting.RED), true);
+            Item need = GunMagazines.magazineFed(this) ? GunMagazines.of(this).get(0) : stats.ammo().get();
+            player.displayClientMessage(Component.translatable(GunMagazines.magazineFed(this) ? "message.tecnocinetico.no_magazine_for"
+                    : "message.tecnocinetico.no_ammo_for", need.getDescription()).withStyle(ChatFormatting.RED), true);
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_DRY_FIRE.get(),
                     SoundSource.PLAYERS, 0.8F, 0.9F);
             return;
@@ -437,7 +441,7 @@ public class LongGunItem extends Item {
             tag.putInt(TAG_TIMER, t);
             return;
         }
-        if (action.boxReload()) {                                             // cargador entero
+        if (action.boxReload() || GunMagazines.magazineFed(this)) {          // cargador entero
             setAmmo(gun, getAmmo(gun) + boxRefill(player, gun));
             level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.PISTOL_MAG_IN.get(),
                     SoundSource.PLAYERS, 0.8F, 1.0F);
@@ -456,35 +460,56 @@ public class LongGunItem extends Item {
         }
     }
 
-    /** Recarga de cargador entero: cuántos disparos añade (por defecto, una munición por disparo). */
+    /**
+     * Recarga de cargador entero: cuántos disparos añade. Con cargador ({@link GunMagazines}), saca las balas del
+     * cargador compatible más lleno (lo que no cabe se queda en él); si no, de los paquetes de munición.
+     */
     protected int boxRefill(Player player, ItemStack gun) {
         int want = stats.capacity() - getAmmo(gun);
-        int got = 0;
-        while (got < want && (player.getAbilities().instabuild || take(player))) {
-            got++;
+        if (GunMagazines.magazineFed(this)) {
+            return player.getAbilities().instabuild ? want : takeFromMagazine(player, want);
         }
-        return got;
+        return AmmoPackItem.take(player, stats.ammo().get(), want);
     }
 
+    /** Balas que puede cargar: en cargadores compatibles o, si no usa cargador, en paquetes. */
     protected int count(Player player) {
+        if (!GunMagazines.magazineFed(this)) {
+            return AmmoPackItem.available(player, stats.ammo().get());
+        }
         int n = 0;
         for (ItemStack s : TacticalGear.ammoSources(player)) {
-            if (s.is(stats.ammo().get())) {
-                n += s.getCount();
+            if (GunMagazines.of(this).contains(s.getItem())) {
+                n += MagazineItem.getRounds(s) * s.getCount();
             }
         }
         return n;
     }
 
+    /** Una bala (carga bala a bala: escopetas y revólver; abre un paquete si hace falta). */
     protected boolean take(Player player) {
+        return AmmoPackItem.take(player, stats.ammo().get(), 1) > 0;
+    }
+
+    private int takeFromMagazine(Player player, int want) {
+        ItemStack best = ItemStack.EMPTY;
         for (ItemStack s : TacticalGear.ammoSources(player)) {
-            if (s.is(stats.ammo().get())) {
-                s.shrink(1);
-                TacticalGear.of(player).ifPresent(TacticalGear::setChanged);
-                return true;
+            if (GunMagazines.of(this).contains(s.getItem()) && MagazineItem.getRounds(s) > MagazineItem.getRounds(best)) {
+                best = s;
             }
         }
-        return false;
+        int rounds = MagazineItem.getRounds(best);
+        if (rounds <= 0) {
+            return 0;
+        }
+        int got = Math.min(want, rounds);
+        ItemStack mag = best.getCount() > 1 ? best.split(1) : best;          // varios cargadores iguales apilados
+        MagazineItem.setContents(mag, rounds - got, Math.max(0, MagazineItem.getGuided(mag) - got));
+        if (mag != best) {
+            TacticalGear.giveBackAmmo(player, mag);
+        }
+        TacticalGear.of(player).ifPresent(TacticalGear::setChanged);
+        return got;
     }
 
     // ------------------------------------------------------------------ interfaz
@@ -522,7 +547,10 @@ public class LongGunItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.tecnocinetico.ammo", getAmmo(stack), stats.capacity()).withStyle(ChatFormatting.AQUA));
-        tooltip.add(Component.translatable("tooltip.tecnocinetico.uses_ammo", stats.ammo().get().getDescription())
+        tooltip.add((GunMagazines.magazineFed(this)
+                ? Component.translatable("tooltip.tecnocinetico.uses_magazine", GunMagazines.of(this).get(0).getDescription(),
+                        stats.ammo().get().getDescription())
+                : Component.translatable("tooltip.tecnocinetico.uses_ammo", stats.ammo().get().getDescription()))
                 .withStyle(ChatFormatting.GRAY));
         for (WeaponModule m : WeaponModule.values()) {
             if (WeaponModule.has(stack, m)) {

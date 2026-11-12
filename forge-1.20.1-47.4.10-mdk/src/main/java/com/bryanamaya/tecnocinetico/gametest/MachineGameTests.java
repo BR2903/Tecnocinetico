@@ -301,7 +301,7 @@ public class MachineGameTests {
         be.getItems().insertItem(2, new ItemStack(Items.COPPER_INGOT), false);
         helper.succeedWhen(() -> {
             ItemStack out = be.getItems().getStackInSlot(3);
-            helper.assertTrue(out.is(ModItems.KINETIC_ROUND.get()) && out.getCount() == 8, "Esperaba 8 balas cinéticas, hay " + out);
+            helper.assertTrue(out.is(ModItems.KINETIC_ROUND.get()) && out.getCount() == 2, "Esperaba 2 paquetes de balas cinéticas, hay " + out);
         });
     }
 }

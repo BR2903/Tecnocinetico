@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " T",
+    "TC",
+    "T "
+  ],
+  "key": {
+    "T": {
+      "item": "tecnocinetico:titanium_ingot"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:rifle_magazine",
+    "count": 2
+  }
+}

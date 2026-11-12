@@ -98,8 +98,6 @@ public final class AssemblerRecipes {
                     new Recipe(List.of(s(ModItems.INERCITA_INGOT.get(), 1), s(Items.GUNPOWDER, 4), s(ModItems.CINETRITE_SHARD.get(), 2), s(Items.IRON_INGOT, 2)),
                             new ItemStack(ModItems.GUIDED_ROCKET.get(), 2), 80),
                     // munición especial
-                    new Recipe(List.of(s(ModItems.INERCITA_INGOT.get(), 1), s(ModItems.CINETRITE_SHARD.get(), 2), s(ModItems.TITANIUM_INGOT.get(), 1)),
-                            new ItemStack(ModItems.RAIL_SLUG.get(), 4), 80),
                     new Recipe(List.of(s(Items.IRON_INGOT, 2), s(Items.GUNPOWDER, 2), s(ModItems.CINETRITE_SHARD.get(), 2)),
                             new ItemStack(ModItems.KINETIC_GRENADE.get(), 4), 80),
                     new Recipe(List.of(s(ModItems.CINETRITE_INGOT.get(), 2), s(Items.COPPER_INGOT, 4), s(ModItems.PIEZO_TRANSDUCER.get(), 1),

@@ -14,14 +14,15 @@ import java.util.List;
  * Munición Guiada: bala de cinetrita con circuito de guiado. La pistola solo la carga si tiene la Guía de
  * Enjambre instalada (sin ella no sirve); entonces busca al enemigo más alineado con la mira.
  */
-public class GuidedRoundItem extends Item {
+public class GuidedRoundItem extends AmmoPackItem {
 
     public GuidedRoundItem(Properties properties) {
-        super(properties);
+        super(6, properties);                                                 // paquete de 6, como la Bala Cinética
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, tooltip, flag);
         tooltip.add(Component.translatable("tooltip.tecnocinetico.guided_round").withStyle(ChatFormatting.GRAY));
     }
 }

@@ -39,17 +39,19 @@ public final class MachineRecipes {
             new Refine(ModItems.RAW_INERCITA, ModItems.INERCITA_DUST, 2, ModItems.CINETRITE_DUST, 0.08F, 160, 40),
             new Refine(ModItems.RAW_PIROXITE, ModItems.PIROXITE_DUST, 2, ModItems.GOLD_DUST, 0.10F, 200, 60),
             new Refine(ModItems.RAW_NULLITE, ModItems.NULLITE_DUST, 2, ModItems.INERCITA_DUST, 0.05F, 200, 60),
-            new Refine(ModItems.SCRAP_METAL, ModItems.IRON_DUST, 1, ModItems.TIN_DUST, 0.25F, 60, 20));        // chatarra: hierro y soldadura
+            new Refine(ModItems.SCRAP_METAL, ModItems.IRON_DUST, 1, ModItems.TIN_DUST, 0.25F, 60, 20),         // chatarra: hierro y soldadura
+            // azufre del carbón (para la pólvora negra y el laboratorio)
+            new Refine(v(Items.COAL), ModItems.SULFUR_DUST, 1, ModItems.SULFUR_DUST, 0.25F, 80, 20),
+            new Refine(v(Items.COAL_ORE), ModItems.SULFUR_DUST, 2, v(Items.COAL), 0.5F, 160, 40),
+            new Refine(v(Items.DEEPSLATE_COAL_ORE), ModItems.SULFUR_DUST, 2, v(Items.COAL), 0.5F, 160, 40));
 
     public static final List<Fabricate> FABRICATE = List.of(
             new Fabricate(List.of(of(ModItems.LEAD_INGOT, 1), of(v(Items.COPPER_INGOT), 1), of(ModItems.CINETRITE_SHARD, 2)),
-                    ModItems.KINETIC_ROUND, 8, 100, 30),
+                    ModItems.KINETIC_ROUND, 2, 100, 30),                       // paquetes (12 balas)
             new Fabricate(List.of(of(ModItems.LEAD_INGOT, 1), of(v(Items.COPPER_INGOT), 1), of(v(Items.GUNPOWDER), 2)),
-                    ModItems.RIFLE_ROUND, 8, 100, 30),
+                    ModItems.RIFLE_ROUND, 2, 100, 30),
             new Fabricate(List.of(of(ModItems.LEAD_NUGGET, 4), of(v(Items.PAPER), 2), of(v(Items.GUNPOWDER), 2)),
-                    ModItems.SHOTGUN_SHELL, 8, 100, 30),
-            new Fabricate(List.of(of(ModItems.TITANIUM_INGOT, 1), of(ModItems.CINETRITE_SHARD, 2)),
-                    ModItems.RAIL_SLUG, 4, 140, 50),
+                    ModItems.SHOTGUN_SHELL, 2, 100, 30),
             new Fabricate(List.of(of(v(Items.IRON_INGOT), 2), of(v(Items.GUNPOWDER), 2), of(ModItems.CINETRITE_SHARD, 1)),
                     ModItems.KINETIC_GRENADE, 2, 120, 40));
 
@@ -112,7 +114,10 @@ public final class MachineRecipes {
             leach(ModItems.RAW_INERCITA, ModItems.INERCITA_DUST, 500, 180, 60),
             leach(ModItems.RAW_PIROXITE, ModItems.PIROXITE_DUST, 500, 220, 80),
             leach(ModItems.RAW_NULLITE, ModItems.NULLITE_DUST, 500, 220, 80),
-            new Lab(List.of(of(ModItems.SCRAP_METAL, 2)), ACID, 100, ModItems.IRON_DUST, 3, null, 0, 100, 30));
+            new Lab(List.of(of(ModItems.SCRAP_METAL, 2)), ACID, 100, ModItems.IRON_DUST, 3, null, 0, 100, 30),
+            // pólvora industrial: azufre + carbón con ácido sulfúrico
+            new Lab(List.of(of(ModItems.SULFUR_DUST, 2), of(v(Items.COAL), 2)), ACID, 250, v(Items.GUNPOWDER), 12, null, 0, 120, 40),
+            new Lab(List.of(of(ModItems.SULFUR_DUST, 2), of(v(Items.CHARCOAL), 2)), ACID, 250, v(Items.GUNPOWDER), 12, null, 0, 120, 40));
 
     public static boolean isLabFluid(net.minecraft.world.level.material.Fluid f) {
         return LAB.stream().anyMatch(r -> r.inFluid().get().isSame(f));

@@ -27,6 +27,7 @@ public class MagazineLoadingRecipe extends CustomRecipe {
     private static Parts parts(CraftingContainer inv) {
         ItemStack mag = ItemStack.EMPTY;
         int normal = 0, guided = 0;
+        java.util.List<ItemStack> packs = new java.util.ArrayList<>();
         for (int i = 0; i < inv.getContainerSize(); i++) {
             ItemStack s = inv.getItem(i);
             if (s.isEmpty()) {
@@ -37,18 +38,25 @@ public class MagazineLoadingRecipe extends CustomRecipe {
                     return null;                                     // solo un cargador
                 }
                 mag = s;
-            } else if (s.is(ModItems.KINETIC_ROUND.get())) {
-                normal++;
-            } else if (s.is(ModItems.GUIDED_ROUND.get())) {
-                guided++;
+            } else if (s.getItem() instanceof AmmoPackItem) {
+                packs.add(s);
             } else {
                 return null;
             }
         }
-        if (mag.isEmpty() || normal + guided == 0) {
+        if (mag.isEmpty() || packs.isEmpty()) {
             return null;
         }
         MagazineItem m = (MagazineItem) mag.getItem();
+        for (ItemStack s : packs) {                                          // cada paquete aporta las balas que le quedan
+            if (s.is(m.ammo())) {
+                normal += AmmoPackItem.left(s);
+            } else if (s.is(ModItems.GUIDED_ROUND.get()) && m.acceptsGuided()) {
+                guided += AmmoPackItem.left(s);
+            } else {
+                return null;                                                 // otro calibre
+            }
+        }
         if (MagazineItem.getRounds(mag) + normal + guided > m.capacity()) {
             return null;
         }

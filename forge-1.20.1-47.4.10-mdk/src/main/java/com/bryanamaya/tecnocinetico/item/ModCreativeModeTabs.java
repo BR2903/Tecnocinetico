@@ -190,10 +190,15 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.EXTENDED_MAGAZINE.get());
                         out.accept(ModItems.SHOTGUN_SHELL.get());
                         out.accept(ModItems.RIFLE_ROUND.get());
+                        out.accept(ModItems.STRIPPER_CLIP.get());
+                        out.accept(ModItems.SHORT_RIFLE_MAGAZINE.get());
                         // tier 2
                         out.accept(ModItems.FUEL_CANISTER.get());
+                        out.accept(ModItems.RIFLE_BELT.get());
+                        out.accept(ModItems.BELT_BOX.get());
                         // tier 3
-                        out.accept(ModItems.RAIL_SLUG.get());
+                        out.accept(ModItems.RIFLE_MAGAZINE.get());
+                        out.accept(ModItems.MINIGUN_BOX.get());
                         out.accept(ModItems.KINETIC_GRENADE.get());
                         out.accept(ModItems.GUIDED_ROCKET.get());
                         out.accept(ModItems.PULSE_CELL.get());

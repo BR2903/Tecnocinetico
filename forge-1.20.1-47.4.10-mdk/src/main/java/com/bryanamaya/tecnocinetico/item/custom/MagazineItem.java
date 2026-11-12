@@ -16,25 +16,39 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * Cargador de la Pistola Cinética. Guarda en su NBT cuántas balas lleva ("Rounds") y cuántas de ellas son
- * Munición Guiada ("Guided", se disparan siempre primero).
- *
- * Se llena: en la mesa (cargador + balas, receta especial {@code MagazineLoadingRecipe}) o con el cargador en
- * la mano pulsando R (Bala Cinética; con Mayús, Munición Guiada). La pistola lo usa al recargar.
+ * Cargador de cualquier arma (pistola, subfusil, rifles, ametralladora, minigun). Guarda en su NBT cuántas balas
+ * lleva ("Rounds") y, en los de Bala Cinética, cuántas son Munición Guiada ("Guided", se disparan primero).
+ * <p>
+ * Cada cargador admite un calibre ({@link #ammo()}: Bala Cinética, Bala de Rifle o Cinta de Rifle) y se llena con
+ * sus paquetes ({@link AmmoPackItem}): en la mesa (cargador + paquetes, {@code MagazineLoadingRecipe}) o con el
+ * cargador en la mano pulsando R (en los cinéticos, Mayús+R mete Munición Guiada). Las armas lo usan al recargar
+ * (ver {@code LongGunItem} y {@code GunMagazines}).
  */
 public class MagazineItem extends Item {
 
     public static final String TAG_ROUNDS = "Rounds";
     public static final String TAG_GUIDED = "Guided";
 
-    /** 1 = Cargador, 2 = Cargador Ampliado (mismo código que guarda la pistola). */
+    /** 1 = Cargador, 2 = Cargador Ampliado (mismo código que guarda la pistola); 0 = otros (no van en la pistola). */
     private final int type;
     private final int capacity;
+    private final java.util.function.Supplier<Item> ammo;
 
-    public MagazineItem(int type, int capacity, Properties properties) {
+    public MagazineItem(int type, int capacity, java.util.function.Supplier<Item> ammo, Properties properties) {
         super(properties);
         this.type = type;
         this.capacity = capacity;
+        this.ammo = ammo;
+    }
+
+    /** Munición (paquete) con la que se llena. */
+    public Item ammo() {
+        return ammo.get();
+    }
+
+    /** ¿Admite Munición Guiada? (solo los de Bala Cinética). */
+    public boolean acceptsGuided() {
+        return ammo.get() == ModItems.KINETIC_ROUND.get();
     }
 
     public int type() {
@@ -46,7 +60,7 @@ public class MagazineItem extends Item {
     }
 
     public static int capacityOfType(int type) {
-        return type == 2 ? 10 : type == 1 ? 6 : 0;
+        return type == 2 ? 18 : type == 1 ? 12 : 0;                          // 3 y 2 paquetes de Bala Cinética
     }
 
     @Nullable
@@ -102,30 +116,19 @@ public class MagazineItem extends Item {
         if (!(held.getItem() instanceof MagazineItem magItem)) {
             return 0;
         }
+        guided &= magItem.acceptsGuided();
         int rounds = getRounds(held);
         int free = magItem.capacity - rounds;
-        Item ammo = guided ? ModItems.GUIDED_ROUND.get() : ModItems.KINETIC_ROUND.get();
+        Item ammo = guided ? ModItems.GUIDED_ROUND.get() : magItem.ammo();
         if (free <= 0) {
             player.displayClientMessage(Component.translatable("message.tecnocinetico.magazine_full")
                     .withStyle(ChatFormatting.YELLOW), true);
             return 0;
         }
-        int taken = 0;
-        for (ItemStack s : com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player)) {
-            if (taken >= free) {
-                break;
-            }
-            if (s.is(ammo)) {
-                int t = Math.min(s.getCount(), free - taken);
-                if (!player.getAbilities().instabuild) {
-                    s.shrink(t);
-                }
-                taken += t;
-            }
-        }
+        int taken = AmmoPackItem.take(player, ammo, free);                   // por paquetes; el último puede quedar abierto
         if (taken == 0) {
-            player.displayClientMessage(Component.translatable(guided ? "message.tecnocinetico.no_guided_rounds"
-                    : "message.tecnocinetico.no_rounds").withStyle(ChatFormatting.RED), true);
+            player.displayClientMessage(guided ? Component.translatable("message.tecnocinetico.no_guided_rounds").withStyle(ChatFormatting.RED)
+                    : Component.translatable("message.tecnocinetico.no_ammo_for", ammo.getDescription()).withStyle(ChatFormatting.RED), true);
             return 0;
         }
         ItemStack target = held;
@@ -165,11 +168,14 @@ public class MagazineItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.tecnocinetico.magazine_rounds", getRounds(stack), capacity)
                 .withStyle(ChatFormatting.AQUA));
+        tooltip.add(Component.translatable("tooltip.tecnocinetico.magazine_ammo", ammo().getDescription(),
+                (capacity + AmmoPackItem.size(ammo()) - 1) / AmmoPackItem.size(ammo())).withStyle(ChatFormatting.GRAY));
         if (getGuided(stack) > 0) {
             tooltip.add(Component.translatable("tooltip.tecnocinetico.magazine_guided", getGuided(stack))
                     .withStyle(ChatFormatting.LIGHT_PURPLE));
         }
-        tooltip.add(Component.translatable("tooltip.tecnocinetico.magazine_fill").withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.add(Component.translatable(acceptsGuided() ? "tooltip.tecnocinetico.magazine_fill"
+                : "tooltip.tecnocinetico.magazine_fill_plain").withStyle(ChatFormatting.DARK_GRAY));
         if (type == 2) {
             tooltip.add(Component.translatable("tooltip.tecnocinetico.extended_magazine").withStyle(ChatFormatting.GRAY));
         }

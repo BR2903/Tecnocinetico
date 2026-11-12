@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "T T",
+    "TPT",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "item": "tecnocinetico:titanium_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:minigun_box",
+    "count": 1
+  }
+}

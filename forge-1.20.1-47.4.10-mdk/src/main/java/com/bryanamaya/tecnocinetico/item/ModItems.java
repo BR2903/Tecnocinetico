@@ -140,11 +140,12 @@ public class ModItems {
     public static final RegistryObject<Item> MODULE_POLISHED_BOLT = module(WeaponModule.POLISHED_BOLT);
     public static final RegistryObject<Item> MODULE_RIFLE_BARREL = module(WeaponModule.RIFLE_BARREL);
     /** Bala Cinética: la munición normal de la pistola (va dentro de un cargador). */
-    public static final RegistryObject<Item> KINETIC_ROUND = ITEMS.register("kinetic_round", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> KINETIC_ROUND = ITEMS.register("kinetic_round",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(6, new Item.Properties()));          // paquete de 6
     public static final RegistryObject<Item> MAGAZINE = ITEMS.register("magazine",
-            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(1, 6, new Item.Properties().stacksTo(16)));
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(1, 12, () -> KINETIC_ROUND.get(), new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> EXTENDED_MAGAZINE = ITEMS.register("extended_magazine",
-            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(2, 10, new Item.Properties().stacksTo(16)));
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(2, 18, () -> KINETIC_ROUND.get(), new Item.Properties().stacksTo(16)));
     /** Munición Guiada: solo funciona en una pistola con la Guía de Enjambre (ver KineticPistolItem). */
     public static final RegistryObject<Item> GUIDED_ROUND = ITEMS.register("guided_round",
             () -> new com.bryanamaya.tecnocinetico.item.custom.GuidedRoundItem(new Item.Properties()));
@@ -240,8 +241,25 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem(net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties()));
     public static final RegistryObject<Item> SCRAP_MACHETE = ITEMS.register("scrap_machete",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.MacheteItem(new Item.Properties()));
-    public static final RegistryObject<Item> SHOTGUN_SHELL = ITEMS.register("shotgun_shell", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> RIFLE_ROUND = ITEMS.register("rifle_round", () -> new Item(new Item.Properties()));
+    /** Munición en paquetes (el objeto es 1; el modelo muestra varias): cartuchos 6, balas de rifle 5, cinta 15. */
+    public static final RegistryObject<Item> SHOTGUN_SHELL = ITEMS.register("shotgun_shell",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(6, new Item.Properties()));
+    public static final RegistryObject<Item> RIFLE_ROUND = ITEMS.register("rifle_round",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(5, new Item.Properties()));
+    /** Cinta de Balas de Rifle: 3 paquetes de rifle encadenados (15). Llena la Caja de Cinta y la de la Minigun. */
+    public static final RegistryObject<Item> RIFLE_BELT = ITEMS.register("rifle_belt",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(15, new Item.Properties()));
+    // cargadores de las armas largas (ver item/weapon/GunMagazines)
+    public static final RegistryObject<Item> STRIPPER_CLIP = ITEMS.register("stripper_clip",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(0, 5, () -> RIFLE_ROUND.get(), new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> SHORT_RIFLE_MAGAZINE = ITEMS.register("short_rifle_magazine",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(0, 10, () -> RIFLE_ROUND.get(), new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> RIFLE_MAGAZINE = ITEMS.register("rifle_magazine",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(0, 30, () -> RIFLE_ROUND.get(), new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> BELT_BOX = ITEMS.register("belt_box",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(0, 60, () -> RIFLE_BELT.get(), new Item.Properties().stacksTo(8)));
+    public static final RegistryObject<Item> MINIGUN_BOX = ITEMS.register("minigun_box",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(0, 180, () -> RIFLE_BELT.get(), new Item.Properties().stacksTo(4)));
     /** Escopeta de caño: 2 cartuchos, 8 perdigones de 2.5 (20 de cerca), mucha dispersión, 14 bloques. */
     public static final RegistryObject<Item> PIPE_SHOTGUN = ITEMS.register("pipe_shotgun",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SHOTGUN,
@@ -305,10 +323,10 @@ public class ModItems {
     public static final RegistryObject<Item> SEMI_RIFLE = ITEMS.register("semi_rifle",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.RIFLE, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.SEMI, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
                     10, () -> RIFLE_ROUND.get(), 1, 13.0F, 60.0D, 1.6F, 0.15F, 6, 50, 4.5F, 1.0F, 0.55F, 0.95F), new Item.Properties()));
-    /** Subfusil: automático, cargador de 24 balas cinéticas, 3.5 de daño, 10 disparos/s; la ráfaga abre el grupo. */
+    /** Subfusil: automático, Cargador Ampliado (18 balas cinéticas), 3.5 de daño, 10 disparos/s; la ráfaga abre el grupo. */
     public static final RegistryObject<Item> KINETIC_SMG = ITEMS.register("kinetic_smg",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SMG, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
-                    24, () -> KINETIC_ROUND.get(), 1, 3.5F, 40.0D, 3.5F, 1.6F, 2, 40, 1.1F, 0.9F, 0.85F, 1.25F), new Item.Properties()));
+                    18, () -> KINETIC_ROUND.get(), 1, 3.5F, 40.0D, 3.5F, 1.6F, 2, 40, 1.1F, 0.9F, 0.85F, 1.25F), new Item.Properties()));
 
     // ---------------------------------------------------------------- tier 3 (Ensamblador de Armas + Procesador del Núcleo)
     public static final RegistryObject<Item> CORE_PROCESSOR = ITEMS.register("core_processor",
@@ -321,7 +339,7 @@ public class ModItems {
     /** Rifle de Riel: carga 1,5 s (mantener el clic), 32 de daño a carga completa, atraviesa 4 enemigos, 100 bloques. */
     public static final RegistryObject<Item> RAIL_RIFLE = ITEMS.register("rail_rifle",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
-                    5, () -> RAIL_SLUG.get(), 1, 32.0F, 100.0D, 0.6F, 0.0F, 20, 60, 6.0F, 1.0F, 0.45F, 0.5F),
+                    5, () -> RIFLE_ROUND.get(), 1, 32.0F, 100.0D, 0.6F, 0.0F, 20, 60, 6.0F, 1.0F, 0.45F, 0.5F),
                     new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
     /** Fusil de asalto: automático, 30 balas de rifle, 7 de daño, 70 bloques, ~7 disparos/s. */
     public static final RegistryObject<Item> ASSAULT_RIFLE = ITEMS.register("assault_rifle",
@@ -462,10 +480,10 @@ public class ModItems {
     public static final RegistryObject<Item> ARC_CASTER = ITEMS.register("arc_caster",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.ArcCasterItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
                     12, () -> PULSE_CELL.get(), 1, 10.0F, 24.0D, 0.0F, 0.0F, 8, 30, 2.0F, 1.0F, 0.9F, 1.4F), new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
-    /** Minigun (tier 3): gira ~1 s antes de disparar; 200 balas cinéticas a 20 disparos/s; frena un 35 %. */
+    /** Minigun (tier 3): gira ~1 s antes de disparar; Caja de Munición de Minigun (180 balas de rifle en cinta) a 20 disparos/s; frena un 35 %. */
     public static final RegistryObject<Item> MINIGUN = ITEMS.register("minigun",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.MinigunItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
-                    200, () -> KINETIC_ROUND.get(), 1, 4.0F, 50.0D, 4.5F, 3.0F, 1, 100, 0.4F, 0.6F, 0.9F, 1.2F), new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+                    180, () -> RIFLE_ROUND.get(), 1, 4.0F, 50.0D, 4.5F, 3.0F, 1, 100, 0.4F, 0.6F, 0.9F, 1.2F), new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
