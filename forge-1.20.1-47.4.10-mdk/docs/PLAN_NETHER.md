@@ -26,3 +26,5 @@ Posibles siguientes partes, eligiendo con los comentarios del usuario: enemigos 
 Probar en `runClient`, en el Nether y en supervivencia: excavar netherrack en túneles hasta que salgan ácaros; buscar centinelas (o usar los huevos de la pestaña principal) y comprobar que el láser avisa y que moverse esquiva el tiro. Funciona en mundos existentes (aparecen en chunks ya generados).
 
 Siguientes partes posibles: biomas y estructuras; equipo de preparación; primer jefe; segundo jefe y recompensas.
+
+Mobs vanilla remodelados (Codex, conectados por Claude): piglin, bruto, zombificado, ghast, blaze y esqueleto wither cambian de aspecto solo dentro del Nether. Comprobarlos también en `runClient` (animaciones, armas en la mano, bebés piglin, armadura).

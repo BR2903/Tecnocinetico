@@ -169,3 +169,4 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 ## Nether (`nether/`, por etapas — ver `PLAN_NETHER.md`)
 - `NetherMobEvents`: mejoras de los mobs vanilla solo dentro del Nether (se restauran al salir) y ácaros al excavar. Métodos públicos `join`, `enemyTick`, `isMiteNest`, `disturbMites` (los usan las pruebas).
 - `NetherEntities` + `InfernalEntity`: Ácaro de Escoria y Centinela de Ceniza (una clase; el tipo decide el comportamiento; preparada para los dos jefes). Cliente: `entity/client/InfernalModel` (arte de Codex) e `InfernalRenderer`.
+- `entity/client/NetherRemodelRenderers`: renderizadores vanilla sustituidos (piglin, bruto, zombificado, ghast, blaze, esqueleto wither); modelo/textura/brillo remodelados solo en el Nether. Geometría en `NetherRemodelLayers` (generada por Codex).
