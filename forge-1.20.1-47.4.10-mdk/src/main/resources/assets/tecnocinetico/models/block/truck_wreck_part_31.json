@@ -1,0 +1,102 @@
+{
+ "parent": "minecraft:block/block",
+ "ambientocclusion": true,
+ "textures": {
+  "0": "tecnocinetico:block/truck_wreck",
+  "particle": "tecnocinetico:block/truck_wreck"
+ },
+ "elements": [
+  {
+   "from": [
+    12.8,
+    0,
+    15.8
+   ],
+   "to": [
+    12.8,
+    0.8,
+    16
+   ],
+   "faces": {
+    "west": {
+     "texture": "#0",
+     "uv": [
+      3.95,
+      7.8,
+      4.0,
+      8.0
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    14.4,
+    0,
+    15.8
+   ],
+   "to": [
+    14.4,
+    0.8,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#0",
+     "uv": [
+      0.0,
+      7.8,
+      0.05,
+      8.0
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    12.8,
+    0.8,
+    15.8
+   ],
+   "to": [
+    14.4,
+    0.8,
+    16
+   ],
+   "faces": {
+    "up": {
+     "texture": "#0",
+     "uv": [
+      3.2,
+      7.95,
+      3.6,
+      8.0
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    12.8,
+    0,
+    15.8
+   ],
+   "to": [
+    14.4,
+    0.8,
+    15.8
+   ],
+   "faces": {
+    "north": {
+     "texture": "#0",
+     "uv": [
+      0.4,
+      7.8,
+      0.8,
+      8.0
+     ]
+    }
+   }
+  }
+ ]
+}

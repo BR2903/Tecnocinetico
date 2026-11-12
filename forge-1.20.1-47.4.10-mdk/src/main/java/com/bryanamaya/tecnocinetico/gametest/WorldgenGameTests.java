@@ -506,4 +506,48 @@ public class WorldgenGameTests {
         }
         h.succeed();
     }
+
+    /** Vehículos: se colocan enteros en las 4 orientaciones, una pieza rota desarma todo y suelta chatarra; nada en el aire. */
+    @GameTest(template = "empty", batch = "tipos_de_mundo")
+    public static void vehicleWrecks(GameTestHelper h) {
+        var level = h.getLevel();
+        BlockPos base = h.absolutePos(BlockPos.ZERO).atY(215);
+        var box = new net.minecraft.world.phys.AABB(base).inflate(20);
+        try {
+            for (BlockPos p : BlockPos.betweenClosed(base.offset(-12, -1, -12), base.offset(12, -1, 12))) {
+                level.setBlock(p, net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(), 2);
+            }
+            for (var reg : java.util.List.of(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.CAR_WRECK,
+                    com.bryanamaya.tecnocinetico.block.ModWorldBlocks.TRUCK_WRECK, com.bryanamaya.tecnocinetico.block.ModWorldBlocks.BUS_WRECK)) {
+                var wreck = (com.bryanamaya.tecnocinetico.block.custom.WreckBlock) reg.get();
+                for (var facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
+                    h.assertTrue(wreck.fits(level, base, facing), "No cabe " + reg.getId() + " hacia " + facing);
+                    wreck.placeAll(level, base, facing, 2);
+                    var cells = wreck.cells(base, facing);
+                    for (BlockPos c : cells) {
+                        var st = level.getBlockState(c);
+                        h.assertTrue(st.is(wreck) && wreck.origin(c, st).equals(base), "Pieza mal colocada de " + reg.getId() + " en " + c);
+                    }
+                    // romper una pieza cualquiera con un jugador: desaparece todo el vehículo
+                    var player = new net.minecraftforge.common.util.FakePlayer(level, new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "chatarrero"));
+                    player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.IRON_PICKAXE));
+                    player.gameMode.destroyBlock(cells.get(cells.size() / 2));
+                    for (BlockPos c : cells) {
+                        h.assertTrue(level.getBlockState(c).isAir(), "Quedó una pieza de " + reg.getId() + " tras romperlo");
+                    }
+                }
+            }
+            h.assertTrue(level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, box,
+                    e -> e.getItem().is(com.bryanamaya.tecnocinetico.item.ModItems.SCRAP_METAL.get())).size() > 0, "Romper un vehículo no soltó chatarra");
+            var car = (com.bryanamaya.tecnocinetico.block.custom.WreckBlock) com.bryanamaya.tecnocinetico.block.ModWorldBlocks.CAR_WRECK.get();
+            h.assertFalse(car.fits(level, base.above(5), net.minecraft.core.Direction.NORTH), "Un coche cabría flotando en el aire");
+        } finally {
+            for (BlockPos p : BlockPos.betweenClosed(base.offset(-12, -1, -12), base.offset(12, 4, 12))) {
+                level.setBlock(p, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 2);
+            }
+            level.getEntitiesOfClass(net.minecraft.world.entity.Entity.class, box, e -> e instanceof net.minecraft.world.entity.item.ItemEntity
+                    || e instanceof net.minecraft.world.entity.ExperienceOrb).forEach(net.minecraft.world.entity.Entity::discard);
+        }
+        h.succeed();
+    }
 }

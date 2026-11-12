@@ -22,6 +22,7 @@ $A = "src\main\resources\assets\tecnocinetico"
 | `tools/import_sounds.py $A\sounds` | Sonidos de la pistola a partir de **grabaciones reales** de `tools/sound_sources/` (disparos ×4, cargador fuera/dentro, corredera, clic en vacío). Licencias en `CREDITOS_SONIDOS.md` | — |
 | `tools/world_blocks_gen.py [preview.png]` | **Bloques del mundo** (fase 1 de PLAN_MUNDO): texturas 16×16, blockstates, modelos, loot, tags de herramienta, recetas y textos. Los bloques se registran en `block/ModWorldBlocks.java` con los mismos nombres | — |
 | `tools/world_props_gen.py` | **Solo arte:** seis blockstates de farolas, postes y cables, siete modelos de bloque, seis de objeto 3D y cuatro texturas `world_props_*`. Semillas fijas; no modifica Java ni datos | `python tools/preview_world_props.py` → `build/postes/comparativa.png`, vistas de los cinco conjuntos, reversos, detalles e inventario |
+| `tools/vehicles_gen.py` | **Solo arte:** turismo, camión y autobús abandonados. 124 celdas (`car_wreck_part_0..15`, `truck_wreck_part_0..35`, `bus_wreck_part_0..71`), tres blockstates, tres miniaturas 3D y tres atlas de 128×128. Recorte de superficies/UV sin caras internas; AABB o `null` por `part` en `build/vehiculos/integracion.json` | `python tools/preview_vehicles.py` → montajes reales, laterales, cuatro orientaciones, inventario y auditoría de conservación de superficie en `build/vehiculos/` |
 | `tools/resize_textures.py <dir> <backup>` | Reescala texturas que no son potencia de 2 (guarda copia) | — |
 | `tools/check_zfight.py` | Busca caras coplanares que parpadean (z-fighting) en los modelos; `gunkit.resolve_zfight` las corrige solas en armas, pistola y munición | — |
 | `tools/gui_fit.py` | Calcula la vista de inventario (`display.gui`) para que el modelo llene la casilla | — |
@@ -216,3 +217,5 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 
 ## drill_sounds.py (sonidos del Taladro de Combustión)
 - `python tools/drill_sounds.py src/main/resources/assets/tecnocinetico/sounds`: genera `sounds/drill/` (bucles de ralentí y taladrado, arranque, mordisco x3, repostaje, tapón y ahogo). Mezcla grabaciones CC0 de `tools/sound_sources/workshop_*.wav` (ver `CREDITOS_SONIDOS.md`) con un motor de dos tiempos sintetizado. Los bucles se cierran con fundido cruzado.
+
+- **Vehículos**: tras `python tools/vehicles_gen.py`, copiar `build/vehiculos/integracion.json` a `src/main/resources/assets/tecnocinetico/wreck_shapes.json` (colisión por celda que lee `WreckBlock`).

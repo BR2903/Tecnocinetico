@@ -170,3 +170,6 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `NetherMobEvents`: mejoras de los mobs vanilla solo dentro del Nether (se restauran al salir) y ácaros al excavar. Métodos públicos `join`, `enemyTick`, `isMiteNest`, `disturbMites` (los usan las pruebas).
 - `NetherEntities` + `InfernalEntity`: Ácaro de Escoria y Centinela de Ceniza (una clase; el tipo decide el comportamiento; preparada para los dos jefes). Cliente: `entity/client/InfernalModel` (arte de Codex) e `InfernalRenderer`.
 - `entity/client/NetherRemodelRenderers`: renderizadores vanilla sustituidos (piglin, bruto, zombificado, ghast, blaze, esqueleto wither); modelo/textura/brillo remodelados solo en el Nether. Geometría en `NetherRemodelLayers` (generada por Codex).
+
+### Overworld arrasado (2026-11-12)
+- `worldgen/feature/RoadFeature` (calles de la ciudad y autopistas, cuadrícula fija por semilla, una vez por chunk), `StreetPropFeature` (farolas y postes, `block/custom/StreetPropBlocks`) y `VehicleFeature` (vehículos sobre las carreteras, `block/custom/WreckBlock` + `WreckItem`). Reparto en `tools/world_features_gen.py`; vegetación vanilla quitada con `forge:remove_features`.

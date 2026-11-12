@@ -720,3 +720,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Ambiente (`ModBiomes`, `runData`): cielo y niebla más grises en praderas, ciudad, cicatrices, desierto, tundra y costa; ceniza en el aire en esos biomas (la ciudad, el triple que antes).
 - Criaturas: los hostiles vanilla del Overworld ya se sustituyen siempre por corrompidos (`CorruptionSpawns`); sin cambios.
 - GameTest `roads`. 56 pruebas pasan.
+
+## 2026-11-12 — Claude (código) + Codex (modelos) — Overworld arrasado (4): vehículos abandonados
+- Coche (4x2x2), camión (6x2x3) y autobús (8x3x3) destrozados, modelos de Codex troceados por celdas (`tools/vehicles_gen.py`, vistas en `build/vehiculos/`). `block/custom/WreckBlock` (`facing` + `part` = (h*W+w)*L+l; colisión por celda leída de `assets/tecnocinetico/wreck_shapes.json`, que es el `build/vehiculos/integracion.json` de Codex copiado tal cual; las celdas vacías no se colocan). Romper una pieza desarma el vehículo entero; la rota suelta 2-5 de chatarra y a veces una chapa oxidada (pico). `WreckItem` coloca el vehículo completo mirando hacia donde mira el jugador (pestaña Mundo).
+- `worldgen/feature/VehicleFeature` (`vehicle`): busca carretera en el chunk (`RoadFeature.roadAt`) y deja el vehículo en un carril, alineado; a veces fuera de la carretera con orientación al azar. Ciudad: 2 intentos por chunk con autobuses; resto de biomas: 1 sin autobuses.
+- GameTest `vehicleWrecks` (4 orientaciones de los 3 vehículos, desarme completo al romper, chatarra, nada en el aire). 57 pruebas pasan.

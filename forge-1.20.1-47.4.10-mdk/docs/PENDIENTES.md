@@ -68,8 +68,8 @@ Bryan lo probará más adelante; no dar por aprobado hasta entonces.
 - **Overworld arrasado (2026-11-12)**: vegetación mitad y mitad, densidad de restos y edificios, llanuras = Megaciudad Muerta, farolas y postes. Probar en un mundo NUEVO de tipo "Postapocalíptico" (o chunks nuevos). Ajustar densidades si se pasa o se queda corto.
 
 ## Overworld arrasado: lo que falta de la lista acordada (2026-11-12)
-- Carreteras y autopistas rotas con línea pintada y quitamiedos.
-- Vehículos abandonados (coches, autobuses, camiones): modelos de Codex.
-- Ambiente: cielo/niebla grisáceos y ceniza en el aire en más biomas, agua contaminada.
-- Criaturas: menos hostiles vanilla, más corrompidos y drones de noche.
+- ~~Carreteras y autopistas rotas~~ HECHO (pendiente de revisión en el juego).
+- ~~Vehículos abandonados~~ HECHO (pendiente de revisión). Ideas: volcados o aplastados; atascos en las autopistas.
+- ~~Ambiente gris y ceniza~~ HECHO (pendiente de revisión).
+- Criaturas: los hostiles vanilla ya son corrompidos siempre. Falta decidir si quitar animales vanilla o añadir drones patrullando de noche.
 - Cabeza de farola tumbada (Codex: hace falta otra orientación para que la cabeza caída quede de lado).
