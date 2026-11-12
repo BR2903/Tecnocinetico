@@ -16,10 +16,10 @@ A=ROOT/'src/main/resources/assets/tecnocinetico'
 OUT=ROOT/'build/combustion_drill'
 AXIS=[8,12,0]
 DISPLAY={
-    'firstperson_righthand':{'rotation':[8,22,0],'translation':[-1,-.3,-3.25],'scale':[.85,.85,.85]},
-    'firstperson_lefthand':{'rotation':[8,22,0],'translation':[-1,-.3,-3.25],'scale':[.85,.85,.85]},
-    'thirdperson_righthand':{'rotation':[0,0,0],'translation':[0,-1.5,0],'scale':[.85,.85,.85]},
-    'thirdperson_lefthand':{'rotation':[0,0,0],'translation':[0,-1.5,0],'scale':[.85,.85,.85]},
+    'firstperson_righthand':{'rotation':[0,10,0],'translation':[0,1,-2],'scale':[.6,.6,.6]},
+    'firstperson_lefthand':{'rotation':[0,10,0],'translation':[0,1,-2],'scale':[.6,.6,.6]},
+    'thirdperson_righthand':{'rotation':[5.729578,-17.188734,0],'translation':[.998972,-3.435686,-1.889668],'scale':[.85,.85,.85]},
+    'thirdperson_lefthand':{'rotation':[5.729578,-17.188734,0],'translation':[.998972,-3.435686,-1.889668],'scale':[.85,.85,.85]},
     'ground':{'rotation':[0,0,0],'translation':[0,-2,0],'scale':[.45,.45,.45]},
     'fixed':{'rotation':[0,90,0],'translation':[4.7,-2.75,0],'scale':[.5,.5,.5]},
 }

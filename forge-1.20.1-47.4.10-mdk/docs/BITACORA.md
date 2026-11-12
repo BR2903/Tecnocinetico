@@ -684,3 +684,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-11 — Codex (modelos) — Munición en paquetes y cargadores nuevos
 - Diez modelos 3D (`tools/ammo_packages_gen.py`, vistas con `preview_ammo_packages.py` en `build/municion/`): caja de 6 Balas Cinéticas y de 6 Guiadas, montón de 5 Balas de Rifle, 6 Cartuchos, Cinta de 15, Peine, Cargador de Fusil Corto, Cargador de Fusil curvo, Caja de Cinta (60) y Caja industrial de la Minigun (180). Sin predicados; la barra del objeto muestra la carga. Ejecutar después de `ammo_gen.py` / `weapons_gen.py` si se regeneran (aún hacen las versiones sueltas antiguas). Integrado por Claude: `check_models`, `check_zfight` y 52 GameTests correctos.
+
+## 2026-11-11 — Codex (modelo) — Encuadre del taladro
+- Primera persona: cuerpo en la esquina inferior, broca nivelada hacia delante con 10° hacia dentro; la cruz y el bloque que se taladra quedan libres (primer intento lo centraba y tapaba la vista; corregido). Tercera persona en pose de dos manos con la broca horizontal. Solo `display` de `combustion_drill(_spin).json` y `DISPLAY` en `combustion_drill_gen.py`; vistas en `build/combustion_drill/`.
