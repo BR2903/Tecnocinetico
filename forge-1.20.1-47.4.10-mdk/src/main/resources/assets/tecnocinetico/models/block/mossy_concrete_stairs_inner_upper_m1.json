@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "side": "tecnocinetico:block/mossy_concrete_side_1",
+    "top": "tecnocinetico:block/concrete",
+    "bottom": "tecnocinetico:block/mossy_concrete_top_1",
+    "particle": "tecnocinetico:block/mossy_concrete_side_1"
+  }
+}

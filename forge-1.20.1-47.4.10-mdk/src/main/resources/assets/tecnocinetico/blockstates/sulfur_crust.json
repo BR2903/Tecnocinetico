@@ -1,7 +1,82 @@
 {
   "variants": {
-    "": {
-      "model": "tecnocinetico:block/sulfur_crust"
-    }
+    "": [
+      {
+        "model": "tecnocinetico:block/sulfur_crust",
+        "weight": 4
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust",
+        "weight": 4,
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust",
+        "weight": 4,
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust",
+        "weight": 4,
+        "y": 270
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v1",
+        "weight": 3
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v1",
+        "weight": 3,
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v1",
+        "weight": 3,
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v1",
+        "weight": 3,
+        "y": 270
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v2",
+        "weight": 2
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v2",
+        "weight": 2,
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v2",
+        "weight": 2,
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v2",
+        "weight": 2,
+        "y": 270
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v3",
+        "weight": 2
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v3",
+        "weight": 2,
+        "y": 90
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v3",
+        "weight": 2,
+        "y": 180
+      },
+      {
+        "model": "tecnocinetico:block/sulfur_crust_v3",
+        "weight": 2,
+        "y": 270
+      }
+    ]
   }
 }

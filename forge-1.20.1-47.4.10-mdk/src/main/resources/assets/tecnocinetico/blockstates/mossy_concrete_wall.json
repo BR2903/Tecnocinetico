@@ -4,87 +4,264 @@
       "when": {
         "up": "true"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_post"
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_post",
+          "weight": 4
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_post_m1",
+          "weight": 3
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_post_m2",
+          "weight": 2
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_post_m3",
+          "weight": 1
+        }
+      ]
     },
     {
       "when": {
         "north": "low"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_side",
-        "uvlock": true
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side",
+          "weight": 4,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m1",
+          "weight": 3,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m2",
+          "weight": 2,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m3",
+          "weight": 1,
+          "uvlock": true
+        }
+      ]
     },
     {
       "when": {
         "north": "tall"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_side_tall",
-        "uvlock": true
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall",
+          "weight": 4,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m1",
+          "weight": 3,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m2",
+          "weight": 2,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m3",
+          "weight": 1,
+          "uvlock": true
+        }
+      ]
     },
     {
       "when": {
         "east": "low"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_side",
-        "uvlock": true,
-        "y": 90
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side",
+          "weight": 4,
+          "y": 90,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m1",
+          "weight": 3,
+          "y": 90,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m2",
+          "weight": 2,
+          "y": 90,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m3",
+          "weight": 1,
+          "y": 90,
+          "uvlock": true
+        }
+      ]
     },
     {
       "when": {
         "east": "tall"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_side_tall",
-        "uvlock": true,
-        "y": 90
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall",
+          "weight": 4,
+          "y": 90,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m1",
+          "weight": 3,
+          "y": 90,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m2",
+          "weight": 2,
+          "y": 90,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m3",
+          "weight": 1,
+          "y": 90,
+          "uvlock": true
+        }
+      ]
     },
     {
       "when": {
         "south": "low"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_side",
-        "uvlock": true,
-        "y": 180
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side",
+          "weight": 4,
+          "y": 180,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m1",
+          "weight": 3,
+          "y": 180,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m2",
+          "weight": 2,
+          "y": 180,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m3",
+          "weight": 1,
+          "y": 180,
+          "uvlock": true
+        }
+      ]
     },
     {
       "when": {
         "south": "tall"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_side_tall",
-        "uvlock": true,
-        "y": 180
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall",
+          "weight": 4,
+          "y": 180,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m1",
+          "weight": 3,
+          "y": 180,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m2",
+          "weight": 2,
+          "y": 180,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m3",
+          "weight": 1,
+          "y": 180,
+          "uvlock": true
+        }
+      ]
     },
     {
       "when": {
         "west": "low"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_side",
-        "uvlock": true,
-        "y": 270
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side",
+          "weight": 4,
+          "y": 270,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m1",
+          "weight": 3,
+          "y": 270,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m2",
+          "weight": 2,
+          "y": 270,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_m3",
+          "weight": 1,
+          "y": 270,
+          "uvlock": true
+        }
+      ]
     },
     {
       "when": {
         "west": "tall"
       },
-      "apply": {
-        "model": "tecnocinetico:block/mossy_concrete_wall_side_tall",
-        "uvlock": true,
-        "y": 270
-      }
+      "apply": [
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall",
+          "weight": 4,
+          "y": 270,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m1",
+          "weight": 3,
+          "y": 270,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m2",
+          "weight": 2,
+          "y": 270,
+          "uvlock": true
+        },
+        {
+          "model": "tecnocinetico:block/mossy_concrete_wall_side_tall_m3",
+          "weight": 1,
+          "y": 270,
+          "uvlock": true
+        }
+      ]
     }
   ]
 }

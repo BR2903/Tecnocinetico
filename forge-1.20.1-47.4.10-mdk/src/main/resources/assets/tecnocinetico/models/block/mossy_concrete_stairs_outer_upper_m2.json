@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "tecnocinetico:block/mossy_concrete_side_2",
+    "top": "tecnocinetico:block/concrete",
+    "bottom": "tecnocinetico:block/mossy_concrete_top_2",
+    "particle": "tecnocinetico:block/mossy_concrete_side_2"
+  }
+}

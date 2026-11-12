@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "side": "tecnocinetico:block/mossy_concrete_side_3",
+    "top": "tecnocinetico:block/mossy_concrete_top_3",
+    "bottom": "tecnocinetico:block/concrete",
+    "particle": "tecnocinetico:block/mossy_concrete_side_3",
+    "up": "tecnocinetico:block/mossy_concrete_top_3",
+    "down": "tecnocinetico:block/concrete",
+    "north": "tecnocinetico:block/mossy_concrete_side_3",
+    "east": "tecnocinetico:block/mossy_concrete_side_0",
+    "south": "tecnocinetico:block/mossy_concrete_side_1",
+    "west": "tecnocinetico:block/mossy_concrete_side_2"
+  }
+}

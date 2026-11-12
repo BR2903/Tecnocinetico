@@ -927,6 +927,11 @@ TEXTURES = {
     "item/scrap_metal": t_scrap_item,
 }
 
+# Remodelación aprobable A/B: una regeneración general conserva la propuesta A.
+from world_block_remodel import textures as remodel_textures, beam_model as remodel_beam
+for _name in ("mossy_concrete", "rusted_metal_beam", "rusted_metal_beam_top", "dead_log", "dead_log_top", "vitrified_sand"):
+    TEXTURES[f"block/{_name}"] = lambda name=_name: remodel_textures("A")[name]
+
 
 # =================================================================== JSON helpers
 def write(path, data):
@@ -1102,6 +1107,7 @@ def main():
     for base in ("concrete", "cracked_concrete", "mossy_concrete"):
         family(base)
     pillar("rusted_metal_beam", "rusted_metal_beam", "rusted_metal_beam_top")
+    model("rusted_metal_beam", remodel_beam("A"))
     pillar("dead_log", "dead_log", "dead_log_top")
 
     # asfalto con línea: la cara superior gira con la dirección
@@ -1257,6 +1263,9 @@ def main():
         p.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     # --- vista previa (texturas ampliadas en una lámina)
+    # Conservar texturas variantes y selección ponderada al regenerar el mundo completo.
+    from world_block_remodel import install as install_remodel
+    install_remodel("A")
     if PREVIEW:
         cols = 7
         rows = (len(images) + cols - 1) // cols
@@ -1269,6 +1278,10 @@ def main():
 
 
 if __name__ == "__main__":
+    if "--remodel-only" in sys.argv:
+        from world_block_remodel import main as remodel_only
+        remodel_only()
+        sys.exit(0)
     main()
     import runpy  # copia es_es a es_mx, es_ec... (si no, esas variantes ven el inglés)
     runpy.run_path(str(Path(__file__).with_name("sync_lang.py")), run_name="__main__")

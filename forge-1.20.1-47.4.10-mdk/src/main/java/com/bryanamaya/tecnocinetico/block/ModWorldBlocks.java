@@ -65,7 +65,7 @@ public final class ModWorldBlocks {
 
     // ------------------------------------------------------------------ metal oxidado
     public static final RegistryObject<Block> RUSTED_METAL_SHEET = block("rusted_metal_sheet", () -> new Block(metal()));
-    public static final RegistryObject<Block> RUSTED_METAL_BEAM = block("rusted_metal_beam", () -> new RotatedPillarBlock(metal()));
+    public static final RegistryObject<Block> RUSTED_METAL_BEAM = block("rusted_metal_beam", () -> new com.bryanamaya.tecnocinetico.block.custom.SteelBeamBlock(metal().noOcclusion()));   // perfil H
     public static final RegistryObject<Block> RUSTED_GRATE = block("rusted_grate", () -> new Block(metal()
             .noOcclusion()
             .isValidSpawn((s, l, p, e) -> false)

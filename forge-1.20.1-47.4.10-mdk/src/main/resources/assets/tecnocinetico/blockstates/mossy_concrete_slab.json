@@ -1,13 +1,58 @@
 {
   "variants": {
-    "type=bottom": {
-      "model": "tecnocinetico:block/mossy_concrete_slab"
-    },
-    "type=top": {
-      "model": "tecnocinetico:block/mossy_concrete_slab_top"
-    },
-    "type=double": {
-      "model": "tecnocinetico:block/mossy_concrete"
-    }
+    "type=bottom": [
+      {
+        "model": "tecnocinetico:block/mossy_concrete_slab",
+        "weight": 4
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_slab_m1",
+        "weight": 3
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_slab_m2",
+        "weight": 2
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_slab_m3",
+        "weight": 1
+      }
+    ],
+    "type=top": [
+      {
+        "model": "tecnocinetico:block/mossy_concrete_slab_top",
+        "weight": 4
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_slab_top_m1",
+        "weight": 3
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_slab_top_m2",
+        "weight": 2
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_slab_top_m3",
+        "weight": 1
+      }
+    ],
+    "type=double": [
+      {
+        "model": "tecnocinetico:block/mossy_concrete",
+        "weight": 4
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_m1",
+        "weight": 3
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_m2",
+        "weight": 2
+      },
+      {
+        "model": "tecnocinetico:block/mossy_concrete_m3",
+        "weight": 1
+      }
+    ]
   }
 }

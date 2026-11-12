@@ -22,7 +22,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 | `fluid/ModFluids` | ácido sulfúrico, refrigerante, Celda Universal |
 | `item/ModCreativeModeTabs` | pestañas creativas: principal (máquinas, gadgets, nave, huevos), Armas, Armaduras, Munición y cargadores, Materiales (cada una por tier 1→3) y Mundo |
 
-- `block/ModWorldBlocks` — bloques del mundo post-apocalíptico (hormigón y familia, escombros, asfalto, metal oxidado, chatarra, ceniza, vitrificado, racimo de cinetrita, madera muerta) y su lista `ALL` para la pestaña creativa "Mundo". Clases especiales: `AshLayerBlock` (capas que no se derriten), `RoadLineBlock` (línea orientable).
+- `block/ModWorldBlocks` — bloques del mundo post-apocalíptico (hormigón y familia, escombros, asfalto, metal oxidado, chatarra, ceniza, vitrificado, racimo de cinetrita, madera muerta) y su lista `ALL` para la pestaña creativa "Mundo". Clases especiales: `AshLayerBlock` (capas que no se derriten), `RoadLineBlock` (línea orientable), `SteelBeamBlock` (Viga Oxidada con perfil en H: forma girada según `axis`, sin oclusión).
 
 ## Sistemas
 

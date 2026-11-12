@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "side": "tecnocinetico:block/mossy_concrete_side_1",
+    "top": "tecnocinetico:block/mossy_concrete_top_1",
+    "bottom": "tecnocinetico:block/concrete",
+    "particle": "tecnocinetico:block/mossy_concrete_side_1"
+  }
+}
