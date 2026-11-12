@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:scrap_coast",
+  "features": [
+    "tecnocinetico:scrap_coast/street_lamps_ruined",
+    "tecnocinetico:scrap_coast/utility_poles"
+  ],
+  "step": "surface_structures"
+}

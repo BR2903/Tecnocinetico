@@ -36,6 +36,9 @@ public final class ModWorldgen {
     public static final RegistryObject<CraterFeature> CRATER = FEATURES.register("crater", CraterFeature::new);
     public static final RegistryObject<RuinWallFeature> RUIN_WALL = FEATURES.register("ruin_wall", RuinWallFeature::new);
     public static final RegistryObject<DeadTreeFeature> DEAD_TREE = FEATURES.register("dead_tree", DeadTreeFeature::new);
+    /** Farolas y postes eléctricos abandonados (de pie, doblados o caídos). */
+    public static final RegistryObject<com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature> STREET_PROP =
+            FEATURES.register("street_prop", com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature::new);
 
     public static final ResourceKey<NoiseGeneratorSettings> OVERWORLD = noise("overworld");
     public static final ResourceKey<NoiseGeneratorSettings> LARGE_BIOMES = noise("large_biomes");

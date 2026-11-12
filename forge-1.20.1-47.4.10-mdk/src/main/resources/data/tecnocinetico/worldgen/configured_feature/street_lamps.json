@@ -1,0 +1,8 @@
+{
+  "type": "tecnocinetico:street_prop",
+  "config": {
+    "kind": "lamp",
+    "standing": 3,
+    "fallen": 3
+  }
+}

@@ -255,6 +255,29 @@ def main():
     modifier("vegetation/sickly_trees_hills", ["fractured_lands"], ["vegetation/sickly_spruce_hills"])
     modifier("vegetation/sickly_trees_tundra", ["ruined_tundra"], ["vegetation/sickly_spruce_tundra"])
 
+    # ------------------------------------------------ farolas y postes eléctricos (StreetPropFeature)
+    configured("street_lamps", rl("street_prop"), {"kind": "lamp", "standing": 3, "fallen": 3})
+    configured("street_lamps_ruined", rl("street_prop"), {"kind": "lamp", "standing": 1, "fallen": 4})
+    configured("utility_poles", rl("street_prop"), {"kind": "pole", "standing": 3, "fallen": 2})
+    props = {  # (feature, por chunk, 1 de cada N chunks)
+        "dead_megacity": [("street_lamps", 2, None), ("utility_poles", None, 2)],
+        "scrap_meadows": [("utility_poles", None, 2), ("street_lamps_ruined", None, 4)],
+        "overgrown_ruins": [("street_lamps_ruined", None, 3), ("utility_poles", None, 4)],
+        "fractured_lands": [("utility_poles", None, 4)],
+        "ruined_tundra": [("utility_poles", None, 3), ("street_lamps_ruined", None, 6)],
+        "scrap_coast": [("street_lamps_ruined", None, 3), ("utility_poles", None, 4)],
+        "ash_taiga": [("utility_poles", None, 5)],
+        "vitrified_desert": [("utility_poles", None, 5)],
+        "coolant_swamp": [("utility_poles", None, 4)],
+    }
+    for biome, entries in props.items():
+        names = []
+        for feature, count, rarity in entries:
+            n = f"{biome}/{feature}"
+            placed_custom(n, feature, surface_mods(count, rarity, heightmap="MOTION_BLOCKING_NO_LEAVES"))
+            names.append(n)
+        modifier(f"features/{biome}_props", [biome], names, STEPS["ruin"])
+
     # mares y río: un único modifier con el mismo orden para todos
     placed("seabed/rubble_piles", "rubble_piles_underwater", per_chunk=2, water=True)
     placed("seabed/scrap_piles", "scrap_piles_underwater", rarity=2, water=True)

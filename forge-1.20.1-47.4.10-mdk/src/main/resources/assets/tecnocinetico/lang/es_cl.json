@@ -598,5 +598,11 @@
   "subtitles.tecnocinetico.drill.sputter": "Taladro sin gasolina",
   "generator.tecnocinetico.post_apocalyptic": "Postapocalíptico",
   "generator.tecnocinetico.post_apocalyptic_large_biomes": "Postapocalíptico (biomas grandes)",
-  "generator.tecnocinetico.post_apocalyptic_amplified": "Postapocalíptico (amplificado)"
+  "generator.tecnocinetico.post_apocalyptic_amplified": "Postapocalíptico (amplificado)",
+  "block.tecnocinetico.street_lamp_pole": "Fuste de Farola",
+  "block.tecnocinetico.street_lamp_head": "Cabeza de Farola",
+  "block.tecnocinetico.street_lamp_bent": "Farola Doblada",
+  "block.tecnocinetico.utility_pole": "Poste de Luz",
+  "block.tecnocinetico.utility_crossarm": "Cruceta de Poste",
+  "block.tecnocinetico.power_cable": "Cable Eléctrico"
 }

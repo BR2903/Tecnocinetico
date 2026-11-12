@@ -408,4 +408,53 @@ public class WorldgenGameTests {
                 "Las llanuras no son la Megaciudad Muerta");
         h.succeed();
     }
+
+    /** Farolas y postes: de pie (fustes + cabeza; poste + cruceta + cables colgando) y caídos (tumbados en el suelo). */
+    @GameTest(template = "empty", batch = "tipos_de_mundo")
+    public static void streetProps(GameTestHelper h) {
+        var level = h.getLevel();
+        BlockPos base = h.absolutePos(BlockPos.ZERO).atY(210);
+        var feature = com.bryanamaya.tecnocinetico.worldgen.ModWorldgen.STREET_PROP.get();
+        var gen = level.getChunkSource().getGenerator();
+        try {
+            for (BlockPos p : BlockPos.betweenClosed(base.offset(-8, -1, -8), base.offset(8, -1, 8))) {
+                level.setBlock(p, net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(), 2);
+            }
+            var rnd = net.minecraft.util.RandomSource.create(7);
+            BlockPos lamp = base.offset(-5, 0, -5), pole = base.offset(5, 0, -5), fallen = base;                                  // centro: cabe tumbado hacia cualquier lado
+            h.assertTrue(feature.place(new com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature.Config("lamp", 1, 0), level, gen, rnd, lamp),
+                    "No colocó la farola de pie");
+            boolean top = false;                                                   // de pie o doblada (la config lo permite)
+            for (int y = 2; y <= 4; y++) {
+                var t = level.getBlockState(lamp.above(y));
+                top |= t.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.STREET_LAMP_HEAD.get())
+                        || t.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.STREET_LAMP_BENT.get());
+            }
+            h.assertTrue(level.getBlockState(lamp).is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.STREET_LAMP_POLE.get()) && top,
+                    "Farola: faltan fustes o la parte de arriba");
+            h.assertTrue(feature.place(new com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature.Config("pole", 1, 0), level, gen, rnd, pole),
+                    "No colocó el poste");
+            int crossarms = 0, cables = 0;
+            for (BlockPos p : BlockPos.betweenClosed(pole.offset(-4, 0, -4), pole.offset(4, 7, 4))) {
+                var st = level.getBlockState(p);
+                if (st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.UTILITY_CROSSARM.get())) crossarms++;
+                if (st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.POWER_CABLE.get())
+                        && st.getValue(com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Cable.HANGING)) cables++;
+            }
+            h.assertTrue(crossarms == 1 && cables >= 1, "Poste: " + crossarms + " crucetas y " + cables + " cables colgando");
+            h.assertTrue(feature.place(new com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature.Config("pole", 0, 1), level, gen, rnd, fallen),
+                    "No colocó el poste caído");
+            var st = level.getBlockState(fallen);
+            h.assertTrue(st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.UTILITY_POLE.get())
+                    && st.getValue(com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Pole.AXIS) != net.minecraft.core.Direction.Axis.Y
+                    && level.getBlockState(fallen.above()).isAir(), "El poste caído no está tumbado en el suelo");
+            h.assertFalse(feature.place(new com.bryanamaya.tecnocinetico.worldgen.feature.StreetPropFeature.Config("lamp", 1, 0), level, gen, rnd,
+                    base.offset(0, 5, 0)), "Puso una farola en el aire");
+        } finally {
+            for (BlockPos p : BlockPos.betweenClosed(base.offset(-12, -1, -12), base.offset(12, 8, 12))) {
+                level.setBlock(p, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 2);
+            }
+        }
+        h.succeed();
+    }
 }

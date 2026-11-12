@@ -51,6 +51,9 @@
     "tecnocinetico:uranium_block",
     "tecnocinetico:reaction_chamber",
     "tecnocinetico:chemical_lab",
-    "tecnocinetico:fission_reactor"
+    "tecnocinetico:fission_reactor",
+    "tecnocinetico:street_lamp_pole",
+    "tecnocinetico:street_lamp_head",
+    "tecnocinetico:street_lamp_bent"
   ]
 }

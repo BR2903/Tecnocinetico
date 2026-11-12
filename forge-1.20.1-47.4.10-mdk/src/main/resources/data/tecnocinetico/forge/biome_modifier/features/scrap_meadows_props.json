@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:scrap_meadows",
+  "features": [
+    "tecnocinetico:scrap_meadows/utility_poles",
+    "tecnocinetico:scrap_meadows/street_lamps_ruined"
+  ],
+  "step": "surface_structures"
+}

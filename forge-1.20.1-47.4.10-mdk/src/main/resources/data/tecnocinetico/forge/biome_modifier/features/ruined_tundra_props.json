@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:ruined_tundra",
+  "features": [
+    "tecnocinetico:ruined_tundra/utility_poles",
+    "tecnocinetico:ruined_tundra/street_lamps_ruined"
+  ],
+  "step": "surface_structures"
+}

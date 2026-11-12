@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:dead_megacity",
+  "features": [
+    "tecnocinetico:dead_megacity/street_lamps",
+    "tecnocinetico:dead_megacity/utility_poles"
+  ],
+  "step": "surface_structures"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:overgrown_ruins",
+  "features": [
+    "tecnocinetico:overgrown_ruins/street_lamps_ruined",
+    "tecnocinetico:overgrown_ruins/utility_poles"
+  ],
+  "step": "surface_structures"
+}

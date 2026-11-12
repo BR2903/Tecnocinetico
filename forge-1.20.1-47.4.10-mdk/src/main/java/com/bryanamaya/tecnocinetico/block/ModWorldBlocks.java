@@ -105,6 +105,23 @@ public final class ModWorldBlocks {
     public static final RegistryObject<Block> DEAD_PLANKS = block("dead_planks", () -> new Block(
             Properties.copy(Blocks.OAK_PLANKS).mapColor(MapColor.COLOR_GRAY)));
 
+    // ------------------------------------------------------------------ mobiliario urbano destrozado (farolas, postes)
+    public static final RegistryObject<Block> STREET_LAMP_POLE = block("street_lamp_pole",
+            () -> new com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Pole(metal().noOcclusion(), 4));
+    public static final RegistryObject<Block> STREET_LAMP_HEAD = block("street_lamp_head",
+            () -> new com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Facing(metal().noOcclusion()));
+    public static final RegistryObject<Block> STREET_LAMP_BENT = block("street_lamp_bent",
+            () -> new com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Facing(metal().noOcclusion()));
+    public static final RegistryObject<Block> UTILITY_POLE = block("utility_pole",
+            () -> new com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Pole(
+                    Properties.copy(Blocks.OAK_LOG).mapColor(MapColor.COLOR_BROWN).noOcclusion(), 6));
+    public static final RegistryObject<Block> UTILITY_CROSSARM = block("utility_crossarm",
+            () -> new com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Crossarm(
+                    Properties.copy(Blocks.OAK_LOG).mapColor(MapColor.COLOR_BROWN).noOcclusion()));
+    public static final RegistryObject<Block> POWER_CABLE = block("power_cable",
+            () -> new com.bryanamaya.tecnocinetico.block.custom.StreetPropBlocks.Cable(Properties.of().mapColor(MapColor.COLOR_BLACK)
+                    .strength(0.3F).sound(SoundType.WOOL).noOcclusion().noCollission()));
+
     private ModWorldBlocks() {}
 
     /** Se llama desde el constructor del mod para que esta clase registre sus bloques a tiempo. */

@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "tecnocinetico:dead_log",
-    "tecnocinetico:dead_planks"
+    "tecnocinetico:dead_planks",
+    "tecnocinetico:utility_pole",
+    "tecnocinetico:utility_crossarm"
   ]
 }

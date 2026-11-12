@@ -598,5 +598,11 @@
   "subtitles.tecnocinetico.drill.sputter": "Drill runs dry",
   "generator.tecnocinetico.post_apocalyptic": "Post-Apocalyptic",
   "generator.tecnocinetico.post_apocalyptic_large_biomes": "Post-Apocalyptic (Large Biomes)",
-  "generator.tecnocinetico.post_apocalyptic_amplified": "Post-Apocalyptic (Amplified)"
+  "generator.tecnocinetico.post_apocalyptic_amplified": "Post-Apocalyptic (Amplified)",
+  "block.tecnocinetico.street_lamp_pole": "Street Lamp Pole",
+  "block.tecnocinetico.street_lamp_head": "Street Lamp Head",
+  "block.tecnocinetico.street_lamp_bent": "Bent Street Lamp",
+  "block.tecnocinetico.utility_pole": "Utility Pole",
+  "block.tecnocinetico.utility_crossarm": "Utility Pole Crossarm",
+  "block.tecnocinetico.power_cable": "Power Cable"
 }
