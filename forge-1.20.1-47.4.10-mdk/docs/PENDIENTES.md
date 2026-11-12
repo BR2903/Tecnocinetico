@@ -59,3 +59,9 @@
 ## ~~Bloqueo de compilación reportado por Bryan (2026-11-11, para Claude)~~ — RESUELTO (2026-11-12)
 - Resuelto: era la integración de los sonidos del taladro a medias (la sesión se cortó a mitad). Registrados en `ModSounds` y `sounds.json`; compila y pasan las pruebas.
 - Nota original: `compileJava` falla en `client/DrillSounds.java:90,103,104`: usa `ModSounds.DRILL_REV`, `DRILL_IDLE` y `DRILL_LOOP`, pero no existen en `sound/ModSounds.java`. El cliente y los audios `sounds/drill/` est?n sin seguimiento: parece una integraci?n todav?a incompleta. Completar los tres registros y sus entradas en `sounds.json` apuntando a los OGG adecuados; comprobar despu?s `compileJava` y `runGameTestServer`. Codex solo diagnostic?; no modific? Java ni los sonidos. El aviso de Gradle 9 no causa este fallo.
+
+## Pendiente de revisión del usuario en el juego (2026-11-12)
+Bryan lo probará más adelante; no dar por aprobado hasta entonces.
+- **Taladro de Combustión**: encuadre en primera/tercera persona, animaciones (taladrar sin golpe de brazo, vibración, giro de la broca, repostaje de 1,5 s) y **sonidos** (ralentí, taladrado, arranque, mordisco, repostaje, ahogo; volumen y si el bucle se nota).
+- **Munición en paquetes y cargadores**: modelos de Codex, llenar con R, recarga de cada arma desde su cargador, revólver con 1 paquete, escopetas con paquetes abiertos, cinta y cajas de minigun/ametralladora, recetas de pólvora (mesa, Refinador, Laboratorio). Confirmar la interpretación de "francotiradores con las mismas balas y cargadores" (Rifle de Riel = Balas de Rifle + Peine; Balas de Riel obsoletas).
+- **Nether parte 2**: Ácaro de Escoria, Centinela de Ceniza, mobs vanilla remodelados (solo en el Nether), todos los piglins armados.
