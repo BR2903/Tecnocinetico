@@ -70,7 +70,7 @@ Texturas 16×16 o 32×32 (potencia de 2), estilo coherente con el mod.
 ## Enfoque técnico (Forge 1.20.1)
 
 1. **Biomas** como JSON de datos: `data/tecnocinetico/worldgen/biome/*.json` (clima, efectos, spawns, features).
-2. **Sustituir el Overworld**: sobrescribir el preset de mundo `data/minecraft/worldgen/world_preset/normal.json` (y `large_biomes`, `amplified`) para usar un generador con:
+2. **Overworld post-apocalíptico**: tipos de mundo propios `tecnocinetico:post_apocalyptic` (y `_large_biomes`, `_amplified`; desde 2026-11-12 ya no se sobrescriben los vanilla) con un generador con:
    - **fuente de biomas multi-noise propia**: la lista de puntos climáticos de vanilla (`OverworldBiomeBuilder`) con cada bioma vanilla **reasignado** a su sustituto de la tabla. Se genera con un pequeño programa de *datagen* en Java que recorre `OverworldBiomeBuilder.addBiomes()` y aplica el mapa → JSON.
    - **noise_settings propios** (`data/tecnocinetico/worldgen/noise_settings/overworld.json`): copia de vanilla con **reglas de superficie** nuevas (hormigón, ceniza, vidrio, grava con chatarra…).
 3. **Estructuras vanilla**: desaparecen solas porque dependen de tags de bioma (`#minecraft:has_structure/village_*`…) en los que nuestros biomas no estarán. Excepción: **stronghold** (añadir nuestros biomas a su tag).

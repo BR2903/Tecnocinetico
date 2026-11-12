@@ -19,8 +19,9 @@ import net.minecraftforge.registries.RegistryObject;
 
 /**
  * Registro del generador del Overworld: el tipo de fuente de biomas "tecnocinetico:remapped" y los
- * ajustes de ruido (copias de los vanilla con nuestras reglas de superficie). Los presets de mundo
- * vanilla (data/minecraft/worldgen/world_preset) se sobrescriben para usarlos.
+ * ajustes de ruido (copias de los vanilla con nuestras reglas de superficie). Los usan los tipos de mundo propios
+ * del mod (data/tecnocinetico/worldgen/world_preset/post_apocalyptic*.json, en la lista de "Tipo de mundo" por la
+ * etiqueta data/minecraft/tags/worldgen/world_preset/normal.json); los tipos de mundo vanilla quedan intactos.
  */
 public final class ModWorldgen {
 

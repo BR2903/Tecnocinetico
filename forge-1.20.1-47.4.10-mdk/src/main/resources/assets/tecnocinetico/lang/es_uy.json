@@ -595,5 +595,8 @@
   "subtitles.tecnocinetico.drill.bite": "La broca muerde la roca",
   "subtitles.tecnocinetico.drill.refuel": "Repostando gasolina",
   "subtitles.tecnocinetico.drill.refuel_end": "Tapón cerrado",
-  "subtitles.tecnocinetico.drill.sputter": "Taladro sin gasolina"
+  "subtitles.tecnocinetico.drill.sputter": "Taladro sin gasolina",
+  "generator.tecnocinetico.post_apocalyptic": "Postapocalíptico",
+  "generator.tecnocinetico.post_apocalyptic_large_biomes": "Postapocalíptico (biomas grandes)",
+  "generator.tecnocinetico.post_apocalyptic_amplified": "Postapocalíptico (amplificado)"
 }

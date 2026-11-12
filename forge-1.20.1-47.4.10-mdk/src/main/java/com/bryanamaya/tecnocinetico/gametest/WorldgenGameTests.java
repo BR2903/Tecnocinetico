@@ -358,4 +358,28 @@ public class WorldgenGameTests {
             Tecnocinetico.LOGGER.warn("[GameTest] no se pudo volcar {}", name, e);
         }
     }
+
+    /**
+     * Tipos de mundo propios: los tres existen, salen en la lista de "Tipo de mundo" (etiqueta normal) y su Overworld
+     * usa los biomas del mod; los tipos vanilla siguen siendo vanilla (compatibilidad con otros mods de terreno).
+     */
+    @GameTest(template = "empty", batch = "tipos_de_mundo")
+    public static void worldPresets(GameTestHelper h) {
+        var presets = h.getLevel().registryAccess().registryOrThrow(Registries.WORLD_PRESET);
+        var tag = net.minecraft.tags.TagKey.create(Registries.WORLD_PRESET, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("minecraft", "normal"));
+        for (String id : new String[]{"post_apocalyptic", "post_apocalyptic_large_biomes", "post_apocalyptic_amplified"}) {
+            var key = net.minecraft.resources.ResourceKey.create(Registries.WORLD_PRESET,
+                    net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, id));
+            var preset = presets.getHolder(key);
+            h.assertTrue(preset.isPresent(), "Falta el tipo de mundo " + id);
+            h.assertTrue(preset.get().is(tag), "El tipo de mundo " + id + " no sale en la pantalla de crear mundo");
+            var overworld = preset.get().value().overworld().orElseThrow();
+            h.assertTrue(overworld.generator().getBiomeSource() instanceof com.bryanamaya.tecnocinetico.worldgen.RemappedBiomeSource,
+                    "El Overworld de " + id + " no usa los biomas del mod");
+        }
+        var vanilla = presets.getOrThrow(net.minecraft.world.level.levelgen.presets.WorldPresets.NORMAL).overworld().orElseThrow();
+        h.assertFalse(vanilla.generator().getBiomeSource() instanceof com.bryanamaya.tecnocinetico.worldgen.RemappedBiomeSource,
+                "El tipo de mundo vanilla sigue sobrescrito");
+        h.succeed();
+    }
 }

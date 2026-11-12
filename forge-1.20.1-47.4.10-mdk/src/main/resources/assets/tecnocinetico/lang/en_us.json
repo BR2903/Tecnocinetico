@@ -595,5 +595,8 @@
   "subtitles.tecnocinetico.drill.bite": "Drill bit bites rock",
   "subtitles.tecnocinetico.drill.refuel": "Refueling",
   "subtitles.tecnocinetico.drill.refuel_end": "Fuel cap closes",
-  "subtitles.tecnocinetico.drill.sputter": "Drill runs dry"
+  "subtitles.tecnocinetico.drill.sputter": "Drill runs dry",
+  "generator.tecnocinetico.post_apocalyptic": "Post-Apocalyptic",
+  "generator.tecnocinetico.post_apocalyptic_large_biomes": "Post-Apocalyptic (Large Biomes)",
+  "generator.tecnocinetico.post_apocalyptic_amplified": "Post-Apocalyptic (Amplified)"
 }

@@ -94,7 +94,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `RemappedBiomeSource` (tipo `tecnocinetico:remapped`, registrado en `ModWorldgen`): envuelve la fuente multi-ruido vanilla y sustituye cada bioma → mismo relieve vanilla, biomas nuevos.
 - `ModSurfaceRules`: reglas propias (parches de asfalto, ceniza, arena vitrificada, escombros...) + las reglas vanilla con sus condiciones de bioma traducidas (serializa a JSON, cambia `biome_is`, vuelve a leer).
 - `ModWorldgen`: ajustes de ruido `tecnocinetico:overworld|large_biomes|amplified` (vanilla + nuestras superficies).
-- Presets sobrescritos a mano: `data/minecraft/worldgen/world_preset/{normal,large_biomes,amplified}.json`.
+- Tipos de mundo propios (no se tocan los vanilla, por compatibilidad con otros mods de terreno): `data/tecnocinetico/worldgen/world_preset/post_apocalyptic{,_large_biomes,_amplified}.json`, listados en la pantalla de crear mundo por `data/minecraft/tags/worldgen/world_preset/normal.json`. Servidor dedicado: `level-type=tecnocinetico:post_apocalyptic` en `server.properties`.
 - `datagen/ModDataGenerators`: `gradlew runData` escribe biomas, ruido y etiquetas de biomas en `src/generated/resources` (**se sube a git**; volver a ejecutarlo tras tocar `worldgen/`).
 - Etiquetas: todos en `#minecraft:is_overworld` (minerales del mod/Create, Cuerpo de Enjambre, fortalezas), minas abandonadas, y algunas de comportamiento. **No** se añaden a `is_forest`, `is_ocean`, etc. a propósito: esas etiquetas activan estructuras vanilla (naufragios, templos, portales en ruinas...).
 
