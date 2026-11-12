@@ -1,0 +1,17 @@
+{
+  "type": "forge:remove_features",
+  "biomes": [
+    "tecnocinetico:dead_megacity",
+    "tecnocinetico:scrap_meadows",
+    "tecnocinetico:ash_taiga",
+    "tecnocinetico:fractured_lands",
+    "tecnocinetico:ruined_tundra"
+  ],
+  "features": [
+    "minecraft:trees_plains",
+    "minecraft:trees_taiga",
+    "minecraft:trees_windswept_hills",
+    "minecraft:trees_snowy"
+  ],
+  "steps": "vegetal_decoration"
+}

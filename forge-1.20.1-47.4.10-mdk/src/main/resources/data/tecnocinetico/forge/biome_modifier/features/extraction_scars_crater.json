@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:extraction_scars",
+  "features": [
+    "tecnocinetico:extraction_scars/crater_scorched"
+  ],
+  "step": "local_modifications"
+}

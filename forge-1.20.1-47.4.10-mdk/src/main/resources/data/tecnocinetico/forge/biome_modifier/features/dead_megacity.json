@@ -4,7 +4,8 @@
   "features": [
     "tecnocinetico:dead_megacity/rubble_piles",
     "tecnocinetico:dead_megacity/debris_bits",
-    "tecnocinetico:dead_megacity/scrap_piles"
+    "tecnocinetico:dead_megacity/scrap_piles",
+    "tecnocinetico:dead_megacity/dead_bushes"
   ],
   "step": "vegetal_decoration"
 }

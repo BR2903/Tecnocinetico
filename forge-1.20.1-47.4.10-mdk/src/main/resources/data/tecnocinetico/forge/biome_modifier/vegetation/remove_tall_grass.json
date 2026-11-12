@@ -1,0 +1,12 @@
+{
+  "type": "forge:remove_features",
+  "biomes": [
+    "tecnocinetico:dead_megacity",
+    "tecnocinetico:scrap_meadows"
+  ],
+  "features": [
+    "minecraft:patch_tall_grass_2",
+    "minecraft:patch_sugar_cane"
+  ],
+  "steps": "vegetal_decoration"
+}

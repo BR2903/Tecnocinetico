@@ -1,4 +1,4 @@
-// 1.20.1	2026-11-07T17:30:14.7589561	Registries
+// 1.20.1	2026-11-12T15:10:33.6918976	Registries
 96c1ca67d76f5868fb8bc74ad69377eb22985908 data/tecnocinetico/worldgen/biome/antenna_peaks.json
 c0c280f7a7ed46c152dcc458c8e12abb6d0ce9b9 data/tecnocinetico/worldgen/biome/ash_taiga.json
 3cfb25bb57df5fe0be59d288eae93004c3334c73 data/tecnocinetico/worldgen/biome/cinetrite_caves.json
@@ -18,6 +18,6 @@ c5e86422273ff4352fd8044f872c857f9dda1c65 data/tecnocinetico/worldgen/biome/overg
 8672c2eec82fbefa91094b30bdf9193ca57a998c data/tecnocinetico/worldgen/biome/scrap_coast.json
 8e634d8c511d805878a37487143da315d070b232 data/tecnocinetico/worldgen/biome/scrap_meadows.json
 c5a9ce220583e41a34b0336dac66810b2b0c0267 data/tecnocinetico/worldgen/biome/vitrified_desert.json
-b441610651d37ad685d818df64f3dfad8a209914 data/tecnocinetico/worldgen/noise_settings/amplified.json
-2272a880b3263dbdf9eb180a0faa15b80553c8e8 data/tecnocinetico/worldgen/noise_settings/large_biomes.json
-78ced45b6a133258a47ce7b1735f3051686b90e3 data/tecnocinetico/worldgen/noise_settings/overworld.json
+309b318b64eeaa8a1ac34bf46caab15b1ec79f5a data/tecnocinetico/worldgen/noise_settings/amplified.json
+a6bd448506a245916a841ec476ec937a14739c88 data/tecnocinetico/worldgen/noise_settings/large_biomes.json
+98ebfe847e20087145db9ac38e678a9d083524d8 data/tecnocinetico/worldgen/noise_settings/overworld.json

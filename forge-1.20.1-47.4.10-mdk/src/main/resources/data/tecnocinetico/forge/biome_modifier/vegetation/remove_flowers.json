@@ -1,0 +1,32 @@
+{
+  "type": "forge:remove_features",
+  "biomes": [
+    "tecnocinetico:dead_megacity",
+    "tecnocinetico:scrap_meadows",
+    "tecnocinetico:ash_taiga",
+    "tecnocinetico:fractured_lands",
+    "tecnocinetico:ruined_tundra",
+    "tecnocinetico:overgrown_ruins",
+    "tecnocinetico:industrial_jungle",
+    "tecnocinetico:coolant_swamp",
+    "tecnocinetico:scrap_coast",
+    "tecnocinetico:vitrified_desert",
+    "tecnocinetico:extraction_scars",
+    "tecnocinetico:debris_sea",
+    "tecnocinetico:deep_debris_sea",
+    "tecnocinetico:frozen_debris_sea",
+    "tecnocinetico:polluted_river"
+  ],
+  "features": [
+    "minecraft:flower_plains",
+    "minecraft:flower_default",
+    "minecraft:forest_flowers",
+    "minecraft:flower_warm",
+    "minecraft:flower_swamp",
+    "minecraft:patch_pumpkin",
+    "minecraft:patch_berry_common",
+    "minecraft:patch_melon",
+    "minecraft:patch_large_fern"
+  ],
+  "steps": "vegetal_decoration"
+}

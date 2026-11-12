@@ -64,8 +64,10 @@ public final class ModBiomes {
         map(OVERGROWN_RUINS, Biomes.FOREST, Biomes.FLOWER_FOREST, Biomes.BIRCH_FOREST, Biomes.OLD_GROWTH_BIRCH_FOREST,
                 Biomes.DARK_FOREST, Biomes.MEADOW, Biomes.CHERRY_GROVE);
         map(INDUSTRIAL_JUNGLE, Biomes.JUNGLE, Biomes.SPARSE_JUNGLE, Biomes.BAMBOO_JUNGLE);
-        map(SCRAP_MEADOWS, Biomes.PLAINS, Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.MUSHROOM_FIELDS);
-        map(DEAD_MEGACITY, Biomes.SUNFLOWER_PLAINS, Biomes.WINDSWEPT_SAVANNA);
+        // 2026-11-12: las llanuras (bioma muy común) son ahora ciudad muerta; antes solo lo eran las raras de girasoles
+        map(SCRAP_MEADOWS, Biomes.SUNFLOWER_PLAINS, Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.MUSHROOM_FIELDS,
+                Biomes.WINDSWEPT_SAVANNA);
+        map(DEAD_MEGACITY, Biomes.PLAINS);
         map(ASH_TAIGA, Biomes.TAIGA, Biomes.OLD_GROWTH_PINE_TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA);
         map(COOLANT_SWAMP, Biomes.SWAMP, Biomes.MANGROVE_SWAMP);
         map(EXTRACTION_SCARS, Biomes.BADLANDS, Biomes.ERODED_BADLANDS, Biomes.WOODED_BADLANDS);

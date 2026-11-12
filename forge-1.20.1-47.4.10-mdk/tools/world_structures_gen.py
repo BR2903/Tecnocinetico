@@ -76,13 +76,14 @@ def main():
     generate()
     # ------------------------------------------------ edificios en ruinas
     structure("ruined_building_megacity", "ruined_building", ["dead_megacity"],
-              {"floors": uniform(2, 6), "width": uniform(7, 13), "style": "urban"}, 9, 3, 74120931, avoid="survivor_settlement")
-    structure("ruined_building_urban", "ruined_building", ["scrap_meadows", "fractured_lands", "ash_taiga"],
-              {"floors": uniform(1, 3), "width": uniform(7, 11), "style": "urban"}, 28, 10, 74120932, avoid="survivor_settlement")
+              {"floors": uniform(2, 7), "width": uniform(7, 13), "style": "urban"}, 4, 1, 74120931, avoid="survivor_settlement")
+    structure("ruined_building_urban", "ruined_building", ["scrap_meadows", "fractured_lands", "ash_taiga", "vitrified_desert",
+                                                            "scrap_coast", "extraction_scars", "coolant_swamp"],
+              {"floors": uniform(1, 3), "width": uniform(7, 11), "style": "urban"}, 10, 3, 74120932, avoid="survivor_settlement")
     structure("ruined_building_overgrown", "ruined_building", ["overgrown_ruins", "industrial_jungle"],
-              {"floors": uniform(1, 3), "width": uniform(7, 11), "style": "overgrown"}, 20, 7, 74120933, avoid="survivor_settlement")
+              {"floors": uniform(1, 3), "width": uniform(7, 11), "style": "overgrown"}, 8, 3, 74120933, avoid="survivor_settlement")
     structure("ruined_building_frozen", "ruined_building", ["ruined_tundra"],
-              {"floors": uniform(1, 2), "width": uniform(6, 10), "style": "frozen"}, 24, 8, 74120934, avoid="survivor_settlement")
+              {"floors": uniform(1, 2), "width": uniform(6, 10), "style": "frozen"}, 12, 4, 74120934, avoid="survivor_settlement")
 
     # botín: sobre todo chatarra y materiales comunes; las piezas del mod son raras (mod difícil)
     chest("ruined_building", [

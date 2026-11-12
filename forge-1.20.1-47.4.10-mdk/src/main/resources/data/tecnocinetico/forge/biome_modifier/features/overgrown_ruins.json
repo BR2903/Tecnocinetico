@@ -3,7 +3,8 @@
   "biomes": "tecnocinetico:overgrown_ruins",
   "features": [
     "tecnocinetico:overgrown_ruins/rubble_piles",
-    "tecnocinetico:overgrown_ruins/debris_bits"
+    "tecnocinetico:overgrown_ruins/debris_bits",
+    "tecnocinetico:overgrown_ruins/dead_tree"
   ],
   "step": "vegetal_decoration"
 }

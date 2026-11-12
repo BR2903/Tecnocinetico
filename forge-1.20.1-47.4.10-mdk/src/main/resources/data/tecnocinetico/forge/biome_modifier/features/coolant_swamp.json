@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:coolant_swamp",
+  "features": [
+    "tecnocinetico:coolant_swamp/rubble_piles",
+    "tecnocinetico:coolant_swamp/scrap_piles",
+    "tecnocinetico:coolant_swamp/dead_tree"
+  ],
+  "step": "vegetal_decoration"
+}

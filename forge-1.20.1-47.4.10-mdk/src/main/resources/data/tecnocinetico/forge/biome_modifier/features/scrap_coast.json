@@ -3,7 +3,8 @@
   "biomes": "tecnocinetico:scrap_coast",
   "features": [
     "tecnocinetico:scrap_coast/scrap_piles",
-    "tecnocinetico:scrap_coast/rubble_piles"
+    "tecnocinetico:scrap_coast/rubble_piles",
+    "tecnocinetico:scrap_coast/debris_bits"
   ],
   "step": "vegetal_decoration"
 }

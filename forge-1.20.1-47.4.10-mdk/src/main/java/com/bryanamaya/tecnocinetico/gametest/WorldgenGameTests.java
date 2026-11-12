@@ -382,4 +382,30 @@ public class WorldgenGameTests {
                 "El tipo de mundo vanilla sigue sobrescrito");
         h.succeed();
     }
+
+    /**
+     * Mundo arrasado (2026-11-12): los modificadores de bioma quitan árboles y flores vanilla de los biomas abiertos y
+     * ponen árboles vivos ralos; el bosque conserva sus árboles pero pierde las flores; las llanuras son ciudad muerta.
+     */
+    @GameTest(template = "empty", batch = "tipos_de_mundo")
+    public static void wastelandVegetation(GameTestHelper h) {
+        var biomes = h.getLevel().registryAccess().registryOrThrow(Registries.BIOME);
+        java.util.function.BiFunction<net.minecraft.resources.ResourceKey<net.minecraft.world.level.biome.Biome>, String, Boolean> has = (b, id) ->
+                biomes.getOrThrow(b).getGenerationSettings().features().stream().flatMap(net.minecraft.core.HolderSet::stream)
+                        .anyMatch(f -> f.unwrapKey().map(k -> k.location().toString().equals(id)).orElse(false));
+        var meadows = com.bryanamaya.tecnocinetico.worldgen.ModBiomes.SCRAP_MEADOWS;
+        var forest = com.bryanamaya.tecnocinetico.worldgen.ModBiomes.OVERGROWN_RUINS;
+        var city = com.bryanamaya.tecnocinetico.worldgen.ModBiomes.DEAD_MEGACITY;
+        h.assertFalse(has.apply(meadows, "minecraft:trees_plains") || has.apply(meadows, "minecraft:flower_plains"),
+                "Las Praderas de Chatarra siguen con árboles o flores vanilla");
+        h.assertTrue(has.apply(meadows, "tecnocinetico:vegetation/sickly_oak_meadows") && has.apply(meadows, "tecnocinetico:scrap_meadows/dead_tree"),
+                "Las Praderas de Chatarra no tienen la mezcla de árboles vivos ralos y muertos");
+        h.assertTrue(has.apply(forest, "minecraft:trees_birch_and_oak") && !has.apply(forest, "minecraft:forest_flowers")
+                && has.apply(forest, "tecnocinetico:overgrown_ruins/dead_tree"), "Ruinas Invadidas: árboles vivos + muertos y sin flores");
+        h.assertFalse(has.apply(city, "minecraft:trees_plains") || has.apply(city, "minecraft:patch_grass_plain"),
+                "La Megaciudad Muerta tiene vegetación vanilla");
+        h.assertTrue(com.bryanamaya.tecnocinetico.worldgen.ModBiomes.VANILLA_TO_MOD.get(net.minecraft.world.level.biome.Biomes.PLAINS) == city,
+                "Las llanuras no son la Megaciudad Muerta");
+        h.succeed();
+    }
 }

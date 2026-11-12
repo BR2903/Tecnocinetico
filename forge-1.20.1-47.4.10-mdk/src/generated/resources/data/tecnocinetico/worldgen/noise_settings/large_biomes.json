@@ -1983,7 +1983,7 @@
                               "if_true": {
                                 "type": "minecraft:biome",
                                 "biome_is": [
-                                  "tecnocinetico:dead_megacity"
+                                  "tecnocinetico:scrap_meadows"
                                 ]
                               },
                               "then_run": {
@@ -2756,7 +2756,7 @@
                               "if_true": {
                                 "type": "minecraft:biome",
                                 "biome_is": [
-                                  "tecnocinetico:dead_megacity"
+                                  "tecnocinetico:scrap_meadows"
                                 ]
                               },
                               "then_run": {

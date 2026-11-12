@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:ruined_tundra",
+  "features": [
+    "tecnocinetico:vegetation/sickly_spruce_tundra"
+  ],
+  "step": "vegetal_decoration"
+}

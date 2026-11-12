@@ -2,6 +2,10 @@
   "values": [
     "tecnocinetico:scrap_meadows",
     "tecnocinetico:fractured_lands",
-    "tecnocinetico:ash_taiga"
+    "tecnocinetico:ash_taiga",
+    "tecnocinetico:vitrified_desert",
+    "tecnocinetico:scrap_coast",
+    "tecnocinetico:extraction_scars",
+    "tecnocinetico:coolant_swamp"
   ]
 }

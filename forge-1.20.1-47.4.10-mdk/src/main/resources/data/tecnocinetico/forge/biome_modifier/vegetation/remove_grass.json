@@ -1,0 +1,8 @@
+{
+  "type": "forge:remove_features",
+  "biomes": "tecnocinetico:dead_megacity",
+  "features": [
+    "minecraft:patch_grass_plain"
+  ],
+  "steps": "vegetal_decoration"
+}

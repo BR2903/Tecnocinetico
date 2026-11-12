@@ -5,7 +5,8 @@
     "tecnocinetico:scrap_meadows/rubble_piles",
     "tecnocinetico:scrap_meadows/debris_bits",
     "tecnocinetico:scrap_meadows/scrap_piles",
-    "tecnocinetico:scrap_meadows/dead_tree"
+    "tecnocinetico:scrap_meadows/dead_tree",
+    "tecnocinetico:scrap_meadows/dead_bushes"
   ],
   "step": "vegetal_decoration"
 }

@@ -7,8 +7,8 @@
   ],
   "placement": {
     "type": "minecraft:random_spread",
-    "spacing": 24,
-    "separation": 8,
+    "spacing": 12,
+    "separation": 4,
     "salt": 74120934,
     "exclusion_zone": {
       "other_set": "tecnocinetico:survivor_settlement",

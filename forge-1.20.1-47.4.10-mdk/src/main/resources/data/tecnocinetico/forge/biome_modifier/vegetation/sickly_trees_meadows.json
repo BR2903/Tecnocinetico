@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "tecnocinetico:scrap_meadows",
+  "features": [
+    "tecnocinetico:vegetation/sickly_oak_meadows",
+    "tecnocinetico:vegetation/sickly_birch_meadows"
+  ],
+  "step": "vegetal_decoration"
+}

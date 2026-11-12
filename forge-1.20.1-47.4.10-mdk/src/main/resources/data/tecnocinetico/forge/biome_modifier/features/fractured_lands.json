@@ -3,7 +3,8 @@
   "biomes": "tecnocinetico:fractured_lands",
   "features": [
     "tecnocinetico:fractured_lands/rubble_piles",
-    "tecnocinetico:fractured_lands/dead_tree"
+    "tecnocinetico:fractured_lands/dead_tree",
+    "tecnocinetico:fractured_lands/dead_bushes"
   ],
   "step": "vegetal_decoration"
 }

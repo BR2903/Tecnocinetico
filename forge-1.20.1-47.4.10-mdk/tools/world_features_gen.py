@@ -68,6 +68,27 @@ def modifier(name, biomes, features, step="vegetal_decoration"):
         "features": [rl(f) for f in features], "step": step})
 
 
+def remove(name, biomes, features, step="vegetal_decoration"):
+    """Quita features vanilla de los biomas del mod (forge:remove_features)."""
+    write(DATA / NS / "forge/biome_modifier" / f"{name}.json", {
+        "type": "forge:remove_features", "biomes": [rl(b) for b in biomes] if len(biomes) > 1 else rl(biomes[0]),
+        "features": [f if ":" in f else "minecraft:" + f for f in features], "steps": step})
+
+
+def sickly_tree(name, tree, sapling, per_chunk=None, rarity=None):
+    """Árbol vivo suelto (configurado vanilla: minecraft:oak, spruce, birch) donde sobreviviría su brote."""
+    mods = []
+    if rarity:
+        mods.append({"type": "minecraft:rarity_filter", "chance": rarity})
+    if per_chunk:
+        mods.append({"type": "minecraft:count", "count": per_chunk})
+    mods += [{"type": "minecraft:in_square"}, {"type": "minecraft:surface_water_depth_filter", "max_water_depth": 0},
+             {"type": "minecraft:heightmap", "heightmap": "OCEAN_FLOOR"}, {"type": "minecraft:biome"},
+             {"type": "minecraft:block_predicate_filter", "predicate": {"type": "minecraft:would_survive",
+                                                                       "state": {"Name": sapling, "Properties": {"stage": "0"}}}}]
+    write(DATA / NS / "worldgen/placed_feature" / f"{name}.json", {"feature": tree, "placement": mods})
+
+
 def weighted(*pairs):
     """Proveedor de estados con pesos: weighted(("concrete", 3), ("minecraft:gravel", 1), ...)."""
     def st(b):
@@ -131,6 +152,8 @@ def main():
           water=True)
     patch("scrap_piles_underwater", pile_states("scrap_pile", True), state("scrap_pile", pieces=1, waterlogged=True), 8, 4,
           water=True)
+    patch("dead_bushes", {"type": "minecraft:simple_state_provider", "state": {"Name": "minecraft:dead_bush"}},
+          {"Name": "minecraft:dead_bush"}, 12, 6)
     patch("ash_layers", {"type": "minecraft:weighted_state_provider", "entries": [
         {"weight": w, "data": state("ash_layer", layers=n)} for n, w in ((1, 6), (2, 3), (3, 1))]},
         state("ash_layer", layers=1), 48, 7)
@@ -171,31 +194,36 @@ def main():
 
     # ------------------------------------------------ reparto por bioma
     # (feature, paso, por chunk, 1 de cada N chunks)
+    # Densidades subidas el 2026-11-12 (el usuario: "no parece post-apocalíptico"): restos por todas partes.
     plan = {
-        "dead_megacity": [("crater_scorched", "crater", None, 6), ("ruin_wall_concrete", "ruin", 2, None),
-                          ("rubble_piles", "veg", 3, None), ("debris_bits", "veg", 3, None), ("scrap_piles", "veg", 1, None)],
-        "scrap_meadows": [("crater_scorched", "crater", None, 8), ("ruin_wall_concrete", "ruin", None, 6),
-                          ("rubble_piles", "veg", None, 3), ("debris_bits", "veg", 1, None), ("scrap_piles", "veg", None, 2),
-                          ("dead_tree", "veg", None, 4)],
-        "scrap_coast": [("scrap_piles", "veg", 2, None), ("rubble_piles", "veg", None, 2)],
-        "overgrown_ruins": [("ruin_wall_overgrown", "ruin", None, 2), ("rubble_piles", "veg", None, 4),
-                            ("debris_bits", "veg", None, 2)],
-        "industrial_jungle": [("ruin_wall_overgrown", "ruin", 1, None), ("rubble_piles", "veg", None, 4),
-                              ("scrap_piles", "veg", None, 4)],
-        "fractured_lands": [("crater_ash", "crater", None, 3), ("rubble_piles", "veg", None, 3),
-                            ("dead_tree", "veg", None, 2), ("ash_layers", "top", 3, None)],
-        "ruined_tundra": [("ruin_wall_frozen", "ruin", None, 3), ("rubble_piles", "veg", None, 4),
-                          ("debris_bits", "veg", None, 3)],
-        "ash_taiga": [("crater_ash", "crater", None, 10), ("scrap_piles", "veg", None, 5), ("dead_tree", "veg", 2, None),
+        "dead_megacity": [("crater_scorched", "crater", None, 4), ("ruin_wall_concrete", "ruin", 3, None),
+                          ("rubble_piles", "veg", 4, None), ("debris_bits", "veg", 4, None), ("scrap_piles", "veg", 2, None),
+                          ("dead_bushes", "veg", 2, None)],
+        "scrap_meadows": [("crater_scorched", "crater", None, 5), ("ruin_wall_concrete", "ruin", None, 2),
+                          ("rubble_piles", "veg", 1, None), ("debris_bits", "veg", 2, None), ("scrap_piles", "veg", None, 2),
+                          ("dead_tree", "veg", 1, None), ("dead_bushes", "veg", 2, None)],
+        "scrap_coast": [("scrap_piles", "veg", 3, None), ("rubble_piles", "veg", 1, None), ("debris_bits", "veg", 1, None)],
+        "overgrown_ruins": [("ruin_wall_overgrown", "ruin", 1, None), ("rubble_piles", "veg", None, 2),
+                            ("debris_bits", "veg", 1, None), ("dead_tree", "veg", 2, None)],
+        "industrial_jungle": [("ruin_wall_overgrown", "ruin", 2, None), ("rubble_piles", "veg", None, 2),
+                              ("scrap_piles", "veg", None, 2)],
+        "fractured_lands": [("crater_ash", "crater", None, 2), ("rubble_piles", "veg", None, 2),
+                            ("dead_tree", "veg", 2, None), ("ash_layers", "top", 3, None), ("dead_bushes", "veg", 1, None)],
+        "ruined_tundra": [("ruin_wall_frozen", "ruin", None, 2), ("rubble_piles", "veg", None, 2),
+                          ("debris_bits", "veg", None, 2), ("dead_tree", "veg", None, 2)],
+        "ash_taiga": [("crater_ash", "crater", None, 6), ("scrap_piles", "veg", None, 3), ("dead_tree", "veg", 4, None),
                       ("ash_layers", "top", 6, None)],
-        "vitrified_desert": [("crater_vitrified", "crater", None, 4), ("scrap_piles", "veg", None, 4),
-                             ("dead_tree_short", "veg", None, 8)],
+        "vitrified_desert": [("crater_vitrified", "crater", None, 3), ("scrap_piles", "veg", None, 3),
+                             ("dead_tree_short", "veg", None, 4)],
+        "extraction_scars": [("crater_scorched", "crater", None, 4), ("scrap_piles", "veg", None, 3),
+                             ("rubble_piles", "veg", None, 2)],
+        "coolant_swamp": [("rubble_piles", "veg", None, 3), ("scrap_piles", "veg", None, 3), ("dead_tree", "veg", None, 2)],
     }
     for biome, entries in plan.items():
         by_step = {}
         for feature, step, count, rarity in entries:
             n = f"{biome}/{feature}"
-            if feature in ("rubble_piles", "scrap_piles", "debris_bits", "ash_layers"):
+            if feature in ("rubble_piles", "scrap_piles", "debris_bits", "ash_layers", "dead_bushes"):
                 placed(n, feature, per_chunk=count, rarity=rarity)
             else:
                 placed_custom(n, feature, surface_mods(count, rarity))
@@ -203,6 +231,29 @@ def main():
         for step, names in by_step.items():
             name = f"features/{biome}" if step == "veg" else f"features/{biome}_{step}"
             modifier(name, [biome], names, STEPS[step])
+
+    # ------------------------------------------------ vegetación "mitad y mitad" (usuario, 2026-11-12)
+    # Se quitan los árboles vanilla de los biomas abiertos y se ponen árboles vivos ralos junto a los muertos
+    # (de "plan"). Bosque, jungla y pantano conservan sus árboles (la naturaleza se comió la ciudad) pero con
+    # árboles muertos mezclados. Flores, calabazas y bayas desaparecen casi en todas partes.
+    remove("vegetation/remove_trees", ["dead_megacity", "scrap_meadows", "ash_taiga", "fractured_lands", "ruined_tundra"],
+           ["trees_plains", "trees_taiga", "trees_windswept_hills", "trees_snowy"])
+    remove("vegetation/remove_flowers", ["dead_megacity", "scrap_meadows", "ash_taiga", "fractured_lands", "ruined_tundra",
+                                         "overgrown_ruins", "industrial_jungle", "coolant_swamp", "scrap_coast", "vitrified_desert",
+                                         "extraction_scars", "debris_sea", "deep_debris_sea", "frozen_debris_sea", "polluted_river"],
+           ["flower_plains", "flower_default", "forest_flowers", "flower_warm", "flower_swamp", "patch_pumpkin",
+            "patch_berry_common", "patch_melon", "patch_large_fern"])
+    remove("vegetation/remove_tall_grass", ["dead_megacity", "scrap_meadows"], ["patch_tall_grass_2", "patch_sugar_cane"])
+    remove("vegetation/remove_grass", ["dead_megacity"], ["patch_grass_plain"])
+    sickly_tree("vegetation/sickly_oak_meadows", "minecraft:oak", "minecraft:oak_sapling", rarity=3)
+    sickly_tree("vegetation/sickly_birch_meadows", "minecraft:birch", "minecraft:birch_sapling", rarity=6)
+    sickly_tree("vegetation/sickly_spruce_taiga", "minecraft:spruce", "minecraft:spruce_sapling", per_chunk=3)
+    sickly_tree("vegetation/sickly_spruce_hills", "minecraft:spruce", "minecraft:spruce_sapling", per_chunk=1)
+    sickly_tree("vegetation/sickly_spruce_tundra", "minecraft:spruce", "minecraft:spruce_sapling", rarity=3)
+    modifier("vegetation/sickly_trees_meadows", ["scrap_meadows"], ["vegetation/sickly_oak_meadows", "vegetation/sickly_birch_meadows"])
+    modifier("vegetation/sickly_trees_taiga", ["ash_taiga"], ["vegetation/sickly_spruce_taiga"])
+    modifier("vegetation/sickly_trees_hills", ["fractured_lands"], ["vegetation/sickly_spruce_hills"])
+    modifier("vegetation/sickly_trees_tundra", ["ruined_tundra"], ["vegetation/sickly_spruce_tundra"])
 
     # mares y río: un único modifier con el mismo orden para todos
     placed("seabed/rubble_piles", "rubble_piles_underwater", per_chunk=2, water=True)
