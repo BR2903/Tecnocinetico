@@ -147,11 +147,18 @@ public class AbyssFoundryModel extends EntityModel<AbyssFoundryEntity> {
                 root.y += Mth.lerp(hit, 0.000000F*charge, 1.100000F)*weight;
                 break;
             case 3:
-                body.xRot += Mth.lerp(hit, 0.000000F*charge, 0.200000F)*weight;
-                body.yRot += Mth.lerp(hit, 0.150000F*charge, -0.120000F)*weight;
-                crucible.xRot += Mth.lerp(hit, 0.150000F*charge, 2.000000F)*weight;
-                left_arm.xRot += Mth.lerp(hit, 0.650000F*charge, -0.900000F)*weight;
-                left_elbow.xRot += Mth.lerp(hit, -0.800000F*charge, -0.400000F)*weight;
+                // lanzamiento: echa el crisol atrás y arriba (aviso), y lo descarga por encima del hombro hacia delante
+                body.xRot += Mth.lerp(hit, -0.180000F*charge, 0.300000F)*weight;
+                body.yRot += Mth.lerp(hit, 0.380000F*charge, -0.320000F)*weight;
+                body.y += Mth.lerp(hit, 0.000000F*charge, 1.400000F)*weight;
+                left_arm.xRot += Mth.lerp(hit, 1.350000F*charge, -2.650000F)*weight;
+                left_arm.zRot += Mth.lerp(hit, -0.250000F*charge, 0.100000F)*weight;
+                left_elbow.xRot += Mth.lerp(hit, -1.050000F*charge, -0.150000F)*weight;
+                crucible.xRot += Mth.lerp(hit, -0.350000F*charge, 2.300000F)*weight;
+                right_arm.xRot += Mth.lerp(hit, -0.400000F*charge, 0.450000F)*weight;   // contrapeso
+                left_leg.xRot += Mth.lerp(hit, 0.250000F*charge, -0.550000F)*weight;    // paso adelante al lanzar
+                left_knee.xRot += Mth.lerp(hit, 0.200000F*charge, 0.450000F)*weight;
+                right_leg.xRot += Mth.lerp(hit, -0.150000F*charge, 0.250000F)*weight;
                 break;
             case 4:
                 body.xRot += Mth.lerp(hit, 0.120000F*charge, 0.300000F)*weight;

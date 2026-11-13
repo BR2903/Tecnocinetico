@@ -45,9 +45,9 @@ import java.util.List;
  * <ul>
  *   <li><b>Martillazo</b> (cerca): levanta el martillo (brazo derecho) y lo estrella delante y a su derecha.</li>
  *   <li><b>Fractura de lava</b> (media distancia): grieta recta hacia el punto fijado que suelta fuego.</li>
- *   <li><b>Escoria fundida</b>: marca 3 (5 enfadado) puntos alrededor del objetivo; caen bolas de escoria que dejan
- *       charcos ardientes unos segundos.</li>
- *   <li><b>Sobrecalentamiento</b> (cada 4.º ataque): onda de calor que atraviesa la armadura y te deja con 1 corazón (+45 de calor del Nether) y luego queda
+ *   <li><b>Escoria fundida</b>: marca 3 (5 enfadado) puntos alrededor del objetivo y lanza desde el crisol bolas de
+ *       escoria que vuelan en arco y dejan charcos ardientes unos segundos.</li>
+ *   <li><b>Sobrecalentamiento</b> (cada 4.º ataque): onda de calor muy fuerte (32 de daño, la armadura lo reduce; +45 de calor del Nether) y luego queda
  *       <b>expuesto</b> {@link #EXPOSED_TICKS} ticks recibiendo ×1,6 de daño sin atacar.</li>
  * </ul>
  * Por debajo de la mitad de vida se enfada: avisos y pausas más cortos. Multijugador: aguanta un 50 % más por cada
@@ -64,8 +64,10 @@ public class AbyssFoundryEntity extends Monster {
     public static final float EXPOSED_MULTIPLIER = 1.6F;
     /** Desplazamiento del martillazo hacia su derecha (bloques): el martillo está en el brazo derecho. */
     public static final double HAMMER_SIDE = 1.4;
-    /** Sobrecalentamiento: te deja con esta vida (1 corazón) si te alcanza; si ya tenías menos, te mata. */
-    public static final float OVERHEAT_LEAVES = 2.0F, OVERHEAT_MIN_DAMAGE = 6.0F;
+    /** Daño del sobrecalentamiento (golpe normal: la armadura lo reduce). Sin armadura buena, mata. */
+    public static final float OVERHEAT_DAMAGE = 32.0F;
+    /** Ticks que tarda en volar cada bola de escoria. */
+    public static final int SLAG_FLIGHT = 14;
 
     private static final EntityDataAccessor<Integer> ATTACK = SynchedEntityData.defineId(AbyssFoundryEntity.class, EntityDataSerializers.INT);
     /** Ticks que quedan de aviso y su total (para el progreso del aviso en el cliente). */
@@ -82,6 +84,8 @@ public class AbyssFoundryEntity extends Monster {
     private float toughness = 1.0F;
     private Vec3 lock = Vec3.ZERO;
     private final List<Vec3> targets = new ArrayList<>();
+    /** Bolas de escoria en vuelo: origen (x, y, z), destino (x, y, z), tick de vuelo (negativo = aún no sale). */
+    private final List<double[]> flights = new ArrayList<>();
     /** Charcos de escoria: x, y, z, ticks que quedan. */
     private final List<double[]> puddles = new ArrayList<>();
     /** Jugadores que le hicieron daño (para repartir el botín). */
@@ -193,6 +197,7 @@ public class AbyssFoundryEntity extends Monster {
             bar.setColor(BossEvent.BossBarColor.YELLOW);
             server.playSound(null, blockPosition(), SoundEvents.BLAZE_SHOOT, SoundSource.HOSTILE, 3.0F, 0.4F);
         }
+        tickFlights(server);
         tickPuddles(server);
         if (checkReset()) {
             return;
@@ -306,12 +311,43 @@ public class AbyssFoundryEntity extends Monster {
         }
     }
 
+    /** Lanza las bolas desde el crisol (mano izquierda, por encima del hombro); vuelan en arco y caen en los puntos marcados. */
     private void slag(ServerLevel server) {
-        server.playSound(null, blockPosition(), SoundEvents.LAVA_POP, SoundSource.HOSTILE, 3.0F, 0.6F);
+        server.playSound(null, blockPosition(), SoundEvents.BLAZE_SHOOT, SoundSource.HOSTILE, 3.0F, 0.5F);
+        Vec3 dir = targets.isEmpty() ? flat(getLookAngle()) : flat(targets.get(0).subtract(position()));
+        Vec3 left = new Vec3(dir.z, 0, -dir.x);
+        Vec3 hand = position().add(0, 5.5, 0).add(left.scale(1.6)).add(dir.scale(1.0));
+        int i = 0;
         for (Vec3 p : targets) {
-            server.sendParticles(ParticleTypes.LAVA, p.x, p.y + 0.5, p.z, 12, 0.8, 0.3, 0.8, 0.1);
-            hurtArea(server, p, 2.5, 22.0F, 0.4, 6);
-            puddles.add(new double[]{p.x, p.y, p.z, 100});
+            flights.add(new double[]{hand.x, hand.y, hand.z, p.x, p.y, p.z, -2 * i++});
+        }
+    }
+
+    /** Vuelo de las bolas de escoria (rastro de fuego y humo) y su impacto: daño, fuego y charco. */
+    private void tickFlights(ServerLevel server) {
+        var it = flights.iterator();
+        while (it.hasNext()) {
+            double[] f = it.next();
+            if (++f[6] < 0) {
+                continue;
+            }
+            Vec3 a = new Vec3(f[0], f[1], f[2]), b = new Vec3(f[3], f[4], f[5]);
+            double t = f[6] / SLAG_FLIGHT, arc = 3.0 + a.distanceTo(b) * 0.2;
+            Vec3 at = a.lerp(b, t).add(0, 4 * arc * t * (1 - t), 0);
+            server.sendParticles(ParticleTypes.LAVA, at.x, at.y, at.z, 2, 0.15, 0.15, 0.15, 0.0);
+            server.sendParticles(ParticleTypes.FLAME, at.x, at.y, at.z, 4, 0.2, 0.2, 0.2, 0.01);
+            server.sendParticles(ParticleTypes.LARGE_SMOKE, at.x, at.y, at.z, 1, 0.1, 0.1, 0.1, 0.0);
+            if (f[6] % 3 == 0) {
+                ring(server, b, 2.0, ParticleTypes.LAVA);                              // el punto de caída sigue marcado
+            }
+            if (f[6] >= SLAG_FLIGHT) {
+                server.playSound(null, BlockPos.containing(b), SoundEvents.LAVA_EXTINGUISH, SoundSource.HOSTILE, 2.0F, 0.6F);
+                server.sendParticles(ParticleTypes.LAVA, b.x, b.y + 0.5, b.z, 14, 0.8, 0.3, 0.8, 0.1);
+                server.sendParticles(ParticleTypes.EXPLOSION, b.x, b.y + 0.5, b.z, 1, 0, 0, 0, 0);
+                hurtArea(server, b, 2.5, 22.0F, 0.4, 6);
+                puddles.add(new double[]{b.x, b.y, b.z, 100});
+                it.remove();
+            }
         }
     }
 
@@ -322,11 +358,7 @@ public class AbyssFoundryEntity extends Monster {
             if (p.isSpectator() || p.isCreative()) {
                 continue;
             }
-            // muy fuerte: atraviesa la armadura y te deja con 1 corazón (o te remata si ya ibas tocado)
-            float damage = Math.max(OVERHEAT_MIN_DAMAGE, p.getHealth() + p.getAbsorptionAmount() - OVERHEAT_LEAVES);
-            p.invulnerableTime = 0;
-            p.hurt(new DamageSource(level().registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(NetherHazards.OVERHEAT), this), damage);
+            p.hurt(damageSources().mobAttack(this), OVERHEAT_DAMAGE);              // la armadura cuenta (progresión)
             float factor = NetherHazards.heatFactor(p);                              // la piroxita también protege aquí
             p.getPersistentData().putFloat(NetherHazards.HEAT, Math.min(NetherHazards.MAX, NetherHazards.heat(p) + 45.0F * factor));
             Vec3 push = flat(p.position().subtract(position())).scale(1.4);
