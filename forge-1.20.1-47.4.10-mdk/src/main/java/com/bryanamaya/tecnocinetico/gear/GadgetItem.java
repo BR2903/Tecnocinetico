@@ -61,15 +61,21 @@ public class GadgetItem extends Item {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return 0x46E3F5;
+        return GadgetFuel.usesFuel(this) ? 0xF0A030 : 0x46E3F5;                       // naranja = combustible
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable(effectKey).withStyle(ChatFormatting.GRAY));
         int pct = Math.round(100.0F * (stack.getMaxDamage() - 1 - stack.getDamageValue()) / (stack.getMaxDamage() - 1));
-        tooltip.add(Component.translatable("tooltip.tecnocinetico.battery", pct)
-                .withStyle(pct > 0 ? ChatFormatting.AQUA : ChatFormatting.RED));
+        boolean fuel = GadgetFuel.usesFuel(this);
+        tooltip.add(Component.translatable(fuel ? "tooltip.tecnocinetico.fuel_level" : "tooltip.tecnocinetico.battery", pct)
+                .withStyle(pct > 0 ? (fuel ? ChatFormatting.GOLD : ChatFormatting.AQUA) : ChatFormatting.RED));
+        if (fuel) {
+            var names = GadgetFuel.fuels(this).stream().filter(f -> f.amount() != GadgetFuel.FULL || GadgetFuel.fuels(this).size() == 1)
+                    .map(f -> f.item().get().getDescription().getString()).toList();
+            tooltip.add(Component.translatable("tooltip.tecnocinetico.fuel_uses", String.join(", ", names)).withStyle(ChatFormatting.DARK_GRAY));
+        }
         tooltip.add(Component.translatable("tooltip.tecnocinetico.gadget_slot." + TacticalGear.slotName(slot))
                 .withStyle(ChatFormatting.DARK_GRAY));
     }

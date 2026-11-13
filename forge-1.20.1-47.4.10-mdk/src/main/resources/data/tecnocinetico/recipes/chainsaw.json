@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "  B",
+    "PMB",
+    "IF "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:inercita_plate"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "F": {
+      "item": "tecnocinetico:fuel_canister"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:chainsaw",
+    "count": 1
+  }
+}

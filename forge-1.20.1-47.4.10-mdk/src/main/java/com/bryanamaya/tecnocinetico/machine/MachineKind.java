@@ -15,6 +15,10 @@ public enum MachineKind {
     REACTION_CHAMBER("reaction_chamber", new int[][]{{30, 30}}, new int[][]{{86, 30}, {112, 30}}, 54, 30, 100_000, 5_000, 4),
     /** Laboratorio Químico: 2 ingredientes + tanque de entrada -> producto + tanque de salida (4 datos extra: los tanques). */
     CHEMICAL_LAB("chemical_lab", new int[][]{{34, 25}, {34, 45}}, new int[][]{{90, 35}}, 58, 35, 40_000, 2_000, 4),
+    /** Refinería: petróleo -> gasolina (+ brea); envasa hierro + gasolina en Depósitos de Combustible (4 datos extra: tanques). */
+    REFINERY("refinery", new int[][]{{34, 35}}, new int[][]{{90, 25}, {90, 45}}, 58, 35, 40_000, 2_000, 4),
+    /** Bomba de Extracción: saca petróleo de bolsas bajo ella; llena recipientes vacíos (4 datos extra: tanques). */
+    OIL_PUMP("oil_pump", new int[][]{{90, 25}}, new int[][]{{90, 45}}, 58, 35, 40_000, 2_000, 4),
     /** Reactor de Fisión: barra de combustible -> agotada; genera FE (batería de 200.000 que solo se vacía hacia fuera). */
     FISSION_REACTOR("fission_reactor", new int[][]{{26, 30}}, new int[][]{{76, 30}}, 48, 30, 200_000, 0, 6),
     /** Ensamblador Industrial (estructura 3x3x3): 9 ingredientes -> lo más complejo del mod. */

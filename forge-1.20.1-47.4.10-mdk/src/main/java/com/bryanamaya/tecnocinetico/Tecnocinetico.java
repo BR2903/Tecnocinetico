@@ -117,14 +117,16 @@ public class Tecnocinetico {
                 MenuScreens.register(ModMenus.AUTO_KINETIC_PRESS.get(), AutoKineticPressScreen::new);
                 MenuScreens.register(ModMenus.WEAPON_ASSEMBLER.get(), com.bryanamaya.tecnocinetico.client.WeaponAssemblerScreen::new);
                 MenuScreens.register(ModMenus.TACTICAL_GEAR.get(), com.bryanamaya.tecnocinetico.client.TacticalScreen::new);
-                for (var f : java.util.List.of(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID, com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT)) {
+                for (var f : com.bryanamaya.tecnocinetico.fluid.ModFluids.ALL) {
                     net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(f.source.get(), net.minecraft.client.renderer.RenderType.translucent());
                     net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(f.flowing.get(), net.minecraft.client.renderer.RenderType.translucent());
                 }
                 for (var kind : com.bryanamaya.tecnocinetico.machine.MachineKind.values()) {
                     if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.FISSION_REACTOR) {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.FissionReactorScreen::new);
-                    } else if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.CHEMICAL_LAB) {
+                    } else if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.CHEMICAL_LAB
+                            || kind == com.bryanamaya.tecnocinetico.machine.MachineKind.REFINERY
+                            || kind == com.bryanamaya.tecnocinetico.machine.MachineKind.OIL_PUMP) {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.ChemicalLabScreen::new);
                     } else if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.REACTION_CHAMBER) {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.ReactionChamberScreen::new);
@@ -132,6 +134,16 @@ public class Tecnocinetico {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.MachineScreen::new);
                     }
                 }
+                // motosierra: cadena en marcha mientras corta (el jugador local pica; los demás, mientras mueven el brazo)
+                ItemProperties.register(ModItems.CHAINSAW.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "chainsaw_run"), (stack, lvl, entity, seed) -> {
+                    if (!com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.hasFuel(stack) || !(entity instanceof net.minecraft.world.entity.player.Player p)
+                            || p.getMainHandItem() != stack) {
+                        return 0.0F;
+                    }
+                    var mc = net.minecraft.client.Minecraft.getInstance();
+                    boolean cutting = p == mc.player ? mc.gameMode != null && mc.gameMode.isDestroying() : p.swinging;
+                    return cutting || p.swinging ? 1.0F : 0.0F;
+                });
                 for (var g : java.util.List.of(ModItems.THERMAL_COOLER, ModItems.ASH_FILTER, ModItems.ANCHOR_BOOTS)) {
                     ItemProperties.register(g.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "level"),
                             (stack, lvl, entity, seed) -> com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(stack));
@@ -233,7 +245,7 @@ public class Tecnocinetico {
         @SubscribeEvent
         public static void registerItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
             com.bryanamaya.tecnocinetico.client.MetalColors.register(event);    // lingotes = el de hierro vanilla teñido
-            for (var f : java.util.List.of(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID, com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT)) {
+            for (var f : com.bryanamaya.tecnocinetico.fluid.ModFluids.ALL) {
                 event.register(new net.minecraftforge.client.model.DynamicFluidContainerModel.Colors(), f.bucket.get());   // cubos teñidos
             }
             event.register(new net.minecraftforge.client.model.DynamicFluidContainerModel.Colors(),

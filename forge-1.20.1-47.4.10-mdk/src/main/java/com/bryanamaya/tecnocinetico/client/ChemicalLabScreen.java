@@ -28,9 +28,13 @@ public class ChemicalLabScreen extends MachineScreen {
     @Override
     protected void init() {
         super.init();
-        button(IN_X + 3, BTN_Y, 10, "✕", ChemicalLabBlockEntity.BTN_CLEAR_IN, "gui.tecnocinetico.lab.clear_in");
+        if (hasInput()) {
+            button(IN_X + 3, BTN_Y, 10, "✕", ChemicalLabBlockEntity.BTN_CLEAR_IN, "gui.tecnocinetico.lab.clear_in");
+        }
         button(OUT_X + 3, BTN_Y, 10, "✕", ChemicalLabBlockEntity.BTN_CLEAR_OUT, "gui.tecnocinetico.lab.clear_out");
-        button(59, 56, 20, "⇄", ChemicalLabBlockEntity.BTN_SWAP, "gui.tecnocinetico.lab.swap");
+        if (menu.kind() == com.bryanamaya.tecnocinetico.machine.MachineKind.CHEMICAL_LAB) {
+            button(59, 56, 20, "⇄", ChemicalLabBlockEntity.BTN_SWAP, "gui.tecnocinetico.lab.swap");
+        }
     }
 
     private void button(int x, int y, int w, String label, int id, String tip) {
@@ -49,7 +53,9 @@ public class ChemicalLabScreen extends MachineScreen {
     @Override
     protected void renderBg(GuiGraphics g, float partialTick, int mouseX, int mouseY) {
         super.renderBg(g, partialTick, mouseX, mouseY);
-        drawTank(g, IN_X, fluid(ChemicalLabBlockEntity.EXTRA_IN_FLUID), menu.extra(ChemicalLabBlockEntity.EXTRA_IN_AMOUNT));
+        if (hasInput()) {
+            drawTank(g, IN_X, fluid(ChemicalLabBlockEntity.EXTRA_IN_FLUID), menu.extra(ChemicalLabBlockEntity.EXTRA_IN_AMOUNT));
+        }
         drawTank(g, OUT_X, fluid(ChemicalLabBlockEntity.EXTRA_OUT_FLUID), menu.extra(ChemicalLabBlockEntity.EXTRA_OUT_AMOUNT));
     }
 
@@ -85,7 +91,9 @@ public class ChemicalLabScreen extends MachineScreen {
     @Override
     public void render(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
         super.render(g, mouseX, mouseY, partialTick);
-        tankTooltip(g, mouseX, mouseY, IN_X, "gui.tecnocinetico.lab.tank_in", ChemicalLabBlockEntity.EXTRA_IN_FLUID, ChemicalLabBlockEntity.EXTRA_IN_AMOUNT);
+        if (hasInput()) {
+            tankTooltip(g, mouseX, mouseY, IN_X, "gui.tecnocinetico.lab.tank_in", ChemicalLabBlockEntity.EXTRA_IN_FLUID, ChemicalLabBlockEntity.EXTRA_IN_AMOUNT);
+        }
         tankTooltip(g, mouseX, mouseY, OUT_X, "gui.tecnocinetico.lab.tank_out", ChemicalLabBlockEntity.EXTRA_OUT_FLUID, ChemicalLabBlockEntity.EXTRA_OUT_AMOUNT);
     }
 
@@ -103,5 +111,10 @@ public class ChemicalLabScreen extends MachineScreen {
                 name.copy().withStyle(ChatFormatting.AQUA),
                 Component.translatable("gui.tecnocinetico.lab.amount", amount, ChemicalLabBlockEntity.TANK).withStyle(ChatFormatting.GRAY),
                 Component.translatable("gui.tecnocinetico.lab.bucket_hint").withStyle(ChatFormatting.DARK_GRAY)), mx, my);
+    }
+
+    /** La Bomba de Extracción no tiene tanque de entrada. */
+    private boolean hasInput() {
+        return menu.kind() != com.bryanamaya.tecnocinetico.machine.MachineKind.OIL_PUMP;
     }
 }

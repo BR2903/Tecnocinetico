@@ -143,8 +143,10 @@ public class CombustionDrillItem extends Item {
             if (slot < 0) {
                 break;
             }
-            player.getInventory().getItem(slot).shrink(1);
-            setFuel(drill, fuel(drill) + FUEL_PER_CANISTER);
+            ItemStack can = player.getInventory().getItem(slot);
+            int value = can.is(ModItems.KINETIC_FUEL_CELL.get()) ? FUEL_PER_CANISTER * 3 : FUEL_PER_CANISTER;   // cinético: el triple
+            can.shrink(1);
+            setFuel(drill, fuel(drill) + value);
             used++;
         }
         if (used > 0) {
@@ -161,7 +163,7 @@ public class CombustionDrillItem extends Item {
     private static int canisterSlot(Player player) {
         var inv = player.getInventory();
         for (int i = 0; i < inv.getContainerSize(); i++) {
-            if (inv.getItem(i).is(ModItems.FUEL_CANISTER.get())) {
+            if (inv.getItem(i).is(ModItems.FUEL_CANISTER.get()) || inv.getItem(i).is(ModItems.KINETIC_FUEL_CELL.get())) {
                 return i;
             }
         }

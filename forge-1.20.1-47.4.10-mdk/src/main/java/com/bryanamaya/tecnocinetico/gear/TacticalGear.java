@@ -52,7 +52,8 @@ public class TacticalGear {
             dirty = true;
         }
     };
-    private boolean visorOn = true;
+    /** Encendido de cada gadget (cara, espalda, pies, cinturón). Apagado no funciona ni gasta. */
+    private final boolean[] enabled = {true, true, true, true};
     private boolean dirty = true;
 
     public ItemStackHandler items() {
@@ -63,13 +64,29 @@ public class TacticalGear {
         return items.getStackInSlot(slot);
     }
 
+    public boolean enabled(int slot) {
+        return slot < FACE || slot > BELT || enabled[slot - FACE];
+    }
+
+    public void setEnabled(int slot, boolean on) {
+        if (slot >= FACE && slot <= BELT) {
+            enabled[slot - FACE] = on;
+            dirty = true;
+        }
+    }
+
+    /** El gadget de la ranura si está encendido; si está apagado, vacío (para aplicar efectos). */
+    public ItemStack active(int slot) {
+        return enabled(slot) ? get(slot) : ItemStack.EMPTY;
+    }
+
+    /** El visor se enciende/apaga como su ranura (tecla N o el botón del Equipo Táctico). */
     public boolean visorOn() {
-        return visorOn;
+        return enabled(FACE);
     }
 
     public void setVisorOn(boolean on) {
-        visorOn = on;
-        dirty = true;
+        setEnabled(FACE, on);
     }
 
     /** Hay que reenviar el equipo al cliente (lo consume el tick del servidor). */
@@ -145,7 +162,13 @@ public class TacticalGear {
 
     public CompoundTag save() {
         CompoundTag tag = items.serializeNBT();
-        tag.putBoolean("VisorOn", visorOn);
+        byte bits = 0;
+        for (int i = 0; i < enabled.length; i++) {
+            if (enabled[i]) {
+                bits |= (byte) (1 << i);
+            }
+        }
+        tag.putByte("Enabled", bits);
         return tag;
     }
 
@@ -171,7 +194,15 @@ public class TacticalGear {
         } else {
             items.deserializeNBT(tag);
         }
-        visorOn = !tag.contains("VisorOn") || tag.getBoolean("VisorOn");
+        if (tag.contains("Enabled")) {
+            byte bits = tag.getByte("Enabled");
+            for (int i = 0; i < enabled.length; i++) {
+                enabled[i] = (bits & (1 << i)) != 0;
+            }
+        } else {                                                                     // formato antiguo: solo el visor
+            java.util.Arrays.fill(enabled, true);
+            enabled[0] = !tag.contains("VisorOn") || tag.getBoolean("VisorOn");
+        }
         dirty = true;
     }
 

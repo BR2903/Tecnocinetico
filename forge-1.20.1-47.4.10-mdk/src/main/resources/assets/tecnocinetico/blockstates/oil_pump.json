@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "facing=north,powered=false": {
+      "model": "tecnocinetico:block/oil_pump",
+      "y": 0
+    },
+    "facing=north,powered=true": {
+      "model": "tecnocinetico:block/oil_pump_on",
+      "y": 0
+    },
+    "facing=east,powered=false": {
+      "model": "tecnocinetico:block/oil_pump",
+      "y": 90
+    },
+    "facing=east,powered=true": {
+      "model": "tecnocinetico:block/oil_pump_on",
+      "y": 90
+    },
+    "facing=south,powered=false": {
+      "model": "tecnocinetico:block/oil_pump",
+      "y": 180
+    },
+    "facing=south,powered=true": {
+      "model": "tecnocinetico:block/oil_pump_on",
+      "y": 180
+    },
+    "facing=west,powered=false": {
+      "model": "tecnocinetico:block/oil_pump",
+      "y": 270
+    },
+    "facing=west,powered=true": {
+      "model": "tecnocinetico:block/oil_pump_on",
+      "y": 270
+    }
+  }
+}

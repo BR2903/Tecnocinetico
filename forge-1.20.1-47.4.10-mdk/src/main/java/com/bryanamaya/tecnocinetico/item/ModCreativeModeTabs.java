@@ -33,6 +33,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModBlocks.AMMO_FABRICATOR.get());
                         out.accept(ModItems.REACTION_CHAMBER_KIT.get());
                         out.accept(ModBlocks.CHEMICAL_LAB.get());
+                        out.accept(ModBlocks.OIL_PUMP.get());
+                        out.accept(ModBlocks.REFINERY.get());
                         out.accept(ModItems.INDUSTRIAL_ASSEMBLER_KIT.get());
                         out.accept(ModItems.FISSION_REACTOR_KIT.get());
                         out.accept(ModBlocks.CREATIVE_ENERGY_SOURCE.get());
@@ -120,6 +122,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.LIGHT_MACHINE_GUN.get());
                         out.accept(ModItems.KINETIC_SNIPER.get());
                         out.accept(ModItems.FLAMETHROWER.get());
+                        out.accept(ModItems.CHAINSAW.get());
                         out.accept(ModItems.KINETIC_BLADE.get());
                         // tier 3
                         out.accept(ModItems.ASSAULT_RIFLE.get());
@@ -278,6 +281,11 @@ public class ModCreativeModeTabs {
                         out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.UNIVERSAL_CELL.get());
                         out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID.bucket.get());
                         out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT.bucket.get());
+                        out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.CRUDE_OIL.bucket.get());
+                        out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.GASOLINE.bucket.get());
+                        out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.KINETIC_FUEL.bucket.get());
+                        out.accept(ModItems.TAR.get());
+                        out.accept(ModItems.KINETIC_FUEL_CELL.get());
                         out.accept(ModItems.IRON_DUST.get());
                         out.accept(ModItems.GOLD_DUST.get());
                         out.accept(ModItems.COPPER_DUST.get());

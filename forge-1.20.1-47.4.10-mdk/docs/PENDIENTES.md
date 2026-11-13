@@ -74,3 +74,5 @@ Bryan lo probará más adelante; no dar por aprobado hasta entonces.
 - ~~Criaturas~~: animales vanilla se quedan (usuario); patrullas nocturnas de drones HECHO (pendiente de revisión: frecuencia y dificultad). Sin vehículos volcados ni atascos (usuario).
 - Cabeza de farola tumbada (Codex: hace falta otra orientación para que la cabeza caída quede de lado).
 - **Nether parte 3 (2026-11-12)**: biomas del Nether industrial, depósitos, Depósito de Refrigeración y Puesto de Vigilancia. Probar en un mundo nuevo Postapocalíptico.
+
+- Petróleo/gadgets/motosierra (2026-11-12): pendiente de prueba del usuario. Ideas: usar el Combustible Cinético en algo propio (generador, vehículo, mejora del caza); sonido propio de la motosierra (ahora usa los del taladro y vanilla); el Depósito de Combustible conserva su receta improvisada antigua (hierro + carbón + pólvora): decidir si quitarla.

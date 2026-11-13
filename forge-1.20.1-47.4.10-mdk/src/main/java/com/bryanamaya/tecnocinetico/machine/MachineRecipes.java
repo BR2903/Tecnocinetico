@@ -96,6 +96,8 @@ public final class MachineRecipes {
     private static final Supplier<net.minecraft.world.level.material.Fluid> WATER = () -> net.minecraft.world.level.material.Fluids.WATER;
     private static final Supplier<net.minecraft.world.level.material.Fluid> ACID = com.bryanamaya.tecnocinetico.fluid.ModFluids.SULFURIC_ACID::get;
     private static final Supplier<net.minecraft.world.level.material.Fluid> COOLANT = com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT::get;
+    private static final Supplier<net.minecraft.world.level.material.Fluid> GASOLINE = com.bryanamaya.tecnocinetico.fluid.ModFluids.GASOLINE::get;
+    private static final Supplier<net.minecraft.world.level.material.Fluid> KINETIC_FUEL = com.bryanamaya.tecnocinetico.fluid.ModFluids.KINETIC_FUEL::get;
 
     /** Lixiviación: la mena se disuelve en ácido y da 3 polvos (el Refinador da 2). */
     private static Lab leach(Supplier<Item> raw, Supplier<Item> dust, int acid, int ticks, int perTick) {
@@ -103,6 +105,8 @@ public final class MachineRecipes {
     }
 
     public static final List<Lab> LAB = List.of(
+            // combustible cinético: gasolina + 2 esquirlas de cinetrita
+            new Lab(List.of(of(ModItems.CINETRITE_SHARD, 2)), GASOLINE, 1000, null, 0, KINETIC_FUEL, 1000, 120, 60),
             new Lab(List.of(of(v(Items.GUNPOWDER), 2)), WATER, 1000, null, 0, ACID, 1000, 100, 40),
             new Lab(List.of(of(v(Items.SNOWBALL), 4), of(v(Items.LAPIS_LAZULI), 1)), WATER, 1000, null, 0, COOLANT, 1000, 100, 40),
             leach(v(Items.RAW_IRON), ModItems.IRON_DUST, 250, 120, 40),

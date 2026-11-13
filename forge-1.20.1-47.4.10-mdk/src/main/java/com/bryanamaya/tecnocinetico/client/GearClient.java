@@ -48,7 +48,7 @@ public final class GearClient {
         ItemStack jet = ItemStack.EMPTY;
         if (p != null && mc.screen == null && mc.options.keyJump.isDown() && !p.onGround() && !p.isInWater()
                 && !p.getAbilities().flying && !p.isPassenger() && !p.isFallFlying()) {
-            jet = TacticalGear.of(p).map(g -> g.get(TacticalGear.BACK)).orElse(ItemStack.EMPTY);
+            jet = TacticalGear.of(p).map(g -> g.active(TacticalGear.BACK)).orElse(ItemStack.EMPTY);
             want = jet.is(ModItems.JETPACK.get()) && GadgetItem.hasCharge(jet)
                     && !p.hasEffect(com.bryanamaya.tecnocinetico.effect.ModEffects.INERTIA_ANCHOR.get());   // el lastre lo apaga
         }

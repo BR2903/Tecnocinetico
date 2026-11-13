@@ -227,7 +227,7 @@ public final class NetherHazards {
 
     /** El gadget `item` si lo lleva puesto en `slot` del Equipo Táctico (si no, vacío). */
     private static ItemStack gadget(Player p, int slot, net.minecraft.world.item.Item item) {
-        return TacticalGear.of(p).map(g -> g.get(slot)).filter(s -> s.is(item)).orElse(ItemStack.EMPTY);
+        return TacticalGear.of(p).map(g -> g.active(slot)).filter(s -> s.is(item)).orElse(ItemStack.EMPTY);
     }
 
     // ------------------------------------------------------------------ Botas de Anclaje

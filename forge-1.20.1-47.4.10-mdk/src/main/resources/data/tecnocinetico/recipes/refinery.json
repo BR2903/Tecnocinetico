@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PBP",
+    "TLT",
+    "ICI"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:iron_bars"
+    },
+    "B": {
+      "item": "minecraft:blast_furnace"
+    },
+    "T": {
+      "item": "minecraft:bucket"
+    },
+    "L": {
+      "item": "tecnocinetico:chemical_lab"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "C": {
+      "item": "minecraft:copper_block"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:refinery",
+    "count": 1
+  }
+}

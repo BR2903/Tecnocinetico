@@ -23,11 +23,13 @@ KINDS = {
     "ammo_fabricator": ([(26, 35), (44, 35), (62, 35)], [(116, 35)], (85, 35)),
     "reaction_chamber": ([(30, 30)], [(86, 30), (112, 30)], (54, 30)),
     "chemical_lab": ([(34, 25), (34, 45)], [(90, 35)], (58, 35)),
+    "refinery": ([(34, 35)], [(90, 25), (90, 45)], (58, 35)),
+    "oil_pump": ([(90, 25)], [(90, 45)], (58, 35)),
     "fission_reactor": ([(26, 30)], [(76, 30)], (48, 30)),
     "industrial_assembler": ([(30 + 18 * (i % 3), 17 + 18 * (i // 3)) for i in range(9)], [(124, 35)], (92, 35)),
 }
 # Laboratorio Químico: marcos de los tanques (x; = ChemicalLabScreen.IN_X / OUT_X, y 17, 16x52)
-TANKS = {"chemical_lab": [10, 122], "fission_reactor": [100]}
+TANKS = {"chemical_lab": [10, 122], "refinery": [10, 122], "oil_pump": [122], "fission_reactor": [100]}
 # Cámara de Reacción: barras de resonancia y estabilidad (= ReactionChamberScreen)
 BARS = {"reaction_chamber": [(132, 192, ((255, 120, 60), (70, 230, 120))), (141, 200, ((200, 60, 40), (240, 200, 60)))],
         "fission_reactor": [(124, 192, ((70, 200, 90), (230, 40, 30)))]}     # termómetro: verde abajo, rojo arriba

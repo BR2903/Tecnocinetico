@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "tecnocinetico:oil_pocket",
+    "tecnocinetico:oil_seep"
+  ],
+  "step": "lakes"
+}

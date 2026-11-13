@@ -69,6 +69,8 @@ public final class ModNetwork {
         CHANNEL.registerMessage(17, HazardPacket.class, (m, b) -> { b.writeByte(m.heat()); b.writeByte(m.ash()); },
                 b -> new HazardPacket(b.readUnsignedByte(), b.readUnsignedByte()), HazardPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(18, ToggleGadgetPacket.class, (m, b) -> b.writeVarInt(m.slot()), b -> new ToggleGadgetPacket(b.readVarInt()),
+                ToggleGadgetPacket::handle, java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(13, DashPacket.class, (m, b) -> {}, b -> new DashPacket(), DashPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
@@ -143,6 +145,10 @@ public final class ModNetwork {
             ctx.get().enqueueWork(() -> {
                 ServerPlayer player = ctx.get().getSender();
                 if (player == null) {
+                    return;
+                }
+                if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.ChainsawItem) {
+                    com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.refuel(player, player.getMainHandItem());   // gasolina
                     return;
                 }
                 if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem) {
@@ -318,6 +324,28 @@ public final class ModNetwork {
     public record HazardPacket(int heat, int ash) {
         public static void handle(HazardPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> com.bryanamaya.tecnocinetico.nether.ClientHazardData.set(msg.heat(), msg.ash()));
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Cliente -> servidor: encender/apagar el gadget de una ranura del Equipo Táctico (botón junto a la ranura). */
+    public record ToggleGadgetPacket(int slot) {
+        public static void handle(ToggleGadgetPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                int slot = msg.slot();
+                if (p == null || slot < com.bryanamaya.tecnocinetico.gear.TacticalGear.FACE || slot > com.bryanamaya.tecnocinetico.gear.TacticalGear.BELT) {
+                    return;
+                }
+                com.bryanamaya.tecnocinetico.gear.TacticalGear.of(p).ifPresent(g -> {
+                    g.setEnabled(slot, !g.enabled(slot));
+                    if (!g.enabled(slot) && slot == com.bryanamaya.tecnocinetico.gear.TacticalGear.BACK) {
+                        com.bryanamaya.tecnocinetico.gear.GearEvents.THRUSTING.remove(p.getUUID());
+                    }
+                    p.level().playSound(null, p.getX(), p.getY(), p.getZ(), net.minecraft.sounds.SoundEvents.UI_BUTTON_CLICK.value(),
+                            net.minecraft.sounds.SoundSource.PLAYERS, 0.4F, g.enabled(slot) ? 1.4F : 0.9F);
+                });
+            });
             ctx.get().setPacketHandled(true);
         }
     }

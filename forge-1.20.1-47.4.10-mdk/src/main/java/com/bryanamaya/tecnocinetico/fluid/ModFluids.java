@@ -42,9 +42,19 @@ public final class ModFluids {
     /** Refrigerante: azul claro, para el reactor. */
     public static final FluidSet COOLANT = new FluidSet("coolant", 0xC84FC8F0, 1100, 1000, false);
 
+    /** Petróleo: negro y espeso; sale de bolsas subterráneas (Bomba de Extracción). */
+    public static final FluidSet CRUDE_OIL = new FluidSet("crude_oil", 0xF01A1410, 1400, 3000, false, true);
+    /** Gasolina (Refinería): ámbar claro. Combustible del taladro, la motosierra, el lanzallamas y el jetpack. */
+    public static final FluidSet GASOLINE = new FluidSet("gasoline", 0xB8E8C24A, 750, 600, false, true);
+    /** Combustible Cinético (Laboratorio: gasolina + cinetrita): cian, rinde el triple. */
+    public static final FluidSet KINETIC_FUEL = new FluidSet("kinetic_fuel", 0xD03FE0D4, 800, 700, false, true);
+
     /** Celda Universal de Fluidos (1 cubo de cualquier líquido). */
     public static final net.minecraftforge.registries.RegistryObject<Item> UNIVERSAL_CELL = ModItems.ITEMS.register("universal_fluid_cell",
             () -> new UniversalCellItem(new Item.Properties().stacksTo(64)));
+
+    /** Todos los líquidos del mod (capa de render translúcida y color de los cubos). */
+    public static final java.util.List<FluidSet> ALL = java.util.List.of(SULFURIC_ACID, COOLANT, CRUDE_OIL, GASOLINE, KINETIC_FUEL);
 
     private ModFluids() {}
 
@@ -62,8 +72,16 @@ public final class ModFluids {
         public final RegistryObject<LiquidBlock> block;
         public final RegistryObject<Item> bucket;
 
+        /** Texturas propias (block/<id>_still y _flow, ya coloreadas) en vez del agua teñida. */
+        public final boolean customTextures;
+
         FluidSet(String id, int color, int density, int viscosity, boolean corrosive) {
+            this(id, color, density, viscosity, corrosive, false);
+        }
+
+        FluidSet(String id, int color, int density, int viscosity, boolean corrosive, boolean customTextures) {
             this.id = id;
+            this.customTextures = customTextures;
             this.color = color;
             this.type = TYPES.register(id, () -> new FluidType(FluidType.Properties.create()
                     .descriptionId("fluid_type." + Tecnocinetico.MOD_ID + "." + id)
@@ -73,12 +91,14 @@ public final class ModFluids {
                     consumer.accept(new IClientFluidTypeExtensions() {
                         @Override
                         public ResourceLocation getStillTexture() {
-                            return ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_still");
+                            return customTextures ? ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "block/" + id + "_still")
+                                    : ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_still");
                         }
 
                         @Override
                         public ResourceLocation getFlowingTexture() {
-                            return ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_flow");
+                            return customTextures ? ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "block/" + id + "_flow")
+                                    : ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_flow");
                         }
 
                         @Override
@@ -88,7 +108,7 @@ public final class ModFluids {
 
                         @Override
                         public int getTintColor() {
-                            return color;
+                            return customTextures ? 0xFFFFFFFF : color;
                         }
                     });
                 }

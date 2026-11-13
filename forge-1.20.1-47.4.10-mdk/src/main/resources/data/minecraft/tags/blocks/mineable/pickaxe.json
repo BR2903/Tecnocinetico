@@ -58,6 +58,8 @@
     "tecnocinetico:compacted_slag",
     "tecnocinetico:sulfur_crust",
     "tecnocinetico:carbonized_plate",
-    "tecnocinetico:infernal_casing"
+    "tecnocinetico:infernal_casing",
+    "tecnocinetico:refinery",
+    "tecnocinetico:oil_pump"
   ]
 }

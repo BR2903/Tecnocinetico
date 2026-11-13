@@ -24,6 +24,10 @@ public final class MachineBlockEntities {
     public static final RegistryObject<BlockEntityType<ReactionChamberBlockEntity>> REACTION_CHAMBER = TYPES.register("reaction_chamber",
             () -> BlockEntityType.Builder.of(ReactionChamberBlockEntity::new, ModBlocks.REACTION_CHAMBER.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<RefineryBlockEntity>> REFINERY = TYPES.register("refinery",
+            () -> BlockEntityType.Builder.of(RefineryBlockEntity::new, ModBlocks.REFINERY.get()).build(null));
+    public static final RegistryObject<BlockEntityType<OilPumpBlockEntity>> OIL_PUMP = TYPES.register("oil_pump",
+            () -> BlockEntityType.Builder.of(OilPumpBlockEntity::new, ModBlocks.OIL_PUMP.get()).build(null));
     public static final RegistryObject<BlockEntityType<ChemicalLabBlockEntity>> CHEMICAL_LAB = TYPES.register("chemical_lab",
             () -> BlockEntityType.Builder.of(ChemicalLabBlockEntity::new, ModBlocks.CHEMICAL_LAB.get()).build(null));
 

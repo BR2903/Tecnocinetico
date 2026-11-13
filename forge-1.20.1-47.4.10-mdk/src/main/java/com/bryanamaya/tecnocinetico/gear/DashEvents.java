@@ -27,7 +27,7 @@ public final class DashEvents {
 
     /** ¿Lleva el impulsor con batería? (lo usan cliente y servidor). */
     public static ItemStack thruster(Player p) {
-        return TacticalGear.of(p).map(g -> g.get(TacticalGear.BELT)).filter(s -> s.is(ModItems.DASH_THRUSTER.get())
+        return TacticalGear.of(p).map(g -> g.active(TacticalGear.BELT)).filter(s -> s.is(ModItems.DASH_THRUSTER.get())
                 && GadgetItem.hasCharge(s)).orElse(ItemStack.EMPTY);
     }
 

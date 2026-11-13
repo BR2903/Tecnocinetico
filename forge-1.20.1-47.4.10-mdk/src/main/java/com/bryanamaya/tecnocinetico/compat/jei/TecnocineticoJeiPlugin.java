@@ -90,6 +90,13 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
         registration.addIngredientInfo(List.of(new ItemStack(ModItems.FISSION_REACTOR_KIT.get()), new ItemStack(ModItems.URANIUM_FUEL_ROD.get()),
                         new ItemStack(ModItems.DEPLETED_FUEL_ROD.get())),
                 VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.reactor_info"));
+        registration.addIngredientInfo(List.of(new ItemStack(com.bryanamaya.tecnocinetico.block.ModBlocks.OIL_PUMP.get()),
+                new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.CRUDE_OIL.bucket.get())), VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.oil_pump"));
+        registration.addIngredientInfo(List.of(new ItemStack(com.bryanamaya.tecnocinetico.block.ModBlocks.REFINERY.get()),
+                new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.GASOLINE.bucket.get()), new ItemStack(ModItems.TAR.get()),
+                new ItemStack(ModItems.FUEL_CANISTER.get())), VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.refinery"));
+        registration.addIngredientInfo(List.of(new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.KINETIC_FUEL.bucket.get()),
+                new ItemStack(ModItems.KINETIC_FUEL_CELL.get())), VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.kinetic_fuel"));
         registration.addIngredientInfo(new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.UNIVERSAL_CELL.get()),
                 VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.cell_info"));
 

@@ -472,9 +472,16 @@ public class ModItems {
             });
 
     // ---------------------------------------------------------------- más armas (tiers 1-3)
+    /** Brea: subproducto de la Refinería (asfalto). */
+    public static final RegistryObject<Item> TAR = ITEMS.register("tar", () -> new Item(new Item.Properties()));
+    /** Célula de Combustible Cinético: rinde como 3 Depósitos de Combustible. */
+    public static final RegistryObject<Item> KINETIC_FUEL_CELL = ITEMS.register("kinetic_fuel_cell", () -> new Item(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> FUEL_CANISTER = ITEMS.register("fuel_canister", () -> new Item(new Item.Properties().stacksTo(16)));
 
     // ---- Taladro de Combustión (tier 3): se monta en el Ensamblador de Armas con dos piezas del Ensamblador Industrial
+    /** Motosierra (tier 2): tala árboles enteros con gasolina. */
+    public static final RegistryObject<Item> CHAINSAW = ITEMS.register("chainsaw",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.ChainsawItem(new Item.Properties()));
     public static final RegistryObject<Item> COMBUSTION_DRILL = ITEMS.register("combustion_drill",
             () -> new com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem(new Item.Properties().rarity(net.minecraft.world.item.Rarity.EPIC)));
     public static final RegistryObject<Item> DRILL_HEAD = ITEMS.register("drill_head",
