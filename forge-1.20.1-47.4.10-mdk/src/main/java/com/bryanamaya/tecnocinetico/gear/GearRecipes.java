@@ -79,6 +79,50 @@ public final class GearRecipes {
         }
     }
 
+    /** Gadget del Nether Mk I + Componente de Forja Abisal = Mk II (conserva la batería que tenía). */
+    public static class NetherGadgetUpgrade extends CustomRecipe {
+        public NetherGadgetUpgrade(ResourceLocation id, CraftingBookCategory cat) {
+            super(id, cat);
+        }
+
+        private static ItemStack gadget(CraftingContainer inv) {
+            ItemStack[] p = pair(inv);
+            if (p == null) {
+                return ItemStack.EMPTY;
+            }
+            for (int k = 0; k < 2; k++) {
+                ItemStack g = p[k], part = p[1 - k];
+                if (g.getItem() instanceof NetherGadgetItem && NetherGadgetItem.level(g) < NetherGadgetItem.MAX_LEVEL
+                        && part.is(ModItems.ABYSSAL_COMPONENT.get())) {
+                    return g;
+                }
+            }
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public boolean matches(CraftingContainer inv, Level level) {
+            return !gadget(inv).isEmpty();
+        }
+
+        @Override
+        public ItemStack assemble(CraftingContainer inv, RegistryAccess access) {
+            ItemStack out = gadget(inv).copyWithCount(1);
+            NetherGadgetItem.setLevel(out, NetherGadgetItem.level(out) + 1);
+            return out;
+        }
+
+        @Override
+        public boolean canCraftInDimensions(int w, int h) {
+            return w * h >= 2;
+        }
+
+        @Override
+        public RecipeSerializer<?> getSerializer() {
+            return ModRecipes.NETHER_GADGET_UPGRADE.get();
+        }
+    }
+
     /** Jetpack Mk N + Kit de Mejora Mk N+1 = Jetpack Mk N+1 (conserva la batería que tenía). */
     public static class JetpackUpgrade extends CustomRecipe {
         public JetpackUpgrade(ResourceLocation id, CraftingBookCategory cat) {

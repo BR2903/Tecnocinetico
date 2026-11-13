@@ -114,7 +114,9 @@ def main():
             if min(face.w,face.h)>3 and rnd.random()<.035:return tuple(max(0,v-15) for v in c[:3])+(255,)
             return c
         gunkit.PAINTERS['ng_'+mat]=painter
-    for name,part in ITEMS.items():gunkit.model(name,item_boxes(rig[part],part=='anchor',part=='filter'),display(part=='cooler'),group='nether_'+name)
+    for name,part in ITEMS.items():
+        overrides=[{'predicate':{'tecnocinetico:level':2},'model':f'tecnocinetico:item/{name}_mk2'}] if (A/f'models/item/{name}_mk2.json').exists() else None
+        gunkit.model(name,item_boxes(rig[part],part=='anchor',part=='filter'),display(part=='cooler'),overrides,group='nether_'+name)
     gunkit.flush();refills();armor()
     for name in (*ITEMS,*(f'refined_piroxite_{p}' for p in ('helmet','chestplate','leggings','boots'))):
         rotation='22,35,0' if name=='thermal_cooler' else '22,145,0' if name in ITEMS else '18,200,0'

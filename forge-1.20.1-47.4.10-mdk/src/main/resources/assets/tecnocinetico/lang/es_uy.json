@@ -633,5 +633,19 @@
   "death.attack.tecnocinetico.overheat": "%1$s sufrió un golpe de calor",
   "death.attack.tecnocinetico.overheat.player": "%1$s sufrió un golpe de calor huyendo de %2$s",
   "death.attack.tecnocinetico.ash_lungs": "%1$s se ahogó en ceniza",
-  "death.attack.tecnocinetico.ash_lungs.player": "%1$s se ahogó en ceniza huyendo de %2$s"
+  "death.attack.tecnocinetico.ash_lungs.player": "%1$s se ahogó en ceniza huyendo de %2$s",
+  "entity.tecnocinetico.abyss_foundry": "Fundidor del Abismo",
+  "item.tecnocinetico.abyss_foundry_spawn_egg": "Huevo de Fundidor del Abismo",
+  "item.tecnocinetico.nether_coupler": "Acoplador del Nether",
+  "item.tecnocinetico.abyssal_component": "Componente de Forja Abisal",
+  "item.tecnocinetico.gadget_mk2": "%s Mk II",
+  "item.tecnocinetico.thermal_cooler.mk2": "Mk II: el doble de batería, enfría el doble y aguanta un baño de lava.",
+  "item.tecnocinetico.ash_filter.mk2": "Mk II: el doble de batería y filtra wither, veneno y ceguera.",
+  "item.tecnocinetico.anchor_boots.mk2": "Mk II: el doble de batería, sin empuje y -90 % de daño por caída.",
+  "tooltip.tecnocinetico.nether_coupler": "Clic derecho en el Caza del Núcleo: le permite saltar al Nether.",
+  "message.tecnocinetico.coupler_installed": "Acoplador del Nether instalado: el caza ya puede saltar al Nether",
+  "message.tecnocinetico.coupler_installed_already": "Este caza ya tiene el Acoplador del Nether",
+  "message.tecnocinetico.need_coupler": "Hace falta el Acoplador del Nether (lo suelta el Fundidor del Abismo)",
+  "message.tecnocinetico.foundry_defeated": "¡El Fundidor del Abismo ha caído! Sus restos aún arden.",
+  "screen.tecnocinetico.ship_jump.locked": "%s (bloqueado)"
 }

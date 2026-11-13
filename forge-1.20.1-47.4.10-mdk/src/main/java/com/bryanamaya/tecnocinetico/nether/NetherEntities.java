@@ -28,6 +28,11 @@ public final class NetherEntities {
     /** Centinela de Ceniza: máquina caminante que avisa con un láser y dispara; golpea si te acercas. */
     public static final RegistryObject<EntityType<InfernalEntity>> SENTINEL = type("ash_sentinel", 1.1F, 2.5F);
 
+    /** Fundidor del Abismo (jefe): se despierta con la consola de su fundición. */
+    public static final RegistryObject<EntityType<AbyssFoundryEntity>> FOUNDRY = TYPES.register("abyss_foundry",
+            () -> EntityType.Builder.of(AbyssFoundryEntity::new, MobCategory.MONSTER).sized(3.2F, 4.6F).fireImmune()
+                    .clientTrackingRange(16).build("abyss_foundry"));
+
     /** Altura máxima a la que aparecen los ácaros de forma natural o al excavar. */
     public static final int MITE_MAX_Y = 80;
 
@@ -47,6 +52,7 @@ public final class NetherEntities {
     private static void attributes(EntityAttributeCreationEvent event) {
         event.put(MITE.get(), InfernalEntity.attributes(18, 2, 4, 0.31).build());
         event.put(SENTINEL.get(), InfernalEntity.attributes(64, 10, 9, 0.25).build());
+        event.put(FOUNDRY.get(), AbyssFoundryEntity.attributes().build());
     }
 
     /** Solo aparecen en el Nether (la lista de biomas está en data/.../forge/biome_modifier/infernal_spawns.json). */

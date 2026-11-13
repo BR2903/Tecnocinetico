@@ -293,6 +293,11 @@ public final class ModNetwork {
                 if (p != null && key != null && p.server.getLevel(key) != null
                         && p.getVehicle() instanceof com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity ship
                         && ship.getControllingPassenger() == p) {
+                    if (!ship.canJumpTo(key)) {
+                        p.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.tecnocinetico.need_coupler")
+                                .withStyle(net.minecraft.ChatFormatting.RED), true);
+                        return;
+                    }
                     ship.startJump(key);
                 }
             });

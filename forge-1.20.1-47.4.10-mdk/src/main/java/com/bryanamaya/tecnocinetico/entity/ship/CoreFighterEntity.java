@@ -58,6 +58,8 @@ public class CoreFighterEntity extends Entity {
 
     private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(CoreFighterEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> JUMP = SynchedEntityData.defineId(CoreFighterEntity.class, EntityDataSerializers.INT);
+    /** Acoplador del Nether instalado (botín del Fundidor del Abismo): sin él no puede saltar al Nether. */
+    private static final EntityDataAccessor<Boolean> NETHER_DRIVE = SynchedEntityData.defineId(CoreFighterEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> MISSILE_CD = SynchedEntityData.defineId(CoreFighterEntity.class, EntityDataSerializers.INT);
 
     // entradas del piloto (cliente)
@@ -93,6 +95,7 @@ public class CoreFighterEntity extends Entity {
         entityData.define(HEALTH, MAX_HEALTH);
         entityData.define(JUMP, 0);
         entityData.define(MISSILE_CD, 0);
+        entityData.define(NETHER_DRIVE, false);
     }
 
     public float health() {
@@ -164,9 +167,38 @@ public class CoreFighterEntity extends Entity {
         }
     }
 
+    public boolean netherDrive() {
+        return entityData.get(NETHER_DRIVE);
+    }
+
+    public void setNetherDrive(boolean on) {
+        entityData.set(NETHER_DRIVE, on);
+    }
+
+    /** ¿Puede saltar a esa dimensión? Al Nether solo con el Acoplador (volver desde el Nether siempre se puede). */
+    public boolean canJumpTo(net.minecraft.resources.ResourceKey<Level> dest) {
+        return dest != Level.NETHER || netherDrive();
+    }
+
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
+        if (held.is(ModItems.NETHER_COUPLER.get())) {                            // instalar el Acoplador del Nether
+            if (!level().isClientSide) {
+                if (netherDrive()) {
+                    player.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.tecnocinetico.coupler_installed_already"), true);
+                    return InteractionResult.FAIL;
+                }
+                setNetherDrive(true);
+                if (!player.getAbilities().instabuild) {
+                    held.shrink(1);
+                }
+                playSound(net.minecraft.sounds.SoundEvents.SMITHING_TABLE_USE, 1.0F, 0.8F);
+                player.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.tecnocinetico.coupler_installed")
+                        .withStyle(net.minecraft.ChatFormatting.GOLD), true);
+            }
+            return InteractionResult.sidedSuccess(level().isClientSide);
+        }
         if (held.is(ModItems.INERCITA_PLATE.get()) && health() < MAX_HEALTH) {      // reparar el casco
             if (!level().isClientSide) {
                 setHealth(health() + 30.0F);
@@ -236,6 +268,9 @@ public class CoreFighterEntity extends Entity {
         ejectPassengers();
         ItemStack wreck = new ItemStack(ModItems.CORE_FIGHTER.get());          // los restos se pueden recuperar,
         wreck.getOrCreateTag().putFloat("Health", WRECK_HEALTH);              // pero muy dañados
+        if (netherDrive()) {
+            wreck.getOrCreateTag().putBoolean("NetherDrive", true);              // el acoplador se conserva
+        }
         spawnAtLocation(wreck);
         discard();
     }
@@ -515,6 +550,7 @@ public class CoreFighterEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
+        setNetherDrive(tag.getBoolean("NetherDrive"));
         if (tag.contains("Health")) {
             setHealth(tag.getFloat("Health"));
         }
@@ -526,6 +562,7 @@ public class CoreFighterEntity extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putFloat("Health", health());
+        tag.putBoolean("NetherDrive", netherDrive());
         if (pendingPilot != null) {
             tag.putUUID("PendingPilot", pendingPilot);
         }

@@ -132,6 +132,10 @@ public class Tecnocinetico {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.MachineScreen::new);
                     }
                 }
+                for (var g : java.util.List.of(ModItems.THERMAL_COOLER, ModItems.ASH_FILTER, ModItems.ANCHOR_BOOTS)) {
+                    ItemProperties.register(g.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "level"),
+                            (stack, lvl, entity, seed) -> com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(stack));
+                }
                 ItemProperties.register(ModItems.KINETIC_PISTOL.get(),
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, "reload"),
                         (stack, level, entity, seed) -> {
@@ -263,6 +267,7 @@ public class Tecnocinetico {
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.AnchorModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.AnchorModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.CoreFighterModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.CoreFighterModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SiegeSpiderModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.SiegeSpiderModel::createLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.AbyssFoundryModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.AbyssFoundryModel::createBodyLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DroneModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.DroneModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SentryTurretModel.LAYER,
@@ -295,6 +300,8 @@ public class Tecnocinetico {
             event.registerEntityRenderer(com.bryanamaya.tecnocinetico.nether.NetherEntities.MITE.get(), c ->
                     new com.bryanamaya.tecnocinetico.entity.client.InfernalRenderer(c,
                             com.bryanamaya.tecnocinetico.entity.client.InfernalRenderer.MITE, "slag_mite", 0.6F, 0.3F));
+            event.registerEntityRenderer(com.bryanamaya.tecnocinetico.nether.NetherEntities.FOUNDRY.get(),
+                    com.bryanamaya.tecnocinetico.entity.client.AbyssFoundryRenderer::new);
             event.registerEntityRenderer(com.bryanamaya.tecnocinetico.nether.NetherEntities.SENTINEL.get(), c ->
                     new com.bryanamaya.tecnocinetico.entity.client.InfernalRenderer(c,
                             com.bryanamaya.tecnocinetico.entity.client.InfernalRenderer.SENTINEL, "ash_sentinel", 1.1F, 0.7F));

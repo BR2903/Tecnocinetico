@@ -9,7 +9,8 @@ ROOT=Path(__file__).resolve().parent.parent
 JAVA=ROOT/'src/main/java/com/bryanamaya/tecnocinetico/client/WornGearModel.java'
 COLORS={'steel':(71,79,79),'dark':(31,37,37),'tank':(167,180,177),'coolant':(57,129,143),
         'copper':(145,87,46),'rubber':(34,39,37),'ceramic':(159,153,124),'vent':(63,69,64),
-        'lead':(70,69,77),'hazard':(169,134,55),'led':(85,194,203),'amber':(218,145,58)}
+        'lead':(70,69,77),'hazard':(169,134,55),'led':(85,194,203),'amber':(218,145,58),
+        'slag_plate':(83,59,43),'forge_edge':(129,122,99),'pyroxite':(226,117,46)}
 
 
 def geometry():
@@ -69,22 +70,50 @@ def geometry():
     return parts
 
 
+def mk2_additions():
+    """Blindaje independiente: reutiliza las bases Mk I sin mover una sola UV anterior."""
+    parts={key:[] for key in ('cooler_mk2','filter_mk2','anchor_mk2')}
+    def b(p,f,s,mat):parts[p].append({'from':list(f),'size':list(s),'mat':mat})
+    for x in (-4.25,1.35):
+        b('cooler_mk2',(x,.95,9.35),(2.9,2.0,.65),'slag_plate')
+        b('cooler_mk2',(x,7.95,9.35),(2.9,2.0,.65),'slag_plate')
+        b('cooler_mk2',(x+.25,1.3,10.02),(2.4,.45,.2),'forge_edge')
+        b('cooler_mk2',(x+.95,8.5,10.02),(.9,.75,.2),'pyroxite')
+    b('cooler_mk2',(-4.6,10.85,6.1),(9.2,.65,3.7),'slag_plate')
+    b('cooler_mk2',(-1.3,8.15,9.55),(2.6,2.25,.45),'forge_edge')
+    for x in (-4.38,1.8):
+        b('filter_mk2',(x,-3.15,-8.9),(2.6,.65,2.4),'slag_plate')
+        b('filter_mk2',(x,-.4,-8.9),(2.6,.65,2.4),'slag_plate')
+        b('filter_mk2',(x+.85,-1.95,-8.9),(.9,.8,.4),'pyroxite')
+    b('filter_mk2',(-1.3,-3.35,-7.15),(2.6,.55,1.0),'forge_edge')
+    for x in (-1.85,1.3):
+        b('anchor_mk2',(x,7.5,-4.18),(.55,3,.4),'slag_plate')
+        b('anchor_mk2',(x,7.8,3.98),(.55,3.2,.6),'slag_plate')
+    b('anchor_mk2',(-1.65,10.1,-4.35),(3.3,.45,1.9),'forge_edge')
+    b('anchor_mk2',(-.55,8.95,-4.18),(1.1,.6,.3),'pyroxite')
+    b('anchor_mk2',(-1.75,12.6,-3.7),(3.5,.55,7.0),'slag_plate')
+    return parts
+
+
 def layout():
     parts=geometry();occupied=[[False]*128 for _ in range(128)]
     for y in range(64):
         for x in range(64):occupied[y][x]=True
-    allboxes=[e for boxes in parts.values() for e in boxes]
-    for e in sorted(allboxes,key=lambda e:-math.ceil(e['size'][1]+e['size'][2])):
-        w,h,d=e['size'];rw=math.ceil(2*(w+d))+2;rh=math.ceil(h+d)+2;found=None
-        for y in range(129-rh):
-            for x in range(129-rw):
-                if not any(occupied[yy][xx] for yy in range(y,y+rh) for xx in range(x,x+rw)):
-                    found=(x,y);break
-            if found:break
-        assert found,'Las UV nuevas no caben en 128x128'
-        x,y=found;e['uv']=[x+1,y+1]
-        for yy in range(y,y+rh):
-            for xx in range(x,x+rw):occupied[yy][xx]=True
+    def allocate(boxes):
+        for e in sorted(boxes,key=lambda e:-math.ceil(e['size'][1]+e['size'][2])):
+            w,h,d=e['size'];rw=math.ceil(2*(w+d))+2;rh=math.ceil(h+d)+2;found=None
+            for y in range(129-rh):
+                for x in range(129-rw):
+                    if not any(occupied[yy][xx] for yy in range(y,y+rh) for xx in range(x,x+rw)):
+                        found=(x,y);break
+                if found:break
+            assert found,'Las UV nuevas no caben en 128x128'
+            x,y=found;e['uv']=[x+1,y+1]
+            for yy in range(y,y+rh):
+                for xx in range(x,x+rw):occupied[yy][xx]=True
+    allocate([e for boxes in parts.values() for e in boxes])
+    extra=mk2_additions();allocate([e for boxes in extra.values() for e in boxes])
+    for name,boxes in extra.items():parts[name]=copy.deepcopy(parts[name[:-4]])+boxes
     return parts
 
 
@@ -115,7 +144,7 @@ def extend_texture(original,original_glow):
                     for xx in range(math.floor(u),math.ceil(u+w)):
                         color=paint_color(e['mat'],face,xx-math.floor(u),yy-math.floor(v),math.ceil(w),math.ceil(h))
                         image.putpixel((xx,yy),color)
-                        if e['mat'] in ('led','amber'):glow.putpixel((xx,yy),color)
+                        if e['mat'] in ('led','amber','pyroxite'):glow.putpixel((xx,yy),color)
     assert image.crop((0,0,64,64)).tobytes()==original.tobytes()
     assert glow.crop((0,0,64,64)).tobytes()==original_glow.tobytes()
     return image,glow
@@ -123,6 +152,9 @@ def extend_texture(original,original_glow):
 
 def write_java():
     text=JAVA.read_text(encoding='utf-8')
+    if 'public final ModelPart cooler_mk2, filter_mk2, anchor_mk2;' not in text:
+        text=text.replace('    public WornGearModel(ModelPart root) {','    public final ModelPart cooler_mk2, filter_mk2, anchor_mk2;\n\n    public WornGearModel(ModelPart root) {')
+        text=text.replace('        this.anchor = root.getChild("anchor");','        this.anchor = root.getChild("anchor");\n        this.cooler_mk2 = root.getChild("cooler_mk2");\n        this.filter_mk2 = root.getChild("filter_mk2");\n        this.anchor_mk2 = root.getChild("anchor_mk2");')
     if 'public final ModelPart cooler, filter, anchor;' not in text:
         text=text.replace('    public WornGearModel(ModelPart root) {','    public final ModelPart cooler, filter, anchor;\n\n    public WornGearModel(ModelPart root) {')
         text=text.replace('        this.propulsor = root.getChild("propulsor");','        this.propulsor = root.getChild("propulsor");\n        this.cooler = root.getChild("cooler");\n        this.filter = root.getChild("filter");\n        this.anchor = root.getChild("anchor");')

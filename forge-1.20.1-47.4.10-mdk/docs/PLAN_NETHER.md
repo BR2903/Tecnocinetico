@@ -45,4 +45,14 @@ El usuario pidió peligros de ambiente (calor y ceniza tóxica) y, a más dificu
 - Arte de Codex (`tools/nether_gear_art.py`, `nether_gear_rig.py`, `preview_nether_gear.py`): objetos, recargas planas, armadura y equipo puesto (`WornGearModel` partes `cooler`/`filter`/`anchor`, atlas `worn_gear.png` 128x128).
 - GameTests `NetherHazardGameTests` (4). Probar en `runClient`: entrar al Nether en supervivencia, ver subir las barras, ir a Forjas de Escoria / Pozos de Azufre, probar el equipo y la armadura.
 
-Siguientes partes: primer jefe (Fundidor del Abismo con su fundición); segundo jefe (Devorador de Escoria con su excavación) y recompensas.
+
+## Parte 5 (2026-11-12, Claude + Codex): primer jefe, Fundidor del Abismo — entregada, pendiente de prueba del usuario
+- **Fundición del Abismo** (`InfernalSiteStructure` site 0, `abyss_foundry`, spacing 40): nave de 31x31 excavada en una caverna, canales de lava, pilares, horno, 3 cofres y una Consola del Núcleo (guardián `abyss_foundry`) junto a la puerta sur; al activarla la puerta se cierra con barrera.
+- **Jefe** `nether/AbyssFoundryEntity` (1000 de vida; la de Minecraft no pasa de 1024): martillazo, fractura de lava, escoria fundida (charcos 5 s) y, cada 4.º ataque, sobrecalentamiento (daño + 35 de calor, luego expuesto 80 ticks con ×1,6 de daño). Todos avisan (pose + partículas); enfadado por debajo del 50 %. Multijugador: aguanta un 50 % más por jugador extra (máx. ×3, dividiendo el daño). Se reinicia tras un minuto sin jugadores en 40 bloques.
+- **Botín**: Acoplador del Nether (uno por jugador que luchó, máx. 4), Componentes de Forja Abisal, aleación, piroxita y netherita (objetos invulnerables a la lava).
+- **Caza**: ahora necesita el Acoplador (clic derecho) para saltar al Nether (`canJumpTo`, `NetherDrive` en NBT y en los restos); el menú lo muestra bloqueado.
+- **Equipo Mk II** (`gear/NetherGadgetItem`, NBT `Level`, receta `nether_gadget_upgrade`: gadget + componente): doble batería; refrigerador enfría el doble y aguanta lava; filtro quita wither/veneno/ceguera; botas sin empuje y -90 % caída.
+- Arte de Codex: `AbyssFoundryModel`/`AbyssFoundryRenderer` (10 poses), objetos, Mk II puestos (`cooler_mk2`/`filter_mk2`/`anchor_mk2`). GameTests `FoundryGameTests` (4) + la fundición en `netherBiomesAndSites`.
+- Probar: `/locate structure tecnocinetico:abyss_foundry` en chunks nuevos del Nether, o el huevo (sin consola). Pelear solo y con amigos; instalar el acoplador y saltar al Nether.
+
+Siguiente parte: segundo jefe (Devorador de Escoria con su excavación), que suelta el Núcleo de Forja.

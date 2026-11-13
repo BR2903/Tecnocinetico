@@ -24,6 +24,9 @@ public final class ModRecipes {
             SERIALIZERS.register("gadget_recharge",
                     () -> new SimpleCraftingRecipeSerializer<>(com.bryanamaya.tecnocinetico.gear.GearRecipes.Recharge::new));
     /** Jetpack + kit de mejora → jetpack del nivel siguiente. */
+    public static final RegistryObject<RecipeSerializer<com.bryanamaya.tecnocinetico.gear.GearRecipes.NetherGadgetUpgrade>> NETHER_GADGET_UPGRADE =
+            SERIALIZERS.register("nether_gadget_upgrade",
+                    () -> new SimpleCraftingRecipeSerializer<>(com.bryanamaya.tecnocinetico.gear.GearRecipes.NetherGadgetUpgrade::new));
     public static final RegistryObject<RecipeSerializer<com.bryanamaya.tecnocinetico.gear.GearRecipes.JetpackUpgrade>> JETPACK_UPGRADE =
             SERIALIZERS.register("jetpack_upgrade",
                     () -> new SimpleCraftingRecipeSerializer<>(com.bryanamaya.tecnocinetico.gear.GearRecipes.JetpackUpgrade::new));

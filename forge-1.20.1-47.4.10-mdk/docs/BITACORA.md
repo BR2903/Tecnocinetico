@@ -752,3 +752,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-12 — Claude + Codex — Nether parte 4: calor, ceniza y equipo de preparación
 - El usuario eligió calor y ceniza tóxica como peligros del Nether, las cuatro piezas de equipo y "si le aumentamos la dificultad, también la recompensa". Detalle en `docs/PLAN_NETHER.md` (parte 4). Equipo y armadura traídos de la rama `work/nether-por-etapas` y rehechos por Codex (objetos, recargas planas, equipo visible en el jugador). Receta del refrigerador con nieve (el hielo pide toque de seda). 62 GameTests.
+
+## 2026-11-12 — Claude + Codex — Nether parte 5: Fundidor del Abismo
+- El usuario eligió fundición con consola, los cuatro ataques y como botín mejoras del equipo, mejora del caza y mucho material (el Núcleo de Forja lo soltará el segundo jefe). Detalle en `docs/PLAN_NETHER.md` (parte 5). La vida máxima de Minecraft es 1024: el aguante extra en multijugador se hace dividiendo el daño. Las pruebas de estructuras aceptan cofres de más (zona aleatoria: puede caer junto a un bastión). 66 GameTests.

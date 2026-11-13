@@ -133,7 +133,11 @@ public final class NetherHazards {
             if (heatGain > 0 && GadgetItem.hasCharge(cooler)) {
                 GadgetItem.drain(cooler, 1 + Math.round(heatGain));                  // trabaja más cuanto más calor
                 TacticalGear.of(p).ifPresent(TacticalGear::setChanged);
-                heat -= 3.0F;                                                         // y enfría
+                boolean mk2 = com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(cooler) >= 2;
+                heat -= mk2 ? 6.0F : 3.0F;                                            // y enfría (Mk II, el doble)
+                if (mk2 && p.isInLava()) {                                            // Mk II: aguanta un baño de lava
+                    p.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 40, 0, false, false, true));
+                }
                 if (p.isOnFire() && !p.isInLava()) {
                     p.clearFire();
                 }
@@ -153,6 +157,14 @@ public final class NetherHazards {
                 GadgetItem.drain(filter, 1);
                 TacticalGear.of(p).ifPresent(TacticalGear::setChanged);
                 filtered = true;
+            }
+            if (com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(filter) >= 2 && GadgetItem.hasCharge(filter)) {
+                for (var bad : java.util.List.of(MobEffects.WITHER, MobEffects.POISON, MobEffects.BLINDNESS)) {   // Mk II: filtra toxinas
+                    if (p.hasEffect(bad)) {
+                        p.removeEffect(bad);
+                        GadgetItem.drain(filter, 6);
+                    }
+                }
             }
             ash = clamp(ashy && !filtered ? ash + ASH_GAIN : ash - (ashy ? 1.0F : 3.0F));
             effects(p, heat, ash);
@@ -226,7 +238,7 @@ public final class NetherHazards {
         if (event.getEntity() instanceof Player p && !p.level().isClientSide) {
             ItemStack boots = gadget(p, TacticalGear.FEET, ModItems.ANCHOR_BOOTS.get());
             if (GadgetItem.hasCharge(boots)) {
-                event.setStrength(event.getStrength() * 0.15F);
+                event.setStrength(event.getStrength() * (com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(boots) >= 2 ? 0.0F : 0.15F));
                 GadgetItem.drain(boots, 4);
                 TacticalGear.of(p).ifPresent(TacticalGear::setChanged);
             }
@@ -239,7 +251,7 @@ public final class NetherHazards {
         if (event.getEntity() instanceof Player p && !p.level().isClientSide && event.getDistance() > 3.0F) {
             ItemStack boots = gadget(p, TacticalGear.FEET, ModItems.ANCHOR_BOOTS.get());
             if (GadgetItem.hasCharge(boots)) {
-                event.setDamageMultiplier(event.getDamageMultiplier() * 0.25F);
+                event.setDamageMultiplier(event.getDamageMultiplier() * (com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(boots) >= 2 ? 0.1F : 0.25F));
                 GadgetItem.drain(boots, 8);
                 TacticalGear.of(p).ifPresent(TacticalGear::setChanged);
             }

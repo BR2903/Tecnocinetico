@@ -31,6 +31,9 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
  * <ul>
  *   <li><b>Depósito de Refrigeración</b> (23x23): losa de escoria con pretil, tres tanques de carcasa infernal con
  *       ventanas al refrigerante (hielo azul), tuberías entre ellos y una caseta de control con dos cofres.</li>
+ *   <li><b>Fundición del Abismo</b> (31x31): nave de carcasa infernal de 9 de alto con la puerta al sur, dos canales de
+ *       lava, cuatro pilares con foco, el horno apagado donde duerme el Fundidor y la consola junto a la puerta (al
+ *       activarla se cierra la puerta con barrera y despierta el jefe). Tres cofres.</li>
  *   <li><b>Puesto de Vigilancia</b> (11x11): torre de 18 con plataforma, barandilla, foco, escalera interior,
  *       un cofre abajo y otro arriba y dos Centinelas de Ceniza de guardia.</li>
  * </ul>
@@ -43,11 +46,11 @@ public class InfernalSitePiece extends StructurePiece {
 
     /** Lado de cada instalación. */
     public static int size(int site) {
-        return site == InfernalSiteStructure.WATCHPOST ? 11 : 23;
+        return site == InfernalSiteStructure.WATCHPOST ? 11 : site == InfernalSiteStructure.FOUNDRY ? 31 : 23;
     }
 
     private static int height(int site) {
-        return site == InfernalSiteStructure.WATCHPOST ? 20 : 12;
+        return site == InfernalSiteStructure.WATCHPOST ? 20 : site == InfernalSiteStructure.FOUNDRY ? 18 : 12;
     }
 
     public InfernalSitePiece(BlockPos origin, int site, long seed) {
@@ -142,8 +145,77 @@ public class InfernalSitePiece extends StructurePiece {
                             BoundingBox box, ChunkPos chunk, BlockPos pivot) {
         if (site == InfernalSiteStructure.WATCHPOST) {
             watchpost(level, box);
+        } else if (site == InfernalSiteStructure.FOUNDRY) {
+            foundry(level, box);
         } else {
             depot(level, box);
+        }
+    }
+
+    /** Fundición del Abismo (jefe). Puerta en z = n (sur), x 14-16; la consola, dentro junto a la puerta. */
+    private void foundry(WorldGenLevel level, BoundingBox box) {
+        int n = size(site) - 1;
+        for (int x = 0; x <= n; x++) {
+            for (int z = 0; z <= n; z++) {
+                foundation(level, box, x, z);
+                boolean edge = x == 0 || z == 0 || x == n || z == n;
+                put(level, box, x, 0, z, roll(x, 0, z, 11) < 0.3 ? ModWorldBlocks.COMPACTED_SLAG.get() : ModWorldBlocks.CARBONIZED_PLATE.get());
+                fill(level, box, x, 1, z, x, 17, z, Blocks.AIR);                      // excava la nave en la roca
+                if (edge) {
+                    for (int y = 1; y <= 9; y++) {
+                        boolean band = y == 4 || y == 8;
+                        put(level, box, x, y, z, band ? Blocks.POLISHED_BLACKSTONE_BRICKS : ModWorldBlocks.INFERNAL_CASING.get());
+                    }
+                    if (roll(x, 10, z, 12) < 0.6) {
+                        put(level, box, x, 10, z, Blocks.POLISHED_BLACKSTONE_BRICK_WALL);   // almenas rotas
+                    }
+                }
+            }
+        }
+        // puerta (3x3) al sur
+        fill(level, box, 14, 1, n, 16, 3, n, Blocks.AIR);
+        // vigas del techo a la altura 9 (en cruz) con cadenas
+        fill(level, box, 1, 9, 15, n - 1, 9, 15, ModWorldBlocks.RUSTED_METAL_BEAM.get());
+        fill(level, box, 15, 9, 1, 15, 9, n - 1, ModWorldBlocks.RUSTED_METAL_BEAM.get());
+        // dos canales de lava (x 5 y 25, de z 5 a 25), con bordillo
+        for (int cx : new int[]{5, 25}) {
+            for (int z = 5; z <= 25; z++) {
+                put(level, box, cx, 0, z, Blocks.LAVA);
+                put(level, box, cx, -1, z, Blocks.BLACKSTONE);
+                put(level, box, cx - 1, 1, z, z % 4 == 0 ? Blocks.POLISHED_BLACKSTONE_BRICK_WALL : Blocks.AIR);
+                put(level, box, cx + 1, 1, z, z % 4 == 0 ? Blocks.POLISHED_BLACKSTONE_BRICK_WALL : Blocks.AIR);
+            }
+        }
+        // cuatro pilares de carcasa con foco arriba
+        for (int[] c : new int[][]{{9, 9}, {21, 9}, {9, 21}, {21, 21}}) {
+            fill(level, box, c[0], 1, c[1], c[0] + 1, 8, c[1] + 1, ModWorldBlocks.INFERNAL_CASING.get());
+            put(level, box, c[0], 9, c[1], Blocks.SHROOMLIGHT);
+            put(level, box, c[0] + 1, 9, c[1] + 1, Blocks.SHROOMLIGHT);
+        }
+        // el horno apagado donde duerme el Fundidor (al norte, z 2-6)
+        fill(level, box, 11, 1, 1, 19, 1, 6, ModWorldBlocks.INFERNAL_CASING.get());
+        fill(level, box, 12, 2, 1, 18, 7, 2, ModWorldBlocks.INFERNAL_CASING.get());
+        fill(level, box, 14, 2, 2, 16, 5, 2, Blocks.MAGMA_BLOCK);                        // boca del horno
+        put(level, box, 15, 8, 1, Blocks.POLISHED_BLACKSTONE_BRICKS);
+        fill(level, box, 13, 8, 1, 17, 8, 1, ModWorldBlocks.CARBONIZED_PLATE.get());
+        // cofres: dos en las esquinas del fondo, uno junto a la puerta
+        chest(level, box, 2, 1, 2, Direction.SOUTH);
+        chest(level, box, n - 2, 1, 2, Direction.SOUTH);
+        chest(level, box, 19, 1, n - 2, Direction.NORTH);
+        // consola junto a la puerta; el jefe aparece frente al horno
+        BlockPos console = pos(12, 1, n - 2);
+        if (box.isInside(console)) {
+            level.setBlock(console, com.bryanamaya.tecnocinetico.block.ModBlocks.CORE_CONSOLE.get().defaultBlockState(), 2);
+            if (level.getBlockEntity(console) instanceof com.bryanamaya.tecnocinetico.block.entity.CoreConsoleBlockEntity c) {
+                c.configureGuardian("abyss_foundry", pos(15, 1, 10));
+                var seal = new java.util.ArrayList<BlockPos>();
+                for (int x = 14; x <= 16; x++) {
+                    for (int y = 1; y <= 3; y++) {
+                        seal.add(pos(x, y, n));
+                    }
+                }
+                c.setSeal(seal);
+            }
         }
     }
 

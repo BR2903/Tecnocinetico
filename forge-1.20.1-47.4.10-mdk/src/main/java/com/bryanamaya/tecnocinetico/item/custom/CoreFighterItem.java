@@ -37,6 +37,9 @@ public class CoreFighterItem extends Item {
         if (!level.noCollision(ship, ship.getBoundingBox())) {
             return InteractionResult.FAIL;                                        // no cabe aquí
         }
+        if (ctx.getItemInHand().getTag() != null && ctx.getItemInHand().getTag().getBoolean("NetherDrive")) {
+            ship.setNetherDrive(true);
+        }
         if (ctx.getItemInHand().getTag() != null && ctx.getItemInHand().getTag().contains("Health")) {
             ship.setHealth(ctx.getItemInHand().getTag().getFloat("Health"));     // restos de una nave destruida
         }

@@ -9,8 +9,8 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import java.util.Optional;
 
 /**
- * Instalaciones del Nether industrial ({@code site}: 2 = Depósito de Refrigeración, 3 = Puesto de Vigilancia; 0 y 1
- * quedan para la fundición y la excavación de los jefes). Se colocan en una caverna real: busca, en la columna del
+ * Instalaciones del Nether industrial ({@code site}: 0 = Fundición del Abismo (jefe), 2 = Depósito de Refrigeración,
+ * 3 = Puesto de Vigilancia; 1 queda para la excavación del segundo jefe). Se colocan en una caverna real: busca, en la columna del
  * centro del chunk, un suelo sólido entre Y 34 y 95 con al menos {@link #HEADROOM} bloques de aire encima (nunca sobre
  * el techo de lecho de roca ni en lava).
  */
@@ -21,7 +21,7 @@ public class InfernalSiteStructure extends Structure {
             Codec.intRange(0, 3).fieldOf("site").forGetter(s -> s.site)
     ).apply(i, InfernalSiteStructure::new));
 
-    public static final int DEPOT = 2, WATCHPOST = 3;
+    public static final int FOUNDRY = 0, DEPOT = 2, WATCHPOST = 3;
     private static final int HEADROOM = 14, MIN_Y = 34, MAX_Y = 95;
 
     private final int site;
@@ -35,7 +35,7 @@ public class InfernalSiteStructure extends Structure {
     protected Optional<GenerationStub> findGenerationPoint(GenerationContext ctx) {
         int x = ctx.chunkPos().getMiddleBlockX(), z = ctx.chunkPos().getMiddleBlockZ();
         var column = ctx.chunkGenerator().getBaseColumn(x, z, ctx.heightAccessor(), ctx.randomState());
-        int headroom = site == WATCHPOST ? 20 : HEADROOM;
+        int headroom = site == WATCHPOST ? 20 : site == FOUNDRY ? 10 : HEADROOM;   // la fundición excava su nave
         for (int y = MAX_Y; y >= MIN_Y; y--) {
             var floor = column.getBlock(y);
             if (!floor.isSolid() || !floor.getFluidState().isEmpty()) {

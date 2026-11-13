@@ -38,11 +38,18 @@ public class ShipJumpScreen extends Screen {
                 .sorted(Comparator.comparing(k -> k.location().toString()))
                 .toList();
         int y = height / 2 - dims.size() * 12;
+        CoreFighterEntity ship = minecraft.player.getVehicle() instanceof CoreFighterEntity s ? s : null;
         for (ResourceKey<Level> key : dims) {
-            addRenderableWidget(Button.builder(dimensionName(key), b -> {
+            boolean ok = ship == null || ship.canJumpTo(key);
+            Button button = Button.builder(ok ? dimensionName(key) : Component.translatable("screen.tecnocinetico.ship_jump.locked", dimensionName(key)), b -> {
                 ModNetwork.CHANNEL.sendToServer(new ModNetwork.ShipJumpPacket(key.location().toString()));
                 onClose();
-            }).bounds(width / 2 - 90, y, 180, 20).build());
+            }).bounds(width / 2 - 90, y, 180, 20).build();
+            button.active = ok;
+            if (!ok) {
+                button.setTooltip(net.minecraft.client.gui.components.Tooltip.create(Component.translatable("message.tecnocinetico.need_coupler")));
+            }
+            addRenderableWidget(button);
             y += 24;
         }
         addRenderableWidget(Button.builder(Component.translatable("gui.cancel"), b -> onClose())

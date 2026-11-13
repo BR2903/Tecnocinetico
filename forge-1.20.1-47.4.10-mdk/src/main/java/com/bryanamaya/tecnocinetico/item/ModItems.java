@@ -228,17 +228,25 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> AQUA_PROPULSOR.get(), new Item.Properties()));
     // Equipo de preparación para el Nether (nether/NetherHazards): calor, ceniza y empuje
     public static final RegistryObject<Item> THERMAL_COOLER = ITEMS.register("thermal_cooler",
-            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.BACK, 1800, "tooltip.tecnocinetico.thermal_cooler", new Item.Properties().fireResistant()));
+            () -> new com.bryanamaya.tecnocinetico.gear.NetherGadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.BACK, 1800, "tooltip.tecnocinetico.thermal_cooler", new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ASH_FILTER = ITEMS.register("ash_filter",
-            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.FACE, 1500, "tooltip.tecnocinetico.ash_filter", new Item.Properties().fireResistant()));
+            () -> new com.bryanamaya.tecnocinetico.gear.NetherGadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.FACE, 1500, "tooltip.tecnocinetico.ash_filter", new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANCHOR_BOOTS = ITEMS.register("anchor_boots",
-            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.FEET, 1400, "tooltip.tecnocinetico.anchor_boots", new Item.Properties().fireResistant()));
+            () -> new com.bryanamaya.tecnocinetico.gear.NetherGadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.FEET, 1400, "tooltip.tecnocinetico.anchor_boots", new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> COOLANT_PACK = ITEMS.register("coolant_pack",
             () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> THERMAL_COOLER.get(), new Item.Properties()));
     public static final RegistryObject<Item> FILTER_CELL = ITEMS.register("filter_cell",
             () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> ASH_FILTER.get(), new Item.Properties()));
     public static final RegistryObject<Item> ANCHOR_CELL = ITEMS.register("anchor_cell",
             () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> ANCHOR_BOOTS.get(), new Item.Properties()));
+    // Fundidor del Abismo: botín
+    public static final RegistryObject<Item> NETHER_COUPLER = ITEMS.register("nether_coupler",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.NetherCouplerItem(new Item.Properties().stacksTo(16).fireResistant()
+                    .rarity(net.minecraft.world.item.Rarity.EPIC)));
+    public static final RegistryObject<Item> ABYSSAL_COMPONENT = ITEMS.register("abyssal_component",
+            () -> new Item(new Item.Properties().fireResistant().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> ABYSS_FOUNDRY_SPAWN_EGG = ITEMS.register("abyss_foundry_spawn_egg",
+            () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.nether.NetherEntities.FOUNDRY, 0x393B3D, 0xFF4F11, new Item.Properties()));
     public static final RegistryObject<Item> JETPACK_KIT_2 = ITEMS.register("jetpack_kit_2",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON)));
     public static final RegistryObject<Item> JETPACK_KIT_3 = ITEMS.register("jetpack_kit_3",

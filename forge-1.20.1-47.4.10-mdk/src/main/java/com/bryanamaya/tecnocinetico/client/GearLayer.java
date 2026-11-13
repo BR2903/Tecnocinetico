@@ -47,14 +47,15 @@ public class GearLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Abs
 
             // equipo de preparación del Nether
             if (face.is(ModItems.ASH_FILTER.get())) {
-                draw(pose, buffers, m.head, model.filter, light, overlay);
+                draw(pose, buffers, m.head, com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(face) >= 2 ? model.filter_mk2 : model.filter, light, overlay);
             }
             if (back.is(ModItems.THERMAL_COOLER.get())) {
-                draw(pose, buffers, m.body, model.cooler, light, overlay);
+                draw(pose, buffers, m.body, com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(back) >= 2 ? model.cooler_mk2 : model.cooler, light, overlay);
             }
             if (feet.is(ModItems.ANCHOR_BOOTS.get())) {
-                draw(pose, buffers, m.rightLeg, model.anchor, light, overlay);
-                draw(pose, buffers, m.leftLeg, model.anchor, light, overlay);
+                var boot = com.bryanamaya.tecnocinetico.gear.NetherGadgetItem.level(feet) >= 2 ? model.anchor_mk2 : model.anchor;
+                draw(pose, buffers, m.rightLeg, boot, light, overlay);
+                draw(pose, buffers, m.leftLeg, boot, light, overlay);
             }
             if (face.is(ModItems.NIGHT_VISION_VISOR.get())) {
                 draw(pose, buffers, m.head, model.visor, light, overlay);

@@ -73,6 +73,7 @@ def worn(armored=False,walk=False,legacy=None,old=False):
                 if name=='propulsor':append_cube(m,e,texture,'left_leg',walk)
     else:
         for part,boxes in layout().items():
+            if part.endswith('_mk2'):continue
             bones=('body',) if part=='cooler' else ('head',) if part=='filter' else ('right_leg','left_leg')
             for bone in bones:
                 for e in boxes:append_cube(m,e,'tecnocinetico:entity/worn_gear',bone,walk)

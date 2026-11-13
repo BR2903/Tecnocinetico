@@ -633,5 +633,19 @@
   "death.attack.tecnocinetico.overheat": "%1$s suffered heatstroke",
   "death.attack.tecnocinetico.overheat.player": "%1$s suffered heatstroke whilst fleeing %2$s",
   "death.attack.tecnocinetico.ash_lungs": "%1$s choked on ash",
-  "death.attack.tecnocinetico.ash_lungs.player": "%1$s choked on ash whilst fleeing %2$s"
+  "death.attack.tecnocinetico.ash_lungs.player": "%1$s choked on ash whilst fleeing %2$s",
+  "entity.tecnocinetico.abyss_foundry": "Abyss Foundry",
+  "item.tecnocinetico.abyss_foundry_spawn_egg": "Abyss Foundry Spawn Egg",
+  "item.tecnocinetico.nether_coupler": "Nether Coupler",
+  "item.tecnocinetico.abyssal_component": "Abyssal Forge Component",
+  "item.tecnocinetico.gadget_mk2": "%s Mk II",
+  "item.tecnocinetico.thermal_cooler.mk2": "Mk II: double battery, cools twice as fast and survives a lava bath.",
+  "item.tecnocinetico.ash_filter.mk2": "Mk II: double battery and filters wither, poison and blindness.",
+  "item.tecnocinetico.anchor_boots.mk2": "Mk II: double battery, no knockback and -90% fall damage.",
+  "tooltip.tecnocinetico.nether_coupler": "Right-click the Core Fighter: lets it jump to the Nether.",
+  "message.tecnocinetico.coupler_installed": "Nether Coupler installed: the fighter can now jump to the Nether",
+  "message.tecnocinetico.coupler_installed_already": "This fighter already has the Nether Coupler",
+  "message.tecnocinetico.need_coupler": "Requires the Nether Coupler (dropped by the Abyss Foundry)",
+  "message.tecnocinetico.foundry_defeated": "The Abyss Foundry has fallen! Its remains still burn.",
+  "screen.tecnocinetico.ship_jump.locked": "%s (locked)"
 }
