@@ -75,11 +75,22 @@ public class AbyssFoundryModel extends EntityModel<AbyssFoundryEntity> {
             attack = v.attack; progress = Mth.lerp(Mth.clamp((age-v.stopped)/2, 0, 1), v.progress, 1);
             weight = 1-smooth((age-v.stopped-2)/8);
         }
-        float walk = limbSwingAmount * (attack == 0 && !e.exposed() ? 1 : 0.1F);
-        right_leg.xRot += Mth.cos(limbSwing*0.66F)*0.32F*walk;
-        left_leg.xRot += Mth.cos(limbSwing*0.66F+Mth.PI)*0.32F*walk;
-        right_knee.xRot += Math.max(0, -Mth.sin(limbSwing*0.66F))*0.35F*walk;
-        left_knee.xRot += Math.max(0, Mth.sin(limbSwing*0.66F))*0.35F*walk;
+        // andar: pasos pesados y bien visibles (el jefe es lento, así que se amplifica la cantidad de paso)
+        float walk = Math.min(1.0F, limbSwingAmount * 2.2F) * (e.exposed() ? 0.0F : attack == 0 ? 1.0F : 0.5F);
+        float phase = limbSwing * 0.5F;
+        right_leg.xRot += Mth.cos(phase)*0.75F*walk;
+        left_leg.xRot += Mth.cos(phase+Mth.PI)*0.75F*walk;
+        right_knee.xRot += Math.max(0, -Mth.sin(phase))*0.9F*walk;
+        left_knee.xRot += Math.max(0, Mth.sin(phase))*0.9F*walk;
+        right_foot.xRot -= Mth.cos(phase)*0.35F*walk;
+        left_foot.xRot -= Mth.cos(phase+Mth.PI)*0.35F*walk;
+        body.y += Math.abs(Mth.sin(phase))*1.2F*walk;                                // cae el peso en cada paso
+        body.zRot += Mth.sin(phase)*0.06F*walk;                                      // balanceo de lado a lado
+        body.yRot += Mth.sin(phase)*0.05F*walk;
+        if (attack == 0) {                                                           // brazos al ritmo de las piernas
+            right_arm.xRot += Mth.cos(phase+Mth.PI)*0.35F*walk;
+            left_arm.xRot += Mth.cos(phase)*0.35F*walk;
+        }
         body.y += Mth.sin(age*0.12F)*0.035F;
         body.zRot += Mth.sin(age*(e.enraged() ? 0.7F : 0.18F))*(e.enraged() ? 0.008F : 0.003F);
         head.yRot += netHeadYaw * Mth.DEG_TO_RAD * 0.15F;

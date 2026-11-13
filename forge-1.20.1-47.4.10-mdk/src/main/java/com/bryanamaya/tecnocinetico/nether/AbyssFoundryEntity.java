@@ -95,8 +95,8 @@ public class AbyssFoundryEntity extends Monster {
                 .add(Attributes.MAX_HEALTH, BASE_HEALTH)
                 .add(Attributes.ARMOR, 12.0D)
                 .add(Attributes.ARMOR_TOUGHNESS, 6.0D)
-                .add(Attributes.ATTACK_DAMAGE, 16.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.22D)
+                .add(Attributes.ATTACK_DAMAGE, 26.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.27D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, 48.0D);
     }
@@ -213,7 +213,7 @@ public class AbyssFoundryEntity extends Monster {
             return;
         }
         double dist = distanceTo(t);
-        if (dist > 5.0) {
+        if (dist > 4.0) {
             getNavigation().moveTo(t, 1.0D);
         } else {
             getNavigation().stop();
@@ -276,13 +276,13 @@ public class AbyssFoundryEntity extends Monster {
             default -> {}
         }
         setAttack(0, 0);
-        cooldown = enraged() ? 22 : 36;
+        cooldown = enraged() ? 14 : 24;
     }
 
     private void hammer(ServerLevel server) {
         server.playSound(null, BlockPos.containing(lock), SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 2.5F, 0.7F);
         server.sendParticles(ParticleTypes.EXPLOSION, lock.x, lock.y + 0.5, lock.z, 3, 1.0, 0.2, 1.0, 0.0);
-        hurtArea(server, lock, 3.5, 22.0F, 1.2, 0);
+        hurtArea(server, lock, 3.5, 36.0F, 1.8, 0);
     }
 
     private void fracture(ServerLevel server) {
@@ -292,7 +292,7 @@ public class AbyssFoundryEntity extends Monster {
             Vec3 p = position().add(dir.scale(i));
             server.sendParticles(ParticleTypes.LAVA, p.x, p.y + 0.3, p.z, 2, 0.3, 0.1, 0.3, 0.0);
             server.sendParticles(ParticleTypes.FLAME, p.x, p.y + 0.6, p.z, 4, 0.3, 0.4, 0.3, 0.02);
-            hurtArea(server, p, 1.5, 14.0F, 0.4, 5);
+            hurtArea(server, p, 1.5, 24.0F, 0.5, 8);
         }
     }
 
@@ -300,7 +300,7 @@ public class AbyssFoundryEntity extends Monster {
         server.playSound(null, blockPosition(), SoundEvents.LAVA_POP, SoundSource.HOSTILE, 3.0F, 0.6F);
         for (Vec3 p : targets) {
             server.sendParticles(ParticleTypes.LAVA, p.x, p.y + 0.5, p.z, 12, 0.8, 0.3, 0.8, 0.1);
-            hurtArea(server, p, 2.5, 12.0F, 0.3, 4);
+            hurtArea(server, p, 2.5, 22.0F, 0.4, 6);
             puddles.add(new double[]{p.x, p.y, p.z, 100});
         }
     }
@@ -312,9 +312,12 @@ public class AbyssFoundryEntity extends Monster {
             if (p.isSpectator() || p.isCreative()) {
                 continue;
             }
-            p.hurt(damageSources().mobAttack(this), 16.0F);
+            p.hurt(damageSources().mobAttack(this), 18.0F);
+            p.invulnerableTime = 0;                                                   // y el calor, que atraviesa la armadura
+            p.hurt(new DamageSource(level().registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.DAMAGE_TYPE)
+                    .getHolderOrThrow(NetherHazards.OVERHEAT), this), 10.0F);
             float factor = NetherHazards.heatFactor(p);                              // la piroxita también protege aquí
-            p.getPersistentData().putFloat(NetherHazards.HEAT, Math.min(NetherHazards.MAX, NetherHazards.heat(p) + 35.0F * factor));
+            p.getPersistentData().putFloat(NetherHazards.HEAT, Math.min(NetherHazards.MAX, NetherHazards.heat(p) + 45.0F * factor));
             Vec3 push = flat(p.position().subtract(position())).scale(1.4);
             p.push(push.x, 0.5, push.z);
             p.hurtMarked = true;
@@ -332,7 +335,7 @@ public class AbyssFoundryEntity extends Monster {
                 server.sendParticles(ParticleTypes.SMOKE, p[0], p[1] + 0.3, p[2], 2, 0.8, 0.1, 0.8, 0.01);
             }
             if (tickCount % 10 == 0) {
-                hurtArea(server, new Vec3(p[0], p[1], p[2]), 1.8, 3.0F, 0.0, 3);
+                hurtArea(server, new Vec3(p[0], p[1], p[2]), 1.8, 6.0F, 0.0, 5);
             }
         }
     }
