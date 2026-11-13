@@ -671,5 +671,10 @@
   "message.tecnocinetico.gadget_refueled": "%s repostado con %s",
   "item.tecnocinetico.chainsaw": "Motosierra",
   "tooltip.tecnocinetico.chainsaw": "Tala el árbol entero (agachado: un bloque). Tecla R: repostar con Depósitos de Combustible o Células de Combustible Cinético.",
-  "tooltip.tecnocinetico.chainsaw_fuel": "Gasolina: %s / %s"
+  "tooltip.tecnocinetico.chainsaw_fuel": "Gasolina: %s / %s",
+  "subtitles.tecnocinetico.chainsaw.start": "Motosierra arranca",
+  "subtitles.tecnocinetico.chainsaw.idle": "Motosierra al ralentí",
+  "subtitles.tecnocinetico.chainsaw.cut": "Motosierra corta",
+  "subtitles.tecnocinetico.chainsaw.rev": "Motosierra acelera",
+  "subtitles.tecnocinetico.chainsaw.stop": "Motosierra se apaga"
 }

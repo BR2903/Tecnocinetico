@@ -632,5 +632,50 @@
     "sounds": [
       "tecnocinetico:drill/sputter"
     ]
+  },
+  "item.chainsaw.start": {
+    "subtitle": "subtitles.tecnocinetico.chainsaw.start",
+    "sounds": [
+      {
+        "name": "tecnocinetico:chainsaw/start",
+        "stream": false
+      }
+    ]
+  },
+  "item.chainsaw.idle": {
+    "subtitle": "subtitles.tecnocinetico.chainsaw.idle",
+    "sounds": [
+      {
+        "name": "tecnocinetico:chainsaw/idle",
+        "stream": false
+      }
+    ]
+  },
+  "item.chainsaw.cut": {
+    "subtitle": "subtitles.tecnocinetico.chainsaw.cut",
+    "sounds": [
+      {
+        "name": "tecnocinetico:chainsaw/cut",
+        "stream": false
+      }
+    ]
+  },
+  "item.chainsaw.rev": {
+    "subtitle": "subtitles.tecnocinetico.chainsaw.rev",
+    "sounds": [
+      {
+        "name": "tecnocinetico:chainsaw/rev",
+        "stream": false
+      }
+    ]
+  },
+  "item.chainsaw.stop": {
+    "subtitle": "subtitles.tecnocinetico.chainsaw.stop",
+    "sounds": [
+      {
+        "name": "tecnocinetico:chainsaw/stop",
+        "stream": false
+      }
+    ]
   }
 }

@@ -81,7 +81,8 @@ def flat_items():
     d.line((3,9,5,8,7,9),fill='#69695c');d.point((9,5),fill='#96957d')
     d.line((2,12,5,13,7,12),fill='#353831');write_flat('tar',im)
     # Recipientes pequeños = sprites: bidón rojo reconocible y célula tecnológica.
-    for name in ('fuel_canister','kinetic_fuel_cell'):
+    # el fuel_canister conserva su modelo 3D original (weapons_gen.py): el usuario no pidió cambiarlo
+    for name in ('kinetic_fuel_cell',):
         im=Image.new('RGBA',(16,16));d=ImageDraw.Draw(im)
         if name=='fuel_canister':
             d.rectangle((6,1,10,3),fill='#332e29');d.rectangle((7,2,9,3),fill=(0,0,0,0))
@@ -318,14 +319,14 @@ def main():
                       'frames_still':8,'frames_flow':4,'tint':'0xFFFFFFFF: texturas ya coloreadas, no multiplicar otro tinte',
                       'render_layer':'translucent','suggested_light':3 if n=='kinetic_fuel' else 0} for n in FLUIDS},
         'buckets':'<fluid>_bucket: sprites item/generated 16x16 propios. Si el registro aplica Forge fluid_container, usar estos modelos sin sobreescribirlos con el loader dinámico.',
-        'flat_items':['tar','kinetic_fuel_cell','fuel_canister'],
+        'flat_items':['tar','kinetic_fuel_cell'],
         'chainsaw':{'base':'tecnocinetico:item/chainsaw','running':'tecnocinetico:item/chainsaw_running',
                     'predicate':'tecnocinetico:chainsaw_run, 0 parada, 1 en marcha. Mantener 1 mientras trabaja: la textura se anima sola.',
                     'animated_texture':'item/gun/chainsaw_chain_running, 4 frames de 1 tick, bucle sin interpolación',
                     'axis':'-Z, filo vertical; vistas niveladas con convergencia de 8 grados hacia dentro',
                     'firstperson':'Validada con traslación de reposo (±0.5,-0.5,-0.66), igual al taladro. El código debe usar esa pose estable y omitir el golpe vanilla al talar.',
                     'thirdperson':'Transforms del taladro: pose de dos manos CROSSBOW_HOLD recomendada; no cambia la lógica.'},
-        'legacy_generator':'Si se ejecuta weapons_gen.py, ejecutar petroleum_art.py después: el generador antiguo repone el fuel_canister 3D.'})
+        'legacy_generator':'El fuel_canister es el 3D de weapons_gen.py; este generador ya no lo toca.'})
     FILES.add('tools/petroleum_art.py');FILES.add('tools/preview_petroleum.py');FILES.add('docs/HERRAMIENTAS.md')
     save(OUT/'archivos.json',sorted(FILES))
     print('Arte petróleo generado: fluidos, 6 sprites, 2 máquinas y motosierra parada/en marcha.')

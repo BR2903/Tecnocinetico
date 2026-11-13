@@ -671,5 +671,10 @@
   "message.tecnocinetico.gadget_refueled": "%s refuelled with %s",
   "item.tecnocinetico.chainsaw": "Chainsaw",
   "tooltip.tecnocinetico.chainsaw": "Fells the whole tree (sneak: one block). R key: refuel with Fuel Canisters or Kinetic Fuel Cells.",
-  "tooltip.tecnocinetico.chainsaw_fuel": "Gasoline: %s / %s"
+  "tooltip.tecnocinetico.chainsaw_fuel": "Gasoline: %s / %s",
+  "subtitles.tecnocinetico.chainsaw.start": "Chainsaw starts",
+  "subtitles.tecnocinetico.chainsaw.idle": "Chainsaw idles",
+  "subtitles.tecnocinetico.chainsaw.cut": "Chainsaw cuts",
+  "subtitles.tecnocinetico.chainsaw.rev": "Chainsaw revs",
+  "subtitles.tecnocinetico.chainsaw.stop": "Chainsaw stalls"
 }

@@ -50,9 +50,40 @@ public final class DrillSounds {
         return p.level().getGameTime() <= DRILLING_UNTIL.getOrDefault(p.getId(), Long.MIN_VALUE);
     }
 
-    static boolean running(Player p) {
+    /** Herramienta de motor en la mano con gasolina (taladro o motosierra), o null. */
+    enum Tool {
+        DRILL, CHAINSAW;
+
+        SoundEvent idle() {
+            return this == DRILL ? ModSounds.DRILL_IDLE.get() : ModSounds.CHAINSAW_IDLE.get();
+        }
+
+        SoundEvent work() {
+            return this == DRILL ? ModSounds.DRILL_LOOP.get() : ModSounds.CHAINSAW_CUT.get();
+        }
+
+        SoundEvent rev() {
+            return this == DRILL ? ModSounds.DRILL_REV.get() : ModSounds.CHAINSAW_REV.get();
+        }
+    }
+
+    static Tool tool(Player p) {
         ItemStack s = p.getMainHandItem();
-        return p.isAlive() && !p.isRemoved() && s.getItem() instanceof CombustionDrillItem && CombustionDrillItem.hasFuel(s);
+        if (!p.isAlive() || p.isRemoved()) {
+            return null;
+        }
+        if (s.getItem() instanceof CombustionDrillItem && CombustionDrillItem.hasFuel(s)) {
+            return Tool.DRILL;
+        }
+        if (s.getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.ChainsawItem
+                && com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.hasFuel(s)) {
+            return Tool.CHAINSAW;
+        }
+        return null;
+    }
+
+    static boolean running(Player p) {
+        return tool(p) != null;
     }
 
     @SubscribeEvent
@@ -69,8 +100,8 @@ public final class DrillSounds {
         long now = mc.level.getGameTime();
         // el propio jugador: taladra mientras rompe un bloque (con un margen entre bloques que caen al instante)
         ItemStack mine = mc.player.getMainHandItem();
-        if (mc.gameMode != null && mc.gameMode.isDestroying() && mine.getItem() instanceof CombustionDrillItem
-                && CombustionDrillItem.hasFuel(mine) && !CombustionDrillItem.isRefueling(mine)) {
+        if (mc.gameMode != null && mc.gameMode.isDestroying() && running(mc.player)
+                && !(mine.getItem() instanceof CombustionDrillItem && CombustionDrillItem.isRefueling(mine))) {
             DRILLING_UNTIL.put(mc.player.getId(), now + LOCAL_HOLD);
         }
         ENGINES.values().removeIf(Engine::finished);
@@ -79,15 +110,25 @@ public final class DrillSounds {
                 continue;
             }
             Engine engine = ENGINES.get(p.getId());
+            Tool tool = tool(p);
+            if (engine != null && engine.tool != tool) {                              // cambió de herramienta
+                engine.idle.kill();
+                engine.drill.kill();
+                engine = null;
+            }
             if (engine == null) {
-                engine = new Engine(p);
+                engine = new Engine(p, tool);
                 ENGINES.put(p.getId(), engine);
                 mc.getSoundManager().play(engine.idle);
                 mc.getSoundManager().play(engine.drill);
+                if (tool == Tool.CHAINSAW) {                                           // tirón de la cuerda al sacarla
+                    mc.getSoundManager().play(new SimpleSoundInstance(ModSounds.CHAINSAW_START.get(), SoundSource.PLAYERS, 0.9F, 1.0F,
+                            RandomSource.create(), p.getX(), p.getY() + 1.0, p.getZ()));
+                }
             }
             boolean d = drilling(p);
             if (d && !engine.wasDrilling) {                                   // empieza a taladrar: arranque
-                mc.getSoundManager().play(new SimpleSoundInstance(ModSounds.DRILL_REV.get(), SoundSource.PLAYERS, 0.8F,
+                mc.getSoundManager().play(new SimpleSoundInstance(engine.tool.rev(), SoundSource.PLAYERS, 0.8F,
                         0.95F + p.getRandom().nextFloat() * 0.1F, RandomSource.create(), p.getX(), p.getY() + 1.0, p.getZ()));
             }
             engine.wasDrilling = d;
@@ -97,11 +138,13 @@ public final class DrillSounds {
     /** Los dos bucles de un jugador. */
     private static final class Engine {
         final Loop idle, drill;
+        final Tool tool;
         boolean wasDrilling;
 
-        Engine(Player p) {
-            idle = new Loop(ModSounds.DRILL_IDLE.get(), p, false);
-            drill = new Loop(ModSounds.DRILL_LOOP.get(), p, true);
+        Engine(Player p, Tool tool) {
+            this.tool = tool;
+            idle = new Loop(tool.idle(), p, false);
+            drill = new Loop(tool.work(), p, true);
         }
 
         boolean finished() {
@@ -147,6 +190,10 @@ public final class DrillSounds {
             volume = Math.max(0.001F, level);
             float wobble = (float) Math.sin(player.tickCount * 0.37F) * 0.015F;
             pitch = drillLoop ? 0.97F + wobble : 1.0F + wobble * 0.5F;
+        }
+
+        void kill() {
+            stop();
         }
 
         @Override

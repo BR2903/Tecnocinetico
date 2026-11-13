@@ -15,6 +15,7 @@ Sonidos de terceros usados en Tecnocinético. Los originales están en `tools/so
 | `sounds/guns/pump.ogg` | Mismo "Handgun Reload Sound Effect", recorte corto independiente para accionar la escopeta | zer0_sol | CC0 |
 | `sounds/pistol/dry_fire.ogg` | "Gun Reload Sound Effects" — `singlebullet1.wav` — https://opengameart.org/content/gun-reload-sound-effects | BMacZero | CC0 |
 | `sounds/drill/drilling.ogg`, `rev.ogg`, `bite1-3.ogg`, `refuel.ogg`, `refuel_end.ogg` (parte grabada) | "68 workshop sounds" — `drill long`, `drill short 1`, `scrape3`, `clink`, `clink2` — https://opengameart.org/content/68-workshop-sounds | bart (Bart Kelsey) | CC0 (el autor agradece el crédito) |
+| `sounds/chainsaw/start.ogg`, `idle.ogg`, `cut.ogg`, `rev.ogg`, `stop.ogg` | "Chainsaw (Starting)" (s0982), "Chainsaw, Using" (s0983), "Chainsaw #2" (s0707) — https://bigsoundbank.com | Joseph SARDIN (BigSoundBank.com) | CC0 1.0 |
 | (fuente disponible, no usada aún) `clipload1.wav`, `clipload2.wav` | "Gun Reload Sound Effects" | BMacZero | CC0 |
 
 Sonidos **propios** (sintetizados con `tools/sound_gen.py`, sin material de terceros): impacto y confirmación de

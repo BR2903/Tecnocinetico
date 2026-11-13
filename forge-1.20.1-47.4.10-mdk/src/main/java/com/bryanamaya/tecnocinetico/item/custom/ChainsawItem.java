@@ -124,10 +124,20 @@ public class ChainsawItem extends Item {
             setFuel(stack, fuel(stack) - 1);
             if (had && !hasFuel(stack)) {
                 level.playSound(null, miner.getX(), miner.getY(), miner.getZ(),
-                        com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_SPUTTER.get(), SoundSource.PLAYERS, 0.9F, 1.2F);
+                        com.bryanamaya.tecnocinetico.sound.ModSounds.CHAINSAW_STOP.get(), SoundSource.PLAYERS, 0.9F, 1.0F);
             }
         }
         return true;
+    }
+
+    /** Empieza a cortar: los demás oyen el motor acelerar. */
+    @SubscribeEvent
+    public static void onStartCutting(net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock event) {
+        if (event.getAction() == net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock.Action.START
+                && event.getEntity() instanceof ServerPlayer player && player.getMainHandItem().getItem() instanceof ChainsawItem
+                && hasFuel(player.getMainHandItem())) {
+            CombustionDrillItem.activity(player);
+        }
     }
 
     /** Al cortar un tronco de un árbol natural: tala el resto del árbol. */
@@ -137,6 +147,9 @@ public class ChainsawItem extends Item {
             return;
         }
         ItemStack saw = player.getMainHandItem();
+        if (saw.getItem() instanceof ChainsawItem && hasFuel(saw) && canCut(event.getState())) {
+            CombustionDrillItem.activity(player);                                     // los demás oyen el corte
+        }
         if (!(saw.getItem() instanceof ChainsawItem) || !hasFuel(saw) || !event.getState().is(BlockTags.LOGS)) {
             return;
         }
@@ -145,7 +158,7 @@ public class ChainsawItem extends Item {
         if (logs.isEmpty()) {
             return;
         }
-        level.playSound(null, event.getPos(), SoundEvents.ZOMBIE_BREAK_WOODEN_DOOR, SoundSource.BLOCKS, 0.7F, 1.4F);
+        level.playSound(null, event.getPos(), SoundEvents.WOOD_BREAK, SoundSource.BLOCKS, 1.0F, 0.6F);   // el árbol cede
         FELLING.add(player.getUUID());
         try {
             for (BlockPos p : logs) {

@@ -78,6 +78,12 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> DRILL_REFUEL = register("item.drill.refuel");
     public static final RegistryObject<SoundEvent> DRILL_REFUEL_END = register("item.drill.refuel_end");
     public static final RegistryObject<SoundEvent> DRILL_SPUTTER = register("item.drill.sputter");
+    // Motosierra: grabaciones reales (CC0, BigSoundBank; tools/chainsaw_sounds.py)
+    public static final RegistryObject<SoundEvent> CHAINSAW_START = register("item.chainsaw.start");
+    public static final RegistryObject<SoundEvent> CHAINSAW_IDLE = register("item.chainsaw.idle");
+    public static final RegistryObject<SoundEvent> CHAINSAW_CUT = register("item.chainsaw.cut");
+    public static final RegistryObject<SoundEvent> CHAINSAW_REV = register("item.chainsaw.rev");
+    public static final RegistryObject<SoundEvent> CHAINSAW_STOP = register("item.chainsaw.stop");
     public static final RegistryObject<SoundEvent> MINIGUN_FIRE = register("item.gun.minigun");
     public static final RegistryObject<SoundEvent> MINIGUN_SPIN = register("item.gun.minigun_spin");
     public static final RegistryObject<SoundEvent> RAIL_FIRE = register("item.gun.rail");

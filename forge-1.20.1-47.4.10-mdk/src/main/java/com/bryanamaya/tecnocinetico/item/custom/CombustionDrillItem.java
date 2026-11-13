@@ -254,7 +254,7 @@ public class CombustionDrillItem extends Item {
     }
 
     /** Avisa a los jugadores que lo ven de que está taladrando (para su sonido de motor). */
-    private static void activity(ServerPlayer player) {
+    public static void activity(ServerPlayer player) {
         com.bryanamaya.tecnocinetico.network.ModNetwork.CHANNEL.send(
                 net.minecraftforge.network.PacketDistributor.TRACKING_ENTITY.with(() -> player),
                 new com.bryanamaya.tecnocinetico.network.ModNetwork.DrillActivityPacket(player.getId()));
