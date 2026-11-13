@@ -141,8 +141,9 @@ public class Tecnocinetico {
                         return 0.0F;
                     }
                     var mc = net.minecraft.client.Minecraft.getInstance();
-                    boolean cutting = p == mc.player ? mc.gameMode != null && mc.gameMode.isDestroying() : p.swinging;
-                    return cutting || p.swinging ? 1.0F : 0.0F;
+                    boolean cutting = p == mc.player ? mc.gameMode != null && mc.gameMode.isDestroying()
+                            : com.bryanamaya.tecnocinetico.client.DrillSounds.isWorking(p);
+                    return cutting ? 1.0F : 0.0F;
                 });
                 for (var g : java.util.List.of(ModItems.THERMAL_COOLER, ModItems.ASH_FILTER, ModItems.ANCHOR_BOOTS)) {
                     ItemProperties.register(g.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "level"),

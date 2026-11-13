@@ -46,6 +46,11 @@ public final class DrillSounds {
         }
     }
 
+    /** ¿Está trabajando (taladrando o cortando) ese jugador? Para animar la herramienta de los demás. */
+    public static boolean isWorking(Player p) {
+        return drilling(p);
+    }
+
     static boolean drilling(Player p) {
         return p.level().getGameTime() <= DRILLING_UNTIL.getOrDefault(p.getId(), Long.MIN_VALUE);
     }

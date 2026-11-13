@@ -148,7 +148,7 @@ public final class ModNetwork {
                     return;
                 }
                 if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.ChainsawItem) {
-                    com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.refuel(player, player.getMainHandItem());   // gasolina
+                    com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.startRefuel(player, player.getMainHandItem());   // gasolina
                     return;
                 }
                 if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem) {

@@ -50,6 +50,9 @@ public class ChainsawItem extends Item {
     public static final int TANK = 200, FUEL_PER_CANISTER = 100, MAX_LOGS = 256;
     public static final float SPEED = 20.0F;
     private static final String TAG_FUEL = "Fuel";
+    /** Tick en que termina el repostaje en curso; mientras, no corta (animación de repostar). */
+    private static final String TAG_REFUEL_END = "RefuelEnd";
+    public static final int REFUEL_TICKS = 30;
     private static final UUID DAMAGE_ID = UUID.fromString("5f4e2a0c-7b1d-4c2e-9e61-3c8a1b7d2f10");
     private static final Set<UUID> FELLING = new HashSet<>();
 
@@ -71,7 +74,50 @@ public class ChainsawItem extends Item {
         return fuel(s) > 0;
     }
 
-    /** Tecla R: llena el tanque con lo que haya en el inventario (cinético = 3 depósitos). */
+    public static boolean isRefueling(ItemStack s) {
+        return s.getTag() != null && s.getTag().contains(TAG_REFUEL_END);
+    }
+
+    /** Progreso del repostaje (0..1) o -1 si no reposta. Lo usa la animación. */
+    public static float refuelProgress(ItemStack s, float gameTime) {
+        if (!isRefueling(s)) {
+            return -1;
+        }
+        return Mth.clamp(1.0F - (s.getTag().getLong(TAG_REFUEL_END) - gameTime) / REFUEL_TICKS, 0.0F, 1.0F);
+    }
+
+    /** Tecla R: empieza a repostar si cabe gasolina y hay depósitos o células en el inventario (o en creativo). */
+    public static void startRefuel(ServerPlayer player, ItemStack saw) {
+        if (isRefueling(saw)) {
+            return;
+        }
+        boolean room = TANK - fuel(saw) >= FUEL_PER_CANISTER / 2;
+        boolean any = player.getAbilities().instabuild || player.getInventory().items.stream()
+                .anyMatch(s -> s.is(ModItems.FUEL_CANISTER.get()) || s.is(ModItems.KINETIC_FUEL_CELL.get()));
+        if (!room || !any) {
+            player.displayClientMessage(Component.translatable(!room ? "message.tecnocinetico.drill_full"
+                    : "message.tecnocinetico.drill_no_canister").withStyle(ChatFormatting.RED), true);
+            return;
+        }
+        saw.getOrCreateTag().putLong(TAG_REFUEL_END, player.level().getGameTime() + REFUEL_TICKS);
+        player.level().playSound(null, player.blockPosition(), com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_REFUEL.get(),
+                SoundSource.PLAYERS, 0.8F, 1.05F);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, net.minecraft.world.entity.Entity entity, int slot, boolean selected) {
+        if (level.isClientSide || !(entity instanceof ServerPlayer player) || !isRefueling(stack)) {
+            return;
+        }
+        if (player.getMainHandItem() != stack) {
+            stack.removeTagKey(TAG_REFUEL_END);                                       // cambió de objeto: se cancela
+        } else if (level.getGameTime() >= stack.getTag().getLong(TAG_REFUEL_END)) {
+            stack.removeTagKey(TAG_REFUEL_END);
+            refuel(player, stack);
+        }
+    }
+
+    /** Fin del repostaje: llena el tanque con lo que haya en el inventario (cinético = 3 depósitos). */
     public static void refuel(ServerPlayer player, ItemStack saw) {
         if (player.getAbilities().instabuild) {
             setFuel(saw, TANK);
@@ -108,7 +154,21 @@ public class ChainsawItem extends Item {
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
+        if (isRefueling(stack)) {
+            return 0.0F;
+        }
         return hasFuel(stack) && canCut(state) ? SPEED : 1.0F;
+    }
+
+    /** Sin golpe de brazo: se sostiene firme (la animación está en ChainsawClientExtensions). */
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        return true;
+    }
+
+    @Override
+    public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
+        consumer.accept(new com.bryanamaya.tecnocinetico.client.ChainsawClientExtensions());
     }
 
     @Override

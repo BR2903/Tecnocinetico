@@ -90,7 +90,8 @@ public class OilGameTests {
             helper.setBlock(house.above(y), Blocks.OAK_LOG);
         }
         helper.setBlock(base.above(5), Blocks.OAK_LEAVES.defaultBlockState().setValue(net.minecraft.world.level.block.LeavesBlock.PERSISTENT, false));
-        var player = net.minecraftforge.common.util.FakePlayerFactory.getMinecraft(level);
+        var player = net.minecraftforge.common.util.FakePlayerFactory.get(level,
+                new com.mojang.authlib.GameProfile(java.util.UUID.fromString("7a1c3e52-9d4b-4f1a-8c2e-5b6d7e8f9a02"), "[saw_fell]"));
         player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
         ItemStack saw = new ItemStack(ModItems.CHAINSAW.get());
         com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.setFuel(saw, 200);
@@ -108,5 +109,29 @@ public class OilGameTests {
         helper.assertTrue(houseLeft == 4, "Tala troncos sin hojas (casa): quedan " + houseLeft);
         helper.assertTrue(fuel == 200 - 6, "Gasolina gastada: " + fuel);
         helper.succeed();
+    }
+
+    /** Motosierra: la tecla R reposta tras la animación (30 ticks) gastando un depósito del inventario. */
+    @GameTest(template = "empty", timeoutTicks = 100)
+    public static void chainsawRefuels(GameTestHelper helper) {
+        var level = helper.getLevel();
+        var player = net.minecraftforge.common.util.FakePlayerFactory.get(level,                 // propio: otras pruebas usan el común
+                new com.mojang.authlib.GameProfile(java.util.UUID.fromString("7a1c3e52-9d4b-4f1a-8c2e-5b6d7e8f9a01"), "[saw_refuel]"));
+        player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        player.getInventory().clearContent();
+        ItemStack saw = new ItemStack(ModItems.CHAINSAW.get());
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, saw);
+        player.getInventory().add(new ItemStack(ModItems.FUEL_CANISTER.get(), 1));
+        com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.startRefuel(player, saw);
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.isRefueling(saw), "La tecla R no empieza a repostar");
+        helper.runAfterDelay(35, () -> {
+            ItemStack held = player.getMainHandItem();
+            held.inventoryTick(level, player, 0, true);                               // los jugadores falsos no hacen tick
+            int fuel = com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.fuel(held);
+            int left = player.getInventory().countItem(ModItems.FUEL_CANISTER.get());
+            player.getInventory().clearContent();
+            helper.assertTrue(fuel == 100 && left == 0, "No reposta: gasolina " + fuel + ", depósitos " + left);
+            helper.succeed();
+        });
     }
 }
