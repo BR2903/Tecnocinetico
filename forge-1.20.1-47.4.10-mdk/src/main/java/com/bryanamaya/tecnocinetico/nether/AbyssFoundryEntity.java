@@ -43,11 +43,11 @@ import java.util.List;
  * crisol de escoria (brazo izquierdo). Se despierta con la consola de su fundición (CoreConsoleBlockEntity,
  * guardián "abyss_foundry"). Todo se decide en el servidor; cada ataque avisa antes (pose + partículas):
  * <ul>
- *   <li><b>Martillazo</b> (cerca): levanta el martillo y lo estrella en el punto fijado; onda alrededor.</li>
+ *   <li><b>Martillazo</b> (cerca): levanta el martillo (brazo derecho) y lo estrella delante y a su derecha.</li>
  *   <li><b>Fractura de lava</b> (media distancia): grieta recta hacia el punto fijado que suelta fuego.</li>
  *   <li><b>Escoria fundida</b>: marca 3 (5 enfadado) puntos alrededor del objetivo; caen bolas de escoria que dejan
  *       charcos ardientes unos segundos.</li>
- *   <li><b>Sobrecalentamiento</b> (cada 4.º ataque): onda de calor (daño y +35 de calor del Nether) y luego queda
+ *   <li><b>Sobrecalentamiento</b> (cada 4.º ataque): onda de calor que atraviesa la armadura y te deja con 1 corazón (+45 de calor del Nether) y luego queda
  *       <b>expuesto</b> {@link #EXPOSED_TICKS} ticks recibiendo ×1,6 de daño sin atacar.</li>
  * </ul>
  * Por debajo de la mitad de vida se enfada: avisos y pausas más cortos. Multijugador: aguanta un 50 % más por cada
@@ -62,6 +62,10 @@ public class AbyssFoundryEntity extends Monster {
     public static final float BASE_HEALTH = 1000.0F;   // la vida máxima de Minecraft es 1024
     public static final int EXPOSED_TICKS = 80, ARENA = 40;
     public static final float EXPOSED_MULTIPLIER = 1.6F;
+    /** Desplazamiento del martillazo hacia su derecha (bloques): el martillo está en el brazo derecho. */
+    public static final double HAMMER_SIDE = 1.4;
+    /** Sobrecalentamiento: te deja con esta vida (1 corazón) si te alcanza; si ya tenías menos, te mata. */
+    public static final float OVERHEAT_LEAVES = 2.0F, OVERHEAT_MIN_DAMAGE = 6.0F;
 
     private static final EntityDataAccessor<Integer> ATTACK = SynchedEntityData.defineId(AbyssFoundryEntity.class, EntityDataSerializers.INT);
     /** Ticks que quedan de aviso y su total (para el progreso del aviso en el cliente). */
@@ -234,7 +238,13 @@ public class AbyssFoundryEntity extends Monster {
         }
         setAttack(attack, windup);
         getNavigation().stop();
-        lock = attack == HAMMER ? position().add(t.position().subtract(position()).normalize().scale(Math.min(dist, 4.0))) : t.position();
+        if (attack == HAMMER) {                                                      // el martillo va en la mano derecha:
+            Vec3 dir = flat(t.position().subtract(position()));                      // cae delante y a su derecha
+            Vec3 right = new Vec3(-dir.z, 0, dir.x);
+            lock = position().add(dir.scale(Math.min(dist, 3.5))).add(right.scale(HAMMER_SIDE));
+        } else {
+            lock = t.position();
+        }
         targets.clear();
         if (attack == SLAG) {
             int n = enraged() ? 5 : 3;
@@ -312,10 +322,11 @@ public class AbyssFoundryEntity extends Monster {
             if (p.isSpectator() || p.isCreative()) {
                 continue;
             }
-            p.hurt(damageSources().mobAttack(this), 18.0F);
-            p.invulnerableTime = 0;                                                   // y el calor, que atraviesa la armadura
+            // muy fuerte: atraviesa la armadura y te deja con 1 corazón (o te remata si ya ibas tocado)
+            float damage = Math.max(OVERHEAT_MIN_DAMAGE, p.getHealth() + p.getAbsorptionAmount() - OVERHEAT_LEAVES);
+            p.invulnerableTime = 0;
             p.hurt(new DamageSource(level().registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(NetherHazards.OVERHEAT), this), 10.0F);
+                    .getHolderOrThrow(NetherHazards.OVERHEAT), this), damage);
             float factor = NetherHazards.heatFactor(p);                              // la piroxita también protege aquí
             p.getPersistentData().putFloat(NetherHazards.HEAT, Math.min(NetherHazards.MAX, NetherHazards.heat(p) + 45.0F * factor));
             Vec3 push = flat(p.position().subtract(position())).scale(1.4);
