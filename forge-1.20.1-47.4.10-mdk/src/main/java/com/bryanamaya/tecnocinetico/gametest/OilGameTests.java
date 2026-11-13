@@ -89,6 +89,11 @@ public class OilGameTests {
             helper.setBlock(base.above(y), Blocks.OAK_LOG);
             helper.setBlock(house.above(y), Blocks.OAK_LOG);
         }
+        BlockPos dead = new BlockPos(5, 1, 1);                                        // árbol muerto: sin hojas
+        for (int y = 0; y < 4; y++) {
+            helper.setBlock(dead.above(y), com.bryanamaya.tecnocinetico.block.ModWorldBlocks.DEAD_LOG.get());
+        }
+        helper.setBlock(dead.above(3).east(), com.bryanamaya.tecnocinetico.block.ModWorldBlocks.DEAD_LOG.get());   // rama
         helper.setBlock(base.above(5), Blocks.OAK_LEAVES.defaultBlockState().setValue(net.minecraft.world.level.block.LeavesBlock.PERSISTENT, false));
         var player = net.minecraftforge.common.util.FakePlayerFactory.get(level,
                 new com.mojang.authlib.GameProfile(java.util.UUID.fromString("7a1c3e52-9d4b-4f1a-8c2e-5b6d7e8f9a02"), "[saw_fell]"));
@@ -98,6 +103,12 @@ public class OilGameTests {
         player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, saw);
         player.gameMode.destroyBlock(helper.absolutePos(base));
         player.gameMode.destroyBlock(helper.absolutePos(house));
+        player.gameMode.destroyBlock(helper.absolutePos(dead));
+        int deadLeft = 0;
+        for (int y = 0; y < 4; y++) {
+            if (!helper.getBlockState(dead.above(y)).isAir()) deadLeft++;
+        }
+        if (!helper.getBlockState(dead.above(3).east()).isAir()) deadLeft++;
         int treeLeft = 0, houseLeft = 0;
         for (int y = 0; y < 5; y++) {
             if (helper.getBlockState(base.above(y)).is(Blocks.OAK_LOG)) treeLeft++;
@@ -107,7 +118,8 @@ public class OilGameTests {
         player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, ItemStack.EMPTY);
         helper.assertTrue(treeLeft == 0, "No tala el árbol entero: quedan " + treeLeft);
         helper.assertTrue(houseLeft == 4, "Tala troncos sin hojas (casa): quedan " + houseLeft);
-        helper.assertTrue(fuel == 200 - 6, "Gasolina gastada: " + fuel);
+        helper.assertTrue(deadLeft == 0, "No tala el árbol muerto entero: quedan " + deadLeft);
+        helper.assertTrue(fuel == 200 - 6 - 5, "Gasolina gastada: " + fuel);
         helper.succeed();
     }
 

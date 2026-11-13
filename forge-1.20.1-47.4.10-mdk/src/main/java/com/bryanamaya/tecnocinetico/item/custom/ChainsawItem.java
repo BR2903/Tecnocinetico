@@ -39,7 +39,8 @@ import java.util.UUID;
 /**
  * Motosierra (tier 2, herramienta). Gasta gasolina como el Taladro de Combustión (tecla R: reposta con Depósitos de
  * Combustible o Células de Combustible Cinético del inventario). Corta madera muy rápido y, al cortar un tronco de un
- * <b>árbol natural</b> (troncos unidos con hojas naturales cerca), <b>tala el árbol entero</b> (hasta {@link #MAX_LOGS}
+ * <b>árbol natural</b> (troncos unidos con hojas naturales cerca, o un árbol muerto del páramo: solo troncos muertos),
+ * <b>tala el árbol entero</b> (hasta {@link #MAX_LOGS}
  * troncos); agachado corta un solo bloque. Las casas de troncos no se talan (sus troncos no tienen hojas naturales).
  * También sirve de arma cuerpo a cuerpo mientras tiene gasolina. Todo en el servidor; los troncos se rompen con
  * {@code gameMode.destroyBlock} (protecciones, botín y experiencia como un hacha).
@@ -241,6 +242,8 @@ public class ChainsawItem extends Item {
         ArrayDeque<BlockPos> queue = new ArrayDeque<>();
         List<BlockPos> logs = new ArrayList<>();
         boolean leaves = false;
+        // los árboles muertos del páramo no tienen hojas: si todo son troncos muertos, también es un árbol
+        boolean allDead = level.getBlockState(start).is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.DEAD_LOG.get());
         queue.add(start);
         seen.add(start);
         while (!queue.isEmpty()) {
@@ -259,6 +262,7 @@ public class ChainsawItem extends Item {
                             }
                             logs.add(q);
                             queue.add(q);
+                            allDead &= s.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.DEAD_LOG.get());
                         } else if (s.getBlock() instanceof LeavesBlock && !s.getValue(LeavesBlock.PERSISTENT)) {
                             leaves = true;
                         }
@@ -266,7 +270,7 @@ public class ChainsawItem extends Item {
                 }
             }
         }
-        if (!leaves) {
+        if (!leaves && !allDead) {
             return List.of();
         }
         logs.sort(java.util.Comparator.comparingInt(BlockPos::getY));
