@@ -128,7 +128,7 @@ public final class Tier2ArmorEvents {
     public static void onAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
         LivingEntity e = event.getEntity();
         var src = event.getSource();
-        if (src.is(DamageTypeTags.IS_FIRE) && Tier2ArmorItem.hasFullSet(e, Kind.PIROXITE)) {
+        if (src.is(DamageTypeTags.IS_FIRE) && Tier2ArmorItem.hasPiroxiteSet(e)) {
             event.setCanceled(true);
             e.clearFire();
             return;
@@ -173,7 +173,7 @@ public final class Tier2ArmorEvents {
         LivingEntity e = event.getEntity();
         var src = event.getSource();
         if (src.getEntity() instanceof LivingEntity attacker && src.getDirectEntity() == attacker
-                && Tier2ArmorItem.hasFullSet(e, Kind.PIROXITE)) {
+                && Tier2ArmorItem.hasPiroxiteSet(e)) {
             attacker.setSecondsOnFire(4);
         }
         if (e instanceof Player p) {
@@ -206,7 +206,7 @@ public final class Tier2ArmorEvents {
         if (p.tickCount % 20 == 0) {
             coreShield(p);
         }
-        if (Tier2ArmorItem.hasFullSet(p, Kind.PIROXITE) && p.isOnFire()) {
+        if (Tier2ArmorItem.hasPiroxiteSet(p) && p.isOnFire()) {
             p.clearFire();
         }
         AttributeInstance speed = p.getAttribute(Attributes.MOVEMENT_SPEED);

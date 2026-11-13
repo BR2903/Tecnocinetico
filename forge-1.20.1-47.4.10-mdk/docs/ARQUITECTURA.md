@@ -174,3 +174,5 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 ### Overworld arrasado (2026-11-12)
 - `worldgen/feature/RoadFeature` (calles de la ciudad y autopistas, cuadrícula fija por semilla, una vez por chunk), `StreetPropFeature` (farolas y postes, `block/custom/StreetPropBlocks`). Reparto en `tools/world_features_gen.py`; vegetación vanilla quitada con `forge:remove_features`.
 - Nether industrial: `worldgen/InfernalBiomes` + `InfernalBiomeSource` (en los world presets Postapocalíptico), `worldgen/feature/InfernalDepositFeature`, `worldgen/structure/InfernalSiteStructure/Piece` (site 2 depósito, 3 puesto de vigilancia; 0-1 reservados a los jefes).
+
+- **Peligros del Nether** (parte 4): `nether/NetherHazards` (calor y ceniza por jugador en sus datos persistentes, efectos, daño `overheat`/`ash_lungs`, Botas de Anclaje), `nether/ClientHazardData` + `client/HazardHud` (barras), `ModNetwork.HazardPacket`. Gadgets en `ModItems` (THERMAL_COOLER, ASH_FILTER, ANCHOR_BOOTS y sus recargas); armadura `Tier2ArmorItem.Kind.REFINED_PIROXITE` (`hasPiroxiteSet`). Recompensas de enemigos mejorados en `NetherMobEvents.drops/experience`.

@@ -43,6 +43,12 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.PROPULSOR_CELL.get());
                         out.accept(ModItems.DASH_THRUSTER.get());
                         out.accept(ModItems.DASH_CELL.get());
+                        out.accept(ModItems.THERMAL_COOLER.get());
+                        out.accept(ModItems.COOLANT_PACK.get());
+                        out.accept(ModItems.ASH_FILTER.get());
+                        out.accept(ModItems.FILTER_CELL.get());
+                        out.accept(ModItems.ANCHOR_BOOTS.get());
+                        out.accept(ModItems.ANCHOR_CELL.get());
                         for (int lvl = 1; lvl <= com.bryanamaya.tecnocinetico.gear.JetpackItem.MAX_LEVEL; lvl++) {
                             ItemStack jet = new ItemStack(ModItems.JETPACK.get());
                             com.bryanamaya.tecnocinetico.gear.JetpackItem.setLevel(jet, lvl);
@@ -170,6 +176,10 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.PIROXITE_CHESTPLATE.get());
                         out.accept(ModItems.PIROXITE_LEGGINGS.get());
                         out.accept(ModItems.PIROXITE_BOOTS.get());
+                        out.accept(ModItems.REFINED_PIROXITE_HELMET.get());
+                        out.accept(ModItems.REFINED_PIROXITE_CHESTPLATE.get());
+                        out.accept(ModItems.REFINED_PIROXITE_LEGGINGS.get());
+                        out.accept(ModItems.REFINED_PIROXITE_BOOTS.get());
                         out.accept(ModItems.NULLITE_HELMET.get());
                         out.accept(ModItems.NULLITE_CHESTPLATE.get());
                         out.accept(ModItems.NULLITE_LEGGINGS.get());

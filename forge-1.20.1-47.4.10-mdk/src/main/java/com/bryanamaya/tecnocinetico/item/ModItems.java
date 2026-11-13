@@ -226,6 +226,19 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> JETPACK.get(), new Item.Properties()));
     public static final RegistryObject<Item> PROPULSOR_CELL = ITEMS.register("propulsor_cell",
             () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> AQUA_PROPULSOR.get(), new Item.Properties()));
+    // Equipo de preparación para el Nether (nether/NetherHazards): calor, ceniza y empuje
+    public static final RegistryObject<Item> THERMAL_COOLER = ITEMS.register("thermal_cooler",
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.BACK, 1800, "tooltip.tecnocinetico.thermal_cooler", new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ASH_FILTER = ITEMS.register("ash_filter",
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.FACE, 1500, "tooltip.tecnocinetico.ash_filter", new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ANCHOR_BOOTS = ITEMS.register("anchor_boots",
+            () -> new com.bryanamaya.tecnocinetico.gear.GadgetItem(com.bryanamaya.tecnocinetico.gear.TacticalGear.FEET, 1400, "tooltip.tecnocinetico.anchor_boots", new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> COOLANT_PACK = ITEMS.register("coolant_pack",
+            () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> THERMAL_COOLER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> FILTER_CELL = ITEMS.register("filter_cell",
+            () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> ASH_FILTER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ANCHOR_CELL = ITEMS.register("anchor_cell",
+            () -> new com.bryanamaya.tecnocinetico.gear.RechargeItem(() -> ANCHOR_BOOTS.get(), new Item.Properties()));
     public static final RegistryObject<Item> JETPACK_KIT_2 = ITEMS.register("jetpack_kit_2",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON)));
     public static final RegistryObject<Item> JETPACK_KIT_3 = ITEMS.register("jetpack_kit_3",
@@ -385,6 +398,14 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.NULLITE, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
     public static final RegistryObject<Item> NULLITE_LEGGINGS = ITEMS.register("nullite_leggings",
             () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.NULLITE, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> REFINED_PIROXITE_HELMET = ITEMS.register("refined_piroxite_helmet",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.REFINED_PIROXITE, net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties().rarity(net.minecraft.world.item.Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> REFINED_PIROXITE_CHESTPLATE = ITEMS.register("refined_piroxite_chestplate",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.REFINED_PIROXITE, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(net.minecraft.world.item.Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> REFINED_PIROXITE_LEGGINGS = ITEMS.register("refined_piroxite_leggings",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.REFINED_PIROXITE, net.minecraft.world.item.ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> REFINED_PIROXITE_BOOTS = ITEMS.register("refined_piroxite_boots",
+            () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.REFINED_PIROXITE, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> NULLITE_BOOTS = ITEMS.register("nullite_boots",
             () -> new com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem(com.bryanamaya.tecnocinetico.item.armor.Tier2ArmorItem.Kind.NULLITE, net.minecraft.world.item.ArmorItem.Type.BOOTS, new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
 

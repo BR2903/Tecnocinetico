@@ -58,6 +58,9 @@ public class Tier2ArmorItem extends ArmorItem {
                 SoundEvents.ARMOR_EQUIP_NETHERITE),
         PIROXITE("piroxite", new int[]{3, 8, 6, 3}, 37, 3.0F, 0.1F, () -> Ingredient.of(ModItems.PIROXITE_INGOT.get()),
                 SoundEvents.ARMOR_EQUIP_NETHERITE),
+        // Piroxita Abisal (Nether, mejora de la de piroxita con aleación de escoria): completa, inmune al calor del Nether
+        REFINED_PIROXITE("refined_piroxite", new int[]{4, 9, 7, 4}, 45, 3.5F, 0.15F, () -> Ingredient.of(ModItems.SLAG_ALLOY.get()),
+                SoundEvents.ARMOR_EQUIP_NETHERITE, 0.0, 1.0, 0.02),
         NULLITE("nullite", new int[]{3, 8, 6, 3}, 37, 3.0F, 0.05F, () -> Ingredient.of(ModItems.NULLITE_INGOT.get()),
                 SoundEvents.ARMOR_EQUIP_DIAMOND),
         // ---- armaduras de combate: sin habilidades; protección, vida, velocidad y daño por pieza (tiers 1-3)
@@ -193,6 +196,16 @@ public class Tier2ArmorItem extends ArmorItem {
         return true;
     }
 
+    /** Armadura de piroxita completa, normal o abisal (se pueden mezclar): inmune al fuego. */
+    public static boolean hasPiroxiteSet(LivingEntity e) {
+        for (ItemStack stack : e.getArmorSlots()) {
+            if (!(stack.getItem() instanceof Tier2ArmorItem a) || (a.kind != Kind.PIROXITE && a.kind != Kind.REFINED_PIROXITE)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /** Piezas del traje antirradiación puestas (0-4). Cada una quita un 20 % de radiación; las 4, toda. */
     public static int hazmatPieces(LivingEntity e) {
         int n = 0;
@@ -213,6 +226,9 @@ public class Tier2ArmorItem extends ArmorItem {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.tecnocinetico." + kind.id + "_set").withStyle(ChatFormatting.GOLD));
         tooltip.add(Component.translatable("tooltip.tecnocinetico." + kind.id + "_set_bonus").withStyle(ChatFormatting.GRAY));
+        if (kind == Kind.PIROXITE) {
+            tooltip.add(Component.translatable("tooltip.tecnocinetico.piroxite_heat").withStyle(ChatFormatting.GRAY));
+        }
     }
 
     /** Modelo 3D propio (client/Armor3DModels, generado por tools/armor3d_gen.py). */

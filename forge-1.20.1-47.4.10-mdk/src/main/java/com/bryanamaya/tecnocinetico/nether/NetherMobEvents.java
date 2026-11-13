@@ -363,4 +363,36 @@ public final class NetherMobEvents {
         }
         return false;
     }
+
+    // ------------------------------------------------------------------ recompensas (más dificultad, más botín)
+
+    /**
+     * Los enemigos mejorados del Nether que mata un jugador sueltan algo más: piroxita en bruto (15 %), polvo de
+     * azufre (25 %), alguna pepita/lingote de oro y, los brutos y esqueletos wither, aleación de escoria (30 %).
+     */
+    @SubscribeEvent
+    public static void drops(net.minecraftforge.event.entity.living.LivingDropsEvent event) {
+        if (!(event.getEntity() instanceof Mob mob) || !mob.getPersistentData().getBoolean(UPGRADED)
+                || !(event.getSource().getEntity() instanceof net.minecraft.world.entity.player.Player)) {
+            return;
+        }
+        var r = mob.getRandom();
+        int looting = event.getLootingLevel();
+        java.util.function.BiConsumer<net.minecraft.world.item.Item, Integer> drop = (item, n) -> event.getDrops().add(
+                new net.minecraft.world.entity.item.ItemEntity(mob.level(), mob.getX(), mob.getY() + 0.5, mob.getZ(), new ItemStack(item, n)));
+        if (r.nextFloat() < 0.15F + 0.05F * looting) drop.accept(com.bryanamaya.tecnocinetico.item.ModItems.RAW_PIROXITE.get(), 1);
+        if (r.nextFloat() < 0.25F + 0.05F * looting) drop.accept(com.bryanamaya.tecnocinetico.item.ModItems.SULFUR_DUST.get(), 1 + r.nextInt(2));
+        if (r.nextFloat() < 0.4F) drop.accept(net.minecraft.world.item.Items.GOLD_NUGGET, 2 + r.nextInt(4 + looting));
+        if ((mob.getType() == net.minecraft.world.entity.EntityType.PIGLIN_BRUTE || mob.getType() == net.minecraft.world.entity.EntityType.WITHER_SKELETON) && r.nextFloat() < 0.3F + 0.05F * looting) {
+            drop.accept(com.bryanamaya.tecnocinetico.item.ModItems.SLAG_ALLOY.get(), 1 + r.nextInt(2));
+        }
+    }
+
+    /** El doble de experiencia por los enemigos mejorados del Nether. */
+    @SubscribeEvent
+    public static void experience(net.minecraftforge.event.entity.living.LivingExperienceDropEvent event) {
+        if (event.getEntity() instanceof Mob mob && mob.getPersistentData().getBoolean(UPGRADED)) {
+            event.setDroppedExperience(event.getDroppedExperience() * 2);
+        }
+    }
 }

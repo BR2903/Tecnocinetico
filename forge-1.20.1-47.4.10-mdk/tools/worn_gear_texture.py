@@ -1,8 +1,9 @@
-"""Textura de los gadgets puestos sobre el jugador (modelo client/WornGearModel, 64x64):
+"""Textura de los gadgets puestos sobre el jugador (modelo client/WornGearModel, 128x128):
 textures/entity/worn_gear.png y worn_gear_glow.png (lentes de las gafas, LED, toberas, turbinas).
 
 Uso (desde forge-1.20.1-47.4.10-mdk):  python tools/worn_gear_texture.py [preview.png]
-Las zonas deben coincidir con los texOffs del modelo:
+El cuadrante 64x64 anterior se conserva íntegro; nether_gear_rig.py añade las UV nuevas fuera de él.
+Las zonas anteriores coinciden con los texOffs originales del modelo:
   gafas: tubos (0,0) 3x3x3, lentes (12,0), batería (18,0), cuerpo (0,6) 5x2x2, soporte (14,6), brazo (22,6),
          correas (0,10)-(32,23) y correa superior (32,30)-(54,40)
   jetpack: (32,0)..(58,29)       botas: caña (0,24) 5x5x5, suela (0,34) 5x1x6, turbina (20,24) 3x4x3, aletas (22,34)
@@ -92,10 +93,14 @@ def build():
     box(20, 24, 3, 4, 3, lambda f, x, y, w, h: ((CYAN[2] if (x + y) % 2 else CYAN[1]), True) if f == "bottom"
         else STEEL[0] if f == "top" else COPPER[1] if y in (0, 3) else STEEL[2])
     box(22, 34, 1, 3, 2, lambda f, x, y, w, h: STEEL[3] if y == 0 else COPPER[1])
-    return img, glow
+    # Extensión del Nether: las UV y píxeles anteriores permanecen en el cuadrante 64x64.
+    from nether_gear_rig import extend_texture
+    return extend_texture(img, glow)
 
 
 if __name__ == "__main__":
+    from nether_gear_rig import write_java
+    write_java()
     img, glow = build()
     img.save(ROOT / "worn_gear.png")
     glow.save(ROOT / "worn_gear_glow.png")

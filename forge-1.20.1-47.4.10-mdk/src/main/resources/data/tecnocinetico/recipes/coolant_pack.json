@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:snow_block"
+    },
+    {
+      "item": "minecraft:snow_block"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "tecnocinetico:lead_nugget"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:coolant_pack",
+    "count": 2
+  }
+}

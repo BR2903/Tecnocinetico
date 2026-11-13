@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "tecnocinetico:radiation"
+    "tecnocinetico:radiation",
+    "tecnocinetico:overheat",
+    "tecnocinetico:ash_lungs"
   ]
 }

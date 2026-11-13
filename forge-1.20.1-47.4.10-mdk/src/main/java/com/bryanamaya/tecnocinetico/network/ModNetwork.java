@@ -66,6 +66,9 @@ public final class ModNetwork {
         CHANNEL.registerMessage(16, DrillActivityPacket.class, (m, b) -> b.writeVarInt(m.entityId()),
                 b -> new DrillActivityPacket(b.readVarInt()), DrillActivityPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(17, HazardPacket.class, (m, b) -> { b.writeByte(m.heat()); b.writeByte(m.ash()); },
+                b -> new HazardPacket(b.readUnsignedByte(), b.readUnsignedByte()), HazardPacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(13, DashPacket.class, (m, b) -> {}, b -> new DashPacket(), DashPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
@@ -302,6 +305,14 @@ public final class ModNetwork {
         public static void handle(DrillActivityPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT,
                     () -> () -> com.bryanamaya.tecnocinetico.client.DrillSounds.remoteActivity(msg.entityId())));
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Servidor -> cliente: calor y ceniza del Nether de este jugador (0-100), para su barra. */
+    public record HazardPacket(int heat, int ash) {
+        public static void handle(HazardPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> com.bryanamaya.tecnocinetico.nether.ClientHazardData.set(msg.heat(), msg.ash()));
             ctx.get().setPacketHandled(true);
         }
     }
