@@ -95,7 +95,7 @@ public final class ClientWeaponEffects {
             }
             return;
         }
-        boolean powder = packet.kind() == WeaponEffectPacket.TRACER;            // bala corriente: pólvora, no cinetrita
+        boolean powder = packet.kind() == WeaponEffectPacket.TRACER || packet.kind() == WeaponEffectPacket.POWDER_FLASH;            // bala corriente: pólvora, no cinetrita
         if (packet.flash() && powder) {
             level.addParticle(ModParticles.MUZZLE_FLASH.get(), muzzle.x, muzzle.y, muzzle.z, .5, 0, 0);
             for (int i = 0; i < 3; i++) level.addParticle(ModParticles.BULLET_SPARK.get(), muzzle.x, muzzle.y, muzzle.z,
@@ -107,7 +107,7 @@ public final class ClientWeaponEffects {
             for (int i = 0; i < 4; i++) level.addParticle(ParticleTypes.SMOKE, muzzle.x, muzzle.y, muzzle.z,
                     random.nextGaussian() * .02, .02, random.nextGaussian() * .02);
         }
-        if (packet.kind() == WeaponEffectPacket.FLASH) return;
+        if (packet.kind() == WeaponEffectPacket.FLASH || packet.kind() == WeaponEffectPacket.POWDER_FLASH) return;
         Vec3 path = packet.end().subtract(muzzle);
         if (packet.kind() == WeaponEffectPacket.PULSE) {
             Vec3 axis = path.normalize();

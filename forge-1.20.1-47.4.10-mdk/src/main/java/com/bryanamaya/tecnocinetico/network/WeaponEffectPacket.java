@@ -10,7 +10,8 @@ import java.util.function.Supplier;
 /** Solo servidor a cliente. No altera daño, impactos ni consumo de munición. */
 public record WeaponEffectPacket(int owner, int item, int kind, boolean flash, Vec3 origin, Vec3 end) {
     /** TRACER: bala corriente (efectos cálidos de pólvora); KINETIC: bala cinética (cian); ARC: energía del Rifle de Riel. */
-    public static final int TRACER = 0, FLASH = 1, FLAME = 2, ARC = 3, PULSE = 4, KINETIC = 5;
+    public static final int TRACER = 0, FLASH = 1, FLAME = 2, ARC = 3, PULSE = 4, KINETIC = 5,
+            POWDER_FLASH = 6;   // solo fogonazo, de combustión (cohete): naranja, sin trazador
     public static void encode(WeaponEffectPacket m, FriendlyByteBuf b) {
         b.writeVarInt(m.owner); b.writeVarInt(m.item); b.writeVarInt(m.kind); b.writeBoolean(m.flash);
         b.writeDouble(m.origin.x); b.writeDouble(m.origin.y); b.writeDouble(m.origin.z);

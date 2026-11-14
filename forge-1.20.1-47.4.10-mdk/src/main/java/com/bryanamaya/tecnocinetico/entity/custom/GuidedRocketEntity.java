@@ -58,7 +58,8 @@ public class GuidedRocketEntity extends ThrowableItemProjectile {
         setDeltaMovement(dir.scale(sp));
         super.tick();
         if (level() instanceof ServerLevel server) {
-            server.sendParticles(ParticleTypes.FLAME, xo, yo, zo, 1, 0.02, 0.02, 0.02, 0.0);
+            server.sendParticles(com.bryanamaya.tecnocinetico.particle.ModParticles.MUZZLE_FLASH.get(), xo, yo, zo, 0, 0.45, 0, 0, 1);   // llama del motor
+            server.sendParticles(com.bryanamaya.tecnocinetico.particle.ModParticles.BULLET_SPARK.get(), xo, yo, zo, 1, 0.03, 0.03, 0.03, 0.04);
             server.sendParticles(ParticleTypes.LARGE_SMOKE, xo, yo, zo, 1, 0.05, 0.05, 0.05, 0.0);
             if (tickCount > 160) {
                 explode();

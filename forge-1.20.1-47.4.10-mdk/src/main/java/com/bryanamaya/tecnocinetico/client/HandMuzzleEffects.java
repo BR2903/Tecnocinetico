@@ -60,7 +60,7 @@ public final class HandMuzzleEffects {
         var camera = mc.gameRenderer.getMainCamera().getPosition();
         for (Shot shot : shots) {
             float age = (float)Math.max(0, now-shot.received);
-            boolean powder = shot.packet.kind() == WeaponEffectPacket.TRACER;
+            boolean powder = shot.packet.kind() == WeaponEffectPacket.TRACER || shot.packet.kind() == WeaponEffectPacket.POWDER_FLASH;
             if (shot.packet.flash() && powder) {
                 // Igual que la partícula MUZZLE_FLASH: destello naranja que encoge y se apaga.
                 float t = Math.min(1, age/3F);
@@ -73,7 +73,7 @@ public final class HandMuzzleEffects {
                 var ring = mc.renderBuffers().bufferSource().getBuffer(RING);
                 billboard(ring, muzzle, radius, .30F, .88F, 1, .95F*(1-t*t));
             }
-            if (shot.packet.kind() == WeaponEffectPacket.FLASH || age>=TRACER_TICKS) continue;
+            if (shot.packet.kind() == WeaponEffectPacket.FLASH || shot.packet.kind() == WeaponEffectPacket.POWDER_FLASH || age>=TRACER_TICKS) continue;
             float t = age/TRACER_TICKS;
             float fade = .95F*(1-t*t);
             float radius = .09F+(.02F-.09F)*t;

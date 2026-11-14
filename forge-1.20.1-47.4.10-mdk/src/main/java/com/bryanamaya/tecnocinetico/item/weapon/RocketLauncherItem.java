@@ -33,7 +33,7 @@ public class RocketLauncherItem extends LongGunItem {
         if (level instanceof ServerLevel server) {
             Vec3 back = player.getEyePosition().subtract(look.scale(1.0));
             server.sendParticles(ParticleTypes.LARGE_SMOKE, back.x, back.y, back.z, 10, 0.2, 0.2, 0.2, 0.05);   // rebufo
-            WeaponEffects.send(player, gun, aiming, com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.FLASH, from, true);
+            WeaponEffects.send(player, gun, aiming, com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.POWDER_FLASH, from, true);
         }
     }
 }
