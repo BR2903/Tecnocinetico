@@ -676,5 +676,9 @@
   "subtitles.tecnocinetico.chainsaw.idle": "Motosierra al ralentí",
   "subtitles.tecnocinetico.chainsaw.cut": "Motosierra corta",
   "subtitles.tecnocinetico.chainsaw.rev": "Motosierra acelera",
-  "subtitles.tecnocinetico.chainsaw.stop": "Motosierra se apaga"
+  "subtitles.tecnocinetico.chainsaw.stop": "Motosierra se apaga",
+  "entity.tecnocinetico.slag_devourer": "Devorador de Escoria",
+  "item.tecnocinetico.slag_devourer_spawn_egg": "Huevo de Devorador de Escoria",
+  "item.tecnocinetico.forge_heart": "Núcleo de Forja",
+  "message.tecnocinetico.devourer_defeated": "¡El Devorador de Escoria ha caído! Su núcleo aún late."
 }

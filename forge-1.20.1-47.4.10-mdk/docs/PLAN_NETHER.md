@@ -55,4 +55,12 @@ El usuario pidió peligros de ambiente (calor y ceniza tóxica) y, a más dificu
 - Arte de Codex: `AbyssFoundryModel`/`AbyssFoundryRenderer` (10 poses), objetos, Mk II puestos (`cooler_mk2`/`filter_mk2`/`anchor_mk2`). GameTests `FoundryGameTests` (4) + la fundición en `netherBiomesAndSites`.
 - Probar: `/locate structure tecnocinetico:abyss_foundry` en chunks nuevos del Nether, o el huevo (sin consola). Pelear solo y con amigos; instalar el acoplador y saltar al Nether.
 
-Siguiente parte: segundo jefe (Devorador de Escoria con su excavación), que suelta el Núcleo de Forja.
+
+## Parte 6 (2026-11-14, Claude + Codex): segundo jefe, Devorador de Escoria — entregada, pendiente de prueba del usuario
+- **Excavación de Escoria** (`InfernalSiteStructure` site 1, `slag_excavation`, spacing 40): pozo de 31x31 y 8 de hondo con gradas, rampa al sur (la boca se cierra con barrera al activar la consola de arriba), perforadora abandonada, andamios con foco y 3 cofres.
+- **Jefe** `nether/SlagDevourerEntity` (1000 de vida, gusano biomecánico de 7 segmentos): mordisco (28), embestida en línea (26; si choca con una pared queda aturdido y expuesto), escupe escoria (3/5 bolas de 18 con charcos), excava y emerge cada 4.º ataque (bajo tierra es invulnerable; el suelo tiembla bajo el objetivo y sale con 32 de daño lanzando por el aire, luego expuesto ×1,5) e invoca ácaros enfadado (máx. 6). Suelta un **Núcleo de Forja** por jugador que luchó (máx. 4), aleación, piroxita, 2-3 netherita y componentes.
+- Lo común de los dos jefes pasó a `nether/NetherBossEntity` (consola, aguante por jugadores, reinicio, barra, escoria en arco, charcos, botín); el Fundidor hereda de ella sin cambios de comportamiento.
+- Arte de Codex: `SlagDevourerModel`/`SlagDevourerRenderer` (16 poses; no se dibuja bajo tierra), Núcleo de Forja 3D (`tools/slag_devourer_gen.py`, `preview_slag_devourer.py`).
+- Probar: `/locate structure tecnocinetico:slag_excavation` (chunks nuevos del Nether) o el huevo.
+
+Siguiente: el arma de tier 3 del Nether con el Núcleo de Forja (diseño con el usuario).

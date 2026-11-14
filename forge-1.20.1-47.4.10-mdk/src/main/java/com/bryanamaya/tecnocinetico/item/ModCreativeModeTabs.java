@@ -58,6 +58,7 @@ public class ModCreativeModeTabs {
                         }
                         out.accept(ModItems.ABYSSAL_COMPONENT.get());
                         out.accept(ModItems.NETHER_COUPLER.get());
+                        out.accept(ModItems.FORGE_HEART.get());
                         for (int lvl = 1; lvl <= com.bryanamaya.tecnocinetico.gear.JetpackItem.MAX_LEVEL; lvl++) {
                             ItemStack jet = new ItemStack(ModItems.JETPACK.get());
                             com.bryanamaya.tecnocinetico.gear.JetpackItem.setLevel(jet, lvl);
@@ -80,6 +81,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.SLAG_MITE_SPAWN_EGG.get());
                         out.accept(ModItems.ASH_SENTINEL_SPAWN_EGG.get());
                         out.accept(ModItems.ABYSS_FOUNDRY_SPAWN_EGG.get());
+                        out.accept(ModItems.SLAG_DEVOURER_SPAWN_EGG.get());
                         out.accept(ModItems.SWARM_WASP_SPAWN_EGG.get());
                         out.accept(ModItems.HIVE_NODE_SPAWN_EGG.get());
                         out.accept(ModItems.DRONE_SPAWN_EGG.get());

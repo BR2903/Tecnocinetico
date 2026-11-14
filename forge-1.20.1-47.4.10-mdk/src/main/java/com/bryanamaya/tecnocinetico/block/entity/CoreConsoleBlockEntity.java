@@ -83,6 +83,7 @@ public class CoreConsoleBlockEntity extends BlockEntity {
             case "network_watcher" -> ModEntities.NETWORK_WATCHER.get().create(server);
             case "swarm_matriarch" -> ModEntities.SWARM_MATRIARCH.get().create(server);
             case "abyss_foundry" -> com.bryanamaya.tecnocinetico.nether.NetherEntities.FOUNDRY.get().create(server);
+            case "slag_devourer" -> com.bryanamaya.tecnocinetico.nether.NetherEntities.DEVOURER.get().create(server);
             default -> ModEntities.SIEGE_SPIDER.get().create(server);
         };
         if (boss == null) {
@@ -93,7 +94,7 @@ public class CoreConsoleBlockEntity extends BlockEntity {
         boss.finalizeSpawn(server, server.getCurrentDifficultyAt(at), MobSpawnType.EVENT, null, null);
         if (boss instanceof SiegeSpiderEntity spider) spider.setConsole(worldPosition);
         if (boss instanceof com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity other) other.setConsole(worldPosition);
-        if (boss instanceof com.bryanamaya.tecnocinetico.nether.AbyssFoundryEntity foundry) foundry.setConsole(worldPosition);
+        if (boss instanceof com.bryanamaya.tecnocinetico.nether.NetherBossEntity nether) nether.setConsole(worldPosition);
         boss.setTarget(player);
         if (!server.addFreshEntity(boss)) return;
         closeSeal(server);

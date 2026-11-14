@@ -34,6 +34,9 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
  *   <li><b>Fundición del Abismo</b> (31x31): nave de carcasa infernal de 9 de alto con la puerta al sur, dos canales de
  *       lava, cuatro pilares con foco, el horno apagado donde duerme el Fundidor y la consola junto a la puerta (al
  *       activarla se cierra la puerta con barrera y despierta el jefe). Tres cofres.</li>
+ *   <li><b>Excavación de Escoria</b> (31x31): pozo de 8 de hondo con gradas de escoria, una rampa al sur cerrada por
+ *       una puerta (barrera al activar la consola de arriba), andamios, una perforadora abandonada y tres cofres. El
+ *       Devorador sale del fondo.</li>
  *   <li><b>Puesto de Vigilancia</b> (11x11): torre de 18 con plataforma, barandilla, foco, escalera interior,
  *       un cofre abajo y otro arriba y dos Centinelas de Ceniza de guardia.</li>
  * </ul>
@@ -46,15 +49,15 @@ public class InfernalSitePiece extends StructurePiece {
 
     /** Lado de cada instalación. */
     public static int size(int site) {
-        return site == InfernalSiteStructure.WATCHPOST ? 11 : site == InfernalSiteStructure.FOUNDRY ? 31 : 23;
+        return site == InfernalSiteStructure.WATCHPOST ? 11 : site == InfernalSiteStructure.FOUNDRY || site == InfernalSiteStructure.EXCAVATION ? 31 : 23;
     }
 
     private static int height(int site) {
-        return site == InfernalSiteStructure.WATCHPOST ? 20 : site == InfernalSiteStructure.FOUNDRY ? 18 : 12;
+        return site == InfernalSiteStructure.WATCHPOST ? 20 : site == InfernalSiteStructure.FOUNDRY || site == InfernalSiteStructure.EXCAVATION ? 18 : 12;
     }
 
     public InfernalSitePiece(BlockPos origin, int site, long seed) {
-        super(ModStructures.INFERNAL_PIECE.get(), 0, new BoundingBox(origin.getX(), origin.getY() - 6, origin.getZ(),
+        super(ModStructures.INFERNAL_PIECE.get(), 0, new BoundingBox(origin.getX(), origin.getY() - (site == InfernalSiteStructure.EXCAVATION ? 10 : 6), origin.getZ(),
                 origin.getX() + size(site) - 1, origin.getY() + height(site), origin.getZ() + size(site) - 1));
         this.ox = origin.getX();
         this.oy = origin.getY();
@@ -147,6 +150,8 @@ public class InfernalSitePiece extends StructurePiece {
             watchpost(level, box);
         } else if (site == InfernalSiteStructure.FOUNDRY) {
             foundry(level, box);
+        } else if (site == InfernalSiteStructure.EXCAVATION) {
+            excavation(level, box);
         } else {
             depot(level, box);
         }
@@ -212,6 +217,77 @@ public class InfernalSitePiece extends StructurePiece {
                 for (int x = 14; x <= 16; x++) {
                     for (int y = 1; y <= 3; y++) {
                         seal.add(pos(x, y, n));
+                    }
+                }
+                c.setSeal(seal);
+            }
+        }
+    }
+
+    /** Excavación de Escoria (jefe 2). Pozo: suelo a y = -8; la rampa sube por el sur; la consola, arriba junto a la rampa. */
+    private void excavation(WorldGenLevel level, BoundingBox box) {
+        int n = size(site) - 1, depth = 8;
+        for (int x = 0; x <= n; x++) {
+            for (int z = 0; z <= n; z++) {
+                // distancia al borde: las gradas bajan de 2 en 2 hacia el centro (anillos de 3 bloques)
+                int ring = Math.min(Math.min(x, z), Math.min(n - x, n - z));
+                int floor = ring >= 6 ? -depth : -Math.min(depth, (ring / 2) * 2 + (ring >= 1 ? 2 : 0));
+                if (ring == 0) {
+                    floor = 0;
+                }
+                for (int y = -depth - 2; y <= 17; y++) {
+                    if (y < floor) {
+                        put(level, box, x, y, z, y == floor - 1 ? (roll(x, y, z, 21) < 0.25 ? ModWorldBlocks.SULFUR_CRUST.get()
+                                : ModWorldBlocks.COMPACTED_SLAG.get()) : Blocks.BLACKSTONE);
+                    } else if (y == floor) {
+                        put(level, box, x, y, z, roll(x, y, z, 22) < 0.12 ? Blocks.MAGMA_BLOCK : ModWorldBlocks.COMPACTED_SLAG.get());
+                    } else {
+                        put(level, box, x, y, z, Blocks.AIR);
+                    }
+                }
+                if (ring == 0 && roll(x, 1, z, 23) < 0.7) {
+                    put(level, box, x, 1, z, Blocks.POLISHED_BLACKSTONE_BRICK_WALL);             // pretil del borde
+                }
+            }
+        }
+        // rampa al sur: de la superficie (z = n) al fondo, 3 de ancho (x 14-16), con paredes
+        for (int step = 0; step <= depth; step++) {
+            int z = n - 1 - step * 2;
+            for (int x = 13; x <= 17; x++) {
+                boolean wall = x == 13 || x == 17;
+                for (int dz = 0; dz < 2; dz++) {
+                    put(level, box, x, -step, z - dz, wall ? Blocks.POLISHED_BLACKSTONE_BRICKS : ModWorldBlocks.CARBONIZED_PLATE.get());
+                    for (int y = -step + 1; y <= -step + 4; y++) {
+                        put(level, box, x, y, z - dz, wall && y <= -step + 2 ? Blocks.POLISHED_BLACKSTONE_BRICKS : Blocks.AIR);
+                    }
+                }
+            }
+        }
+        // perforadora abandonada en el fondo (noroeste): torre de carcasa con brazo y broca de basalto
+        fill(level, box, 7, -depth + 1, 7, 9, -depth + 7, 9, ModWorldBlocks.INFERNAL_CASING.get());
+        fill(level, box, 10, -depth + 6, 8, 13, -depth + 6, 8, ModWorldBlocks.RUSTED_METAL_BEAM.get());
+        fill(level, box, 13, -depth + 2, 8, 13, -depth + 5, 8, Blocks.POLISHED_BASALT);
+        put(level, box, 8, -depth + 8, 8, Blocks.SHROOMLIGHT);
+        // andamios en las gradas con focos
+        for (int[] a : new int[][]{{4, 4}, {26, 4}, {4, 26}, {26, 26}}) {
+            fill(level, box, a[0], -4, a[1], a[0], 3, a[1], ModWorldBlocks.RUSTED_METAL_BEAM.get());
+            put(level, box, a[0], 4, a[1], Blocks.SHROOMLIGHT);
+        }
+        // cofres: dos en el fondo, uno arriba junto a la rampa
+        chest(level, box, 21, -depth + 1, 9, Direction.WEST);
+        chest(level, box, 9, -depth + 1, 21, Direction.EAST);
+        chest(level, box, 19, 1, n - 1, Direction.NORTH);
+        // consola arriba, junto a la boca de la rampa; el jefe sale del centro del fondo
+        BlockPos console = pos(11, 1, n - 1);
+        put(level, box, 11, 0, n - 1, ModWorldBlocks.INFERNAL_CASING.get());
+        if (box.isInside(console)) {
+            level.setBlock(console, com.bryanamaya.tecnocinetico.block.ModBlocks.CORE_CONSOLE.get().defaultBlockState(), 2);
+            if (level.getBlockEntity(console) instanceof com.bryanamaya.tecnocinetico.block.entity.CoreConsoleBlockEntity c) {
+                c.configureGuardian("slag_devourer", pos(15, -depth + 1, 15));
+                var seal = new java.util.ArrayList<BlockPos>();                       // la boca de la rampa (3x3)
+                for (int x = 14; x <= 16; x++) {
+                    for (int y = 1; y <= 3; y++) {
+                        seal.add(pos(x, y, n - 1));
                     }
                 }
                 c.setSeal(seal);

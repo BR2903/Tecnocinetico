@@ -142,7 +142,7 @@ public class NetherEnemyGameTests {
         int i = 0;
         // zona nueva en cada ejecución: el mundo de prueba se guarda y traería centinelas de ejecuciones anteriores
         int base = 4000 + level.getRandom().nextInt(400) * 1024;
-        for (String id : new String[]{"abyss_foundry", "cooling_depot", "infernal_watchpost"}) {
+        for (String id : new String[]{"abyss_foundry", "slag_excavation", "cooling_depot", "infernal_watchpost"}) {
             var structure = structures.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, id));
             helper.assertTrue(structure != null, "Falta la estructura " + id);
             var biome = biomes.getHolderOrThrow(com.bryanamaya.tecnocinetico.worldgen.InfernalBiomes.SLAG_FORGES);
@@ -176,8 +176,8 @@ public class NetherEnemyGameTests {
                     if (st.is(Blocks.CHEST)) chests++;
                     if (st.is(com.bryanamaya.tecnocinetico.block.ModWorldBlocks.INFERNAL_CASING.get())) casing++;
                 }
-                helper.assertTrue(chests >= (fid.equals("abyss_foundry") ? 3 : 2) && casing > 10, fid + ": " + chests + " cofres y " + casing + " bloques de carcasa");
-                if (fid.equals("abyss_foundry")) {
+                helper.assertTrue(chests >= (fid.equals("abyss_foundry") || fid.equals("slag_excavation") ? 3 : 2) && casing > 10, fid + ": " + chests + " cofres y " + casing + " bloques de carcasa");
+                if (fid.equals("abyss_foundry") || fid.equals("slag_excavation")) {
                     boolean console = false;
                     for (BlockPos p : BlockPos.betweenClosed(bb.minX(), bb.minY(), bb.minZ(), bb.maxX(), bb.maxY(), bb.maxZ())) {
                         if (level.getBlockEntity(p) instanceof com.bryanamaya.tecnocinetico.block.entity.CoreConsoleBlockEntity) {
@@ -185,7 +185,7 @@ public class NetherEnemyGameTests {
                             break;
                         }
                     }
-                    helper.assertTrue(console, "La Fundición del Abismo no tiene consola");
+                    helper.assertTrue(console, fid + " no tiene consola");
                 }
                 if (!fid.equals("infernal_watchpost")) {
                     forced.forEach(c -> level.setChunkForced(c.x, c.z, false));

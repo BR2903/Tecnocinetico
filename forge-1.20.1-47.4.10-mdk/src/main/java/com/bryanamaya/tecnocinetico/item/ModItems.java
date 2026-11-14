@@ -245,6 +245,11 @@ public class ModItems {
                     .rarity(net.minecraft.world.item.Rarity.EPIC)));
     public static final RegistryObject<Item> ABYSSAL_COMPONENT = ITEMS.register("abyssal_component",
             () -> new Item(new Item.Properties().fireResistant().rarity(net.minecraft.world.item.Rarity.RARE)));
+    // Devorador de Escoria: botín (material del arma de tier 3 del Nether)
+    public static final RegistryObject<Item> FORGE_HEART = ITEMS.register("forge_heart",
+            () -> new Item(new Item.Properties().stacksTo(16).fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)));
+    public static final RegistryObject<Item> SLAG_DEVOURER_SPAWN_EGG = ITEMS.register("slag_devourer_spawn_egg",
+            () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.nether.NetherEntities.DEVOURER, 0x241C21, 0xFFA525, new Item.Properties()));
     public static final RegistryObject<Item> ABYSS_FOUNDRY_SPAWN_EGG = ITEMS.register("abyss_foundry_spawn_egg",
             () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.nether.NetherEntities.FOUNDRY, 0x393B3D, 0xFF4F11, new Item.Properties()));
     public static final RegistryObject<Item> JETPACK_KIT_2 = ITEMS.register("jetpack_kit_2",

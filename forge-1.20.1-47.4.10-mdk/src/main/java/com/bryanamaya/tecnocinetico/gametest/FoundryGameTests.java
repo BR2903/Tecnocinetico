@@ -134,4 +134,46 @@ public class FoundryGameTests {
             helper.succeed();
         });
     }
+
+    /** Devorador de Escoria: aturdido recibe ×1,5; con la IA activa avisa y hace daño a un objetivo cercano. */
+    @GameTest(template = "empty", batch = "devorador", timeoutTicks = 400)
+    public static void devourerFights(GameTestHelper helper) {
+        var level = helper.getLevel();
+        BlockPos at = helper.absolutePos(new BlockPos(2, 1, 2));
+        at = new BlockPos(at.getX(), level.getHeight(Heightmap.Types.MOTION_BLOCKING, at.getX(), at.getZ()), at.getZ());
+        var a = NetherEntities.DEVOURER.get().create(level);
+        var b = NetherEntities.DEVOURER.get().create(level);
+        a.moveTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5);
+        b.moveTo(at.getX() + 6.5, at.getY(), at.getZ() + 0.5);
+        a.setNoAi(true);
+        b.setNoAi(true);
+        level.addFreshEntity(a);
+        level.addFreshEntity(b);
+        b.testSetExposed(40);
+        var src = level.damageSources().generic();
+        a.hurt(src, 50.0F);
+        b.hurt(src, 50.0F);
+        float lostA = a.getMaxHealth() - a.getHealth(), lostB = b.getMaxHealth() - b.getHealth();
+        b.discard();
+        helper.assertTrue(lostB > lostA * 1.3F, "Aturdido no recibe más daño: " + lostA + " / " + lostB);
+        // con IA: un gólem quieto delante
+        a.setNoAi(false);
+        var golem = net.minecraft.world.entity.EntityType.IRON_GOLEM.create(level);
+        golem.moveTo(a.getX() + 3.0, a.getY(), a.getZ());
+        golem.setNoAi(true);
+        level.addFreshEntity(golem);
+        a.setTarget(golem);
+        var saw = new java.util.concurrent.atomic.AtomicBoolean();
+        helper.onEachTick(() -> {
+            if (a.attack() != 0) saw.set(true);
+        });
+        helper.runAfterDelay(300, () -> {
+            boolean hurt = golem.getHealth() < golem.getMaxHealth();
+            a.discard();
+            golem.discard();
+            helper.assertTrue(saw.get(), "El Devorador no avisa ningún ataque");
+            helper.assertTrue(hurt, "El Devorador no hace daño a un objetivo quieto");
+            helper.succeed();
+        });
+    }
 }

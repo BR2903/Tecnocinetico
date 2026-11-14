@@ -676,5 +676,9 @@
   "subtitles.tecnocinetico.chainsaw.idle": "Chainsaw idles",
   "subtitles.tecnocinetico.chainsaw.cut": "Chainsaw cuts",
   "subtitles.tecnocinetico.chainsaw.rev": "Chainsaw revs",
-  "subtitles.tecnocinetico.chainsaw.stop": "Chainsaw stalls"
+  "subtitles.tecnocinetico.chainsaw.stop": "Chainsaw stalls",
+  "entity.tecnocinetico.slag_devourer": "Slag Devourer",
+  "item.tecnocinetico.slag_devourer_spawn_egg": "Slag Devourer Spawn Egg",
+  "item.tecnocinetico.forge_heart": "Forge Heart",
+  "message.tecnocinetico.devourer_defeated": "The Slag Devourer has fallen! Its heart still beats."
 }
