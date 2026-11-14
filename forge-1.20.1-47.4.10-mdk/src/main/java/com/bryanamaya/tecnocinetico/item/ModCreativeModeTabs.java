@@ -126,11 +126,6 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.KINETIC_SNIPER.get());
                         out.accept(ModItems.FLAMETHROWER.get());
                         out.accept(ModItems.CHAINSAW.get());
-                        out.accept(ModItems.INERCITA_PICKAXE.get());
-                        out.accept(ModItems.INERCITA_AXE.get());
-                        out.accept(ModItems.INERCITA_SHOVEL.get());
-                        out.accept(ModItems.INERCITA_HOE.get());
-                        out.accept(ModItems.INERCITA_SWORD.get());
                         out.accept(ModItems.THERMAL_LANCE.get());
                         out.accept(ModItems.KINETIC_BLADE.get());
                         // tier 3

@@ -60,7 +60,13 @@ public final class HandMuzzleEffects {
         var camera = mc.gameRenderer.getMainCamera().getPosition();
         for (Shot shot : shots) {
             float age = (float)Math.max(0, now-shot.received);
-            if (shot.packet.flash()) {
+            boolean powder = shot.packet.kind() == WeaponEffectPacket.TRACER;
+            if (shot.packet.flash() && powder) {
+                // Igual que la partícula MUZZLE_FLASH: destello naranja que encoge y se apaga.
+                float t = Math.min(1, age/3F);
+                if (t < 1) billboard(mc.renderBuffers().bufferSource().getBuffer(GLOW), muzzle, (.42F + (.12F-.42F)*t)*.5F,
+                        1, .78F - .33F*t, .38F - .26F*t, .95F*(1-t*t));
+            } else if (shot.packet.flash()) {
                 // Mismo tamaño, color y expansión que KineticParticle.Kind.BURST (escala .45).
                 float t = Math.min(1, age/BURST_TICKS);
                 float radius = (.12F + (.9F-.12F)*t)*.45F;
@@ -76,7 +82,8 @@ public final class HandMuzzleEffects {
             target = MuzzleProjection.toHandView(target, worldProjection, inverseHandProjection);
             if (target.z < -.05F) {
                 var tracer = mc.renderBuffers().bufferSource().getBuffer(GLOW);
-                trail(tracer, muzzle, target, radius*(shot.packet.kind()==WeaponEffectPacket.ARC ? 1.3F : 1), fade);
+                if (powder) trail(tracer, muzzle, target, radius*.6F, fade, 1, .86F, .52F);
+                else trail(tracer, muzzle, target, radius*(shot.packet.kind()==WeaponEffectPacket.ARC ? 1.3F : 1), fade, .30F, .88F, 1);
             }
         }
     }
@@ -87,10 +94,10 @@ public final class HandMuzzleEffects {
                 i==1||i==2?1:0,i<2?1:0,r,g,b,alpha);
     }
 
-    private static void trail(VertexConsumer out, Vector3f start, Vector3f end, float radius, float alpha) {
+    private static void trail(VertexConsumer out, Vector3f start, Vector3f end, float radius, float alpha, float r, float g, float b) {
         // Igual que las trazadoras del mundo: partículas separadas, no una textura estirada a todo el rayo.
         for (Vector3f point : HandMuzzleGeometry.trail(start,end))
-            billboard(out,point,radius,.30F,.88F,1,alpha);
+            billboard(out,point,radius,r,g,b,alpha);
     }
 
     private static void vertex(VertexConsumer out,float x,float y,float z,float u,float v,float r,float g,float b,float a) {

@@ -15,7 +15,8 @@ import net.minecraft.util.Mth;
  */
 public class KineticParticle extends TextureSheetParticle {
 
-    public enum Kind { TRACER, SPARK, BURST }
+    /** TRACER/SPARK/BURST: cinetrita (cian). BULLET_*, MUZZLE_FLASH: bala corriente de pólvora (cálidos). */
+    public enum Kind { TRACER, SPARK, BURST, BULLET_TRACER, BULLET_SPARK, MUZZLE_FLASH }
 
     private static final float R = 0.30F, G = 0.88F, B = 1.0F;   // cian cinetrita
 
@@ -53,6 +54,40 @@ public class KineticParticle extends TextureSheetParticle {
                 setColor(0.85F, 1.0F, 1.0F); // nace casi blanca y se enfría a cian
                 setSpriteFromAge(sprites);
             }
+            case BULLET_TRACER -> {
+                lifetime = 3 + random.nextInt(2);
+                gravity = 0.0F;
+                hasPhysics = false;
+                xd = yd = zd = 0;
+                startSize = 0.055F;
+                endSize = 0.01F;
+                setColor(1.0F, 0.86F, 0.52F);       // estela amarilla pálida de bala trazadora
+                pickSprite(sprites);
+            }
+            case BULLET_SPARK -> {
+                lifetime = 5 + random.nextInt(6);
+                gravity = 0.8F;
+                friction = 0.86F;
+                hasPhysics = true;
+                xd = dx;
+                yd = dy;
+                zd = dz;
+                startSize = 0.05F;
+                endSize = 0.0F;
+                setColor(1.0F, 0.95F, 0.7F);        // nace blanca-amarilla y se enfría a naranja
+                setSpriteFromAge(sprites);
+            }
+            case MUZZLE_FLASH -> {
+                lifetime = 3;
+                gravity = 0.0F;
+                hasPhysics = false;
+                xd = yd = zd = 0;
+                float scale = dx > 0 ? (float) dx : 1.0F;
+                startSize = 0.42F * scale;         // destello que se apaga encogiendo (no una onda que se expande)
+                endSize = 0.12F * scale;
+                setColor(1.0F, 0.78F, 0.38F);
+                pickSprite(sprites);
+            }
             default -> { // BURST
                 lifetime = 7;
                 gravity = 0.0F;
@@ -81,6 +116,11 @@ public class KineticParticle extends TextureSheetParticle {
         if (kind == Kind.SPARK) {
             setSpriteFromAge(sprites);
             setColor(Mth.lerp(t, 0.85F, R), Mth.lerp(t, 1.0F, G), B);
+        } else if (kind == Kind.BULLET_SPARK) {
+            setSpriteFromAge(sprites);
+            setColor(1.0F, Mth.lerp(t, 0.95F, 0.45F), Mth.lerp(t, 0.7F, 0.1F));
+        } else if (kind == Kind.MUZZLE_FLASH) {
+            setColor(1.0F, Mth.lerp(t, 0.78F, 0.45F), Mth.lerp(t, 0.38F, 0.12F));
         }
     }
 

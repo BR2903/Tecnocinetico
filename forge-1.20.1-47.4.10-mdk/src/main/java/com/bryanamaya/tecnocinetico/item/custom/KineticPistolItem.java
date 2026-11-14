@@ -416,6 +416,7 @@ public class KineticPistolItem extends Item {
             boolean hit = blockHit == null || blockHit.getType() == HitResult.Type.BLOCK;
             if (hit) {
                 server.playSound(null, end.x, end.y, end.z, ModSounds.PISTOL_IMPACT.get(), SoundSource.PLAYERS, 0.8F, 0.8F);
+                server.sendParticles(ModParticles.BULLET_SPARK.get(), end.x, end.y, end.z, 5, 0.04, 0.04, 0.04, 0.15);   // chispas de metal
             }
             if (blockHit != null && blockHit.getType() == HitResult.Type.BLOCK) {
                 BlockState state = server.getBlockState(blockHit.getBlockPos());

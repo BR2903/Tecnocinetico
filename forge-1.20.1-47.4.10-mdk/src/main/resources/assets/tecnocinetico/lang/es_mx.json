@@ -708,11 +708,5 @@
   "tooltip.tecnocinetico.loaded_standard": "Balas Normales",
   "death.attack.tecnocinetico.kinetic_impact": "%1$s fue destrozado por un impacto cinético",
   "death.attack.tecnocinetico.kinetic_impact.player": "%1$s fue destrozado por un impacto cinético de %2$s",
-  "jei.tecnocinetico.rounds": "Bala Normal (plomo, cobre y pólvora): la munición básica de la pistola, el subfusil y el revólver. Bala Cinética (Bala Normal + cinetrita): IMPACTO CINÉTICO, un 35 % del daño extra atraviesa la armadura y empuja al objetivo. Cada cargador lleva un solo tipo: vacío se llena con cinéticas si llevas, si no con normales.",
-  "item.tecnocinetico.inercita_pickaxe": "Pico de Inercita",
-  "item.tecnocinetico.inercita_axe": "Hacha de Inercita",
-  "item.tecnocinetico.inercita_shovel": "Pala de Inercita",
-  "item.tecnocinetico.inercita_hoe": "Azada de Inercita",
-  "item.tecnocinetico.inercita_sword": "Espada de Inercita",
-  "jei.tecnocinetico.inercita_tools": "Herramientas de Inercita: nivel de diamante, más duraderas y rápidas. La inercita absorbe la vibración: pican a velocidad completa bajo el agua y en el aire. La espada aturde (lentitud y debilidad 1,5 s)."
+  "jei.tecnocinetico.rounds": "Bala Normal (plomo, cobre y pólvora): la munición básica de la pistola, el subfusil y el revólver. Bala Cinética (Bala Normal + cinetrita): IMPACTO CINÉTICO, un 35 % del daño extra atraviesa la armadura y empuja al objetivo. Cada cargador lleva un solo tipo: vacío se llena con cinéticas si llevas, si no con normales."
 }

@@ -259,17 +259,6 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON)));
     public static final RegistryObject<Item> JETPACK_KIT_3 = ITEMS.register("jetpack_kit_3",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
-    // Herramientas de Inercita (nivel 2: entre diamante y netherita; ver item/custom/InercitaTools)
-    public static final RegistryObject<Item> INERCITA_PICKAXE = ITEMS.register("inercita_pickaxe",
-            () -> new net.minecraft.world.item.PickaxeItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, 1, -2.8F, new Item.Properties()));
-    public static final RegistryObject<Item> INERCITA_AXE = ITEMS.register("inercita_axe",
-            () -> new net.minecraft.world.item.AxeItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, 5.0F, -3.0F, new Item.Properties()));
-    public static final RegistryObject<Item> INERCITA_SHOVEL = ITEMS.register("inercita_shovel",
-            () -> new net.minecraft.world.item.ShovelItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, 1.5F, -3.0F, new Item.Properties()));
-    public static final RegistryObject<Item> INERCITA_HOE = ITEMS.register("inercita_hoe",
-            () -> new net.minecraft.world.item.HoeItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, -3, 0.0F, new Item.Properties()));
-    public static final RegistryObject<Item> INERCITA_SWORD = ITEMS.register("inercita_sword",
-            () -> new net.minecraft.world.item.SwordItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, 3, -2.4F, new Item.Properties()));
     // ---------------------------------------------------------------- tier 1: armadura y armas
     public static final RegistryObject<Item> SCRAP_HELMET = ITEMS.register("scrap_helmet",
             () -> new com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem(net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));

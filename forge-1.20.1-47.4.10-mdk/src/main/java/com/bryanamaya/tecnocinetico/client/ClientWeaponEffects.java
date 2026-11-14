@@ -95,7 +95,14 @@ public final class ClientWeaponEffects {
             }
             return;
         }
-        if (packet.flash()) {
+        boolean powder = packet.kind() == WeaponEffectPacket.TRACER;            // bala corriente: pólvora, no cinetrita
+        if (packet.flash() && powder) {
+            level.addParticle(ModParticles.MUZZLE_FLASH.get(), muzzle.x, muzzle.y, muzzle.z, .5, 0, 0);
+            for (int i = 0; i < 3; i++) level.addParticle(ModParticles.BULLET_SPARK.get(), muzzle.x, muzzle.y, muzzle.z,
+                    random.nextGaussian() * .04, .02 + random.nextDouble() * .03, random.nextGaussian() * .04);
+            for (int i = 0; i < 4; i++) level.addParticle(ParticleTypes.SMOKE, muzzle.x, muzzle.y, muzzle.z,
+                    random.nextGaussian() * .02, .02, random.nextGaussian() * .02);
+        } else if (packet.flash()) {
             level.addParticle(ModParticles.KINETIC_BURST.get(), muzzle.x, muzzle.y, muzzle.z, .45, 0, 0);
             for (int i = 0; i < 4; i++) level.addParticle(ParticleTypes.SMOKE, muzzle.x, muzzle.y, muzzle.z,
                     random.nextGaussian() * .02, .02, random.nextGaussian() * .02);
@@ -119,7 +126,7 @@ public final class ClientWeaponEffects {
         int steps = Math.min(512, Math.max(1, (int) (path.length() * 2)));
         for (int i = 0; i <= steps; i++) {
             Vec3 at = muzzle.add(path.scale(i / (double) steps));
-            level.addParticle(ModParticles.KINETIC_TRACER.get(), at.x, at.y, at.z, 0, 0, 0);
+            level.addParticle(powder ? ModParticles.BULLET_TRACER.get() : ModParticles.KINETIC_TRACER.get(), at.x, at.y, at.z, 0, 0, 0);
             if (packet.kind() == WeaponEffectPacket.ARC && i > 0 && i < steps) {
                 level.addParticle(ParticleTypes.ELECTRIC_SPARK, at.x, at.y, at.z,
                         random.nextGaussian() * .03, random.nextGaussian() * .03, random.nextGaussian() * .03);

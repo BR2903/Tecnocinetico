@@ -359,13 +359,18 @@ public class LongGunItem extends Item {
 
     protected static void effects(ServerLevel server, Player player, Vec3 dir, Vec3 end, @Nullable BlockHitResult block,
                                 boolean aiming, boolean flash) {
+        ItemStack gun = player.getMainHandItem();
+        boolean rail = gun.getItem() instanceof RailRifleItem;
+        boolean kinetic = gun.getItem() instanceof LongGunItem lg && lg.pistolCalibre()
+                && com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun);
         if (player instanceof ServerPlayer sp) {
-            WeaponEffects.send(sp, player.getMainHandItem(), aiming,
-                    player.getMainHandItem().getItem() instanceof RailRifleItem
-                            ? com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.ARC
-                            : com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.TRACER, end, flash);
+            WeaponEffects.send(sp, gun, aiming, rail ? com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.ARC
+                    : kinetic ? com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.KINETIC
+                    : com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.TRACER, end, flash);
         }
-        server.sendParticles(ModParticles.KINETIC_SPARK.get(), end.x, end.y, end.z, 4, 0.04, 0.04, 0.04, 0.15);
+        // energía cian solo con cinetrita (riel o bala cinética); la bala corriente salta chispas de metal
+        server.sendParticles(rail || kinetic ? ModParticles.KINETIC_SPARK.get() : ModParticles.BULLET_SPARK.get(),
+                end.x, end.y, end.z, 4, 0.04, 0.04, 0.04, 0.15);
         if (block != null && block.getType() == HitResult.Type.BLOCK) {
             BlockState st = server.getBlockState(block.getBlockPos());
             if (!st.isAir()) {

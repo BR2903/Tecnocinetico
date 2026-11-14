@@ -265,6 +265,12 @@ public class Tecnocinetico {
                     sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.SPARK));
             event.registerSpriteSet(ModParticles.KINETIC_BURST.get(),
                     sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.BURST));
+            event.registerSpriteSet(ModParticles.BULLET_TRACER.get(),
+                    sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.BULLET_TRACER));
+            event.registerSpriteSet(ModParticles.BULLET_SPARK.get(),
+                    sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.BULLET_SPARK));
+            event.registerSpriteSet(ModParticles.MUZZLE_FLASH.get(),
+                    sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.MUZZLE_FLASH));
             event.registerSpriteSet(ModParticles.HEAT_SPARK.get(), s -> new com.bryanamaya.tecnocinetico.client.HeatParticle.Provider(s,
                     com.bryanamaya.tecnocinetico.client.HeatParticle.Kind.SPARK));
             event.registerSpriteSet(ModParticles.MOLTEN_DROP.get(), s -> new com.bryanamaya.tecnocinetico.client.HeatParticle.Provider(s,

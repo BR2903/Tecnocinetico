@@ -107,9 +107,6 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
                 Component.translatable("jei.tecnocinetico.fuel_generator"));
         registration.addIngredientInfo(List.of(new ItemStack(ModItems.STANDARD_ROUND.get()), new ItemStack(ModItems.KINETIC_ROUND.get())),
                 VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.rounds"));
-        registration.addIngredientInfo(List.of(new ItemStack(ModItems.INERCITA_PICKAXE.get()), new ItemStack(ModItems.INERCITA_AXE.get()),
-                new ItemStack(ModItems.INERCITA_SHOVEL.get()), new ItemStack(ModItems.INERCITA_HOE.get()), new ItemStack(ModItems.INERCITA_SWORD.get())),
-                VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.inercita_tools"));
         registration.addIngredientInfo(new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.UNIVERSAL_CELL.get()),
                 VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.cell_info"));
 

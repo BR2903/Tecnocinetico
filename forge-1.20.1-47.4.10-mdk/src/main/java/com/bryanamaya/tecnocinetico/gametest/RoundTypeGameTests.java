@@ -73,26 +73,4 @@ public class RoundTypeGameTests {
         helper.assertTrue(lostB >= lostA + 2.5F, "El impacto cinético no añade daño que atraviesa la armadura: " + lostA + " / " + lostB);
         helper.succeed();
     }
-
-    /** Herramientas de Inercita: nivel de diamante, pican la obsidiana y la espada aturde. */
-    @GameTest(template = "empty")
-    public static void inercitaTools(GameTestHelper helper) {
-        ItemStack pick = new ItemStack(ModItems.INERCITA_PICKAXE.get());
-        helper.assertTrue(pick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.OBSIDIAN.defaultBlockState()),
-                "El pico de inercita no pica obsidiana");
-        helper.assertTrue(pick.getDestroySpeed(net.minecraft.world.level.block.Blocks.STONE.defaultBlockState())
-                > new ItemStack(net.minecraft.world.item.Items.DIAMOND_PICKAXE).getDestroySpeed(net.minecraft.world.level.block.Blocks.STONE.defaultBlockState()),
-                "El pico de inercita debería ser más rápido que el de diamante");
-        var level = helper.getLevel();
-        var player = net.minecraftforge.common.util.FakePlayerFactory.get(level,
-                new com.mojang.authlib.GameProfile(java.util.UUID.nameUUIDFromBytes("sword".getBytes()), "[sword]"));
-        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(ModItems.INERCITA_SWORD.get()));
-        var zombie = EntityType.ZOMBIE.create(level);
-        com.bryanamaya.tecnocinetico.item.custom.InercitaTools.hurt(new net.minecraftforge.event.entity.living.LivingHurtEvent(zombie,
-                level.damageSources().playerAttack(player), 4.0F));
-        boolean stunned = zombie.hasEffect(net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN);
-        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, ItemStack.EMPTY);
-        helper.assertTrue(stunned, "La espada de inercita no aturde");
-        helper.succeed();
-    }
 }

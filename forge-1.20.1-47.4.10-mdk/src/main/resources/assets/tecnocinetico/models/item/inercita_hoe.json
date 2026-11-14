@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/handheld",
-  "textures": {
-    "layer0": "tecnocinetico:item/inercita_hoe"
-  }
-}

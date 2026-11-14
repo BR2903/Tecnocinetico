@@ -24,6 +24,17 @@ public final class ModParticles {
     public static final RegistryObject<SimpleParticleType> KINETIC_BURST =
             PARTICLE_TYPES.register("kinetic_burst", () -> new SimpleParticleType(true));
 
+    // Bala corriente (plomo y pólvora, sin cinetrita): mismas texturas blancas, teñidas en cálido (client/KineticParticle)
+    /** Punto del trazador de una bala normal (amarillo pálido). */
+    public static final RegistryObject<SimpleParticleType> BULLET_TRACER =
+            PARTICLE_TYPES.register("bullet_tracer", () -> new SimpleParticleType(true));
+    /** Chispa de metal al impactar (blanca-amarilla que se enfría a naranja). */
+    public static final RegistryObject<SimpleParticleType> BULLET_SPARK =
+            PARTICLE_TYPES.register("bullet_spark", () -> new SimpleParticleType(true));
+    /** Fogonazo de pólvora en la boca del cañón (destello naranja que se apaga). La velocidad X indica su tamaño. */
+    public static final RegistryObject<SimpleParticleType> MUZZLE_FLASH =
+            PARTICLE_TYPES.register("muzzle_flash", () -> new SimpleParticleType(true));
+
     /** Gota de combustible ardiendo del Lanzallamas (la velocidad la da quien la crea). */
     public static final RegistryObject<SimpleParticleType> FLAME_STREAM =
             PARTICLE_TYPES.register("flame_stream", () -> new SimpleParticleType(true));

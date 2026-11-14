@@ -174,7 +174,7 @@ def ammo():
 
 
 def main():
-    OUT.mkdir(parents=True,exist_ok=True);generator();tools();s=armor();changed=ammo()
+    OUT.mkdir(parents=True,exist_ok=True);generator();s=armor()   # herramientas de inercita retiradas por el usuario (2026-11-14);changed=ammo()
     save(OUT/'integracion.json',{
         'generator':{'id':'fuel_generator','properties':{'facing':['north','east','south','west'],'powered':[False,True]},
                      'front':'north (-Z), rotaciones 0/90/180/270','render_type':'cutout + noOcclusion',

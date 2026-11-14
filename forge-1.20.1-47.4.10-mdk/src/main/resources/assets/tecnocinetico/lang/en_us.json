@@ -708,11 +708,5 @@
   "tooltip.tecnocinetico.loaded_standard": "Standard Rounds",
   "death.attack.tecnocinetico.kinetic_impact": "%1$s was shattered by a kinetic impact",
   "death.attack.tecnocinetico.kinetic_impact.player": "%1$s was shattered by %2$s's kinetic impact",
-  "jei.tecnocinetico.rounds": "Standard Round (lead, copper and gunpowder): the basic ammo for the pistol, SMG and revolver. Kinetic Round (Standard Round + cinetrite): KINETIC IMPACT, an extra 35% of the damage pierces armour and knocks the target back. Each magazine holds one type: an empty one is filled with kinetic rounds if you carry them, otherwise with standard ones.",
-  "item.tecnocinetico.inercita_pickaxe": "Inercita Pickaxe",
-  "item.tecnocinetico.inercita_axe": "Inercita Axe",
-  "item.tecnocinetico.inercita_shovel": "Inercita Shovel",
-  "item.tecnocinetico.inercita_hoe": "Inercita Hoe",
-  "item.tecnocinetico.inercita_sword": "Inercita Sword",
-  "jei.tecnocinetico.inercita_tools": "Inercita tools: diamond level, tougher and faster. Inercita absorbs vibration: they mine at full speed underwater and in mid-air. The sword stuns (slowness and weakness for 1.5 s)."
+  "jei.tecnocinetico.rounds": "Standard Round (lead, copper and gunpowder): the basic ammo for the pistol, SMG and revolver. Kinetic Round (Standard Round + cinetrite): KINETIC IMPACT, an extra 35% of the damage pierces armour and knocks the target back. Each magazine holds one type: an empty one is filled with kinetic rounds if you carry them, otherwise with standard ones."
 }
