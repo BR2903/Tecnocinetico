@@ -49,12 +49,15 @@ public final class ModFluids {
     /** Combustible Cinético (Laboratorio: gasolina + cinetrita): cian, rinde el triple. */
     public static final FluidSet KINETIC_FUEL = new FluidSet("kinetic_fuel", 0xD03FE0D4, 800, 700, false, true);
 
+    /** Plasma Ígneo (Laboratorio: combustible cinético + polvo de piroxita + azufre): naranja incandescente. Lanza Térmica. */
+    public static final FluidSet IGNEOUS_PLASMA = new FluidSet("igneous_plasma", 0xE8FF6A1A, 900, 500, false, true);
+
     /** Celda Universal de Fluidos (1 cubo de cualquier líquido). */
     public static final net.minecraftforge.registries.RegistryObject<Item> UNIVERSAL_CELL = ModItems.ITEMS.register("universal_fluid_cell",
             () -> new UniversalCellItem(new Item.Properties().stacksTo(64)));
 
     /** Todos los líquidos del mod (capa de render translúcida y color de los cubos). */
-    public static final java.util.List<FluidSet> ALL = java.util.List.of(SULFURIC_ACID, COOLANT, CRUDE_OIL, GASOLINE, KINETIC_FUEL);
+    public static final java.util.List<FluidSet> ALL = java.util.List.of(SULFURIC_ACID, COOLANT, CRUDE_OIL, GASOLINE, KINETIC_FUEL, IGNEOUS_PLASMA);
 
     private ModFluids() {}
 

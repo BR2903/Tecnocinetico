@@ -147,6 +147,10 @@ public final class ModNetwork {
                 if (player == null) {
                     return;
                 }
+                if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem) {
+                    com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.service(player, player.getMainHandItem());   // plasma
+                    return;
+                }
                 if (player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.ChainsawItem) {
                     com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.startRefuel(player, player.getMainHandItem());   // gasolina
                     return;

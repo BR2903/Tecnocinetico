@@ -680,5 +680,19 @@
   "entity.tecnocinetico.slag_devourer": "Devorador de Escoria",
   "item.tecnocinetico.slag_devourer_spawn_egg": "Huevo de Devorador de Escoria",
   "item.tecnocinetico.forge_heart": "Núcleo de Forja",
-  "message.tecnocinetico.devourer_defeated": "¡El Devorador de Escoria ha caído! Su núcleo aún late."
+  "message.tecnocinetico.devourer_defeated": "¡El Devorador de Escoria ha caído! Su núcleo aún late.",
+  "fluid_type.tecnocinetico.igneous_plasma": "Plasma Ígneo",
+  "block.tecnocinetico.igneous_plasma": "Plasma Ígneo",
+  "item.tecnocinetico.igneous_plasma_bucket": "Cubo de plasma ígneo",
+  "item.tecnocinetico.plasma_cell": "Célula de Plasma Ígneo",
+  "item.tecnocinetico.thermal_lance": "Lanza Térmica",
+  "tooltip.tecnocinetico.thermal_lance": "Mantén clic derecho: rayo de calor que atraviesa y quema. Tecla R: repostar con Células de Plasma Ígneo.",
+  "tooltip.tecnocinetico.lance_fuel": "Plasma: %s / %s",
+  "tooltip.tecnocinetico.lance_heat": "Calor: %s%%",
+  "tooltip.tecnocinetico.lance_overheated": "¡Sobrecalentada! (%s%%)",
+  "message.tecnocinetico.lance_no_fuel": "Sin plasma ígneo (tecla R con Células de Plasma Ígneo)",
+  "message.tecnocinetico.lance_overheated": "¡Lanza sobrecalentada! Espera a que se enfríe",
+  "message.tecnocinetico.lance_serviced": "%s células: plasma %s / %s",
+  "message.tecnocinetico.lance_nothing": "No hay Células de Plasma Ígneo o el depósito está lleno",
+  "jei.tecnocinetico.igneous_plasma": "Plasma Ígneo: Combustible Cinético + 1 polvo de piroxita + 2 de azufre en el Laboratorio Químico. Cubo + hierro + cobre = 2 Células de Plasma Ígneo, la munición de la Lanza Térmica."
 }

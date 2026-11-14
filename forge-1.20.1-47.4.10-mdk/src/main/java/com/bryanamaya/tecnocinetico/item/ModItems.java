@@ -481,10 +481,15 @@ public class ModItems {
     public static final RegistryObject<Item> TAR = ITEMS.register("tar", () -> new Item(new Item.Properties()));
     /** Célula de Combustible Cinético: rinde como 3 Depósitos de Combustible. */
     public static final RegistryObject<Item> KINETIC_FUEL_CELL = ITEMS.register("kinetic_fuel_cell", () -> new Item(new Item.Properties().stacksTo(16)));
+    /** Célula de Plasma Ígneo: munición de la Lanza Térmica. */
+    public static final RegistryObject<Item> PLASMA_CELL = ITEMS.register("plasma_cell", () -> new Item(new Item.Properties().stacksTo(16).fireResistant()));
     public static final RegistryObject<Item> FUEL_CANISTER = ITEMS.register("fuel_canister", () -> new Item(new Item.Properties().stacksTo(16)));
 
     // ---- Taladro de Combustión (tier 3): se monta en el Ensamblador de Armas con dos piezas del Ensamblador Industrial
     /** Motosierra (tier 2): tala árboles enteros con gasolina. */
+    /** Lanza Térmica (tier 3 del Nether): rayo continuo de calor; necesita un Núcleo de Forja. */
+    public static final RegistryObject<Item> THERMAL_LANCE = ITEMS.register("thermal_lance",
+            () -> new com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem(new Item.Properties().rarity(net.minecraft.world.item.Rarity.EPIC)));
     public static final RegistryObject<Item> CHAINSAW = ITEMS.register("chainsaw",
             () -> new com.bryanamaya.tecnocinetico.item.custom.ChainsawItem(new Item.Properties()));
     public static final RegistryObject<Item> COMBUSTION_DRILL = ITEMS.register("combustion_drill",

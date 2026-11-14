@@ -146,4 +146,47 @@ public class OilGameTests {
             helper.succeed();
         });
     }
+
+    /** Lanza Térmica: R reposta con plasma; el rayo quema a lo que tiene delante, calienta y se sobrecalienta; se enfría. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void thermalLanceFires(GameTestHelper helper) {
+        var level = helper.getLevel();
+        var r = MachineRecipes.lab(List.of(new ItemStack(ModItems.PIROXITE_DUST.get()), new ItemStack(ModItems.SULFUR_DUST.get(), 2)),
+                new FluidStack(ModFluids.KINETIC_FUEL.get(), 1000));
+        helper.assertTrue(r != null && r.outFluid() != null && r.outFluid().get() == ModFluids.IGNEOUS_PLASMA.get(),
+                "Combustible cinético + piroxita + azufre no da plasma ígneo");
+        var player = net.minecraftforge.common.util.FakePlayerFactory.get(level,
+                new com.mojang.authlib.GameProfile(java.util.UUID.fromString("7a1c3e52-9d4b-4f1a-8c2e-5b6d7e8f9a03"), "[lance]"));
+        player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        player.getInventory().clearContent();
+        ItemStack lance = new ItemStack(ModItems.THERMAL_LANCE.get());
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, lance);
+        player.getInventory().add(new ItemStack(ModItems.PLASMA_CELL.get(), 2));
+        com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.service(player, lance);
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.fuel(lance) == 1000, "No reposta con 2 células");
+        // un gólem delante, el jugador mirándolo
+        BlockPos base = helper.absolutePos(new BlockPos(1, 2, 1));
+        player.moveTo(base.getX() + 0.5, base.getY(), base.getZ() + 0.5, -90.0F, 0.0F);   // mira hacia +X
+        var golem = net.minecraft.world.entity.EntityType.IRON_GOLEM.create(level);
+        golem.moveTo(base.getX() + 5.5, base.getY() - 0.5, base.getZ() + 0.5);
+        golem.setNoAi(true);
+        level.addFreshEntity(golem);
+        boolean firing = true;
+        int ticks = 0;
+        while (firing && ticks < 300) {
+            firing = com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.fireTick(level, player, lance, ticks++);
+        }
+        boolean hurt = golem.getHealth() < golem.getMaxHealth();
+        golem.discard();
+        helper.assertTrue(hurt, "El rayo no hace daño a lo que tiene delante");
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.overheated(lance) && ticks >= 120 && ticks <= 130,
+                "Debería sobrecalentarse a los ~125 ticks: " + ticks);
+        helper.assertTrue(!com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.fireTick(level, player, lance, 0), "Dispara sobrecalentada");
+        for (int i = 0; i < 60; i++) {
+            lance.inventoryTick(level, player, 0, false);
+        }
+        helper.assertTrue(!com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.overheated(lance), "No se enfría");
+        player.getInventory().clearContent();
+        helper.succeed();
+    }
 }

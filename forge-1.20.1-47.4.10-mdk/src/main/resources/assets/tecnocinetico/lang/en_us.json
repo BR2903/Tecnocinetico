@@ -680,5 +680,19 @@
   "entity.tecnocinetico.slag_devourer": "Slag Devourer",
   "item.tecnocinetico.slag_devourer_spawn_egg": "Slag Devourer Spawn Egg",
   "item.tecnocinetico.forge_heart": "Forge Heart",
-  "message.tecnocinetico.devourer_defeated": "The Slag Devourer has fallen! Its heart still beats."
+  "message.tecnocinetico.devourer_defeated": "The Slag Devourer has fallen! Its heart still beats.",
+  "fluid_type.tecnocinetico.igneous_plasma": "Igneous Plasma",
+  "block.tecnocinetico.igneous_plasma": "Igneous Plasma",
+  "item.tecnocinetico.igneous_plasma_bucket": "Igneous Plasma Bucket",
+  "item.tecnocinetico.plasma_cell": "Igneous Plasma Cell",
+  "item.tecnocinetico.thermal_lance": "Thermal Lance",
+  "tooltip.tecnocinetico.thermal_lance": "Hold right-click: a heat beam that pierces and burns. R key: refuel with Igneous Plasma Cells.",
+  "tooltip.tecnocinetico.lance_fuel": "Plasma: %s / %s",
+  "tooltip.tecnocinetico.lance_heat": "Heat: %s%%",
+  "tooltip.tecnocinetico.lance_overheated": "Overheated! (%s%%)",
+  "message.tecnocinetico.lance_no_fuel": "No igneous plasma (R key with Igneous Plasma Cells)",
+  "message.tecnocinetico.lance_overheated": "Lance overheated! Let it cool down",
+  "message.tecnocinetico.lance_serviced": "%s cells: plasma %s / %s",
+  "message.tecnocinetico.lance_nothing": "No Igneous Plasma Cells, or the tank is full",
+  "jei.tecnocinetico.igneous_plasma": "Igneous Plasma: Kinetic Fuel + 1 piroxite dust + 2 sulfur dust in the Chemical Lab. Bucket + iron + copper = 2 Igneous Plasma Cells, the Thermal Lance's ammo."
 }

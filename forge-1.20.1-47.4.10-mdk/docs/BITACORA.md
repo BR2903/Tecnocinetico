@@ -771,3 +771,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 
 ## 2026-11-14 — Claude + Codex — Nether parte 6: Devorador de Escoria
 - El usuario eligió los cuatro ataques (excava y emerge, embestida, escupe escoria, invoca ácaros), excavación con consola y que el Núcleo de Forja sea para un arma de tier 3 (se diseña después). Detalle en `docs/PLAN_NETHER.md` (parte 6). Lo común de los jefes se sacó a `NetherBossEntity`. 74 GameTests.
+
+## 2026-11-14 — Claude + Codex — Lanza Térmica (arma tier 3 del Nether) y Plasma Ígneo
+- El usuario eligió una lanza de rayo continuo. Primero se planteó una lente de enfoque, pero el usuario la descartó: quería combinar el Combustible Cinético con algo más para un combustible nuevo -> Plasma Ígneo (cinético + piroxita + azufre). Detalle en `docs/PLAN_NETHER.md` (parte 7). 75 GameTests.

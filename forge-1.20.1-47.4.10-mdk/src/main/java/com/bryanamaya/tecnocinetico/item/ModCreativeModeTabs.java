@@ -125,6 +125,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.KINETIC_SNIPER.get());
                         out.accept(ModItems.FLAMETHROWER.get());
                         out.accept(ModItems.CHAINSAW.get());
+                        out.accept(ModItems.THERMAL_LANCE.get());
                         out.accept(ModItems.KINETIC_BLADE.get());
                         // tier 3
                         out.accept(ModItems.ASSAULT_RIFLE.get());
@@ -288,6 +289,8 @@ public class ModCreativeModeTabs {
                         out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.KINETIC_FUEL.bucket.get());
                         out.accept(ModItems.TAR.get());
                         out.accept(ModItems.KINETIC_FUEL_CELL.get());
+                        out.accept(com.bryanamaya.tecnocinetico.fluid.ModFluids.IGNEOUS_PLASMA.bucket.get());
+                        out.accept(ModItems.PLASMA_CELL.get());
                         out.accept(ModItems.IRON_DUST.get());
                         out.accept(ModItems.GOLD_DUST.get());
                         out.accept(ModItems.COPPER_DUST.get());

@@ -63,4 +63,9 @@ El usuario pidió peligros de ambiente (calor y ceniza tóxica) y, a más dificu
 - Arte de Codex: `SlagDevourerModel`/`SlagDevourerRenderer` (16 poses; no se dibuja bajo tierra), Núcleo de Forja 3D (`tools/slag_devourer_gen.py`, `preview_slag_devourer.py`).
 - Probar: `/locate structure tecnocinetico:slag_excavation` (chunks nuevos del Nether) o el huevo.
 
-Siguiente: el arma de tier 3 del Nether con el Núcleo de Forja (diseño con el usuario).
+
+## Parte 7 (2026-11-14, Claude + Codex): Lanza Térmica — entregada, pendiente de prueba del usuario
+- Arma tier 3 del Nether (`item/weapon/ThermalLanceItem`), Ensamblador de Armas: Núcleo de Forja + 6 piroxita + 4 placas de inercita + 2 mecanismos + 6 aleación de escoria + 1 Célula de Plasma.
+- Mantener clic derecho: rayo continuo de 24 bloques que paran los bloques, atraviesa 3 enemigos, 3,6 de daño cada 4 ticks (~18/s, sin invulnerabilidad entre golpes) y prende fuego. Calor +0,8/tick: a 100 (~6 s) se sobrecalienta y no dispara hasta bajar a 20 (enfría 1,5/tick sin disparar).
+- Combustible nuevo (el usuario quería combinar el cinético con algo más, y sin lente): **Plasma Ígneo** = Combustible Cinético + 1 polvo de piroxita + 2 azufre en el Laboratorio; cubo + hierro + cobre = 2 Células de Plasma Ígneo (500 cada una; depósito 2000, 1 por tick). Tecla R reposta.
+- Rayo dibujado por cada cliente (`client/ThermalBeamRenderer`, mismo cálculo que el servidor), visible para todos. Modelo de Codex con estados `lance_state` (apagada, disparando, sobrecalentada); plasma, cubo y célula (`tools/thermal_lance_gen.py`).

@@ -98,6 +98,7 @@ public final class MachineRecipes {
     private static final Supplier<net.minecraft.world.level.material.Fluid> COOLANT = com.bryanamaya.tecnocinetico.fluid.ModFluids.COOLANT::get;
     private static final Supplier<net.minecraft.world.level.material.Fluid> GASOLINE = com.bryanamaya.tecnocinetico.fluid.ModFluids.GASOLINE::get;
     private static final Supplier<net.minecraft.world.level.material.Fluid> KINETIC_FUEL = com.bryanamaya.tecnocinetico.fluid.ModFluids.KINETIC_FUEL::get;
+    private static final Supplier<net.minecraft.world.level.material.Fluid> PLASMA = com.bryanamaya.tecnocinetico.fluid.ModFluids.IGNEOUS_PLASMA::get;
 
     /** Lixiviación: la mena se disuelve en ácido y da 3 polvos (el Refinador da 2). */
     private static Lab leach(Supplier<Item> raw, Supplier<Item> dust, int acid, int ticks, int perTick) {
@@ -105,6 +106,8 @@ public final class MachineRecipes {
     }
 
     public static final List<Lab> LAB = List.of(
+            // plasma ígneo (Lanza Térmica): combustible cinético + polvo de piroxita + 2 de azufre
+            new Lab(List.of(of(ModItems.PIROXITE_DUST, 1), of(ModItems.SULFUR_DUST, 2)), KINETIC_FUEL, 1000, null, 0, PLASMA, 1000, 160, 80),
             // combustible cinético: gasolina + 2 esquirlas de cinetrita
             new Lab(List.of(of(ModItems.CINETRITE_SHARD, 2)), GASOLINE, 1000, null, 0, KINETIC_FUEL, 1000, 120, 60),
             new Lab(List.of(of(v(Items.GUNPOWDER), 2)), WATER, 1000, null, 0, ACID, 1000, 100, 40),

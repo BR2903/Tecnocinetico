@@ -99,6 +99,10 @@ public final class AssemblerRecipes {
                     new Recipe(List.of(s(ModItems.CORE_PROCESSOR.get(), 1), s(ModItems.INERCITA_PLATE.get(), 6), s(ModItems.KINETIC_SERVO.get(), 3),
                             s(ModItems.PRECISION_MECHANISM.get(), 2), s(ModItems.TITANIUM_INGOT.get(), 6)),
                             new ItemStack(ModItems.MINIGUN.get()), 400),
+                    // Lanza Térmica (tier 3 del Nether): el Núcleo de Forja del Devorador de Escoria
+                    new Recipe(List.of(s(ModItems.FORGE_HEART.get(), 1), s(ModItems.PIROXITE_INGOT.get(), 6), s(ModItems.INERCITA_PLATE.get(), 4),
+                            s(ModItems.PRECISION_MECHANISM.get(), 2), s(ModItems.SLAG_ALLOY.get(), 6), s(ModItems.PLASMA_CELL.get(), 1)),
+                            new ItemStack(ModItems.THERMAL_LANCE.get()), 400),
                     // Taladro de Combustión: las dos piezas vienen del Ensamblador Industrial
                     new Recipe(List.of(s(ModItems.DRILL_HEAD.get(), 1), s(ModItems.COMBUSTION_ENGINE.get(), 1), s(ModItems.TITANIUM_INGOT.get(), 4),
                             s(ModItems.INERCITA_PLATE.get(), 2), s(ModItems.FUEL_CANISTER.get(), 1)),

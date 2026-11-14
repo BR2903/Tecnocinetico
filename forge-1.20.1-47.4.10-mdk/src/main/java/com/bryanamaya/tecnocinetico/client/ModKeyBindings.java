@@ -92,7 +92,8 @@ public final class ModKeyBindings {
                 boolean holdingMag = mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem
                         || mc.player.getOffhandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.MagazineItem;
                 boolean holdingDrill = mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.CombustionDrillItem
-                        || mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.ChainsawItem;
+                        || mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.ChainsawItem
+                        || mc.player.getMainHandItem().getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem;
                 if (holdingPistol || holdingDrill) {
                     ModNetwork.CHANNEL.sendToServer(new ModNetwork.ReloadPistolPacket());
                 } else if (holdingMag) {

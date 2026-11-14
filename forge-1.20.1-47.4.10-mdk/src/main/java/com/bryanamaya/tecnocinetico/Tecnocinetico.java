@@ -134,6 +134,8 @@ public class Tecnocinetico {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.MachineScreen::new);
                     }
                 }
+                ItemProperties.register(ModItems.THERMAL_LANCE.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "lance_state"),
+                        (stack, lvl, entity, seed) -> com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.state(stack, entity));
                 // motosierra: cadena en marcha mientras corta (el jugador local pica; los demás, mientras mueven el brazo)
                 ItemProperties.register(ModItems.CHAINSAW.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, "chainsaw_run"), (stack, lvl, entity, seed) -> {
                     if (!com.bryanamaya.tecnocinetico.item.custom.ChainsawItem.hasFuel(stack) || !(entity instanceof net.minecraft.world.entity.player.Player p)
