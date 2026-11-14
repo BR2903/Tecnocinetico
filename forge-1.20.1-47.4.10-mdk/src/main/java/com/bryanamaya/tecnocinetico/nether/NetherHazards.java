@@ -86,7 +86,8 @@ public final class NetherHazards {
             }
             return;
         }
-        boolean nether = p.level().dimension() == Level.NETHER;
+        boolean nether = p.level().dimension() == Level.NETHER
+                && !com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity.shielded(p);           // cabina del caza: climatizada
         Holder<Biome> biome = p.level().getBiome(p.blockPosition());
         float heatGain = nether ? BASE_HEAT + biomeHeat(biome) + lavaHeat(p.level(), p.blockPosition()) + (p.isOnFire() || p.isInLava() ? 3.0F : 0.0F) : 0.0F;
         boolean ashy = nether && ASHY.stream().anyMatch(biome::is);

@@ -59,7 +59,11 @@ public class AssemblyRecipeCategory implements IRecipeCategory<MachineRecipes.As
             var ing = a.in().get(i);
             b.addSlot(RecipeIngredientRole.INPUT, 1 + (i % 3) * 18, 1 + (i / 3) * 18).addItemStack(new ItemStack(ing.item().get(), ing.count()));
         }
-        b.addSlot(RecipeIngredientRole.OUTPUT, 95, 19).addItemStack(new ItemStack(a.out().get(), a.count()));
+        ItemStack shown = new ItemStack(a.out().get(), a.count());
+        if (a.upgrade() != null && a.out().get() == com.bryanamaya.tecnocinetico.item.ModItems.CORE_FIGHTER.get()) {
+            shown.getOrCreateTag().putBoolean("NetherDrive", true);                        // la mejora se ve en el resultado
+        }
+        b.addSlot(RecipeIngredientRole.OUTPUT, 95, 19).addItemStack(shown);
     }
 
     @Override

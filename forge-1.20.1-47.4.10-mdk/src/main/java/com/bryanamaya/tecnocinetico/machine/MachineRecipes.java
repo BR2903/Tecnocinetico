@@ -164,8 +164,37 @@ public final class MachineRecipes {
         return null;
     }
 
-    /** Ensamblador Industrial: hasta 9 ingredientes (cualquier orden, un tipo por hueco) -> producto. */
-    public record Assembly(List<Ingredient> in, Supplier<Item> out, int count, int ticks, int perTick) {}
+    /**
+     * Ensamblador Industrial: hasta 9 ingredientes (cualquier orden, un tipo por hueco) -> producto. `upgrade` (opcional)
+     * hace el producto a partir de los ingredientes (p. ej. instalar el Acoplador del Nether en un caza conservando sus
+     * datos); si devuelve vacío, la receta no vale para esos ingredientes.
+     */
+    public record Assembly(List<Ingredient> in, Supplier<Item> out, int count, int ticks, int perTick,
+                           @javax.annotation.Nullable java.util.function.Function<List<ItemStack>, ItemStack> upgrade) {
+        public Assembly(List<Ingredient> in, Supplier<Item> out, int count, int ticks, int perTick) {
+            this(in, out, count, ticks, perTick, null);
+        }
+
+        /** El producto para estos ingredientes (vacío si no vale). */
+        public ItemStack result(List<ItemStack> slots) {
+            return upgrade == null ? new ItemStack(out.get(), count) : upgrade.apply(slots);
+        }
+    }
+
+    /** Caza del Núcleo + Acoplador del Nether (+ blindaje térmico) -> el mismo caza con el salto al Nether y sus protecciones. */
+    private static ItemStack installNetherDrive(List<ItemStack> slots) {
+        for (ItemStack s : slots) {
+            if (s.is(ModItems.CORE_FIGHTER.get())) {
+                if (s.getTag() != null && s.getTag().getBoolean("NetherDrive")) {
+                    return ItemStack.EMPTY;                                                    // ya lo tiene
+                }
+                ItemStack out = s.copyWithCount(1);
+                out.getOrCreateTag().putBoolean("NetherDrive", true);
+                return out;
+            }
+        }
+        return ItemStack.EMPTY;
+    }
 
     private static Supplier<Item> blockItem(Supplier<? extends net.minecraft.world.level.block.Block> b) {
         return () -> b.get().asItem();
@@ -182,6 +211,10 @@ public final class MachineRecipes {
                     of(ModItems.INERCITA_PLATE, 24), of(ModItems.TITANIUM_INGOT, 32), of(ModItems.CORE_PROCESSOR, 2),
                     of(ModItems.KINETIC_SERVO, 6), of(ModItems.PRECISION_MECHANISM, 6), of(v(Items.GLASS), 8)),
                     ModItems.CORE_FIGHTER, 1, 2400, 500),
+            // instalar el Acoplador del Nether en el caza: salto al Nether, inmune a fuego y lava y blindado contra explosiones
+            new Assembly(List.of(of(ModItems.CORE_FIGHTER, 1), of(ModItems.NETHER_COUPLER, 1), of(ModItems.PIROXITE_INGOT, 8),
+                    of(ModItems.SLAG_ALLOY, 8), of(ModItems.ABYSSAL_COMPONENT, 2)),
+                    ModItems.CORE_FIGHTER, 1, 1200, 400, MachineRecipes::installNetherDrive),
             // piezas del Taladro de Combustión (se termina en el Ensamblador de Armas)
             new Assembly(List.of(of(ModItems.TITANIUM_INGOT, 6), of(v(Items.DIAMOND), 4), of(ModItems.INERCITA_PLATE, 2),
                     of(ModItems.KINETIC_SERVO, 1)),
@@ -196,7 +229,7 @@ public final class MachineRecipes {
 
     public static Assembly assembly(List<ItemStack> slots) {
         for (Assembly a : ASSEMBLY) {
-            if (matches(a.in(), slots)) {
+            if (matches(a.in(), slots) && !a.result(slots).isEmpty()) {
                 return a;
             }
         }

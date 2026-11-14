@@ -45,7 +45,7 @@ public class IndustrialAssemblerBlockEntity extends ElectricMachineBlockEntity {
     /** Lo que se está fabricando ahora (para dibujarlo), o vacío. */
     public ItemStack currentResult() {
         MachineRecipes.Assembly a = MachineRecipes.assembly(inputs());
-        return a == null ? ItemStack.EMPTY : new ItemStack(a.out().get(), a.count());
+        return a == null ? ItemStack.EMPTY : a.result(inputs());
     }
 
     public ItemStack outputStack() {
@@ -71,7 +71,7 @@ public class IndustrialAssemblerBlockEntity extends ElectricMachineBlockEntity {
         if (a == null) {
             return false;
         }
-        ItemStack result = new ItemStack(a.out().get(), a.count());
+        ItemStack result = a.result(inputs());
         if (!fits(0, result)) {
             return false;
         }

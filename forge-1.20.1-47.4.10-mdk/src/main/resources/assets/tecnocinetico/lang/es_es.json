@@ -338,7 +338,7 @@
   "entity.tecnocinetico.ship_missile": "Misil del Caza",
   "item.tecnocinetico.core_missile": "Misil del Caza",
   "tooltip.tecnocinetico.core_fighter": "Nave de fin de juego robada a la IA. Clic derecho en el suelo para desplegarla; clic derecho en la nave para subir. Repara el casco con Placas de Inercita.",
-  "tooltip.tecnocinetico.core_fighter_keys": "W/S empuje · Espacio/Ctrl altura · Clic izq. cañones · Clic der. misil · J salto entre dimensiones · Mayús bajar",
+  "tooltip.tecnocinetico.core_fighter_keys": "W/S empuje · Espacio/Ctrl altura · Clic izq. cañones · Clic der. misil · J salto entre dimensiones · Mayús bajar · Agachado + clic der. con la mano vacía: recogerlo",
   "hud.tecnocinetico.ship": "Casco %s%%  ·  %s km/h  ·  Misil %s",
   "hud.tecnocinetico.lock": "FIJADO: %s  %s m",
   "hud.tecnocinetico.jump": "Motor de salto cargando...",
@@ -642,7 +642,7 @@
   "item.tecnocinetico.thermal_cooler.mk2": "Mk II: el doble de batería, enfría el doble y aguanta un baño de lava.",
   "item.tecnocinetico.ash_filter.mk2": "Mk II: el doble de batería y filtra wither, veneno y ceguera.",
   "item.tecnocinetico.anchor_boots.mk2": "Mk II: el doble de batería, sin empuje y -90 % de daño por caída.",
-  "tooltip.tecnocinetico.nether_coupler": "Clic derecho en el Caza del Núcleo: le permite saltar al Nether.",
+  "tooltip.tecnocinetico.nether_coupler": "Se instala en el Caza del Núcleo en el Ensamblador Industrial (con 8 piroxita, 8 aleación de escoria y 2 componentes): salto al Nether, inmune al fuego y la lava, -75 % de explosiones y cabina sin calor del Nether.",
   "message.tecnocinetico.coupler_installed": "Acoplador del Nether instalado: el caza ya puede saltar al Nether",
   "message.tecnocinetico.coupler_installed_already": "Este caza ya tiene el Acoplador del Nether",
   "message.tecnocinetico.need_coupler": "Hace falta el Acoplador del Nether (lo suelta el Fundidor del Abismo)",
@@ -697,5 +697,8 @@
   "jei.tecnocinetico.igneous_plasma": "Plasma Ígneo: Combustible Cinético + 1 polvo de piroxita + 2 de azufre en el Laboratorio Químico. Cubo + hierro + cobre = 2 Células de Plasma Ígneo, la munición de la Lanza Térmica.",
   "message.tecnocinetico.lance_full": "El depósito de plasma está lleno",
   "message.tecnocinetico.need_end_coupler": "Hace falta el Acoplador del End (lo soltará el jefe del End)",
-  "jei.tecnocinetico.core_fighter": "Caza del Núcleo: Ensamblador Industrial con el Motor Dimensional (Araña de Asedio), el Propulsor Vectorial (Vigía de la Red) y el Núcleo de Vuelo Adaptativo (Matriarca del Enjambre). Vuela y combate; salta a otros mundos, al Nether con el Acoplador del Nether (Fundidor del Abismo) y al End con el del End."
+  "jei.tecnocinetico.core_fighter": "Caza del Núcleo: Ensamblador Industrial con el Motor Dimensional (Araña de Asedio), el Propulsor Vectorial (Vigía de la Red) y el Núcleo de Vuelo Adaptativo (Matriarca del Enjambre). Vuela y combate; salta a otros mundos, al Nether con el Acoplador del Nether (Fundidor del Abismo) y al End con el del End.",
+  "message.tecnocinetico.coupler_use_assembler": "El Acoplador se instala en el Ensamblador Industrial junto con el caza",
+  "tooltip.tecnocinetico.core_fighter_nether": "Acoplador del Nether: salto al Nether, inmune al fuego y la lava, -75 % de explosiones",
+  "tooltip.tecnocinetico.core_fighter_end": "Acoplador del End: salto al End"
 }

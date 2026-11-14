@@ -170,6 +170,14 @@ public class CoreFighterEntity extends Entity {
         }
     }
 
+    /** Con el Acoplador del Nether: fracción del daño de explosiones que recibe el caza y su piloto. */
+    public static final float NETHER_EXPLOSION_FACTOR = 0.25F;
+
+    /** Piloto (o pasajero) de un caza con el Acoplador del Nether. */
+    public static boolean shielded(net.minecraft.world.entity.Entity e) {
+        return e.getVehicle() instanceof CoreFighterEntity ship && ship.netherDrive();
+    }
+
     public boolean netherDrive() {
         return entityData.get(NETHER_DRIVE);
     }
@@ -203,18 +211,10 @@ public class CoreFighterEntity extends Entity {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
-        if (held.is(ModItems.NETHER_COUPLER.get())) {                            // instalar el Acoplador del Nether
+        if (held.is(ModItems.NETHER_COUPLER.get())) {                            // se instala en el Ensamblador Industrial
             if (!level().isClientSide) {
-                if (netherDrive()) {
-                    player.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.tecnocinetico.coupler_installed_already"), true);
-                    return InteractionResult.FAIL;
-                }
-                setNetherDrive(true);
-                if (!player.getAbilities().instabuild) {
-                    held.shrink(1);
-                }
-                playSound(net.minecraft.sounds.SoundEvents.SMITHING_TABLE_USE, 1.0F, 0.8F);
-                player.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.tecnocinetico.coupler_installed")
+                player.displayClientMessage(net.minecraft.network.chat.Component.translatable(netherDrive()
+                        ? "message.tecnocinetico.coupler_installed_already" : "message.tecnocinetico.coupler_use_assembler")
                         .withStyle(net.minecraft.ChatFormatting.GOLD), true);
             }
             return InteractionResult.sidedSuccess(level().isClientSide);
@@ -226,6 +226,14 @@ public class CoreFighterEntity extends Entity {
                     held.shrink(1);
                 }
                 playSound(net.minecraft.sounds.SoundEvents.ANVIL_USE, 0.6F, 1.4F);
+            }
+            return InteractionResult.sidedSuccess(level().isClientSide);
+        }
+        if (player.isSecondaryUseActive() && held.isEmpty() && !isVehicle()) {      // agachado y mano vacía: recogerla
+            if (!level().isClientSide) {
+                player.getInventory().placeItemBackInInventory(asItem());
+                playSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.7F);
+                discard();
             }
             return InteractionResult.sidedSuccess(level().isClientSide);
         }
@@ -275,12 +283,30 @@ public class CoreFighterEntity extends Entity {
         if (source.is(net.minecraft.tags.DamageTypeTags.IS_FIRE)) {
             return false;
         }
+        if (netherDrive() && source.is(net.minecraft.tags.DamageTypeTags.IS_EXPLOSION)) {
+            amount *= NETHER_EXPLOSION_FACTOR;                                       // blindaje del Acoplador del Nether
+        }
         setHealth(health() - amount);
         playSound(net.minecraft.sounds.SoundEvents.IRON_GOLEM_DAMAGE, 0.8F, 1.3F);
         if (health() <= 0) {
             destroy();
         }
         return true;
+    }
+
+    /** El caza como objeto: conserva la vida (si está dañado) y los acopladores. */
+    public ItemStack asItem() {
+        ItemStack stack = new ItemStack(ModItems.CORE_FIGHTER.get());
+        if (health() < MAX_HEALTH) {
+            stack.getOrCreateTag().putFloat("Health", health());
+        }
+        if (netherDrive()) {
+            stack.getOrCreateTag().putBoolean("NetherDrive", true);
+        }
+        if (endDrive()) {
+            stack.getOrCreateTag().putBoolean("EndDrive", true);
+        }
+        return stack;
     }
 
     private void destroy() {

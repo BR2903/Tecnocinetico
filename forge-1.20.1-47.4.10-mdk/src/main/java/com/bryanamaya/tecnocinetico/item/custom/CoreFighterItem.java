@@ -60,6 +60,12 @@ public class CoreFighterItem extends Item {
             tooltip.add(Component.translatable("tooltip.tecnocinetico.core_fighter_wreck", Math.round(stack.getTag().getFloat("Health")),
                     Math.round(com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity.MAX_HEALTH)).withStyle(ChatFormatting.RED));
         }
+        if (stack.getTag() != null && stack.getTag().getBoolean("NetherDrive")) {
+            tooltip.add(Component.translatable("tooltip.tecnocinetico.core_fighter_nether").withStyle(ChatFormatting.GOLD));
+        }
+        if (stack.getTag() != null && stack.getTag().getBoolean("EndDrive")) {
+            tooltip.add(Component.translatable("tooltip.tecnocinetico.core_fighter_end").withStyle(ChatFormatting.LIGHT_PURPLE));
+        }
         tooltip.add(Component.translatable("tooltip.tecnocinetico.core_fighter_keys").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

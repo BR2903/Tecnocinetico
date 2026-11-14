@@ -132,7 +132,8 @@ public class WorldgenGameTests {
                     all.stream().map(m -> m.getType().getDescriptionId() + (m.getMainHandItem().isEmpty() ? "" : "[" + m.getMainHandItem().getItem() + "]")).toList());
             all.forEach(net.minecraft.world.entity.Entity::discard);
             helper.assertTrue(vanillaLeft == 0, "Quedaron mobs vanilla sin sustituir");
-            helper.assertTrue(corrupted == vanilla.length, "No aparecieron los " + vanilla.length + " corruptos (" + corrupted + ")");
+            // >=: una araña natural puede traer un esqueleto jinete, que también se sustituye
+            helper.assertTrue(corrupted >= vanilla.length, "No aparecieron los " + vanilla.length + " corruptos (" + corrupted + ")");
             helper.succeed();
         });
     }

@@ -63,10 +63,36 @@ public class FoundryGameTests {
         helper.assertTrue(ship != null, "No se crea el caza");
         helper.assertTrue(!ship.canJumpTo(Level.NETHER) && !ship.canJumpTo(Level.END) && ship.canJumpTo(Level.OVERWORLD),
                 "Sin acopladores solo debe poder ir al Overworld (y a otros mundos)");
-        Player p = helper.makeMockPlayer();
-        p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(ModItems.NETHER_COUPLER.get()));
-        ship.interact(p, net.minecraft.world.InteractionHand.MAIN_HAND);
-        helper.assertTrue(ship.netherDrive() && ship.canJumpTo(Level.NETHER), "El acoplador no se instala");
+        // el acoplador se instala en el Ensamblador Industrial (conserva los datos del caza)
+        ItemStack fighter = new ItemStack(ModItems.CORE_FIGHTER.get());
+        fighter.getOrCreateTag().putFloat("Health", 90.0F);
+        java.util.List<ItemStack> slots = java.util.List.of(fighter, new ItemStack(ModItems.NETHER_COUPLER.get()),
+                new ItemStack(ModItems.PIROXITE_INGOT.get(), 8), new ItemStack(ModItems.SLAG_ALLOY.get(), 8), new ItemStack(ModItems.ABYSSAL_COMPONENT.get(), 2));
+        var recipe = com.bryanamaya.tecnocinetico.machine.MachineRecipes.assembly(slots);
+        helper.assertTrue(recipe != null, "No hay receta para instalar el acoplador");
+        ItemStack upgraded = recipe.result(slots);
+        helper.assertTrue(upgraded.getTag().getBoolean("NetherDrive") && upgraded.getTag().getFloat("Health") == 90.0F,
+                "El caza mejorado no conserva sus datos o no lleva el acoplador");
+        helper.assertTrue(com.bryanamaya.tecnocinetico.machine.MachineRecipes.assembly(java.util.List.of(upgraded, slots.get(1), slots.get(2),
+                slots.get(3), slots.get(4))) == null, "Se puede instalar dos veces");
+        ship.setNetherDrive(true);
+        helper.assertTrue(ship.canJumpTo(Level.NETHER), "Con el acoplador no salta al Nether");
+        // cabina blindada: el piloto no se quema y recibe un cuarto de las explosiones
+        var pilot = net.minecraftforge.common.util.FakePlayerFactory.get(helper.getLevel(),
+                new com.mojang.authlib.GameProfile(java.util.UUID.nameUUIDFromBytes("pilot".getBytes()), "[pilot]"));
+        ship.moveTo(helper.absolutePos(new BlockPos(1, 3, 1)).getCenter());
+        helper.getLevel().addFreshEntity(ship);
+        pilot.startRiding(ship, true);
+        var lava = new net.minecraftforge.event.entity.living.LivingAttackEvent(pilot, helper.getLevel().damageSources().lava(), 4.0F);
+        com.bryanamaya.tecnocinetico.entity.ship.ShipShielding.attack(lava);
+        var boom = new net.minecraftforge.event.entity.living.LivingHurtEvent(pilot, helper.getLevel().damageSources().explosion(null, null), 20.0F);
+        com.bryanamaya.tecnocinetico.entity.ship.ShipShielding.hurt(boom);
+        pilot.stopRiding();
+        helper.assertTrue(lava.isCanceled() && boom.getAmount() == 5.0F, "La cabina no protege del fuego o las explosiones");
+        // recogerlo como objeto conserva el acoplador
+        ItemStack back = ship.asItem();
+        ship.discard();
+        helper.assertTrue(back.getTag() != null && back.getTag().getBoolean("NetherDrive"), "Al recogerlo pierde el acoplador");
         var tag = new net.minecraft.nbt.CompoundTag();
         ship.saveWithoutId(tag);
         var copy = ModEntities.CORE_FIGHTER.get().create(helper.getLevel());
