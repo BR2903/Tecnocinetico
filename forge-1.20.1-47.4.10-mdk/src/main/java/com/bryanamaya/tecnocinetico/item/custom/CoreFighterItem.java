@@ -40,6 +40,9 @@ public class CoreFighterItem extends Item {
         if (ctx.getItemInHand().getTag() != null && ctx.getItemInHand().getTag().getBoolean("NetherDrive")) {
             ship.setNetherDrive(true);
         }
+        if (ctx.getItemInHand().getTag() != null && ctx.getItemInHand().getTag().getBoolean("EndDrive")) {
+            ship.setEndDrive(true);
+        }
         if (ctx.getItemInHand().getTag() != null && ctx.getItemInHand().getTag().contains("Health")) {
             ship.setHealth(ctx.getItemInHand().getTag().getFloat("Health"));     // restos de una nave destruida
         }

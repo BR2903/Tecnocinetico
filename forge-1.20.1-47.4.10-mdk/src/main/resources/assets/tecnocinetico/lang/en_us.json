@@ -695,5 +695,7 @@
   "message.tecnocinetico.lance_serviced": "%s cells: plasma %s / %s",
   "message.tecnocinetico.lance_nothing": "No Igneous Plasma Cells, or the tank is full",
   "jei.tecnocinetico.igneous_plasma": "Igneous Plasma: Kinetic Fuel + 1 piroxite dust + 2 sulfur dust in the Chemical Lab. Bucket + iron + copper = 2 Igneous Plasma Cells, the Thermal Lance's ammo.",
-  "message.tecnocinetico.lance_full": "The plasma tank is full"
+  "message.tecnocinetico.lance_full": "The plasma tank is full",
+  "message.tecnocinetico.need_end_coupler": "Requires the End Coupler (dropped by the End boss)",
+  "jei.tecnocinetico.core_fighter": "Core Fighter: Industrial Assembler with the Dimensional Drive (Siege Spider), the Vector Thruster (Network Watcher) and the Adaptive Flight Core (Swarm Matriarch). Flies and fights; jumps to other worlds, to the Nether with the Nether Coupler (Abyss Foundry) and to the End with the End Coupler."
 }

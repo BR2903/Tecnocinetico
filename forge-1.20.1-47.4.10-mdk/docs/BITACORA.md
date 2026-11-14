@@ -781,3 +781,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
   - **Recarga animada** (tecla R, 34 ticks): baja e inclina el arma, saca el cartucho y mete el nuevo con un golpe (`client/LanceClientExtensions`); al disparar tiembla y retrocede; sobrecalentada tiembla.
   - Regla nueva (memoria): verificar siempre animaciones, recarga y efectos antes de entregar; armas: izquierdo dispara, derecho apunta.
 - Lanza Térmica: al apuntar quedaba torcida (el modelo trae 8° de giro en Y en primera persona para verse en diagonal de cadera; las otras armas no). `LanceClientExtensions` compensa ese giro según lo que se apunta: cañón recto al centro con las dos manos (comprobado con el cálculo de la dirección de `build/lanza/boca.json`).
+
+## 2026-11-14 — Claude — Crafteo del Caza del Núcleo
+- El usuario eligió: receta con las tres piezas de los jefes del Overworld y que el caza vuele y combata, con los saltos bloqueados. Ensamblador Industrial: Motor Dimensional + Propulsor Vectorial + Núcleo de Vuelo Adaptativo + 24 placas de inercita + 32 titanio + 2 procesadores del núcleo + 6 servos + 6 mecanismos + 8 vidrio (2400 ticks, 500 FE/t). JEI lo explica.
+- Saltos: Nether con el Acoplador del Nether (ya estaba); **End bloqueado** hasta el futuro Acoplador del End (`endDrive`). Los demás mundos, libres.
+- Multijugador (`entity/boss/BossPartSharing`): la Araña, el Vigía y la Matriarca sueltan su pieza una vez por cada jugador que les pegó (máx. 4), para que cada amigo pueda hacerse su caza. 76 GameTests.

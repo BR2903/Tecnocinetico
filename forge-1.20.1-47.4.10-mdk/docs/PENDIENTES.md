@@ -27,7 +27,7 @@
 - **Nuevas estructuras del Overworld**: probar la integración con el terreno y la frecuencia de antenas, centros de datos, búnkeres, laboratorios y ciudades sumergidas en chunks nuevos. Autopistas/vías continuas y torres caídas siguen siendo una fase de infraestructura posterior.
 - **Tres jefes del Overworld**: dificultad Araña < Vigía < Matriarca; probar en grupo los nuevos valores, condensadores traseros del Vigía y Matriarca sin debilidad (ya no existe la exposición automática de 24 ticks). Modelos rediseñados y previsualizados; comprobar articulaciones y contraste en el juego. Usan sonidos propios ya existentes del mod.
 - Tras probarlos el usuario: la dificultad base de la Matriarca gusta; ahora tiene crías con límite de seis. Revisar en juego frecuencia/cantidad de las oleadas. Volver a probar el Vigía en supervivencia: vuelo continuo y retirada, cuatro patrones de ataque y avisos que permiten esquivarlos; ya no queda detenido a altura de espada al cargar ni dispara toda la ráfaga al mismo punto.
-- **Crafteo del caza**: sigue pendiente. Ya están las tres piezas exclusivas garantizadas: Motor Dimensional (Araña), Propulsor Vectorial (Vigía), Núcleo de Vuelo Adaptativo (Matriarca). Diseñar su receta en el Ensamblador Industrial cuando se pida.
+- ~~**Crafteo del caza**~~ HECHO 2026-11-14 (Ensamblador Industrial con las 3 piezas; una pieza por jugador). Antes: sigue pendiente. Ya están las tres piezas exclusivas garantizadas: Motor Dimensional (Araña), Propulsor Vectorial (Vigía), Núcleo de Vuelo Adaptativo (Matriarca). Diseñar su receta en el Ensamblador Industrial cuando se pida.
 
 - Corruptos: decidir si también se sustituyen aldeanos zombi y otros mobs; sonidos propios (ahora usan los vanilla con tono más grave).
 
@@ -76,3 +76,5 @@ Bryan lo probará más adelante; no dar por aprobado hasta entonces.
 - **Nether parte 3 (2026-11-12)**: biomas del Nether industrial, depósitos, Depósito de Refrigeración y Puesto de Vigilancia. Probar en un mundo nuevo Postapocalíptico.
 
 - Petróleo/gadgets/motosierra (2026-11-12): pendiente de prueba del usuario. Ideas: usar el Combustible Cinético en algo propio (generador, vehículo, mejora del caza); sonido propio de la motosierra (ahora usa los del taladro y vanilla); el Depósito de Combustible conserva su receta improvisada antigua (hierro + carbón + pólvora): decidir si quitarla.
+
+- Caza del Núcleo (2026-11-14): receta hecha. El salto al End queda bloqueado hasta que exista el jefe del End y su Acoplador del End (`CoreFighterEntity.endDrive`, NBT `EndDrive`; falta el objeto que lo instala).

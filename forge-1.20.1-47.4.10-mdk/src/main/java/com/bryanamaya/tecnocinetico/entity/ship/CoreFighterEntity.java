@@ -60,6 +60,8 @@ public class CoreFighterEntity extends Entity {
     private static final EntityDataAccessor<Integer> JUMP = SynchedEntityData.defineId(CoreFighterEntity.class, EntityDataSerializers.INT);
     /** Acoplador del Nether instalado (botín del Fundidor del Abismo): sin él no puede saltar al Nether. */
     private static final EntityDataAccessor<Boolean> NETHER_DRIVE = SynchedEntityData.defineId(CoreFighterEntity.class, EntityDataSerializers.BOOLEAN);
+    /** Acoplador del End instalado (botín del futuro jefe del End): sin él no puede saltar al End. */
+    private static final EntityDataAccessor<Boolean> END_DRIVE = SynchedEntityData.defineId(CoreFighterEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> MISSILE_CD = SynchedEntityData.defineId(CoreFighterEntity.class, EntityDataSerializers.INT);
 
     // entradas del piloto (cliente)
@@ -96,6 +98,7 @@ public class CoreFighterEntity extends Entity {
         entityData.define(JUMP, 0);
         entityData.define(MISSILE_CD, 0);
         entityData.define(NETHER_DRIVE, false);
+        entityData.define(END_DRIVE, false);
     }
 
     public float health() {
@@ -175,9 +178,26 @@ public class CoreFighterEntity extends Entity {
         entityData.set(NETHER_DRIVE, on);
     }
 
-    /** ¿Puede saltar a esa dimensión? Al Nether solo con el Acoplador (volver desde el Nether siempre se puede). */
+    public boolean endDrive() {
+        return entityData.get(END_DRIVE);
+    }
+
+    public void setEndDrive(boolean on) {
+        entityData.set(END_DRIVE, on);
+    }
+
+    /**
+     * ¿Puede saltar a esa dimensión? Al Nether, con el Acoplador del Nether (Fundidor del Abismo); al End, con el del
+     * End (jefe del End, todavía por hacer). Volver desde ellos y al resto de mundos siempre se puede.
+     */
     public boolean canJumpTo(net.minecraft.resources.ResourceKey<Level> dest) {
-        return dest != Level.NETHER || netherDrive();
+        return (dest != Level.NETHER || netherDrive()) && (dest != Level.END || endDrive());
+    }
+
+    /** Mensaje de por qué no puede saltar ahí (o null). */
+    @javax.annotation.Nullable
+    public static String lockReason(net.minecraft.resources.ResourceKey<Level> dest) {
+        return dest == Level.NETHER ? "message.tecnocinetico.need_coupler" : dest == Level.END ? "message.tecnocinetico.need_end_coupler" : null;
     }
 
     @Override
@@ -269,7 +289,10 @@ public class CoreFighterEntity extends Entity {
         ItemStack wreck = new ItemStack(ModItems.CORE_FIGHTER.get());          // los restos se pueden recuperar,
         wreck.getOrCreateTag().putFloat("Health", WRECK_HEALTH);              // pero muy dañados
         if (netherDrive()) {
-            wreck.getOrCreateTag().putBoolean("NetherDrive", true);              // el acoplador se conserva
+            wreck.getOrCreateTag().putBoolean("NetherDrive", true);              // los acopladores se conservan
+        }
+        if (endDrive()) {
+            wreck.getOrCreateTag().putBoolean("EndDrive", true);
         }
         spawnAtLocation(wreck);
         discard();
@@ -551,6 +574,7 @@ public class CoreFighterEntity extends Entity {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         setNetherDrive(tag.getBoolean("NetherDrive"));
+        setEndDrive(tag.getBoolean("EndDrive"));
         if (tag.contains("Health")) {
             setHealth(tag.getFloat("Health"));
         }
@@ -563,6 +587,7 @@ public class CoreFighterEntity extends Entity {
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putFloat("Health", health());
         tag.putBoolean("NetherDrive", netherDrive());
+        tag.putBoolean("EndDrive", endDrive());
         if (pendingPilot != null) {
             tag.putUUID("PendingPilot", pendingPilot);
         }

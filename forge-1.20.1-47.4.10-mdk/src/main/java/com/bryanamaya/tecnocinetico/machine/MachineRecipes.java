@@ -177,6 +177,11 @@ public final class MachineRecipes {
                     of(ModItems.PRECISION_MECHANISM, 8), of(ModItems.KINETIC_SERVO, 6), of(ModItems.INERCITA_PLATE, 16),
                     of(v(Items.COPPER_BLOCK), 8), of(v(Items.REDSTONE_BLOCK), 4)),
                     ModItems.FISSION_REACTOR_KIT, 1, 1200, 400),
+            // Caza del Núcleo: las tres piezas de los jefes del Overworld (Araña, Vigía, Matriarca) + estructura y electrónica
+            new Assembly(List.of(of(ModItems.DIMENSIONAL_DRIVE, 1), of(ModItems.VECTOR_THRUSTER, 1), of(ModItems.ADAPTIVE_FLIGHT_CORE, 1),
+                    of(ModItems.INERCITA_PLATE, 24), of(ModItems.TITANIUM_INGOT, 32), of(ModItems.CORE_PROCESSOR, 2),
+                    of(ModItems.KINETIC_SERVO, 6), of(ModItems.PRECISION_MECHANISM, 6), of(v(Items.GLASS), 8)),
+                    ModItems.CORE_FIGHTER, 1, 2400, 500),
             // piezas del Taladro de Combustión (se termina en el Ensamblador de Armas)
             new Assembly(List.of(of(ModItems.TITANIUM_INGOT, 6), of(v(Items.DIAMOND), 4), of(ModItems.INERCITA_PLATE, 2),
                     of(ModItems.KINETIC_SERVO, 1)),

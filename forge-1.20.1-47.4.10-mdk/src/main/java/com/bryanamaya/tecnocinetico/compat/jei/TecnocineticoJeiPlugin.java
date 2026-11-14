@@ -100,6 +100,9 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
         registration.addIngredientInfo(List.of(new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.IGNEOUS_PLASMA.bucket.get()),
                 new ItemStack(ModItems.PLASMA_CELL.get()), new ItemStack(ModItems.THERMAL_LANCE.get())), VanillaTypes.ITEM_STACK,
                 Component.translatable("jei.tecnocinetico.igneous_plasma"));
+        registration.addIngredientInfo(List.of(new ItemStack(ModItems.CORE_FIGHTER.get()), new ItemStack(ModItems.DIMENSIONAL_DRIVE.get()),
+                new ItemStack(ModItems.VECTOR_THRUSTER.get()), new ItemStack(ModItems.ADAPTIVE_FLIGHT_CORE.get())), VanillaTypes.ITEM_STACK,
+                Component.translatable("jei.tecnocinetico.core_fighter"));
         registration.addIngredientInfo(new ItemStack(com.bryanamaya.tecnocinetico.fluid.ModFluids.UNIVERSAL_CELL.get()),
                 VanillaTypes.ITEM_STACK, Component.translatable("jei.tecnocinetico.cell_info"));
 

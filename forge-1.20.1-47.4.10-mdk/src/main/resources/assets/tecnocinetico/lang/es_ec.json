@@ -695,5 +695,7 @@
   "message.tecnocinetico.lance_serviced": "%s células: plasma %s / %s",
   "message.tecnocinetico.lance_nothing": "No hay Células de Plasma Ígneo o el depósito está lleno",
   "jei.tecnocinetico.igneous_plasma": "Plasma Ígneo: Combustible Cinético + 1 polvo de piroxita + 2 de azufre en el Laboratorio Químico. Cubo + hierro + cobre = 2 Células de Plasma Ígneo, la munición de la Lanza Térmica.",
-  "message.tecnocinetico.lance_full": "El depósito de plasma está lleno"
+  "message.tecnocinetico.lance_full": "El depósito de plasma está lleno",
+  "message.tecnocinetico.need_end_coupler": "Hace falta el Acoplador del End (lo soltará el jefe del End)",
+  "jei.tecnocinetico.core_fighter": "Caza del Núcleo: Ensamblador Industrial con el Motor Dimensional (Araña de Asedio), el Propulsor Vectorial (Vigía de la Red) y el Núcleo de Vuelo Adaptativo (Matriarca del Enjambre). Vuela y combate; salta a otros mundos, al Nether con el Acoplador del Nether (Fundidor del Abismo) y al End con el del End."
 }

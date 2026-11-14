@@ -47,7 +47,7 @@ public class ShipJumpScreen extends Screen {
             }).bounds(width / 2 - 90, y, 180, 20).build();
             button.active = ok;
             if (!ok) {
-                button.setTooltip(net.minecraft.client.gui.components.Tooltip.create(Component.translatable("message.tecnocinetico.need_coupler")));
+                button.setTooltip(net.minecraft.client.gui.components.Tooltip.create(Component.translatable(CoreFighterEntity.lockReason(key))));
             }
             addRenderableWidget(button);
             y += 24;

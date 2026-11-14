@@ -306,7 +306,8 @@ public final class ModNetwork {
                         && p.getVehicle() instanceof com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity ship
                         && ship.getControllingPassenger() == p) {
                     if (!ship.canJumpTo(key)) {
-                        p.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.tecnocinetico.need_coupler")
+                        p.displayClientMessage(net.minecraft.network.chat.Component.translatable(
+                                        com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity.lockReason(key))
                                 .withStyle(net.minecraft.ChatFormatting.RED), true);
                         return;
                     }

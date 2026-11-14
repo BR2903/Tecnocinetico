@@ -61,8 +61,8 @@ public class FoundryGameTests {
     public static void netherCouplerOnShip(GameTestHelper helper) {
         var ship = ModEntities.CORE_FIGHTER.get().create(helper.getLevel());
         helper.assertTrue(ship != null, "No se crea el caza");
-        helper.assertTrue(!ship.canJumpTo(Level.NETHER) && ship.canJumpTo(Level.END) && ship.canJumpTo(Level.OVERWORLD),
-                "Sin acoplador debe poder ir a todas partes menos al Nether");
+        helper.assertTrue(!ship.canJumpTo(Level.NETHER) && !ship.canJumpTo(Level.END) && ship.canJumpTo(Level.OVERWORLD),
+                "Sin acopladores solo debe poder ir al Overworld (y a otros mundos)");
         Player p = helper.makeMockPlayer();
         p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(ModItems.NETHER_COUPLER.get()));
         ship.interact(p, net.minecraft.world.InteractionHand.MAIN_HAND);
@@ -175,5 +175,35 @@ public class FoundryGameTests {
             helper.assertTrue(hurt, "El Devorador no hace daño a un objetivo quieto");
             helper.succeed();
         });
+    }
+
+    /** Caza del Núcleo: receta del Ensamblador Industrial con las 3 piezas; End bloqueado; una pieza por jugador. */
+    @GameTest(template = "empty")
+    public static void coreFighterCraftAndSharing(GameTestHelper helper) {
+        var level = helper.getLevel();
+        java.util.List<ItemStack> slots = java.util.List.of(new ItemStack(ModItems.DIMENSIONAL_DRIVE.get()), new ItemStack(ModItems.VECTOR_THRUSTER.get()),
+                new ItemStack(ModItems.ADAPTIVE_FLIGHT_CORE.get()), new ItemStack(ModItems.INERCITA_PLATE.get(), 24),
+                new ItemStack(ModItems.TITANIUM_INGOT.get(), 32), new ItemStack(ModItems.CORE_PROCESSOR.get(), 2),
+                new ItemStack(ModItems.KINETIC_SERVO.get(), 6), new ItemStack(ModItems.PRECISION_MECHANISM.get(), 6),
+                new ItemStack(net.minecraft.world.item.Items.GLASS, 8));
+        var a = com.bryanamaya.tecnocinetico.machine.MachineRecipes.assembly(slots);
+        helper.assertTrue(a != null && a.out().get() == ModItems.CORE_FIGHTER.get(), "No hay receta del Caza del Núcleo");
+        var ship = ModEntities.CORE_FIGHTER.get().create(level);
+        helper.assertTrue(!ship.canJumpTo(Level.END), "El End debería pedir su acoplador");
+        // tres jugadores le pegan a la Araña: suelta 3 Motores Dimensionales (1 de la tabla + 2)
+        var spider = ModEntities.SIEGE_SPIDER.get().create(level);
+        for (int i = 0; i < 3; i++) {
+            var fp = net.minecraftforge.common.util.FakePlayerFactory.get(level,
+                    new com.mojang.authlib.GameProfile(java.util.UUID.nameUUIDFromBytes(("share" + i).getBytes()), "[share" + i + "]"));
+            com.bryanamaya.tecnocinetico.entity.boss.BossPartSharing.hurt(new net.minecraftforge.event.entity.living.LivingHurtEvent(spider,
+                    level.damageSources().playerAttack(fp), 1.0F));
+        }
+        var drops = new java.util.ArrayList<net.minecraft.world.entity.item.ItemEntity>();
+        com.bryanamaya.tecnocinetico.entity.boss.BossPartSharing.drops(new net.minecraftforge.event.entity.living.LivingDropsEvent(spider,
+                level.damageSources().generic(), drops, 0, true));
+        long extra = drops.stream().filter(e -> e.getItem().is(ModItems.DIMENSIONAL_DRIVE.get())).count();
+        spider.discard();
+        helper.assertTrue(extra == 2, "Con 3 jugadores deberían salir 2 piezas extra: " + extra);
+        helper.succeed();
     }
 }
