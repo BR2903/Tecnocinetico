@@ -700,5 +700,19 @@
   "jei.tecnocinetico.core_fighter": "Caza del Núcleo: Ensamblador Industrial con el Motor Dimensional (Araña de Asedio), el Propulsor Vectorial (Vigía de la Red) y el Núcleo de Vuelo Adaptativo (Matriarca del Enjambre). Vuela y combate; salta a otros mundos, al Nether con el Acoplador del Nether (Fundidor del Abismo) y al End con el del End.",
   "message.tecnocinetico.coupler_use_assembler": "El Acoplador se instala en el Ensamblador Industrial junto con el caza",
   "tooltip.tecnocinetico.core_fighter_nether": "Acoplador del Nether: salto al Nether, inmune al fuego y la lava, -75 % de explosiones",
-  "tooltip.tecnocinetico.core_fighter_end": "Acoplador del End: salto al End"
+  "tooltip.tecnocinetico.core_fighter_end": "Acoplador del End: salto al End",
+  "block.tecnocinetico.fuel_generator": "Generador de Combustible",
+  "jei.tecnocinetico.fuel_generator": "Generador de Combustible: quema gasolina (400 FE/t) o Combustible Cinético (1200 FE/t; rinde el triple) y manda la energía a las máquinas y cables que tenga pegados. Un cubo dura 200 s. Se llena con tuberías, cubos o metiendo en su hueco cubos, Depósitos de Combustible (250 mB) o Células de Combustible Cinético (500 mB).",
+  "item.tecnocinetico.standard_round": "Bala Normal",
+  "tooltip.tecnocinetico.loaded_kinetic": "Balas Cinéticas: impacto que atraviesa la armadura y empuja",
+  "tooltip.tecnocinetico.loaded_standard": "Balas Normales",
+  "death.attack.tecnocinetico.kinetic_impact": "%1$s fue destrozado por un impacto cinético",
+  "death.attack.tecnocinetico.kinetic_impact.player": "%1$s fue destrozado por un impacto cinético de %2$s",
+  "jei.tecnocinetico.rounds": "Bala Normal (plomo, cobre y pólvora): la munición básica de la pistola, el subfusil y el revólver. Bala Cinética (Bala Normal + cinetrita): IMPACTO CINÉTICO, un 35 % del daño extra atraviesa la armadura y empuja al objetivo. Cada cargador lleva un solo tipo: vacío se llena con cinéticas si llevas, si no con normales.",
+  "item.tecnocinetico.inercita_pickaxe": "Pico de Inercita",
+  "item.tecnocinetico.inercita_axe": "Hacha de Inercita",
+  "item.tecnocinetico.inercita_shovel": "Pala de Inercita",
+  "item.tecnocinetico.inercita_hoe": "Azada de Inercita",
+  "item.tecnocinetico.inercita_sword": "Espada de Inercita",
+  "jei.tecnocinetico.inercita_tools": "Herramientas de Inercita: nivel de diamante, más duraderas y rápidas. La inercita absorbe la vibración: pican a velocidad completa bajo el agua y en el aire. La espada aturde (lentitud y debilidad 1,5 s)."
 }

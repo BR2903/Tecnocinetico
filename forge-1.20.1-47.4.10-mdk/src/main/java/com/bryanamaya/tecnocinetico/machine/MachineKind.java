@@ -19,6 +19,8 @@ public enum MachineKind {
     REFINERY("refinery", new int[][]{{34, 35}}, new int[][]{{90, 25}, {90, 45}}, 58, 35, 40_000, 2_000, 4),
     /** Bomba de Extracción: saca petróleo de bolsas bajo ella; llena recipientes vacíos (4 datos extra: tanques). */
     OIL_PUMP("oil_pump", new int[][]{{90, 25}}, new int[][]{{90, 45}}, 58, 35, 40_000, 2_000, 4),
+    /** Generador de Combustible: quema gasolina (400 FE/t) o combustible cinético (1200 FE/t) y empuja la energía (4 datos extra: tanques). */
+    FUEL_GENERATOR("fuel_generator", new int[][]{{34, 25}}, new int[][]{{34, 45}}, 58, 35, 50_000, 0, 4),
     /** Reactor de Fisión: barra de combustible -> agotada; genera hasta 4000 FE/t (batería de 300.000 que solo se vacía hacia fuera). */
     FISSION_REACTOR("fission_reactor", new int[][]{{26, 30}}, new int[][]{{76, 30}}, 48, 30, 300_000, 0, 6),   // ≤ 327 670 (la interfaz manda energía/10 en 16 bits)
     /** Ensamblador Industrial (estructura 3x3x3): 9 ingredientes -> lo más complejo del mod. */

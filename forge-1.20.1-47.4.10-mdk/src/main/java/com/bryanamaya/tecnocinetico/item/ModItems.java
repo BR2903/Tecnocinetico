@@ -140,12 +140,15 @@ public class ModItems {
     public static final RegistryObject<Item> MODULE_POLISHED_BOLT = module(WeaponModule.POLISHED_BOLT);
     public static final RegistryObject<Item> MODULE_RIFLE_BARREL = module(WeaponModule.RIFLE_BARREL);
     /** Bala Cinética: la munición normal de la pistola (va dentro de un cargador). */
+    /** Bala Normal (plomo, latón, pólvora): calibre de pistola, subfusil y revólver. Paquete de 6. */
+    public static final RegistryObject<Item> STANDARD_ROUND = ITEMS.register("standard_round",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(6, new Item.Properties()));
     public static final RegistryObject<Item> KINETIC_ROUND = ITEMS.register("kinetic_round",
             () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(6, new Item.Properties()));          // paquete de 6
     public static final RegistryObject<Item> MAGAZINE = ITEMS.register("magazine",
-            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(1, 12, () -> KINETIC_ROUND.get(), new Item.Properties().stacksTo(16)));
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(1, 12, () -> STANDARD_ROUND.get(), new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> EXTENDED_MAGAZINE = ITEMS.register("extended_magazine",
-            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(2, 18, () -> KINETIC_ROUND.get(), new Item.Properties().stacksTo(16)));
+            () -> new com.bryanamaya.tecnocinetico.item.custom.MagazineItem(2, 18, () -> STANDARD_ROUND.get(), new Item.Properties().stacksTo(16)));
     /** Munición Guiada: solo funciona en una pistola con la Guía de Enjambre (ver KineticPistolItem). */
     public static final RegistryObject<Item> GUIDED_ROUND = ITEMS.register("guided_round",
             () -> new com.bryanamaya.tecnocinetico.item.custom.GuidedRoundItem(new Item.Properties()));
@@ -256,6 +259,17 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON)));
     public static final RegistryObject<Item> JETPACK_KIT_3 = ITEMS.register("jetpack_kit_3",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    // Herramientas de Inercita (nivel 2: entre diamante y netherita; ver item/custom/InercitaTools)
+    public static final RegistryObject<Item> INERCITA_PICKAXE = ITEMS.register("inercita_pickaxe",
+            () -> new net.minecraft.world.item.PickaxeItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, 1, -2.8F, new Item.Properties()));
+    public static final RegistryObject<Item> INERCITA_AXE = ITEMS.register("inercita_axe",
+            () -> new net.minecraft.world.item.AxeItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, 5.0F, -3.0F, new Item.Properties()));
+    public static final RegistryObject<Item> INERCITA_SHOVEL = ITEMS.register("inercita_shovel",
+            () -> new net.minecraft.world.item.ShovelItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, 1.5F, -3.0F, new Item.Properties()));
+    public static final RegistryObject<Item> INERCITA_HOE = ITEMS.register("inercita_hoe",
+            () -> new net.minecraft.world.item.HoeItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, -3, 0.0F, new Item.Properties()));
+    public static final RegistryObject<Item> INERCITA_SWORD = ITEMS.register("inercita_sword",
+            () -> new net.minecraft.world.item.SwordItem(com.bryanamaya.tecnocinetico.item.custom.InercitaTools.TIER, 3, -2.4F, new Item.Properties()));
     // ---------------------------------------------------------------- tier 1: armadura y armas
     public static final RegistryObject<Item> SCRAP_HELMET = ITEMS.register("scrap_helmet",
             () -> new com.bryanamaya.tecnocinetico.item.armor.ScrapArmorItem(net.minecraft.world.item.ArmorItem.Type.HELMET, new Item.Properties()));
@@ -352,7 +366,7 @@ public class ModItems {
     /** Subfusil: automático, Cargador Ampliado (18 balas cinéticas), 3.5 de daño, 10 disparos/s; la ráfaga abre el grupo. */
     public static final RegistryObject<Item> KINETIC_SMG = ITEMS.register("kinetic_smg",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SMG, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
-                    18, () -> KINETIC_ROUND.get(), 1, 3.5F, 40.0D, 3.5F, 1.6F, 2, 40, 1.1F, 0.9F, 0.85F, 1.25F), new Item.Properties()));
+                    18, () -> STANDARD_ROUND.get(), 1, 3.5F, 40.0D, 3.5F, 1.6F, 2, 40, 1.1F, 0.9F, 0.85F, 1.25F), new Item.Properties()));
 
     // ---------------------------------------------------------------- tier 3 (Ensamblador de Armas + Procesador del Núcleo)
     public static final RegistryObject<Item> CORE_PROCESSOR = ITEMS.register("core_processor",
@@ -502,7 +516,7 @@ public class ModItems {
     /** Revólver (tier 1): 6 balas cinéticas cargadas una a una, 9 de daño. */
     public static final RegistryObject<Item> REVOLVER = ITEMS.register("revolver",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.HEAVY, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.DRUM, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
-                    6, () -> KINETIC_ROUND.get(), 1, 9.0F, 40.0D, 1.5F, 0.4F, 10, 10, 6.0F, 1.5F, 0.85F, 0.85F), new Item.Properties()));
+                    6, () -> STANDARD_ROUND.get(), 1, 9.0F, 40.0D, 1.5F, 0.4F, 10, 10, 6.0F, 1.5F, 0.85F, 0.85F), new Item.Properties()));
     /** Lanzallamas (tier 2): chorro de fuego en cono (7 bloques), 100 de combustible por depósito. */
     public static final RegistryObject<Item> FLAMETHROWER = ITEMS.register("flamethrower",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.FlamethrowerItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(

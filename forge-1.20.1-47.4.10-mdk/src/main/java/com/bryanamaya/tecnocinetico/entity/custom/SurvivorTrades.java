@@ -52,7 +52,8 @@ public final class SurvivorTrades {
             case GUNSMITH -> {                                       // Armero: piezas y módulos de arma
                 o.add(buys(s(Items.GUNPOWDER, 6), 2, 10));
                 o.add(buys(s(ModItems.CINETRITE_INGOT.get(), 1), 4, 8));
-                o.add(sells(4, ItemStack.EMPTY, s(ModItems.KINETIC_ROUND.get(), 6), 8));
+                o.add(sells(2, ItemStack.EMPTY, s(ModItems.STANDARD_ROUND.get(), 6), 8));
+                o.add(sells(5, ItemStack.EMPTY, s(ModItems.KINETIC_ROUND.get(), 4), 6));
                 o.add(sells(12, ItemStack.EMPTY, s(ModItems.MAGAZINE.get(), 1), 2));
                 o.add(sells(20, ItemStack.EMPTY, s(ModItems.CRUDE_KINETIC_COUPLER.get(), 1), 3));
                 o.add(sells(40, s(ModItems.CINETRITE_INGOT.get(), 2), s(ModItems.MODULE_QUICK_RELOAD.get(), 1), 1));

@@ -46,8 +46,10 @@ public final class MachineRecipes {
             new Refine(v(Items.DEEPSLATE_COAL_ORE), ModItems.SULFUR_DUST, 2, v(Items.COAL), 0.5F, 160, 40));
 
     public static final List<Fabricate> FABRICATE = List.of(
-            new Fabricate(List.of(of(ModItems.LEAD_INGOT, 1), of(v(Items.COPPER_INGOT), 1), of(ModItems.CINETRITE_SHARD, 2)),
-                    ModItems.KINETIC_ROUND, 2, 100, 30),                       // paquetes (12 balas)
+            new Fabricate(List.of(of(ModItems.LEAD_NUGGET, 3), of(v(Items.COPPER_INGOT), 1), of(v(Items.GUNPOWDER), 1)),
+                    ModItems.STANDARD_ROUND, 2, 80, 25),                       // Bala Normal: 2 paquetes (12 balas)
+            new Fabricate(List.of(of(ModItems.STANDARD_ROUND, 2), of(ModItems.CINETRITE_SHARD, 3)),
+                    ModItems.KINETIC_ROUND, 2, 100, 30),                       // Bala Cinética a partir de la normal
             new Fabricate(List.of(of(ModItems.LEAD_INGOT, 1), of(v(Items.COPPER_INGOT), 1), of(v(Items.GUNPOWDER), 2)),
                     ModItems.RIFLE_ROUND, 2, 100, 30),
             new Fabricate(List.of(of(ModItems.LEAD_NUGGET, 4), of(v(Items.PAPER), 2), of(v(Items.GUNPOWDER), 2)),

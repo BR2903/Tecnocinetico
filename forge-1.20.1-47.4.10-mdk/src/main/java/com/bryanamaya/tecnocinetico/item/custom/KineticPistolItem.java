@@ -156,6 +156,10 @@ public class KineticPistolItem extends Item {
         }
         ItemStack mag = new ItemStack(item);
         MagazineItem.setContents(mag, getAmmo(pistol), getGuided(pistol));
+        if (getAmmo(pistol) > 0) {
+            KineticRounds.set(mag, KineticRounds.is(pistol));
+        }
+        KineticRounds.set(pistol, false);
         setMagType(pistol, 0);
         pistol.getOrCreateTag().putInt(TAG_AMMO, 0);
         setGuided(pistol, 0);
@@ -340,7 +344,7 @@ public class KineticPistolItem extends Item {
         LivingEntity seek = guided ? guidedTarget(level, player, eye, look, getRange(pistol)) : null;
         if (seek != null) {
             Vec3 hit = seek.getBoundingBox().getCenter();
-            hitTarget(level, player, pistol, seek);
+            hitTarget(level, player, pistol, seek, look);
             if (level instanceof ServerLevel server) {
                 spawnShotEffects(server, player, hand, look, hit, null, aiming, true);
             }
@@ -362,7 +366,7 @@ public class KineticPistolItem extends Item {
         if (entityHit != null) {
             Entity target = entityHit.getEntity();
             end = impactPoint(target, eye, end);
-            hitTarget(level, player, pistol, target);
+            hitTarget(level, player, pistol, target, look);
         }
 
         if (level instanceof ServerLevel server) {
@@ -370,10 +374,13 @@ public class KineticPistolItem extends Item {
         }
     }
 
-    private static void hitTarget(Level level, Player player, ItemStack pistol, Entity target) {
+    private static void hitTarget(Level level, Player player, ItemStack pistol, Entity target, Vec3 dir) {
         // Sin esto, los disparos rápidos (cada 8 ticks) chocan con la invulnerabilidad de 10 ticks
         target.invulnerableTime = 0;
         boolean hurt = target.hurt(level.damageSources().playerAttack(player), getShotDamage(pistol));
+        if (hurt && KineticRounds.is(pistol) && level instanceof ServerLevel server) {
+            KineticRounds.onHit(server, player, target, getShotDamage(pistol), dir);    // impacto cinético
+        }
         player.playNotifySound(ModSounds.PISTOL_HIT.get(), SoundSource.PLAYERS, 0.5F, 1.0F);
 
         // Práctica: solo cuentan los mobs HOSTILES (no animales, soportes de armadura ni objetos)
@@ -400,6 +407,24 @@ public class KineticPistolItem extends Item {
                 .add(right.scale(side))
                 .add(0, aiming ? -0.06D : -0.08D, 0); // a la altura del cañón en primera persona
 
+        if (!curved && !KineticRounds.is(player.getItemInHand(hand)) && player instanceof ServerPlayer sp) {
+            // Bala Normal: fogonazo y trazador de bala corriente (como los rifles), sin energía cinética
+            com.bryanamaya.tecnocinetico.network.ModNetwork.CHANNEL.send(
+                    net.minecraftforge.network.PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> sp),
+                    new com.bryanamaya.tecnocinetico.network.WeaponEffectPacket(sp.getId(), net.minecraft.world.item.Item.getId(player.getItemInHand(hand).getItem()),
+                            com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.TRACER, true, muzzle, end));   // desde la boca de la pistola
+            boolean hit = blockHit == null || blockHit.getType() == HitResult.Type.BLOCK;
+            if (hit) {
+                server.playSound(null, end.x, end.y, end.z, ModSounds.PISTOL_IMPACT.get(), SoundSource.PLAYERS, 0.8F, 0.8F);
+            }
+            if (blockHit != null && blockHit.getType() == HitResult.Type.BLOCK) {
+                BlockState state = server.getBlockState(blockHit.getBlockPos());
+                if (!state.isAir()) {
+                    server.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, state), end.x, end.y, end.z, 10, 0.08, 0.08, 0.08, 0.1);
+                }
+            }
+            return;
+        }
         // Fogonazo
         server.sendParticles(ModParticles.KINETIC_BURST.get(), muzzle.x, muzzle.y, muzzle.z, 0, 0.35, 0, 0, 1);
         server.sendParticles(ModParticles.KINETIC_SPARK.get(), muzzle.x, muzzle.y, muzzle.z, 4, 0.02, 0.02, 0.02, 0.08);
@@ -476,6 +501,7 @@ public class KineticPistolItem extends Item {
             pending.putInt("Type", ((MagazineItem) chosen.getItem()).type());
             pending.putInt("Rounds", MagazineItem.getRounds(chosen));
             pending.putInt("Guided", MagazineItem.getGuided(chosen));
+            pending.putBoolean("Kinetic", MagazineItem.isKinetic(chosen));
             chosen.shrink(1);
             com.bryanamaya.tecnocinetico.gear.TacticalGear.of(player).ifPresent(com.bryanamaya.tecnocinetico.gear.TacticalGear::setChanged);
         } else if (player.getAbilities().instabuild) {
@@ -537,6 +563,7 @@ public class KineticPistolItem extends Item {
         setMagType(stack, pending.getInt("Type"));
         setAmmo(stack, pending.getInt("Rounds"));
         setGuided(stack, Math.min(pending.getInt("Guided"), getAmmo(stack)));
+        KineticRounds.set(stack, pending.getBoolean("Kinetic"));
     }
 
     // ------------------------------------------------------------------ interfaz

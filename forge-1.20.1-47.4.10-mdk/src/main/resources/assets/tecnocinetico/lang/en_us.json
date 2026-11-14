@@ -700,5 +700,19 @@
   "jei.tecnocinetico.core_fighter": "Core Fighter: Industrial Assembler with the Dimensional Drive (Siege Spider), the Vector Thruster (Network Watcher) and the Adaptive Flight Core (Swarm Matriarch). Flies and fights; jumps to other worlds, to the Nether with the Nether Coupler (Abyss Foundry) and to the End with the End Coupler.",
   "message.tecnocinetico.coupler_use_assembler": "Install the Coupler in the Industrial Assembler together with the fighter",
   "tooltip.tecnocinetico.core_fighter_nether": "Nether Coupler: Nether jump, immune to fire and lava, -75% explosions",
-  "tooltip.tecnocinetico.core_fighter_end": "End Coupler: End jump"
+  "tooltip.tecnocinetico.core_fighter_end": "End Coupler: End jump",
+  "block.tecnocinetico.fuel_generator": "Fuel Generator",
+  "jei.tecnocinetico.fuel_generator": "Fuel Generator: burns gasoline (400 FE/t) or Kinetic Fuel (1200 FE/t; three times as much) and sends the power to adjacent machines and cables. A bucket lasts 200 s. Fill it with pipes, buckets or by putting buckets, Fuel Canisters (250 mB) or Kinetic Fuel Cells (500 mB) in its slot.",
+  "item.tecnocinetico.standard_round": "Standard Round",
+  "tooltip.tecnocinetico.loaded_kinetic": "Kinetic Rounds: an impact that pierces armour and knocks back",
+  "tooltip.tecnocinetico.loaded_standard": "Standard Rounds",
+  "death.attack.tecnocinetico.kinetic_impact": "%1$s was shattered by a kinetic impact",
+  "death.attack.tecnocinetico.kinetic_impact.player": "%1$s was shattered by %2$s's kinetic impact",
+  "jei.tecnocinetico.rounds": "Standard Round (lead, copper and gunpowder): the basic ammo for the pistol, SMG and revolver. Kinetic Round (Standard Round + cinetrite): KINETIC IMPACT, an extra 35% of the damage pierces armour and knocks the target back. Each magazine holds one type: an empty one is filled with kinetic rounds if you carry them, otherwise with standard ones.",
+  "item.tecnocinetico.inercita_pickaxe": "Inercita Pickaxe",
+  "item.tecnocinetico.inercita_axe": "Inercita Axe",
+  "item.tecnocinetico.inercita_shovel": "Inercita Shovel",
+  "item.tecnocinetico.inercita_hoe": "Inercita Hoe",
+  "item.tecnocinetico.inercita_sword": "Inercita Sword",
+  "jei.tecnocinetico.inercita_tools": "Inercita tools: diamond level, tougher and faster. Inercita absorbs vibration: they mine at full speed underwater and in mid-air. The sword stuns (slowness and weakness for 1.5 s)."
 }

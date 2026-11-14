@@ -195,4 +195,23 @@ public class OilGameTests {
         player.getInventory().clearContent();
         helper.succeed();
     }
+
+    /** Generador de Combustible: quema gasolina, da energía y la empuja a una máquina pegada; un Depósito llena 250 mB. */
+    @GameTest(template = "empty", timeoutTicks = 120)
+    public static void fuelGeneratorPowers(GameTestHelper helper) {
+        BlockPos gen = new BlockPos(1, 2, 1), lab = new BlockPos(2, 2, 1);
+        helper.setBlock(gen, ModBlocks.FUEL_GENERATOR.get());
+        helper.setBlock(lab, ModBlocks.CHEMICAL_LAB.get());
+        var g = (com.bryanamaya.tecnocinetico.machine.FuelGeneratorBlockEntity) helper.getBlockEntity(gen);
+        var l = (ElectricMachineBlockEntity) helper.getBlockEntity(lab);
+        g.getItems().insertItem(0, new ItemStack(ModItems.FUEL_CANISTER.get()), false);
+        helper.runAfterDelay(60, () -> {
+            helper.assertTrue(g.inputTank().getFluid().getFluid() == ModFluids.GASOLINE.get() && g.inputTank().getFluidAmount() > 230,
+                    "El depósito no llena el generador: " + g.inputTank().getFluidAmount());
+            helper.assertTrue(l.getEnergy().getEnergyStored() > 10_000, "El generador no manda energía a la máquina de al lado: " + l.getEnergy().getEnergyStored());
+            helper.assertTrue(g.inputTank().fill(new FluidStack(ModFluids.CRUDE_OIL.get(), 100), IFluidHandler.FluidAction.SIMULATE) == 0,
+                    "El generador acepta petróleo");
+            helper.succeed();
+        });
+    }
 }

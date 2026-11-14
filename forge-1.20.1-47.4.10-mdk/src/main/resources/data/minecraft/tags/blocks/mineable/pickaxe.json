@@ -60,6 +60,7 @@
     "tecnocinetico:carbonized_plate",
     "tecnocinetico:infernal_casing",
     "tecnocinetico:refinery",
-    "tecnocinetico:oil_pump"
+    "tecnocinetico:oil_pump",
+    "tecnocinetico:fuel_generator"
   ]
 }

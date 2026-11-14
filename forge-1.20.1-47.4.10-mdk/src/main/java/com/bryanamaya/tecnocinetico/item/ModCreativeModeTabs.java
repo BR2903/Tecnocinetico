@@ -34,6 +34,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.REACTION_CHAMBER_KIT.get());
                         out.accept(ModBlocks.CHEMICAL_LAB.get());
                         out.accept(ModBlocks.OIL_PUMP.get());
+                        out.accept(ModBlocks.FUEL_GENERATOR.get());
                         out.accept(ModBlocks.REFINERY.get());
                         out.accept(ModItems.INDUSTRIAL_ASSEMBLER_KIT.get());
                         out.accept(ModItems.FISSION_REACTOR_KIT.get());
@@ -125,6 +126,11 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.KINETIC_SNIPER.get());
                         out.accept(ModItems.FLAMETHROWER.get());
                         out.accept(ModItems.CHAINSAW.get());
+                        out.accept(ModItems.INERCITA_PICKAXE.get());
+                        out.accept(ModItems.INERCITA_AXE.get());
+                        out.accept(ModItems.INERCITA_SHOVEL.get());
+                        out.accept(ModItems.INERCITA_HOE.get());
+                        out.accept(ModItems.INERCITA_SWORD.get());
                         out.accept(ModItems.THERMAL_LANCE.get());
                         out.accept(ModItems.KINETIC_BLADE.get());
                         // tier 3
@@ -209,6 +215,7 @@ public class ModCreativeModeTabs {
                     .withTabsBefore(ARMOR_TAB.getKey())
                     .displayItems((params, out) -> {
                         // tier 1
+                        out.accept(ModItems.STANDARD_ROUND.get());
                         out.accept(ModItems.KINETIC_ROUND.get());
                         out.accept(ModItems.MAGAZINE.get());
                         out.accept(ModItems.EXTENDED_MAGAZINE.get());

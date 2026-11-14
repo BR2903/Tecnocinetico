@@ -120,6 +120,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> REACTION_CHAMBER_PART = BLOCKS.register("reaction_chamber_part",
             () -> new com.bryanamaya.tecnocinetico.structure.StructurePartBlock(true, false));
 
+    public static final RegistryObject<Block> FUEL_GENERATOR = registerBlock("fuel_generator",
+            () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.FUEL_GENERATOR,
+                    com.bryanamaya.tecnocinetico.machine.FuelGeneratorBlockEntity::new, false));
     public static final RegistryObject<Block> REFINERY = registerBlock("refinery",
             () -> new com.bryanamaya.tecnocinetico.machine.ElectricMachineBlock(com.bryanamaya.tecnocinetico.machine.MachineBlockEntities.REFINERY,
                     com.bryanamaya.tecnocinetico.machine.RefineryBlockEntity::new, false));

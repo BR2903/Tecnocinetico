@@ -31,7 +31,9 @@ public class ChemicalLabScreen extends MachineScreen {
         if (hasInput()) {
             button(IN_X + 3, BTN_Y, 10, "✕", ChemicalLabBlockEntity.BTN_CLEAR_IN, "gui.tecnocinetico.lab.clear_in");
         }
-        button(OUT_X + 3, BTN_Y, 10, "✕", ChemicalLabBlockEntity.BTN_CLEAR_OUT, "gui.tecnocinetico.lab.clear_out");
+        if (hasOutput()) {
+            button(OUT_X + 3, BTN_Y, 10, "✕", ChemicalLabBlockEntity.BTN_CLEAR_OUT, "gui.tecnocinetico.lab.clear_out");
+        }
         if (menu.kind() == com.bryanamaya.tecnocinetico.machine.MachineKind.CHEMICAL_LAB) {
             button(59, 56, 20, "⇄", ChemicalLabBlockEntity.BTN_SWAP, "gui.tecnocinetico.lab.swap");
         }
@@ -56,7 +58,9 @@ public class ChemicalLabScreen extends MachineScreen {
         if (hasInput()) {
             drawTank(g, IN_X, fluid(ChemicalLabBlockEntity.EXTRA_IN_FLUID), menu.extra(ChemicalLabBlockEntity.EXTRA_IN_AMOUNT));
         }
-        drawTank(g, OUT_X, fluid(ChemicalLabBlockEntity.EXTRA_OUT_FLUID), menu.extra(ChemicalLabBlockEntity.EXTRA_OUT_AMOUNT));
+        if (hasOutput()) {
+            drawTank(g, OUT_X, fluid(ChemicalLabBlockEntity.EXTRA_OUT_FLUID), menu.extra(ChemicalLabBlockEntity.EXTRA_OUT_AMOUNT));
+        }
     }
 
     private void drawTank(GuiGraphics g, int x, Fluid fluid, int amount) {
@@ -94,7 +98,9 @@ public class ChemicalLabScreen extends MachineScreen {
         if (hasInput()) {
             tankTooltip(g, mouseX, mouseY, IN_X, "gui.tecnocinetico.lab.tank_in", ChemicalLabBlockEntity.EXTRA_IN_FLUID, ChemicalLabBlockEntity.EXTRA_IN_AMOUNT);
         }
-        tankTooltip(g, mouseX, mouseY, OUT_X, "gui.tecnocinetico.lab.tank_out", ChemicalLabBlockEntity.EXTRA_OUT_FLUID, ChemicalLabBlockEntity.EXTRA_OUT_AMOUNT);
+        if (hasOutput()) {
+            tankTooltip(g, mouseX, mouseY, OUT_X, "gui.tecnocinetico.lab.tank_out", ChemicalLabBlockEntity.EXTRA_OUT_FLUID, ChemicalLabBlockEntity.EXTRA_OUT_AMOUNT);
+        }
     }
 
     private void tankTooltip(GuiGraphics g, int mx, int my, int x, String key, int idSlot, int amountSlot) {
@@ -111,6 +117,11 @@ public class ChemicalLabScreen extends MachineScreen {
                 name.copy().withStyle(ChatFormatting.AQUA),
                 Component.translatable("gui.tecnocinetico.lab.amount", amount, ChemicalLabBlockEntity.TANK).withStyle(ChatFormatting.GRAY),
                 Component.translatable("gui.tecnocinetico.lab.bucket_hint").withStyle(ChatFormatting.DARK_GRAY)), mx, my);
+    }
+
+    /** El Generador de Combustible no tiene tanque de salida. */
+    private boolean hasOutput() {
+        return menu.kind() != com.bryanamaya.tecnocinetico.machine.MachineKind.FUEL_GENERATOR;
     }
 
     /** La Bomba de Extracción no tiene tanque de entrada. */

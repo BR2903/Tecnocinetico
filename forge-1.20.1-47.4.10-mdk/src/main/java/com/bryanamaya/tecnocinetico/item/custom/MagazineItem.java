@@ -46,9 +46,19 @@ public class MagazineItem extends Item {
         return ammo.get();
     }
 
-    /** ¿Admite Munición Guiada? (solo los de Bala Cinética). */
+    /** ¿Admite Munición Guiada? (solo los de pistola: Bala Normal / Cinética). */
     public boolean acceptsGuided() {
-        return ammo.get() == ModItems.KINETIC_ROUND.get();
+        return ammo.get() == ModItems.STANDARD_ROUND.get();
+    }
+
+    /** ¿Admite este paquete? Los de pistola admiten Bala Normal y Bala Cinética (un tipo por cargador). */
+    public boolean accepts(Item pack) {
+        return pack == ammo.get() || (ammo.get() == ModItems.STANDARD_ROUND.get() && pack == ModItems.KINETIC_ROUND.get());
+    }
+
+    /** ¿Lleva Balas Cinéticas? */
+    public static boolean isKinetic(ItemStack mag) {
+        return KineticRounds.is(mag);
     }
 
     public int type() {
@@ -85,6 +95,7 @@ public class MagazineItem extends Item {
         if (rounds <= 0) {
             mag.removeTagKey(TAG_ROUNDS);
             mag.removeTagKey(TAG_GUIDED);
+            mag.removeTagKey(KineticRounds.TAG);
             if (mag.getTag() != null && mag.getTag().isEmpty()) {
                 mag.setTag(null);
             }
@@ -119,7 +130,10 @@ public class MagazineItem extends Item {
         guided &= magItem.acceptsGuided();
         int rounds = getRounds(held);
         int free = magItem.capacity - rounds;
-        Item ammo = guided ? ModItems.GUIDED_ROUND.get() : magItem.ammo();
+        // un tipo por cargador: si está vacío, cinéticas si hay; si no, el que ya lleva
+        boolean pistolCalibre = magItem.acceptsGuided();
+        boolean kinetic = pistolCalibre && (rounds == 0 ? KineticRounds.chooseFor(player) : isKinetic(held));
+        Item ammo = guided ? ModItems.GUIDED_ROUND.get() : pistolCalibre ? KineticRounds.pack(kinetic) : magItem.ammo();
         if (free <= 0) {
             player.displayClientMessage(Component.translatable("message.tecnocinetico.magazine_full")
                     .withStyle(ChatFormatting.YELLOW), true);
@@ -138,6 +152,9 @@ public class MagazineItem extends Item {
         // las guiadas siempre se disparan primero, da igual el orden en que se metieron
         int newGuided = getGuided(target) + (guided ? taken : 0);
         setContents(target, rounds + taken, newGuided);
+        if (pistolCalibre && !guided) {
+            KineticRounds.set(target, kinetic);
+        }
         if (target != held) {
             player.getInventory().placeItemBackInInventory(target);
         }
@@ -161,13 +178,17 @@ public class MagazineItem extends Item {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return getGuided(stack) > 0 ? 0xD86CFF : 0x46E3F5;
+        return getGuided(stack) > 0 ? 0xD86CFF : isKinetic(stack) || !acceptsGuided() ? 0x46E3F5 : 0xD8B048;   // latón = normales
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.tecnocinetico.magazine_rounds", getRounds(stack), capacity)
                 .withStyle(ChatFormatting.AQUA));
+        if (acceptsGuided() && getRounds(stack) > 0) {
+            tooltip.add(Component.translatable(isKinetic(stack) ? "tooltip.tecnocinetico.loaded_kinetic" : "tooltip.tecnocinetico.loaded_standard")
+                    .withStyle(isKinetic(stack) ? ChatFormatting.DARK_AQUA : ChatFormatting.GOLD));
+        }
         tooltip.add(Component.translatable("tooltip.tecnocinetico.magazine_ammo", ammo().getDescription(),
                 (capacity + AmmoPackItem.size(ammo()) - 1) / AmmoPackItem.size(ammo())).withStyle(ChatFormatting.GRAY));
         if (getGuided(stack) > 0) {

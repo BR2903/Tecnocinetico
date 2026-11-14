@@ -126,7 +126,8 @@ public class Tecnocinetico {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.FissionReactorScreen::new);
                     } else if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.CHEMICAL_LAB
                             || kind == com.bryanamaya.tecnocinetico.machine.MachineKind.REFINERY
-                            || kind == com.bryanamaya.tecnocinetico.machine.MachineKind.OIL_PUMP) {
+                            || kind == com.bryanamaya.tecnocinetico.machine.MachineKind.OIL_PUMP
+                            || kind == com.bryanamaya.tecnocinetico.machine.MachineKind.FUEL_GENERATOR) {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.ChemicalLabScreen::new);
                     } else if (kind == com.bryanamaya.tecnocinetico.machine.MachineKind.REACTION_CHAMBER) {
                         MenuScreens.register(ModMenus.machine(kind).get(), com.bryanamaya.tecnocinetico.client.ReactionChamberScreen::new);

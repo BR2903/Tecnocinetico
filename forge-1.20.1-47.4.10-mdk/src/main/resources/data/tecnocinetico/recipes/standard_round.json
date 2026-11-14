@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "tecnocinetico:lead_nugget"
+    },
+    {
+      "item": "tecnocinetico:lead_nugget"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:standard_round",
+    "count": 1
+  }
+}

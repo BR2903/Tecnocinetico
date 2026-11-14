@@ -135,7 +135,7 @@ public class CorruptedGunnerEntity extends AbstractSkeleton implements Corrupted
         super.dropCustomDeathLoot(source, looting, recentlyHit);
         if (recentlyHit && random.nextFloat() < 0.35F + 0.1F * looting) {          // munición de su arma
             Item ammo = switch (weapon()) {
-                case PISTOL -> ModItems.KINETIC_ROUND.get();
+                case PISTOL -> ModItems.STANDARD_ROUND.get();
                 case SHOTGUN -> ModItems.SHOTGUN_SHELL.get();
                 case RIFLE -> ModItems.RIFLE_ROUND.get();
             };

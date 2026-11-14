@@ -282,26 +282,8 @@ def scrap():
 
 
 def inercita():
-    pal = dict(plate=(92, 104, 132), dark=(52, 60, 78), cloth=(60, 64, 76), glow=(90, 220, 240), visor=(16, 20, 28))
-    s = Set("inercita", pal, dict(plate="plate", dark="plate", cloth="fabric", glow="glow", visor="visor"))
-    s.helmet_shell("plate", 1.0)
-    s.add("head", "head", (-3.5, -6.0, -5.4), (7, 1, 1), "visor")                      # rendija
-    s.add("head", "head", (-0.5, -10.2, -4.0), (1, 2, 8), "dark")                      # cresta
-    s.add("head", "head", (-4.0, -3.0, -5.3), (8, 3, 1), "dark")                       # mentonera
-    s.torso("plate", 1.0)
-    s.add("chest", "body", (-4.0, 0.5, -4.0), (8, 6, 1), "plate")                      # coraza en capas
-    s.add("chest", "body", (-3.5, 6.5, -3.8), (7, 4, 1), "dark")
-    s.add("chest", "body", (-1.0, 2.0, -4.6), (2, 2, 1), "glow")
-    s.sleeves("cloth", 0.6)
-    s.add("chest", "right_arm", (-4.5, -3.2, -3.2), (6, 4, 6), "plate")                # hombrera maciza
-    s.add("chest", "right_arm", (-3.6, 4.0, -2.8), (4, 6, 6), "dark")                  # brazal
-    s.pants("cloth", 0.5)
-    s.add("legs", "right_leg", (-2.6, 0.0, -2.8), (5, 6, 1), "plate")
-    s.add("legs", "right_leg", (-2.4, 6.0, -2.9), (4, 3, 1), "dark")
-    s.add("legs", "body", (-4.0, 9.5, -2.7), (8, 3, 5), "dark")
-    s.boots("plate", 1.0, 5)
-    s.add("feet", "right_leg", (-2.5, 11.0, -3.4), (5, 1, 6), "dark")
-    return s
+    from inercita_equipment_rig import make_armor
+    return make_armor()
 
 
 def tactical():
@@ -483,6 +465,9 @@ def fix_zfight(cubes, eps=0.012):
 
 
 def write(s):
+    if s.name == "inercita":
+        from inercita_equipment_rig import write_armor
+        return write_armor(s)
     for slot_cubes in s.slots.values():
         fix_zfight(slot_cubes)
     cubes = [c for slot in s.slots.values() for c in slot]
@@ -568,6 +553,9 @@ def item_models(s):
                              "firstperson_righthand": {"rotation": [0, 135, 0], "translation": [0, 2, 0], "scale": [0.35, 0.35, 0.35]},
                              "firstperson_lefthand": {"rotation": [0, 135, 0], "translation": [0, 2, 0], "scale": [0.35, 0.35, 0.35]}}}
         (ROOT / f"models/item/{s.name}_{PIECE[slot]}.json").write_text(json.dumps(model, indent=1), encoding="utf-8")
+    if s.name == "inercita":
+        from inercita_equipment_rig import finish_items
+        finish_items()
 
 
 def main():

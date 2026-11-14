@@ -3,6 +3,7 @@
   "values": [
     "tecnocinetico:radiation",
     "tecnocinetico:overheat",
-    "tecnocinetico:ash_lungs"
+    "tecnocinetico:ash_lungs",
+    "tecnocinetico:kinetic_impact"
   ]
 }

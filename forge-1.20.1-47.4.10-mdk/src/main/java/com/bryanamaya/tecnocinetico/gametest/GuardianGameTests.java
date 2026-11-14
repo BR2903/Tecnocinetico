@@ -211,12 +211,14 @@ public class GuardianGameTests {
         } finally { bosses.forEach(net.minecraft.world.entity.Entity::discard); }
     }
     /**
-     * Punto 12 bloques sobre el terreno con una plataforma de 17x17 debajo y aire alrededor: así la prueba no depende
+     * Punto 14 bloques sobre el origen de la prueba con una plataforma de 17x17 debajo y aire alrededor: así no depende
      * del relieve del mundo de prueba (que no está en git y cambia de semilla en cada copia del repositorio).
      */
     private static BlockPos air(GameTestHelper h) {
+        // altura FIJA sobre el origen de la prueba: con el relieve, la propia plataforma (que se queda guardada en el
+        // mundo de prueba) subía el suelo en cada ejecución hasta salirse del mundo
         BlockPos q = h.absolutePos(BlockPos.ZERO);
-        BlockPos p = new BlockPos(q.getX(), h.getLevel().getHeight(Heightmap.Types.MOTION_BLOCKING, q.getX(), q.getZ()) + 12, q.getZ());
+        BlockPos p = new BlockPos(q.getX(), Math.min(q.getY() + 14, h.getLevel().getMaxBuildHeight() - 12), q.getZ());
         var level = h.getLevel();
         for (int x = -8; x <= 8; x++) {
             for (int z = -8; z <= 8; z++) {

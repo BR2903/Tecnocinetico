@@ -296,12 +296,18 @@ public class MachineGameTests {
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void fabricatorMakesAmmo(GameTestHelper helper) {
         ElectricMachineBlockEntity be = place(helper, ModBlocks.AMMO_FABRICATOR.get());
-        be.getItems().insertItem(0, new ItemStack(ModItems.CINETRITE_SHARD.get(), 2), false);
-        be.getItems().insertItem(1, new ItemStack(ModItems.LEAD_INGOT.get()), false);
-        be.getItems().insertItem(2, new ItemStack(Items.COPPER_INGOT), false);
+        // Bala Normal: plomo, cobre y pólvora
+        be.getItems().insertItem(0, new ItemStack(ModItems.LEAD_NUGGET.get(), 3), false);
+        be.getItems().insertItem(1, new ItemStack(Items.COPPER_INGOT), false);
+        be.getItems().insertItem(2, new ItemStack(Items.GUNPOWDER), false);
         helper.succeedWhen(() -> {
             ItemStack out = be.getItems().getStackInSlot(3);
-            helper.assertTrue(out.is(ModItems.KINETIC_ROUND.get()) && out.getCount() == 2, "Esperaba 2 paquetes de balas cinéticas, hay " + out);
+            helper.assertTrue(out.is(ModItems.STANDARD_ROUND.get()) && out.getCount() == 2, "Esperaba 2 paquetes de balas normales, hay " + out);
+            // la cinética se hace con la normal + cinetrita
+            var r = com.bryanamaya.tecnocinetico.machine.MachineRecipes.FABRICATE.stream()
+                    .filter(f -> f.out().get() == ModItems.KINETIC_ROUND.get()).findFirst().orElse(null);
+            helper.assertTrue(r != null && r.in().stream().anyMatch(i -> i.item().get() == ModItems.STANDARD_ROUND.get()),
+                    "La Bala Cinética debería hacerse a partir de la normal");
         });
     }
 }

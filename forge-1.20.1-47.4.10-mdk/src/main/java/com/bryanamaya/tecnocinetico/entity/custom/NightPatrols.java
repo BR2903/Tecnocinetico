@@ -64,13 +64,18 @@ public final class NightPatrols {
     /** Hace aparecer un grupo de 2-3 drones lejos del jugador, rumbo a pasar cerca de él. Devuelve los drones creados. */
     public static List<DroneEntity> spawnPatrol(ServerLevel level, Player player) {
         List<DroneEntity> out = new ArrayList<>();
-        long nearby = level.getEntitiesOfClass(DroneEntity.class, player.getBoundingBox().inflate(96), DroneEntity::isNightPatrol).size();
+        // 96 bloques alrededor y toda la altura (el jugador puede estar en lo alto de una torre y los drones abajo)
+        var area = new net.minecraft.world.phys.AABB(player.getX() - 96, level.getMinBuildHeight(), player.getZ() - 96,
+                player.getX() + 96, level.getMaxBuildHeight(), player.getZ() + 96);
+        long nearby = level.getEntitiesOfClass(DroneEntity.class, area, DroneEntity::isNightPatrol).size();
         if (nearby >= MAX_NEARBY) {
             return out;
         }
         double angle = level.random.nextDouble() * Math.PI * 2;
         Vec3 start = player.position().add(Math.cos(angle) * DISTANCE, 0, Math.sin(angle) * DISTANCE);
-        if (!level.hasChunkAt(net.minecraft.core.BlockPos.containing(start))) {
+        // solo en chunks activos: en uno inactivo los drones se quedarían congelados y no contarían para el tope
+        if (!level.isPositionEntityTicking(net.minecraft.core.BlockPos.containing(start))
+                || !level.isPositionEntityTicking(player.blockPosition())) {
             return out;
         }
         // rumbo: hacia un punto a pocos bloques del jugador (pasa cerca, no siempre encima)

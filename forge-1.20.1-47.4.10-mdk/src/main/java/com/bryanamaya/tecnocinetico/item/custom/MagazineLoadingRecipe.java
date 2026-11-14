@@ -22,7 +22,7 @@ public class MagazineLoadingRecipe extends CustomRecipe {
         super(id, category);
     }
 
-    private record Parts(ItemStack magazine, int normal, int guided) {}
+    private record Parts(ItemStack magazine, int normal, int guided, boolean kinetic) {}
 
     private static Parts parts(CraftingContainer inv) {
         ItemStack mag = ItemStack.EMPTY;
@@ -48,8 +48,16 @@ public class MagazineLoadingRecipe extends CustomRecipe {
             return null;
         }
         MagazineItem m = (MagazineItem) mag.getItem();
+        Boolean kinetic = MagazineItem.getRounds(mag) > 0 && m.acceptsGuided() ? MagazineItem.isKinetic(mag) : null;   // tipo ya fijado
         for (ItemStack s : packs) {                                          // cada paquete aporta las balas que le quedan
-            if (s.is(m.ammo())) {
+            if (m.acceptsGuided() && KineticRounds.isPistolPack(s)) {       // un tipo por cargador
+                boolean k = s.is(ModItems.KINETIC_ROUND.get());
+                if (kinetic != null && kinetic != k) {
+                    return null;
+                }
+                kinetic = k;
+                normal += AmmoPackItem.left(s);
+            } else if (s.is(m.ammo())) {
                 normal += AmmoPackItem.left(s);
             } else if (s.is(ModItems.GUIDED_ROUND.get()) && m.acceptsGuided()) {
                 guided += AmmoPackItem.left(s);
@@ -60,7 +68,7 @@ public class MagazineLoadingRecipe extends CustomRecipe {
         if (MagazineItem.getRounds(mag) + normal + guided > m.capacity()) {
             return null;
         }
-        return new Parts(mag, normal, guided);
+        return new Parts(mag, normal, guided, kinetic != null && kinetic);
     }
 
     @Override
@@ -78,6 +86,9 @@ public class MagazineLoadingRecipe extends CustomRecipe {
         int rounds = MagazineItem.getRounds(out) + p.normal() + p.guided();
         int guided = MagazineItem.getGuided(out) + p.guided();      // las guiadas se disparan siempre primero
         MagazineItem.setContents(out, rounds, guided);
+        if (((MagazineItem) out.getItem()).acceptsGuided() && p.normal() > 0) {
+            KineticRounds.set(out, p.kinetic());
+        }
         return out;
     }
 
