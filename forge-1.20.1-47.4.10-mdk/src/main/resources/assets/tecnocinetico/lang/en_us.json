@@ -704,9 +704,9 @@
   "block.tecnocinetico.fuel_generator": "Fuel Generator",
   "jei.tecnocinetico.fuel_generator": "Fuel Generator: burns gasoline (400 FE/t) or Kinetic Fuel (1200 FE/t; three times as much) and sends the power to adjacent machines and cables. A bucket lasts 200 s. Fill it with pipes, buckets or by putting buckets, Fuel Canisters (250 mB) or Kinetic Fuel Cells (500 mB) in its slot.",
   "item.tecnocinetico.standard_round": "Standard Round",
-  "tooltip.tecnocinetico.loaded_kinetic": "Kinetic Rounds: an impact that pierces armour and knocks back",
+  "tooltip.tecnocinetico.loaded_kinetic": "Kinetic Rounds: an impact that pierces armour and knocks back; +50% damage to machines",
   "tooltip.tecnocinetico.loaded_standard": "Standard Rounds",
   "death.attack.tecnocinetico.kinetic_impact": "%1$s was shattered by a kinetic impact",
   "death.attack.tecnocinetico.kinetic_impact.player": "%1$s was shattered by %2$s's kinetic impact",
-  "jei.tecnocinetico.rounds": "Standard Round (lead, copper and gunpowder): the basic ammo for the pistol, SMG and revolver. Kinetic Round (Standard Round + cinetrite): KINETIC IMPACT, an extra 35% of the damage pierces armour and knocks the target back. Each magazine holds one type: an empty one is filled with kinetic rounds if you carry them, otherwise with standard ones."
+  "jei.tecnocinetico.rounds": "Standard Round (lead, copper and gunpowder): the basic ammo for the pistol, SMG and revolver. Kinetic Round (Standard Round + cinetrite): KINETIC IMPACT, an extra 35% of the damage pierces armour and knocks the target back; against machines (drones, turrets, the Swarm and the mechanical bosses) the cinetrite overloads their circuits: a further +50% damage. Each magazine holds one type: an empty one is filled with kinetic rounds if you carry them, otherwise with standard ones."
 }

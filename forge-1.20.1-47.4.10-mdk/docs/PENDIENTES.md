@@ -77,3 +77,4 @@ Bryan lo probará más adelante; no dar por aprobado hasta entonces.
 - Petróleo/gadgets/motosierra (2026-11-12): pendiente de prueba del usuario. Ideas: usar el Combustible Cinético en algo propio (generador, vehículo, mejora del caza); sonido propio de la motosierra (ahora usa los del taladro y vanilla); el Depósito de Combustible conserva su receta improvisada antigua (hierro + carbón + pólvora): decidir si quitarla.
 
 - Caza del Núcleo (2026-11-14): receta hecha. El salto al End queda bloqueado hasta que exista el jefe del End y su Acoplador del End (`CoreFighterEntity.endDrive`, NBT `EndDrive`; falta el objeto que lo instala).
+- Prueba `friendlyfire` (RulesGameTests) falló una vez sin cambios relacionados (2026-11-14) y pasó al repetir: posible carrera con la configuración del servidor (`FriendlyFire.ENABLED` recargada desde el archivo). Vigilar.

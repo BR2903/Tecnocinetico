@@ -73,4 +73,32 @@ public class RoundTypeGameTests {
         helper.assertTrue(lostB >= lostA + 2.5F, "El impacto cinético no añade daño que atraviesa la armadura: " + lostA + " / " + lostB);
         helper.succeed();
     }
+
+    /** Bala cinética contra máquinas: el bonus solo se aplica a las entidades de la etiqueta machines. */
+    @GameTest(template = "empty")
+    public static void kineticVsMachines(GameTestHelper helper) {
+        var level = helper.getLevel();
+        var player = net.minecraftforge.common.util.FakePlayerFactory.get(level,
+                new com.mojang.authlib.GameProfile(java.util.UUID.nameUUIDFromBytes("machines".getBytes()), "[machines]"));
+        var drone = com.bryanamaya.tecnocinetico.entity.ModEntities.SENTRY_TURRET.get().create(level);
+        var zombie = EntityType.ZOMBIE.create(level);
+        helper.assertTrue(drone.getType().is(KineticRounds.MACHINES) && !zombie.getType().is(KineticRounds.MACHINES),
+                "La etiqueta de máquinas no reconoce la torreta o incluye al zombi");
+        BlockPos at = helper.absolutePos(new BlockPos(1, 2, 1));
+        for (var e : java.util.List.of(drone, zombie)) {
+            e.setNoAi(true);
+        }
+        drone.moveTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5);
+        zombie.moveTo(at.getX() + 3.5, at.getY(), at.getZ() + 0.5);
+        level.addFreshEntity(drone);
+        level.addFreshEntity(zombie);
+        float hpD = drone.getHealth(), hpZ = zombie.getHealth();
+        KineticRounds.onHit(level, player, drone, 8.0F, new Vec3(1, 0, 0));
+        KineticRounds.onHit(level, player, zombie, 8.0F, new Vec3(1, 0, 0));
+        float lostD = hpD - drone.getHealth(), lostZ = hpZ - zombie.getHealth();
+        drone.discard();
+        zombie.discard();
+        helper.assertTrue(lostZ > 2.5F && lostD > lostZ + 3.0F, "El bonus contra máquinas no se aplica: máquina " + lostD + " / zombi " + lostZ);
+        helper.succeed();
+    }
 }

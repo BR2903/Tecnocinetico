@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "tecnocinetico:drone",
+    "tecnocinetico:sentry_turret",
+    "tecnocinetico:swarm_body",
+    "tecnocinetico:swarm_wasp",
+    "tecnocinetico:hive_node",
+    "tecnocinetico:matriarch_minion",
+    "tecnocinetico:siege_spider",
+    "tecnocinetico:network_watcher",
+    "tecnocinetico:swarm_matriarch",
+    "tecnocinetico:abyss_foundry"
+  ]
+}

@@ -21,7 +21,8 @@ import net.minecraft.world.phys.Vec3;
  * Bala Normal y Bala Cinética (calibre de pistola, subfusil y revólver). La normal es plomo, latón y pólvora (lo
  * primero que se fabrica); la cinética lleva un núcleo de cinetrita que libera su energía al impactar:
  * <b>Impacto cinético</b> = además del daño normal, {@link #PIERCE} de ese daño atraviesa la armadura
- * (daño {@code tecnocinetico:kinetic_impact}) y empuja al objetivo, con el estallido cian.
+ * (daño {@code tecnocinetico:kinetic_impact}) y empuja al objetivo, con el estallido cian. Contra <b>máquinas</b> de la IA
+ * (etiqueta {@code tecnocinetico:machines}) suma además {@link #MACHINE_BONUS}: sobrecarga sus circuitos.
  * <p>
  * Un cargador (o el arma, si carga bala a bala) lleva un solo tipo: la marca {@link #TAG} dice si son cinéticas. Al
  * llenar un cargador vacío se usan cinéticas si hay; si ya tiene balas, sigue con el mismo tipo.
@@ -32,6 +33,11 @@ public final class KineticRounds {
     /** Fracción del daño que el impacto cinético añade atravesando la armadura. */
     public static final float PIERCE = 0.35F;
     public static final double PUSH = 0.45D;
+    /** Daño extra (fracción del disparo) contra máquinas de la IA: la cinetrita sobrecarga sus circuitos. */
+    public static final float MACHINE_BONUS = 0.5F;
+    /** Entidades que cuentan como máquinas (drones, torretas, Enjambre, jefes mecánicos). */
+    public static final net.minecraft.tags.TagKey<net.minecraft.world.entity.EntityType<?>> MACHINES = net.minecraft.tags.TagKey.create(
+            Registries.ENTITY_TYPE, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "machines"));
     public static final ResourceKey<DamageType> KINETIC_IMPACT = ResourceKey.create(Registries.DAMAGE_TYPE,
             net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "kinetic_impact"));
 
@@ -75,8 +81,9 @@ public final class KineticRounds {
             return;
         }
         living.invulnerableTime = 0;
+        boolean machine = living.getType().is(MACHINES);
         living.hurt(new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(KINETIC_IMPACT),
-                shooter), baseDamage * PIERCE);
+                shooter), baseDamage * (PIERCE + (machine ? MACHINE_BONUS : 0)));
         Vec3 d = new Vec3(dir.x, 0, dir.z);
         if (d.lengthSqr() > 1e-6) {
             d = d.normalize().scale(PUSH);
@@ -85,7 +92,10 @@ public final class KineticRounds {
         }
         Vec3 c = living.getBoundingBox().getCenter();
         level.sendParticles(ModParticles.KINETIC_BURST.get(), c.x, c.y, c.z, 0, 0.8, 0, 0, 1);
-        level.sendParticles(ModParticles.KINETIC_SPARK.get(), c.x, c.y, c.z, 8, 0.1, 0.1, 0.1, 0.2);
+        level.sendParticles(ModParticles.KINETIC_SPARK.get(), c.x, c.y, c.z, machine ? 22 : 8, 0.1, 0.1, 0.1, machine ? 0.35 : 0.2);
+        if (machine) {   // cortocircuito: chisporroteo eléctrico
+            level.playSound(null, c.x, c.y, c.z, net.minecraft.sounds.SoundEvents.REDSTONE_TORCH_BURNOUT, SoundSource.PLAYERS, 0.6F, 1.8F);
+        }
         level.playSound(null, c.x, c.y, c.z, SoundEvents.AMETHYST_BLOCK_HIT, SoundSource.PLAYERS, 0.7F, 1.6F);
     }
 }

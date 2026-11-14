@@ -704,9 +704,9 @@
   "block.tecnocinetico.fuel_generator": "Generador de Combustible",
   "jei.tecnocinetico.fuel_generator": "Generador de Combustible: quema gasolina (400 FE/t) o Combustible Cinético (1200 FE/t; rinde el triple) y manda la energía a las máquinas y cables que tenga pegados. Un cubo dura 200 s. Se llena con tuberías, cubos o metiendo en su hueco cubos, Depósitos de Combustible (250 mB) o Células de Combustible Cinético (500 mB).",
   "item.tecnocinetico.standard_round": "Bala Normal",
-  "tooltip.tecnocinetico.loaded_kinetic": "Balas Cinéticas: impacto que atraviesa la armadura y empuja",
+  "tooltip.tecnocinetico.loaded_kinetic": "Balas Cinéticas: impacto que atraviesa la armadura y empuja; +50 % de daño a máquinas",
   "tooltip.tecnocinetico.loaded_standard": "Balas Normales",
   "death.attack.tecnocinetico.kinetic_impact": "%1$s fue destrozado por un impacto cinético",
   "death.attack.tecnocinetico.kinetic_impact.player": "%1$s fue destrozado por un impacto cinético de %2$s",
-  "jei.tecnocinetico.rounds": "Bala Normal (plomo, cobre y pólvora): la munición básica de la pistola, el subfusil y el revólver. Bala Cinética (Bala Normal + cinetrita): IMPACTO CINÉTICO, un 35 % del daño extra atraviesa la armadura y empuja al objetivo. Cada cargador lleva un solo tipo: vacío se llena con cinéticas si llevas, si no con normales."
+  "jei.tecnocinetico.rounds": "Bala Normal (plomo, cobre y pólvora): la munición básica de la pistola, el subfusil y el revólver. Bala Cinética (Bala Normal + cinetrita): IMPACTO CINÉTICO, un 35 % del daño extra atraviesa la armadura y empuja al objetivo; contra máquinas (drones, torretas, el Enjambre y los jefes mecánicos) la cinetrita sobrecarga sus circuitos: +50 % de daño más. Cada cargador lleva un solo tipo: vacío se llena con cinéticas si llevas, si no con normales."
 }
