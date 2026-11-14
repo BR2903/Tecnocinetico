@@ -27,6 +27,9 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
  */
 public class LanceClientExtensions implements IClientItemExtensions {
 
+    /** Giro en Y del modelo en primera persona (display firstperson_*hand de thermal_lance.json). */
+    private static final float DISPLAY_YAW = 8.0F;
+
     @Override
     public HumanoidModel.ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
         return HumanoidModel.ArmPose.CROSSBOW_HOLD;
@@ -43,6 +46,9 @@ public class LanceClientExtensions implements IClientItemExtensions {
         float aim = smooth(GunAnimState.aim(partialTick));
         // reposo -> apuntando (al centro y más cerca)
         pose.translate(Mth.lerp(aim, side * 0.5F, 0.0F), Mth.lerp(aim, -0.52F, -0.44F), Mth.lerp(aim, -0.66F, -0.5F));
+        // el modelo viene girado 8° hacia dentro en primera persona (de cadera se ve en diagonal); al apuntar se
+        // compensa para que el cañón quede recto al centro, como las demás armas
+        pose.mulPose(Axis.YP.rotationDegrees(-side * DISPLAY_YAW * aim));
         pose.translate(0, -0.3F * equipProcess, 0);
         pose.translate(0, Mth.sin(t * 0.08F) * 0.004F * (1 - aim), 0);                       // respiración
 
