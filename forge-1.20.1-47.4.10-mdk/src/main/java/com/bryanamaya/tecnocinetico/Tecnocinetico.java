@@ -264,6 +264,14 @@ public class Tecnocinetico {
                     sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.SPARK));
             event.registerSpriteSet(ModParticles.KINETIC_BURST.get(),
                     sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.BURST));
+            event.registerSpriteSet(ModParticles.HEAT_SPARK.get(), s -> new com.bryanamaya.tecnocinetico.client.HeatParticle.Provider(s,
+                    com.bryanamaya.tecnocinetico.client.HeatParticle.Kind.SPARK));
+            event.registerSpriteSet(ModParticles.MOLTEN_DROP.get(), s -> new com.bryanamaya.tecnocinetico.client.HeatParticle.Provider(s,
+                    com.bryanamaya.tecnocinetico.client.HeatParticle.Kind.DROP));
+            event.registerSpriteSet(ModParticles.HEAT_FLASH.get(), s -> new com.bryanamaya.tecnocinetico.client.HeatParticle.Provider(s,
+                    com.bryanamaya.tecnocinetico.client.HeatParticle.Kind.FLASH));
+            event.registerSpriteSet(ModParticles.HEAT_HAZE.get(), s -> new com.bryanamaya.tecnocinetico.client.HeatParticle.Provider(s,
+                    com.bryanamaya.tecnocinetico.client.HeatParticle.Kind.HAZE));
         }
 
         @SubscribeEvent

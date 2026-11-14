@@ -686,7 +686,7 @@
   "item.tecnocinetico.igneous_plasma_bucket": "Igneous Plasma Bucket",
   "item.tecnocinetico.plasma_cell": "Igneous Plasma Cell",
   "item.tecnocinetico.thermal_lance": "Thermal Lance",
-  "tooltip.tecnocinetico.thermal_lance": "Hold right-click: a heat beam that pierces and burns. R key: refuel with Igneous Plasma Cells.",
+  "tooltip.tecnocinetico.thermal_lance": "Hold left-click: a heat beam that pierces and burns. Right-click: aim. R key: reload with Igneous Plasma Cells.",
   "tooltip.tecnocinetico.lance_fuel": "Plasma: %s / %s",
   "tooltip.tecnocinetico.lance_heat": "Heat: %s%%",
   "tooltip.tecnocinetico.lance_overheated": "Overheated! (%s%%)",
@@ -694,5 +694,6 @@
   "message.tecnocinetico.lance_overheated": "Lance overheated! Let it cool down",
   "message.tecnocinetico.lance_serviced": "%s cells: plasma %s / %s",
   "message.tecnocinetico.lance_nothing": "No Igneous Plasma Cells, or the tank is full",
-  "jei.tecnocinetico.igneous_plasma": "Igneous Plasma: Kinetic Fuel + 1 piroxite dust + 2 sulfur dust in the Chemical Lab. Bucket + iron + copper = 2 Igneous Plasma Cells, the Thermal Lance's ammo."
+  "jei.tecnocinetico.igneous_plasma": "Igneous Plasma: Kinetic Fuel + 1 piroxite dust + 2 sulfur dust in the Chemical Lab. Bucket + iron + copper = 2 Igneous Plasma Cells, the Thermal Lance's ammo.",
+  "message.tecnocinetico.lance_full": "The plasma tank is full"
 }

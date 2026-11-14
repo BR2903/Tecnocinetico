@@ -28,6 +28,12 @@ public final class ModParticles {
     public static final RegistryObject<SimpleParticleType> FLAME_STREAM =
             PARTICLE_TYPES.register("flame_stream", () -> new SimpleParticleType(true));
 
+    // Lanza Térmica (texturas propias; client/HeatParticle)
+    public static final RegistryObject<SimpleParticleType> HEAT_SPARK = PARTICLE_TYPES.register("heat_spark", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> MOLTEN_DROP = PARTICLE_TYPES.register("molten_drop", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> HEAT_FLASH = PARTICLE_TYPES.register("heat_flash", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> HEAT_HAZE = PARTICLE_TYPES.register("heat_haze", () -> new SimpleParticleType(false));
+
     private ModParticles() {}
 
     public static void register(IEventBus bus) {

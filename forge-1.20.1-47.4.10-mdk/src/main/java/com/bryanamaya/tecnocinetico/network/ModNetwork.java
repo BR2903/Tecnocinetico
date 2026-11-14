@@ -71,6 +71,8 @@ public final class ModNetwork {
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(18, ToggleGadgetPacket.class, (m, b) -> b.writeVarInt(m.slot()), b -> new ToggleGadgetPacket(b.readVarInt()),
                 ToggleGadgetPacket::handle, java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(19, LanceFirePacket.class, (m, b) -> b.writeBoolean(m.on()), b -> new LanceFirePacket(b.readBoolean()),
+                LanceFirePacket::handle, java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(13, DashPacket.class, (m, b) -> {}, b -> new DashPacket(), DashPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(1, SyncSkillsPacket.class,
@@ -349,6 +351,19 @@ public final class ModNetwork {
                     p.level().playSound(null, p.getX(), p.getY(), p.getZ(), net.minecraft.sounds.SoundEvents.UI_BUTTON_CLICK.value(),
                             net.minecraft.sounds.SoundSource.PLAYERS, 0.4F, g.enabled(slot) ? 1.4F : 0.9F);
                 });
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** Cliente -> servidor: aprieta/mantiene (true) o suelta (false) el gatillo de la Lanza Térmica. */
+    public record LanceFirePacket(boolean on) {
+        public static void handle(LanceFirePacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null) {
+                    com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.trigger(p, msg.on());
+                }
             });
             ctx.get().setPacketHandled(true);
         }

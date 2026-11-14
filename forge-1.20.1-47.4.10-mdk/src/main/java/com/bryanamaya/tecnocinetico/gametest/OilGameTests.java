@@ -163,7 +163,13 @@ public class OilGameTests {
         player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, lance);
         player.getInventory().add(new ItemStack(ModItems.PLASMA_CELL.get(), 2));
         com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.service(player, lance);
+        helper.assertTrue(com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.reloading(lance)
+                && !com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.canFire(lance), "La tecla R no empieza la recarga");
+        lance.getTag().remove("ReloadEnd");
+        com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.finishReload(player, lance);
         helper.assertTrue(com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.fuel(lance) == 1000, "No reposta con 2 células");
+        helper.assertTrue(!player.getMainHandItem().getItem().use(level, player, net.minecraft.world.InteractionHand.MAIN_HAND).getResult().consumesAction(),
+                "El clic derecho no debe disparar (apunta)");
         // un gólem delante, el jugador mirándolo
         BlockPos base = helper.absolutePos(new BlockPos(1, 2, 1));
         player.moveTo(base.getX() + 0.5, base.getY(), base.getZ() + 0.5, -90.0F, 0.0F);   // mira hacia +X

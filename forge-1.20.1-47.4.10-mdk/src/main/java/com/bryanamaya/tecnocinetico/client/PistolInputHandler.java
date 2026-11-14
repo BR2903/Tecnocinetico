@@ -166,7 +166,8 @@ public final class PistolInputHandler {
             tryFire(player);
         }
 
-        boolean aiming = holdingPistol(player) && mc.screen == null && mc.options.keyUse.isDown()
+        boolean aiming = (holdingPistol(player) || LanceInput.holdingLance(player)) && mc.screen == null && mc.options.keyUse.isDown()
+                && !(LanceInput.holdingLance(player) && com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem.reloading(player.getMainHandItem()))
                 && !KineticPistolItem.isReloading(player.getMainHandItem())
                 && !com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.isLoading(player.getMainHandItem());
         GunAnimState.prevAim = GunAnimState.aim;
@@ -179,6 +180,9 @@ public final class PistolInputHandler {
     public static void onFov(ComputeFovModifierEvent event) {
         float aim = GunAnimState.aim;
         var held = event.getPlayer().getMainHandItem();
+        if (aim > 0 && held.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.ThermalLanceItem) {
+            event.setNewFovModifier(event.getNewFovModifier() * Mth.lerp(aim, 1.0F, 0.8F));
+        }
         if (aim > 0 && (held.getItem() instanceof KineticPistolItem || held.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem)) {
             float zoom = held.getItem() instanceof com.bryanamaya.tecnocinetico.item.weapon.LongGunItem g ? g.zoom(held) : KineticPistolItem.aimZoom(held);
             event.setNewFovModifier(event.getNewFovModifier() * Mth.lerp(aim, 1.0F, zoom));
@@ -189,7 +193,7 @@ public final class PistolInputHandler {
     @SubscribeEvent
     public static void onOverlay(RenderGuiOverlayEvent.Pre event) {
         if (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) && GunAnimState.aim > 0.5F
-                && holdingPistol(Minecraft.getInstance().player)) {
+                && (holdingPistol(Minecraft.getInstance().player) || LanceInput.holdingLance(Minecraft.getInstance().player))) {
             event.setCanceled(true);
             if (scoped()) {
                 drawScope(event.getGuiGraphics(), event.getWindow().getGuiScaledWidth(), event.getWindow().getGuiScaledHeight());
