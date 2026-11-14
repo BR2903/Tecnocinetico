@@ -19,8 +19,8 @@ public enum MachineKind {
     REFINERY("refinery", new int[][]{{34, 35}}, new int[][]{{90, 25}, {90, 45}}, 58, 35, 40_000, 2_000, 4),
     /** Bomba de Extracción: saca petróleo de bolsas bajo ella; llena recipientes vacíos (4 datos extra: tanques). */
     OIL_PUMP("oil_pump", new int[][]{{90, 25}}, new int[][]{{90, 45}}, 58, 35, 40_000, 2_000, 4),
-    /** Reactor de Fisión: barra de combustible -> agotada; genera FE (batería de 200.000 que solo se vacía hacia fuera). */
-    FISSION_REACTOR("fission_reactor", new int[][]{{26, 30}}, new int[][]{{76, 30}}, 48, 30, 200_000, 0, 6),
+    /** Reactor de Fisión: barra de combustible -> agotada; genera hasta 4000 FE/t (batería de 300.000 que solo se vacía hacia fuera). */
+    FISSION_REACTOR("fission_reactor", new int[][]{{26, 30}}, new int[][]{{76, 30}}, 48, 30, 300_000, 0, 6),   // ≤ 327 670 (la interfaz manda energía/10 en 16 bits)
     /** Ensamblador Industrial (estructura 3x3x3): 9 ingredientes -> lo más complejo del mod. */
     INDUSTRIAL_ASSEMBLER("industrial_assembler", new int[][]{{30, 17}, {48, 17}, {66, 17}, {30, 35}, {48, 35}, {66, 35}, {30, 53}, {48, 53}, {66, 53}},
             new int[][]{{124, 35}}, 92, 35, 200_000, 10_000);

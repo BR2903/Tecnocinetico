@@ -210,9 +210,25 @@ public class GuardianGameTests {
             h.succeed();
         } finally { bosses.forEach(net.minecraft.world.entity.Entity::discard); }
     }
+    /**
+     * Punto 12 bloques sobre el terreno con una plataforma de 17x17 debajo y aire alrededor: así la prueba no depende
+     * del relieve del mundo de prueba (que no está en git y cambia de semilla en cada copia del repositorio).
+     */
     private static BlockPos air(GameTestHelper h) {
-        BlockPos p = h.absolutePos(BlockPos.ZERO);
-        return new BlockPos(p.getX(), h.getLevel().getHeight(Heightmap.Types.MOTION_BLOCKING, p.getX(), p.getZ()) + 12, p.getZ());
+        BlockPos q = h.absolutePos(BlockPos.ZERO);
+        BlockPos p = new BlockPos(q.getX(), h.getLevel().getHeight(Heightmap.Types.MOTION_BLOCKING, q.getX(), q.getZ()) + 12, q.getZ());
+        var level = h.getLevel();
+        for (int x = -8; x <= 8; x++) {
+            for (int z = -8; z <= 8; z++) {
+                level.setBlock(p.offset(x, -1, z), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
+                for (int y = 0; y <= 8; y++) {
+                    if (!level.getBlockState(p.offset(x, y, z)).isAir()) {
+                        level.setBlock(p.offset(x, y, z), Blocks.AIR.defaultBlockState(), 3);
+                    }
+                }
+            }
+        }
+        return p;
     }
 
     /** Consolas persistentes: jefe correcto, una sola activación, abandono y victoria que restaura la salida. */

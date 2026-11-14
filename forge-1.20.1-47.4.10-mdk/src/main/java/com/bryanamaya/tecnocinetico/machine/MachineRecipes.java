@@ -210,18 +210,18 @@ public final class MachineRecipes {
             new Assembly(List.of(of(ModItems.DIMENSIONAL_DRIVE, 1), of(ModItems.VECTOR_THRUSTER, 1), of(ModItems.ADAPTIVE_FLIGHT_CORE, 1),
                     of(ModItems.INERCITA_PLATE, 24), of(ModItems.TITANIUM_INGOT, 32), of(ModItems.CORE_PROCESSOR, 2),
                     of(ModItems.KINETIC_SERVO, 6), of(ModItems.PRECISION_MECHANISM, 6), of(v(Items.GLASS), 8)),
-                    ModItems.CORE_FIGHTER, 1, 2400, 500),
+                    ModItems.CORE_FIGHTER, 1, 2400, 2000),                                  // fin de juego: pide un reactor
             // instalar el Acoplador del Nether en el caza: salto al Nether, inmune a fuego y lava y blindado contra explosiones
             new Assembly(List.of(of(ModItems.CORE_FIGHTER, 1), of(ModItems.NETHER_COUPLER, 1), of(ModItems.PIROXITE_INGOT, 8),
                     of(ModItems.SLAG_ALLOY, 8), of(ModItems.ABYSSAL_COMPONENT, 2)),
-                    ModItems.CORE_FIGHTER, 1, 1200, 400, MachineRecipes::installNetherDrive),
+                    ModItems.CORE_FIGHTER, 1, 1200, 1500, MachineRecipes::installNetherDrive),
             // piezas del Taladro de Combustión (se termina en el Ensamblador de Armas)
             new Assembly(List.of(of(ModItems.TITANIUM_INGOT, 6), of(v(Items.DIAMOND), 4), of(ModItems.INERCITA_PLATE, 2),
                     of(ModItems.KINETIC_SERVO, 1)),
-                    ModItems.DRILL_HEAD, 1, 600, 250),
+                    ModItems.DRILL_HEAD, 1, 600, 600),
             new Assembly(List.of(of(ModItems.TITANIUM_INGOT, 4), of(ModItems.PRECISION_MECHANISM, 2), of(ModItems.KINETIC_SERVO, 2),
                     of(v(Items.COPPER_INGOT), 8)),
-                    ModItems.COMBUSTION_ENGINE, 1, 600, 250));
+                    ModItems.COMBUSTION_ENGINE, 1, 600, 600));
 
     public static boolean isAssemblyIngredient(ItemStack stack) {
         return ASSEMBLY.stream().anyMatch(a -> a.in().stream().anyMatch(i -> stack.is(i.item().get())));

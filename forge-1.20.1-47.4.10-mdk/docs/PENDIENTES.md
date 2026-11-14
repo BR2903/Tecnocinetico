@@ -13,8 +13,8 @@
 - Tiers 4 y 5: 3 dimensiones nuevas (por diseñar).
 
 ## Limitaciones conocidas / deuda técnica
-- **Equilibrio del mundo**: la Inercita (nivel diamante) aparece en 9 vetas de 7 por chunk → más común que el diamante. Cinetrita: 14 vetas de 9. Revisar `worldgen/placed_feature`.
-- **Receta de Aleación Antigua** usa 8 hierro + cinetrita, pero el lore dice que el hierro "se deformaba" con la cinetrita → quizá debería llevar Inercita.
+- ~~**Equilibrio del mundo**~~ HECHO 2026-11-14 (inercita 4 vetas de 6; cinetrita 8 de 8). Antes: la Inercita (nivel diamante) aparece en 9 vetas de 7 por chunk → más común que el diamante. Cinetrita: 14 vetas de 9. Revisar `worldgen/placed_feature`.
+- ~~**Receta de Aleación Antigua**~~ HECHO 2026-11-14 (6 hierro + 2 inercita + 1 cinetrita). Antes: usa 8 hierro + cinetrita, pero el lore dice que el hierro "se deformaba" con la cinetrita → quizá debería llevar Inercita.
 - La Prensa Automática no sincroniza su inventario con el cliente fuera del menú (no hace falta salvo que se añada un renderizador de los objetos).
 - Las bonificaciones de la pistola no se recalculan si se cambia de módulos durante una recarga (la recarga en curso termina con su duración original).
 - `run/` contiene mundos de prueba con objetos que ya no existen (objetos "Vista 1-5"): el aviso de "registros no identificados" al cargarlos es inofensivo.
@@ -54,7 +54,7 @@
 - **Prensa**: receta de fragmentación (cristal solo) es subconjunto de Transductor y Servo; con tolvas, si falta el cobre los cristales se fragmentan.
 
 ## Pruebas frágiles
-- `GuardianGameTests.watcherAttacks` (y probablemente otras que usan el heightmap) dependen del terreno del mundo de prueba `run/world`, que no está en git y tiene semilla al azar: en una copia nueva del repo puede fallar. Fijar `level-seed` para el servidor de pruebas o montar el suelo en la propia prueba.
+- ~~Arreglado 2026-11-14 (plataforma propia en `air()`)~~ `GuardianGameTests.watcherAttacks` (y probablemente otras que usan el heightmap) dependen del terreno del mundo de prueba `run/world`, que no está en git y tiene semilla al azar: en una copia nueva del repo puede fallar. Fijar `level-seed` para el servidor de pruebas o montar el suelo en la propia prueba.
 
 ## ~~Bloqueo de compilación reportado por Bryan (2026-11-11, para Claude)~~ — RESUELTO (2026-11-12)
 - Resuelto: era la integración de los sonidos del taladro a medias (la sesión se cortó a mitad). Registrados en `ModSounds` y `sounds.json`; compila y pasan las pruebas.

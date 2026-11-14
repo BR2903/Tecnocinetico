@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
  */
 public class OilPumpBlockEntity extends TankMachineBlockEntity {
 
-    public static final int RADIUS = 6, TICKS = 100, PER_TICK = 40;
+    public static final int RADIUS = 6, TICKS = 100, PER_TICK = 160;
     /** Capa que se está explorando (baja de la bomba al fondo y vuelve a empezar). */
     private int scanY = Integer.MIN_VALUE;
     @Nullable

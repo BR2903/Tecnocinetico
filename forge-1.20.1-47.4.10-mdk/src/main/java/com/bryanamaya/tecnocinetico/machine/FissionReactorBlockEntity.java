@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Reactor de Fisión: quema Barras de Combustible de Uranio y genera electricidad (hasta 600 FE/t), que empuja
+ * Reactor de Fisión: quema Barras de Combustible de Uranio y genera electricidad (hasta 4000 FE/t: unas 30 máquinas de tier 1-2 a la vez o el Ensamblador Industrial a pleno), que empuja
  * sola a los cables y máquinas pegados a CUALQUIER cara exterior de la estructura (no necesita energía para
  * funcionar; los cables también pueden sacarla de cualquier pieza). La potencia se ajusta con las barras de control (0-100 %).
  * Calor: sube con la potencia (4 °/t al 100 %); lo quita el refrigerante del tanque (hasta 6 °/t, 1 mB cada 2 °)
@@ -42,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class FissionReactorBlockEntity extends ElectricMachineBlockEntity implements FluidMachine {
 
-    public static final int ROD_TICKS = 24_000, MAX_FE_PER_TICK = 600, PUSH_PER_TICK = 2_000, TANK = 8_000;
+    public static final int ROD_TICKS = 24_000, MAX_FE_PER_TICK = 4_000, PUSH_PER_TICK = 8_000, TANK = 8_000;
     public static final float HEAT_PER_TICK = 4.0F, PASSIVE_COOLING = 0.4F, COOLANT_COOLING = 6.0F, WATER_COOLING = 3.0F;
     public static final int ALARM = 900, MELTDOWN = 1000, AMBIENT = 20;
     public static final int EXTRA_HEAT = 0, EXTRA_THROTTLE = 1, EXTRA_FLUID = 2, EXTRA_AMOUNT = 3, EXTRA_OUTPUT = 4, EXTRA_FUEL = 5;

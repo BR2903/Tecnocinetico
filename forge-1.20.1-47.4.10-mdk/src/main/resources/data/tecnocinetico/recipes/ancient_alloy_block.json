@@ -1,13 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "III",
+    "INI",
     "ICI",
-    "III"
+    "INI"
   ],
   "key": {
     "I": {
       "item": "minecraft:iron_ingot"
+    },
+    "N": {
+      "item": "tecnocinetico:inercita_ingot"
     },
     "C": {
       "item": "tecnocinetico:cinetrite_ingot"

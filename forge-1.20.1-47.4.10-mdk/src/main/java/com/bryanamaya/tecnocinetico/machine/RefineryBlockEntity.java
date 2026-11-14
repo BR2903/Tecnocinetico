@@ -22,7 +22,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
  */
 public class RefineryBlockEntity extends TankMachineBlockEntity {
 
-    public static final int TICKS = 40, PER_TICK = 40, CRUDE_PER_CYCLE = 250, GASOLINE_PER_CYCLE = 200, CYCLES_PER_TAR = 4;
+    public static final int TICKS = 40, PER_TICK = 120, CRUDE_PER_CYCLE = 250, GASOLINE_PER_CYCLE = 200, CYCLES_PER_TAR = 4;
     public static final int CANISTER_MB = 250;
     private int tarCounter;
 
