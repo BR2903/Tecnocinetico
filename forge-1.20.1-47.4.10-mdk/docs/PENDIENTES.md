@@ -5,7 +5,6 @@
 - Ajustes de equilibrio de habilidades (XP por acción) tras jugar un rato.
 
 ## Ideas propuestas (el usuario elige el orden)
-- **Ruinas antiguas**: estructuras tecnológicas con Aleación Antigua (sin glifos ni magia), Cuerpos de Enjambre de guardia, cofres con módulos/piezas (encaja con el lore).
 - **Equipo de Inercita**: herramientas y armadura de nivel 2 (diseño realista + detalles del mod).
 - **Más armas realistas** (p. ej. rifle cinético) con sus propios módulos en el banco.
 - Más habilidades (el sistema está preparado: ver `Skill.java`).

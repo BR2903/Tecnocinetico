@@ -8,10 +8,10 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import java.util.Optional;
 
-/** Cinco instalaciones con un formato común; cada variante conserva su distribución y colocación propias. */
+/** Seis instalaciones con un formato común (la 5 es el Templo-Taller Antiguo); cada una conserva su distribución y colocación. */
 public class OverworldSiteStructure extends Structure {
     public static final Codec<OverworldSiteStructure> CODEC = RecordCodecBuilder.create(i -> i.group(
-            settingsCodec(i), Codec.intRange(0, 4).fieldOf("site").forGetter(s -> s.site)
+            settingsCodec(i), Codec.intRange(0, 5).fieldOf("site").forGetter(s -> s.site)
     ).apply(i, OverworldSiteStructure::new));
     private final int site;
 
@@ -40,7 +40,7 @@ public class OverworldSiteStructure extends Structure {
         } else {
             var column = gen.getBaseColumn(x, z, ctx.heightAccessor(), ctx.randomState());
             if (!column.getBlock(surface).getFluidState().isEmpty() || surface < gen.getSeaLevel()) return Optional.empty();
-            floor = site == 2 ? surface - 12 : site == 3 ? Math.min(-24, surface - 30) : surface;
+            floor = site == 2 ? surface - 12 : site == 3 ? Math.min(-24, surface - 30) : site == 5 ? surface - 6 : surface;   // 5: medio enterrado
             if (floor < ctx.heightAccessor().getMinBuildHeight() + 6) return Optional.empty();
         }
         if (Math.max(surface + 6, floor + 30) >= ctx.heightAccessor().getMaxBuildHeight()) return Optional.empty();

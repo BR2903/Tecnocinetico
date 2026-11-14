@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 /** Obra por coordenadas locales absolutas. Ningún aleatorio depende del orden de generación de los chunks. */
 public class OverworldSitePiece extends StructurePiece {
-    public static final String[] IDS = {"relay_antenna", "data_center", "survivor_bunker", "swarm_laboratory", "sunken_city"};
+    public static final String[] IDS = {"relay_antenna", "data_center", "survivor_bunker", "swarm_laboratory", "sunken_city", "ancient_workshop"};
     private final int ox, oy, oz, surface, sea, site;
     private final long seed;
 
@@ -90,7 +90,7 @@ public class OverworldSitePiece extends StructurePiece {
     private void guard(WorldGenLevel l, BoundingBox b, int x, int y, int z, boolean flying) {
         BlockPos p = pos(x, y, z);
         if (!b.isInside(p)) return;
-        Mob mob = (flying ? ModEntities.DRONE.get() : site == 3 ? ModEntities.SWARM_BODY.get() : ModEntities.SENTRY_TURRET.get()).create(l.getLevel());
+        Mob mob = (flying ? ModEntities.DRONE.get() : site == 3 || site == 5 ? ModEntities.SWARM_BODY.get() : ModEntities.SENTRY_TURRET.get()).create(l.getLevel());
         if (mob == null) return;
         mob.moveTo(p.getX() + .5, p.getY(), p.getZ() + .5, 180, 0);
         mob.finalizeSpawn(l, l.getCurrentDifficultyAt(p), MobSpawnType.STRUCTURE, null, null);
@@ -113,6 +113,96 @@ public class OverworldSitePiece extends StructurePiece {
         }
     }
 
+    /**
+     * Templo-Taller Antiguo (site 5): obra de la civilización que descubrió la cinetrita, medio enterrada (suelo 6 bajo
+     * la superficie). Escalera desde la superficie al norte, gran nave de Aleación Antigua con pilares, incrustaciones
+     * de cristal cian, una prensa cinética antigua rota en el centro con cinetrita creciendo, techo en parte hundido
+     * (tierra y grava que entra), dos talleres laterales con cofres y Cuerpos de Enjambre que lo han ocupado.
+     */
+    private void workshop(WorldGenLevel l, BoundingBox b) {
+        Block alloy = ModBlocks.ANCIENT_ALLOY_BLOCK.get();
+        int h = 9;
+        // escalera de la superficie al suelo (z 0-7, x 13-18)
+        for (int s = 0; s <= 6; s++) {
+            int z = s + 1;
+            for (int x = 13; x <= 18; x++) {
+                boolean side = x == 13 || x == 18;
+                put(l, b, x, 6 - s - 1, z, side ? alloy : Blocks.POLISHED_DEEPSLATE);
+                for (int y = 6 - s; y <= 9; y++) {
+                    put(l, b, x, y, z, side && y <= 6 - s + 1 ? alloy : Blocks.AIR);
+                }
+            }
+        }
+        // nave principal (x 4-27, z 8-35) y talleres laterales (x 0-4 y 27-31, z 14-27)
+        for (int x = 0; x <= 31; x++) {
+            for (int z = 8; z <= 35; z++) {
+                boolean hall = x >= 4 && x <= 27;
+                boolean side = !hall && z >= 14 && z <= 27;
+                if (!hall && !side) {
+                    continue;
+                }
+                int x0 = hall ? 4 : x < 4 ? 0 : 27, x1 = hall ? 27 : x < 4 ? 4 : 31, z0 = hall ? 8 : 14, z1 = hall ? 35 : 27;
+                int top = hall ? h : 6;
+                boolean edge = x == x0 || x == x1 || z == z0 || z == z1;
+                for (int y = -1; y <= top; y++) {
+                    Block block;
+                    if (y == -1) {
+                        block = Blocks.DEEPSLATE_BRICKS;
+                    } else if (y == 0) {
+                        block = (x + z) % 6 == 0 ? Blocks.CYAN_STAINED_GLASS : Blocks.POLISHED_DEEPSLATE;   // incrustaciones
+                    } else if (y == top) {
+                        long r = Math.floorMod(hash(x, y, z), 10);
+                        block = r < 3 ? Blocks.AIR : alloy;                                   // techo hundido a trozos
+                    } else if (edge) {
+                        block = y == 3 && (x + z) % 4 == 0 ? Blocks.CYAN_STAINED_GLASS : Math.floorMod(hash(x, y, z), 9) == 0
+                                ? ModWorldBlocks.CRACKED_CONCRETE.get() : alloy;
+                    } else {
+                        block = Blocks.AIR;
+                    }
+                    put(l, b, x, y, z, block);
+                }
+                // por los huecos del techo entra tierra y grava (montones en el suelo)
+                if (!edge && Math.floorMod(hash(x, top, z), 10) < 3 && Math.floorMod(hash(x, 1, z), 3) == 0) {
+                    put(l, b, x, 1, z, Math.floorMod(hash(x, 2, z), 2) == 0 ? Blocks.GRAVEL : Blocks.COARSE_DIRT);
+                }
+            }
+        }
+        // puerta de la escalera a la nave y pasos a los talleres
+        fill(l, b, 14, 0, 8, 17, 3, 8, Blocks.AIR);
+        fill(l, b, 4, 1, 19, 4, 3, 22, Blocks.AIR);
+        fill(l, b, 27, 1, 19, 27, 3, 22, Blocks.AIR);
+        // pilares de aleación con foco de cinetrita arriba
+        for (int[] c : new int[][]{{8, 13}, {23, 13}, {8, 30}, {23, 30}, {8, 21}, {23, 21}}) {
+            fill(l, b, c[0], 1, c[1], c[0], h - 1, c[1], alloy);
+            put(l, b, c[0], h - 2, c[1] + 1, Blocks.SEA_LANTERN);
+        }
+        // prensa cinética antigua rota en el centro, con cinetrita creciendo
+        fill(l, b, 13, 1, 19, 18, 1, 24, Blocks.POLISHED_DEEPSLATE);
+        fill(l, b, 14, 2, 20, 17, 2, 23, alloy);
+        fill(l, b, 15, 3, 21, 16, 5, 22, alloy);
+        put(l, b, 15, 6, 21, Blocks.IRON_BARS);
+        put(l, b, 16, 6, 22, Blocks.CHAIN);
+        put(l, b, 14, 3, 20, ModWorldBlocks.CINETRITE_CLUSTER.get());
+        put(l, b, 17, 3, 23, ModWorldBlocks.CINETRITE_CLUSTER.get());
+        put(l, b, 13, 2, 22, Blocks.COPPER_BLOCK);
+        put(l, b, 18, 2, 21, Blocks.EXPOSED_COPPER);
+        put(l, b, 16, 1, 25, ModWorldBlocks.CINETRITE_CLUSTER.get());
+        // talleres: banco, yunque roto y cofres
+        put(l, b, 1, 1, 15, Blocks.SMITHING_TABLE);
+        put(l, b, 2, 1, 15, Blocks.DAMAGED_ANVIL);
+        chest(l, b, 1, 1, 26, "ancient_workshop");
+        put(l, b, 30, 1, 15, Blocks.GRINDSTONE);
+        chest(l, b, 30, 1, 26, "ancient_workshop");
+        chest(l, b, 16, 1, 33, "ancient_workshop");                                              // el del fondo de la nave
+        // los Cuerpos de Enjambre lo han ocupado
+        guard(l, b, 10, 1, 17, false);
+        guard(l, b, 21, 1, 17, false);
+        guard(l, b, 15, 1, 29, false);
+        if (Math.floorMod(seed, 2) == 0) {
+            guard(l, b, 2, 1, 20, false);
+        }
+    }
+
     @Override
     public void postProcess(WorldGenLevel l, StructureManager sm, ChunkGenerator gen, RandomSource ignored,
                             BoundingBox b, ChunkPos cp, BlockPos pivot) {
@@ -122,6 +212,7 @@ public class OverworldSitePiece extends StructurePiece {
             case 2 -> bunker(l, b);
             case 3 -> laboratory(l, b);
             case 4 -> city(l, b);
+            case 5 -> workshop(l, b);
             default -> throw new IllegalStateException("Instalación desconocida: " + site);
         }
     }

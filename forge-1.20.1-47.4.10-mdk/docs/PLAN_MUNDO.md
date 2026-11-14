@@ -53,6 +53,7 @@ Se reutiliza la **forma del terreno vanilla** (montañas, ríos, cuevas…) y se
 | Búnker (`survivor_bunker`) | — | Subsuelo de Praderas, Taiga, Tundra y Tierras Fracturadas | Refugio con dormitorios, taller, despensa y pozo de acceso |
 | Laboratorio del Enjambre (`swarm_laboratory`) | ciudad antigua | Instalación Profunda | Cultivos, Cuerpos de Enjambre y arena de la **Matriarca del Enjambre** |
 | Ciudad sumergida (`sunken_city`) | monumento / ruinas oceánicas | Mar de Escombros y variantes | Tres edificios inundados, avenida, pasarela y botín; requiere al menos 18 bloques de profundidad |
+| Templo-Taller Antiguo (`ancient_workshop`) | ruina enterrada | Todo el Overworld (separada del asentamiento) | Nave de Aleación Antigua medio enterrada con escalera, prensa cinética rota con cinetrita, techo hundido, dos talleres, 3-4 Cuerpos de Enjambre y 3 cofres (`chests/ancient_workshop`: módulos de arma, mecanismos, servos, lingotes; raro procesador de núcleo) |
 | Fortaleza (stronghold) | — | Se **mantiene** (necesaria para ir al End) hasta diseñar otro acceso | Añadir nuestros biomas a su tag |
 
 ## 4. Ambiente

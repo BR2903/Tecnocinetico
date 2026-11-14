@@ -28,7 +28,7 @@ public class WorldgenGameTests {
 
     private static final String[] STRUCTURES = {"ruined_building_megacity", "ruined_building_urban",
             "ruined_building_overgrown", "ruined_building_frozen", "survivor_settlement", "abandoned_factory", "swarm_hive", "ai_installation",
-            "relay_antenna", "data_center", "survivor_bunker", "swarm_laboratory", "sunken_city"};
+            "relay_antenna", "data_center", "survivor_bunker", "swarm_laboratory", "sunken_city", "ancient_workshop"};
 
     @GameTest(template = "empty", timeoutTicks = 800)
     public static void structuresGenerate(GameTestHelper helper) {
@@ -78,6 +78,11 @@ public class WorldgenGameTests {
                     helper.assertTrue(level.getBlockState(origin.offset(4, 1, 4)).is(net.minecraft.world.level.block.Blocks.LADDER)
                                     && level.getBlockState(origin.offset(4, 1, 5)).isAir(),
                             "El pozo del búnker no conecta con su interior");
+                }
+                if (STRUCTURES[i].equals("ancient_workshop")) {
+                    helper.assertTrue(level.getBlockEntity(origin.offset(16, 1, 33)) instanceof net.minecraft.world.level.block.entity.ChestBlockEntity
+                                    && level.getBlockState(origin.offset(15, 1, 8)).isAir() && level.getBlockState(origin.offset(15, 2, 8)).isAir(),
+                            "El templo-taller no tiene su cofre o la puerta de la escalera está tapada");
                 }
                 if (STRUCTURES[i].equals("sunken_city")) {
                     helper.assertTrue(level.getFluidState(origin.offset(16, 1, 20)).is(net.minecraft.tags.FluidTags.WATER),

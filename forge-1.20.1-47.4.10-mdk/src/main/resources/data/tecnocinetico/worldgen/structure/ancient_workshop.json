@@ -1,0 +1,8 @@
+{
+  "type": "tecnocinetico:overworld_site",
+  "biomes": "#tecnocinetico:has_structure/ancient_workshop",
+  "step": "underground_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "beard_thin",
+  "site": 5
+}
