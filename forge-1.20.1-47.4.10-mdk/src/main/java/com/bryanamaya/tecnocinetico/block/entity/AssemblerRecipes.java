@@ -126,6 +126,13 @@ public final class AssemblerRecipes {
      */
     @Nullable
     public static Recipe find(IItemHandler inv, int slots) {
+        boolean any = false;
+        for (int i = 0; i < slots && !any; i++) {
+            any = !inv.getStackInSlot(i).isEmpty();
+        }
+        if (!any) {
+            return null;                                                      // vacío: no hay nada que buscar
+        }
         Recipe best = null;
         int bestTotal = -1;
         outer:

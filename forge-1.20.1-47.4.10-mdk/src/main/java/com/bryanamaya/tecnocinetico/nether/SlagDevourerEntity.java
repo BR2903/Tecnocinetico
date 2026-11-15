@@ -147,7 +147,7 @@ public class SlagDevourerEntity extends NetherBossEntity {
         getLookControl().setLookAt(t, 30.0F, 30.0F);
         double dist = distanceTo(t);
         if (dist > 3.5) {
-            getNavigation().moveTo(t, 1.0D);
+            com.bryanamaya.tecnocinetico.util.Chase.moveTo(this, t, 1.0D);
         } else {
             getNavigation().stop();
         }

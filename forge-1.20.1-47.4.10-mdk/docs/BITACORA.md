@@ -897,3 +897,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - El usuario los seguía viendo: la generación suelta ya se había quitado (625a1e9), pero la Fábrica Abandonada y los edificios en ruinas aún los ponían. Eliminado el bloque `debris_layer` por completo (registro, estructuras, receta, botín, modelos, etiqueta, textos y `tools/world_blocks_gen.py`). En mundos ya generados los que hubiera desaparecen (pasan a aire).
 - Exige Forge 47.4.10 o más nuevo (`forge_version_range`): con NeoForge/Forge 47.1 el mod no arranca y ahora lo avisa al cargar.
 
+## 2026-11-15 — Claude — v2: rendimiento medido
+- v2 = rendimiento + equilibrio de recetas antes de añadir contenido. Banco nuevo `BenchmarkGameTests` (con `TECNO_BENCH=1`) con muestreo de pila.
+- Medido (µs por tick y mob, 16 a la vez; zombi vanilla ≈ 16-19): Devorador de Escoria 559 → 39, Anclador 233 → 31 (buscaban camino en cada tick: `util/Chase`); también la Araña de Asedio, el Fundidor, los guardianes del Overworld y el Artillero Corrupto usan `Chase`. Araña de Asedio (~170) y Matriarca (~70): colisiones vanilla de cajas enormes, normal para un jefe único.
+- Máquinas en reposo: Bomba de Extracción 5,4 → 0,2 µs (se salta secciones sin petróleo por la paleta y descansa 10 s tras recorrer la columna); Ensamblador de Armas 6,6 → 0,8 (sin buscar receta si está vacío). El resto, < 3 µs.
+- Generación de chunks: el código del mod es ~0 % del tiempo en Overworld, Nether y End (lo caro es el ruido vanilla).
+

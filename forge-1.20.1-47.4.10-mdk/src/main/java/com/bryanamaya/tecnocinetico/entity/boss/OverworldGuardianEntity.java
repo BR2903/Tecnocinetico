@@ -218,7 +218,7 @@ public class OverworldGuardianEntity extends Monster {
             return;
         }
         if (cooldown > 0) cooldown--;
-        if (distanceTo(t) > 4) getNavigation().moveTo(t, 1.25);
+        if (distanceTo(t) > 4) com.bryanamaya.tecnocinetico.util.Chase.moveTo(this, t, 1.25);
         else getNavigation().stop();
         if (cooldown <= 0 && getSensing().hasLineOfSight(t) && distanceTo(t) < 20) {
             charge = 1; lock = CoreShots.aimPoint(t);

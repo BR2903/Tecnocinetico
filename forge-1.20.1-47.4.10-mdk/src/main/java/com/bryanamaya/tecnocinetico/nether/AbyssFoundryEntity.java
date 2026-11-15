@@ -113,7 +113,7 @@ public class AbyssFoundryEntity extends NetherBossEntity {
         }
         double dist = distanceTo(t);
         if (dist > 4.0) {
-            getNavigation().moveTo(t, 1.0D);
+            com.bryanamaya.tecnocinetico.util.Chase.moveTo(this, t, 1.0D);
         } else {
             getNavigation().stop();
         }

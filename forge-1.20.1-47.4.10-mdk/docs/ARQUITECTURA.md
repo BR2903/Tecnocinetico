@@ -197,6 +197,8 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `CoreFighterEntity.lockTargetCached` para el HUD; `TacticalGear.takeWornChanged` limita el paquete de gadgets visibles.
 - Luz de estado (POWERED) de máquinas, prensa y ensamblador: `util/StatusLight` (cambia solo si el valor nuevo dura 10 ticks; cada cambio de estado reconstruye la sección del chunk en el cliente).
 - Línea de visión en mobs propios: `getSensing().hasLineOfSight(e)` (se calcula una vez por tick y objetivo), no `hasLineOfSight(e)` (traza un rayo en cada llamada). Las torretas (centinela y repetidor) buscan objetivo con vista cada 4 ticks y entre medias reutilizan el que tienen.
+- Perseguir: `util/Chase.moveTo(mob, objetivo, velocidad)` en vez de `getNavigation().moveTo(...)` en cada tick (eso busca un camino nuevo cada vez; los jefes grandes atascados costaban hasta 30 veces un zombi).
+- Banco de rendimiento: `gametest/BenchmarkGameTests` (solo con la variable de entorno `TECNO_BENCH=1`: `set TECNO_BENCH=1` y `gradlew runGameTestServer`). Mide µs por tick de cada mob (16 a la vez, con un jugador cerca) y de cada máquina, muestrea la pila de los más caros y de la generación de chunks en las tres dimensiones; resultados en el log con "[Banco]".
 - `RadiationEvents.exposure` mira la paleta de las secciones (`maybeHas`) antes de recorrer bloques buscando uranio.
 
 ## Reloj de Navegación y satélite (`map/`, `client/map/`)

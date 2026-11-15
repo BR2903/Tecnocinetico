@@ -244,7 +244,7 @@ public class CorruptedGunnerEntity extends AbstractSkeleton implements Corrupted
 
             // movimiento
             if (!see || dist > range * 0.85D) {
-                getNavigation().moveTo(t, 1.05D);
+                com.bryanamaya.tecnocinetico.util.Chase.moveTo(CorruptedGunnerEntity.this, t, 1.05D);
             } else {
                 getNavigation().stop();
                 if (++strafeTime > 25 + random.nextInt(30)) {

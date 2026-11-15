@@ -67,10 +67,28 @@ public class OilPumpBlockEntity extends TankMachineBlockEntity {
         return fs.isSource() && fs.getType() == ModFluids.CRUDE_OIL.get();
     }
 
-    /** Explora una capa (13x13) por llamada, de la bomba hacia abajo; al llegar al fondo vuelve a empezar. */
+    /** Pausa (ticks) tras recorrer toda la columna sin encontrar petróleo, antes de volver a empezar. */
+    public static final int RESCAN_PAUSE = 200;
+    private int pause;
+
+    /**
+     * Explora una capa (13x13) por llamada, de la bomba hacia abajo; al llegar al fondo descansa {@link #RESCAN_PAUSE}
+     * ticks y vuelve a empezar. Las secciones de 16 de alto sin petróleo en su paleta se saltan enteras.
+     */
     private void scanLayer() {
+        if (pause > 0) {
+            pause--;
+            return;
+        }
         if (scanY == Integer.MIN_VALUE || scanY < level.getMinBuildHeight()) {
             scanY = worldPosition.getY() - 1;
+        }
+        if (!sectionMayHaveOil(scanY)) {
+            scanY = (scanY >> 4 << 4) - 1;                                    // salta al techo de la sección de abajo
+            if (scanY < level.getMinBuildHeight()) {
+                pause = RESCAN_PAUSE;
+            }
+            return;
         }
         BlockPos.MutableBlockPos q = new BlockPos.MutableBlockPos();
         for (int dx = -RADIUS; dx <= RADIUS && found == null; dx++) {
@@ -82,9 +100,28 @@ public class OilPumpBlockEntity extends TankMachineBlockEntity {
                 }
             }
         }
-        if (found == null) {
-            scanY--;
+        if (found == null && --scanY < level.getMinBuildHeight()) {
+            pause = RESCAN_PAUSE;
         }
+    }
+
+    /** ¿Alguna sección de chunk bajo la bomba, a esa altura, puede tener petróleo? (mira la paleta, sin recorrer bloques) */
+    private boolean sectionMayHaveOil(int y) {
+        var oil = ModFluids.CRUDE_OIL.get();
+        for (int cx = (worldPosition.getX() - RADIUS) >> 4; cx <= (worldPosition.getX() + RADIUS) >> 4; cx++) {
+            for (int cz = (worldPosition.getZ() - RADIUS) >> 4; cz <= (worldPosition.getZ() + RADIUS) >> 4; cz++) {
+                if (!level.hasChunk(cx, cz)) {
+                    continue;
+                }
+                var chunk = level.getChunk(cx, cz);
+                int idx = chunk.getSectionIndex(y);
+                if (idx >= 0 && idx < chunk.getSectionsCount()
+                        && chunk.getSection(idx).maybeHas(st -> st.getFluidState().getType() == oil)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /** Recipiente vacío en la entrada -> lleno de petróleo en la salida. */

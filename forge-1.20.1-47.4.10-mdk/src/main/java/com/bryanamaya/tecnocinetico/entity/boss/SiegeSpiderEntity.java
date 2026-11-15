@@ -508,11 +508,11 @@ public class SiegeSpiderEntity extends Monster {
             }
             // ---- moverse: se acerca a media distancia
             if (!see || dist > 14) {
-                getNavigation().moveTo(t, 1.0D);
+                com.bryanamaya.tecnocinetico.util.Chase.moveTo(SiegeSpiderEntity.this, t, 1.0D);
             } else if (dist < 5) {
                 getNavigation().stop();
             } else {
-                getNavigation().moveTo(t, 0.7D);
+                com.bryanamaya.tecnocinetico.util.Chase.moveTo(SiegeSpiderEntity.this, t, 0.7D);
             }
         }
     }

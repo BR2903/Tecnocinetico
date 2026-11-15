@@ -197,9 +197,9 @@ public class AnchorEntity extends Monster {
                 return;
             }
             if (!see || dist > 10.0D) {
-                getNavigation().moveTo(t, 1.0D);
+                com.bryanamaya.tecnocinetico.util.Chase.moveTo(AnchorEntity.this, t, 1.0D);
             } else if (dist > 3.0D) {
-                getNavigation().moveTo(t, 0.8D);
+                com.bryanamaya.tecnocinetico.util.Chase.moveTo(AnchorEntity.this, t, 0.8D);
             } else {
                 getNavigation().stop();
             }
