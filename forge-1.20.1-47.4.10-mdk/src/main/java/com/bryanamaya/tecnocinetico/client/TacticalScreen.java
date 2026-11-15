@@ -49,7 +49,8 @@ public class TacticalScreen extends AbstractContainerScreen<TacticalMenu> {
 
     @Override
     protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
-        g.drawString(font, title, 30, 4, 0x3A3A3A, false);
+        // a la izquierda y sin pasar de la columna de munición (x 98), que empieza a la misma altura
+        g.drawString(font, font.plainSubstrByWidth(title.getString(), 86), 8, 7, 0x3A3A3A, false);
         g.drawString(font, Component.translatable("gui.tecnocinetico.gear.ammo"), 98, 7, 0x3A3A3A, false);
         g.drawString(font, Component.translatable("gui.tecnocinetico.gear.food"), 8, 124, 0x3A3A3A, false);
         g.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, 0x3A3A3A, false);
