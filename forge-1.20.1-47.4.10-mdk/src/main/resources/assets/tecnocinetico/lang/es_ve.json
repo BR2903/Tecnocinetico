@@ -730,5 +730,17 @@
   "entity.tecnocinetico.data_worm": "Gusano de Datos",
   "item.tecnocinetico.data_worm_spawn_egg": "Generar Gusano de Datos",
   "entity.tecnocinetico.data_specter": "Espectro de Datos",
-  "item.tecnocinetico.data_specter_spawn_egg": "Generar Espectro de Datos"
+  "item.tecnocinetico.data_specter_spawn_egg": "Generar Espectro de Datos",
+  "item.tecnocinetico.nether_piglin_egg": "Generar Piglin Infernal",
+  "item.tecnocinetico.nether_piglin_brute_egg": "Generar Piglin Bruto Infernal",
+  "item.tecnocinetico.nether_zombified_piglin_egg": "Generar Piglin Zombificado Infernal",
+  "item.tecnocinetico.nether_ghast_egg": "Generar Ghast Infernal",
+  "item.tecnocinetico.nether_blaze_egg": "Generar Blaze Infernal",
+  "item.tecnocinetico.nether_wither_skeleton_egg": "Generar Esqueleto Wither Infernal",
+  "item.tecnocinetico.end_enderman_egg": "Generar Enderman Corrupto",
+  "item.tecnocinetico.end_shulker_egg": "Generar Shulker Corrupto",
+  "item.tecnocinetico.end_endermite_egg": "Generar Endermite Corrupto",
+  "item.tecnocinetico.end_relay_turret_spawn_egg": "Generar Torreta-repetidor",
+  "item.tecnocinetico.matriarch_minion_spawn_egg": "Generar Cría de la Matriarca",
+  "tooltip.tecnocinetico.variant_egg": "Versión de Tecnocinético: conserva sus mejoras en cualquier dimensión"
 }

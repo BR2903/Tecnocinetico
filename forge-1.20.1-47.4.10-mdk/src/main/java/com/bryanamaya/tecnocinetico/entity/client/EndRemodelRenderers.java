@@ -51,7 +51,7 @@ public final class EndRemodelRenderers {
 
     /** El aspecto corrupto se usa solo en el End. */
     public static boolean inEnd(Entity e) {
-        return e.level() != null && e.level().dimension() == Level.END;
+        return e.level() != null && e.level().dimension() == Level.END || com.bryanamaya.tecnocinetico.entity.MobVariants.is(e, com.bryanamaya.tecnocinetico.entity.MobVariants.END);
     }
 
     @SubscribeEvent

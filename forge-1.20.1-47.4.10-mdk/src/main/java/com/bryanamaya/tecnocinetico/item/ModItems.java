@@ -558,6 +558,30 @@ public class ModItems {
     public static final RegistryObject<Item> SWARM_MATRIARCH_SPAWN_EGG = ITEMS.register("swarm_matriarch_spawn_egg",
             () -> new net.minecraftforge.common.ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.entity.ModEntities.SWARM_MATRIARCH, 0x3B4E44, 0x73EB96, new Item.Properties()));
 
+    // ---- Mobs vanilla modificados (Nether/End) con huevo propio: conservan sus mejoras en cualquier dimensión
+    public static final RegistryObject<Item> NETHER_PIGLIN_EGG = ITEMS.register("nether_piglin_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.PIGLIN, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER, 0x6B3A2A, 0xFF791B, new Item.Properties()));
+    public static final RegistryObject<Item> NETHER_PIGLIN_BRUTE_EGG = ITEMS.register("nether_piglin_brute_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.PIGLIN_BRUTE, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER, 0x4A2A20, 0xFFA525, new Item.Properties()));
+    public static final RegistryObject<Item> NETHER_ZOMBIFIED_PIGLIN_EGG = ITEMS.register("nether_zombified_piglin_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.ZOMBIFIED_PIGLIN, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER, 0x5E4A3A, 0xFF4F11, new Item.Properties()));
+    public static final RegistryObject<Item> NETHER_GHAST_EGG = ITEMS.register("nether_ghast_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.GHAST, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER, 0x3A3A3E, 0xFF791B, new Item.Properties()));
+    public static final RegistryObject<Item> NETHER_BLAZE_EGG = ITEMS.register("nether_blaze_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.BLAZE, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER, 0x352B29, 0xFFC21B, new Item.Properties()));
+    public static final RegistryObject<Item> NETHER_WITHER_SKELETON_EGG = ITEMS.register("nether_wither_skeleton_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.WITHER_SKELETON, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER, 0x1E1E22, 0xFF791B, new Item.Properties()));
+    public static final RegistryObject<Item> END_ENDERMAN_EGG = ITEMS.register("end_enderman_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.ENDERMAN, com.bryanamaya.tecnocinetico.entity.MobVariants.END, 0x161018, 0xC04CFF, new Item.Properties()));
+    public static final RegistryObject<Item> END_SHULKER_EGG = ITEMS.register("end_shulker_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.SHULKER, com.bryanamaya.tecnocinetico.entity.MobVariants.END, 0x2A2430, 0xFF4FD8, new Item.Properties()));
+    public static final RegistryObject<Item> END_ENDERMITE_EGG = ITEMS.register("end_endermite_egg",
+            () -> new VariantEggItem(() -> net.minecraft.world.entity.EntityType.ENDERMITE, com.bryanamaya.tecnocinetico.entity.MobVariants.END, 0x1A1022, 0xC04CFF, new Item.Properties()));
+    public static final RegistryObject<Item> END_RELAY_TURRET_SPAWN_EGG = ITEMS.register("end_relay_turret_spawn_egg",
+            () -> new net.minecraftforge.common.ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.entity.ModEntities.END_RELAY_TURRET, 0x241C2A, 0xFF4FD8, new Item.Properties()));
+    public static final RegistryObject<Item> MATRIARCH_MINION_SPAWN_EGG = ITEMS.register("matriarch_minion_spawn_egg",
+            () -> new net.minecraftforge.common.ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.entity.ModEntities.MATRIARCH_MINION, 0x3B4E44, 0xA8F5BE, new Item.Properties()));
+
     public static final RegistryObject<Item> VECTOR_THRUSTER = ITEMS.register("vector_thruster", () -> shipComponent("vector_thruster"));
     public static final RegistryObject<Item> ADAPTIVE_FLIGHT_CORE = ITEMS.register("adaptive_flight_core", () -> shipComponent("adaptive_flight_core"));
 

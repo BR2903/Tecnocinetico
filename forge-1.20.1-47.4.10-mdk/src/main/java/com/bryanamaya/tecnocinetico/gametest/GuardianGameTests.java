@@ -19,10 +19,10 @@ import net.minecraftforge.gametest.PrefixGameTestTemplate;
 @PrefixGameTestTemplate(false)
 public class GuardianGameTests {
     /** Persigue al Vigía desde debajo como un atacante cuerpo a cuerpo: debe volar y completar sus cuatro ataques. */
-    @GameTest(template = "empty", timeoutTicks = 560, batch = "vigia_vuelo")
+    @GameTest(template = "empty", timeoutTicks = 760, batch = "vigia_vuelo")   // 4 ataques ≈ 440 ticks: margen
     public static void watcherKeepsFlyingAndVariesAttacks(GameTestHelper h) {
         var level = h.getLevel();
-        BlockPos p = air(h);
+        BlockPos p = air(h, 36, 30);                // vuela alto y lejos: restos de otras pruebas le tapaban la vista (va solo en su lote)
         var watcher = ModEntities.NETWORK_WATCHER.get().create(level);
         watcher.moveTo(p, 0, 0); // como un huevo sobre el suelo: no regalar altura inicial a la prueba
         level.addFreshEntity(watcher);
@@ -34,7 +34,7 @@ public class GuardianGameTests {
         var seen = new java.util.HashSet<Integer>();
         double[] lowest = {Double.MAX_VALUE};
         boolean[] hit = {false};
-        for (int tick = 1; tick < 500; tick++) {
+        for (int tick = 1; tick < 700; tick++) {
             int time = tick;
             h.runAfterDelay(tick, () -> {
                 if (watcher.mode() != 0) seen.add(watcher.mode());
@@ -43,16 +43,22 @@ public class GuardianGameTests {
                 if (time > 120) {
                     var delta = watcher.position().subtract(target.position()).multiply(1, 0, 1);
                     if (delta.length() > .28) delta = delta.normalize().scale(.28);
-                    target.setPos(target.getX() + delta.x, p.getY(), target.getZ() + delta.z);
+                    double nx = target.getX() + delta.x, nz = target.getZ() + delta.z;
+                    if ((nx - p.getX()) * (nx - p.getX()) + (nz - p.getZ()) * (nz - p.getZ()) < 30 * 30) {   // sin salir de la arena (a 40 lo olvida)
+                        target.setPos(nx, p.getY(), nz);
+                    }
                 }
                 if (time > 100) lowest[0] = Math.min(lowest[0], watcher.getY() - target.getY());
             });
         }
-        h.runAfterDelay(500, () -> {
+        h.runAfterDelay(700, () -> {
             boolean alive = watcher.isAlive();
+            String state = " (ataques " + watcher.saveWithoutId(new net.minecraft.nbt.CompoundTag()).getInt("Attacks") + ", modo " + watcher.mode()
+                    + ", objetivo " + watcher.getTarget() + ", distancia " + (int) watcher.distanceTo(target) + ", ve " + watcher.hasLineOfSight(target)
+                    + ", vida objetivo " + target.getHealth() + ")";
             watcher.discard(); target.discard();
             h.assertTrue(alive && lowest[0] > 5, "El Vigía bajó a distancia de espada durante un ataque: altura " + lowest[0]);
-            h.assertTrue(seen.containsAll(java.util.Set.of(1, 2, 4, 5)), "No se observaron ráfaga, bombardeo, barrido y EMP: " + seen);
+            h.assertTrue(seen.containsAll(java.util.Set.of(1, 2, 4, 5)), "No se observaron ráfaga, bombardeo, barrido y EMP: " + seen + state);
             h.assertTrue(hit[0], "El Vigía voló y animó ataques, pero no logró dañar al objetivo real");
             h.succeed();
         });
@@ -215,15 +221,22 @@ public class GuardianGameTests {
      * del relieve del mundo de prueba (que no está en git y cambia de semilla en cada copia del repositorio).
      */
     private static BlockPos air(GameTestHelper h) {
+        return air(h, 8, 8);
+    }
+
+    /** Como {@link #air(GameTestHelper)} pero despejando {@code clear} bloques a cada lado y {@code height} hacia arriba. */
+    private static BlockPos air(GameTestHelper h, int clear, int height) {
         // altura FIJA sobre el origen de la prueba: con el relieve, la propia plataforma (que se queda guardada en el
         // mundo de prueba) subía el suelo en cada ejecución hasta salirse del mundo
         BlockPos q = h.absolutePos(BlockPos.ZERO);
         BlockPos p = new BlockPos(q.getX(), Math.min(q.getY() + 14, h.getLevel().getMaxBuildHeight() - 12), q.getZ());
         var level = h.getLevel();
-        for (int x = -8; x <= 8; x++) {
-            for (int z = -8; z <= 8; z++) {
-                level.setBlock(p.offset(x, -1, z), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
-                for (int y = 0; y <= 8; y++) {
+        for (int x = -clear; x <= clear; x++) {
+            for (int z = -clear; z <= clear; z++) {
+                if (Math.abs(x) <= 8 && Math.abs(z) <= 8) {
+                    level.setBlock(p.offset(x, -1, z), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
+                }
+                for (int y = 0; y <= height && p.getY() + y < level.getMaxBuildHeight(); y++) {
                     if (!level.getBlockState(p.offset(x, y, z)).isAir()) {
                         level.setBlock(p.offset(x, y, z), Blocks.AIR.defaultBlockState(), 3);
                     }

@@ -96,6 +96,17 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.SIEGE_SPIDER_SPAWN_EGG.get());
                         out.accept(ModItems.NETWORK_WATCHER_SPAWN_EGG.get());
                         out.accept(ModItems.SWARM_MATRIARCH_SPAWN_EGG.get());
+                        out.accept(ModItems.NETHER_PIGLIN_EGG.get());
+                        out.accept(ModItems.NETHER_PIGLIN_BRUTE_EGG.get());
+                        out.accept(ModItems.NETHER_ZOMBIFIED_PIGLIN_EGG.get());
+                        out.accept(ModItems.NETHER_GHAST_EGG.get());
+                        out.accept(ModItems.NETHER_BLAZE_EGG.get());
+                        out.accept(ModItems.NETHER_WITHER_SKELETON_EGG.get());
+                        out.accept(ModItems.END_ENDERMAN_EGG.get());
+                        out.accept(ModItems.END_SHULKER_EGG.get());
+                        out.accept(ModItems.END_ENDERMITE_EGG.get());
+                        out.accept(ModItems.END_RELAY_TURRET_SPAWN_EGG.get());
+                        out.accept(ModItems.MATRIARCH_MINION_SPAWN_EGG.get());
                         out.accept(ModBlocks.CORE_CONSOLE.get());
                     })
                     .build());

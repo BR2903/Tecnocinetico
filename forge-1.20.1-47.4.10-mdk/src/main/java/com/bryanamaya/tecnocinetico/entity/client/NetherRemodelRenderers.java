@@ -64,7 +64,7 @@ public final class NetherRemodelRenderers {
 
     /** El aspecto remodelado se usa solo en el Nether. */
     public static boolean inNether(Entity e) {
-        return e.level() != null && e.level().dimension() == Level.NETHER;
+        return e.level() != null && e.level().dimension() == Level.NETHER || com.bryanamaya.tecnocinetico.entity.MobVariants.is(e, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER);
     }
 
     @SubscribeEvent

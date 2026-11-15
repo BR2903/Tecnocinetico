@@ -251,6 +251,11 @@ public class Tecnocinetico {
         @SubscribeEvent
         public static void registerItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
             com.bryanamaya.tecnocinetico.client.MetalColors.register(event);    // lingotes = el de hierro vanilla teñido
+            for (var item : com.bryanamaya.tecnocinetico.item.ModItems.ITEMS.getEntries()) {   // huevos de mobs modificados
+                if (item.get() instanceof com.bryanamaya.tecnocinetico.item.VariantEggItem egg) {
+                    event.register((stack, layer) -> egg.color(layer), egg);
+                }
+            }
             for (var f : com.bryanamaya.tecnocinetico.fluid.ModFluids.ALL) {
                 event.register(new net.minecraftforge.client.model.DynamicFluidContainerModel.Colors(), f.bucket.get());   // cubos teñidos
             }

@@ -65,7 +65,7 @@ public final class EndMobEvents {
             return;
         }
         boolean upgraded = mob.getPersistentData().getBoolean(UPGRADED);
-        if (!inEnd(event.getLevel())) {
+        if (!inEnd(event.getLevel()) && !com.bryanamaya.tecnocinetico.entity.MobVariants.is(mob, com.bryanamaya.tecnocinetico.entity.MobVariants.END)) {           // los de huevo de Tecnocinético: en todas partes
             if (upgraded) {
                 restore(mob);                                                 // salió del End: vuelve a ser vanilla
             }
@@ -129,8 +129,8 @@ public final class EndMobEvents {
 
     @SubscribeEvent
     public static void enemyTick(LivingEvent.LivingTickEvent event) {
-        if (!(event.getEntity() instanceof Mob mob) || !(mob.level() instanceof ServerLevel server) || !inEnd(server)
-                || NetherMobEvents.clock(mob) % 10 != 0) {
+        if (!(event.getEntity() instanceof Mob mob) || !(mob.level() instanceof ServerLevel server) || NetherMobEvents.clock(mob) % 10 != 0
+                || !inEnd(server) && !com.bryanamaya.tecnocinetico.entity.MobVariants.is(mob, com.bryanamaya.tecnocinetico.entity.MobVariants.END)) {
             return;
         }
         if (mob.getTarget() instanceof Player old && (old.isCreative() || old.isSpectator())) {

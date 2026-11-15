@@ -730,5 +730,17 @@
   "entity.tecnocinetico.data_worm": "Data Worm",
   "item.tecnocinetico.data_worm_spawn_egg": "Data Worm Spawn Egg",
   "entity.tecnocinetico.data_specter": "Data Specter",
-  "item.tecnocinetico.data_specter_spawn_egg": "Data Specter Spawn Egg"
+  "item.tecnocinetico.data_specter_spawn_egg": "Data Specter Spawn Egg",
+  "item.tecnocinetico.nether_piglin_egg": "Infernal Piglin Spawn Egg",
+  "item.tecnocinetico.nether_piglin_brute_egg": "Infernal Piglin Brute Spawn Egg",
+  "item.tecnocinetico.nether_zombified_piglin_egg": "Infernal Zombified Piglin Spawn Egg",
+  "item.tecnocinetico.nether_ghast_egg": "Infernal Ghast Spawn Egg",
+  "item.tecnocinetico.nether_blaze_egg": "Infernal Blaze Spawn Egg",
+  "item.tecnocinetico.nether_wither_skeleton_egg": "Infernal Wither Skeleton Spawn Egg",
+  "item.tecnocinetico.end_enderman_egg": "Corrupted Enderman Spawn Egg",
+  "item.tecnocinetico.end_shulker_egg": "Corrupted Shulker Spawn Egg",
+  "item.tecnocinetico.end_endermite_egg": "Corrupted Endermite Spawn Egg",
+  "item.tecnocinetico.end_relay_turret_spawn_egg": "Relay Turret Spawn Egg",
+  "item.tecnocinetico.matriarch_minion_spawn_egg": "Matriarch Broodling Spawn Egg",
+  "tooltip.tecnocinetico.variant_egg": "Tecnocinético version: keeps its upgrades in any dimension"
 }

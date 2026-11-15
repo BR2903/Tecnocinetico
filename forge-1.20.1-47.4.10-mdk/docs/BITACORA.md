@@ -866,3 +866,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - La Torreta Centinela y la Torreta-repetidor del End buscan objetivo con vista cada 4 ticks (antes cada tick, un rayo por jugador cercano); la centinela además olvida el objetivo cuando deja de verlo.
 - Revisado sin cambios: generadores y reactor (ya cachean a quién mandan energía), esquiva del Dragón, eventos de aparición y de minería. 93 pruebas.
 
+## 2026-11-15 — Claude — Huevos de todos los mobs nuevos y modificados
+- Pedido del usuario: todos los mobs nuevos, también los modificados, en la pestaña de Tecnocinético.
+- Faltaban: Torreta-repetidor y Cría de la Matriarca (huevos normales).
+- Modificados (vanilla mejorados en su dimensión): Piglin, Piglin Bruto, Piglin Zombificado, Ghast, Blaze y Esqueleto Wither **Infernales**; Enderman, Shulker y Endermite **Corruptos**. Sus huevos (`VariantEggItem`) los crean ya marcados (`MobVariants`): conservan vida, armas, ataques y aspecto en cualquier dimensión (los piglins no se zombifican fuera del Nether). Los que aparecen de forma natural siguen igual que antes (solo en su dimensión). El Dragón no tiene huevo (fuera del End rompería bloques y daría vueltas al 0,0).
+- Prueba `VariantEggGameTests`. La del Vigía (`watcherKeepsFlyingAndVariesAttacks`) dependía de dónde caía en la rejilla de pruebas: el "atacante" se iba a más de 40 bloques (el Vigía lo olvida) y restos de otras pruebas le tapaban la vista; ahora la arena es grande (va sola en su lote) y el atacante no sale de ella. 94 pruebas.
+

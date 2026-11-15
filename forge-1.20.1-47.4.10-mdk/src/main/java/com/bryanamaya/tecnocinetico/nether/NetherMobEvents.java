@@ -80,11 +80,13 @@ public final class NetherMobEvents {
         if (event.getLevel().isClientSide) {
             return;
         }
-        if (event.getLevel().dimension() != Level.NETHER) {
+        boolean nether = event.getLevel().dimension() == Level.NETHER;
+        if (!nether && !(event.getEntity() instanceof Mob m && com.bryanamaya.tecnocinetico.entity.MobVariants.is(m, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER))
+                && !(event.getEntity() instanceof LargeFireball f && f.getOwner() != null && com.bryanamaya.tecnocinetico.entity.MobVariants.is(f.getOwner(), com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER))) {
             if (event.getEntity() instanceof Mob mob && mob.getPersistentData().getBoolean(UPGRADED)) {
                 restore(mob);                                                 // salió del Nether: vuelve a ser vanilla
             }
-            return;
+            return;                                                           // (los de huevo de Tecnocinético lo son en todas partes)
         }
         if (event.getEntity() instanceof LargeFireball fireball) {            // bolas de ghast más potentes
             CompoundTag tag = fireball.saveWithoutId(new CompoundTag());
@@ -204,8 +206,8 @@ public final class NetherMobEvents {
 
     @SubscribeEvent
     public static void enemyTick(LivingEvent.LivingTickEvent event) {
-        if (!(event.getEntity() instanceof Mob mob) || !(mob.level() instanceof ServerLevel server) || server.dimension() != Level.NETHER
-                || clock(mob) % 10 != 0) {
+        if (!(event.getEntity() instanceof Mob mob) || !(mob.level() instanceof ServerLevel server) || clock(mob) % 10 != 0
+                || server.dimension() != Level.NETHER && !com.bryanamaya.tecnocinetico.entity.MobVariants.is(mob, com.bryanamaya.tecnocinetico.entity.MobVariants.NETHER)) {
             return;
         }
         if (armedPiglin(mob) && mob.getPersistentData().getBoolean(UPGRADED) && !holdsNetherWeapon(mob)) {
