@@ -248,6 +248,16 @@ public class ModItems {
                     .rarity(net.minecraft.world.item.Rarity.EPIC)));
     public static final RegistryObject<Item> ABYSSAL_COMPONENT = ITEMS.register("abyssal_component",
             () -> new Item(new Item.Properties().fireResistant().rarity(net.minecraft.world.item.Rarity.RARE)));
+    // Dragón del End modificado: botín (end/EndArena)
+    public static final RegistryObject<Item> END_COUPLER = ITEMS.register("end_coupler",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.LoreItem("tooltip.tecnocinetico.end_coupler", true,
+                    new Item.Properties().stacksTo(16).rarity(net.minecraft.world.item.Rarity.EPIC)));
+    public static final RegistryObject<Item> DATA_CORE = ITEMS.register("data_core",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.LoreItem("tooltip.tecnocinetico.data_core", false,
+                    new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
+    public static final RegistryObject<Item> NAVIGATION_CORE = ITEMS.register("navigation_core",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.LoreItem("tooltip.tecnocinetico.navigation_core", true,
+                    new Item.Properties().stacksTo(16).fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)));
     // Devorador de Escoria: botín (material del arma de tier 3 del Nether)
     public static final RegistryObject<Item> FORGE_HEART = ITEMS.register("forge_heart",
             () -> new Item(new Item.Properties().stacksTo(16).fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)));

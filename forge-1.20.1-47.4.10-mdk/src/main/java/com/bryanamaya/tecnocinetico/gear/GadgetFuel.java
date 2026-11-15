@@ -83,7 +83,7 @@ public final class GadgetFuel {
      * inventario del jugador (el que más rinde primero no: el primero que encuentre). Devuelve true si repostó.
      */
     public static boolean autoRefuel(Player p, TacticalGear g, int slot) {
-        ItemStack gadget = g.active(slot);
+        ItemStack gadget = g.active(p, slot);
         if (gadget.isEmpty() || !usesFuel(gadget.getItem())) {
             return false;
         }

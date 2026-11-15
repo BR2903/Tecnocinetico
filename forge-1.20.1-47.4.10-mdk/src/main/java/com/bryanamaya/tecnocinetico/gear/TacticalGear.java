@@ -80,6 +80,21 @@ public class TacticalGear {
         return enabled(slot) ? get(slot) : ItemStack.EMPTY;
     }
 
+    /**
+     * Como {@link #active(int)} pero con el Pulso EMP: si el jugador lo sufre, los gadgets no funcionan salvo los
+     * Mk III (apantallados). Úsalo siempre que haya jugador.
+     */
+    public ItemStack active(net.minecraft.world.entity.player.Player p, int slot) {
+        ItemStack s = active(slot);
+        return jammed(p, s) ? ItemStack.EMPTY : s;
+    }
+
+    /** ¿El EMP apaga este gadget? */
+    public static boolean jammed(net.minecraft.world.entity.player.Player p, ItemStack gadget) {
+        return !gadget.isEmpty() && p.hasEffect(com.bryanamaya.tecnocinetico.effect.ModEffects.EMP.get())
+                && !(gadget.getItem() instanceof NetherGadgetItem && NetherGadgetItem.level(gadget) >= 3);
+    }
+
     /** El visor se enciende/apaga como su ranura (tecla N o el botón del Equipo Táctico). */
     public boolean visorOn() {
         return enabled(FACE);

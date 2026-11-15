@@ -5,12 +5,13 @@ import net.minecraft.world.item.ItemStack;
 
 /**
  * Gadget del Nether (Refrigerador Térmico, Filtro de Ceniza, Botas de Anclaje) con dos niveles, como el jetpack:
- * NBT {@code Level} 1 o 2. El Mk II (con un Componente de Forja Abisal del Fundidor del Abismo, receta
+ * NBT {@code Level} 1 a 3. Mk III (con un Núcleo de Datos del Dragón modificado): triple batería, apantallado contra
+ * el Pulso EMP y el filtro además filtra la corrupción de datos del End. El Mk II (con un Componente de Forja Abisal del Fundidor del Abismo, receta
  * {@code nether_gadget_upgrade}) tiene el doble de batería y un efecto más fuerte (ver nether/NetherHazards).
  */
 public class NetherGadgetItem extends GadgetItem {
 
-    public static final int MAX_LEVEL = 2;
+    public static final int MAX_LEVEL = 3;
     private final int battery;
 
     public NetherGadgetItem(int slot, int battery, String effectKey, Properties properties) {
@@ -35,7 +36,9 @@ public class NetherGadgetItem extends GadgetItem {
     @Override
     public Component getName(ItemStack stack) {
         Component base = super.getName(stack);
-        return level(stack) >= 2 ? Component.translatable("item.tecnocinetico.gadget_mk2", base) : base;
+        int lvl = level(stack);
+        return lvl >= 3 ? Component.translatable("item.tecnocinetico.gadget_mk3", base)
+                : lvl >= 2 ? Component.translatable("item.tecnocinetico.gadget_mk2", base) : base;
     }
 
     @Override
@@ -44,6 +47,9 @@ public class NetherGadgetItem extends GadgetItem {
         super.appendHoverText(stack, level, tooltip, flag);
         if (level(stack) >= 2) {
             tooltip.add(Component.translatable(getDescriptionId() + ".mk2").withStyle(net.minecraft.ChatFormatting.GOLD));
+        }
+        if (level(stack) >= 3) {
+            tooltip.add(Component.translatable("tooltip.tecnocinetico.gadget_mk3").withStyle(net.minecraft.ChatFormatting.LIGHT_PURPLE));
         }
     }
 }

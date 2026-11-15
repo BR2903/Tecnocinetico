@@ -61,6 +61,7 @@
     "tecnocinetico:infernal_casing",
     "tecnocinetico:refinery",
     "tecnocinetico:oil_pump",
-    "tecnocinetico:fuel_generator"
+    "tecnocinetico:fuel_generator",
+    "tecnocinetico:corrupted_end_stone"
   ]
 }

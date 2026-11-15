@@ -45,6 +45,15 @@ public class ModEntities {
                     .clientTrackingRange(10)
                     .build("hive_node"));
 
+    // Torreta-repetidor del End (sustituye a los cristales en la pelea del Dragón modificado)
+    public static final RegistryObject<EntityType<com.bryanamaya.tecnocinetico.end.EndRelayTurretEntity>> END_RELAY_TURRET =
+            ENTITY_TYPES.register("end_relay_turret", () -> EntityType.Builder.<com.bryanamaya.tecnocinetico.end.EndRelayTurretEntity>of(
+                            com.bryanamaya.tecnocinetico.end.EndRelayTurretEntity::new, MobCategory.MONSTER)
+                    .sized(1.2f, 1.6f)
+                    .fireImmune()
+                    .clientTrackingRange(16)
+                    .build("end_relay_turret"));
+
     // Torreta Centinela de las instalaciones de la IA
     public static final RegistryObject<EntityType<SentryTurretEntity>> SENTRY_TURRET =
             ENTITY_TYPES.register("sentry_turret", () -> EntityType.Builder.<SentryTurretEntity>of(SentryTurretEntity::new, MobCategory.MONSTER)

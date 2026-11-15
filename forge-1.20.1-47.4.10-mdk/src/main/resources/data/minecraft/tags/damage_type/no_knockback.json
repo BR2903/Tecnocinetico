@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "tecnocinetico:radiation"
+    "tecnocinetico:radiation",
+    "tecnocinetico:data_corruption"
   ]
 }

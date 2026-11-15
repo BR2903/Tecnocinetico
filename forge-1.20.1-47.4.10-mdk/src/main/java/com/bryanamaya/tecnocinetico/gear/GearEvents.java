@@ -167,7 +167,8 @@ public final class GearEvents {
         }
         // Visor de Visión Nocturna (cara)
         ItemStack face = g.get(TacticalGear.FACE);
-        boolean visor = face.is(ModItems.NIGHT_VISION_VISOR.get()) && g.visorOn() && GadgetItem.hasCharge(face);
+        boolean visor = face.is(ModItems.NIGHT_VISION_VISOR.get()) && g.visorOn() && GadgetItem.hasCharge(face)
+                && !TacticalGear.jammed(p, face);                            // el EMP también apaga el visor
         MobEffectInstance nv = p.getEffect(MobEffects.NIGHT_VISION);
         if (visor) {
             if (t % 20 == 0) {
@@ -179,7 +180,7 @@ public final class GearEvents {
             p.removeEffect(MobEffects.NIGHT_VISION);                     // solo quita la del visor, no la de pociones
         }
         // Propulsor Acuático (pies)
-        ItemStack feet = g.active(TacticalGear.FEET);
+        ItemStack feet = g.active(p, TacticalGear.FEET);
         if (feet.is(ModItems.AQUA_PROPULSOR.get()) && GadgetItem.hasCharge(feet) && p.isInWater()) {
             if (t % 10 == 0) {
                 p.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 30, 0, true, false, true));
@@ -191,7 +192,7 @@ public final class GearEvents {
         }
         // Jetpack (espalda): el cliente avisa de que empuja; aquí batería, caída y efectos
         if (THRUSTING.contains(p.getUUID())) {
-            ItemStack back = g.active(TacticalGear.BACK);
+            ItemStack back = g.active(p, TacticalGear.BACK);
             if (!back.is(ModItems.JETPACK.get()) || !GadgetItem.hasCharge(back) || p.onGround()
                     || p.hasEffect(com.bryanamaya.tecnocinetico.effect.ModEffects.INERTIA_ANCHOR.get())) {
                 THRUSTING.remove(p.getUUID());

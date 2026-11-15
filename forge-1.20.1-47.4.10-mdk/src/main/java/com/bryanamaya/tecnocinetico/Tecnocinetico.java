@@ -81,6 +81,7 @@ public class Tecnocinetico {
             event.put(ModEntities.SWARM_BODY.get(), SwarmBodyEntity.createAttributes().build());
             event.put(ModEntities.SWARM_WASP.get(), com.bryanamaya.tecnocinetico.entity.swarm.SwarmWaspEntity.createAttributes().build());
             event.put(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.swarm.HiveNodeEntity.createAttributes().build());
+            event.put(ModEntities.END_RELAY_TURRET.get(), com.bryanamaya.tecnocinetico.end.EndRelayTurretEntity.createAttributes().build());
             event.put(ModEntities.SENTRY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.custom.SentryTurretEntity.createAttributes().build());
             event.put(ModEntities.DRONE.get(), com.bryanamaya.tecnocinetico.entity.custom.DroneEntity.createAttributes().build());
             event.put(ModEntities.SIEGE_SPIDER.get(), com.bryanamaya.tecnocinetico.entity.boss.SiegeSpiderEntity.createAttributes().build());
@@ -302,6 +303,8 @@ public class Tecnocinetico {
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SlagDevourerModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.SlagDevourerModel::createBodyLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DroneModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.DroneModel::createLayer);
+            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.EndRelayTurretRenderer.LAYER,
+                    com.bryanamaya.tecnocinetico.entity.client.EndRelayTurretModel::createBodyLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SentryTurretModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.SentryTurretModel::createLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.client.WornGearModel.LAYER,
@@ -327,6 +330,7 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.SWARM_BODY.get(), SwarmBodyRenderer::new);
             event.registerEntityRenderer(ModEntities.SWARM_WASP.get(), com.bryanamaya.tecnocinetico.entity.client.SwarmWaspRenderer::new);
             event.registerEntityRenderer(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.client.HiveNodeRenderer::new);
+            event.registerEntityRenderer(ModEntities.END_RELAY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.client.EndRelayTurretRenderer::new);
             event.registerEntityRenderer(ModEntities.SENTRY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.client.SentryTurretRenderer::new);
             event.registerEntityRenderer(ModEntities.DRONE.get(), com.bryanamaya.tecnocinetico.entity.client.DroneRenderer::new);
             event.registerEntityRenderer(com.bryanamaya.tecnocinetico.nether.NetherEntities.MITE.get(), c ->

@@ -821,3 +821,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Modelos corrompidos de Codex (`EndRemodelLayers`, `tools/end_remodel_gen.py`, vista previa en `build/end_remodel/`) conectados en `EndRemodelRenderers` solo dentro del End: el enderman cambia los ojos vanilla por su brillo; el shulker usa una sola textura también en la cabeza (sustituye `ShulkerHeadLayer`).
 - Prueba `EndMobGameTests.endCorruptedMobs`. 81 pruebas pasan.
 
+## 2026-11-14 — Claude + Codex — End, parte 2: llegada y Dragón modificado
+- Detalle en `docs/PLAN_END.md` (parte 2). Torres rotas, despertar con temblor y corrupción del suelo, Dragón del End Corrompido (400 vida, dureza en grupo) con 10 Torretas-repetidor que lo curan y disparan, aliento corrompido (efecto Corrupción de datos), Pulso EMP (efecto que apaga gadgets salvo Mk III), Lluvia de datos y refuerzos a mitad de vida. Botín por jugador: Acoplador del End (salto al End, en el Ensamblador sobre el del Nether), Núcleo de Datos (gadgets del Nether Mk III), Núcleo de Navegación (siguiente paso) y nulita.
+- Técnica: access transformer activado en `build.gradle` para `EndDragonFight`; estado en `EndArenaData` (SavedData del End); partículas y daño en el servidor, temblor por paquete (id 20).
+- Arte de Codex: torreta (`EndRelayTurretModel`), textura del Dragón (sustituye `minecraft:textures/entity/enderdragon/dragon.png` y `dragon_eyes.png`, dibujo propio sobre el UV vanilla), `corrupted_end_stone`, objetos, iconos de efectos y superposición de corrupción (`tools/end_part2_gen.py`).
+- 83 pruebas pasan.
+

@@ -198,6 +198,21 @@ public final class MachineRecipes {
         return ItemStack.EMPTY;
     }
 
+    /** Acoplador del End: solo en un caza que ya lleve el del Nether (progresión) y no tenga este. */
+    private static ItemStack installEndDrive(List<ItemStack> slots) {
+        for (ItemStack s : slots) {
+            if (s.is(ModItems.CORE_FIGHTER.get())) {
+                if (s.getTag() == null || !s.getTag().getBoolean("NetherDrive") || s.getTag().getBoolean("EndDrive")) {
+                    return ItemStack.EMPTY;
+                }
+                ItemStack out = s.copyWithCount(1);
+                out.getOrCreateTag().putBoolean("EndDrive", true);
+                return out;
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
     private static Supplier<Item> blockItem(Supplier<? extends net.minecraft.world.level.block.Block> b) {
         return () -> b.get().asItem();
     }
@@ -217,6 +232,10 @@ public final class MachineRecipes {
             new Assembly(List.of(of(ModItems.CORE_FIGHTER, 1), of(ModItems.NETHER_COUPLER, 1), of(ModItems.PIROXITE_INGOT, 8),
                     of(ModItems.SLAG_ALLOY, 8), of(ModItems.ABYSSAL_COMPONENT, 2)),
                     ModItems.CORE_FIGHTER, 1, 1200, 1500, MachineRecipes::installNetherDrive),
+            // instalar el Acoplador del End (botín del Dragón modificado): salto al End; pide el del Nether ya puesto
+            new Assembly(List.of(of(ModItems.CORE_FIGHTER, 1), of(ModItems.END_COUPLER, 1), of(ModItems.NULLITE_INGOT, 12),
+                    of(ModItems.DATA_CORE, 1), of(ModItems.CORE_PROCESSOR, 2)),
+                    ModItems.CORE_FIGHTER, 1, 1600, 2500, MachineRecipes::installEndDrive),
             // piezas del Taladro de Combustión (se termina en el Ensamblador de Armas)
             new Assembly(List.of(of(ModItems.TITANIUM_INGOT, 6), of(v(Items.DIAMOND), 4), of(ModItems.INERCITA_PLATE, 2),
                     of(ModItems.KINETIC_SERVO, 1)),

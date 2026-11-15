@@ -17,6 +17,12 @@ public final class ModEffects {
     /** Radiación: la da el uranio (llevarlo encima o estar cerca). Ver RadiationEvents. */
     public static final RegistryObject<MobEffect> RADIATION = EFFECTS.register("radiation", RadiationEffect::new);
 
+    /** Corrupción de datos (End): daño en el tiempo y glitches en pantalla. */
+    public static final RegistryObject<MobEffect> DATA_CORRUPTION = EFFECTS.register("data_corruption", DataCorruptionEffect::new);
+
+    /** Pulso EMP (End): apaga los gadgets que no sean Mk III. */
+    public static final RegistryObject<MobEffect> EMP = EFFECTS.register("emp", EmpEffect::new);
+
     private ModEffects() {}
 
     public static void register(IEventBus bus) {

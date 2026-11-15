@@ -50,6 +50,11 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.END_STONE)
                     .strength(5.0f, 9.0f).requiresCorrectToolForDrops()));
 
+    /** Piedra del End corrompida: la red de datos se extiende por la isla al despertar el Dragón (end/EndArena). */
+    public static final RegistryObject<Block> CORRUPTED_END_STONE = registerBlock("corrupted_end_stone",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.END_STONE).strength(3.5f, 9.0f).requiresCorrectToolForDrops()
+                    .lightLevel(s -> 4)));
+
     // --- ALEACIÓN ANTIGUA ---
     public static final RegistryObject<Block> ANCIENT_ALLOY_BLOCK = registerBlock("ancient_alloy_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f).sound(SoundType.NETHERITE_BLOCK)));

@@ -185,3 +185,6 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 ## End
 - `end/EndMobEvents`: mobs vanilla del End corrompidos (atributos guardados en NBT `EndCorrupted`/`EndOriginal*` y restaurados fuera del End; salto de desfase del enderman y ráfaga del shulker con el reloj de `NetherMobEvents.clock`).
 - `entity/client/EndRemodelRenderers` + `EndRemodelLayers` (Codex): aspecto corrompido solo en el End. `client/GlitchParticle`: partícula `data_glitch`.
+- `end/EndArena` (pelea del Dragón modificado: torres rotas, despertar, ataques, botín) + `EndArenaData` (SavedData) + `EndRelayTurretEntity` (renderizador `entity/client/EndRelayTurretRenderer`). Accede a `EndDragonFight.dragonEvent/dragonKilled/dragonUUID` por el access transformer `META-INF/accesstransformer.cfg`.
+- Efectos `effect/DataCorruptionEffect` y `EmpEffect`; `TacticalGear.active(Player, slot)` y `jammed()` aplican el EMP (usar siempre la versión con jugador). `network/EndQuakePacket` → `end/ClientEndData` → `client/EndClientEffects` (temblor de cámara y superposición de corrupción).
+

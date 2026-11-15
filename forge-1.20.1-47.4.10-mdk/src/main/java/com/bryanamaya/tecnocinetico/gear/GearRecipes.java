@@ -92,8 +92,9 @@ public final class GearRecipes {
             }
             for (int k = 0; k < 2; k++) {
                 ItemStack g = p[k], part = p[1 - k];
+                // Mk I + Componente de Forja Abisal = Mk II; Mk II + Núcleo de Datos (Dragón del End) = Mk III
                 if (g.getItem() instanceof NetherGadgetItem && NetherGadgetItem.level(g) < NetherGadgetItem.MAX_LEVEL
-                        && part.is(ModItems.ABYSSAL_COMPONENT.get())) {
+                        && part.is(NetherGadgetItem.level(g) == 1 ? ModItems.ABYSSAL_COMPONENT.get() : ModItems.DATA_CORE.get())) {
                     return g;
                 }
             }

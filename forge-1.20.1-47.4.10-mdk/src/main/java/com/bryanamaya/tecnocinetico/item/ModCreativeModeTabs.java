@@ -59,6 +59,9 @@ public class ModCreativeModeTabs {
                         }
                         out.accept(ModItems.ABYSSAL_COMPONENT.get());
                         out.accept(ModItems.NETHER_COUPLER.get());
+                        out.accept(ModItems.END_COUPLER.get());
+                        out.accept(ModItems.DATA_CORE.get());
+                        out.accept(ModItems.NAVIGATION_CORE.get());
                         out.accept(ModItems.FORGE_HEART.get());
                         for (int lvl = 1; lvl <= com.bryanamaya.tecnocinetico.gear.JetpackItem.MAX_LEVEL; lvl++) {
                             ItemStack jet = new ItemStack(ModItems.JETPACK.get());
@@ -316,6 +319,7 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.SULFUR_DUST.get());                 // Nether: ácaros y centinelas
                         out.accept(ModItems.SLAG_ALLOY.get());
                         out.accept(ModBlocks.NULLITE_ORE.get());
+                        out.accept(ModBlocks.CORRUPTED_END_STONE.get());
                         out.accept(ModItems.RAW_NULLITE.get());
                         out.accept(ModItems.NULLITE_INGOT.get());
                         out.accept(ModItems.DIMENSIONAL_DRIVE.get());

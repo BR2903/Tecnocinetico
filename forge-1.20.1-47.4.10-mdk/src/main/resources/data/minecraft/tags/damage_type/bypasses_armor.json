@@ -4,6 +4,7 @@
     "tecnocinetico:radiation",
     "tecnocinetico:overheat",
     "tecnocinetico:ash_lungs",
-    "tecnocinetico:kinetic_impact"
+    "tecnocinetico:kinetic_impact",
+    "tecnocinetico:data_corruption"
   ]
 }
