@@ -888,3 +888,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Arte de Codex: iconos, GUI y la pieza del brazo (`tools/wrist_map_gen.py`; vistas en `build/wrist_map/`).
 - Pruebas `MapGameTests` (4). 99 pruebas.
 
+## 2026-11-15 — Claude — Modpack v1 para probar de verdad
+- Carpeta en el escritorio "Tecnocinetico Modpack v1": instalador de Forge 1.20.1-47.4.10, `mods/` (el jar del mod + Create 6.0.8, Create Crafts & Additions 1.3.3 y JEI 15.74.0.234 oficiales de Modrinth, comprobados por SHA-1) y LEEME.txt con la instalación (cliente, LAN y servidor dedicado).
+- `build.gradle`: `filteringCharset = 'UTF-8'` en processResources (en Windows el mods.toml del jar salía en Windows-1252 y "Tecnocinético" se vería roto en la lista de mods).
+- Sin probar aún con el juego real (cliente ni servidor dedicado).
+

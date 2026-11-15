@@ -197,6 +197,7 @@ tasks.named('processResources', ProcessResources).configure {
             mod_authors: mod_authors, mod_description: mod_description,
     ]
     inputs.properties replaceProperties
+    filteringCharset = 'UTF-8'   // si no, Windows escribe mods.toml en su codificación y "Tecnocinético" sale roto en la lista de mods
 
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
