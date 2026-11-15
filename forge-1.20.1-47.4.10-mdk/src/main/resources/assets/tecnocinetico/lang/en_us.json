@@ -876,5 +876,9 @@
   "message.tecnocinetico.hack.no_target": "You are not looking at a hackable machine",
   "message.tecnocinetico.hack.lost": "Connection lost",
   "message.tecnocinetico.hack.progress": "Hacking %s",
-  "message.tecnocinetico.hack.done": "%s hacked: it fights for you for %s s"
+  "message.tecnocinetico.hack.done": "%s hacked: it fights for you for %s s",
+  "commands.tecnocinetico.tecnoperf.arena": "Performance arena: %s idle mobs in front of you. Measure with /medirfps <seconds>",
+  "commands.tecnocinetico.tecnoperf.cleared": "Removed %s arena mobs",
+  "commands.tecnocinetico.medirfps.start": "Measuring rendering for %s s...",
+  "commands.tecnocinetico.medirfps.done": "Done: %s FPS on average. Results in %s"
 }
