@@ -19,17 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Pantalla del Reloj de Navegación: el terreno explorado ({@link MapExplorer}) con las estructuras detectadas, los
- * marcadores y el jugador encima. Arrastrar mueve, la rueda acerca/aleja, clic derecho pone un marcador (o edita uno
- * propio). A la derecha: buscar una estructura concreta (el satélite la localiza) y la lista de marcadores.
+ * Pantalla del Reloj de Navegación con aspecto de terminal táctico (ámbar sobre grafito, como la pantalla del reloj):
+ * el terreno explorado ({@link MapExplorer}) bajo una cuadrícula con coordenadas, líneas de barrido, un barrido de radar,
+ * viñeta y marco con esquinas; encima las estructuras (rombos), los marcadores (chinchetas), los jugadores y el objetivo
+ * fijado. Arrastrar mueve, la rueda acerca/aleja, clic derecho pone un marcador (o edita uno propio). A la derecha:
+ * localizador de estructuras, marcadores y estado del enlace.
  */
 public class WristMapScreen extends Screen {
 
     private static final float[] ZOOMS = {0.25F, 0.5F, 1.0F, 2.0F, 4.0F, 8.0F};
     private static final int[] COLORS = {0xFF5555, 0xFFAA00, 0xFFFF55, 0x55FF55, 0x55FFFF, 0x5599FF, 0xFF55FF, 0xFFFFFF};
-    private static final int PANEL = 150, PAD = 6, TOP = 22, BOTTOM = 18;
-    private static final int BG = 0xE0101418, FRAME = 0xFF3A4048, TEXT = 0xFFE0E0E0, DIM = 0xFF9AA0A8, ACCENT = 0xFFF0B030;
-    private static final int ROW = 11;
+    private static final int PANEL = 150, PAD = 8, TOP = 24, BOTTOM = 22, ROW = 12;
+    // paleta: ámbar de pantalla sobre grafito
+    static final int BG = 0xF206080A, PANEL_BG = 0xE00E1215, AMBER = 0xFFF0B030, AMBER_DIM = 0xFF8A6418, AMBER_LOW = 0xFF4A3A1A,
+            TEXT = 0xFFEBDDB8, DIM = 0xFF9A8A6A, ALERT = 0xFFFF5A40, OK = 0xFF7CD860, VOID = 0xFF07090B;
 
     private double cx, cz;
     private int zoom = 2;
@@ -39,6 +42,7 @@ public class WristMapScreen extends Screen {
     @Nullable
     private NavigationData.Found target;
     private long targetTime;
+    private final long opened = System.currentTimeMillis();
 
     // editor de marcadores
     private boolean editing;
@@ -53,6 +57,33 @@ public class WristMapScreen extends Screen {
     public WristMapScreen() {
         super(Component.translatable("map.tecnocinetico.title"));
     }
+
+    // ------------------------------------------------------------------ botón con el estilo del terminal
+
+    /** Botón plano con contorno ámbar (los vanilla desentonan con el terminal). */
+    static class TechButton extends Button {
+        TechButton(int x, int y, int w, int h, Component msg, OnPress press) {
+            super(x, y, w, h, msg, press, DEFAULT_NARRATION);
+        }
+
+        @Override
+        protected void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partial) {
+            boolean hot = isHoveredOrFocused() && active;
+            int x0 = getX(), y0 = getY(), x1 = x0 + width, y1 = y0 + height;
+            g.fill(x0, y0, x1, y1, !active ? 0xC0101214 : hot ? 0xF0322610 : 0xE0161A1E);
+            outline(g, x0, y0, x1, y1, !active ? AMBER_LOW : hot ? AMBER : AMBER_DIM);
+            g.fill(x0 + 1, y1 - 2, x1 - 1, y1 - 1, hot ? 0x60F0B030 : 0x30F0B030);           // línea de luz inferior
+            var font = Minecraft.getInstance().font;
+            String text = font.plainSubstrByWidth(getMessage().getString(), width - 4);
+            g.drawString(font, text, x0 + (width - font.width(text)) / 2, y0 + (height - 8) / 2, !active ? DIM : hot ? 0xFFFFE6B0 : AMBER, false);
+        }
+    }
+
+    private Button button(int x, int y, int w, int h, Component msg, Button.OnPress press) {
+        return new TechButton(x, y, w, h, msg, press);
+    }
+
+    // ------------------------------------------------------------------ coordenadas
 
     private Player player() {
         return Minecraft.getInstance().player;
@@ -102,6 +133,10 @@ public class WristMapScreen extends Screen {
         return mx >= mapX0() && mx < mapX1() && my >= mapY0() && my < mapY1();
     }
 
+    private long now() {
+        return System.currentTimeMillis();
+    }
+
     @Override
     protected void init() {
         if (cx == 0 && cz == 0) {
@@ -111,34 +146,32 @@ public class WristMapScreen extends Screen {
         entries = MapCatalog.in(player().level().dimension());
         entry = Mth.clamp(entry, 0, Math.max(0, entries.size() - 1));
         int px = width - PANEL;
-        addRenderableWidget(Button.builder(Component.literal("<"), b -> entry = Math.floorMod(entry - 1, Math.max(1, entries.size())))
-                .bounds(px, TOP + 12, 16, 16).build());
-        addRenderableWidget(Button.builder(Component.literal(">"), b -> entry = Math.floorMod(entry + 1, Math.max(1, entries.size())))
-                .bounds(width - PAD - 16, TOP + 12, 16, 16).build());
-        addRenderableWidget(Button.builder(Component.translatable("map.tecnocinetico.search_button"), b -> {
+        addRenderableWidget(button(px + 2, TOP + 16, 14, 14, Component.literal("<"),
+                b -> entry = Math.floorMod(entry - 1, Math.max(1, entries.size()))));
+        addRenderableWidget(button(width - PAD - 14, TOP + 16, 14, 14, Component.literal(">"),
+                b -> entry = Math.floorMod(entry + 1, Math.max(1, entries.size()))));
+        addRenderableWidget(button(px + 2, TOP + 34, PANEL - PAD - 2, 16, Component.translatable("map.tecnocinetico.search_button"), b -> {
             if (!entries.isEmpty()) {
                 ModNetwork.CHANNEL.sendToServer(MapPackets.Action.locate(entries.get(entry).key()));
             }
-        }).bounds(px, TOP + 32, PANEL - PAD, 18).build());
-        addRenderableWidget(Button.builder(Component.translatable("map.tecnocinetico.center"), b -> {
+        }));
+        addRenderableWidget(button(px + 2, TOP + 54, PANEL - PAD - 2, 16, Component.translatable("map.tecnocinetico.center"), b -> {
             cx = player().getX();
             cz = player().getZ();
-        }).bounds(px, TOP + 54, PANEL - PAD, 18).build());
+        }));
         // editor (oculto hasta que se abre)
         editorWidgets.clear();
-        int ex = width / 2 - 90, ey = height / 2 - 40;
-        nameBox = new EditBox(font, ex + 6, ey + 18, 168, 16, Component.translatable("map.tecnocinetico.marker.new"));
+        int ex = width / 2 - 90, ey = height / 2 - 44;
+        nameBox = new EditBox(font, ex + 9, ey + 26, 162, 12, Component.translatable("map.tecnocinetico.marker.new"));
+        nameBox.setBordered(false);
+        nameBox.setTextColor(TEXT);
         nameBox.setMaxLength(NavigationData.MAX_NAME);
         editorWidgets.add(nameBox);
-        editorWidgets.add(Button.builder(Component.literal("■"), b -> editColor = (editColor + 1) % COLORS.length)
-                .bounds(ex + 6, ey + 40, 20, 18).build());
-        editorWidgets.add(Button.builder(Component.empty(), b -> editShared = !editShared).bounds(ex + 30, ey + 40, 144, 18).build());
-        editorWidgets.add(Button.builder(Component.translatable("map.tecnocinetico.marker.save"), b -> saveMarker())
-                .bounds(ex + 6, ey + 62, 54, 18).build());
-        editorWidgets.add(Button.builder(Component.translatable("map.tecnocinetico.marker.delete"), b -> deleteMarker())
-                .bounds(ex + 63, ey + 62, 54, 18).build());
-        editorWidgets.add(Button.builder(Component.translatable("map.tecnocinetico.marker.cancel"), b -> closeEditor())
-                .bounds(ex + 120, ey + 62, 54, 18).build());
+        editorWidgets.add(button(ex + 6, ey + 44, 20, 16, Component.empty(), b -> editColor = (editColor + 1) % COLORS.length));
+        editorWidgets.add(button(ex + 30, ey + 44, 144, 16, Component.empty(), b -> editShared = !editShared));
+        editorWidgets.add(button(ex + 6, ey + 66, 54, 16, Component.translatable("map.tecnocinetico.marker.save"), b -> saveMarker()));
+        editorWidgets.add(button(ex + 63, ey + 66, 54, 16, Component.translatable("map.tecnocinetico.marker.delete"), b -> deleteMarker()));
+        editorWidgets.add(button(ex + 120, ey + 66, 54, 16, Component.translatable("map.tecnocinetico.marker.cancel"), b -> closeEditor()));
         editorWidgets.forEach(this::addRenderableWidget);
         showEditor(editing);
     }
@@ -198,8 +231,50 @@ public class WristMapScreen extends Screen {
             cx = r.x();
             cz = r.z();
             target = new NavigationData.Found(r.key(), dimId(), r.x(), r.z());
-            targetTime = System.currentTimeMillis();
+            targetTime = now();
         }
+    }
+
+    // ------------------------------------------------------------------ dibujo: utilidades
+
+    static void outline(GuiGraphics g, int x0, int y0, int x1, int y1, int color) {
+        g.fill(x0, y0, x1, y0 + 1, color);
+        g.fill(x0, y1 - 1, x1, y1, color);
+        g.fill(x0, y0, x0 + 1, y1, color);
+        g.fill(x1 - 1, y0, x1, y1, color);
+    }
+
+    /** Esquinas en L (marco de visor). */
+    private static void brackets(GuiGraphics g, int x0, int y0, int x1, int y1, int len, int color) {
+        g.fill(x0, y0, x0 + len, y0 + 2, color);
+        g.fill(x0, y0, x0 + 2, y0 + len, color);
+        g.fill(x1 - len, y0, x1, y0 + 2, color);
+        g.fill(x1 - 2, y0, x1, y0 + len, color);
+        g.fill(x0, y1 - 2, x0 + len, y1, color);
+        g.fill(x0, y1 - len, x0 + 2, y1, color);
+        g.fill(x1 - len, y1 - 2, x1, y1, color);
+        g.fill(x1 - 2, y1 - len, x1, y1, color);
+    }
+
+    /** Recuadro de sección del panel: fondo, contorno y cabecera con su título. */
+    private void section(GuiGraphics g, int x0, int y0, int x1, int y1, Component title) {
+        g.fill(x0, y0, x1, y1, PANEL_BG);
+        outline(g, x0, y0, x1, y1, AMBER_LOW);
+        g.fill(x0, y0, x1, y0 + 11, 0xC0241C0C);
+        g.fill(x0, y0, x0 + 3, y0 + 11, AMBER);
+        g.drawString(font, title.getString().toUpperCase(), x0 + 6, y0 + 2, AMBER, false);
+    }
+
+    private void small(GuiGraphics g, String text, int x, int y, int color) {
+        g.pose().pushPose();
+        g.pose().translate(x, y, 0);
+        g.pose().scale(0.75F, 0.75F, 1);
+        g.drawString(font, text, 0, 0, color, false);
+        g.pose().popPose();
+    }
+
+    private static int alpha(int color, float a) {
+        return (Mth.clamp((int) (a * 255), 0, 255) << 24) | (color & 0xFFFFFF);
     }
 
     // ------------------------------------------------------------------ dibujo
@@ -207,31 +282,61 @@ public class WristMapScreen extends Screen {
     @Override
     public void render(GuiGraphics g, int mouseX, int mouseY, float partial) {
         g.fill(0, 0, width, height, BG);
-        g.drawString(font, title, PAD, 7, ACCENT, false);
+        renderHeader(g);
         renderMap(g, mouseX, mouseY);
         renderPanel(g, mouseX, mouseY);
         if (editing) {
-            int ex = width / 2 - 90, ey = height / 2 - 40;
-            g.fill(ex - 1, ey - 1, ex + 181, ey + 85, FRAME);
-            g.fill(ex, ey, ex + 180, ey + 84, 0xF0181C22);
-            g.drawString(font, Component.translatable(editingMarker == null ? "map.tecnocinetico.marker.new" : "map.tecnocinetico.markers"),
-                    ex + 6, ey + 6, ACCENT, false);
+            int ex = width / 2 - 90, ey = height / 2 - 44;
+            g.fill(0, 0, width, height, 0x90000000);
+            g.fill(ex, ey, ex + 180, ey + 88, 0xF60C0F12);
+            outline(g, ex, ey, ex + 180, ey + 88, AMBER_DIM);
+            brackets(g, ex - 2, ey - 2, ex + 182, ey + 90, 8, AMBER);
+            g.fill(ex, ey, ex + 180, ey + 12, 0xD0241C0C);
+            g.drawString(font, Component.translatable(editingMarker == null ? "map.tecnocinetico.marker.new" : "map.tecnocinetico.markers")
+                    .getString().toUpperCase(), ex + 6, ey + 2, AMBER, false);
+            small(g, "X " + editX + "  Z " + editZ, ex + 120, ey + 3, DIM);
+            g.fill(ex + 6, ey + 22, ex + 174, ey + 38, 0xFF050607);                   // campo del nombre
+            outline(g, ex + 6, ey + 22, ex + 174, ey + 38, getFocused() == nameBox ? AMBER : AMBER_DIM);
             editorWidgets.get(2).setMessage(Component.translatable(editShared ? "map.tecnocinetico.marker.shared" : "map.tecnocinetico.marker.private"));
         }
         super.render(g, mouseX, mouseY, partial);
         if (editing) {
-            int ex = width / 2 - 90, ey = height / 2 - 40;
-            g.fill(ex + 11, ey + 45, ex + 21, ey + 53, 0xFF000000 | COLORS[editColor]);
+            int ex = width / 2 - 90, ey = height / 2 - 44;
+            g.fill(ex + 11, ey + 48, ex + 21, ey + 56, 0xFF000000 | COLORS[editColor]);
         }
+    }
+
+    /** Barra superior: título, enlace satelital (punto que parpadea), dimensión y hora del mundo. */
+    private void renderHeader(GuiGraphics g) {
+        g.fill(0, 0, width, 17, 0xF0101418);
+        g.fill(0, 17, width, 18, AMBER_DIM);
+        for (int x = 0; x < width; x += 6) {                                         // remaches de la barra
+            g.fill(x, 15, x + 3, 16, 0x30F0B030);
+        }
+        g.fill(PAD, 4, PAD + 3, 13, AMBER);
+        g.drawString(font, title.getString().toUpperCase(), PAD + 7, 5, AMBER, false);
+        boolean blink = (now() / 500) % 2 == 0;
+        String link = Component.translatable("map.tecnocinetico.link").getString().toUpperCase();
+        int lx = (width - font.width(link)) / 2;
+        g.fill(lx - 10, 7, lx - 5, 12, blink ? OK : 0xFF2C4A24);
+        g.drawString(font, link, lx, 5, OK, false);
+        long day = player().level().getDayTime() % 24000L;
+        int hours = (int) ((day / 1000 + 6) % 24), minutes = (int) (day % 1000 * 60 / 1000);
+        String dim = Component.translatable("map.tecnocinetico.dim." + player().level().dimension().location().getPath()).getString().toUpperCase();
+        String right = dim + "  " + String.format("%02d:%02d", hours, minutes);
+        g.drawString(font, right, width - PAD - font.width(right), 5, TEXT, false);
     }
 
     private void renderMap(GuiGraphics g, int mouseX, int mouseY) {
         int x0 = mapX0(), y0 = mapY0(), x1 = mapX1(), y1 = mapY1();
-        g.fill(x0 - 1, y0 - 1, x1 + 1, y1 + 1, FRAME);
-        g.fill(x0, y0, x1, y1, 0xFF06080A);
+        g.fill(x0 - 3, y0 - 3, x1 + 3, y1 + 3, 0xFF0B0E11);
+        outline(g, x0 - 3, y0 - 3, x1 + 3, y1 + 3, AMBER_LOW);
+        outline(g, x0 - 1, y0 - 1, x1 + 1, y1 + 1, AMBER_DIM);
+        g.fill(x0, y0, x1, y1, VOID);
         g.enableScissor(x0, y0, x1, y1);
         String dim = dimId();
         float s = scale();
+        // terreno explorado
         int rx0 = Math.floorDiv((int) Math.floor(toWorldX(x0)), MapExplorer.REGION_SIZE), rx1 = Math.floorDiv((int) Math.ceil(toWorldX(x1)), MapExplorer.REGION_SIZE);
         int rz0 = Math.floorDiv((int) Math.floor(toWorldZ(y0)), MapExplorer.REGION_SIZE), rz1 = Math.floorDiv((int) Math.ceil(toWorldZ(y1)), MapExplorer.REGION_SIZE);
         for (int rx = rx0; rx <= rx1; rx++) {
@@ -247,8 +352,47 @@ public class WristMapScreen extends Screen {
                 g.pose().popPose();
             }
         }
-        // estructuras detectadas
+        // capa de pantalla: tinte cálido, líneas de barrido y cuadrícula con coordenadas
+        g.fill(x0, y0, x1, y1, 0x1CF0B030);
+        for (int y = y0; y < y1; y += 3) {
+            g.fill(x0, y, x1, y + 1, 0x26000000);
+        }
+        int step = 16;
+        while (step * s < 48) {
+            step *= 2;
+        }
+        int gx0 = Math.floorDiv((int) toWorldX(x0), step) * step, gz0 = Math.floorDiv((int) toWorldZ(y0), step) * step;
+        for (int wx = gx0; toScreenX(wx) < x1; wx += step) {
+            int sx = (int) toScreenX(wx);
+            boolean major = Math.floorMod(wx, step * 4) == 0;
+            g.fill(sx, y0, sx + 1, y1, major ? 0x50F0B030 : 0x22F0B030);
+            if (major || step * s >= 80) {
+                small(g, String.valueOf(wx), sx + 2, y0 + 2, major ? AMBER_DIM : AMBER_LOW);
+            }
+        }
+        for (int wz = gz0; toScreenY(wz) < y1; wz += step) {
+            int sy = (int) toScreenY(wz);
+            boolean major = Math.floorMod(wz, step * 4) == 0;
+            g.fill(x0, sy, x1, sy + 1, major ? 0x50F0B030 : 0x22F0B030);
+            if (major || step * s >= 80) {
+                small(g, String.valueOf(wz), x0 + 2, sy + 2, major ? AMBER_DIM : AMBER_LOW);
+            }
+        }
+        // barrido de radar que baja cada 4 s
+        int h = y1 - y0;
+        int sweep = y0 + (int) ((now() % 4000L) * h / 4000L);
+        g.fillGradient(x0, sweep - 28, x1, sweep, 0x00F0B030, 0x24F0B030);
+        g.fill(x0, sweep, x1, sweep + 1, 0x70F0B030);
+        // viñeta
+        g.fillGradient(x0, y0, x1, y0 + 18, 0xB0000000, 0x00000000);
+        g.fillGradient(x0, y1 - 18, x1, y1, 0x00000000, 0xB0000000);
+        for (int i = 0; i < 9; i++) {
+            int a = (int) (0xA0 * (1 - i / 9.0)) << 24;
+            g.fill(x0 + i * 2, y0, x0 + i * 2 + 2, y1, a);
+            g.fill(x1 - i * 2 - 2, y0, x1 - i * 2, y1, a);
+        }
         Component hover = null;
+        // estructuras detectadas: rombos con su color
         for (NavigationData.Found f : ClientMapState.found) {
             if (!f.dim().equals(dim)) {
                 continue;
@@ -256,91 +400,165 @@ public class WristMapScreen extends Screen {
             MapCatalog.Entry e = MapCatalog.byKey(f.key());
             int sx = (int) toScreenX(f.x() + 0.5), sy = (int) toScreenY(f.z() + 0.5);
             int color = 0xFF000000 | (e == null ? 0xAAAAAA : e.color());
-            g.fill(sx - 4, sy - 4, sx + 5, sy + 5, 0xFF000000);
-            g.fill(sx - 3, sy - 3, sx + 4, sy + 4, color);
-            g.fill(sx - 1, sy - 1, sx + 2, sy + 2, 0xFF000000);
-            if (Math.abs(mouseX - sx) <= 4 && Math.abs(mouseY - sy) <= 4 && e != null) {
+            boolean over = Math.abs(mouseX - sx) <= 5 && Math.abs(mouseY - sy) <= 5;
+            diamond(g, sx, sy, over ? 6 : 5, color);
+            if (e != null && (over || s >= 2.0F)) {
+                small(g, Component.translatable(e.langKey()).getString().toUpperCase(), sx + 8, sy - 3, over ? TEXT : DIM);
+            }
+            if (over && e != null) {
                 hover = Component.translatable(e.langKey()).append(" · ").append(distance(f.x(), f.z()));
             }
         }
-        // objetivo de la última búsqueda (parpadea unos segundos)
-        if (target != null && target.dim().equals(dim) && (System.currentTimeMillis() - targetTime) < 8000) {
+        // objetivo de la última búsqueda: fijación que se cierra y parpadea
+        if (target != null && target.dim().equals(dim) && now() - targetTime < 10000) {
             int sx = (int) toScreenX(target.x() + 0.5), sy = (int) toScreenY(target.z() + 0.5);
-            int r = 7 + (int) ((System.currentTimeMillis() / 120) % 5);
-            outline(g, sx - r, sy - r, sx + r + 1, sy + r + 1, 0xFF000000 | ACCENT);
+            float t = Math.min(1.0F, (now() - targetTime) / 600.0F);
+            int r = (int) Mth.lerp(t, 40, 10) + (int) ((now() / 150) % 3);
+            brackets(g, sx - r, sy - r, sx + r + 1, sy + r + 1, 5, (now() / 250) % 2 == 0 ? AMBER : ALERT);
+            g.fill(sx - r - 6, sy, sx - r - 1, sy + 1, AMBER);
+            g.fill(sx + r + 2, sy, sx + r + 7, sy + 1, AMBER);
+            g.fill(sx, sy - r - 6, sx + 1, sy - r - 1, AMBER);
+            g.fill(sx, sy + r + 2, sx + 1, sy + r + 7, AMBER);
+            small(g, Component.translatable("map.tecnocinetico.target").getString().toUpperCase() + " · " + distance(target.x(), target.z()).getString(),
+                    sx + r + 4, sy + r + 2, ALERT);
         }
-        // marcadores
+        // marcadores: chinchetas
         for (NavigationData.Marker m : ClientMapState.markers) {
             if (!m.dim().equals(dim)) {
                 continue;
             }
             int sx = (int) toScreenX(m.x() + 0.5), sy = (int) toScreenY(m.z() + 0.5);
-            g.fill(sx - 2, sy - 4, sx + 3, sy + 5, 0xFF000000);
-            g.fill(sx - 4, sy - 2, sx + 5, sy + 3, 0xFF000000);
-            g.fill(sx - 1, sy - 3, sx + 2, sy + 4, 0xFF000000 | m.color());
-            g.fill(sx - 3, sy - 1, sx + 4, sy + 2, 0xFF000000 | m.color());
-            boolean over = Math.abs(mouseX - sx) <= 4 && Math.abs(mouseY - sy) <= 4;
+            int color = 0xFF000000 | m.color();
+            g.fill(sx, sy - 5, sx + 1, sy + 1, 0xFF000000);                          // aguja
+            diamond(g, sx, sy - 7, 4, color);
+            g.fill(sx - 1, sy, sx + 2, sy + 1, color);
+            boolean over = Math.abs(mouseX - sx) <= 5 && mouseY >= sy - 12 && mouseY <= sy + 2;
             if (s >= 1.0F || over) {
-                g.drawString(font, m.name(), sx + 6, sy - 4, 0xFF000000 | m.color(), true);
+                small(g, m.name(), sx + 6, sy - 10, color);
             }
             if (over) {
                 hover = Component.literal(m.name()).append(" · ").append(distance(m.x(), m.z()))
                         .append(m.shared() ? Component.literal(" · ").append(Component.translatable("map.tecnocinetico.marker.by", m.ownerName())) : Component.empty());
             }
         }
-        // otros jugadores cercanos y el propio
+        // otros jugadores
         for (Player other : player().level().players()) {
             if (other != player()) {
                 int sx = (int) toScreenX(other.getX()), sy = (int) toScreenY(other.getZ());
-                g.fill(sx - 2, sy - 2, sx + 3, sy + 3, 0xFF000000);
-                g.fill(sx - 1, sy - 1, sx + 2, sy + 2, 0xFF55AAFF);
+                g.fill(sx - 3, sy - 3, sx + 4, sy + 4, 0xFF000000);
+                g.fill(sx - 2, sy - 2, sx + 3, sy + 3, 0xFF6FB0FF);
                 if (Math.abs(mouseX - sx) <= 3 && Math.abs(mouseY - sy) <= 3) {
                     hover = other.getDisplayName();
                 }
             }
         }
+        // el jugador: pulso de radar y flecha
+        int px = (int) toScreenX(player().getX()), py = (int) toScreenY(player().getZ());
+        float ping = (now() % 1500L) / 1500.0F;
+        int pr = 3 + (int) (ping * 18);
+        outline(g, px - pr, py - pr, px + pr + 1, py + pr + 1, alpha(AMBER, 0.8F * (1 - ping)));
         g.pose().pushPose();
-        g.pose().translate(toScreenX(player().getX()), toScreenY(player().getZ()), 0);
+        g.pose().translate(px, py, 0);
         g.pose().mulPose(Axis.ZP.rotationDegrees(player().getYRot() + 180.0F));
-        g.fill(-1, -6, 2, 4, 0xFF000000);                                            // flecha (apunta a -Y antes de girar)
-        g.fill(-3, -2, 4, 4, 0xFF000000);
-        g.fill(0, -5, 1, 3, 0xFFFFFFFF);
-        g.fill(-2, -1, 3, 3, 0xFFFFFFFF);
+        g.fill(-1, -7, 2, 5, 0xFF000000);                                            // flecha (apunta a -Y antes de girar)
+        g.fill(-4, -2, 5, 5, 0xFF000000);
+        g.fill(0, -6, 1, 4, 0xFFFFF0C8);
+        g.fill(-3, -1, 4, 4, AMBER);
+        g.fill(-1, -1, 2, 4, 0xFFFFF0C8);
         g.pose().popPose();
         g.disableScissor();
-        // pie: coordenadas bajo el ratón y ayuda
-        String foot = Component.translatable("map.tecnocinetico.help").getString();
-        if (inMap(mouseX, mouseY)) {
-            foot = "X " + (int) Math.floor(toWorldX(mouseX)) + "  Z " + (int) Math.floor(toWorldZ(mouseY)) + "   ·   " + foot;
+        // marco: esquinas, marcas en los bordes y brújula
+        brackets(g, x0 - 3, y0 - 3, x1 + 3, y1 + 3, 12, AMBER);
+        for (int x = x0 + 16; x < x1 - 8; x += 16) {
+            g.fill(x, y0 - 3, x + 1, y0, AMBER_DIM);
+            g.fill(x, y1, x + 1, y1 + 3, AMBER_DIM);
         }
-        g.drawString(font, foot, x0, y1 + 5, DIM, false);
+        for (int y = y0 + 16; y < y1 - 8; y += 16) {
+            g.fill(x0 - 3, y, x0, y + 1, AMBER_DIM);
+            g.fill(x1, y, x1 + 3, y + 1, AMBER_DIM);
+        }
+        int mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+        compass(g, "N", mx, y0 + 3);
+        compass(g, "S", mx, y1 - 11);
+        compass(g, "O", x0 + 6, my - 4);
+        compass(g, "E", x1 - 10, my - 4);
+        // pie: escala, coordenadas bajo el ratón y zoom
+        int bar = (int) Math.max(8, step * s);
+        g.fill(x0, y1 + 8, x0 + bar, y1 + 9, AMBER);
+        g.fill(x0, y1 + 5, x0 + 1, y1 + 12, AMBER);
+        g.fill(x0 + bar - 1, y1 + 5, x0 + bar, y1 + 12, AMBER);
+        small(g, step + " m", x0 + bar + 4, y1 + 7, AMBER_DIM);
+        if (inMap(mouseX, mouseY)) {
+            String coords = "X " + (int) Math.floor(toWorldX(mouseX)) + "   Z " + (int) Math.floor(toWorldZ(mouseY));
+            g.drawString(font, coords, (x0 + x1 - font.width(coords)) / 2, y1 + 7, TEXT, false);
+        }
+        String z = "ZOOM ×" + (s < 1 ? String.valueOf(s) : String.valueOf((int) s));
+        g.drawString(font, z, x1 - font.width(z), y1 + 7, AMBER_DIM, false);
         if (hover != null && !editing) {
             g.renderTooltip(font, hover, mouseX, mouseY);
         }
     }
 
+    private void compass(GuiGraphics g, String letter, int x, int y) {
+        g.fill(x - 5, y - 2, x + 6, y + 10, 0xC0000000);
+        g.drawString(font, letter, x - font.width(letter) / 2 + 1, y, AMBER, false);
+    }
+
+    private static void diamond(GuiGraphics g, int x, int y, int r, int color) {
+        g.pose().pushPose();
+        g.pose().translate(x + 0.5F, y + 0.5F, 0);
+        g.pose().mulPose(Axis.ZP.rotationDegrees(45));
+        int k = Math.max(2, (int) (r * 0.75F));
+        g.fill(-k - 1, -k - 1, k + 1, k + 1, 0xFF000000);
+        g.fill(-k, -k, k, k, color);
+        g.fill(-k + 2, -k + 2, k - 2, k - 2, (color & 0xFFFFFF) | 0x60000000);
+        g.pose().popPose();
+    }
+
     private void renderPanel(GuiGraphics g, int mouseX, int mouseY) {
-        int px = width - PANEL;
-        g.drawString(font, Component.translatable("map.tecnocinetico.search"), px, TOP, ACCENT, false);
+        int px = width - PANEL, x1 = width - PAD;
+        // localizador
+        section(g, px, TOP, x1, TOP + 74, Component.translatable("map.tecnocinetico.search"));
         Component name = entries.isEmpty() ? Component.translatable("map.tecnocinetico.none_here")
                 : Component.translatable(entries.get(entry).langKey());
-        int w = PANEL - PAD - 36;
+        int w = PANEL - PAD - 34;
         String shown = font.plainSubstrByWidth(name.getString(), w);
-        g.drawString(font, shown, px + 18 + (w - font.width(shown)) / 2, TOP + 16, TEXT, false);
-        g.drawString(font, Component.translatable("map.tecnocinetico.markers"), px, TOP + 80, ACCENT, false);
+        g.fill(px + 18, TOP + 16, x1 - 16, TOP + 30, 0xFF050607);
+        if (!entries.isEmpty()) {
+            g.fill(px + 19, TOP + 17, px + 22, TOP + 29, 0xFF000000 | entries.get(entry).color());
+        }
+        g.drawString(font, shown, px + 24 + (w - 6 - font.width(shown)) / 2, TOP + 19, TEXT, false);
+        // marcadores
+        int my0 = TOP + 80, my1 = height - BOTTOM - 40;
+        section(g, px, my0, x1, my1, Component.translatable("map.tecnocinetico.markers"));
         List<NavigationData.Marker> list = markersHere();
-        int y = TOP + 92, max = (mapY1() - y) / ROW;
+        int y = my0 + 14, max = Math.max(0, (my1 - y - 2) / ROW);
         markerScroll = Mth.clamp(markerScroll, 0, Math.max(0, list.size() - max));
         for (int i = markerScroll; i < list.size() && i < markerScroll + max; i++, y += ROW) {
             var m = list.get(i);
-            boolean over = mouseX >= px && mouseX < width - PAD && mouseY >= y && mouseY < y + ROW;
+            boolean over = mouseX >= px && mouseX < x1 && mouseY >= y && mouseY < y + ROW;
             if (over) {
-                g.fill(px - 2, y - 1, width - PAD, y + ROW - 1, 0x40FFFFFF);
+                g.fill(px + 1, y - 1, x1 - 1, y + ROW - 1, 0x30F0B030);
             }
-            g.fill(px, y + 2, px + 6, y + 8, 0xFF000000 | m.color());
-            g.drawString(font, font.plainSubstrByWidth(m.name(), PANEL - 60), px + 9, y + 1, TEXT, false);
-            String d = String.valueOf((int) Math.sqrt(Mth.square(m.x() - player().getX()) + Mth.square(m.z() - player().getZ())));
-            g.drawString(font, d, width - PAD - font.width(d) - 2, y + 1, DIM, false);
+            g.fill(px + 4, y + 2, px + 9, y + 7, 0xFF000000 | m.color());
+            g.drawString(font, font.plainSubstrByWidth(m.name(), PANEL - 62), px + 12, y + 1, over ? 0xFFFFF0C8 : TEXT, false);
+            String d = (int) Math.sqrt(Mth.square(m.x() - player().getX()) + Mth.square(m.z() - player().getZ())) + "m";
+            small(g, d, x1 - (int) (font.width(d) * 0.75F) - 4, y + 2, DIM);
+        }
+        if (list.isEmpty()) {
+            small(g, Component.translatable("map.tecnocinetico.help").getString(), px + 4, my0 + 16, DIM);
+        }
+        // estado del enlace
+        int sy0 = height - BOTTOM - 36;
+        section(g, px, sy0, x1, height - BOTTOM + 3, Component.translatable("map.tecnocinetico.status"));
+        long found = ClientMapState.found.stream().filter(f -> f.dim().equals(dimId())).count();
+        small(g, Component.translatable("map.tecnocinetico.detected", found).getString(), px + 5, sy0 + 15, TEXT);
+        small(g, "X " + (int) player().getX() + "  Y " + (int) player().getY() + "  Z " + (int) player().getZ(), px + 5, sy0 + 24, DIM);
+        // señal: barras que suben
+        int bars = 2 + (int) ((now() - opened) / 300 % 3);
+        for (int i = 0; i < 4; i++) {
+            int bh = 3 + i * 2;
+            g.fill(x1 - 22 + i * 4, sy0 + 26 - bh, x1 - 20 + i * 4, sy0 + 26, i <= bars ? OK : 0xFF2C4A24);
         }
     }
 
@@ -353,19 +571,13 @@ public class WristMapScreen extends Screen {
         return Component.translatable("map.tecnocinetico.distance", (int) Math.sqrt(Mth.square(x - player().getX()) + Mth.square(z - player().getZ())));
     }
 
-    private static void outline(GuiGraphics g, int x0, int y0, int x1, int y1, int color) {
-        g.fill(x0, y0, x1, y0 + 1, color);
-        g.fill(x0, y1 - 1, x1, y1, color);
-        g.fill(x0, y0, x0 + 1, y1, color);
-        g.fill(x1 - 1, y0, x1, y1, color);
-    }
-
     // ------------------------------------------------------------------ entrada
 
     @Nullable
     private NavigationData.Marker markerAt(double mx, double my) {
         for (NavigationData.Marker m : markersHere()) {
-            if (Math.abs(mx - toScreenX(m.x() + 0.5)) <= 4 && Math.abs(my - toScreenY(m.z() + 0.5)) <= 4) {
+            double sx = toScreenX(m.x() + 0.5), sy = toScreenY(m.z() + 0.5);
+            if (Math.abs(mx - sx) <= 5 && my >= sy - 12 && my <= sy + 2) {
                 return m;
             }
         }
@@ -394,9 +606,9 @@ public class WristMapScreen extends Screen {
             return true;
         }
         // lista de marcadores: clic = centrar en él
-        int px = width - PANEL, y = TOP + 92;
+        int px = width - PANEL, y = TOP + 94;
         List<NavigationData.Marker> list = markersHere();
-        if (mx >= px && mx < width - PAD && my >= y) {
+        if (mx >= px && mx < width - PAD && my >= y && my < height - BOTTOM - 40) {
             int i = markerScroll + (int) ((my - y) / ROW);
             if (i >= 0 && i < list.size()) {
                 cx = list.get(i).x();

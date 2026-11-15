@@ -917,3 +917,6 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Repostan también desde esas ranuras: gadgets (`GadgetFuel`), Élitros de Propulsión, motosierra, taladro y Lanza Térmica.
 - Pruebas `KineticAmmoGameTests` (2). 104 pruebas.
 
+## 2026-11-15 — Claude — Mapa del reloj con aspecto de terminal táctico
+- Pedido del usuario: que el mapa se vea más tecnológico. `WristMapScreen` rehecha con paleta ámbar sobre grafito (la de la pantalla del reloj; sin cian ni magenta): barra superior (enlace satelital con punto que parpadea, dimensión y hora), cuadrícula con coordenadas que se adapta al zoom, líneas de barrido, barrido de radar, viñeta, marco con esquinas y marcas, brújula, jugador con pulso de radar, estructuras como rombos con nombre al acercar, marcadores como chinchetas, fijación animada del objetivo buscado, barra de escala, botones propios (`TechButton`) y panel en secciones (Localizador, Marcadores, Estado con señal).
+

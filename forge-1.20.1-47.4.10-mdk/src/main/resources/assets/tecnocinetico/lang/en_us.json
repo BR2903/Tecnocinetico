@@ -832,7 +832,7 @@
   "map.tecnocinetico.no_satellite": "No signal: a Reconnaissance Satellite must be put in orbit.",
   "map.tecnocinetico.no_watch": "You need the Navigation Watch on your wrist (Tactical Gear) or in your hand.",
   "map.tecnocinetico.title": "Navigation Watch",
-  "map.tecnocinetico.search": "Find structure",
+  "map.tecnocinetico.search": "Locator",
   "map.tecnocinetico.search_button": "Find",
   "map.tecnocinetico.center": "Center on me",
   "map.tecnocinetico.markers": "Markers",
@@ -858,5 +858,12 @@
   "advancements.tecnocinetico.satellite_deployed.description": "Put the Reconnaissance Satellite in orbit above the sky.",
   "item.tecnocinetico.kinetic_rifle_round": "Kinetic Rifle Rounds",
   "item.tecnocinetico.kinetic_shotgun_shell": "Kinetic Shotgun Shells",
-  "item.tecnocinetico.kinetic_rifle_belt": "Kinetic Rifle Belt"
+  "item.tecnocinetico.kinetic_rifle_belt": "Kinetic Rifle Belt",
+  "map.tecnocinetico.link": "Satellite link",
+  "map.tecnocinetico.target": "Target",
+  "map.tecnocinetico.status": "Status",
+  "map.tecnocinetico.detected": "Structures detected: %s",
+  "map.tecnocinetico.dim.overworld": "Surface",
+  "map.tecnocinetico.dim.the_nether": "Nether",
+  "map.tecnocinetico.dim.the_end": "End"
 }

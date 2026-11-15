@@ -832,7 +832,7 @@
   "map.tecnocinetico.no_satellite": "Sin señal: hay que poner en órbita un Satélite de Reconocimiento.",
   "map.tecnocinetico.no_watch": "Necesitas el Reloj de Navegación en la muñeca (Equipo Táctico) o en la mano.",
   "map.tecnocinetico.title": "Reloj de Navegación",
-  "map.tecnocinetico.search": "Buscar estructura",
+  "map.tecnocinetico.search": "Localizador",
   "map.tecnocinetico.search_button": "Buscar",
   "map.tecnocinetico.center": "Centrar en mí",
   "map.tecnocinetico.markers": "Marcadores",
@@ -858,5 +858,12 @@
   "advancements.tecnocinetico.satellite_deployed.description": "Pon en órbita el Satélite de Reconocimiento por encima del cielo.",
   "item.tecnocinetico.kinetic_rifle_round": "Balas de Rifle Cinéticas",
   "item.tecnocinetico.kinetic_shotgun_shell": "Cartuchos Cinéticos",
-  "item.tecnocinetico.kinetic_rifle_belt": "Cinta de Rifle Cinética"
+  "item.tecnocinetico.kinetic_rifle_belt": "Cinta de Rifle Cinética",
+  "map.tecnocinetico.link": "Enlace satelital",
+  "map.tecnocinetico.target": "Objetivo",
+  "map.tecnocinetico.status": "Estado",
+  "map.tecnocinetico.detected": "Estructuras detectadas: %s",
+  "map.tecnocinetico.dim.overworld": "Superficie",
+  "map.tecnocinetico.dim.the_nether": "Nether",
+  "map.tecnocinetico.dim.the_end": "End"
 }
