@@ -193,4 +193,5 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - Partículas en línea/anillo/disco/curva/abanico: usar `util/ParticleShapes` (un paquete, id 21) y NO bucles de `ServerLevel.sendParticles` (un paquete por punto y por jugador).
 - `CoreFighterEntity.lockTargetCached` para el HUD; `TacticalGear.takeWornChanged` limita el paquete de gadgets visibles.
 - Luz de estado (POWERED) de máquinas, prensa y ensamblador: `util/StatusLight` (cambia solo si el valor nuevo dura 10 ticks; cada cambio de estado reconstruye la sección del chunk en el cliente).
+- Línea de visión en mobs propios: `getSensing().hasLineOfSight(e)` (se calcula una vez por tick y objetivo), no `hasLineOfSight(e)` (traza un rayo en cada llamada). Las torretas (centinela y repetidor) buscan objetivo con vista cada 4 ticks y entre medias reutilizan el que tienen.
 - `RadiationEvents.exposure` mira la paleta de las secciones (`maybeHas`) antes de recorrer bloques buscando uranio.

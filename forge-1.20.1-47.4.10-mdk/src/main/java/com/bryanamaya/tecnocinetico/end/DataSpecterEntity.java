@@ -184,7 +184,7 @@ public class DataSpecterEntity extends Monster {
         }
         Player best = null;
         for (Player p : level().players()) {
-            if (valid(p) && distanceToSqr(p) < SENSE * SENSE && hasLineOfSight(p) && (best == null || distanceToSqr(p) < distanceToSqr(best))) {
+            if (valid(p) && distanceToSqr(p) < SENSE * SENSE && getSensing().hasLineOfSight(p) && (best == null || distanceToSqr(p) < distanceToSqr(best))) {
                 best = p;
             }
         }
@@ -212,7 +212,7 @@ public class DataSpecterEntity extends Monster {
             blinkNear(server, t);
         }
         double d = distanceTo(t);
-        if (cooldown <= 0 && d < CLAW_RANGE && hasLineOfSight(t)) {
+        if (cooldown <= 0 && d < CLAW_RANGE && getSensing().hasLineOfSight(t)) {
             entityData.set(KIND, d < PULSE_NEAR ? PULSE : CLAW);
             lock = t.position().add(0, t.getBbHeight() * 0.5, 0);
             setState(CHARGE);

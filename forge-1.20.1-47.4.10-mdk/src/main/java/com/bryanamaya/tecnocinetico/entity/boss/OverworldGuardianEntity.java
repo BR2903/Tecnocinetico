@@ -220,7 +220,7 @@ public class OverworldGuardianEntity extends Monster {
         if (cooldown > 0) cooldown--;
         if (distanceTo(t) > 4) getNavigation().moveTo(t, 1.25);
         else getNavigation().stop();
-        if (cooldown <= 0 && hasLineOfSight(t) && distanceTo(t) < 20) {
+        if (cooldown <= 0 && getSensing().hasLineOfSight(t) && distanceTo(t) < 20) {
             charge = 1; lock = CoreShots.aimPoint(t);
             entityData.set(MODE, (byte) (special ? 2 : 1));
             playSound(ModSounds.SENTRY_TURRET_CHARGE.get(), 2, .65F);
@@ -296,7 +296,7 @@ public class OverworldGuardianEntity extends Monster {
                     else {
                         ring(server, lock, 6, ParticleTypes.EXPLOSION);
                         for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, new AABB(lock, lock).inflate(6), this::enemy))
-                            if (e.distanceToSqr(lock) < 36 && hasLineOfSight(e)
+                            if (e.distanceToSqr(lock) < 36 && getSensing().hasLineOfSight(e)
                                     && e.hurt(damageSources().mobAttack(this), 16 + phase() * 2))
                                 e.addEffect(new net.minecraft.world.effect.MobEffectInstance(
                                         com.bryanamaya.tecnocinetico.effect.ModEffects.INERTIA_ANCHOR.get(), 40), this);
@@ -308,7 +308,7 @@ public class OverworldGuardianEntity extends Monster {
             return;
         }
         if (cooldown > 0) cooldown--;
-        if (cooldown <= 0 && hasLineOfSight(target)) {
+        if (cooldown <= 0 && getSensing().hasLineOfSight(target)) {
             charge = 1; lock = CoreShots.aimPoint(target);
             entityData.set(MODE, (byte) (kind == 0 ? 1 : kind == 1 ? 2 : kind == 2 ? 4 : 5));
             playSound(ModSounds.SENTRY_TURRET_CHARGE.get(), 2, kind == 3 ? .6F : 1.1F);
@@ -374,7 +374,7 @@ public class OverworldGuardianEntity extends Monster {
     }
     private void areaDamage(Vec3 center, double radius, float damage) {
         for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, new AABB(center, center).inflate(radius), this::enemy)) {
-            if (e.distanceToSqr(center) < radius * radius && hasLineOfSight(e)) e.hurt(damageSources().mobAttack(this), damage);
+            if (e.distanceToSqr(center) < radius * radius && getSensing().hasLineOfSight(e)) e.hurt(damageSources().mobAttack(this), damage);
         }
     }
     private void ring(ServerLevel server, Vec3 center, double r, net.minecraft.core.particles.SimpleParticleType particle) {

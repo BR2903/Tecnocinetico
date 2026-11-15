@@ -165,7 +165,7 @@ public class AnchorEntity extends Monster {
                     beamParticles(t, false);
                 }
                 if (beam >= BEAM_CHARGE) {
-                    if (hasLineOfSight(t) && dist < BEAM_RANGE + 4) {
+                    if (getSensing().hasLineOfSight(t) && dist < BEAM_RANGE + 4) {
                         anchor(t);
                     }
                     beam = 0;

@@ -299,7 +299,7 @@ public class SwarmWaspEntity extends Monster {
     /** Las exploradoras detectan intrusos con línea de visión y dan la alarma a la colmena. */
     private void scout(HiveMind mind) {
         Player p = level().getNearestPlayer(this, 24.0D);
-        if (p != null && !p.isCreative() && !p.isSpectator() && hasLineOfSight(p)) {
+        if (p != null && !p.isCreative() && !p.isSpectator() && getSensing().hasLineOfSight(p)) {
             mind.report(p);
             playSound(ModSounds.SWARM_WASP_ALARM.get(), 1.2F, 1.0F);
         }

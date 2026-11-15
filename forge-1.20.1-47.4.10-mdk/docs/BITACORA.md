@@ -861,3 +861,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - "Corrompido" → "Corrupto" en todos los textos (Núcleo de Datos, Piedra del End, Dragón del End, mensaje de victoria) y en la documentación viva.
 - Pruebas `EndEnemyGameTests` (4). 93 pruebas.
 
+## 2026-11-14 — Claude — Rendimiento: línea de visión de los mobs
+- Drones, torretas, avispas, centinelas del Nether, jefes del Overworld, Ancla y Espectro de Datos trazaban un rayo de visión en cada llamada (el dron, hasta 3 por tick). Ahora usan la vista en caché de Minecraft (`getSensing()`: un rayo por objetivo y tick).
+- La Torreta Centinela y la Torreta-repetidor del End buscan objetivo con vista cada 4 ticks (antes cada tick, un rayo por jugador cercano); la centinela además olvida el objetivo cuando deja de verlo.
+- Revisado sin cambios: generadores y reactor (ya cachean a quién mandan energía), esquiva del Dragón, eventos de aparición y de minería. 93 pruebas.
+

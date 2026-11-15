@@ -150,8 +150,13 @@ public class SentryTurretEntity extends Monster {
 
     @Nullable
     private LivingEntity findTarget() {
+        if (tickCount % 4 != 0) {                                            // la vista se recalcula cada 4 ticks
+            return getTarget() instanceof Player cur && cur.isAlive() && !cur.isCreative() && !cur.isSpectator()
+                    && distanceToSqr(cur) < RANGE * RANGE ? cur : null;
+        }
         Player p = level().getNearestPlayer(this, RANGE);
-        if (p == null || p.isCreative() || p.isSpectator() || !hasLineOfSight(p)) {
+        if (p == null || p.isCreative() || p.isSpectator() || !getSensing().hasLineOfSight(p)) {
+            setTarget(null);
             return null;
         }
         setTarget(p);

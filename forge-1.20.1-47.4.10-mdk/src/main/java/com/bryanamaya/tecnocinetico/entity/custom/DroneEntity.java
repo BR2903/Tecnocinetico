@@ -167,7 +167,7 @@ public class DroneEntity extends Monster {
                 || (t instanceof Player p && (p.isCreative() || p.isSpectator())))) {
             t = null;
         }
-        if (t != null && !hasLineOfSight(t) && ++lostTicks > 200) {
+        if (t != null && !getSensing().hasLineOfSight(t) && ++lostTicks > 200) {
             t = null;                                                          // lo perdió: vuelve a patrullar
         }
         if (t == null) {
@@ -186,7 +186,7 @@ public class DroneEntity extends Monster {
             }
             return;
         }
-        if (hasLineOfSight(t)) {
+        if (getSensing().hasLineOfSight(t)) {
             lostTicks = 0;
         }
         attack(t);
@@ -243,7 +243,7 @@ public class DroneEntity extends Monster {
     /** Ve a un jugador si está cerca, o algo más lejos pero dentro de su cono de visión, con línea de visión. */
     private void scanForPlayers() {
         Player p = level().getNearestPlayer(this, SIGHT);
-        if (p == null || p.isCreative() || p.isSpectator() || !hasLineOfSight(p)) {
+        if (p == null || p.isCreative() || p.isSpectator() || !getSensing().hasLineOfSight(p)) {
             return;
         }
         Vec3 to = p.position().subtract(position());
@@ -300,7 +300,7 @@ public class DroneEntity extends Monster {
                 cooldown = AFTER_HEAVY;
                 setMode(1);
             }
-        } else if (cooldown <= 0 && hasLineOfSight(t) && distanceToSqr(t) < 28 * 28) {
+        } else if (cooldown <= 0 && getSensing().hasLineOfSight(t) && distanceToSqr(t) < 28 * 28) {
             if (bursts >= 2 || random.nextFloat() < 0.35F) {
                 charge = 1;
                 lockPoint = CoreShots.aimPoint(t);

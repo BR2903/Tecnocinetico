@@ -190,8 +190,12 @@ public class EndRelayTurretEntity extends Monster {
 
     @Nullable
     private Player findTarget() {
+        if (tickCount % 4 != 0) {                                            // la vista se recalcula cada 4 ticks
+            return getTarget() instanceof Player cur && cur.isAlive() && !cur.isCreative() && !cur.isSpectator()
+                    && distanceToSqr(cur) < RANGE * RANGE ? cur : null;
+        }
         Player p = level().getNearestPlayer(getX(), getY(), getZ(), RANGE,
-                e -> e instanceof Player pl && !pl.isCreative() && !pl.isSpectator() && hasLineOfSight(pl));
+                e -> e instanceof Player pl && !pl.isCreative() && !pl.isSpectator() && getSensing().hasLineOfSight(pl));
         setTarget(p);
         return p;
     }

@@ -166,7 +166,7 @@ public class InfernalEntity extends Monster {
                 entityData.set(ATTACK, 0);
                 cooldown = SENTINEL_COOLDOWN;
             }
-        } else if (--cooldown <= 0 && distanceToSqr(target) > SENTINEL_MELEE_SQR && hasLineOfSight(target)) {
+        } else if (--cooldown <= 0 && distanceToSqr(target) > SENTINEL_MELEE_SQR && getSensing().hasLineOfSight(target)) {
             lock = CoreShots.aimPoint(target);
             windup = SENTINEL_WINDUP;
             entityData.set(ATTACK, 1);

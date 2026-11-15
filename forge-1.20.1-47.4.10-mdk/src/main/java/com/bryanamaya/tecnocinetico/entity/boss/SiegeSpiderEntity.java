@@ -440,7 +440,7 @@ public class SiegeSpiderEntity extends Monster {
                     com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, BEAM, from, to, (int) (to.distanceTo(from) * 2));   // un paquete, no uno por punto
                 }
                 if (pull >= 22) {
-                    if (hasLineOfSight(t)) {
+                    if (getSensing().hasLineOfSight(t)) {
                         Vec3 toward = position().subtract(t.position()).multiply(1, 0, 1).normalize();
                         t.setDeltaMovement(toward.scale(1.8).add(0, 0.45, 0));
                         t.hurtMarked = true;
