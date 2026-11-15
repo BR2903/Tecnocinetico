@@ -93,7 +93,7 @@ public class ChainsawItem extends Item {
             return;
         }
         boolean room = TANK - fuel(saw) >= FUEL_PER_CANISTER / 2;
-        boolean any = player.getAbilities().instabuild || player.getInventory().items.stream()
+        boolean any = player.getAbilities().instabuild || com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player).stream()
                 .anyMatch(s -> s.is(ModItems.FUEL_CANISTER.get()) || s.is(ModItems.KINETIC_FUEL_CELL.get()));
         if (!room || !any) {
             player.displayClientMessage(Component.translatable(!room ? "message.tecnocinetico.drill_full"
@@ -126,9 +126,10 @@ public class ChainsawItem extends Item {
             return;
         }
         int used = 0;
-        var inv = player.getInventory();
-        for (int i = 0; i < inv.getContainerSize() && TANK - fuel(saw) >= FUEL_PER_CANISTER / 2; i++) {
-            ItemStack s = inv.getItem(i);
+        for (ItemStack s : com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player)) {                          // ranuras de munición y luego inventario
+            if (TANK - fuel(saw) < FUEL_PER_CANISTER / 2) {
+                break;
+            }
             int value = s.is(ModItems.FUEL_CANISTER.get()) ? FUEL_PER_CANISTER : s.is(ModItems.KINETIC_FUEL_CELL.get()) ? FUEL_PER_CANISTER * 3 : 0;
             while (value > 0 && !s.isEmpty() && TANK - fuel(saw) >= FUEL_PER_CANISTER / 2) {
                 s.shrink(1);
@@ -137,6 +138,7 @@ public class ChainsawItem extends Item {
             }
         }
         if (used > 0) {
+            com.bryanamaya.tecnocinetico.gear.TacticalGear.of(player).ifPresent(com.bryanamaya.tecnocinetico.gear.TacticalGear::setChanged);   // por si salió de las ranuras de munición
             player.level().playSound(null, player.blockPosition(), com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_REFUEL_END.get(),
                     SoundSource.PLAYERS, 0.8F, 1.1F);
             player.displayClientMessage(Component.translatable("message.tecnocinetico.drill_refuel", used, fuel(saw), TANK)

@@ -18,8 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Bala Normal y Bala Cinética (calibre de pistola, subfusil y revólver). La normal es plomo, latón y pólvora (lo
- * primero que se fabrica); la cinética lleva un núcleo de cinetrita que libera su energía al impactar:
+ * Munición normal y su versión cinética, en TODOS los calibres: Bala Normal / Balas Cinéticas (pistola, subfusil,
+ * revólver), Balas de Rifle / Balas de Rifle Cinéticas, Cartuchos / Cartuchos Cinéticos y Cinta de Rifle / Cinta
+ * Cinética ({@link #kineticOf}). La cinética lleva un núcleo de cinetrita que libera su energía al impactar:
  * <b>Impacto cinético</b> = además del daño normal, {@link #PIERCE} de ese daño atraviesa la armadura
  * (daño {@code tecnocinetico:kinetic_impact}) y empuja al objetivo, con el estallido cian. Contra <b>máquinas</b> de la IA
  * (etiqueta {@code tecnocinetico:machines}) suma además {@link #MACHINE_BONUS}: sobrecarga sus circuitos.
@@ -58,7 +59,47 @@ public final class KineticRounds {
         }
     }
 
-    /** Paquete de munición de ese tipo. */
+    /** Versión cinética de una munición normal, o null si no tiene. */
+    @javax.annotation.Nullable
+    public static Item kineticOf(Item normal) {
+        if (normal == ModItems.STANDARD_ROUND.get()) {
+            return ModItems.KINETIC_ROUND.get();
+        }
+        if (normal == ModItems.RIFLE_ROUND.get()) {
+            return ModItems.KINETIC_RIFLE_ROUND.get();
+        }
+        if (normal == ModItems.SHOTGUN_SHELL.get()) {
+            return ModItems.KINETIC_SHOTGUN_SHELL.get();
+        }
+        if (normal == ModItems.RIFLE_BELT.get()) {
+            return ModItems.KINETIC_RIFLE_BELT.get();
+        }
+        return null;
+    }
+
+    public static boolean hasKinetic(Item normal) {
+        return kineticOf(normal) != null;
+    }
+
+    /** El paquete a usar de esa munición: el cinético o el normal. */
+    public static Item pack(Item normal, boolean kinetic) {
+        Item k = kineticOf(normal);
+        return kinetic && k != null ? k : normal;
+    }
+
+    /** ¿Es un paquete de esa munición, normal o cinética? */
+    public static boolean isPackOf(ItemStack s, Item normal) {
+        Item k = kineticOf(normal);
+        return s.is(normal) || k != null && s.is(k);
+    }
+
+    /** Tipo a cargar en un arma o cargador VACÍO de esa munición: cinéticas si hay alguna, si no normales. */
+    public static boolean chooseFor(Player player, Item normal) {
+        Item k = kineticOf(normal);
+        return k != null && (player.getAbilities().instabuild || AmmoPackItem.available(player, k) > 0);
+    }
+
+    /** Paquete de munición de pistola de ese tipo. */
     public static Item pack(boolean kinetic) {
         return kinetic ? ModItems.KINETIC_ROUND.get() : ModItems.STANDARD_ROUND.get();
     }

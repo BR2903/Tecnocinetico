@@ -910,3 +910,10 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Quitada la **Bala de Riel** (objeto muerto: el Rifle de Riel usa balas de rifle); la Araña de Asedio suelta balas de rifle en su lugar.
 - Pendiente de decidir con el usuario tras jugar: el Kit del Reactor de Fisión es lo más caro fabricable (16 bloques de plomo, 32 de titanio, 2 Procesadores).
 
+## 2026-11-15 — Claude + Codex — v2: munición cinética en todos los calibres y 16 ranuras de suministros
+- Nuevas: Balas de Rifle Cinéticas, Cartuchos Cinéticos y Cinta de Rifle Cinética (modelos de Codex, `tools/kinetic_ammo_gen.py`). Receta a mano (normal + 2 fragmentos de cinetrita) y en el Fabricador (2 normales + 3 fragmentos → 2); la cinta, con 3 paquetes cinéticos.
+- `KineticRounds.kineticOf/pack/chooseFor/isPackOf` para cualquier munición; `LongGunItem.kineticCapable()` sustituye a la comprobación de calibre de pistola (escopetas, rifles, francotirador, ametralladora, minigun, revólver y Rifle de Riel ya disparan cinéticas con su impacto); cargadores y su receta de carga aceptan la versión cinética de su munición (un tipo por cargador).
+- Equipo Táctico: **16 ranuras de munición** (4x4) que aceptan cualquier suministro (`TacticalGear.isSupply`: munición, cargadores, recargas de gadgets y la etiqueta `tecnocinetico:tactical_supplies`: granadas, cohetes, células de pulso y plasma, combustible, celda universal, flechas y cohetes de fuegos artificiales). Comida en una fila de 9. Ventana 176x248 (GUI de Codex). Índices nuevos: suministros 0-15, comida 16-24, gadgets 25-29; `load` recoloca los equipos guardados.
+- Repostan también desde esas ranuras: gadgets (`GadgetFuel`), Élitros de Propulsión, motosierra, taladro y Lanza Térmica.
+- Pruebas `KineticAmmoGameTests` (2). 104 pruebas.
+

@@ -203,7 +203,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 
 ## Reloj de Navegación y satélite (`map/`, `client/map/`)
 - `map/NavigationData` (SavedData del Overworld, común a todo el servidor): satélite en órbita, marcadores (`Marker`: dueño, compartido o personal) y estructuras detectadas (`Found`, las ven todos).
-- `map/SatelliteItem`: se usa por encima de Y 320 en el Overworld → `MapEvents.deploy` (logro `tecnocinetico:satellite_deployed`, con raíz `tecnocinetico:root`). `map/WristMapItem`: gadget de la ranura **WRIST** (19) del Equipo Táctico (`TacticalGear.SIZE` = 20; `load` migra los equipos de 19 ranuras con la muñeca encendida).
+- `map/SatelliteItem`: se usa por encima de Y 320 en el Overworld → `MapEvents.deploy` (logro `tecnocinetico:satellite_deployed`, con raíz `tecnocinetico:root`). `map/WristMapItem`: gadget de la ranura **WRIST** (29) del Equipo Táctico (`TacticalGear.SIZE` = 30 desde la v2: 16 de suministros, 9 de comida, 5 gadgets; `load` recoloca los formatos antiguos).
 - `map/MapEvents`: sincroniza (`MapPackets.Sync`, id 24) al entrar y en cada cambio; detecta las estructuras del `MapCatalog` en los chunks cargados alrededor de quien lleva el reloj (cada 100 ticks); acciones del cliente (`MapPackets.Action`, id 25: añadir/borrar marcador, buscar estructura como /locate con espera) y resultado (`LocateResult`, id 26).
 - Cliente: `client/map/MapExplorer` convierte los chunks cargados en colores de mapa (como un mapa vanilla; en el Nether el suelo bajo el techo), los pinta en texturas de regiones de 512x512 y los guarda en `tecnocinetico_maps/<mundo o servidor>/<dimensión>.dat`. `client/map/WristMapScreen` (tecla M o usar el reloj en la mano) y `ClientMapState`.
 

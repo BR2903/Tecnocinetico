@@ -174,12 +174,12 @@ public class GearGameTests {
     public static void dashAndCombatArmor(GameTestHelper helper) {
         // migración 18 -> 19
         var old = new net.minecraftforge.items.ItemStackHandler(18);
-        old.setStackInSlot(TacticalGear.FEET, new ItemStack(ModItems.AQUA_PROPULSOR.get()));
+        old.setStackInSlot(17, new ItemStack(ModItems.AQUA_PROPULSOR.get()));                 // pies en el formato antiguo
         old.setStackInSlot(2, new ItemStack(ModItems.SHOTGUN_SHELL.get(), 7));
         TacticalGear g = new TacticalGear();
         g.load(old.serializeNBT());
         helper.assertTrue(g.items().getSlots() == TacticalGear.SIZE && g.get(TacticalGear.FEET).is(ModItems.AQUA_PROPULSOR.get())
-                && g.get(2).getCount() == 7, "La migración a 19 huecos perdió objetos");
+                && g.get(2).getCount() == 7, "La migración de 18 huecos perdió objetos");
         helper.assertTrue(TacticalGear.accepts(TacticalGear.BELT, new ItemStack(ModItems.DASH_THRUSTER.get()))
                 && !TacticalGear.accepts(TacticalGear.FEET, new ItemStack(ModItems.DASH_THRUSTER.get())), "El impulsor va en el cinturón");
 

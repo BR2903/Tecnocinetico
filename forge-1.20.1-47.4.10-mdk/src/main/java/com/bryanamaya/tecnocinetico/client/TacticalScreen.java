@@ -24,7 +24,7 @@ public class TacticalScreen extends AbstractContainerScreen<TacticalMenu> {
     public TacticalScreen(TacticalMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
         imageWidth = 176;
-        imageHeight = 218;
+        imageHeight = 248;
         inventoryLabelY = TacticalMenu.INV_Y - 11;
     }
 
@@ -43,15 +43,15 @@ public class TacticalScreen extends AbstractContainerScreen<TacticalMenu> {
     protected void renderBg(GuiGraphics g, float partialTick, int mouseX, int mouseY) {
         g.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
         // personaje en la ventana central
-        InventoryScreen.renderEntityInInventoryFollowsMouse(g, leftPos + 64, topPos + 108, 40,
-                leftPos + 64 - mouseX, topPos + 45 - mouseY, minecraft.player);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(g, leftPos + 61, topPos + 112, 40,
+                leftPos + 61 - mouseX, topPos + 45 - mouseY, minecraft.player);
     }
 
     @Override
     protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
         g.drawString(font, title, 30, 4, 0x3A3A3A, false);
-        g.drawString(font, Component.translatable("gui.tecnocinetico.gear.ammo"), 116, 5, 0x3A3A3A, false);
-        g.drawString(font, Component.translatable("gui.tecnocinetico.gear.food"), 116, 55, 0x3A3A3A, false);
+        g.drawString(font, Component.translatable("gui.tecnocinetico.gear.ammo"), 98, 7, 0x3A3A3A, false);
+        g.drawString(font, Component.translatable("gui.tecnocinetico.gear.food"), 8, 124, 0x3A3A3A, false);
         g.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, 0x3A3A3A, false);
     }
 

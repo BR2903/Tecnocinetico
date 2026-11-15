@@ -90,6 +90,9 @@ public class RailRifleItem extends LongGunItem {
             }
             t.invulnerableTime = 0;
             boolean hurt = t.hurt(level.damageSources().playerAttack(player), dmg);
+            if (hurt && com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun) && level instanceof net.minecraft.server.level.ServerLevel server) {
+                com.bryanamaya.tecnocinetico.item.custom.KineticRounds.onHit(server, player, t, dmg, dir);                         // impacto cinético
+            }
             if (hurt && t instanceof Enemy) {
                 PlayerSkills.addXp(player, Skill.WEAPON_HANDLING, 1 + (t.isAlive() ? 0 : 4));
             }

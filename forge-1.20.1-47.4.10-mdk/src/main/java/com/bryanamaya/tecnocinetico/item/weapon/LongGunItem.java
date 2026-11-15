@@ -342,7 +342,7 @@ public class LongGunItem extends Item {
             end = t.getBoundingBox().clip(eye, end).orElse(t.getBoundingBox().getCenter());
             t.invulnerableTime = 0;
             boolean hurt = t.hurt(level.damageSources().playerAttack(player), damage(gun));
-            if (hurt && pistolCalibre() && com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun) && level instanceof ServerLevel server) {
+            if (hurt && kineticCapable() && com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun) && level instanceof ServerLevel server) {
                 com.bryanamaya.tecnocinetico.item.custom.KineticRounds.onHit(server, player, t, damage(gun), dir);   // impacto cinético
             }
             if (flash) {
@@ -361,7 +361,7 @@ public class LongGunItem extends Item {
                                 boolean aiming, boolean flash) {
         ItemStack gun = player.getMainHandItem();
         boolean rail = gun.getItem() instanceof RailRifleItem;
-        boolean kinetic = gun.getItem() instanceof LongGunItem lg && lg.pistolCalibre()
+        boolean kinetic = gun.getItem() instanceof LongGunItem lg && lg.kineticCapable()
                 && com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun);
         if (player instanceof ServerPlayer sp) {
             WeaponEffects.send(sp, gun, aiming, rail ? com.bryanamaya.tecnocinetico.network.WeaponEffectPacket.ARC
@@ -477,16 +477,20 @@ public class LongGunItem extends Item {
         if (GunMagazines.magazineFed(this)) {
             return player.getAbilities().instabuild ? want : takeFromMagazine(player, want, gun);
         }
-        if (pistolCalibre()) {
-            boolean kinetic = getAmmo(gun) > 0 ? com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun)
-                    : com.bryanamaya.tecnocinetico.item.custom.KineticRounds.chooseFor(player);
+        if (kineticCapable()) {
+            boolean kinetic = getAmmo(gun) > 0 ? com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun) : com.bryanamaya.tecnocinetico.item.custom.KineticRounds.chooseFor(player, stats.ammo().get());
             com.bryanamaya.tecnocinetico.item.custom.KineticRounds.set(gun, kinetic);
-            return player.getAbilities().instabuild ? want : AmmoPackItem.take(player, com.bryanamaya.tecnocinetico.item.custom.KineticRounds.pack(kinetic), want);
+            return player.getAbilities().instabuild ? want : AmmoPackItem.take(player, com.bryanamaya.tecnocinetico.item.custom.KineticRounds.pack(stats.ammo().get(), kinetic), want);
         }
         return AmmoPackItem.take(player, stats.ammo().get(), want);
     }
 
     /** Balas que puede cargar: en cargadores compatibles o, si no usa cargador, en paquetes. */
+    /** ¿Su munición tiene versión cinética? (todas las de balas: pistola, rifle, escopeta) */
+    public boolean kineticCapable() {
+        return com.bryanamaya.tecnocinetico.item.custom.KineticRounds.hasKinetic(stats.ammo().get());
+    }
+
     /** ¿Usa Bala Normal / Bala Cinética (subfusil, revólver)? */
     public boolean pistolCalibre() {
         return stats.ammo().get() == com.bryanamaya.tecnocinetico.item.ModItems.STANDARD_ROUND.get();
@@ -494,11 +498,10 @@ public class LongGunItem extends Item {
 
     protected int count(Player player) {
         if (!GunMagazines.magazineFed(this)) {
-            if (pistolCalibre()) {
+            if (kineticCapable()) {
                 ItemStack held = player.getMainHandItem();
-                boolean kinetic = held.getItem() == this && getAmmo(held) > 0 ? com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(held)
-                        : com.bryanamaya.tecnocinetico.item.custom.KineticRounds.chooseFor(player);
-                return AmmoPackItem.available(player, com.bryanamaya.tecnocinetico.item.custom.KineticRounds.pack(kinetic));
+                boolean kinetic = held.getItem() == this && getAmmo(held) > 0 ? com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(held) : com.bryanamaya.tecnocinetico.item.custom.KineticRounds.chooseFor(player, stats.ammo().get());
+                return AmmoPackItem.available(player, com.bryanamaya.tecnocinetico.item.custom.KineticRounds.pack(stats.ammo().get(), kinetic));
             }
             return AmmoPackItem.available(player, stats.ammo().get());
         }
@@ -513,11 +516,10 @@ public class LongGunItem extends Item {
 
     /** Una bala (carga bala a bala: escopetas y revólver; abre un paquete si hace falta). */
     protected boolean take(Player player) {
-        if (pistolCalibre()) {                                                           // revólver: un tipo de bala a la vez
+        if (kineticCapable()) {                                                          // un tipo de bala a la vez
             ItemStack gun = player.getMainHandItem();
-            boolean kinetic = getAmmo(gun) > 0 ? com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun)
-                    : com.bryanamaya.tecnocinetico.item.custom.KineticRounds.chooseFor(player);
-            if (AmmoPackItem.take(player, com.bryanamaya.tecnocinetico.item.custom.KineticRounds.pack(kinetic), 1) > 0) {
+            boolean kinetic = getAmmo(gun) > 0 ? com.bryanamaya.tecnocinetico.item.custom.KineticRounds.is(gun) : com.bryanamaya.tecnocinetico.item.custom.KineticRounds.chooseFor(player, stats.ammo().get());
+            if (AmmoPackItem.take(player, com.bryanamaya.tecnocinetico.item.custom.KineticRounds.pack(stats.ammo().get(), kinetic), 1) > 0) {
                 com.bryanamaya.tecnocinetico.item.custom.KineticRounds.set(gun, kinetic);
                 return true;
             }
@@ -538,9 +540,7 @@ public class LongGunItem extends Item {
             return 0;
         }
         int got = Math.min(want, rounds);
-        if (pistolCalibre()) {                                                           // el arma toma el tipo del cargador
-            com.bryanamaya.tecnocinetico.item.custom.KineticRounds.set(gun, MagazineItem.isKinetic(best));
-        }
+        com.bryanamaya.tecnocinetico.item.custom.KineticRounds.set(gun, MagazineItem.isKinetic(best));   // el arma toma el tipo del cargador
         ItemStack mag = best.getCount() > 1 ? best.split(1) : best;          // varios cargadores iguales apilados
         boolean magKinetic = MagazineItem.isKinetic(mag);
         MagazineItem.setContents(mag, rounds - got, Math.max(0, MagazineItem.getGuided(mag) - got));

@@ -232,6 +232,9 @@ public class ModCreativeModeTabs {
                         // tier 1
                         out.accept(ModItems.STANDARD_ROUND.get());
                         out.accept(ModItems.KINETIC_ROUND.get());
+                        out.accept(ModItems.KINETIC_RIFLE_ROUND.get());
+                        out.accept(ModItems.KINETIC_SHOTGUN_SHELL.get());
+                        out.accept(ModItems.KINETIC_RIFLE_BELT.get());
                         out.accept(ModItems.MAGAZINE.get());
                         out.accept(ModItems.EXTENDED_MAGAZINE.get());
                         out.accept(ModItems.SHOTGUN_SHELL.get());

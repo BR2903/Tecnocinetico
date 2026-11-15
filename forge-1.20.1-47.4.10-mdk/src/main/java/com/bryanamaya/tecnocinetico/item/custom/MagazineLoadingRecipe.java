@@ -48,10 +48,10 @@ public class MagazineLoadingRecipe extends CustomRecipe {
             return null;
         }
         MagazineItem m = (MagazineItem) mag.getItem();
-        Boolean kinetic = MagazineItem.getRounds(mag) > 0 && m.acceptsGuided() ? MagazineItem.isKinetic(mag) : null;   // tipo ya fijado
+        Boolean kinetic = MagazineItem.getRounds(mag) > 0 && KineticRounds.hasKinetic(m.ammo()) ? MagazineItem.isKinetic(mag) : null;   // tipo ya fijado
         for (ItemStack s : packs) {                                          // cada paquete aporta las balas que le quedan
-            if (m.acceptsGuided() && KineticRounds.isPistolPack(s)) {       // un tipo por cargador
-                boolean k = s.is(ModItems.KINETIC_ROUND.get());
+            if (KineticRounds.isPackOf(s, m.ammo())) {                       // un tipo por cargador (normal o cinética)
+                boolean k = !s.is(m.ammo());
                 if (kinetic != null && kinetic != k) {
                     return null;
                 }
@@ -86,7 +86,7 @@ public class MagazineLoadingRecipe extends CustomRecipe {
         int rounds = MagazineItem.getRounds(out) + p.normal() + p.guided();
         int guided = MagazineItem.getGuided(out) + p.guided();      // las guiadas se disparan siempre primero
         MagazineItem.setContents(out, rounds, guided);
-        if (((MagazineItem) out.getItem()).acceptsGuided() && p.normal() > 0) {
+        if (KineticRounds.hasKinetic(((MagazineItem) out.getItem()).ammo()) && p.normal() > 0) {
             KineticRounds.set(out, p.kinetic());
         }
         return out;

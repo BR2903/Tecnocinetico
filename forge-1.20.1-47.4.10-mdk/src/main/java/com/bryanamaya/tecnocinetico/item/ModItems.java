@@ -297,6 +297,13 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(6, new Item.Properties()));
     public static final RegistryObject<Item> RIFLE_ROUND = ITEMS.register("rifle_round",
             () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(5, new Item.Properties()));
+    /** Versiones cinéticas (núcleo de cinetrita) de la munición de rifle y escopeta: ver KineticRounds. */
+    public static final RegistryObject<Item> KINETIC_SHOTGUN_SHELL = ITEMS.register("kinetic_shotgun_shell",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(6, new Item.Properties()));
+    public static final RegistryObject<Item> KINETIC_RIFLE_ROUND = ITEMS.register("kinetic_rifle_round",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(5, new Item.Properties()));
+    public static final RegistryObject<Item> KINETIC_RIFLE_BELT = ITEMS.register("kinetic_rifle_belt",
+            () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(15, new Item.Properties()));
     /** Cinta de Balas de Rifle: 3 paquetes de rifle encadenados (15). Llena la Caja de Cinta y la de la Minigun. */
     public static final RegistryObject<Item> RIFLE_BELT = ITEMS.register("rifle_belt",
             () -> new com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem(15, new Item.Properties()));

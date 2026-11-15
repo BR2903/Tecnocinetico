@@ -121,7 +121,7 @@ public class MapGameTests {
         h.assertTrue(TacticalGear.accepts(TacticalGear.WRIST, new ItemStack(ModItems.WRIST_MAP.get()))
                 && !TacticalGear.accepts(TacticalGear.BACK, new ItemStack(ModItems.WRIST_MAP.get())), "El reloj va solo en la muñeca");
         var old = new net.minecraftforge.items.ItemStackHandler(19);
-        old.setStackInSlot(TacticalGear.BELT, new ItemStack(ModItems.DASH_THRUSTER.get()));
+        old.setStackInSlot(18, new ItemStack(ModItems.DASH_THRUSTER.get()));                  // cinturón en el formato de la v1
         CompoundTag tag = old.serializeNBT();
         tag.putByte("Enabled", (byte) 0b0111);                               // el cinturón apagado
         TacticalGear gear = new TacticalGear();

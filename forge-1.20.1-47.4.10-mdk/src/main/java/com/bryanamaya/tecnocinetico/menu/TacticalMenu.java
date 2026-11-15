@@ -18,14 +18,14 @@ import net.minecraftforge.items.SlotItemHandler;
 public class TacticalMenu extends AbstractContainerMenu {
 
     public static final int[][] POS = new int[TacticalGear.SIZE][];
-    public static final int INV_Y = 136;
+    public static final int INV_Y = 166;
 
     static {
         for (int i = 0; i < TacticalGear.AMMO_COUNT; i++) {
-            POS[TacticalGear.AMMO_START + i] = new int[]{116 + (i % 3) * 18, 16 + (i / 3) * 18};
+            POS[TacticalGear.AMMO_START + i] = new int[]{98 + (i % 4) * 18, 18 + (i / 4) * 18};      // 4 x 4
         }
         for (int i = 0; i < TacticalGear.FOOD_COUNT; i++) {
-            POS[TacticalGear.FOOD_START + i] = new int[]{116 + (i % 3) * 18, 66 + (i / 3) * 18};
+            POS[TacticalGear.FOOD_START + i] = new int[]{8 + i * 18, 134};                          // una fila
         }
         POS[TacticalGear.FACE] = new int[]{8, 18};
         POS[TacticalGear.BACK] = new int[]{8, 40};

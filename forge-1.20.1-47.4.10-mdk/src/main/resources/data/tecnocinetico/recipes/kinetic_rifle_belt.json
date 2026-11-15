@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tecnocinetico:kinetic_rifle_round"
+    },
+    {
+      "item": "tecnocinetico:kinetic_rifle_round"
+    },
+    {
+      "item": "tecnocinetico:kinetic_rifle_round"
+    }
+  ],
+  "result": {
+    "item": "tecnocinetico:kinetic_rifle_belt",
+    "count": 1
+  }
+}

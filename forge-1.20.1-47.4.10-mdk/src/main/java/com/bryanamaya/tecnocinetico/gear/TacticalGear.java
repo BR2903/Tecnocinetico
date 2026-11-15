@@ -25,17 +25,25 @@ import java.util.Optional;
  * Equipo Táctico del jugador (pestaña extra del inventario, tecla J): ranuras de munición, comida y gadgets.
  * Se guarda como capacidad de Forge en el jugador y se sincroniza al cliente con {@code SyncGearPacket}.
  *
- * Ranuras: 0-5 munición (balas y cargadores), 6-14 comida (se come sola), 15 cara, 16 espalda, 17 pies, 18 cinturón, 19 muñeca.
+ * Ranuras: 0-15 suministros (munición, cargadores, granadas, cohetes, células, combustible y baterías: {@link #isSupply}),
+ * 16-24 comida (se come sola), 25 cara, 26 espalda, 27 pies, 28 cinturón, 29 muñeca.
+ * (Hasta la v1 había 6 de munición: 0-5, 6-14, 15-19; {@link #load} recoloca los equipos guardados.)
  * (Hasta el 2026-11-07 eran 10 ranuras: 0-3, 4-6, 7, 8, 9; {@link #load} migra los equipos guardados.)
  */
 public class TacticalGear {
 
-    public static final int AMMO_START = 0, AMMO_COUNT = 6;
-    public static final int FOOD_START = 6, FOOD_COUNT = 9;
-    public static final int FACE = 15, BACK = 16, FEET = 17, BELT = 18, WRIST = 19;
+    public static final int AMMO_START = 0, AMMO_COUNT = 16;
+    public static final int FOOD_START = 16, FOOD_COUNT = 9;
+    public static final int FACE = 25, BACK = 26, FEET = 27, BELT = 28, WRIST = 29;
+    /** Ranuras de munición del formato anterior (v1): 6. */
+    private static final int OLD_AMMO = 6;
     /** Última ranura de gadget (los gadgets van de FACE a LAST_GADGET). */
     public static final int LAST_GADGET = WRIST;
-    public static final int SIZE = 20;
+    public static final int SIZE = 30;
+    /** Suministros extra que caben en las ranuras de munición (los mods o packs pueden añadir más). */
+    public static final net.minecraft.tags.TagKey<net.minecraft.world.item.Item> SUPPLIES = net.minecraft.tags.TagKey.create(
+            net.minecraft.core.registries.Registries.ITEM,
+            net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(com.bryanamaya.tecnocinetico.Tecnocinetico.MOD_ID, "tactical_supplies"));
     /** Nombre de cada ranura de gadget (textos "tooltip.tecnocinetico.gadget_slot.<nombre>"). */
     public static String slotName(int slot) {
         return slot == FACE ? "face" : slot == BACK ? "back" : slot == FEET ? "feet" : slot == BELT ? "belt" : "wrist";
@@ -141,6 +149,11 @@ public class TacticalGear {
         return s.getItem() instanceof com.bryanamaya.tecnocinetico.item.custom.AmmoPackItem || s.getItem() instanceof MagazineItem;
     }
 
+    /** ¿Cabe en una ranura de munición? Munición y cargadores, recargas de gadgets (baterías, combustible) y la etiqueta {@link #SUPPLIES}. */
+    public static boolean isSupply(ItemStack s) {
+        return isAmmo(s) || s.getItem() instanceof RechargeItem || s.is(SUPPLIES);
+    }
+
     public static boolean isAutoFood(ItemStack s) {
         return s.isEdible() && !(s.getItem() instanceof BowlFoodItem) && !(s.getItem() instanceof SuspiciousStewItem)
                 && !(s.getItem() instanceof HoneyBottleItem);
@@ -148,7 +161,7 @@ public class TacticalGear {
 
     public static boolean accepts(int slot, ItemStack s) {
         if (slot < FOOD_START) {
-            return isAmmo(s);
+            return isSupply(s);
         }
         if (slot < FACE) {
             return isAutoFood(s);
@@ -219,12 +232,15 @@ public class TacticalGear {
                 items.setStackInSlot(map[i], old.getStackInSlot(i));
             }
         } else if (savedSize != SIZE) {
-            // otro tamaño (p. ej. 18 antes del cinturón): se copia hueco a hueco (setSize vaciaría el inventario)
+            // formatos anteriores (18-20 ranuras, con 6 de munición): la munición se queda y lo demás baja 10 huecos
             ItemStackHandler old = new ItemStackHandler(savedSize);
             old.deserializeNBT(tag);
             items.setSize(SIZE);
-            for (int i = 0; i < Math.min(savedSize, SIZE); i++) {
-                items.setStackInSlot(i, old.getStackInSlot(i));
+            for (int i = 0; i < savedSize; i++) {
+                int to = i < OLD_AMMO ? i : i + (AMMO_COUNT - OLD_AMMO);
+                if (to < SIZE) {
+                    items.setStackInSlot(to, old.getStackInSlot(i));
+                }
             }
         } else {
             items.deserializeNBT(tag);

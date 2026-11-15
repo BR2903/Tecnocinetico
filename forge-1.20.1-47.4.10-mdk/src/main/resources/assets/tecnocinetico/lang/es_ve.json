@@ -181,7 +181,7 @@
   "gui.tecnocinetico.gear.food": "Comida",
   "gui.tecnocinetico.tab.inventory": "Inventario",
   "gui.tecnocinetico.tab.gear": "Equipo Táctico",
-  "gui.tecnocinetico.gear.hint.ammo": "Munición: balas y cargadores (la pistola recarga desde aquí primero)",
+  "gui.tecnocinetico.gear.hint.ammo": "Munición y suministros: balas, cargadores, granadas, cohetes, células, combustible y baterías (armas, herramientas y gadgets cogen de aquí primero)",
   "gui.tecnocinetico.gear.hint.food": "Comida: se come sola cuando tienes hambre",
   "tooltip.tecnocinetico.battery": "Batería: %s%%",
   "item.tecnocinetico.night_vision_visor": "Visor de Visión Nocturna",
@@ -855,5 +855,8 @@
   "advancements.tecnocinetico.root.title": "Tecnocinético",
   "advancements.tecnocinetico.root.description": "Sobrevive al mundo después de la Singularidad.",
   "advancements.tecnocinetico.satellite_deployed.title": "En órbita",
-  "advancements.tecnocinetico.satellite_deployed.description": "Pon en órbita el Satélite de Reconocimiento por encima del cielo."
+  "advancements.tecnocinetico.satellite_deployed.description": "Pon en órbita el Satélite de Reconocimiento por encima del cielo.",
+  "item.tecnocinetico.kinetic_rifle_round": "Balas de Rifle Cinéticas",
+  "item.tecnocinetico.kinetic_shotgun_shell": "Cartuchos Cinéticos",
+  "item.tecnocinetico.kinetic_rifle_belt": "Cinta de Rifle Cinética"
 }

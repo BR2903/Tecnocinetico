@@ -51,9 +51,9 @@ public class MagazineItem extends Item {
         return ammo.get() == ModItems.STANDARD_ROUND.get();
     }
 
-    /** ¿Admite este paquete? Los de pistola admiten Bala Normal y Bala Cinética (un tipo por cargador). */
+    /** ¿Admite este paquete? Su munición normal o su versión cinética (un tipo por cargador). */
     public boolean accepts(Item pack) {
-        return pack == ammo.get() || (ammo.get() == ModItems.STANDARD_ROUND.get() && pack == ModItems.KINETIC_ROUND.get());
+        return pack == ammo.get() || pack == KineticRounds.kineticOf(ammo.get());
     }
 
     /** ¿Lleva Balas Cinéticas? */
@@ -131,9 +131,9 @@ public class MagazineItem extends Item {
         int rounds = getRounds(held);
         int free = magItem.capacity - rounds;
         // un tipo por cargador: si está vacío, cinéticas si hay; si no, el que ya lleva
-        boolean pistolCalibre = magItem.acceptsGuided();
-        boolean kinetic = pistolCalibre && (rounds == 0 ? KineticRounds.chooseFor(player) : isKinetic(held));
-        Item ammo = guided ? ModItems.GUIDED_ROUND.get() : pistolCalibre ? KineticRounds.pack(kinetic) : magItem.ammo();
+        boolean capable = KineticRounds.hasKinetic(magItem.ammo());
+        boolean kinetic = capable && (rounds == 0 ? KineticRounds.chooseFor(player, magItem.ammo()) : isKinetic(held));
+        Item ammo = guided ? ModItems.GUIDED_ROUND.get() : KineticRounds.pack(magItem.ammo(), kinetic);
         if (free <= 0) {
             player.displayClientMessage(Component.translatable("message.tecnocinetico.magazine_full")
                     .withStyle(ChatFormatting.YELLOW), true);
@@ -152,7 +152,7 @@ public class MagazineItem extends Item {
         // las guiadas siempre se disparan primero, da igual el orden en que se metieron
         int newGuided = getGuided(target) + (guided ? taken : 0);
         setContents(target, rounds + taken, newGuided);
-        if (pistolCalibre && !guided) {
+        if (capable && !guided) {
             KineticRounds.set(target, kinetic);
         }
         if (target != held) {

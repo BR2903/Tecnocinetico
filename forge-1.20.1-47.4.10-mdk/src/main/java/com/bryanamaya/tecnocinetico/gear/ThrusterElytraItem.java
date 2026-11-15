@@ -148,15 +148,14 @@ public class ThrusterElytraItem extends ElytraItem {
 
     /** Gasta un objeto de gasolina del inventario (lo mismo que el jetpack). */
     public static boolean refuel(Player p, ItemStack wings) {
-        var inv = p.getInventory();
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack s = inv.getItem(i);
+        for (ItemStack s : TacticalGear.ammoSources(p)) {                     // ranuras de munición y luego inventario
             int amount = GadgetFuel.value(ModItems.JETPACK.get(), s);
             if (amount > 0) {
                 setFuel(wings, amount == GadgetFuel.FULL ? MAX_FUEL : fuel(wings) + amount);
                 if (!p.getAbilities().instabuild) {
                     s.shrink(1);
                 }
+                TacticalGear.of(p).ifPresent(TacticalGear::setChanged);
                 p.displayClientMessage(Component.translatable("message.tecnocinetico.gadget_refueled", wings.getHoverName(), s.getHoverName())
                         .withStyle(ChatFormatting.GOLD), true);
                 return true;

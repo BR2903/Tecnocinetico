@@ -268,7 +268,7 @@ public class ThermalLanceItem extends Item {
     // ------------------------------------------------------------------ tecla R
 
     private static boolean hasCell(Player player) {
-        return player.getInventory().items.stream().anyMatch(s -> s.is(ModItems.PLASMA_CELL.get()));
+        return com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player).stream().anyMatch(s -> s.is(ModItems.PLASMA_CELL.get()));
     }
 
     /** Tecla R: empieza la recarga (animación) si cabe plasma y hay células (o en creativo). */
@@ -295,15 +295,17 @@ public class ThermalLanceItem extends Item {
             setFuel(stack, TANK);
         }
         int cells = 0;
-        var inv = player.getInventory();
-        for (int i = 0; i < inv.getContainerSize() && TANK - fuel(stack) >= FUEL_PER_CELL / 2 && !player.getAbilities().instabuild; i++) {
-            ItemStack s = inv.getItem(i);
+        for (ItemStack s : com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player)) {                          // ranuras de munición y luego inventario
+            if (TANK - fuel(stack) < FUEL_PER_CELL / 2 || player.getAbilities().instabuild) {
+                break;
+            }
             while (s.is(ModItems.PLASMA_CELL.get()) && !s.isEmpty() && TANK - fuel(stack) >= FUEL_PER_CELL / 2) {
                 s.shrink(1);
                 setFuel(stack, fuel(stack) + FUEL_PER_CELL);
                 cells++;
             }
         }
+        com.bryanamaya.tecnocinetico.gear.TacticalGear.of(player).ifPresent(com.bryanamaya.tecnocinetico.gear.TacticalGear::setChanged);   // por si salió de las ranuras de munición
         player.level().playSound(null, player.blockPosition(), com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_REFUEL_END.get(),
                 SoundSource.PLAYERS, 0.8F, 1.3F);
         player.displayClientMessage(Component.translatable("message.tecnocinetico.lance_serviced", cells, fuel(stack), TANK)

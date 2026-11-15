@@ -104,7 +104,7 @@ public class CombustionDrillItem extends Item {
             return;
         }
         boolean room = TANK - fuel(drill) >= FUEL_PER_CANISTER / 2;
-        if (!room || (!player.getAbilities().instabuild && canisterSlot(player) < 0)) {
+        if (!room || (!player.getAbilities().instabuild && canister(player).isEmpty())) {
             player.displayClientMessage(Component.translatable(!room ? "message.tecnocinetico.drill_full"
                     : "message.tecnocinetico.drill_no_canister").withStyle(ChatFormatting.RED), true);
             return;
@@ -139,17 +139,17 @@ public class CombustionDrillItem extends Item {
         }
         int used = 0;
         while (TANK - fuel(drill) >= FUEL_PER_CANISTER / 2) {
-            int slot = canisterSlot(player);
-            if (slot < 0) {
+            ItemStack can = canister(player);
+            if (can.isEmpty()) {
                 break;
             }
-            ItemStack can = player.getInventory().getItem(slot);
             int value = can.is(ModItems.KINETIC_FUEL_CELL.get()) ? FUEL_PER_CANISTER * 3 : FUEL_PER_CANISTER;   // cinético: el triple
             can.shrink(1);
             setFuel(drill, fuel(drill) + value);
             used++;
         }
         if (used > 0) {
+            com.bryanamaya.tecnocinetico.gear.TacticalGear.of(player).ifPresent(com.bryanamaya.tecnocinetico.gear.TacticalGear::setChanged);   // por si salió de las ranuras de munición
             player.level().playSound(null, player.blockPosition(), com.bryanamaya.tecnocinetico.sound.ModSounds.DRILL_REFUEL_END.get(),
                     SoundSource.PLAYERS, 0.8F, 1.0F);
             player.displayClientMessage(Component.translatable("message.tecnocinetico.drill_refuel", used, fuel(drill), TANK)
@@ -160,14 +160,14 @@ public class CombustionDrillItem extends Item {
         }
     }
 
-    private static int canisterSlot(Player player) {
-        var inv = player.getInventory();
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            if (inv.getItem(i).is(ModItems.FUEL_CANISTER.get()) || inv.getItem(i).is(ModItems.KINETIC_FUEL_CELL.get())) {
-                return i;
+    /** Primer depósito o celda de combustible: ranuras de munición del equipo y luego inventario. */
+    private static ItemStack canister(Player player) {
+        for (ItemStack s : com.bryanamaya.tecnocinetico.gear.TacticalGear.ammoSources(player)) {
+            if (s.is(ModItems.FUEL_CANISTER.get()) || s.is(ModItems.KINETIC_FUEL_CELL.get())) {
+                return s;
             }
         }
-        return -1;
+        return ItemStack.EMPTY;
     }
 
     // ------------------------------------------------------------------ picado

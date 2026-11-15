@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "tecnocinetico:kinetic_grenade",
+    "tecnocinetico:guided_rocket",
+    "tecnocinetico:pulse_cell",
+    "tecnocinetico:empty_pulse_cell",
+    "tecnocinetico:plasma_cell",
+    "tecnocinetico:fuel_canister",
+    "tecnocinetico:kinetic_fuel_cell",
+    "tecnocinetico:universal_fluid_cell",
+    "#minecraft:arrows",
+    "minecraft:firework_rocket"
+  ]
+}

@@ -181,7 +181,7 @@
   "gui.tecnocinetico.gear.food": "Food",
   "gui.tecnocinetico.tab.inventory": "Inventory",
   "gui.tecnocinetico.tab.gear": "Tactical Gear",
-  "gui.tecnocinetico.gear.hint.ammo": "Ammo: rounds and magazines (the pistol reloads from here first)",
+  "gui.tecnocinetico.gear.hint.ammo": "Ammo and supplies: rounds, magazines, grenades, rockets, cells, fuel and batteries (weapons, tools and gadgets take from here first)",
   "gui.tecnocinetico.gear.hint.food": "Food: eaten automatically when you are hungry",
   "tooltip.tecnocinetico.battery": "Battery: %s%%",
   "item.tecnocinetico.night_vision_visor": "Night Vision Visor",
@@ -855,5 +855,8 @@
   "advancements.tecnocinetico.root.title": "Tecnocinético",
   "advancements.tecnocinetico.root.description": "Survive the world after the Singularity.",
   "advancements.tecnocinetico.satellite_deployed.title": "In Orbit",
-  "advancements.tecnocinetico.satellite_deployed.description": "Put the Reconnaissance Satellite in orbit above the sky."
+  "advancements.tecnocinetico.satellite_deployed.description": "Put the Reconnaissance Satellite in orbit above the sky.",
+  "item.tecnocinetico.kinetic_rifle_round": "Kinetic Rifle Rounds",
+  "item.tecnocinetico.kinetic_shotgun_shell": "Kinetic Shotgun Shells",
+  "item.tecnocinetico.kinetic_rifle_belt": "Kinetic Rifle Belt"
 }

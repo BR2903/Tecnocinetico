@@ -91,9 +91,7 @@ public final class GadgetFuel {
         if (left > max * REFUEL_BELOW) {
             return false;
         }
-        var inv = p.getInventory();
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack s = inv.getItem(i);
+        for (ItemStack s : TacticalGear.ammoSources(p)) {                     // ranuras de munición y luego inventario
             int amount = value(gadget.getItem(), s);
             if (amount > 0) {
                 add(gadget, amount);
