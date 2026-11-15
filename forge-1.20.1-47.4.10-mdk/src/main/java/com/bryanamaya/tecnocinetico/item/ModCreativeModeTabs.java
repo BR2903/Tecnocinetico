@@ -71,6 +71,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.JETPACK_FUEL.get());
                         out.accept(ModItems.JETPACK_KIT_2.get());
                         out.accept(ModItems.JETPACK_KIT_3.get());
+                        out.accept(ModItems.WRIST_MAP.get());
+                        out.accept(ModItems.SATELLITE.get());
                         ItemStack wings = new ItemStack(ModItems.THRUSTER_ELYTRA.get());
                         com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.setFuel(wings, com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.MAX_FUEL);
                         out.accept(wings);

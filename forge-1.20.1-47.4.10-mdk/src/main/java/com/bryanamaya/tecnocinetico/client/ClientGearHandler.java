@@ -11,7 +11,7 @@ public final class ClientGearHandler {
 
     /** Gadgets puestos de otro jugador (solo se guardan las tres ranuras de gadget, para dibujarlos). */
     public static void applyWorn(int entityId, net.minecraft.world.item.ItemStack face, net.minecraft.world.item.ItemStack back,
-                                 net.minecraft.world.item.ItemStack feet) {
+                                 net.minecraft.world.item.ItemStack feet, net.minecraft.world.item.ItemStack wrist) {
         var level = Minecraft.getInstance().level;
         if (level != null && level.getEntity(entityId) instanceof net.minecraft.world.entity.player.Player p
                 && p != Minecraft.getInstance().player) {
@@ -19,6 +19,7 @@ public final class ClientGearHandler {
                 g.items().setStackInSlot(TacticalGear.FACE, face);
                 g.items().setStackInSlot(TacticalGear.BACK, back);
                 g.items().setStackInSlot(TacticalGear.FEET, feet);
+                g.items().setStackInSlot(TacticalGear.WRIST, wrist);
             });
         }
     }

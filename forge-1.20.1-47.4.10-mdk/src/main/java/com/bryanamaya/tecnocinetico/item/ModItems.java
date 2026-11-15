@@ -261,6 +261,11 @@ public class ModItems {
     public static final RegistryObject<Item> NAVIGATION_CORE = ITEMS.register("navigation_core",
             () -> new com.bryanamaya.tecnocinetico.end.NavigationCoreItem(
                     new Item.Properties().stacksTo(16).fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)));
+    /** Reloj de Navegación (gadget de muñeca) y el Satélite de Reconocimiento que lo hace funcionar. */
+    public static final RegistryObject<Item> WRIST_MAP = ITEMS.register("wrist_map",
+            () -> new com.bryanamaya.tecnocinetico.map.WristMapItem(new Item.Properties().stacksTo(1).rarity(net.minecraft.world.item.Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SATELLITE = ITEMS.register("satellite",
+            () -> new com.bryanamaya.tecnocinetico.map.SatelliteItem(new Item.Properties().stacksTo(1).rarity(net.minecraft.world.item.Rarity.RARE)));
     /** Élitros de Propulsión: élitros + Jetpack Mk III (receta especial ThrusterElytraItem.Recipe). */
     public static final RegistryObject<Item> THRUSTER_ELYTRA = ITEMS.register("thruster_elytra",
             () -> new com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem(

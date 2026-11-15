@@ -880,3 +880,11 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - `tools/render_dump.py`: colores de los bloques del End; las pruebas del End vuelcan sus estructuras en `run/gametest_dump/`.
 - Pruebas `EndStructureGameTests` (3). 95 pruebas.
 
+## 2026-11-15 — Claude + Codex — Reloj de Navegación y Satélite de Reconocimiento (último añadido de la v1)
+- Pedido del usuario: gadget de muñeca con mapa, localizador de estructuras y marcadores; funciona tras desplegar un satélite fuera del planeta (con logro).
+- Elecciones: se despliega subiendo por encima de Y 320 y usándolo; uno para todo el servidor; mapa del terreno explorado con opción de buscar una estructura concreta; marcadores personales con opción de compartir, estructuras detectadas comunes.
+- Ranura nueva del Equipo Táctico: **muñeca** (GUI de Codex con 5 ranuras; el reloj se ve en el brazo izquierdo, también con brazos finos).
+- Recetas: Reloj (cuero, panel de cristal, redstone, brújula, titanio) y Satélite (sensores de luz solar, titanio, Procesador del Núcleo, Celdas de Combustible Cinético, pararrayos).
+- Arte de Codex: iconos, GUI y la pieza del brazo (`tools/wrist_map_gen.py`; vistas en `build/wrist_map/`).
+- Pruebas `MapGameTests` (4). 99 pruebas.
+

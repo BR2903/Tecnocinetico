@@ -38,6 +38,10 @@ public final class ModKeyBindings {
             GLFW.GLFW_KEY_K,
             "key.categories.tecnocinetico");
 
+    /** Abrir el mapa del Reloj de Navegación. */
+    public static final KeyMapping MAP = new KeyMapping("key.tecnocinetico.map", KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_M, "key.categories.tecnocinetico");
+
     private ModKeyBindings() {}
 
     @Mod.EventBusSubscriber(modid = Tecnocinetico.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -49,6 +53,7 @@ public final class ModKeyBindings {
             event.register(GEAR);
             event.register(VISOR);
             event.register(DASH);
+            event.register(MAP);
         }
     }
 
@@ -72,6 +77,11 @@ public final class ModKeyBindings {
                     } else {
                         ModNetwork.CHANNEL.sendToServer(new ModNetwork.OpenGearPacket());
                     }
+                }
+            }
+            while (MAP.consumeClick()) {
+                if (mc.player != null && mc.screen == null) {
+                    com.bryanamaya.tecnocinetico.client.map.ClientMapState.open();
                 }
             }
             while (DASH.consumeClick()) {

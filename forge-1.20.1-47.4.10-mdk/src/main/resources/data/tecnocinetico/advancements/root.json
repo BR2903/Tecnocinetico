@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item": "tecnocinetico:kinetic_pistol"
+    },
+    "title": {
+      "translate": "advancements.tecnocinetico.root.title"
+    },
+    "description": {
+      "translate": "advancements.tecnocinetico.root.description"
+    },
+    "background": "minecraft:textures/block/deepslate_tiles.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

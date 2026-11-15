@@ -120,7 +120,7 @@ public final class GearEvents {
 
     private static ModNetwork.WornGadgetsPacket worn(Player p, TacticalGear g) {
         return new ModNetwork.WornGadgetsPacket(p.getId(), g.get(TacticalGear.FACE).copy(), g.get(TacticalGear.BACK).copy(),
-                g.get(TacticalGear.FEET).copy());
+                g.get(TacticalGear.FEET).copy(), g.get(TacticalGear.WRIST).copy());
     }
 
     /** Al empezar a ver a otro jugador, recibir los gadgets que lleva puestos. */

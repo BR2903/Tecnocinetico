@@ -75,6 +75,15 @@ public final class ModNetwork {
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(23, ElytraThrustPacket.class, (m, b) -> b.writeBoolean(m.on()), b -> new ElytraThrustPacket(b.readBoolean()),
                 ElytraThrustPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(24, com.bryanamaya.tecnocinetico.map.MapPackets.Sync.class, com.bryanamaya.tecnocinetico.map.MapPackets.Sync::encode,
+                com.bryanamaya.tecnocinetico.map.MapPackets.Sync::decode, com.bryanamaya.tecnocinetico.map.MapPackets.Sync::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(25, com.bryanamaya.tecnocinetico.map.MapPackets.Action.class, com.bryanamaya.tecnocinetico.map.MapPackets.Action::encode,
+                com.bryanamaya.tecnocinetico.map.MapPackets.Action::decode, com.bryanamaya.tecnocinetico.map.MapPackets.Action::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(26, com.bryanamaya.tecnocinetico.map.MapPackets.LocateResult.class,
+                com.bryanamaya.tecnocinetico.map.MapPackets.LocateResult::encode, com.bryanamaya.tecnocinetico.map.MapPackets.LocateResult::decode,
+                com.bryanamaya.tecnocinetico.map.MapPackets.LocateResult::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(22, MobVariantPacket.class, MobVariantPacket::encode, MobVariantPacket::decode, MobVariantPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(20, EndQuakePacket.class, EndQuakePacket::encode, EndQuakePacket::decode, EndQuakePacket::handle,
@@ -349,7 +358,7 @@ public final class ModNetwork {
             ctx.get().enqueueWork(() -> {
                 ServerPlayer p = ctx.get().getSender();
                 int slot = msg.slot();
-                if (p == null || slot < com.bryanamaya.tecnocinetico.gear.TacticalGear.FACE || slot > com.bryanamaya.tecnocinetico.gear.TacticalGear.BELT) {
+                if (p == null || slot < com.bryanamaya.tecnocinetico.gear.TacticalGear.FACE || slot > com.bryanamaya.tecnocinetico.gear.TacticalGear.LAST_GADGET) {
                     return;
                 }
                 com.bryanamaya.tecnocinetico.gear.TacticalGear.of(p).ifPresent(g -> {
@@ -459,22 +468,23 @@ public final class ModNetwork {
     }
 
     /** Gadgets que lleva puestos un jugador (cara, espalda, pies), para que los demás los vean. */
-    public record WornGadgetsPacket(int entityId, ItemStack face, ItemStack back, ItemStack feet) {
+    public record WornGadgetsPacket(int entityId, ItemStack face, ItemStack back, ItemStack feet, ItemStack wrist) {
         public static void encode(WornGadgetsPacket m, FriendlyByteBuf b) {
             b.writeVarInt(m.entityId);
             b.writeItem(m.face);
             b.writeItem(m.back);
             b.writeItem(m.feet);
+            b.writeItem(m.wrist);
         }
 
         public static WornGadgetsPacket decode(FriendlyByteBuf b) {
-            return new WornGadgetsPacket(b.readVarInt(), b.readItem(), b.readItem(), b.readItem());
+            return new WornGadgetsPacket(b.readVarInt(), b.readItem(), b.readItem(), b.readItem(), b.readItem());
         }
 
         public static void handle(WornGadgetsPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(
                     net.minecraftforge.api.distmarker.Dist.CLIENT,
-                    () -> () -> com.bryanamaya.tecnocinetico.client.ClientGearHandler.applyWorn(msg.entityId, msg.face, msg.back, msg.feet)));
+                    () -> () -> com.bryanamaya.tecnocinetico.client.ClientGearHandler.applyWorn(msg.entityId, msg.face, msg.back, msg.feet, msg.wrist)));
             ctx.get().setPacketHandled(true);
         }
     }

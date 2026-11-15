@@ -28,7 +28,10 @@ public class WornGearModel {
 
     public final ModelPart cooler_mk2, filter_mk2, anchor_mk2;
 
+    public final ModelPart wristMap;
+
     public WornGearModel(ModelPart root) {
+        this.wristMap = root.getChild("wrist_map");
         this.visor = root.getChild("visor");
         this.jetpack = root.getChild("jetpack");
         this.jetpackMk2 = root.getChild("jetpack_mk2");
@@ -272,6 +275,18 @@ public class WornGearModel {
                 .texOffs(1, 69).addBox(-1.75F, 12.6F, -3.7F, 3.5F, 0.55F, 7F)
                 , PartPose.ZERO);
         // END NETHER GEAR GENERATED
+        // BEGIN WRIST MAP GENERATED: tools/wrist_map_gen.py
+        root.addOrReplaceChild("wrist_map", CubeListBuilder.create()
+                .texOffs(1, 96).addBox(-1.150000F, 6.500000F, -2.260000F, 4.300000F, 2.800000F, 0.260000F)
+                .texOffs(1, 96).addBox(-1.150000F, 6.500000F, 2.000000F, 4.300000F, 2.800000F, 0.260000F)
+                .texOffs(14, 96).addBox(-1.410000F, 6.500000F, -2.000000F, 0.260000F, 2.800000F, 4.000000F)
+                .texOffs(14, 96).addBox(3.150000F, 6.500000F, -2.000000F, 0.260000F, 2.800000F, 4.000000F)
+                .texOffs(27, 96).addBox(3.420000F, 6.400000F, -1.900000F, 0.720000F, 3.200000F, 3.800000F)
+                .texOffs(40, 96).addBox(4.160000F, 6.600000F, -1.650000F, 0.180000F, 2.800000F, 3.300000F)
+                .texOffs(18, 24).addBox(4.360000F, 6.800000F, -1.400000F, 0.140000F, 2.400000F, 2.800000F, net.minecraft.client.model.geom.builders.CubeDeformation.NONE, 0.25F, 0.25F)
+                .texOffs(54, 96).addBox(3.850000F, 6.000000F, -0.300000F, 0.400000F, 0.350000F, 0.600000F)
+                , PartPose.ZERO);
+        // END WRIST MAP GENERATED
         return LayerDefinition.create(mesh, 128, 128);
     }
 }

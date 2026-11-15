@@ -1,0 +1,22 @@
+{
+  "parent": "tecnocinetico:root",
+  "display": {
+    "icon": {
+      "item": "tecnocinetico:satellite"
+    },
+    "title": {
+      "translate": "advancements.tecnocinetico.satellite_deployed.title"
+    },
+    "description": {
+      "translate": "advancements.tecnocinetico.satellite_deployed.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "deployed": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}
