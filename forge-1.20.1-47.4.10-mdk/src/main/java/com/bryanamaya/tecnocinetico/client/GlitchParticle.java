@@ -9,7 +9,7 @@ import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 
 /**
- * Fallo de datos del End corrompido: un fragmento de píxeles magenta/violeta que <b>salta</b> de sitio a trompicones
+ * Fallo de datos del End corrupto: un fragmento de píxeles magenta/violeta que <b>salta</b> de sitio a trompicones
  * (no se desliza: se recoloca de golpe cada pocos ticks), cambia de forma con la edad y parpadea antes de apagarse.
  * Texturas blancas (data_glitch_0..3) teñidas aquí.
  */

@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 import java.util.Comparator;
 
 /**
- * End, parte 1: los mobs vanilla del End están <b>corrompidos</b> por los restos de la red del Núcleo Directriz (la IA
+ * End, parte 1: los mobs vanilla del End están <b>corruptos</b> por los restos de la red del Núcleo Directriz (la IA
  * vivió aquí antes de mudarse a otro planeta). Solo dentro del End; fuera vuelven a ser vanilla (como en el Nether).
  * <ul>
  *   <li><b>Enderman</b>: 60 de vida, 6 de armadura, 10 de daño. Hostil al ver a un jugador en supervivencia a menos de

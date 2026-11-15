@@ -186,6 +186,11 @@ public class ModItems {
     /** Núcleo de Enjambre: lo suelta el Nodo de Colmena. Base de la futura mejora de puntería asistida. */
     public static final RegistryObject<Item> SWARM_CORE = ITEMS.register("swarm_core",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON).stacksTo(16)));
+    // ---- End (parte 3): enemigos nuevos de las islas exteriores
+    public static final RegistryObject<Item> DATA_WORM_SPAWN_EGG = ITEMS.register("data_worm_spawn_egg",
+            () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.end.EndEntities.DATA_WORM, 0x2A2430, 0xC04CFF, new Item.Properties()));
+    public static final RegistryObject<Item> DATA_SPECTER_SPAWN_EGG = ITEMS.register("data_specter_spawn_egg",
+            () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.end.EndEntities.DATA_SPECTER, 0x1A1022, 0xFF4FD8, new Item.Properties()));
     // ---- Nether (parte 2): enemigos nuevos y lo que sueltan
     public static final RegistryObject<Item> SLAG_MITE_SPAWN_EGG = ITEMS.register("slag_mite_spawn_egg",
             () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.nether.NetherEntities.MITE, 0x352B29, 0xFF791B, new Item.Properties()));

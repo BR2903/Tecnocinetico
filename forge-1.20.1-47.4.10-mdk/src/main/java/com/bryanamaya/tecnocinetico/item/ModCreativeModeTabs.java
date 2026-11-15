@@ -86,6 +86,8 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.ASH_SENTINEL_SPAWN_EGG.get());
                         out.accept(ModItems.ABYSS_FOUNDRY_SPAWN_EGG.get());
                         out.accept(ModItems.SLAG_DEVOURER_SPAWN_EGG.get());
+                        out.accept(ModItems.DATA_WORM_SPAWN_EGG.get());
+                        out.accept(ModItems.DATA_SPECTER_SPAWN_EGG.get());
                         out.accept(ModItems.SWARM_WASP_SPAWN_EGG.get());
                         out.accept(ModItems.HIVE_NODE_SPAWN_EGG.get());
                         out.accept(ModItems.DRONE_SPAWN_EGG.get());

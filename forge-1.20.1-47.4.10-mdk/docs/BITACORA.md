@@ -853,3 +853,11 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - **Luz de estado sin parpadeo** (`util/StatusLight`): máquinas eléctricas, prensa automática y ensamblador cambiaban POWERED en cuanto la energía bajaba del consumo; con la energía justa parpadeaba casi cada tick y cada cambio obliga al cliente a reconstruir la sección del chunk. Ahora el cambio tiene que mantenerse 10 ticks.
 - **Radiación**: antes de recorrer los ~400 bloques alrededor de cada jugador cada segundo, mira la paleta de las secciones; sin uranio se lo salta.
 - Pruebas nuevas `radiationSkipsCleanSections` y `statusLightDebounce`. 89 pruebas.
+
+## 2026-11-14 — Claude + Codex — End, parte 3: Gusano de Datos y Espectro de Datos
+- Elección del usuario: enemigos nuevos en las islas exteriores (Gusano de Datos y Espectro de Datos), más duros que el enderman corrupto. Detalle en `docs/PLAN_END.md` (parte 3).
+- Código: `end/EndEntities`, `DataWormEntity` + `DataWormPart` (multiparte de Forge, segmentos con vida propia), `DataSpecterEntity`; renderizadores `DataWormRenderer` y `DataSpecterRenderer`; huevos, botín, `forge/biome_modifier/end_spawns.json`, textos.
+- Arte de Codex: `DataWormModel` (cabeza con fauces, segmento, cola), `DataSpecterModel` (emisor físico + proyección), texturas y `tools/end_part3_gen.py`; vistas previas en `build/end_part3/`.
+- "Corrompido" → "Corrupto" en todos los textos (Núcleo de Datos, Piedra del End, Dragón del End, mensaje de victoria) y en la documentación viva.
+- Pruebas `EndEnemyGameTests` (4). 93 pruebas.
+

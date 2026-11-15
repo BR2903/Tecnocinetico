@@ -12,7 +12,7 @@ Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (P
 
 **Final (usuario, 2026-11-09):** la IA ya no está en el Overworld: controla todo desde el último de los mundos nuevos, que es el jefe y el escenario finales. Los jefes del Overworld (Araña de Asedio) son guardianes y solo sueltan materiales.
 
-**Cambio de lore del End (usuario, 2026-11-14):** el End fue la sede de los servidores de la IA, pero tras la Singularidad (el descontrol) la IA **se mudó a otro planeta**, que también será extremadamente hostil (por diseñar más adelante). En el End quedan los restos abandonados de su red, que han corrompido a sus criaturas y al dragón. Ver `docs/PLAN_END.md`.
+**Cambio de lore del End (usuario, 2026-11-14):** el End fue la sede de los servidores de la IA, pero tras la Singularidad (el descontrol) la IA **se mudó a otro planeta**, que también será extremadamente hostil (por diseñar más adelante). En el End quedan los restos abandonados de su red, que han corrupto a sus criaturas y al dragón. Ver `docs/PLAN_END.md`.
 
 **Progresión por dimensiones (usuario, 2026-11-08):** tiers 1-3 en Overworld, Nether y End; tiers 4 y 5 en 3 dimensiones nuevas del mod.
 

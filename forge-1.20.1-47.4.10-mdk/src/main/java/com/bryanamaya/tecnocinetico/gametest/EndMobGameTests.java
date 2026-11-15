@@ -25,7 +25,7 @@ import net.minecraftforge.gametest.PrefixGameTestTemplate;
 
 import java.util.UUID;
 
-/** End, parte 1: endermen, shulkers y endermites corrompidos (solo en el End). */
+/** End, parte 1: endermen, shulkers y endermites corruptos (solo en el End). */
 @GameTestHolder(Tecnocinetico.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class EndMobGameTests {
@@ -66,7 +66,7 @@ public class EndMobGameTests {
             s.addFreshEntity(enderman);
             NetherMobEvents.setClock(enderman, 0);
             EndMobEvents.enemyTick(new LivingEvent.LivingTickEvent(enderman));
-            h.assertTrue(enderman.getTarget() == player, "El enderman corrompido no ataca al ver al jugador");
+            h.assertTrue(enderman.getTarget() == player, "El enderman corrupto no ataca al ver al jugador");
             enderman.setTarget(null);
             player.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ModItems.NULLITE_HELMET.get()));
             player.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ModItems.NULLITE_CHESTPLATE.get()));

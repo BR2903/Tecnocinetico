@@ -50,7 +50,7 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.END_STONE)
                     .strength(5.0f, 9.0f).requiresCorrectToolForDrops()));
 
-    /** Piedra del End corrompida: la red de datos se extiende por la isla al despertar el Dragón (end/EndArena). */
+    /** Piedra del End corrupta: la red de datos se extiende por la isla al despertar el Dragón (end/EndArena). */
     public static final RegistryObject<Block> CORRUPTED_END_STONE = registerBlock("corrupted_end_stone",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.END_STONE).strength(3.5f, 9.0f).requiresCorrectToolForDrops()
                     .lightLevel(s -> 4)));

@@ -16,7 +16,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 | `block/ModBlocks` | bloques + su BlockItem (`registerBlock`) |
 | `block/entity/ModBlockEntities` | prensa manual, prensa automática, ensamblador de armas, consola del Núcleo, fuente creativa |
 | `machine/MachineBlockEntities` | máquinas eléctricas (`MachineKind`): refinador, cargador, fabricador, cámara de reacción, laboratorio, reactor, ensamblador industrial |
-| `entity/ModEntities` | enjambre (cuerpo, avispa, nodo de colmena), superviviente, torreta, dron, corrompidos (humano, tirador, araña, araña de cueva, ahogado, creeper), Anclador, granada, Caza del Núcleo y su misil, Araña de Asedio (jefe), cohete guiado |
+| `entity/ModEntities` | enjambre (cuerpo, avispa, nodo de colmena), superviviente, torreta, dron, corruptos (humano, tirador, araña, araña de cueva, ahogado, creeper), Anclador, granada, Caza del Núcleo y su misil, Araña de Asedio (jefe), cohete guiado |
 | `menu/ModMenus` | Banco de Armas, Prensa Automática, Ensamblador de Armas, Equipo Táctico y una interfaz por máquina eléctrica (`MachineMenu`) |
 | `particle/ModParticles` | `kinetic_tracer`, `kinetic_spark`, `kinetic_burst`, `flame_stream` |
 | `fluid/ModFluids` | ácido sulfúrico, refrigerante, Celda Universal |
@@ -183,9 +183,10 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - **Jefes del Nether**: base `nether/NetherBossEntity` (contrato `attack/windup/exposed/enraged`, consola, multijugador, reinicio, `launchSlag`, `hurtArea`, `ring`); `AbyssFoundryEntity` y `SlagDevourerEntity` (+ `burrowed()`). Estructuras en `InfernalSitePiece.foundry/excavation`; consola `CoreConsoleBlockEntity` guardianes `abyss_foundry` / `slag_devourer`.
 
 ## End
-- `end/EndMobEvents`: mobs vanilla del End corrompidos (atributos guardados en NBT `EndCorrupted`/`EndOriginal*` y restaurados fuera del End; salto de desfase del enderman y ráfaga del shulker con el reloj de `NetherMobEvents.clock`).
-- `entity/client/EndRemodelRenderers` + `EndRemodelLayers` (Codex): aspecto corrompido solo en el End. `client/GlitchParticle`: partícula `data_glitch`.
+- `end/EndMobEvents`: mobs vanilla del End corruptos (atributos guardados en NBT `EndCorrupted`/`EndOriginal*` y restaurados fuera del End; salto de desfase del enderman y ráfaga del shulker con el reloj de `NetherMobEvents.clock`).
+- `entity/client/EndRemodelRenderers` + `EndRemodelLayers` (Codex): aspecto corrupto solo en el End. `client/GlitchParticle`: partícula `data_glitch`.
 - `end/EndArena` (pelea del Dragón modificado: torres rotas, despertar, ataques, botín) + `EndArenaData` (SavedData) + `EndRelayTurretEntity` (renderizador `entity/client/EndRelayTurretRenderer`). Accede a `EndDragonFight.dragonEvent/dragonKilled/dragonUUID` por el access transformer `META-INF/accesstransformer.cfg`.
+- `end/EndEntities` (registro propio, atributos y reglas de aparición: solo End y a ≥ 600 bloques del centro; biomas en `forge/biome_modifier/end_spawns.json`). `DataWormEntity` es **multiparte** (`DataWormPart extends PartEntity`, ids reservados tras el del gusano como el Dragón): las partes siguen el rastro de la cabeza por distancia en servidor y cliente (`layout()`), cada una con su vida; renderizador `entity/client/DataWormRenderer`. `DataSpecterEntity` (intangible en `PHASED`) con `DataSpecterRenderer` (translúcido; el núcleo se dibuja opaco aparte). Modelos de Codex `DataWormModel`/`DataSpecterModel`.
 - Efectos `effect/DataCorruptionEffect` y `EmpEffect`; `TacticalGear.active(Player, slot)` y `jammed()` aplican el EMP (usar siempre la versión con jugador). `network/EndQuakePacket` → `end/ClientEndData` → `client/EndClientEffects` (temblor de cámara y superposición de corrupción).
 
 ## Rendimiento

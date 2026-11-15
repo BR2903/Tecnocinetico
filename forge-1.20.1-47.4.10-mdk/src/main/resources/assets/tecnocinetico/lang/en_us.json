@@ -726,5 +726,9 @@
   "entity.tecnocinetico.corrupted_dragon": "Corrupted Ender Dragon",
   "message.tecnocinetico.end_awakening": "The island shakes... the remains of the AI network awaken beneath the obsidian.",
   "message.tecnocinetico.end_reinforcements": "The Dragon calls reinforcements and repairs turrets!",
-  "message.tecnocinetico.end_defeated": "The corrupted Dragon has fallen. Its loot awaits by the portal."
+  "message.tecnocinetico.end_defeated": "The corrupted Dragon has fallen. Its loot awaits by the portal.",
+  "entity.tecnocinetico.data_worm": "Data Worm",
+  "item.tecnocinetico.data_worm_spawn_egg": "Data Worm Spawn Egg",
+  "entity.tecnocinetico.data_specter": "Data Specter",
+  "item.tecnocinetico.data_specter_spawn_egg": "Data Specter Spawn Egg"
 }

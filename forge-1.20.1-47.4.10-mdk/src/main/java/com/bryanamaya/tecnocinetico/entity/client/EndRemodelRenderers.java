@@ -28,7 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * Mobs vanilla del End corrompidos por la red de la IA (arte de Codex: {@link EndRemodelLayers}, texturas en
+ * Mobs vanilla del End corruptos por la red de la IA (arte de Codex: {@link EndRemodelLayers}, texturas en
  * {@code textures/entity/end_remodel/}). Se ven así <b>solo dentro del End</b>, como su comportamiento
  * ({@code end/EndMobEvents}); fuera usan el modelo y la textura vanilla. Mismo esquema que {@link NetherRemodelRenderers}:
  * se hereda el renderizador vanilla (animaciones, bloque en brazos, apertura de la tapa) y se cambian modelo, textura
@@ -49,7 +49,7 @@ public final class EndRemodelRenderers {
         return ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/end_remodel/" + name + ".png");
     }
 
-    /** El aspecto corrompido se usa solo en el End. */
+    /** El aspecto corrupto se usa solo en el End. */
     public static boolean inEnd(Entity e) {
         return e.level() != null && e.level().dimension() == Level.END;
     }
@@ -137,7 +137,7 @@ public final class EndRemodelRenderers {
             return inEnd(e) ? TEXTURE : super.getTextureLocation(e);
         }
 
-        /** Como {@link ShulkerHeadLayer}, pero con la textura corrompida dentro del End. */
+        /** Como {@link ShulkerHeadLayer}, pero con la textura corrupta dentro del End. */
         private static final class Head extends RenderLayer<Shulker, ShulkerModel<Shulker>> {
             Head(RenderLayerParent<Shulker, ShulkerModel<Shulker>> parent) {
                 super(parent);

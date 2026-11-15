@@ -9,7 +9,7 @@ Autor: **Bryan Amaya**.
 
 ## Qué trae
 - **Mundo post-apocalíptico**: 19 biomas, ruinas, asentamientos con supervivientes, fábricas, colmenas, antenas,
-  búnkeres, laboratorios y una ciudad sumergida. Criaturas biomecánicas (Enjambre, drones, torretas, corrompidos).
+  búnkeres, laboratorios y una ciudad sumergida. Criaturas biomecánicas (Enjambre, drones, torretas, corruptos).
 - **Jefes**: Araña de Asedio, Vigía de la Red y Matriarca del Enjambre, con arenas y consolas.
 - **Armas** por tiers (pistola cinética, escopetas, rifles, francotirador, ametralladora, minigun, lanzallamas,
   rifle de riel, lanzagranadas, lanzacohetes...) con módulos, munición en paquetes y un cargador para cada arma.

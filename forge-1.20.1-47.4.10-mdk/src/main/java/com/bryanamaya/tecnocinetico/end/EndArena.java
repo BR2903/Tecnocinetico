@@ -62,8 +62,8 @@ import java.util.UUID;
  *       crecientes y suena el rugido.</li>
  *   <li><b>Pelea</b>: el Dragón del End modificado sale de debajo de la isla y en cada torre aparece una
  *       <b>Torreta-repetidor</b> ({@link EndRelayTurretEntity}) que lo cura como un cristal y dispara a los jugadores.
- *       Ataques nuevos: aliento corrompido (nubes de corrupción de datos), Pulso EMP al aterrizar, Lluvia de datos
- *       desde el aire y refuerzos a mitad de vida (endermen corrompidos y dos torretas reparadas).</li>
+ *       Ataques nuevos: aliento corrupto (nubes de corrupción de datos), Pulso EMP al aterrizar, Lluvia de datos
+ *       desde el aire y refuerzos a mitad de vida (endermen corruptos y dos torretas reparadas).</li>
  *   <li><b>Derrotado</b>: botín junto al portal, uno por jugador que luchó (máx. 4).</li>
  * </ol>
  * Todo se decide en el servidor; los efectos los ven todos (partículas de servidor y paquete de temblor).
@@ -172,7 +172,7 @@ public final class EndArena {
         }
     }
 
-    /** La red se extiende: Piedra del End de la superficie dentro del radio pasa a corrompida, con glitches. */
+    /** La red se extiende: Piedra del End de la superficie dentro del radio pasa a corrupta, con glitches. */
     public static void corruptGround(ServerLevel end, double radius, int count) {
         for (int i = 0; i < count; i++) {
             double a = end.random.nextDouble() * Math.PI * 2, r = Math.sqrt(end.random.nextDouble()) * radius;
@@ -492,7 +492,7 @@ public final class EndArena {
         }
     }
 
-    /** A mitad de vida: endermen corrompidos junto a los jugadores y dos torretas reparadas. */
+    /** A mitad de vida: endermen corruptos junto a los jugadores y dos torretas reparadas. */
     public static void reinforce(ServerLevel end, EndArenaData data, EnderDragon d) {
         data.reinforced = true;
         data.setDirty();
@@ -575,7 +575,7 @@ public final class EndArena {
                 corrupt(d);                                                   // p. ej. reaparecido con cristales
             }
         } else if (event.getEntity() instanceof AreaEffectCloud cloud && cloud.getOwner() != null && isCorrupted(cloud.getOwner())) {
-            cloud.setParticle(ModParticles.DATA_GLITCH.get());               // aliento corrompido
+            cloud.setParticle(ModParticles.DATA_GLITCH.get());               // aliento corrupto
             cloud.addEffect(new MobEffectInstance(ModEffects.DATA_CORRUPTION.get(), CORRUPTION_TICKS, 0));
         }
     }

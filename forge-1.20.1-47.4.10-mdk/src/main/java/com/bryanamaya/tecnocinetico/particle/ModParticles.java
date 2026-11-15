@@ -35,7 +35,7 @@ public final class ModParticles {
     public static final RegistryObject<SimpleParticleType> MUZZLE_FLASH =
             PARTICLE_TYPES.register("muzzle_flash", () -> new SimpleParticleType(true));
 
-    /** Fallo de datos (End corrompido): píxeles rotos magenta/violeta que parpadean (client/GlitchParticle). */
+    /** Fallo de datos (End corrupto): píxeles rotos magenta/violeta que parpadean (client/GlitchParticle). */
     public static final RegistryObject<SimpleParticleType> DATA_GLITCH =
             PARTICLE_TYPES.register("data_glitch", () -> new SimpleParticleType(true));
 
