@@ -71,6 +71,9 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.JETPACK_FUEL.get());
                         out.accept(ModItems.JETPACK_KIT_2.get());
                         out.accept(ModItems.JETPACK_KIT_3.get());
+                        ItemStack wings = new ItemStack(ModItems.THRUSTER_ELYTRA.get());
+                        com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.setFuel(wings, com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.MAX_FUEL);
+                        out.accept(wings);
                         // nave
                         out.accept(ModItems.CORE_FIGHTER.get());
                         // criaturas (huevos) y arena del guardián
@@ -86,7 +89,6 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.ASH_SENTINEL_SPAWN_EGG.get());
                         out.accept(ModItems.ABYSS_FOUNDRY_SPAWN_EGG.get());
                         out.accept(ModItems.SLAG_DEVOURER_SPAWN_EGG.get());
-                        out.accept(ModItems.DATA_WORM_SPAWN_EGG.get());
                         out.accept(ModItems.DATA_SPECTER_SPAWN_EGG.get());
                         out.accept(ModItems.SWARM_WASP_SPAWN_EGG.get());
                         out.accept(ModItems.HIVE_NODE_SPAWN_EGG.get());
@@ -333,6 +335,11 @@ public class ModCreativeModeTabs {
                         out.accept(ModItems.SLAG_ALLOY.get());
                         out.accept(ModBlocks.NULLITE_ORE.get());
                         out.accept(ModBlocks.CORRUPTED_END_STONE.get());
+                        out.accept(ModBlocks.NETWORK_PLATING.get());
+                        out.accept(ModBlocks.SERVER_RACK.get());
+                        out.accept(ModBlocks.NETWORK_TERMINAL.get());
+                        out.accept(ModBlocks.DATA_CRYSTAL.get());
+                        out.accept(ModBlocks.DATA_CABLE.get());
                         out.accept(ModItems.RAW_NULLITE.get());
                         out.accept(ModItems.NULLITE_INGOT.get());
                         out.accept(ModItems.DIMENSIONAL_DRIVE.get());

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "tecnocinetico:end_server_farm",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 36,
+    "separation": 12,
+    "salt": 91207002
+  }
+}

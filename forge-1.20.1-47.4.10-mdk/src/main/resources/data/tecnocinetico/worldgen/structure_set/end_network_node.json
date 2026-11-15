@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "tecnocinetico:end_network_node",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 18,
+    "separation": 6,
+    "salt": 91207001
+  }
+}

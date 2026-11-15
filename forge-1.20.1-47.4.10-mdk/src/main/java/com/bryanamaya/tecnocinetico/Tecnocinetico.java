@@ -309,9 +309,6 @@ public class Tecnocinetico {
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.SlagDevourerModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.SlagDevourerModel::createBodyLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DroneModel.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.DroneModel::createLayer);
-            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DataWormModel.HEAD_LAYER, com.bryanamaya.tecnocinetico.entity.client.DataWormModel::createHead);
-            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DataWormModel.SEGMENT_LAYER, com.bryanamaya.tecnocinetico.entity.client.DataWormModel::createSegment);
-            event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DataWormModel.TAIL_LAYER, com.bryanamaya.tecnocinetico.entity.client.DataWormModel::createTail);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.DataSpecterModel.LAYER, com.bryanamaya.tecnocinetico.entity.client.DataSpecterModel::createBodyLayer);
             event.registerLayerDefinition(com.bryanamaya.tecnocinetico.entity.client.EndRelayTurretRenderer.LAYER,
                     com.bryanamaya.tecnocinetico.entity.client.EndRelayTurretModel::createBodyLayer);
@@ -331,7 +328,12 @@ public class Tecnocinetico {
                 var renderer = event.getSkin(skin);
                 if (renderer instanceof net.minecraft.client.renderer.entity.player.PlayerRenderer pr) {
                     pr.addLayer(new com.bryanamaya.tecnocinetico.client.GearLayer(pr, event.getEntityModels()));
+                    pr.addLayer(new com.bryanamaya.tecnocinetico.client.ElytraThrustClient.Layer<>(pr, event.getEntityModels()));
                 }
+            }
+            var stand = event.getRenderer(net.minecraft.world.entity.EntityType.ARMOR_STAND);
+            if (stand instanceof net.minecraft.client.renderer.entity.ArmorStandRenderer asr) {
+                asr.addLayer(new com.bryanamaya.tecnocinetico.client.ElytraThrustClient.Layer<>(asr, event.getEntityModels()));
             }
         }
 
@@ -340,7 +342,6 @@ public class Tecnocinetico {
             event.registerEntityRenderer(ModEntities.SWARM_BODY.get(), SwarmBodyRenderer::new);
             event.registerEntityRenderer(ModEntities.SWARM_WASP.get(), com.bryanamaya.tecnocinetico.entity.client.SwarmWaspRenderer::new);
             event.registerEntityRenderer(ModEntities.HIVE_NODE.get(), com.bryanamaya.tecnocinetico.entity.client.HiveNodeRenderer::new);
-            event.registerEntityRenderer(com.bryanamaya.tecnocinetico.end.EndEntities.DATA_WORM.get(), com.bryanamaya.tecnocinetico.entity.client.DataWormRenderer::new);
             event.registerEntityRenderer(com.bryanamaya.tecnocinetico.end.EndEntities.DATA_SPECTER.get(), com.bryanamaya.tecnocinetico.entity.client.DataSpecterRenderer::new);
             event.registerEntityRenderer(ModEntities.END_RELAY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.client.EndRelayTurretRenderer::new);
             event.registerEntityRenderer(ModEntities.SENTRY_TURRET.get(), com.bryanamaya.tecnocinetico.entity.client.SentryTurretRenderer::new);

@@ -55,6 +55,26 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.END_STONE).strength(3.5f, 9.0f).requiresCorrectToolForDrops()
                     .lightLevel(s -> 4)));
 
+    // --- Red abandonada de la IA (estructuras del End) ---
+    private static BlockBehaviour.Properties network() {
+        return BlockBehaviour.Properties.of().mapColor(net.minecraft.world.level.material.MapColor.COLOR_BLACK).strength(6.0f, 12.0f)
+                .requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK);
+    }
+
+    /** Blindaje de la Red: muro de las instalaciones de la IA. */
+    public static final RegistryObject<Block> NETWORK_PLATING = registerBlock("network_plating", () -> new Block(network()));
+    public static final RegistryObject<Block> SERVER_RACK = registerBlock("server_rack",
+            () -> new com.bryanamaya.tecnocinetico.end.NetworkBlocks.Facing(network().lightLevel(s -> 3)));
+    /** Terminal de la Red: muestra un registro de la IA (propiedad entry). */
+    public static final RegistryObject<Block> NETWORK_TERMINAL = registerBlock("network_terminal",
+            () -> new com.bryanamaya.tecnocinetico.end.NetworkBlocks.Terminal(network().lightLevel(s -> 5)));
+    public static final RegistryObject<Block> DATA_CRYSTAL = registerBlock("data_crystal",
+            () -> new com.bryanamaya.tecnocinetico.end.NetworkBlocks.Crystal(BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER).strength(1.5f).lightLevel(s -> 10)
+                    .noOcclusion().sound(SoundType.AMETHYST_CLUSTER)));
+    public static final RegistryObject<Block> DATA_CABLE = registerBlock("data_cable",
+            () -> new net.minecraft.world.level.block.CarpetBlock(BlockBehaviour.Properties.copy(Blocks.BLACK_CARPET).strength(0.4f)
+                    .sound(SoundType.METAL)));
+
     // --- ALEACIÓN ANTIGUA ---
     public static final RegistryObject<Block> ANCIENT_ALLOY_BLOCK = registerBlock("ancient_alloy_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(5.0f, 6.0f).sound(SoundType.NETHERITE_BLOCK)));

@@ -79,6 +79,13 @@ public class TecnocineticoJeiPlugin implements IModPlugin {
         registration.addRecipes(MachineRecipeCategory.REACTION, MachineRecipeCategory.reaction());
         registration.addRecipes(LabRecipeCategory.TYPE, com.bryanamaya.tecnocinetico.machine.MachineRecipes.LAB);
         registration.addRecipes(AssemblyRecipeCategory.TYPE, com.bryanamaya.tecnocinetico.machine.MachineRecipes.ASSEMBLY);
+        // Élitros de Propulsión: receta especial (jetpack Mk III con NBT); se enseña como una de mesa
+        registration.addRecipes(mezz.jei.api.constants.RecipeTypes.CRAFTING, List.of(new net.minecraft.world.item.crafting.ShapedRecipe(
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(com.bryanamaya.tecnocinetico.Tecnocinetico.MOD_ID, "jei/thruster_elytra"), "",
+                net.minecraft.world.item.crafting.CraftingBookCategory.EQUIPMENT, 3, 3,
+                com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.Recipe.display(), new ItemStack(ModItems.THRUSTER_ELYTRA.get()))));
+        registration.addIngredientInfo(new ItemStack(ModItems.THRUSTER_ELYTRA.get()), VanillaTypes.ITEM_STACK,
+                Component.translatable("jei.tecnocinetico.thruster_elytra_info"));
         // titanio y uranio: solo en la Cámara de Reacción; el uranio es radiactivo
         registration.addIngredientInfo(List.of(new ItemStack(ModItems.RAW_TITANIUM.get()), new ItemStack(ModItems.TITANIUM_DUST.get()),
                         new ItemStack(ModBlocks.TITANIUM_ORE.get()), new ItemStack(ModBlocks.DEEPSLATE_TITANIUM_ORE.get())),

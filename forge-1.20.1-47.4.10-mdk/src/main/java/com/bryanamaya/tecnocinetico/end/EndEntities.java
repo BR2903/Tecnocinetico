@@ -7,7 +7,6 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -23,11 +22,6 @@ import net.minecraftforge.registries.RegistryObject;
 public final class EndEntities {
 
     public static final DeferredRegister<EntityType<?>> TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Tecnocinetico.MOD_ID);
-
-    /** Gusano de Datos: excava la piedra del End y sale en arco; segmentos que se rompen por separado. */
-    public static final RegistryObject<EntityType<DataWormEntity>> DATA_WORM = TYPES.register("data_worm",
-            () -> EntityType.Builder.<DataWormEntity>of(DataWormEntity::new, MobCategory.MONSTER).sized(1.2F, 1.2F).fireImmune()
-                    .clientTrackingRange(10).updateInterval(1).build("data_worm"));
 
     /** Espectro de Datos: proyección de luz sólida, intangible hasta que se materializa para atacar. */
     public static final RegistryObject<EntityType<DataSpecterEntity>> DATA_SPECTER = TYPES.register("data_specter",
@@ -46,7 +40,6 @@ public final class EndEntities {
     }
 
     private static void attributes(EntityAttributeCreationEvent event) {
-        event.put(DATA_WORM.get(), DataWormEntity.attributes().build());
         event.put(DATA_SPECTER.get(), DataSpecterEntity.attributes().build());
     }
 
@@ -55,11 +48,6 @@ public final class EndEntities {
     }
 
     private static void placements(SpawnPlacementRegisterEvent event) {
-        event.register(DATA_WORM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                (type, level, reason, pos, random) -> level.getLevel().dimension() == Level.END && outer(pos)
-                        && level.getBlockState(pos.below()).is(Blocks.END_STONE)
-                        && Monster.checkAnyLightMonsterSpawnRules(type, level, reason, pos, random),
-                SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(DATA_SPECTER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 (type, level, reason, pos, random) -> level.getLevel().dimension() == Level.END && outer(pos)
                         && Monster.checkAnyLightMonsterSpawnRules(type, level, reason, pos, random),

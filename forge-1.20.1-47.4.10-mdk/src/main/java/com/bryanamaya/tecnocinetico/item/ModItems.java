@@ -187,8 +187,6 @@ public class ModItems {
     public static final RegistryObject<Item> SWARM_CORE = ITEMS.register("swarm_core",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.UNCOMMON).stacksTo(16)));
     // ---- End (parte 3): enemigos nuevos de las islas exteriores
-    public static final RegistryObject<Item> DATA_WORM_SPAWN_EGG = ITEMS.register("data_worm_spawn_egg",
-            () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.end.EndEntities.DATA_WORM, 0x2A2430, 0xC04CFF, new Item.Properties()));
     public static final RegistryObject<Item> DATA_SPECTER_SPAWN_EGG = ITEMS.register("data_specter_spawn_egg",
             () -> new ForgeSpawnEggItem(com.bryanamaya.tecnocinetico.end.EndEntities.DATA_SPECTER, 0x1A1022, 0xFF4FD8, new Item.Properties()));
     // ---- Nether (parte 2): enemigos nuevos y lo que sueltan
@@ -261,8 +259,12 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.item.custom.LoreItem("tooltip.tecnocinetico.data_core", false,
                     new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
     public static final RegistryObject<Item> NAVIGATION_CORE = ITEMS.register("navigation_core",
-            () -> new com.bryanamaya.tecnocinetico.item.custom.LoreItem("tooltip.tecnocinetico.navigation_core", true,
+            () -> new com.bryanamaya.tecnocinetico.end.NavigationCoreItem(
                     new Item.Properties().stacksTo(16).fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)));
+    /** Élitros de Propulsión: élitros + Jetpack Mk III (receta especial ThrusterElytraItem.Recipe). */
+    public static final RegistryObject<Item> THRUSTER_ELYTRA = ITEMS.register("thruster_elytra",
+            () -> new com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem(
+                    new Item.Properties().fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)));
     // Devorador de Escoria: botín (material del arma de tier 3 del Nether)
     public static final RegistryObject<Item> FORGE_HEART = ITEMS.register("forge_heart",
             () -> new Item(new Item.Properties().stacksTo(16).fireResistant().rarity(net.minecraft.world.item.Rarity.EPIC)));

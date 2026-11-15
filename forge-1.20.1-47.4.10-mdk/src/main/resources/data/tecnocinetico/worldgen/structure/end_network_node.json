@@ -1,0 +1,8 @@
+{
+  "type": "tecnocinetico:end_site",
+  "biomes": "#tecnocinetico:has_structure/end_network",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "site": 0
+}

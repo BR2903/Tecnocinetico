@@ -16,6 +16,9 @@
     "tecnocinetico:uranium_block",
     "tecnocinetico:reaction_chamber",
     "tecnocinetico:chemical_lab",
-    "tecnocinetico:fission_reactor"
+    "tecnocinetico:fission_reactor",
+    "tecnocinetico:network_plating",
+    "tecnocinetico:server_rack",
+    "tecnocinetico:network_terminal"
   ]
 }

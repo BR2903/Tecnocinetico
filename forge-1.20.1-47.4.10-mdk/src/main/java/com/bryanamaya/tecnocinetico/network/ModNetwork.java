@@ -73,6 +73,8 @@ public final class ModNetwork {
                 ToggleGadgetPacket::handle, java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(21, ParticleShapePacket.class, ParticleShapePacket::encode, ParticleShapePacket::decode, ParticleShapePacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(23, ElytraThrustPacket.class, (m, b) -> b.writeBoolean(m.on()), b -> new ElytraThrustPacket(b.readBoolean()),
+                ElytraThrustPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(22, MobVariantPacket.class, MobVariantPacket::encode, MobVariantPacket::decode, MobVariantPacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(20, EndQuakePacket.class, EndQuakePacket::encode, EndQuakePacket::decode, EndQuakePacket::handle,
@@ -407,6 +409,23 @@ public final class ModNetwork {
                     p.level().playSound(null, p.getX(), p.getY(), p.getZ(), net.minecraft.sounds.SoundEvents.UI_BUTTON_CLICK.value(),
                             net.minecraft.sounds.SoundSource.PLAYERS, 0.4F, g.visorOn() ? 1.4F : 0.9F);
                 });
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** El cliente empieza/deja de empujar con los Élitros de Propulsión. */
+    public record ElytraThrustPacket(boolean on) {
+        public static void handle(ElytraThrustPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null) {
+                    if (msg.on) {
+                        com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.THRUSTING.add(p.getUUID());
+                    } else {
+                        com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.THRUSTING.remove(p.getUUID());
+                    }
+                }
             });
             ctx.get().setPacketHandled(true);
         }

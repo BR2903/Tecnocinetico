@@ -10,6 +10,10 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 COLORS = {
+    "end_stone": (219, 222, 158), "obsidian": (20, 18, 30), "crying_obsidian": (60, 20, 100), "blackstone": (42, 36, 42),
+    "corrupted_end_stone": (150, 90, 170), "network_plating": (44, 42, 50), "server_rack": (30, 28, 36),
+    "network_terminal": (120, 50, 160), "data_crystal": (200, 76, 255), "data_cable": (70, 60, 80), "iron_bars": (150, 150, 150),
+    "iron_block": (200, 200, 200), "ladder": (150, 110, 60),
     "deepslate_tiles": (60, 60, 66), "cracked_deepslate_tiles": (52, 52, 58), "polished_deepslate": (72, 72, 78),
     "deepslate_tile_stairs": (60, 60, 66), "sea_lantern": (190, 230, 230), "polished_blackstone": (46, 42, 50),
     "redstone_lamp": (120, 70, 40), "cyan_stained_glass": (60, 150, 170), "glass": (200, 230, 240),

@@ -31,6 +31,11 @@ public final class ModRecipes {
             SERIALIZERS.register("jetpack_upgrade",
                     () -> new SimpleCraftingRecipeSerializer<>(com.bryanamaya.tecnocinetico.gear.GearRecipes.JetpackUpgrade::new));
 
+    /** Élitros + Jetpack Mk III + núcleo de datos + nulita + acopladores → Élitros de Propulsión. */
+    public static final RegistryObject<RecipeSerializer<com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.Recipe>> THRUSTER_ELYTRA =
+            SERIALIZERS.register("thruster_elytra",
+                    () -> new SimpleCraftingRecipeSerializer<>(com.bryanamaya.tecnocinetico.gear.ThrusterElytraItem.Recipe::new));
+
     private ModRecipes() {}
 
     public static void register(IEventBus bus) {

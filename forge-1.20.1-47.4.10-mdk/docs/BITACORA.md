@@ -872,3 +872,11 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Modificados (vanilla mejorados en su dimensión): Piglin, Piglin Bruto, Piglin Zombificado, Ghast, Blaze y Esqueleto Wither **Infernales**; Enderman, Shulker y Endermite **Corruptos**. Sus huevos (`VariantEggItem`) los crean ya marcados (`MobVariants`): conservan vida, armas, ataques y aspecto en cualquier dimensión (los piglins no se zombifican fuera del Nether). Los que aparecen de forma natural siguen igual que antes (solo en su dimensión). El Dragón no tiene huevo (fuera del End rompería bloques y daría vueltas al 0,0).
 - Prueba `VariantEggGameTests`. La del Vigía (`watcherKeepsFlyingAndVariesAttacks`) dependía de dónde caía en la rejilla de pruebas: el "atacante" se iba a más de 40 bloques (el Vigía lo olvida) y restos de otras pruebas le tapaban la vista; ahora la arena es grande (va sola en su lote) y el atacante no sale de ella. 94 pruebas.
 
+## 2026-11-15 — Claude + Codex — End, parte 4: estructuras de la red, Puerto de Lanzamiento y Élitros de Propulsión
+- Quitado el Gusano de Datos (entidad, partes, renderizador, modelo y texturas, huevo, botín, aparición, textos y pruebas).
+- Estructuras del End: Nodo de Datos, Granja de Servidores y el Puerto de Lanzamiento único con su cráter, edificios, registros de lore y botín (detalle en `docs/PLAN_END.md`, parte 4). Núcleo de Navegación: señala el Puerto en el End.
+- Bloques de la red (arte de Codex, `tools/end_part4_gen.py`): Blindaje, Rack, Terminal (lore), Cristal y Cable de Datos.
+- Élitros de Propulsión (receta con el Jetpack Mk III; empuje con combustible al planear). Capa propia para jugadores y soportes de armadura; receta en JEI.
+- `tools/render_dump.py`: colores de los bloques del End; las pruebas del End vuelcan sus estructuras en `run/gametest_dump/`.
+- Pruebas `EndStructureGameTests` (3). 95 pruebas.
+

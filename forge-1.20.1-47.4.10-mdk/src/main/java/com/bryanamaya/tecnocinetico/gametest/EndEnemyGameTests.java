@@ -3,7 +3,6 @@ package com.bryanamaya.tecnocinetico.gametest;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.effect.ModEffects;
 import com.bryanamaya.tecnocinetico.end.DataSpecterEntity;
-import com.bryanamaya.tecnocinetico.end.DataWormEntity;
 import com.bryanamaya.tecnocinetico.end.EndEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -20,7 +19,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.gametest.GameTestHolder;
 import net.minecraftforge.gametest.PrefixGameTestTemplate;
 
-/** End, parte 3: Gusano de Datos y Espectro de Datos (en el End de verdad, lejos de otras pruebas). */
+/** End, parte 3: Espectro de Datos (en el End de verdad, lejos de otras pruebas). */
 @GameTestHolder(Tecnocinetico.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class EndEnemyGameTests {
@@ -50,65 +49,6 @@ public class EndEnemyGameTests {
                 s.setChunkForced((at.getX() >> 4) + dx, (at.getZ() >> 4) + dz, on);
             }
         }
-    }
-
-    /** Bajo tierra es invulnerable; al salir se le puede romper un segmento (se acorta y el gusano lo nota) y vuelve a hundirse. */
-    @GameTest(template = "empty", timeoutTicks = 300)
-    public static void dataWormBurrowsAndBreaks(GameTestHelper h) {
-        ServerLevel s = end(h);
-        BlockPos at = new BlockPos(2216, 70, 2216);
-        platform(s, at, Blocks.END_STONE);
-        DataWormEntity worm = EndEntities.DATA_WORM.get().create(s);
-        worm.moveTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5, 0, 0);
-        worm.finalizeSpawn(s, s.getCurrentDifficultyAt(at), MobSpawnType.SPAWN_EGG, null, null);
-        s.addFreshEntity(worm);
-        h.assertTrue(worm.state() == DataWormEntity.BURROWED && worm.getY() < at.getY(), "Debería nacer bajo tierra: " + worm.getY());
-        h.assertFalse(worm.hurt(s.damageSources().generic(), 10), "Bajo tierra no se le puede dar");
-        h.assertFalse(worm.isPickable(), "Bajo tierra no se puede apuntar");
-        worm.testState(DataWormEntity.LUNGE);
-        boolean[] broke = {false};
-        h.succeedWhen(() -> {
-            if (!worm.isAlive()) {
-                throw new IllegalStateException("El gusano murió o desapareció");
-            }
-            if (!broke[0]) {
-                for (int i = 0; i < worm.parts().length; i++) {
-                    if (worm.partExposed(i)) {
-                        h.assertTrue(worm.parts()[i].isPickable(), "Un segmento fuera debería poder apuntarse");
-                        h.assertTrue(worm.parts()[i].hurt(s.damageSources().generic(), 30), "El segmento no recibe daño");
-                        h.assertTrue(worm.broken(i) && worm.getHealth() < worm.getMaxHealth(), "El segmento roto no cuenta");
-                        h.assertFalse(worm.partExposed(i), "Un segmento roto no se puede volver a golpear");
-                        broke[0] = true;
-                        break;
-                    }
-                }
-                h.assertTrue(broke[0], "Ningún segmento ha salido todavía");
-            }
-            h.assertTrue(worm.state() == DataWormEntity.BURROWED, "Todavía no ha vuelto bajo tierra: " + worm.state());
-            release(s, at);
-            worm.discard();
-        });
-    }
-
-    /** Si cae sobre algo que no puede excavar (obsidiana) queda aturdido y recibe más daño. */
-    @GameTest(template = "empty", timeoutTicks = 200)
-    public static void dataWormStunsOnObsidian(GameTestHelper h) {
-        ServerLevel s = end(h);
-        BlockPos at = new BlockPos(2344, 70, 2216);
-        platform(s, at, Blocks.OBSIDIAN);
-        DataWormEntity worm = EndEntities.DATA_WORM.get().create(s);
-        worm.moveTo(at.getX() + 0.5, at.getY() - DataWormEntity.DEPTH, at.getZ() + 0.5, 0, 0);
-        s.addFreshEntity(worm);
-        worm.testState(DataWormEntity.LUNGE);
-        h.succeedWhen(() -> {
-            h.assertTrue(worm.isAlive(), "El gusano desapareció");
-            h.assertTrue(worm.state() == DataWormEntity.STUNNED, "No se aturde al caer en obsidiana: " + worm.state());
-            float before = worm.getHealth();
-            h.assertTrue(worm.hurt(s.damageSources().generic(), 10), "Aturdido debería recibir daño");
-            h.assertTrue(before - worm.getHealth() > 10, "Aturdido debería recibir más daño: " + (before - worm.getHealth()));
-            release(s, at);
-            worm.discard();
-        });
     }
 
     /** Desfasado nada le da; el pulso daña y corrompe a lo que tiene cerca y luego queda expuesto. */
@@ -147,9 +87,8 @@ public class EndEnemyGameTests {
         var biomes = h.getLevel().registryAccess().registryOrThrow(Registries.BIOME);
         var outer = biomes.getOrThrow(Biomes.END_HIGHLANDS).getMobSettings().getMobs(MobCategory.MONSTER).unwrap();
         var center = biomes.getOrThrow(Biomes.THE_END).getMobSettings().getMobs(MobCategory.MONSTER).unwrap();
-        h.assertTrue(outer.stream().anyMatch(d -> d.type == EndEntities.DATA_WORM.get())
-                && outer.stream().anyMatch(d -> d.type == EndEntities.DATA_SPECTER.get()), "Faltan en las tierras altas del End");
-        h.assertTrue(center.stream().noneMatch(d -> d.type == EndEntities.DATA_WORM.get() || d.type == EndEntities.DATA_SPECTER.get()),
+        h.assertTrue(outer.stream().anyMatch(d -> d.type == EndEntities.DATA_SPECTER.get()), "Falta en las tierras altas del End");
+        h.assertTrue(center.stream().noneMatch(d -> d.type == EndEntities.DATA_SPECTER.get()),
                 "No deberían aparecer en la isla central");
         h.assertFalse(EndEntities.outer(new BlockPos(100, 60, 100)), "La isla central no cuenta como exterior");
         h.succeed();

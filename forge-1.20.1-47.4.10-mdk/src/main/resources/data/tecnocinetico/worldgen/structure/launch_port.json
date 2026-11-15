@@ -1,0 +1,8 @@
+{
+  "type": "tecnocinetico:end_site",
+  "biomes": "#tecnocinetico:has_structure/launch_port",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "site": 2
+}

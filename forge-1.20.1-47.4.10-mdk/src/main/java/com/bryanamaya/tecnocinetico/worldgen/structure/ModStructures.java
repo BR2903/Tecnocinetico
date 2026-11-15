@@ -51,6 +51,12 @@ public final class ModStructures {
     public static final RegistryObject<StructurePieceType> AI_INSTALLATION_PIECE =
             PIECES.register("ai_installation", () -> (StructurePieceType.ContextlessType) AiInstallationPiece::new);
 
+    /** Restos de la red de la IA en el End: Nodo de Datos, Granja de Servidores y el Puerto de Lanzamiento (único). */
+    public static final RegistryObject<StructureType<EndSiteStructure>> END_SITE =
+            TYPES.register("end_site", () -> () -> EndSiteStructure.CODEC);
+    public static final RegistryObject<StructurePieceType> END_SITE_PIECE =
+            PIECES.register("end_site", () -> (StructurePieceType.ContextlessType) EndSitePiece::new);
+
     private ModStructures() {}
 
     public static final RegistryObject<StructureType<OverworldSiteStructure>> OVERWORLD_SITE =

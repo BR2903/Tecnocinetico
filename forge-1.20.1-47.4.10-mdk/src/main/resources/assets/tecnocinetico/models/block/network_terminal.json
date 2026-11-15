@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "tecnocinetico:block/network_terminal_front",
+    "north": "tecnocinetico:block/network_terminal_front",
+    "south": "tecnocinetico:block/server_rack_back",
+    "east": "tecnocinetico:block/server_rack_side",
+    "west": "tecnocinetico:block/server_rack_side",
+    "up": "tecnocinetico:block/server_rack_top",
+    "down": "tecnocinetico:block/server_rack_top"
+  }
+}

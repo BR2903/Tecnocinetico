@@ -346,7 +346,7 @@ public class WorldgenGameTests {
     }
 
     /** Vuelca los bloques (no aire) a run/gametest_dump/<nombre>.txt para revisarlos con tools/render_dump.py. */
-    private static void dump(ServerLevel level, BoundingBox bb, String name) {
+    static void dump(ServerLevel level, BoundingBox bb, String name) {
         try {
             java.nio.file.Path dir = java.nio.file.Path.of("gametest_dump");
             java.nio.file.Files.createDirectories(dir);

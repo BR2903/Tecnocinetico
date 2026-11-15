@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "tecnocinetico:launch_port",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:concentric_rings",
+    "distance": 32,
+    "spread": 1,
+    "count": 1,
+    "preferred_biomes": "#tecnocinetico:has_structure/launch_port",
+    "salt": 91207003
+  }
+}
