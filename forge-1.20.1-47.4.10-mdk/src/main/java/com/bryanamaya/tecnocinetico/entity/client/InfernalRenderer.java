@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.nether.InfernalEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -26,15 +27,14 @@ public class InfernalRenderer extends MobRenderer<InfernalEntity, InfernalModel>
         super(ctx, new InfernalModel(kind), shadow);
         this.scale = scale;
         this.texture = ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/" + id + ".png");
-        RenderType glow = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/" + id + "_glow.png"));
+        RenderType glow = GlowMask.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/" + id + "_glow.png"));
         addLayer(new RenderLayer<>(this) {
             @Override
             public void render(PoseStack pose, MultiBufferSource buffers, int light, InfernalEntity e, float swing, float amount,
                                float partial, float age, float yaw, float pitch) {
                 // cargando un ataque: el brillo late
                 float b = e.attack() != 0 ? 0.75F + 0.25F * (float) Math.sin(age * 0.9F) : 1.0F;
-                getParentModel().renderToBuffer(pose, buffers.getBuffer(glow), 15728640, OverlayTexture.NO_OVERLAY,
-                        b, e.exposed() ? 0.4F * b : b, b, 1.0F);
+                GlowMask.render(getParentModel(), glow, pose, buffers, b, e.exposed() ? 0.4F * b : b, b, 1.0F);
             }
         });
     }

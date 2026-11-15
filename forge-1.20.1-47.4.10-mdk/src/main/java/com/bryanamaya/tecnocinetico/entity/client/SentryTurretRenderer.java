@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.entity.custom.SentryTurretEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,8 +18,8 @@ import net.minecraft.resources.ResourceLocation;
 public class SentryTurretRenderer extends MobRenderer<SentryTurretEntity, SentryTurretModel> {
 
     private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/sentry_turret");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/sentry_turret_glow"));
-    private static final RenderType GLOW_CHARGE = RenderType.eyes(SwarmWaspRenderer.tex("remodel/sentry_turret_charge"));
+    private static final RenderType GLOW = GlowMask.eyes(SwarmWaspRenderer.tex("remodel/sentry_turret_glow"));
+    private static final RenderType GLOW_CHARGE = GlowMask.eyes(SwarmWaspRenderer.tex("remodel/sentry_turret_charge"));
 
     public SentryTurretRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new SentryTurretModel(ctx.bakeLayer(SentryTurretModel.LAYER)), 0.6F);
@@ -26,8 +27,8 @@ public class SentryTurretRenderer extends MobRenderer<SentryTurretEntity, Sentry
             @Override
             public void render(PoseStack pose, MultiBufferSource buffers, int light, SentryTurretEntity e,
                                float limbSwing, float limbSwingAmount, float partialTick, float age, float headYaw, float headPitch) {
-                var vc = buffers.getBuffer(e.isCharging() && (e.tickCount / 2) % 2 == 0 ? GLOW_CHARGE : GLOW);
-                getParentModel().renderToBuffer(pose, vc, 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                GlowMask.render(getParentModel(), e.isCharging() && (e.tickCount / 2) % 2 == 0 ? GLOW_CHARGE : GLOW, pose, buffers,
+                        1.0F, 1.0F, 1.0F, 1.0F);
             }
 
             @Override

@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.entity.boss.SiegeSpiderEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -14,9 +15,9 @@ import net.minecraft.resources.ResourceLocation;
 public class SiegeSpiderRenderer extends MobRenderer<SiegeSpiderEntity, SiegeSpiderModel> {
 
     private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/siege_spider");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_glow"));
-    private static final RenderType GLOW_RAGE = RenderType.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_rage"));
-    private static final RenderType GLOW_CHARGE = RenderType.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_charge"));
+    private static final RenderType GLOW = GlowMask.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_glow"));
+    private static final RenderType GLOW_RAGE = GlowMask.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_rage"));
+    private static final RenderType GLOW_CHARGE = GlowMask.eyes(SwarmWaspRenderer.tex("remodel/siege_spider_charge"));
 
     public SiegeSpiderRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new SiegeSpiderModel(ctx.bakeLayer(SiegeSpiderModel.LAYER)), 3.0F);
@@ -26,7 +27,7 @@ public class SiegeSpiderRenderer extends MobRenderer<SiegeSpiderEntity, SiegeSpi
                                float limbSwingAmount, float pt, float age, float headYaw, float headPitch) {
                 RenderType rt = e.mode() != 0 && e.mode() != 4 && (e.tickCount / 2) % 2 == 0 ? GLOW_CHARGE
                         : e.getHealth() / e.getMaxHealth() < 0.3F ? GLOW_RAGE : GLOW;
-                getParentModel().renderToBuffer(pose, buffers.getBuffer(rt), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                GlowMask.render(getParentModel(), rt, pose, buffers, 1.0F, 1.0F, 1.0F, 1.0F);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -15,14 +16,14 @@ import net.minecraft.world.entity.monster.Spider;
 public class CorruptedSpiderRenderer extends MobRenderer<Spider, CorruptedSpiderModel> {
 
     private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/corrupted_spider");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/corrupted_spider_glow"));
+    private static final RenderType GLOW = GlowMask.eyes(SwarmWaspRenderer.tex("remodel/corrupted_spider_glow"));
 
     private final float scale;
 
     public CorruptedSpiderRenderer(EntityRendererProvider.Context ctx, float scale) {
         super(ctx, new CorruptedSpiderModel(ctx.bakeLayer(CorruptedSpiderModel.LAYER)), 0.9F * scale);
         this.scale = scale;
-        addLayer(new EyesLayer<>(this) {
+        addLayer(new com.bryanamaya.tecnocinetico.client.GlowEyesLayer<>(this) {
             @Override
             public RenderType renderType() {
                 return GLOW;

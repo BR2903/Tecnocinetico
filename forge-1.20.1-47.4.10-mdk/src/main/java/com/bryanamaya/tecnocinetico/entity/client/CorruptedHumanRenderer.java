@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.entity.corrupted.CorruptedSkin;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -35,8 +36,8 @@ public class CorruptedHumanRenderer<T extends Monster & CorruptedSkin> extends H
             @Override
             public void render(PoseStack pose, MultiBufferSource buffers, int light, T e, float limbSwing, float limbSwingAmount,
                                float partialTick, float age, float headYaw, float headPitch) {
-                RenderType rt = GLOW.computeIfAbsent(e.skinName(), n -> RenderType.eyes(tex(n + "_glow")));
-                getParentModel().renderToBuffer(pose, buffers.getBuffer(rt), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                RenderType rt = GLOW.computeIfAbsent(e.skinName(), n -> GlowMask.eyes(tex(n + "_glow")));
+                GlowMask.render(getParentModel(), rt, pose, buffers, 1.0F, 1.0F, 1.0F, 1.0F);
             }
         });
     }

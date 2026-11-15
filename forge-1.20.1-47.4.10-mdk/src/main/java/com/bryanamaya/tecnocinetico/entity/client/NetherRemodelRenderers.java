@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.BlazeModel;
@@ -100,7 +101,7 @@ public final class NetherRemodelRenderers {
 
         Glow(RenderLayerParent<T, M> parent, String name, Function<T, Float> brightness) {
             super(parent);
-            this.type = RenderType.eyes(tex(name + "_glow"));
+            this.type = GlowMask.eyes(tex(name + "_glow"));
             this.brightness = brightness;
         }
 
@@ -111,7 +112,7 @@ public final class NetherRemodelRenderers {
                 return;
             }
             float b = brightness.apply(e);
-            getParentModel().renderToBuffer(pose, buffers.getBuffer(type), 15728640, OverlayTexture.NO_OVERLAY, b, b, b, 1.0F);
+            GlowMask.render(getParentModel(), type, pose, buffers, b, b, b, 1.0F);
         }
     }
 

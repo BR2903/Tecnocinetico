@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.end.EndRelayTurretEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -26,7 +27,7 @@ public class EndRelayTurretRenderer extends MobRenderer<EndRelayTurretEntity, En
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "end_relay_turret"), "main");
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/end_relay_turret.png");
-    private static final RenderType GLOW = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/end_relay_turret_glow.png"));
+    private static final RenderType GLOW = GlowMask.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/end_relay_turret_glow.png"));
     /** Altura del emisor sobre los pies (Codex). */
     private static final float MUZZLE_Y = 1.0F;
 
@@ -37,7 +38,7 @@ public class EndRelayTurretRenderer extends MobRenderer<EndRelayTurretEntity, En
             public void render(PoseStack pose, MultiBufferSource buffers, int light, EndRelayTurretEntity e, float swing, float amount,
                                float partial, float age, float yaw, float pitch) {
                 float b = 0.6F + 0.4F * e.charge();
-                getParentModel().renderToBuffer(pose, buffers.getBuffer(GLOW), 15728640, OverlayTexture.NO_OVERLAY, b, b, b, 1.0F);
+                GlowMask.render(getParentModel(), GLOW, pose, buffers, b, b, b, 1.0F);
             }
 
             @Override

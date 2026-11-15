@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.entity.boss.OverworldGuardianEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -21,8 +22,7 @@ public class OverworldGuardianRenderer extends MobRenderer<OverworldGuardianEnti
             @Override public void render(PoseStack pose, MultiBufferSource buffers, int light, OverworldGuardianEntity e,
                     float swing, float amount, float partial, float age, float yaw, float pitch) {
                 String suffix = e.mode() == 3 ? "_exposed" : e.mode() != 0 && e.tickCount % 4 < 2 ? "_charge" : "_glow";
-                getParentModel().renderToBuffer(pose, buffers.getBuffer(RenderType.eyes(tex(id + suffix))), 15728640,
-                        OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+                GlowMask.render(getParentModel(), GlowMask.eyes(tex(id + suffix)), pose, buffers, 1, 1, 1, 1);
             }
         });
     }

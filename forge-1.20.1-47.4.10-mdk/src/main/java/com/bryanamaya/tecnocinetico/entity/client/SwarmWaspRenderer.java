@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.entity.swarm.SwarmWaspEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,11 +13,11 @@ import net.minecraft.resources.ResourceLocation;
 /** Avispa del Enjambre: textura según su papel y capa luminosa (ojos y bandas de cinetrita). */
 public class SwarmWaspRenderer extends MobRenderer<SwarmWaspEntity, SwarmWaspModel<SwarmWaspEntity>> {
 
-    private static final RenderType GLOW = RenderType.eyes(tex("remodel/swarm_wasp/glow"));
+    private static final RenderType GLOW = GlowMask.eyes(tex("remodel/swarm_wasp/glow"));
 
     public SwarmWaspRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new SwarmWaspModel<>(ctx.bakeLayer(SwarmWaspModel.LAYER)), 0.3F);
-        addLayer(new EyesLayer<>(this) {
+        addLayer(new com.bryanamaya.tecnocinetico.client.GlowEyesLayer<>(this) {
             @Override
             public RenderType renderType() {
                 return GLOW;

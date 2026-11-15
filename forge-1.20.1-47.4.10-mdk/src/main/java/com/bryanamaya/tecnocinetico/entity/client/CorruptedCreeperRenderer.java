@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,7 +19,7 @@ import net.minecraft.world.entity.monster.Creeper;
 public class CorruptedCreeperRenderer extends CreeperRenderer {
 
     private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/corrupted_creeper");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/corrupted_creeper_glow"));
+    private static final RenderType GLOW = GlowMask.eyes(SwarmWaspRenderer.tex("remodel/corrupted_creeper_glow"));
 
     public CorruptedCreeperRenderer(EntityRendererProvider.Context ctx) {
         super(ctx);
@@ -29,7 +30,7 @@ public class CorruptedCreeperRenderer extends CreeperRenderer {
                                float partialTick, float age, float headYaw, float headPitch) {
                 float swell = e.getSwelling(partialTick);
                 float b = 0.45F + 0.15F * (float) Math.sin(age * 0.12F) + 0.55F * Math.min(1.0F, swell * 1.5F);
-                getParentModel().renderToBuffer(pose, buffers.getBuffer(GLOW), 15728640, OverlayTexture.NO_OVERLAY, b, b, b, 1.0F);
+                GlowMask.render(getParentModel(), GLOW, pose, buffers, b, b, b, 1.0F);
             }
         });
     }

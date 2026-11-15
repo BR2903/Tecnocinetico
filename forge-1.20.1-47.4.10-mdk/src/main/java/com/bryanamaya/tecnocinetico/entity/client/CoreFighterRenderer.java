@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.entity.ship.CoreFighterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -20,7 +21,7 @@ import net.minecraft.util.Mth;
 public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
 
     private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("core_fighter");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("core_fighter_glow"));
+    private static final RenderType GLOW = GlowMask.eyes(SwarmWaspRenderer.tex("core_fighter_glow"));
     private final CoreFighterModel model;
 
     public CoreFighterRenderer(EntityRendererProvider.Context ctx) {
@@ -60,7 +61,7 @@ public class CoreFighterRenderer extends EntityRenderer<CoreFighterEntity> {
         pose.translate(0.0D, -1.501D, 0.0D);
         model.configure(e.onGround(), true);
         model.renderToBuffer(pose, buffers.getBuffer(model.renderType(TEXTURE)), light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        model.renderToBuffer(pose, buffers.getBuffer(GLOW), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        GlowMask.render(model, GLOW, pose, buffers, 1.0F, 1.0F, 1.0F, 1.0F);
         pose.popPose();
         super.render(e, yaw, pt, pose, buffers, light);
     }

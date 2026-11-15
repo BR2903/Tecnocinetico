@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.end.DataSpecterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,7 +23,7 @@ import javax.annotation.Nullable;
 public class DataSpecterRenderer extends MobRenderer<DataSpecterEntity, DataSpecterModel<DataSpecterEntity>> {
 
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/data_specter.png");
-    private static final RenderType GLOW = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/data_specter_glow.png"));
+    private static final RenderType GLOW = GlowMask.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/data_specter_glow.png"));
 
     /** Opacidad del cuerpo en este fotograma (la lee el modelo al dibujarse). */
     private float alpha = 1.0F;
@@ -48,7 +49,7 @@ public class DataSpecterRenderer extends MobRenderer<DataSpecterEntity, DataSpec
                                float partial, float age, float yaw, float pitch) {
                 float m = e.materialize(partial);
                 float k = Mth.clamp(0.35F + 0.65F * Math.max(m, alpha), 0.0F, 1.0F);
-                getParentModel().renderToBuffer(pose, buffers.getBuffer(GLOW), 15728640, OverlayTexture.NO_OVERLAY, k, k, k, 1.0F);
+                GlowMask.render(getParentModel(), GLOW, pose, buffers, k, k, k, 1.0F);
             }
 
             @Override

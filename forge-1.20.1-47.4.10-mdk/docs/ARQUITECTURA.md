@@ -207,3 +207,6 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `map/MapEvents`: sincroniza (`MapPackets.Sync`, id 24) al entrar y en cada cambio; detecta las estructuras del `MapCatalog` en los chunks cargados alrededor de quien lleva el reloj (cada 100 ticks); acciones del cliente (`MapPackets.Action`, id 25: añadir/borrar marcador, buscar estructura como /locate con espera) y resultado (`LocateResult`, id 26).
 - Cliente: `client/map/MapExplorer` convierte los chunks cargados en colores de mapa (como un mapa vanilla; en el Nether el suelo bajo el techo), los pinta en texturas de regiones de 512x512 y los guarda en `tecnocinetico_maps/<mundo o servidor>/<dimensión>.dat`. `client/map/WristMapScreen` (tecla M o usar el reloj en la mano) y `ClientMapState`.
 
+### Render: pasada brillante recortada (`client/GlowMask`, `client/GlowEyesLayer`)
+Las capas brillantes de los mobs usan `GlowMask.eyes(tex)` en vez de `RenderType.eyes(tex)` (registra la textura) y `GlowMask.render(model, type, pose, buffers, r, g, b, a)` en vez de `model.renderToBuffer(...)`, o `GlowEyesLayer`. Calcula una vez por modelo y textura qué piezas tienen brillo (UV de sus cubos sobre la textura) y dibuja solo esas. **Un renderizador nuevo con brillo debe usarlo** (si no, redibuja el modelo entero).
+

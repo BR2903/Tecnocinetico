@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.entity.swarm.HiveNodeEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.RenderType;
@@ -13,11 +14,11 @@ public class HiveNodeRenderer extends MobRenderer<HiveNodeEntity, HiveNodeModel>
 
     private static final float SCALE = 1.0F;
     private static final ResourceLocation TEXTURE = SwarmWaspRenderer.tex("remodel/hive_node");
-    private static final RenderType GLOW = RenderType.eyes(SwarmWaspRenderer.tex("remodel/hive_node_glow"));
+    private static final RenderType GLOW = GlowMask.eyes(SwarmWaspRenderer.tex("remodel/hive_node_glow"));
 
     public HiveNodeRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new HiveNodeModel(ctx.bakeLayer(HiveNodeModel.LAYER)), 1.1F);
-        addLayer(new EyesLayer<>(this) {
+        addLayer(new com.bryanamaya.tecnocinetico.client.GlowEyesLayer<>(this) {
             @Override
             public RenderType renderType() {
                 return GLOW;

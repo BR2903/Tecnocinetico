@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EndermanModel;
@@ -78,7 +79,7 @@ public final class EndRemodelRenderers {
             this.vanilla = model;
             this.remodel = new EndermanModel<>(ctx.bakeLayer(ENDERMAN));
             layers.replaceAll(l -> l instanceof EnderEyesLayer<?> eyes ? new OutsideEnd<>(this, castEyes(eyes)) : l);
-            addLayer(new Glow<>(this, RenderType.eyes(tex("enderman_glow")), e -> e.isCreepy() ? 1.0F : 0.75F));
+            addLayer(new Glow<>(this, GlowMask.eyes(tex("enderman_glow")), e -> e.isCreepy() ? 1.0F : 0.75F));
         }
 
         @SuppressWarnings("unchecked")
@@ -104,7 +105,7 @@ public final class EndRemodelRenderers {
     public static final class Shulkers extends ShulkerRenderer {
         private final ShulkerModel<Shulker> vanilla, remodel;
         private static final ResourceLocation TEXTURE = tex("shulker");
-        private static final RenderType GLOW = RenderType.eyes(tex("shulker_glow"));
+        private static final RenderType GLOW = GlowMask.eyes(tex("shulker_glow"));
 
         Shulkers(EntityRendererProvider.Context ctx) {
             super(ctx);
@@ -120,7 +121,7 @@ public final class EndRemodelRenderers {
                         return;
                     }
                     var buffer = buffers.getBuffer(GLOW);
-                    getParentModel().renderToBuffer(pose, buffer, 15728640, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+                    GlowMask.render(getParentModel(), GLOW, pose, buffer, 1, 1, 1, 1);
                     getParentModel().getHead().render(pose, buffer, 15728640, OverlayTexture.NO_OVERLAY);
                 }
             });
@@ -173,7 +174,7 @@ public final class EndRemodelRenderers {
                 return;
             }
             float b = brightness.apply(e);
-            getParentModel().renderToBuffer(pose, buffers.getBuffer(type), 15728640, OverlayTexture.NO_OVERLAY, b, b, b, 1.0F);
+            GlowMask.render(getParentModel(), type, pose, buffers, b, b, b, 1.0F);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.bryanamaya.tecnocinetico.entity.client;
 
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.entity.custom.SwarmBodyEntity;
 import net.minecraft.client.renderer.RenderType;
@@ -13,12 +14,12 @@ public class SwarmBodyRenderer extends MobRenderer<SwarmBodyEntity, SwarmBodyMod
     private static final ResourceLocation TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/remodel/swarm_body.png");
     private static final RenderType GLOW =
-            RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/remodel/swarm_body_glow.png"));
+            GlowMask.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/remodel/swarm_body_glow.png"));
 
     public SwarmBodyRenderer(EntityRendererProvider.Context context) {
         super(context, new SwarmBodyModel(context.bakeLayer(SwarmBodyModel.LAYER)), 0.75F);
         // Núcleo de Cinetrita y ojos: brillan siempre, incluso a oscuras
-        this.addLayer(new EyesLayer<>(this) {
+        this.addLayer(new com.bryanamaya.tecnocinetico.client.GlowEyesLayer<>(this) {
             @Override
             public RenderType renderType() {
                 return GLOW;

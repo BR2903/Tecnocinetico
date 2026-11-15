@@ -1,4 +1,5 @@
 package com.bryanamaya.tecnocinetico.entity.client;
+import com.bryanamaya.tecnocinetico.client.GlowMask;
 import com.bryanamaya.tecnocinetico.Tecnocinetico;
 import com.bryanamaya.tecnocinetico.nether.SlagDevourerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 /** Solo presentación. Generado por tools/slag_devourer_gen.py. */
 public class SlagDevourerRenderer extends MobRenderer<SlagDevourerEntity, SlagDevourerModel> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/slag_devourer.png");
-    private static final RenderType GLOW = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/slag_devourer_glow.png"));
+    private static final RenderType GLOW = GlowMask.eyes(ResourceLocation.fromNamespaceAndPath(Tecnocinetico.MOD_ID, "textures/entity/slag_devourer_glow.png"));
     public SlagDevourerRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new SlagDevourerModel(ctx.bakeLayer(SlagDevourerModel.LAYER)), 1.4F);
         addLayer(new RenderLayer<SlagDevourerEntity, SlagDevourerModel>(this) {
@@ -22,8 +23,7 @@ public class SlagDevourerRenderer extends MobRenderer<SlagDevourerEntity, SlagDe
                 if (e.burrowed()) return;
                 float brightness = e.exposed() ? 1.0F : e.enraged() ? 0.85F : 0.55F;
                 if (!e.exposed()) brightness += 0.04F*(float)Math.sin(age*0.25F)+0.1F*e.windup();
-                getParentModel().renderToBuffer(pose, buffers.getBuffer(GLOW), 15728640, OverlayTexture.NO_OVERLAY,
-                        brightness, brightness, brightness, 1.0F);
+                GlowMask.render(getParentModel(), GLOW, pose, buffers, brightness, brightness, brightness, 1.0F);
             }
         });
     }
