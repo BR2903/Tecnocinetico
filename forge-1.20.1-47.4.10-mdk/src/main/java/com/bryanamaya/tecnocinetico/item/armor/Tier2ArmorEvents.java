@@ -75,11 +75,8 @@ public final class Tier2ArmorEvents {
             t.knockback(1.6D, -away.x, -away.z);
             t.push(0, 0.35D, 0);
         }
-        for (int i = 0; i < 24; i++) {
-            double a = i / 24.0 * Math.PI * 2;
-            level.sendParticles(ModParticles.KINETIC_SPARK.get(), p.getX() + Math.cos(a) * 1.5, p.getY() + 0.3, p.getZ() + Math.sin(a) * 1.5,
-                    2, 0.1, 0.05, 0.1, 0.25);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.disk(level, ModParticles.KINETIC_SPARK.get(), new net.minecraft.world.phys.Vec3(p.getX(), p.getY() + 0.3, p.getZ()),
+                1.5, 1.5, 1.0, 24, 2, 0.1, 0.05, 0.1, 0.25);
         level.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 0.6F, 1.6F);
     }
 

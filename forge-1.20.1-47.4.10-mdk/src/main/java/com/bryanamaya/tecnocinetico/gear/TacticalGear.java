@@ -55,6 +55,8 @@ public class TacticalGear {
     /** Encendido de cada gadget (cara, espalda, pies, cinturón). Apagado no funciona ni gasta. */
     private final boolean[] enabled = {true, true, true, true};
     private boolean dirty = true;
+    /** Lo que otros ven puesto (gadget y nivel de cara, espalda y pies) la última vez que se envió; no se guarda. */
+    private int wornSignature = Integer.MIN_VALUE;
 
     public ItemStackHandler items() {
         return items;
@@ -102,6 +104,22 @@ public class TacticalGear {
 
     public void setVisorOn(boolean on) {
         setEnabled(FACE, on);
+    }
+
+    /**
+     * ¿Cambió lo que los demás ven puesto (no la batería)? Así el paquete de gadgets visibles no se manda a todos los que
+     * te ven cada vez que se gasta batería (el jetpack la gasta cada 2 ticks).
+     */
+    public boolean takeWornChanged() {
+        int sig = 1;
+        for (int slot : new int[]{FACE, BACK, FEET}) {
+            ItemStack s = get(slot);
+            sig = sig * 31 + (s.isEmpty() ? 0 : net.minecraft.world.item.Item.getId(s.getItem()));
+            sig = sig * 31 + (s.getTag() == null ? 0 : s.getTag().getInt("Level"));
+        }
+        boolean changed = sig != wornSignature;
+        wornSignature = sig;
+        return changed;
     }
 
     /** Hay que reenviar el equipo al cliente (lo consume el tick del servidor). */

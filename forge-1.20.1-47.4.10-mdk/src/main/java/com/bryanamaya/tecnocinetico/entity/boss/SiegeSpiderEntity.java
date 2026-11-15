@@ -436,11 +436,8 @@ public class SiegeSpiderEntity extends Monster {
                 getNavigation().stop();
                 pull++;
                 if (pull % 2 == 0 && level() instanceof ServerLevel server) {
-                    Vec3 to = t.position().add(0, t.getBbHeight() * 0.5, 0), path = to.subtract(from);
-                    for (int i = 0, n = (int) (path.length() * 2); i <= n; i++) {
-                        Vec3 p = from.add(path.scale(i / (double) Math.max(1, n)));
-                        server.sendParticles(BEAM, p.x, p.y, p.z, 1, 0, 0, 0, 0);
-                    }
+                    Vec3 to = t.position().add(0, t.getBbHeight() * 0.5, 0);
+                    com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, BEAM, from, to, (int) (to.distanceTo(from) * 2));   // un paquete, no uno por punto
                 }
                 if (pull >= 22) {
                     if (hasLineOfSight(t)) {
@@ -534,14 +531,9 @@ public class SiegeSpiderEntity extends Monster {
             }
         }
         BlockState below = level().getBlockState(blockPosition().below());
-        for (int i = 0; i < 48; i++) {
-            double a = i / 48.0 * Math.PI * 2;
-            for (double d = 1.5; d <= r; d += 1.5) {
-                server.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, below), getX() + Math.cos(a) * d, getY() + 0.1,
-                        getZ() + Math.sin(a) * d, 1, 0, 0.05, 0, 0.15);
-            }
-            server.sendParticles(BEAM, getX() + Math.cos(a) * r, getY() + 0.4, getZ() + Math.sin(a) * r, 1, 0, 0, 0, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.disk(server, new BlockParticleOption(ParticleTypes.BLOCK, below), new Vec3(getX(), getY() + 0.1, getZ()),
+                1.5, r, 1.5, 48, 1, 0, 0.05, 0, 0.15);
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.ring(server, BEAM, new Vec3(getX(), getY() + 0.4, getZ()), r, 48);
         playSound(ModSounds.ANCHOR_STOMP.get(), 4.0F, 0.6F);
     }
 

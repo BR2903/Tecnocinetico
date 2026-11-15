@@ -188,3 +188,6 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - `end/EndArena` (pelea del Dragón modificado: torres rotas, despertar, ataques, botín) + `EndArenaData` (SavedData) + `EndRelayTurretEntity` (renderizador `entity/client/EndRelayTurretRenderer`). Accede a `EndDragonFight.dragonEvent/dragonKilled/dragonUUID` por el access transformer `META-INF/accesstransformer.cfg`.
 - Efectos `effect/DataCorruptionEffect` y `EmpEffect`; `TacticalGear.active(Player, slot)` y `jammed()` aplican el EMP (usar siempre la versión con jugador). `network/EndQuakePacket` → `end/ClientEndData` → `client/EndClientEffects` (temblor de cámara y superposición de corrupción).
 
+## Rendimiento
+- Partículas en línea/anillo/disco/curva/abanico: usar `util/ParticleShapes` (un paquete, id 21) y NO bucles de `ServerLevel.sendParticles` (un paquete por punto y por jugador).
+- `CoreFighterEntity.lockTargetCached` para el HUD; `TacticalGear.takeWornChanged` limita el paquete de gadgets visibles.

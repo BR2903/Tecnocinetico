@@ -211,12 +211,7 @@ public class AnchorEntity extends Monster {
             return;
         }
         Vec3 from = emitter(), to = t.position().add(0, t.getBbHeight() * 0.5, 0);
-        Vec3 path = to.subtract(from);
-        int steps = (int) (path.length() * (fire ? 4 : 2));
-        for (int i = 0; i <= steps; i++) {
-            Vec3 p = from.add(path.scale(i / (double) Math.max(1, steps)));
-            server.sendParticles(fire ? BEAM_CORE : BEAM, p.x, p.y, p.z, 1, 0, 0, 0, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, fire ? BEAM_CORE : BEAM, from, to, (int) (to.distanceTo(from) * (fire ? 4 : 2)));
         if (fire) {
             server.sendParticles(BEAM, to.x, to.y, to.z, 30, 0.4, 0.6, 0.4, 0.0);
         }
@@ -245,14 +240,9 @@ public class AnchorEntity extends Monster {
             }
         }
         BlockState below = level().getBlockState(blockPosition().below());
-        for (int i = 0; i < 32; i++) {
-            double a = i / 32.0 * Math.PI * 2;
-            for (double r = 1.0; r <= STOMP_RADIUS; r += 1.2) {
-                server.sendParticles(new net.minecraft.core.particles.BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, below),
-                        getX() + Math.cos(a) * r, getY() + 0.1, getZ() + Math.sin(a) * r, 1, 0, 0.05, 0, 0.1);
-            }
-            server.sendParticles(BEAM, getX() + Math.cos(a) * STOMP_RADIUS, getY() + 0.3, getZ() + Math.sin(a) * STOMP_RADIUS, 1, 0, 0, 0, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.disk(server, new net.minecraft.core.particles.BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, below),
+                new Vec3(getX(), getY() + 0.1, getZ()), 1.0, STOMP_RADIUS, 1.2, 32, 1, 0, 0.05, 0, 0.1);
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.ring(server, BEAM, new Vec3(getX(), getY() + 0.3, getZ()), STOMP_RADIUS, 32);
         server.sendParticles(ModParticles.KINETIC_SPARK.get(), getX(), getY() + 0.5, getZ(), 20, 0.6, 0.2, 0.6, 0.2);
         playSound(ModSounds.ANCHOR_STOMP.get(), 1.8F, 1.0F);
     }

@@ -203,7 +203,7 @@ public final class ShipHud {
         g.drawString(font, "EMP", bx - 4, by0 + bh + 3, C_DIM, false);
 
         // objetivo fijado: recuadro proyectado sobre él
-        LivingEntity target = ship.lockTarget(mc.player);
+        LivingEntity target = ship.lockTargetCached(mc.player);
         if (target != null) {
             Vec3 tp = target.getPosition(pt).add(0, target.getBbHeight() * 0.5, 0);
             float[] s = project(tp, w, h);

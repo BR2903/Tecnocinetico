@@ -85,16 +85,8 @@ public class ArcCasterItem extends PulseCannonItem {
         }
         Vec3 path = b.subtract(a);
         int steps = Math.max(2, (int) (path.length() * 3));
-        var r = server.getRandom();
-        for (int i = 0; i <= steps; i++) {
-            double k = i / (double) steps;
-            double j = (i == 0 || i == steps) ? 0 : 0.25;
-            Vec3 p = a.add(path.scale(k)).add((r.nextDouble() - 0.5) * j, (r.nextDouble() - 0.5) * j, (r.nextDouble() - 0.5) * j);
-            server.sendParticles(ParticleTypes.ELECTRIC_SPARK, p.x, p.y, p.z, 1, 0, 0, 0, 0);
-            if (i % 3 == 0) {
-                server.sendParticles(ModParticles.KINETIC_TRACER.get(), p.x, p.y, p.z, 0, 0, 0, 0, 0);
-            }
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.jaggedLine(server, ParticleTypes.ELECTRIC_SPARK, a, b, steps, 0.25F);         // un paquete por rayo
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, ModParticles.KINETIC_TRACER.get(), a, b, Math.max(1, steps / 3));
         server.sendParticles(ModParticles.KINETIC_SPARK.get(), b.x, b.y, b.z, 6, 0.1, 0.1, 0.1, 0.2);
     }
 }

@@ -71,6 +71,8 @@ public final class ModNetwork {
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(18, ToggleGadgetPacket.class, (m, b) -> b.writeVarInt(m.slot()), b -> new ToggleGadgetPacket(b.readVarInt()),
                 ToggleGadgetPacket::handle, java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(21, ParticleShapePacket.class, ParticleShapePacket::encode, ParticleShapePacket::decode, ParticleShapePacket::handle,
+                java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(20, EndQuakePacket.class, EndQuakePacket::encode, EndQuakePacket::decode, EndQuakePacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(19, LanceFirePacket.class, (m, b) -> b.writeBoolean(m.on()), b -> new LanceFirePacket(b.readBoolean()),

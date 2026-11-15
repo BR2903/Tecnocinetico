@@ -152,7 +152,7 @@ public final class ClientShipHandler {
         String miss = ship.missileCooldown() <= 0 ? "●" : "○";
         Component line = Component.translatable("hud.tecnocinetico.ship", hull, spd, miss);
         g.drawCenteredString(font, line, w / 2, y, hull > 30 ? 0x46E3F5 : 0xFF5A40);
-        LivingEntity target = ship.lockTarget(mc.player);
+        LivingEntity target = ship.lockTargetCached(mc.player);
         if (target != null) {
             int dist = (int) target.distanceTo(mc.player);
             g.drawCenteredString(font, Component.translatable("hud.tecnocinetico.lock", target.getDisplayName(), dist)

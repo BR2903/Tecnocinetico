@@ -522,15 +522,28 @@ public class CoreFighterEntity extends Entity {
             hit.getEntity().invulnerableTime = 0;
             hit.getEntity().hurt(damageSources().playerAttack(pilot), 6.0F);
         }
-        Vec3 path = end.subtract(from);
-        int steps = (int) (path.length() * 2);
-        for (int i = 0; i <= steps; i++) {
-            Vec3 p = from.add(path.scale(i / (double) Math.max(1, steps)));
-            server.sendParticles(ModParticles.KINETIC_TRACER.get(), p.x, p.y, p.z, 0, 0, 0, 0, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, ModParticles.KINETIC_TRACER.get(), from, end, (int) (end.distanceTo(from) * 2));
         server.sendParticles(ModParticles.KINETIC_SPARK.get(), end.x, end.y, end.z, 4, 0.05, 0.05, 0.05, 0.2);
         level().playSound(null, from.x, from.y, from.z, ModSounds.SHIP_CANNON.get(), SoundSource.PLAYERS, 1.2F,
                 0.95F + random.nextFloat() * 0.1F);
+    }
+
+    @Nullable
+    private LivingEntity cachedLock;
+    private long cachedLockTime = Long.MIN_VALUE;
+
+    /**
+     * {@link #lockTarget} guardado 4 ticks: el HUD lo pide en cada fotograma y la búsqueda (caja de 240 bloques con
+     * línea de visión) es cara. El disparo del misil en el servidor usa siempre la búsqueda fresca.
+     */
+    @Nullable
+    public LivingEntity lockTargetCached(LivingEntity pilot) {
+        long now = level().getGameTime();
+        if (now - cachedLockTime >= 4 || now < cachedLockTime || (cachedLock != null && !cachedLock.isAlive())) {
+            cachedLock = lockTarget(pilot);
+            cachedLockTime = now;
+        }
+        return cachedLock;
     }
 
     /** Objetivo para el misil: el ser vivo más centrado en la mira (prefiere enemigos), a menos de 80 bloques. */

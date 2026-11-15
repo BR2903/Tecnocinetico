@@ -378,10 +378,7 @@ public class OverworldGuardianEntity extends Monster {
         }
     }
     private void ring(ServerLevel server, Vec3 center, double r, net.minecraft.core.particles.SimpleParticleType particle) {
-        for (int i = 0; i < 40; i++) {
-            double a = i * Math.PI / 20;
-            server.sendParticles(particle, center.x + Math.cos(a) * r, center.y + .1, center.z + Math.sin(a) * r, 1, 0, 0, 0, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.ring(server, particle, center.add(0, .1, 0), r, 40);
     }
     @Override public void travel(Vec3 input) {
         if (isWatcher()) move(MoverType.SELF, getDeltaMovement()); else super.travel(input);

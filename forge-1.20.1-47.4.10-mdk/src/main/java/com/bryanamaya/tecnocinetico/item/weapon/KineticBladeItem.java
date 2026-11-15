@@ -96,13 +96,8 @@ public class KineticBladeItem extends SwordItem {
                 }
             }
             if (level instanceof ServerLevel server) {
-                for (int i = -10; i <= 10; i++) {                                 // arco de la onda
-                    Vec3 d = look.yRot((float) Math.toRadians(i * 6));
-                    for (double r = 1.5; r <= 6; r += 1.5) {
-                        Vec3 p = eye.add(d.scale(r)).add(0, -0.4, 0);
-                        server.sendParticles(ModParticles.KINETIC_SPARK.get(), p.x, p.y, p.z, 1, 0, 0, 0, 0.02);
-                    }
-                }
+                com.bryanamaya.tecnocinetico.util.ParticleShapes.fan(server, ModParticles.KINETIC_SPARK.get(), eye.add(0, -0.4, 0), look, 10, 6.0F,   // arco de la onda
+                        1.5, 6, 1.5, 1, 0, 0, 0, 0.02);
                 server.sendParticles(net.minecraft.core.particles.ParticleTypes.SWEEP_ATTACK, eye.x + look.x * 2, eye.y - 0.3,
                         eye.z + look.z * 2, 3, 0.8, 0.1, 0.8, 0);
             }

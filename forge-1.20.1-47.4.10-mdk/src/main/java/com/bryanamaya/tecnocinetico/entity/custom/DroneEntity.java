@@ -233,10 +233,7 @@ public class DroneEntity extends Monster {
             BlockHitResult hit = level().clip(new ClipContext(eye, eye.add(dir.scale(16)), ClipContext.Block.COLLIDER,
                     ClipContext.Fluid.NONE, this));
             Vec3 end = hit.getLocation();
-            for (int i = 0; i <= 12; i++) {
-                Vec3 p = eye.add(end.subtract(eye).scale(i / 12.0));
-                server.sendParticles(SCAN, p.x, p.y, p.z, 1, 0, 0, 0, 0);
-            }
+            com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, SCAN, eye, end, 12);
             if (tickCount % 60 == 0) {
                 playSound(ModSounds.DRONE_SCAN.get(), 0.6F, 1.0F);
             }

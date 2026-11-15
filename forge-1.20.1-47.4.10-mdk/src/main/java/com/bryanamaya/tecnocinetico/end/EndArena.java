@@ -350,11 +350,7 @@ public final class EndArena {
     /** Onda del aterrizaje: empuja, daña algo y apaga los gadgets (salvo Mk III) unos segundos. */
     public static void empPulse(ServerLevel end, Vec3 at) {
         end.playSound(null, at.x, at.y, at.z, SoundEvents.WARDEN_SONIC_BOOM, SoundSource.HOSTILE, 4.0F, 0.6F);
-        for (int i = 0; i < 48; i++) {
-            double a = i * Math.PI / 24;
-            end.sendParticles(ModParticles.DATA_GLITCH.get(), at.x + Math.cos(a) * 4, at.y + 0.5, at.z + Math.sin(a) * 4, 2,
-                    Math.cos(a) * 0.5, 0.1, Math.sin(a) * 0.5, 0.2);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.disk(end, ModParticles.DATA_GLITCH.get(), at.add(0, 0.5, 0), 4, 4, 1, 48, 2, 0.5, 0.1, 0.5, 0.2);
         for (Player p : end.getEntitiesOfClass(Player.class, new AABB(at, at).inflate(EMP_RADIUS),
                 p -> !p.isSpectator() && !p.isCreative() && p.distanceToSqr(at) < EMP_RADIUS * EMP_RADIUS)) {
             p.addEffect(new MobEffectInstance(ModEffects.EMP.get(), EMP_TICKS, 0));
@@ -384,11 +380,7 @@ public final class EndArena {
             Vec3 c = Vec3.atBottomCenterOf(s.at());
             if (now < s.when()) {
                 if (now % 4 == 0) {                                           // círculo de aviso en el suelo
-                    for (int i = 0; i < 16; i++) {
-                        double a = i * Math.PI / 8;
-                        end.sendParticles(ModParticles.DATA_GLITCH.get(), c.x + Math.cos(a) * RAIN_RADIUS, c.y + 0.1,
-                                c.z + Math.sin(a) * RAIN_RADIUS, 1, 0, 0, 0, 0);
-                    }
+                    com.bryanamaya.tecnocinetico.util.ParticleShapes.ring(end, ModParticles.DATA_GLITCH.get(), c.add(0, 0.1, 0), RAIN_RADIUS, 16);
                     double fall = (s.when() - now) * 0.8;                     // el proyectil cayendo
                     end.sendParticles(ModParticles.DATA_GLITCH.get(), c.x, c.y + 2 + fall, c.z, 6, 0.15, 0.4, 0.15, 0.0);
                 }

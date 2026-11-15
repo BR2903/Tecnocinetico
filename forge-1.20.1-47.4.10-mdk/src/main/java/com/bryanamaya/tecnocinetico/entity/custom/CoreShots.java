@@ -76,11 +76,6 @@ public final class CoreShots {
         }
         BlockHitResult block = shooter.level().clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, shooter));
         Vec3 end = block.getType() == HitResult.Type.MISS ? to : block.getLocation();
-        Vec3 path = end.subtract(from);
-        int steps = (int) (path.length() * 2);
-        for (int i = 0; i <= steps; i++) {
-            Vec3 p = from.add(path.scale(i / (double) Math.max(1, steps)));
-            server.sendParticles(LASER, p.x, p.y, p.z, 1, 0, 0, 0, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, LASER, from, end, (int) (end.distanceTo(from) * 2));
     }
 }

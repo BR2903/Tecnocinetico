@@ -193,11 +193,11 @@ public class AbyssFoundryEntity extends NetherBossEntity {
     private void fracture(ServerLevel server) {
         server.playSound(null, blockPosition(), SoundEvents.BLAZE_SHOOT, SoundSource.HOSTILE, 3.0F, 0.5F);
         Vec3 dir = flat(lock.subtract(position()));
+        Vec3 a = position().add(dir.scale(2)), b = position().add(dir.scale(18));
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, ParticleTypes.LAVA, a.add(0, 0.3, 0), b.add(0, 0.3, 0), 16, 2, 0.3, 0.1, 0.3, 0.0);
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, ParticleTypes.FLAME, a.add(0, 0.6, 0), b.add(0, 0.6, 0), 16, 4, 0.3, 0.4, 0.3, 0.02);
         for (int i = 2; i <= 18; i++) {
-            Vec3 p = position().add(dir.scale(i));
-            server.sendParticles(ParticleTypes.LAVA, p.x, p.y + 0.3, p.z, 2, 0.3, 0.1, 0.3, 0.0);
-            server.sendParticles(ParticleTypes.FLAME, p.x, p.y + 0.6, p.z, 4, 0.3, 0.4, 0.3, 0.02);
-            hurtArea(server, p, 1.5, 24.0F, 0.5, 8);
+            hurtArea(server, position().add(dir.scale(i)), 1.5, 24.0F, 0.5, 8);
         }
     }
 
@@ -233,10 +233,8 @@ public class AbyssFoundryEntity extends NetherBossEntity {
 
     private void line(ServerLevel server) {
         Vec3 dir = flat(lock.subtract(position()));
-        for (int i = 2; i <= 18; i += 2) {
-            Vec3 p = position().add(dir.scale(i));
-            server.sendParticles(ParticleTypes.FLAME, p.x, p.y + 0.1, p.z, 1, 0.2, 0, 0.2, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, ParticleTypes.FLAME, position().add(dir.scale(2)).add(0, 0.1, 0), position().add(dir.scale(18)).add(0, 0.1, 0),
+                8, 1, 0.2, 0, 0.2, 0);
     }
 
     @Override

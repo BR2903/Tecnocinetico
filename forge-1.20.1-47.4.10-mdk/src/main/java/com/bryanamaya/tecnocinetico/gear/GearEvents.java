@@ -149,7 +149,9 @@ public final class GearEvents {
             serverTick(sp, g);
             if (g.takeDirty()) {
                 ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sp), new ModNetwork.SyncGearPacket(g.save()));
-                ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(() -> sp), worn(sp, g));
+                if (g.takeWornChanged()) {                                                  // solo si cambia lo que se ve
+                    ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(() -> sp), worn(sp, g));
+                }
             }
         });
     }

@@ -212,7 +212,8 @@ public abstract class NetherBossEntity extends Monster {
 
     private boolean checkReset() {
         BlockPos c = home != null ? home : blockPosition();
-        boolean anyone = !level().getEntitiesOfClass(Player.class, new AABB(c).inflate(ARENA), p -> !p.isSpectator() && !p.isCreative()).isEmpty();
+        AABB box = new AABB(c).inflate(ARENA);
+        boolean anyone = level().players().stream().anyMatch(p -> !p.isSpectator() && !p.isCreative() && box.contains(p.position()));
         lonely = anyone ? 0 : lonely + 1;
         if (lonely > 1200 || level().getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) {
             discard();
@@ -293,11 +294,7 @@ public abstract class NetherBossEntity extends Monster {
     }
 
     protected void ring(ServerLevel server, Vec3 c, double r, SimpleParticleType type) {
-        int n = Math.max(6, (int) (r * 8));
-        for (int i = 0; i < n; i++) {
-            double a = i * Math.PI * 2 / n;
-            server.sendParticles(type, c.x + Math.cos(a) * r, c.y + 0.1, c.z + Math.sin(a) * r, 1, 0, 0, 0, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.ring(server, type, c.add(0, 0.1, 0), r, Math.max(6, (int) (r * 8)));
     }
 
     protected static Vec3 flat(Vec3 v) {

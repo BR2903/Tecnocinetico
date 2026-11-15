@@ -179,12 +179,7 @@ public class EndRelayTurretEntity extends Monster {
     }
 
     private static void line(ServerLevel server, Vec3 from, Vec3 to, net.minecraft.core.particles.ParticleOptions particle, int perBlock) {
-        Vec3 path = to.subtract(from);
-        int steps = Math.max(1, (int) (path.length() * perBlock));
-        for (int i = 0; i <= steps; i++) {
-            Vec3 p = from.add(path.scale(i / (double) steps));
-            server.sendParticles(particle, p.x, p.y, p.z, 1, 0, 0, 0, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, particle, from, to, Math.max(1, (int) (to.distanceTo(from) * perBlock)));
     }
 
     private void aimAt(Vec3 to) {

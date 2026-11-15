@@ -434,12 +434,10 @@ public class KineticPistolItem extends Item {
         Vec3 path = end.subtract(muzzle);
         Vec3 control = muzzle.add(look.scale(path.length() * 0.55D));
         int steps = Math.max(1, (int) (path.length() * (curved ? 4 : 3)));
-        for (int i = 0; i <= steps; i++) {
-            double t = i / (double) steps;
-            Vec3 p = curved
-                    ? muzzle.scale((1 - t) * (1 - t)).add(control.scale(2 * (1 - t) * t)).add(end.scale(t * t))
-                    : muzzle.add(path.scale(t));
-            server.sendParticles(ModParticles.KINETIC_TRACER.get(), p.x, p.y, p.z, 0, 0, 0, 0, 0);
+        if (curved) {                                                          // un paquete por disparo, no uno por punto
+            com.bryanamaya.tecnocinetico.util.ParticleShapes.curve(server, ModParticles.KINETIC_TRACER.get(), muzzle, control, end, steps);
+        } else {
+            com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, ModParticles.KINETIC_TRACER.get(), muzzle, end, steps);
         }
 
         // Impacto: sonido del fragmento rompiéndose donde da la bala (solo si da en algo, no en el aire)

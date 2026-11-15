@@ -827,3 +827,12 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Arte de Codex: torreta (`EndRelayTurretModel`), textura del Dragón (sustituye `minecraft:textures/entity/enderdragon/dragon.png` y `dragon_eyes.png`, dibujo propio sobre el UV vanilla), `corrupted_end_stone`, objetos, iconos de efectos y superposición de corrupción (`tools/end_part2_gen.py`).
 - 83 pruebas pasan.
 - Arreglo (usuario: "el Dragón se acerca a las torretas y les hace daño"): las Torretas-repetidor ignoran todo daño del Dragón (cuerpo/alas, aliento, bolas de fuego y sus nubes) y no les afectan los efectos de pociones; los jugadores las siguen dañando. Prueba `dragonSparesTurrets`. 84 pruebas.
+
+## 2026-11-14 — Claude — Rendimiento
+- **Figuras de partículas en un solo paquete** (`network/ParticleShapePacket`, `util/ParticleShapes`, `client/ParticleShapesClient`): líneas, anillos, discos, curvas y abanicos que antes eran un `sendParticles` por punto (un paquete por punto y por jugador). Convertidos: haz cinético de la pistola (recto y guiado; ~150 paquetes por disparo a 50 bloques → 1), cañones del caza, Lanzador de Arco, láser de torretas y drones (`CoreShots`), escaneo de drones, haz y pisotón de la Araña y del Anclador, anillos de los jefes, Torreta-repetidor, EMP y lluvia de datos del End, onda de la Hoja Cinética, anillo de la armadura, líneas y grieta de los jefes del Nether.
+- **HUD del caza**: el objetivo del misil se calculaba dos veces por fotograma (caja de 240 bloques + línea de visión); ahora se guarda 4 ticks (`lockTargetCached`).
+- **Equipo Táctico**: el paquete de gadgets visibles a los demás jugadores solo se manda cuando cambia lo que se ve (gadget y nivel), no cada vez que se gasta batería (el jetpack la gasta cada 2 ticks).
+- Jefes del Nether: la comprobación de "nadie cerca" recorre la lista de jugadores en vez de buscar entidades por zona cada tick.
+- Revisado y ya bien: manejadores por tick (limitados por fase/lado/intervalo), radiación (392 bloques por jugador y segundo), sincronización de máquinas (cada 4-5 ticks), patrullas nocturnas. Los modelos de Codex (20-110 cubos por mob) no se tocan.
+- Prueba `PerformanceGameTests.particleShapePacketRoundTrip`. 85 pruebas.
+

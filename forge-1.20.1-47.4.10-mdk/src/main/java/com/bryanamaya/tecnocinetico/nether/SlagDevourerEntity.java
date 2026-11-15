@@ -341,10 +341,8 @@ public class SlagDevourerEntity extends NetherBossEntity {
     }
 
     private void line(ServerLevel server, Vec3 dir) {
-        for (int i = 2; i <= 16; i += 2) {
-            Vec3 p = position().add(dir.scale(i));
-            server.sendParticles(ParticleTypes.FLAME, p.x, p.y + 0.1, p.z, 1, 0.3, 0, 0.3, 0);
-        }
+        com.bryanamaya.tecnocinetico.util.ParticleShapes.line(server, ParticleTypes.FLAME, position().add(dir.scale(2)).add(0, 0.1, 0), position().add(dir.scale(16)).add(0, 0.1, 0),
+                7, 1, 0.3, 0, 0.3, 0);
     }
 
     @Override
