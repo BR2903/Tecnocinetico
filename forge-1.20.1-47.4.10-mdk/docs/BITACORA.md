@@ -937,3 +937,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Sin botín ni experiencia: el golpe de una máquina hackeada se apunta al jugador que la hackeó (`setLastHurtByPlayer`): suelta experiencia y el botín de "matado por un jugador", y el mérito es suyo.
 - Prueba `hackedMachineHurtsItsKindForThePlayer`. 107 pruebas.
 
+## 2026-11-15 — Claude — v2: ritmo de progresión
+- Herramientas nuevas: `OreAuditGameTests` (cuenta las menas de 10x10 chunks recién generados por dimensión -> `run/ore_audit.json`) y `tools/progression_audit.py` (descompone el kit de cada etapa en materias primas y lo pasa a "chunks enteros que habría que minar", con laboratorio x3 y solo con horno). Ver HERRAMIENTAS.
+- Resultado (con laboratorio / solo horno): etapa 1 ≈ 1 chunk de hierro; etapa 2 ≈ 2 chunks de hierro + 1,6/4,7 de inercita; etapa 3 ≈ 2 + titanio 0,6; Nether ≈ 1,5/4,5 de piroxita; End ≈ 6,6 chunks de islas exteriores de nulita (la netherita completa son 10,2; la armadura de diamante 1,8). Sin saltos: cada etapa pide su material.
+- Hallazgos: la inercita era tan rara como el diamante (13,5 por chunk) y la etapa 2 pide 2,6 armaduras de diamante de ella (cuello de botella) -> vetas 4 -> 6 por chunk (~18-20). El estaño salía 36 por chunk y nada pide más de 11 -> vetas 10 -> 6. La Combate Mk III pide nulita y piroxita: es equipo del End (no de la etapa 3). La nulita solo sale en las islas exteriores (1,6-3 por chunk de superficie, según cuánta tierra haya), no en la central.
+- Sin cambios: tiempos y consumo de máquinas (5-11 s y 20-80 FE/t por pieza, de sobra para un alternador), procesadores de núcleo (caen de torretas y Ancladores), azufre (también polvo de blaze + carbón).
+

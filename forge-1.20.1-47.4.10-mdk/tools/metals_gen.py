@@ -54,7 +54,7 @@ RAMPS = {
 }
 METALS = {  # nombre: (capa de mena: núcleo, medio, borde), dureza de herramienta, venas por chunk, tamaño, altura
     "lead": {"tool": "stone", "count": 7, "size": 8, "min": -48, "max": 48},
-    "tin": {"tool": "stone", "count": 10, "size": 9, "min": -16, "max": 96},
+    "tin": {"tool": "stone", "count": 6, "size": 9, "min": -16, "max": 96},
     "titanium": {"tool": "iron", "count": 4, "size": 5, "min": -64, "max": -8},
     "uranium": {"tool": "iron", "count": 3, "size": 4, "min": -64, "max": -24},
 }
