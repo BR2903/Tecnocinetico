@@ -30,7 +30,16 @@ public class WornGearModel {
 
     public final ModelPart wristMap;
 
+    public final ModelPart intruder;
+
+    public final ModelPart intruderRight;
+
+    public final ModelPart wristMapRight;
+
     public WornGearModel(ModelPart root) {
+        this.wristMapRight = root.getChild("wrist_map_right");
+        this.intruderRight = root.getChild("intruder_right");
+        this.intruder = root.getChild("intruder");
         this.wristMap = root.getChild("wrist_map");
         this.visor = root.getChild("visor");
         this.jetpack = root.getChild("jetpack");
@@ -287,6 +296,54 @@ public class WornGearModel {
                 .texOffs(54, 96).addBox(3.850000F, 6.000000F, -0.300000F, 0.400000F, 0.350000F, 0.600000F)
                 , PartPose.ZERO);
         // END WRIST MAP GENERATED
+        // BEGIN NETWORK INTRUDER GENERATED: tools/network_intruder_gen.py
+        root.addOrReplaceChild("intruder", CubeListBuilder.create()
+                .texOffs(1, 96).addBox(-1.150000F, 6.500000F, -2.260000F, 4.300000F, 2.800000F, 0.260000F)
+                .texOffs(1, 96).addBox(-1.150000F, 6.500000F, 2.000000F, 4.300000F, 2.800000F, 0.260000F)
+                .texOffs(14, 96).addBox(-1.410000F, 6.500000F, -2.000000F, 0.260000F, 2.800000F, 4.000000F)
+                .texOffs(14, 96).addBox(3.150000F, 6.500000F, -2.000000F, 0.260000F, 2.800000F, 4.000000F)
+                .texOffs(0, 82).addBox(3.420000F, 6.200000F, -2.050000F, 0.900000F, 3.700000F, 4.100000F)
+                .texOffs(13, 82).addBox(4.340000F, 6.600000F, -1.700000F, 0.180000F, 2.900000F, 3.400000F)
+                .texOffs(25, 24).addBox(4.540000F, 6.850000F, -1.450000F, 0.120000F, 2.350000F, 2.800000F, net.minecraft.client.model.geom.builders.CubeDeformation.NONE, 0.25F, 0.25F)
+                .texOffs(23, 82).addBox(3.500000F, 6.600000F, 2.080000F, 1.020000F, 2.900000F, 0.680000F)
+                .texOffs(29, 82).addBox(3.680000F, 7.000000F, 2.790000F, 0.700000F, 2.000000F, 0.180000F)
+                .texOffs(33, 82).addBox(3.780000F, 7.300000F, 2.990000F, 0.500000F, 0.220000F, 0.120000F)
+                .texOffs(36, 82).addBox(3.600000F, 9.400000F, -2.100000F, 0.350000F, 0.400000F, 4.900000F)
+                .texOffs(49, 82).addBox(3.600000F, 5.700000F, -0.800000F, 0.650000F, 0.400000F, 0.650000F)
+                .texOffs(54, 82).addBox(3.780000F, 4.600000F, -0.640000F, 0.280000F, 1.100000F, 0.280000F)
+                .texOffs(57, 82).addBox(3.730000F, 4.450000F, -0.690000F, 0.380000F, 0.230000F, 0.380000F)
+                .texOffs(60, 82).addBox(4.540000F, 9.300000F, -0.900000F, 0.120000F, 0.200000F, 0.550000F)
+                .texOffs(60, 82).addBox(4.540000F, 9.300000F, 0.350000F, 0.120000F, 0.200000F, 0.550000F)
+                , PartPose.ZERO);
+        root.addOrReplaceChild("intruder_right", CubeListBuilder.create().mirror(true)
+                .texOffs(1, 96).addBox(-3.150000F, 6.500000F, -2.260000F, 4.300000F, 2.800000F, 0.260000F)
+                .texOffs(1, 96).addBox(-3.150000F, 6.500000F, 2.000000F, 4.300000F, 2.800000F, 0.260000F)
+                .texOffs(14, 96).addBox(1.150000F, 6.500000F, -2.000000F, 0.260000F, 2.800000F, 4.000000F)
+                .texOffs(14, 96).addBox(-3.410000F, 6.500000F, -2.000000F, 0.260000F, 2.800000F, 4.000000F)
+                .texOffs(0, 82).addBox(-4.320000F, 6.200000F, -2.050000F, 0.900000F, 3.700000F, 4.100000F)
+                .texOffs(13, 82).addBox(-4.520000F, 6.600000F, -1.700000F, 0.180000F, 2.900000F, 3.400000F)
+                .texOffs(25, 24).addBox(-4.660000F, 6.850000F, -1.450000F, 0.120000F, 2.350000F, 2.800000F, net.minecraft.client.model.geom.builders.CubeDeformation.NONE, 0.25F, 0.25F)
+                .texOffs(23, 82).addBox(-4.520000F, 6.600000F, 2.080000F, 1.020000F, 2.900000F, 0.680000F)
+                .texOffs(29, 82).addBox(-4.380000F, 7.000000F, 2.790000F, 0.700000F, 2.000000F, 0.180000F)
+                .texOffs(33, 82).addBox(-4.280000F, 7.300000F, 2.990000F, 0.500000F, 0.220000F, 0.120000F)
+                .texOffs(36, 82).addBox(-3.950000F, 9.400000F, -2.100000F, 0.350000F, 0.400000F, 4.900000F)
+                .texOffs(49, 82).addBox(-4.250000F, 5.700000F, -0.800000F, 0.650000F, 0.400000F, 0.650000F)
+                .texOffs(54, 82).addBox(-4.060000F, 4.600000F, -0.640000F, 0.280000F, 1.100000F, 0.280000F)
+                .texOffs(57, 82).addBox(-4.110000F, 4.450000F, -0.690000F, 0.380000F, 0.230000F, 0.380000F)
+                .texOffs(60, 82).addBox(-4.660000F, 9.300000F, -0.900000F, 0.120000F, 0.200000F, 0.550000F)
+                .texOffs(60, 82).addBox(-4.660000F, 9.300000F, 0.350000F, 0.120000F, 0.200000F, 0.550000F)
+                , PartPose.ZERO);
+        root.addOrReplaceChild("wrist_map_right", CubeListBuilder.create().mirror(true)
+                .texOffs(1, 96).addBox(-3.150000F, 6.500000F, -2.260000F, 4.300000F, 2.800000F, 0.260000F)
+                .texOffs(1, 96).addBox(-3.150000F, 6.500000F, 2.000000F, 4.300000F, 2.800000F, 0.260000F)
+                .texOffs(14, 96).addBox(1.150000F, 6.500000F, -2.000000F, 0.260000F, 2.800000F, 4.000000F)
+                .texOffs(14, 96).addBox(-3.410000F, 6.500000F, -2.000000F, 0.260000F, 2.800000F, 4.000000F)
+                .texOffs(27, 96).addBox(-4.140000F, 6.400000F, -1.900000F, 0.720000F, 3.200000F, 3.800000F)
+                .texOffs(40, 96).addBox(-4.340000F, 6.600000F, -1.650000F, 0.180000F, 2.800000F, 3.300000F)
+                .texOffs(18, 24).addBox(-4.500000F, 6.800000F, -1.400000F, 0.140000F, 2.400000F, 2.800000F, net.minecraft.client.model.geom.builders.CubeDeformation.NONE, 0.25F, 0.25F)
+                .texOffs(54, 96).addBox(-4.250000F, 6.000000F, -0.300000F, 0.400000F, 0.350000F, 0.600000F)
+                , PartPose.ZERO);
+        // END NETWORK INTRUDER GENERATED
         return LayerDefinition.create(mesh, 128, 128);
     }
 }

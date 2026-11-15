@@ -264,6 +264,10 @@ public class ModItems {
     /** Reloj de Navegación (gadget de muñeca) y el Satélite de Reconocimiento que lo hace funcionar. */
     public static final RegistryObject<Item> WRIST_MAP = ITEMS.register("wrist_map",
             () -> new com.bryanamaya.tecnocinetico.map.WristMapItem(new Item.Properties().stacksTo(1).rarity(net.minecraft.world.item.Rarity.UNCOMMON)));
+    /** Intrusor de Red (gadget de muñeca del End): hackea una máquina unos segundos (end/NetworkHack). */
+    public static final RegistryObject<Item> NETWORK_INTRUDER = ITEMS.register("network_intruder",
+            () -> new com.bryanamaya.tecnocinetico.end.NetworkIntruderItem(new Item.Properties().stacksTo(1).fireResistant()
+                    .rarity(net.minecraft.world.item.Rarity.EPIC)));
     public static final RegistryObject<Item> SATELLITE = ITEMS.register("satellite",
             () -> new com.bryanamaya.tecnocinetico.map.SatelliteItem(new Item.Properties().stacksTo(1).rarity(net.minecraft.world.item.Rarity.RARE)));
     /** Élitros de Propulsión: élitros + Jetpack Mk III (receta especial ThrusterElytraItem.Recipe). */

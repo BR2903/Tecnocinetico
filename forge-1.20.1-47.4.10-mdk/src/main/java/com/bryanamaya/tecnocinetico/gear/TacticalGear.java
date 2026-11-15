@@ -26,7 +26,7 @@ import java.util.Optional;
  * Se guarda como capacidad de Forge en el jugador y se sincroniza al cliente con {@code SyncGearPacket}.
  *
  * Ranuras: 0-15 suministros (munición, cargadores, granadas, cohetes, células, combustible y baterías: {@link #isSupply}),
- * 16-24 comida (se come sola), 25 cara, 26 espalda, 27 pies, 28 cinturón, 29 muñeca.
+ * 16-24 comida (se come sola), 25 cara, 26 espalda, 27 pies, 28 cinturón, 29 muñeca izquierda, 30 muñeca derecha.
  * (Hasta la v1 había 6 de munición: 0-5, 6-14, 15-19; {@link #load} recoloca los equipos guardados.)
  * (Hasta el 2026-11-07 eran 10 ranuras: 0-3, 4-6, 7, 8, 9; {@link #load} migra los equipos guardados.)
  */
@@ -34,19 +34,20 @@ public class TacticalGear {
 
     public static final int AMMO_START = 0, AMMO_COUNT = 16;
     public static final int FOOD_START = 16, FOOD_COUNT = 9;
-    public static final int FACE = 25, BACK = 26, FEET = 27, BELT = 28, WRIST = 29;
+    public static final int FACE = 25, BACK = 26, FEET = 27, BELT = 28, WRIST = 29, WRIST_RIGHT = 30;
     /** Ranuras de munición del formato anterior (v1): 6. */
     private static final int OLD_AMMO = 6;
     /** Última ranura de gadget (los gadgets van de FACE a LAST_GADGET). */
-    public static final int LAST_GADGET = WRIST;
-    public static final int SIZE = 30;
+    public static final int LAST_GADGET = WRIST_RIGHT;
+    public static final int SIZE = 31;
     /** Suministros extra que caben en las ranuras de munición (los mods o packs pueden añadir más). */
     public static final net.minecraft.tags.TagKey<net.minecraft.world.item.Item> SUPPLIES = net.minecraft.tags.TagKey.create(
             net.minecraft.core.registries.Registries.ITEM,
             net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(com.bryanamaya.tecnocinetico.Tecnocinetico.MOD_ID, "tactical_supplies"));
     /** Nombre de cada ranura de gadget (textos "tooltip.tecnocinetico.gadget_slot.<nombre>"). */
     public static String slotName(int slot) {
-        return slot == FACE ? "face" : slot == BACK ? "back" : slot == FEET ? "feet" : slot == BELT ? "belt" : "wrist";
+        return slot == FACE ? "face" : slot == BACK ? "back" : slot == FEET ? "feet" : slot == BELT ? "belt"
+                : slot == WRIST ? "wrist" : "wrist_right";
     }
 
     public static final Capability<TacticalGear> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
@@ -63,7 +64,7 @@ public class TacticalGear {
         }
     };
     /** Encendido de cada gadget (cara, espalda, pies, cinturón). Apagado no funciona ni gasta. */
-    private final boolean[] enabled = {true, true, true, true, true};
+    private final boolean[] enabled = {true, true, true, true, true, true};
     private boolean dirty = true;
     /** Lo que otros ven puesto (gadget y nivel de cara, espalda y pies) la última vez que se envió; no se guarda. */
     private int wornSignature = Integer.MIN_VALUE;
@@ -122,7 +123,7 @@ public class TacticalGear {
      */
     public boolean takeWornChanged() {
         int sig = 1;
-        for (int slot : new int[]{FACE, BACK, FEET, WRIST}) {
+        for (int slot : new int[]{FACE, BACK, FEET, WRIST, WRIST_RIGHT}) {
             ItemStack s = get(slot);
             sig = sig * 31 + (s.isEmpty() ? 0 : net.minecraft.world.item.Item.getId(s.getItem()));
             sig = sig * 31 + (s.getTag() == null ? 0 : s.getTag().getInt("Level"));
@@ -166,7 +167,8 @@ public class TacticalGear {
         if (slot < FACE) {
             return isAutoFood(s);
         }
-        return s.getItem() instanceof GadgetItem g && g.slot() == slot;
+        // los gadgets de muñeca van en cualquiera de las dos
+        return s.getItem() instanceof GadgetItem g && (g.slot() == slot || g.slot() == WRIST && slot == WRIST_RIGHT);
     }
 
     // ------------------------------------------------------------------ acceso
@@ -236,8 +238,9 @@ public class TacticalGear {
             ItemStackHandler old = new ItemStackHandler(savedSize);
             old.deserializeNBT(tag);
             items.setSize(SIZE);
+            boolean oldAmmo = savedSize <= 20;                                       // v1: 6 de munición
             for (int i = 0; i < savedSize; i++) {
-                int to = i < OLD_AMMO ? i : i + (AMMO_COUNT - OLD_AMMO);
+                int to = !oldAmmo || i < OLD_AMMO ? i : i + (AMMO_COUNT - OLD_AMMO);
                 if (to < SIZE) {
                     items.setStackInSlot(to, old.getStackInSlot(i));
                 }
@@ -248,7 +251,7 @@ public class TacticalGear {
         if (tag.contains("Enabled")) {
             byte bits = tag.getByte("Enabled");
             for (int i = 0; i < enabled.length; i++) {
-                enabled[i] = (bits & (1 << i)) != 0 || i >= 4 && savedSize < SIZE;   // ranuras nuevas: encendidas
+                enabled[i] = (bits & (1 << i)) != 0 || i >= (savedSize <= 20 ? 4 : 5) && savedSize < SIZE;   // ranuras nuevas: encendidas
             }
         } else {                                                                     // formato antiguo: solo el visor
             java.util.Arrays.fill(enabled, true);

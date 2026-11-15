@@ -73,6 +73,8 @@ public final class ModNetwork {
                 ToggleGadgetPacket::handle, java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(21, ParticleShapePacket.class, ParticleShapePacket::encode, ParticleShapePacket::decode, ParticleShapePacket::handle,
                 java.util.Optional.of(net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(27, HackPacket.class, (m, b) -> {}, b -> new HackPacket(), HackPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(23, ElytraThrustPacket.class, (m, b) -> b.writeBoolean(m.on()), b -> new ElytraThrustPacket(b.readBoolean()),
                 ElytraThrustPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(24, com.bryanamaya.tecnocinetico.map.MapPackets.Sync.class, com.bryanamaya.tecnocinetico.map.MapPackets.Sync::encode,
@@ -423,6 +425,19 @@ public final class ModNetwork {
         }
     }
 
+    /** Cliente -> servidor: hackear la máquina a la que se mira (Intrusor de Red). */
+    public record HackPacket() {
+        public static void handle(HackPacket msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer p = ctx.get().getSender();
+                if (p != null) {
+                    com.bryanamaya.tecnocinetico.end.NetworkHack.activate(p);
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
     /** El cliente empieza/deja de empujar con los Élitros de Propulsión. */
     public record ElytraThrustPacket(boolean on) {
         public static void handle(ElytraThrustPacket msg, Supplier<NetworkEvent.Context> ctx) {
@@ -468,23 +483,24 @@ public final class ModNetwork {
     }
 
     /** Gadgets que lleva puestos un jugador (cara, espalda, pies), para que los demás los vean. */
-    public record WornGadgetsPacket(int entityId, ItemStack face, ItemStack back, ItemStack feet, ItemStack wrist) {
+    public record WornGadgetsPacket(int entityId, ItemStack face, ItemStack back, ItemStack feet, ItemStack wrist, ItemStack wristRight) {
         public static void encode(WornGadgetsPacket m, FriendlyByteBuf b) {
             b.writeVarInt(m.entityId);
             b.writeItem(m.face);
             b.writeItem(m.back);
             b.writeItem(m.feet);
             b.writeItem(m.wrist);
+            b.writeItem(m.wristRight);
         }
 
         public static WornGadgetsPacket decode(FriendlyByteBuf b) {
-            return new WornGadgetsPacket(b.readVarInt(), b.readItem(), b.readItem(), b.readItem(), b.readItem());
+            return new WornGadgetsPacket(b.readVarInt(), b.readItem(), b.readItem(), b.readItem(), b.readItem(), b.readItem());
         }
 
         public static void handle(WornGadgetsPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(
                     net.minecraftforge.api.distmarker.Dist.CLIENT,
-                    () -> () -> com.bryanamaya.tecnocinetico.client.ClientGearHandler.applyWorn(msg.entityId, msg.face, msg.back, msg.feet, msg.wrist)));
+                    () -> () -> com.bryanamaya.tecnocinetico.client.ClientGearHandler.applyWorn(msg.entityId, msg.face, msg.back, msg.feet, msg.wrist, msg.wristRight)));
             ctx.get().setPacketHandled(true);
         }
     }

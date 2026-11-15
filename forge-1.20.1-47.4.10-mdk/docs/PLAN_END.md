@@ -53,3 +53,6 @@ Elecciones del usuario: Granja de Servidores, Nodo de Datos y un **único** Puer
 - **Élitros de Propulsión** (`gear/ThrusterElytraItem`): Élitros + Jetpack Mk III + Núcleo de Datos + 4 nulita + 2 Acopladores Cinéticos Brutos. Planean como unos élitros (1200 de durabilidad, se reparan con nulita) y, manteniendo saltar al planear, empujan hacia donde miras gastando gasolina (3200, repostan solos como el jetpack).
 - Pruebas `EndStructureGameTests` (nodo y granja, puerto único con cráter y registros, receta y empuje de los élitros).
 
+## Parte 5 (2026-11-15): Intrusor de Red — cierra el End
+Gadget de muñeca que hackea una máquina de la IA 15 s para que luche a tu favor (recarga de 3 min). Con esto el usuario da el End por terminado.
+

@@ -823,7 +823,7 @@
   "item.tecnocinetico.satellite": "Reconnaissance Satellite",
   "tooltip.tecnocinetico.wrist_map": "Map of explored terrain, structure locator and markers (M key). Needs a satellite in orbit.",
   "tooltip.tecnocinetico.satellite": "Use it above Y %s in the Overworld to put it in orbit (works for the whole server).",
-  "tooltip.tecnocinetico.gadget_slot.wrist": "Slot: wrist",
+  "tooltip.tecnocinetico.gadget_slot.wrist": "Slot: left wrist",
   "key.tecnocinetico.map": "Map (Navigation Watch)",
   "message.tecnocinetico.satellite.deployed": "%s put the Reconnaissance Satellite in orbit: Navigation Watches now have signal.",
   "message.tecnocinetico.satellite.already": "There is already a satellite in orbit.",
@@ -865,5 +865,16 @@
   "map.tecnocinetico.detected": "Structures detected: %s",
   "map.tecnocinetico.dim.overworld": "Surface",
   "map.tecnocinetico.dim.the_nether": "Nether",
-  "map.tecnocinetico.dim.the_end": "End"
+  "map.tecnocinetico.dim.the_end": "End",
+  "item.tecnocinetico.network_intruder": "Network Intruder",
+  "tooltip.tecnocinetico.network_intruder": "Wrist. H key while looking at an AI machine (not bosses): hacks it for %s s and it fights for you. Recharge: %s s.",
+  "tooltip.tecnocinetico.network_intruder.ready": "Ready to hack",
+  "tooltip.tecnocinetico.network_intruder.charging": "Recharging: %s s",
+  "tooltip.tecnocinetico.gadget_slot.wrist_right": "Slot: right wrist",
+  "key.tecnocinetico.hack": "Hack (Network Intruder)",
+  "message.tecnocinetico.hack.cooldown": "Network Intruder recharging: %s s",
+  "message.tecnocinetico.hack.no_target": "You are not looking at a hackable machine",
+  "message.tecnocinetico.hack.lost": "Connection lost",
+  "message.tecnocinetico.hack.progress": "Hacking %s",
+  "message.tecnocinetico.hack.done": "%s hacked: it fights for you for %s s"
 }

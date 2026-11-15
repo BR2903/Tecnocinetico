@@ -179,6 +179,9 @@ public class SwarmWaspEntity extends Monster {
 
     @Nullable
     private LivingEntity currentTarget() {
+        if (com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this)) {
+            return com.bryanamaya.tecnocinetico.end.NetworkHack.target(this);                                             // hackeada: contra los enemigos
+        }
         if (node != null) {
             HiveMind m = node.mind();
             return m.state() == HiveMind.State.PATROL ? null : m.target();

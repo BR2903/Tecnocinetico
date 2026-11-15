@@ -149,7 +149,7 @@ public class DataSpecterEntity extends Monster {
         if (!(level() instanceof ServerLevel server)) {
             return;
         }
-        Player t = target();
+        LivingEntity t = target();
         switch (state()) {
             case PHASED -> phased(server, t);
             case CHARGE -> charge(server, t);
@@ -175,7 +175,12 @@ public class DataSpecterEntity extends Monster {
     }
 
     @Nullable
-    private Player target() {
+    private LivingEntity target() {
+        if (com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this)) {
+            LivingEntity foe = com.bryanamaya.tecnocinetico.end.NetworkHack.target(this);                                // hackeado: contra los enemigos
+            setTarget(foe);
+            return foe;
+        }
         if (getTarget() instanceof Player p && valid(p) && distanceToSqr(p) < 32 * 32) {
             return p;
         }
@@ -192,7 +197,7 @@ public class DataSpecterEntity extends Monster {
         return best;
     }
 
-    private void phased(ServerLevel server, @Nullable Player t) {
+    private void phased(ServerLevel server, @Nullable LivingEntity t) {
         if (cooldown > 0) {
             cooldown--;
         }
@@ -223,7 +228,7 @@ public class DataSpecterEntity extends Monster {
     }
 
     /** Salto de desfase: reaparece a 5-8 bloques del objetivo (si cabe y lo ve). */
-    private void blinkNear(ServerLevel server, Player t) {
+    private void blinkNear(ServerLevel server, LivingEntity t) {
         blink = 60 + random.nextInt(30);
         for (int i = 0; i < 6; i++) {
             double a = random.nextDouble() * Math.PI * 2, r = 5 + random.nextDouble() * 3;
@@ -239,7 +244,7 @@ public class DataSpecterEntity extends Monster {
         }
     }
 
-    private void charge(ServerLevel server, @Nullable Player t) {
+    private void charge(ServerLevel server, @Nullable LivingEntity t) {
         setDeltaMovement(getDeltaMovement().scale(0.5));
         if (t != null && timer > LOCK_TICKS) {
             lock = t.position().add(0, t.getBbHeight() * 0.5, 0);

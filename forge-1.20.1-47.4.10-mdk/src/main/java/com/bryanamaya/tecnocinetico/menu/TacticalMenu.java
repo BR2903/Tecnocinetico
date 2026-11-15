@@ -32,6 +32,7 @@ public class TacticalMenu extends AbstractContainerMenu {
         POS[TacticalGear.FEET] = new int[]{8, 62};
         POS[TacticalGear.BELT] = new int[]{8, 84};
         POS[TacticalGear.WRIST] = new int[]{8, 106};
+        POS[TacticalGear.WRIST_RIGHT] = new int[]{98, 106};                                     // bajo la munición
     }
 
     /** Cliente. */

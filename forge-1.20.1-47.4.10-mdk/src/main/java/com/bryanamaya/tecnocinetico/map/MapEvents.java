@@ -50,7 +50,8 @@ public final class MapEvents {
         if (p.getMainHandItem().is(ModItems.WRIST_MAP.get()) || p.getOffhandItem().is(ModItems.WRIST_MAP.get())) {
             return true;
         }
-        return TacticalGear.of(p).map(g -> g.active(TacticalGear.WRIST).is(ModItems.WRIST_MAP.get())).orElse(false);
+        return TacticalGear.of(p).map(g -> g.active(TacticalGear.WRIST).is(ModItems.WRIST_MAP.get())
+                || g.active(TacticalGear.WRIST_RIGHT).is(ModItems.WRIST_MAP.get())).orElse(false);
     }
 
     // ------------------------------------------------------------------ sincronización

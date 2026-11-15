@@ -127,7 +127,7 @@ public class EndRelayTurretEntity extends Monster {
 
     private void attack(ServerLevel server) {
         int charge = entityData.get(CHARGE);
-        Player target = findTarget();
+        LivingEntity target = findTarget();
         if (charge > 0) {
             charge++;
             if (target != null && charge <= CHARGE_TICKS - LOCK_TICKS) {
@@ -189,7 +189,12 @@ public class EndRelayTurretEntity extends Monster {
     }
 
     @Nullable
-    private Player findTarget() {
+    private LivingEntity findTarget() {
+        if (com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this)) {
+            LivingEntity foe = com.bryanamaya.tecnocinetico.end.NetworkHack.target(this);                                // hackeada: contra los enemigos
+            setTarget(foe);
+            return foe;
+        }
         if (tickCount % 4 != 0) {                                            // la vista se recalcula cada 4 ticks
             return getTarget() instanceof Player cur && cur.isAlive() && !cur.isCreative() && !cur.isSpectator()
                     && distanceToSqr(cur) < RANGE * RANGE ? cur : null;

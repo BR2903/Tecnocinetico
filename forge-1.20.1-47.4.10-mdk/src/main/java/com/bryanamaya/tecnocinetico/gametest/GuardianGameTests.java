@@ -288,7 +288,7 @@ public class GuardianGameTests {
         h.succeed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 260, batch = "guardianes_combate")
+    @GameTest(template = "empty", timeoutTicks = 260, batch = "vigia_combate")   // solo en su lote: arena grande (vuela alto)
     public static void watcherAttacks(GameTestHelper h) { combat(h, true); }
 
     @GameTest(template = "empty", timeoutTicks = 260, batch = "guardianes_combate")
@@ -296,7 +296,7 @@ public class GuardianGameTests {
 
     private static void combat(GameTestHelper h, boolean watcher) {
         var level = h.getLevel();
-        BlockPos p = air(h);
+        BlockPos p = watcher ? air(h, 24, 24) : air(h);                     // el Vigía vuela alto: restos de otras pruebas le tapaban la vista
         // Un suelo propio y acotado para la embestida; las entidades están en el chunk activo del test.
         if (!watcher) for (int x = -2; x <= 12; x++) for (int z = -5; z <= 5; z++)
             level.setBlock(p.offset(x, -1, z), Blocks.SMOOTH_STONE.defaultBlockState(), 3);

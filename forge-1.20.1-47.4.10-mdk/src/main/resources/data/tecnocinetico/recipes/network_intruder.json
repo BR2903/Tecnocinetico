@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "NPN",
+    "TDT",
+    "NMN"
+  ],
+  "key": {
+    "N": {
+      "item": "tecnocinetico:nullite_ingot"
+    },
+    "P": {
+      "item": "tecnocinetico:core_processor"
+    },
+    "T": {
+      "item": "tecnocinetico:piezo_transducer"
+    },
+    "D": {
+      "item": "tecnocinetico:data_core"
+    },
+    "M": {
+      "item": "tecnocinetico:precision_mechanism"
+    }
+  },
+  "result": {
+    "item": "tecnocinetico:network_intruder"
+  }
+}

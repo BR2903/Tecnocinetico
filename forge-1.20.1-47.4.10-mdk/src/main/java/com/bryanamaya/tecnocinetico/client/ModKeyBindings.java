@@ -42,6 +42,10 @@ public final class ModKeyBindings {
     public static final KeyMapping MAP = new KeyMapping("key.tecnocinetico.map", KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_M, "key.categories.tecnocinetico");
 
+    /** Hackear la máquina a la que se mira (Intrusor de Red). */
+    public static final KeyMapping HACK = new KeyMapping("key.tecnocinetico.hack", KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_H, "key.categories.tecnocinetico");
+
     private ModKeyBindings() {}
 
     @Mod.EventBusSubscriber(modid = Tecnocinetico.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -54,6 +58,7 @@ public final class ModKeyBindings {
             event.register(VISOR);
             event.register(DASH);
             event.register(MAP);
+            event.register(HACK);
         }
     }
 
@@ -77,6 +82,11 @@ public final class ModKeyBindings {
                     } else {
                         ModNetwork.CHANNEL.sendToServer(new ModNetwork.OpenGearPacket());
                     }
+                }
+            }
+            while (HACK.consumeClick()) {
+                if (mc.player != null && mc.screen == null) {
+                    ModNetwork.CHANNEL.sendToServer(new ModNetwork.HackPacket());
                 }
             }
             while (MAP.consumeClick()) {

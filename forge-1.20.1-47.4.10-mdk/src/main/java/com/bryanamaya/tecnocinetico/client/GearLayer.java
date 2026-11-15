@@ -70,11 +70,18 @@ public class GearLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Abs
                     draw(pose, buffers, m.body, model.jetpackMk3, light, overlay);
                 }
             }
-            if (gear.get(TacticalGear.WRIST).is(ModItems.WRIST_MAP.get())) {                // Reloj de Navegación (brazo izquierdo)
-                boolean slim = "slim".equals(player.getModelName());
-                model.wristMap.xScale = slim ? 0.8F : 1.0F;
-                model.wristMap.x = slim ? -0.2F : 0.0F;
-                draw(pose, buffers, m.leftArm, model.wristMap, light, overlay);
+            // gadgets de muñeca: la izquierda en el brazo izquierdo y la derecha en el derecho (reloj o intrusor)
+            boolean slim = "slim".equals(player.getModelName());
+            for (int slot : new int[]{TacticalGear.WRIST, TacticalGear.WRIST_RIGHT}) {
+                ItemStack w = gear.get(slot);
+                boolean right = slot == TacticalGear.WRIST_RIGHT;
+                ModelPart piece = w.is(ModItems.WRIST_MAP.get()) ? (right ? model.wristMapRight : model.wristMap)
+                        : w.is(ModItems.NETWORK_INTRUDER.get()) ? (right ? model.intruderRight : model.intruder) : null;
+                if (piece != null) {
+                    piece.xScale = slim ? 0.8F : 1.0F;
+                    piece.x = slim ? (right ? 0.2F : -0.2F) : 0.0F;
+                    draw(pose, buffers, right ? m.rightArm : m.leftArm, piece, light, overlay);
+                }
             }
             if (feet.is(ModItems.AQUA_PROPULSOR.get())) {
                 draw(pose, buffers, m.rightLeg, model.propulsor, light, overlay);

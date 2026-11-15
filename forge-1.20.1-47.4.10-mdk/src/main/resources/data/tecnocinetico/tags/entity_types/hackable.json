@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "tecnocinetico:drone",
+    "tecnocinetico:sentry_turret",
+    "tecnocinetico:swarm_body",
+    "tecnocinetico:swarm_wasp",
+    "tecnocinetico:matriarch_minion",
+    "tecnocinetico:anchor",
+    "tecnocinetico:ash_sentinel",
+    "tecnocinetico:end_relay_turret",
+    "tecnocinetico:data_specter"
+  ]
+}

@@ -32,10 +32,10 @@ public class TacticalScreen extends AbstractContainerScreen<TacticalMenu> {
     protected void init() {
         super.init();
         GearTabs.add(this, this::addRenderableWidget, false);
-        int[][] pos = {{TacticalGear.FACE, 18}, {TacticalGear.BACK, 40}, {TacticalGear.FEET, 62}, {TacticalGear.BELT, 84}, {TacticalGear.WRIST, 106}};
+        int[][] pos = {{TacticalGear.FACE, 8, 18}, {TacticalGear.BACK, 8, 40}, {TacticalGear.FEET, 8, 62}, {TacticalGear.BELT, 8, 84},
+                {TacticalGear.WRIST, 8, 106}, {TacticalGear.WRIST_RIGHT, 98, 106}};
         for (int[] s : pos) {
-            int slot = s[0];
-            addRenderableWidget(new GadgetToggle(leftPos + 27, topPos + s[1] + 2, slot));
+            addRenderableWidget(new GadgetToggle(leftPos + s[1] + 19, topPos + s[2] + 2, s[0]));
         }
     }
 

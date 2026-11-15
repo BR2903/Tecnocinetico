@@ -823,7 +823,7 @@
   "item.tecnocinetico.satellite": "Satélite de Reconocimiento",
   "tooltip.tecnocinetico.wrist_map": "Mapa del terreno explorado, localizador de estructuras y marcadores (tecla M). Necesita un satélite en órbita.",
   "tooltip.tecnocinetico.satellite": "Úsalo por encima de Y %s en el Overworld para ponerlo en órbita (sirve para todo el servidor).",
-  "tooltip.tecnocinetico.gadget_slot.wrist": "Ranura: muñeca",
+  "tooltip.tecnocinetico.gadget_slot.wrist": "Ranura: muñeca izquierda",
   "key.tecnocinetico.map": "Mapa (Reloj de Navegación)",
   "message.tecnocinetico.satellite.deployed": "%s ha puesto en órbita el Satélite de Reconocimiento: los Relojes de Navegación ya tienen señal.",
   "message.tecnocinetico.satellite.already": "Ya hay un satélite en órbita.",
@@ -865,5 +865,16 @@
   "map.tecnocinetico.detected": "Estructuras detectadas: %s",
   "map.tecnocinetico.dim.overworld": "Superficie",
   "map.tecnocinetico.dim.the_nether": "Nether",
-  "map.tecnocinetico.dim.the_end": "End"
+  "map.tecnocinetico.dim.the_end": "End",
+  "item.tecnocinetico.network_intruder": "Intrusor de Red",
+  "tooltip.tecnocinetico.network_intruder": "Muñeca. Tecla H mirando a una máquina de la IA (no jefes): la hackea %s s y lucha a tu favor. Recarga: %s s.",
+  "tooltip.tecnocinetico.network_intruder.ready": "Listo para hackear",
+  "tooltip.tecnocinetico.network_intruder.charging": "Recargando: %s s",
+  "tooltip.tecnocinetico.gadget_slot.wrist_right": "Ranura: muñeca derecha",
+  "key.tecnocinetico.hack": "Hackear (Intrusor de Red)",
+  "message.tecnocinetico.hack.cooldown": "Intrusor de Red recargando: %s s",
+  "message.tecnocinetico.hack.no_target": "No miras a ninguna máquina hackeable",
+  "message.tecnocinetico.hack.lost": "Conexión perdida",
+  "message.tecnocinetico.hack.progress": "Hackeando %s",
+  "message.tecnocinetico.hack.done": "%s hackeado: lucha a tu favor %s s"
 }
