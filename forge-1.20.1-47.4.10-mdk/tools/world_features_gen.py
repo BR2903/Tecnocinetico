@@ -146,8 +146,7 @@ def main():
     # ------------------------------------------------ montones y pedazos (random_patch)
     patch("rubble_piles", pile_states("rubble", False), state("rubble", pieces=1, waterlogged=False), 12, 5)
     patch("scrap_piles", pile_states("scrap_pile", False), state("scrap_pile", pieces=1, waterlogged=False), 8, 4)
-    patch("debris_bits", {"type": "minecraft:simple_state_provider", "state": state("debris_layer")},
-          state("debris_layer"), 24, 6)
+    # debris_bits (Pedazos de Escombro sueltos) retirado 2026-11-14: a veces caían uno encima de otro (usuario)
     patch("rubble_piles_underwater", pile_states("rubble", True), state("rubble", pieces=1, waterlogged=True), 12, 5,
           water=True)
     patch("scrap_piles_underwater", pile_states("scrap_pile", True), state("scrap_pile", pieces=1, waterlogged=True), 8, 4,
@@ -197,20 +196,20 @@ def main():
     # Densidades subidas el 2026-11-12 (el usuario: "no parece post-apocalíptico"): restos por todas partes.
     plan = {
         "dead_megacity": [("crater_scorched", "crater", None, 4), ("ruin_wall_concrete", "ruin", 3, None),
-                          ("rubble_piles", "veg", 4, None), ("debris_bits", "veg", 4, None), ("scrap_piles", "veg", 2, None),
+                          ("rubble_piles", "veg", 4, None), ("scrap_piles", "veg", 2, None),
                           ("dead_bushes", "veg", 2, None)],
         "scrap_meadows": [("crater_scorched", "crater", None, 5), ("ruin_wall_concrete", "ruin", None, 2),
-                          ("rubble_piles", "veg", 1, None), ("debris_bits", "veg", 2, None), ("scrap_piles", "veg", None, 2),
+                          ("rubble_piles", "veg", 1, None), ("scrap_piles", "veg", None, 2),
                           ("dead_tree", "veg", 1, None), ("dead_bushes", "veg", 2, None)],
-        "scrap_coast": [("scrap_piles", "veg", 3, None), ("rubble_piles", "veg", 1, None), ("debris_bits", "veg", 1, None)],
+        "scrap_coast": [("scrap_piles", "veg", 3, None), ("rubble_piles", "veg", 1, None),],
         "overgrown_ruins": [("ruin_wall_overgrown", "ruin", 1, None), ("rubble_piles", "veg", None, 2),
-                            ("debris_bits", "veg", 1, None), ("dead_tree", "veg", 2, None)],
+                            ("dead_tree", "veg", 2, None)],
         "industrial_jungle": [("ruin_wall_overgrown", "ruin", 2, None), ("rubble_piles", "veg", None, 2),
                               ("scrap_piles", "veg", None, 2)],
         "fractured_lands": [("crater_ash", "crater", None, 2), ("rubble_piles", "veg", None, 2),
                             ("dead_tree", "veg", 2, None), ("ash_layers", "top", 3, None), ("dead_bushes", "veg", 1, None)],
         "ruined_tundra": [("ruin_wall_frozen", "ruin", None, 2), ("rubble_piles", "veg", None, 2),
-                          ("debris_bits", "veg", None, 2), ("dead_tree", "veg", None, 2)],
+                          ("dead_tree", "veg", None, 2)],
         "ash_taiga": [("crater_ash", "crater", None, 6), ("scrap_piles", "veg", None, 3), ("dead_tree", "veg", 4, None),
                       ("ash_layers", "top", 6, None)],
         "vitrified_desert": [("crater_vitrified", "crater", None, 3), ("scrap_piles", "veg", None, 3),
@@ -223,7 +222,7 @@ def main():
         by_step = {}
         for feature, step, count, rarity in entries:
             n = f"{biome}/{feature}"
-            if feature in ("rubble_piles", "scrap_piles", "debris_bits", "ash_layers", "dead_bushes"):
+            if feature in ("rubble_piles", "scrap_piles", "ash_layers", "dead_bushes"):
                 placed(n, feature, per_chunk=count, rarity=rarity)
             else:
                 placed_custom(n, feature, surface_mods(count, rarity))
