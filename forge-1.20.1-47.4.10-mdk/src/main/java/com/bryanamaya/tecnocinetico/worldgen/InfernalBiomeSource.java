@@ -31,8 +31,11 @@ public final class InfernalBiomeSource extends BiomeSource {
         this.biomes = biomes;
     }
 
+    /** Caché por holder: getNoiseBiome se llama miles de veces por chunk y antes buscaba en el registro cada vez. */
+    private final java.util.Map<Holder<Biome>, Holder<Biome>> cache = new java.util.concurrent.ConcurrentHashMap<>();
+
     private Holder<Biome> remap(Holder<Biome> value) {
-        return value.unwrapKey().map(InfernalBiomes.MAP::get).<Holder<Biome>>flatMap(biomes::get).orElse(value);
+        return cache.computeIfAbsent(value, v -> v.unwrapKey().map(InfernalBiomes.MAP::get).<Holder<Biome>>flatMap(biomes::get).orElse(v));
     }
 
     @Override

@@ -84,12 +84,19 @@ public class RoadFeature extends Feature<NoneFeatureConfiguration> {
         for (int dx = 0; dx < 16; dx++) {
             for (int dz = 0; dz < 16; dz++) {
                 int x = bx + dx, z = bz + dz;
-                int y = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) - 1;
-                BlockPos top = new BlockPos(x, y, z);
-                boolean city = level.getBiome(top).is(ModBiomes.DEAD_MEGACITY);
-                Road road = roadAt(seed, x, z, city);
-                if (road == null) {
+                // Rendimiento: primero la cuadrícula (cálculo puro); la altura y el bioma (caro: interpola 8 celdas)
+                // solo en las columnas por las que pasa una línea. Mismo resultado que roadAt(seed, x, z, city).
+                Road road = line(seed, x, z, HIGHWAY_SPACING, HIGHWAY_HALF + 1, 0xA1B2C3L, true);
+                Road street = road == null ? line(seed, x, z, CITY_SPACING, CITY_HALF, 0x5EED1L, false) : null;
+                if (road == null && street == null) {
                     continue;
+                }
+                BlockPos top = new BlockPos(x, level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) - 1, z);
+                if (road == null) {
+                    if (!level.getBiome(top).is(ModBiomes.DEAD_MEGACITY)) {
+                        continue;                                              // calles solo en la Megaciudad
+                    }
+                    road = street;
                 }
                 placed |= paint(level, seed, top, x, z, road);
             }

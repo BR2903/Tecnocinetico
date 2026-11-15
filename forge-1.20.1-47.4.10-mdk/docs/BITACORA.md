@@ -836,3 +836,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Revisado y ya bien: manejadores por tick (limitados por fase/lado/intervalo), radiación (392 bloques por jugador y segundo), sincronización de máquinas (cada 4-5 ticks), patrullas nocturnas. Los modelos de Codex (20-110 cubos por mob) no se tocan.
 - Prueba `PerformanceGameTests.particleShapePacketRoundTrip`. 85 pruebas.
 
+## 2026-11-14 — Claude — El Dragón esquiva la isla y las torres; generación más ligera
+- **Dragón** (usuario: "traspasa los muros", elige "esquivarlo"): el vanilla no choca con nada. El modificado mira cada tick 3, 6 y 10 bloques por delante con las cajas de cada parte (cabeza, cuello, cuerpo, alas, cola); si va a meterse en bloques sube (y frena un poco), y si ya está dentro sale hacia arriba (`EndArena.steer/obstructed/avoid`). No se aplica al aterrizar, posado, en vuelo estacionario ni muriendo. Ya no sale por debajo de la isla: aparece en el vacío junto al borde (columna sin suelo a 70-140 bloques, `emergePoint`) y sube. Prueba `dragonAvoidsWalls`.
+- **Generación** (usuario: los biomas nuevos parecen dar lag): las carreteras se ejecutan en todos los chunks y consultaban el bioma (interpola 8 celdas) en las 256 columnas; ahora primero se calcula si pasa una línea de calle/autopista y solo entonces altura y bioma (mismo resultado, ~3/4 menos consultas). La fuente de biomas del Nether (`InfernalBiomeSource`) no tenía caché: miles de búsquedas en el registro por chunk; ahora la tiene, como la del Overworld. Revisado y bien: cantidades de las features, cráteres (acotados), reglas de superficie.
+- 86 pruebas.
+

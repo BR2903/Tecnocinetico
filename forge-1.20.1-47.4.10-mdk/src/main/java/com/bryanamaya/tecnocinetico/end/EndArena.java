@@ -262,7 +262,8 @@ public final class EndArena {
         d.setDragonFight(fight);
         d.setFightOrigin(BlockPos.ZERO);
         d.getPhaseManager().setPhase(EnderDragonPhase.HOLDING_PATTERN);
-        d.moveTo(0, 34, 0, end.random.nextFloat() * 360.0F, 0.0F);           // sale de debajo de la isla
+        Vec3 from = emergePoint(end);
+        d.moveTo(from.x, from.y, from.z, end.random.nextFloat() * 360.0F, 0.0F);   // sube desde el vacío junto a la isla
         end.addFreshEntity(d);
         fight.dragonKilled = false;
         fight.dragonUUID = d.getUUID();
@@ -273,6 +274,95 @@ public final class EndArena {
         end.playSound(null, 0, 60, 0, SoundEvents.ENDER_DRAGON_GROWL, SoundSource.HOSTILE, 16.0F, 0.8F);
         end.sendParticles(ModParticles.DATA_GLITCH.get(), 0, 60, 0, 200, 6, 6, 6, 0.1);
         return d;
+    }
+
+    /**
+     * Dónde aparece: en el vacío junto al borde de la isla (una columna sin suelo a 70-140 bloques del centro), por debajo
+     * del nivel de la isla, para que suba a la vista sin atravesar el suelo. Si no encuentra hueco, encima del centro.
+     */
+    public static Vec3 emergePoint(ServerLevel end) {
+        for (int k = 0; k < 8; k++) {
+            double a = k * Math.PI / 4;
+            for (int r = 70; r <= 140; r += 10) {                  // dentro de la zona que carga la pelea (9 chunks)
+                BlockPos col = BlockPos.containing(Math.cos(a) * r, 0, Math.sin(a) * r);
+                end.getChunkAt(col);
+                if (end.getHeightmapPos(Heightmap.Types.WORLD_SURFACE, col).getY() <= end.getMinBuildHeight() + 1) {
+                    return new Vec3(col.getX() + 0.5, 30, col.getZ() + 0.5);
+                }
+            }
+        }
+        return new Vec3(0, 120, 0);
+    }
+
+    // ------------------------------------------------------------------ esquivar la isla y las torres
+
+    /** Distancias (bloques) a las que mira por delante, y empuje hacia arriba por tick al ver un obstáculo. */
+    private static final double[] LOOKAHEAD = {3.0, 6.0, 10.0};
+    public static final double AVOID_LIFT = 0.25D, UNSTUCK_STEP = 1.0D;
+
+    /**
+     * El Dragón vanilla no choca con nada (atraviesa la piedra del End y la obsidiana). El modificado <b>esquiva</b>: si
+     * alguna parte de su cuerpo (cabeza, cuello, cuerpo, alas, cola) va a meterse en bloques en los próximos metros de
+     * vuelo, sube para pasar por encima; si ya está dentro, sale hacia arriba. No se aplica al aterrizar en el portal,
+     * posado ni muriendo (ahí tiene que tocar el suelo).
+     */
+    @SubscribeEvent
+    public static void steer(net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent event) {
+        if (!(event.getEntity() instanceof EnderDragon d) || !(d.level() instanceof ServerLevel level) || !isCorrupted(d)) {
+            return;
+        }
+        var phase = d.getPhaseManager().getCurrentPhase();
+        var type = phase.getPhase();
+        if (phase.isSitting() || type == EnderDragonPhase.LANDING || type == EnderDragonPhase.DYING || type == EnderDragonPhase.HOVERING) {
+            return;
+        }
+        List<AABB> body = new ArrayList<>();
+        for (var part : d.getSubEntities()) {
+            body.add(part.getBoundingBox());
+        }
+        Vec3 v = d.getDeltaMovement();
+        if (obstructed(level, body, Vec3.ZERO)) {                             // ya dentro: sale por arriba
+            d.setPos(d.getX(), d.getY() + UNSTUCK_STEP, d.getZ());
+            d.setDeltaMovement(v.x * 0.5, Math.max(v.y, 0.3), v.z * 0.5);
+            return;
+        }
+        Vec3 facing = new Vec3(Mth.sin(d.getYRot() * Mth.DEG_TO_RAD), 0, -Mth.cos(d.getYRot() * Mth.DEG_TO_RAD));
+        Vec3 heading = facing.add(0, Mth.clamp(v.y * 2.0, -0.6, 0.6), 0).normalize();
+        for (double dist : LOOKAHEAD) {
+            if (obstructed(level, body, heading.scale(dist))) {
+                d.setDeltaMovement(avoid(v, dist));
+                return;
+            }
+        }
+    }
+
+    /** Velocidad para esquivar un obstáculo a {@code dist} bloques: frena en horizontal y sube (más cuanto más cerca). */
+    public static Vec3 avoid(Vec3 v, double dist) {
+        double lift = AVOID_LIFT * (dist <= 3.0 ? 1.6 : dist <= 6.0 ? 1.2 : 1.0);
+        return new Vec3(v.x * 0.85, Math.max(v.y, 0.0) + lift, v.z * 0.85);
+    }
+
+    /** ¿Alguna de las cajas, desplazada {@code offset}, toca un bloque sólido? (no carga chunks) */
+    public static boolean obstructed(ServerLevel level, List<AABB> boxes, Vec3 offset) {
+        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        for (AABB raw : boxes) {
+            AABB b = raw.move(offset).deflate(0.15);
+            for (int x = Mth.floor(b.minX); x <= Mth.floor(b.maxX); x++) {
+                for (int z = Mth.floor(b.minZ); z <= Mth.floor(b.maxZ); z++) {
+                    if (!level.hasChunkAt(p.set(x, 0, z))) {
+                        continue;
+                    }
+                    for (int y = Mth.floor(b.minY); y <= Mth.floor(b.maxY); y++) {
+                        p.set(x, y, z);
+                        BlockState st = level.getBlockState(p);
+                        if (!st.isAir() && !st.getCollisionShape(level, p).isEmpty()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /** Marca y mejora un Dragón (vida y nombre). */

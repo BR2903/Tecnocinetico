@@ -43,6 +43,7 @@ public class EndArenaGameTests {
         // sin jugadores el End no carga la arena: se fuerzan el centro y las torres durante la prueba
         List<net.minecraft.world.level.ChunkPos> forced = new java.util.ArrayList<>();
         forced.add(new net.minecraft.world.level.ChunkPos(0, 0));
+        forced.add(new net.minecraft.world.level.ChunkPos(BlockPos.containing(EndArena.emergePoint(s))));   // donde sale el Dragón
         for (SpikeFeature.EndSpike sp : SpikeFeature.getSpikesForLevel(s)) {
             forced.add(new net.minecraft.world.level.ChunkPos(new BlockPos(sp.getCenterX(), 0, sp.getCenterZ())));
         }
@@ -148,6 +149,27 @@ public class EndArenaGameTests {
         turret.invulnerableTime = 0;
         turret.hurt(level.damageSources().playerAttack(player), 10.0F);
         h.assertTrue(turret.getHealth() < hp, "Los jugadores no pueden dañar la torreta");
+        h.succeed();
+    }
+
+    /** El Dragón modificado ve los muros por delante (isla, torres) y sube en vez de atravesarlos; aparece en el vacío. */
+    @GameTest(template = "empty")
+    public static void dragonAvoidsWalls(GameTestHelper h) {
+        var s = h.getLevel().getServer().getLevel(Level.END);
+        BlockPos at = new BlockPos(1700, 80, 1700);
+        s.getChunk(at);
+        for (BlockPos p : BlockPos.betweenClosed(at.offset(-2, -3, -3), at.offset(8, 4, 3))) {
+            s.setBlock(p, (p.getX() == at.getX() + 5 ? Blocks.OBSIDIAN : Blocks.AIR).defaultBlockState(), 3);
+        }
+        List<AABB> body = List.of(new AABB(at).inflate(1.0));
+        h.assertTrue(!EndArena.obstructed(s, body, Vec3.ZERO), "Ve un muro donde no lo hay");
+        h.assertTrue(EndArena.obstructed(s, body, new Vec3(4, 0, 0)), "No ve el muro de obsidiana por delante");
+        Vec3 v = EndArena.avoid(new Vec3(0.6, -0.1, 0), 3.0);
+        h.assertTrue(v.y > 0.3 && v.x < 0.6, "No sube ni frena al ver el muro: " + v);
+        Vec3 from = EndArena.emergePoint(s);
+        BlockPos col = BlockPos.containing(from);
+        h.assertTrue(from.y >= 100 || s.getHeightmapPos(net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE, col).getY()
+                <= s.getMinBuildHeight() + 1, "El Dragón aparece dentro de la isla: " + from);
         h.succeed();
     }
 }
