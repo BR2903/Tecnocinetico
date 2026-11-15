@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tecnocinetico:utility_pole"
+    }
+  ],
+  "result": {
+    "item": "minecraft:stick",
+    "count": 3
+  }
+}

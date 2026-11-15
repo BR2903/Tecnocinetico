@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tecnocinetico:power_cable"
+    },
+    {
+      "item": "tecnocinetico:power_cable"
+    },
+    {
+      "item": "tecnocinetico:power_cable"
+    },
+    {
+      "item": "tecnocinetico:power_cable"
+    }
+  ],
+  "result": {
+    "item": "minecraft:copper_ingot",
+    "count": 1
+  }
+}

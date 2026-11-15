@@ -50,8 +50,8 @@ public final class MachineRecipes {
                     ModItems.STANDARD_ROUND, 2, 80, 25),                       // Bala Normal: 2 paquetes (12 balas)
             new Fabricate(List.of(of(ModItems.STANDARD_ROUND, 2), of(ModItems.CINETRITE_SHARD, 3)),
                     ModItems.KINETIC_ROUND, 2, 100, 30),                       // Bala Cinética a partir de la normal
-            new Fabricate(List.of(of(ModItems.LEAD_INGOT, 1), of(v(Items.COPPER_INGOT), 1), of(v(Items.GUNPOWDER), 2)),
-                    ModItems.RIFLE_ROUND, 2, 100, 30),
+            new Fabricate(List.of(of(ModItems.LEAD_NUGGET, 5), of(v(Items.COPPER_INGOT), 1), of(v(Items.GUNPOWDER), 2)),
+                    ModItems.RIFLE_ROUND, 2, 100, 30),                         // rinde más que a mano (3 pepitas por bala)
             new Fabricate(List.of(of(ModItems.LEAD_NUGGET, 4), of(v(Items.PAPER), 2), of(v(Items.GUNPOWDER), 2)),
                     ModItems.SHOTGUN_SHELL, 2, 100, 30),
             new Fabricate(List.of(of(v(Items.IRON_INGOT), 2), of(v(Items.GUNPOWDER), 2), of(ModItems.CINETRITE_SHARD, 1)),
@@ -123,7 +123,7 @@ public final class MachineRecipes {
             leach(ModItems.RAW_INERCITA, ModItems.INERCITA_DUST, 500, 180, 60),
             leach(ModItems.RAW_PIROXITE, ModItems.PIROXITE_DUST, 500, 220, 80),
             leach(ModItems.RAW_NULLITE, ModItems.NULLITE_DUST, 500, 220, 80),
-            new Lab(List.of(of(ModItems.SCRAP_METAL, 2)), ACID, 100, ModItems.IRON_DUST, 3, null, 0, 100, 30),
+            new Lab(List.of(of(ModItems.SCRAP_METAL, 2)), ACID, 100, ModItems.IRON_DUST, 2, null, 0, 100, 30),
             // pólvora industrial: azufre + carbón con ácido sulfúrico
             new Lab(List.of(of(ModItems.SULFUR_DUST, 2), of(v(Items.COAL), 2)), ACID, 250, v(Items.GUNPOWDER), 12, null, 0, 120, 40),
             new Lab(List.of(of(ModItems.SULFUR_DUST, 2), of(v(Items.CHARCOAL), 2)), ACID, 250, v(Items.GUNPOWDER), 12, null, 0, 120, 40));

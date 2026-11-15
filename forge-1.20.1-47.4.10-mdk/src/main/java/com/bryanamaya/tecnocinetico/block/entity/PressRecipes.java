@@ -43,7 +43,7 @@ public final class PressRecipes {
                             new ItemStack(ModItems.DEEPSLATE_LOGIC_SUBSTRATE.get())),
                     // Acoplador Cinético Bruto
                     new Recipe(List.of(Items.IRON_INGOT, ModBlocks.ANCIENT_ALLOY_BLOCK.get().asItem(), ModItems.CINETRITE_SHARD.get()),
-                            new ItemStack(ModItems.CRUDE_KINETIC_COUPLER.get())),
+                            new ItemStack(ModItems.CRUDE_KINETIC_COUPLER.get(), 2)),     // 2 por bloque de aleación
                     // Fragmentación: un Cristal de Cinetrita -> 2 fragmentos
                     new Recipe(List.of(ModItems.CINETRITE_INGOT.get()),
                             new ItemStack(ModItems.CINETRITE_SHARD.get(), 2)),

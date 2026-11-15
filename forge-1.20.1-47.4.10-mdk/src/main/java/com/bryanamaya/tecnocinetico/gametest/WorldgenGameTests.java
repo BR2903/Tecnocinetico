@@ -46,7 +46,7 @@ public class WorldgenGameTests {
             // estructura y se prueban chunks hasta encontrar terreno donde quepa (llano y sin agua), como en el juego
             var biome = structure.biomes().stream().findFirst().orElseThrow();
             StructureStart start = StructureStart.INVALID_START;
-            int attempts = STRUCTURES[i].equals("sunken_city") ? 512 : i >= 8 ? 256 : 64;
+            int attempts = STRUCTURES[i].equals("sunken_city") ? 512 : i >= 8 ? 256 : 192;   // el sitio de la prueba cambia con el número de pruebas
             for (int tries = 0; tries < attempts && !start.isValid(); tries++) {
                 int stride = i >= 8 ? 128 : 48;
                 int columns = i >= 8 ? 16 : 8;
