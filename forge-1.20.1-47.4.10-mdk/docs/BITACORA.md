@@ -926,3 +926,9 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - La prueba de ataque del Vigía va en su propio lote con arena grande (fallaba según dónde caía en la rejilla).
 - Prueba `NetworkHackGameTests`. 105 pruebas.
 
+## 2026-11-15 — Claude — v2: equilibrio de combate
+- Herramienta nueva: `CombatAuditGameTests` + `tools/combat_audit.py` (ver HERRAMIENTAS).
+- Hallazgo: los jefes del Overworld eran más duros que los del Nether, que van después (Matriarca con armadura 22/12, por encima de la netherita: las balas normales le hacían el 20 %).
+- Ajustes: **Matriarca** armadura 22/12 → 16/8, golpe 28 → 22, golpe en área 26 → 20 (+3 por fase). **Vigía** armadura 18/8 → 15/6, golpe 22 → 18. **Dragón corrupto** 400 → 600 de vida.
+- Sin cambios: los mobs normales de cada etapa (6-30 golpes para morir según el ataque; los golpes fuertes van avisados) y los jefes del Nether.
+

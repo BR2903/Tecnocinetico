@@ -74,7 +74,7 @@ public final class EndArena {
     public static final String CORRUPTED = "TecnoCorruptedDragon", LAST_SITTING = "TecnoDragonSitting";
     public static final double TRIGGER_RADIUS = 50.0D, ARENA_RADIUS = 160.0D;
     public static final int AWAKEN_TICKS = 300;
-    public static final float DRAGON_HEALTH = 400.0F;
+    public static final float DRAGON_HEALTH = 600.0F;                  // v2: 400 caía demasiado rápido con armas de tier 3
     public static final int RAIN_EVERY = 280, RAIN_WARNING = 30;
     public static final float RAIN_DAMAGE = 10.0F, RAIN_RADIUS = 2.6F;
     public static final double EMP_RADIUS = 14.0D;

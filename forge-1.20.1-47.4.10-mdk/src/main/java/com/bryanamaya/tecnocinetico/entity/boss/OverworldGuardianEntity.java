@@ -67,9 +67,10 @@ public class OverworldGuardianEntity extends Monster {
     public void setConsole(BlockPos p) { console = p; home = blockPosition(); }
 
     public static AttributeSupplier.Builder attributes(boolean watcher) {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, watcher ? 700 : 1000).add(Attributes.ARMOR, watcher ? 18 : 22)
-                .add(Attributes.ARMOR_TOUGHNESS, watcher ? 8 : 12)
-                .add(Attributes.ATTACK_DAMAGE, watcher ? 22 : 28).add(Attributes.MOVEMENT_SPEED, watcher ? .3 : .36)
+        // v2: por debajo de los jefes del Nether (antes armadura 22/12 y golpes de 28: más duros que lo que viene después)
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, watcher ? 700 : 1000).add(Attributes.ARMOR, watcher ? 15 : 16)
+                .add(Attributes.ARMOR_TOUGHNESS, watcher ? 6 : 8)
+                .add(Attributes.ATTACK_DAMAGE, watcher ? 18 : 22).add(Attributes.MOVEMENT_SPEED, watcher ? .3 : .36)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1).add(Attributes.FOLLOW_RANGE, 64);
     }
 
@@ -205,7 +206,7 @@ public class OverworldGuardianEntity extends Monster {
                     // Tres impactos simultáneos, cada uno marcado durante la preparación.
                     for (Vec3 p : bombardmentCenters()) {
                         ring(server, p, 5.5, ParticleTypes.EXPLOSION);
-                        areaDamage(p, 5.5, 26 + phase() * 3);
+                        areaDamage(p, 5.5, 20 + phase() * 3);
                     }
                     finishAttack();
                 } else {

@@ -291,3 +291,6 @@ Los resultados de los scripts actuales son reproducibles (semillas aleatorias fi
 ## Banco de rendimiento
 `set TECNO_BENCH=1` y `gradlew runGameTestServer`: `BenchmarkGameTests` escribe en el log ("[Banco]") los µs por tick de cada mob y máquina, y muestras de la pila de los más caros y de la generación de chunks.
 
+## Auditoría de combate (`tools/combat_audit.py`)
+`set TECNO_AUDIT=1` y `gradlew runGameTestServer` (la prueba `CombatAuditGameTests` vuelca vida, armadura, dureza y daño de todos los enemigos, también los vanilla mejorados, a `run/combat_audit.json`); luego `python tools/combat_audit.py`. Por etapa (tier 1-3) cruza armaduras y armas de esa etapa con sus enemigos: golpes de cada ataque que aguanta el jugador y segundos para matarlos con balas normales y cinéticas (acertando todo y sin recargar: el real es 2-3 veces más). Los ataques especiales están copiados en `ATTACKS`.
+
