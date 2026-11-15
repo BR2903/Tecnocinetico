@@ -315,6 +315,9 @@ public class DataSpecterEntity extends Monster {
     }
 
     private boolean foe(LivingEntity e) {
+        if (com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this)) {
+            return e != this && e.isAlive() && !(e instanceof Player) && !com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(e);   // hackeado: también contra Espectros
+        }
         return e != this && e.isAlive() && !(e instanceof DataSpecterEntity) && !(e instanceof Player p && !valid(p));
     }
 

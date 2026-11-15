@@ -87,6 +87,7 @@ public class OverworldGuardianEntity extends Monster {
     @Override public boolean causeFallDamage(float distance, float mult, DamageSource source) { return false; }
 
     @Override public boolean isAlliedTo(Entity other) {
+        if (com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this) || com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(other)) return false;                    // hackeada: ya no es del Enjambre
         return other instanceof OverworldGuardianEntity || other instanceof SiegeSpiderEntity || other instanceof DroneEntity
                 || other instanceof SwarmBodyEntity || other instanceof SwarmWaspEntity || other instanceof HiveNodeEntity || super.isAlliedTo(other);
     }

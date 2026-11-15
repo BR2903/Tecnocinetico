@@ -200,7 +200,7 @@ public class SiegeSpiderEntity extends Monster {
 
     @Override
     public boolean isAlliedTo(net.minecraft.world.entity.Entity other) {
-        return other instanceof DroneEntity || super.isAlliedTo(other);
+        return !com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(other) && other instanceof DroneEntity || super.isAlliedTo(other);
     }
 
     @Override

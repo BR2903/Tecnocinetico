@@ -73,4 +73,41 @@ public class NetworkHackGameTests {
             h.succeed();
         });
     }
+
+    /** Una máquina hackeada daña a las de su mismo tipo, y sus golpes cuentan como del jugador (experiencia y botín). */
+    @GameTest(template = "empty", batch = "intrusor_aliados")
+    public static void hackedMachineHurtsItsKindForThePlayer(GameTestHelper h) {
+        var level = h.getLevel();
+        Vec3 base = h.absoluteVec(new Vec3(1.5, 3, 1.5));
+        FakePlayer p = new FakePlayer(level, new GameProfile(UUID.randomUUID(), "hacker2"));
+        p.setGameMode(GameType.SURVIVAL);
+        p.moveTo(base.x, base.y + 20, base.z, 0, 0);
+        level.addNewPlayer(p);
+        var a = ModEntities.DRONE.get().create(level);
+        var b = ModEntities.DRONE.get().create(level);
+        a.moveTo(base.x, base.y, base.z, 0, 0);
+        b.moveTo(base.x + 4, base.y, base.z, 0, 0);
+        a.setNoAi(true);
+        b.setNoAi(true);
+        level.addFreshEntity(a);
+        level.addFreshEntity(b);
+        try {
+            NetworkHack.hack(level, a, p);
+            float before = b.getHealth();
+            com.bryanamaya.tecnocinetico.entity.custom.CoreShots.fire(a, a.getEyePosition(), b.getBoundingBox().getCenter().subtract(a.getEyePosition()),
+                    16, 5.0F, 0.0, com.bryanamaya.tecnocinetico.entity.custom.DroneEntity.class, true);
+            h.assertTrue(b.getHealth() < before, "El dron hackeado no daña a otro dron");
+            h.assertTrue(b.getLastHurtByMob() == a && b.getKillCredit() == p || b.getLastHurtByMob() == a && hurtByPlayer(b) == p,
+                    "El golpe no cuenta como del jugador que hackeó");
+        } finally {
+            a.discard();
+            b.discard();
+            p.discard();
+        }
+        h.succeed();
+    }
+
+    private static net.minecraft.world.entity.player.Player hurtByPlayer(net.minecraft.world.entity.LivingEntity e) {
+        return e.getKillCredit() instanceof net.minecraft.world.entity.player.Player pl ? pl : null;
+    }
 }

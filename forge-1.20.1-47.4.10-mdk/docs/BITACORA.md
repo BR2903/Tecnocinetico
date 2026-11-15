@@ -932,3 +932,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Ajustes: **Matriarca** armadura 22/12 → 16/8, golpe 28 → 22, golpe en área 26 → 20 (+3 por fase). **Vigía** armadura 18/8 → 15/6, golpe 22 → 18. **Dragón corrupto** 400 → 600 de vida.
 - Sin cambios: los mobs normales de cada etapa (6-30 golpes para morir según el ataque; los golpes fuertes van avisados) y los jefes del Nether.
 
+## 2026-11-15 — Claude — Arreglos del hackeo
+- Una máquina hackeada no podía dañar a las de su tipo: sus disparos (`CoreShots`, Torreta-repetidor, pisotón del Anclador, Espectro) ignoraban a sus "aliados" y las víctimas eran inmunes a sus compañeras (Nether entre sí, Enjambre/Matriarca/Cría, drones de la Araña). Ahora, si el atacante o la víctima están hackeados, esas alianzas no cuentan (solo se respetan entre hackeadas).
+- Sin botín ni experiencia: el golpe de una máquina hackeada se apunta al jugador que la hackeó (`setLastHurtByPlayer`): suelta experiencia y el botín de "matado por un jugador", y el mérito es suyo.
+- Prueba `hackedMachineHurtsItsKindForThePlayer`. 107 pruebas.
+

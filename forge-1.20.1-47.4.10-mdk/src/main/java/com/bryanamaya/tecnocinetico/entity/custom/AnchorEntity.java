@@ -232,7 +232,8 @@ public class AnchorEntity extends Monster {
             return;
         }
         for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(STOMP_RADIUS, 1.5D, STOMP_RADIUS),
-                e -> e != this && !(e instanceof AnchorEntity) && e.isAlive() && e.distanceTo(this) <= STOMP_RADIUS + 0.5)) {
+                e -> e != this && (com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this) ? !com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(e) : !(e instanceof AnchorEntity)) && e.isAlive()
+                        && e.distanceTo(this) <= STOMP_RADIUS + 0.5)) {
             if (e.hurt(damageSources().mobAttack(this), (float) getAttributeValue(Attributes.ATTACK_DAMAGE))) {
                 Vec3 away = e.position().subtract(position()).multiply(1, 0, 1).normalize();
                 e.knockback(1.2D, -away.x, -away.z);

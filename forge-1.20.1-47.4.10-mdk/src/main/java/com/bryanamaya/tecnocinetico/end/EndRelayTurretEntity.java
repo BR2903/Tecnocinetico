@@ -166,8 +166,8 @@ public class EndRelayTurretEntity extends Monster {
             end = block.getLocation();
         }
         var hit = net.minecraft.world.entity.projectile.ProjectileUtil.getEntityHitResult(level(), this, from, end,
-                new AABB(from, end).inflate(1.0), e -> e instanceof LivingEntity && !(e instanceof EnderDragon)
-                        && !(e instanceof EndRelayTurretEntity) && !e.isSpectator(), 0.35F);
+                new AABB(from, end).inflate(1.0), e -> e instanceof LivingEntity && e != this && !e.isSpectator()
+                        && (com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this) ? !com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(e) : !(e instanceof EnderDragon) && !(e instanceof EndRelayTurretEntity)), 0.35F);
         if (hit != null) {
             end = hit.getEntity().getBoundingBox().clip(from, end).orElse(hit.getEntity().getBoundingBox().getCenter());
             hit.getEntity().hurt(damageSources().mobProjectile(this, this), SHOT_DAMAGE);

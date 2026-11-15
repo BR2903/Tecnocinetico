@@ -130,8 +130,8 @@ public class InfernalEntity extends Monster {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.getEntity() instanceof InfernalEntity) {
-            return false;                                                     // no se dañan entre sí
+        if (source.getEntity() instanceof InfernalEntity src && !com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(src) && !com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this)) {
+            return false;                                                     // no se dañan entre sí (salvo hackeadas)
         }
         return super.hurt(source, exposed() ? amount * 1.6F : amount);
     }

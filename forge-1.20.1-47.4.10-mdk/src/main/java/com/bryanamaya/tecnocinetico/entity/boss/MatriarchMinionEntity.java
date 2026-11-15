@@ -34,6 +34,7 @@ public class MatriarchMinionEntity extends SwarmBodyEntity {
         setTarget(owner.getTarget());
     }
     @Override public boolean isAlliedTo(Entity other) {
+        if (com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this) || com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(other)) return false;                    // hackeada: ya no es del Enjambre
         return other instanceof OverworldGuardianEntity || other instanceof SiegeSpiderEntity || other instanceof SwarmBodyEntity
                 || other instanceof com.bryanamaya.tecnocinetico.entity.custom.DroneEntity
                 || other instanceof com.bryanamaya.tecnocinetico.entity.swarm.HiveNodeEntity

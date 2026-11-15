@@ -258,7 +258,19 @@ public final class NetworkHack {
             event.setCanceled(true);
         } else if (src instanceof Player && hacked(event.getEntity())) {
             event.setCanceled(true);
+        } else if (src != null && hacked(src) && src.level() instanceof ServerLevel level) {
+            Player hacker = hacker(level, src);
+            if (hacker != null) {
+                event.getEntity().setLastHurtByPlayer(hacker);                       // experiencia y botín "matado por jugador"
+            }
         }
+    }
+
+    /** El jugador que hackeó esa máquina (si sigue conectado). */
+    @Nullable
+    public static Player hacker(ServerLevel level, Entity machine) {
+        var tag = machine.getPersistentData();
+        return tag.hasUUID(BY) ? level.getPlayerByUUID(tag.getUUID(BY)) : null;
     }
 
     /** Para pruebas: estado de subidas. */

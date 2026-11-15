@@ -364,7 +364,7 @@ public class DroneEntity extends Monster {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         // Incluye proyectiles y explosiones: getEntity devuelve al responsable del ataque.
-        if (source.getEntity() instanceof SiegeSpiderEntity) {
+        if (source.getEntity() instanceof SiegeSpiderEntity && !com.bryanamaya.tecnocinetico.end.NetworkHack.hacked(this)) {
             return false;
         }
         boolean hurt = super.hurt(source, amount);
