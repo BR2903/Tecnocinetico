@@ -814,3 +814,10 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 ## 2026-11-14 — Claude — Bala Cinética: bonus contra máquinas
 - Pedido del usuario: mantener el impacto cinético (35 % que atraviesa la armadura + empuje) y añadir ventaja contra máquinas. `KineticRounds.MACHINE_BONUS` = +50 % del daño del disparo contra la etiqueta nueva `tecnocinetico:machines` (dron, torreta, Cuerpo/Avispa/Nodo del Enjambre, esbirros de la Matriarca, Araña de Asedio, Vigía de la Red, Matriarca, Fundición del Abismo). Más chispas cian y chisporroteo al dar a una máquina. Textos de JEI y del cargador actualizados. Prueba `kineticVsMachines`. 80 pruebas pasan.
 
+## 2026-11-14 — Claude + Codex — End, parte 1: enemigos corrompidos
+- **Cambio de lore** (usuario): la IA vivió en el End pero se mudó a otro planeta (extremadamente hostil, para más adelante); en el End quedan los restos de su red, que corrompen a las criaturas. Plan por partes en `docs/PLAN_END.md` (incluye la llegada con torres destruidas, temblor, corrupción y Dragón modificado con un enemigo por cristal, que pidió el usuario).
+- `end/EndMobEvents` (solo en el End, se restaura al salir): Enderman 60 vida / 6 armadura / 10 daño, hostil a 16 bloques (no con armadura completa de Nulita) y **Salto de desfase** (aviso de glitches + mirada, aparece a la espalda y golpea); Shulker 45 vida y **Ráfaga** de 3 balas con aviso; Endermite 16 vida / 4 daño.
+- Partícula `data_glitch` (`client/GlitchParticle`, texturas de Codex teñidas magenta/violeta, salta de sitio y parpadea).
+- Modelos corrompidos de Codex (`EndRemodelLayers`, `tools/end_remodel_gen.py`, vista previa en `build/end_remodel/`) conectados en `EndRemodelRenderers` solo dentro del End: el enderman cambia los ojos vanilla por su brillo; el shulker usa una sola textura también en la cabeza (sustituye `ShulkerHeadLayer`).
+- Prueba `EndMobGameTests.endCorruptedMobs`. 81 pruebas pasan.
+

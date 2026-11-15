@@ -5,7 +5,6 @@
 - Ajustes de equilibrio de habilidades (XP por acción) tras jugar un rato.
 
 ## Ideas propuestas (el usuario elige el orden)
-- **Equipo de Inercita**: herramientas y armadura de nivel 2 (diseño realista + detalles del mod).
 - **Más armas realistas** (p. ej. rifle cinético) con sus propios módulos en el banco.
 - Más habilidades (el sistema está preparado: ver `Skill.java`).
 - Materiales del lore aún no implementados: Radionita, Crioprisma (¿para las dimensiones nuevas de los tiers 4-5?); Núcleo Directriz (jefe final).

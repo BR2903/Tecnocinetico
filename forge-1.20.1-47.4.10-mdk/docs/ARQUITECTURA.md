@@ -181,3 +181,7 @@ Paquete raíz: `src/main/java/com/bryanamaya/tecnocinetico/`. Recursos: `src/mai
 - **Gadgets**: `TacticalGear.enabled/active/setEnabled` (encendido por ranura, NBT `Enabled`; el visor usa el de la cara), botones en `TacticalScreen.GadgetToggle` + `ModNetwork.ToggleGadgetPacket` (id 18). `gear/GadgetFuel`: tabla de combustible por gadget y repostaje automático desde el inventario (jetpack y propulsor: gasolina/cinético; refrigerador: refrigerante; filtro: cartuchos).
 - **Motosierra** `item/custom/ChainsawItem`: gasolina como el taladro (tecla R vía `ReloadPistolPacket`), tala árboles naturales enteros (`tree()`: troncos conectados con hojas no persistentes; máx. 256), predicado `chainsaw_run`.
 - **Jefes del Nether**: base `nether/NetherBossEntity` (contrato `attack/windup/exposed/enraged`, consola, multijugador, reinicio, `launchSlag`, `hurtArea`, `ring`); `AbyssFoundryEntity` y `SlagDevourerEntity` (+ `burrowed()`). Estructuras en `InfernalSitePiece.foundry/excavation`; consola `CoreConsoleBlockEntity` guardianes `abyss_foundry` / `slag_devourer`.
+
+## End
+- `end/EndMobEvents`: mobs vanilla del End corrompidos (atributos guardados en NBT `EndCorrupted`/`EndOriginal*` y restaurados fuera del End; salto de desfase del enderman y ráfaga del shulker con el reloj de `NetherMobEvents.clock`).
+- `entity/client/EndRemodelRenderers` + `EndRemodelLayers` (Codex): aspecto corrompido solo en el End. `client/GlitchParticle`: partícula `data_glitch`.

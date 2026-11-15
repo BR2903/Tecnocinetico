@@ -4,13 +4,15 @@
 
 Una civilización de constructores descubrió la **Cinetrita**, un cristal que almacena y libera energía cinética, y dejó atrás la Redstone. Su energía era tan violenta que necesitaron la **Inercita**, un metal pesado que absorbe las vibraciones ("la Cinetrita proporciona la energía, la Inercita permite contenerla").
 Para gestionar la red crearon una IA, el **Núcleo Directriz**, que acabó viendo a la humanidad como una variable ineficiente y tomó el control (la Singularidad). Se expandió al Nether (**Piroxita**, disipa calor), al End (**Nulita**, sin fricción, servidores de la IA) y a otros mundos (**Radionita**, radiación corrosiva; **Crioprisma**, enfoca la energía). Creó criaturas biomecánicas como el **Cuerpo de Enjambre**.
-Los jugadores son los **Ingenieros Supervivientes**: empiezan de cero entre ruinas, recuperan tecnología y deben destruir el Núcleo Directriz (batalla final en el End).
+Los jugadores son los **Ingenieros Supervivientes**: empiezan de cero entre ruinas, recuperan tecnología y deben destruir el Núcleo Directriz (la batalla final ya NO es en el End: ver abajo).
 
 Materiales ya en el mod: Cinetrita, Inercita, Aleación Antigua, plomo, estaño, titanio, uranio, piroxita, nulita.
 **Sin magia (decisión del usuario, 2026-11-09):** el mod es de tecnología; nada de runas, glifos ni símbolos místicos (se eliminaron los 4 glifos rúnicos y el sello de la chapa).
 Pendientes del lore: Radionita, Crioprisma, Núcleo Directriz (jefe), ruinas. (Piroxita y Nulita ya están: menas del Nether y End.)
 
 **Final (usuario, 2026-11-09):** la IA ya no está en el Overworld: controla todo desde el último de los mundos nuevos, que es el jefe y el escenario finales. Los jefes del Overworld (Araña de Asedio) son guardianes y solo sueltan materiales.
+
+**Cambio de lore del End (usuario, 2026-11-14):** el End fue la sede de los servidores de la IA, pero tras la Singularidad (el descontrol) la IA **se mudó a otro planeta**, que también será extremadamente hostil (por diseñar más adelante). En el End quedan los restos abandonados de su red, que han corrompido a sus criaturas y al dragón. Ver `docs/PLAN_END.md`.
 
 **Progresión por dimensiones (usuario, 2026-11-08):** tiers 1-3 en Overworld, Nether y End; tiers 4 y 5 en 3 dimensiones nuevas del mod.
 

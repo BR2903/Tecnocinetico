@@ -265,6 +265,7 @@ public class Tecnocinetico {
                     sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.SPARK));
             event.registerSpriteSet(ModParticles.KINETIC_BURST.get(),
                     sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.BURST));
+            event.registerSpriteSet(ModParticles.DATA_GLITCH.get(), com.bryanamaya.tecnocinetico.client.GlitchParticle.Provider::new);
             event.registerSpriteSet(ModParticles.BULLET_TRACER.get(),
                     sprites -> new KineticParticle.Provider(sprites, KineticParticle.Kind.BULLET_TRACER));
             event.registerSpriteSet(ModParticles.BULLET_SPARK.get(),
