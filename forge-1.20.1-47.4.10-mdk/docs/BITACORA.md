@@ -893,3 +893,7 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - `build.gradle`: `filteringCharset = 'UTF-8'` en processResources (en Windows el mods.toml del jar salía en Windows-1252 y "Tecnocinético" se vería roto en la lista de mods).
 - Sin probar aún con el juego real (cliente ni servidor dedicado).
 
+## 2026-11-15 — Claude — Fuera los Pedazos de Escombro
+- El usuario los seguía viendo: la generación suelta ya se había quitado (625a1e9), pero la Fábrica Abandonada y los edificios en ruinas aún los ponían. Eliminado el bloque `debris_layer` por completo (registro, estructuras, receta, botín, modelos, etiqueta, textos y `tools/world_blocks_gen.py`). En mundos ya generados los que hubiera desaparecen (pasan a aire).
+- Exige Forge 47.4.10 o más nuevo (`forge_version_range`): con NeoForge/Forge 47.1 el mod no arranca y ahora lo avisa al cargar.
+

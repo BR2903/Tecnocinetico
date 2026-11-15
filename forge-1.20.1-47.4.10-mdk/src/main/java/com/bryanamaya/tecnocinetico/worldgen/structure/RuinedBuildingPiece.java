@@ -199,8 +199,6 @@ public class RuinedBuildingPiece extends StructurePiece {
                     float v = pr.nextFloat();
                     if (v < 0.10F) {
                         put(level, pile(pr), x, y, z, box);
-                    } else if (v < 0.16F) {
-                        put(level, ModWorldBlocks.DEBRIS_LAYER.get().defaultBlockState(), x, y, z, box);
                     } else if (v < 0.22F && style == RuinedBuildingStructure.Style.OVERGROWN) {
                         put(level, Blocks.MOSS_CARPET.defaultBlockState(), x, y, z, box);
                     } else if (v < 0.25F && style == RuinedBuildingStructure.Style.FROZEN) {

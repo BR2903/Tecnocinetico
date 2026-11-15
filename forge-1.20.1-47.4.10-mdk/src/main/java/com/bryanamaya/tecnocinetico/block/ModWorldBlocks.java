@@ -55,8 +55,6 @@ public final class ModWorldBlocks {
     public static final RegistryObject<Block> RUBBLE = block("rubble",
             () -> new PileBlock(Properties.copy(Blocks.GRAVEL).mapColor(MapColor.STONE).strength(0.4F)
                     .sound(SoundType.STONE).noOcclusion().pushReaction(PushReaction.DESTROY)));
-    public static final RegistryObject<Block> DEBRIS_LAYER = block("debris_layer",
-            () -> new CarpetBlock(Properties.copy(Blocks.GRAVEL).strength(0.2F).noOcclusion()));
 
     // ------------------------------------------------------------------ asfalto
     public static final RegistryObject<Block> ASPHALT = block("asphalt", () -> new Block(asphalt()));

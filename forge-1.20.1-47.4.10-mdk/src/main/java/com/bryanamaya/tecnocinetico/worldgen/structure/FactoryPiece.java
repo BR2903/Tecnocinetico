@@ -366,8 +366,6 @@ public class FactoryPiece extends StructurePiece {
                 if (v < (nearCollapse ? 0.35F : 0.05F)) {
                     put(level, (pr.nextFloat() < 0.75F ? ModWorldBlocks.RUBBLE : ModWorldBlocks.SCRAP_PILE).get()
                             .defaultBlockState().setValue(PileBlock.PIECES, 1 + pr.nextInt(4)), x, 1, z, box);
-                } else if (v < (nearCollapse ? 0.5F : 0.1F)) {
-                    put(level, ModWorldBlocks.DEBRIS_LAYER.get().defaultBlockState(), x, 1, z, box);
                 } else if (overgrown && v < 0.2F) {
                     put(level, Blocks.MOSS_CARPET.defaultBlockState(), x, 1, z, box);
                 }

@@ -1118,14 +1118,6 @@ def main():
                                                   for f, y in (("north", 0), ("east", 90), ("south", 180), ("west", 270))}})
     item_model("asphalt_road_line", rl("block/asphalt_road_line"))
 
-    # capa de escombros (como una alfombra)
-    model("debris_layer", {"parent": "minecraft:block/block", "ambientocclusion": False,
-                           "textures": {"0": rl("block/rubble"), "particle": rl("block/rubble")},
-                           "elements": pile_elements(DEBRIS_BITS, RUB)})
-    blockstate("debris_layer", {"variants": {"": [{"model": rl("block/debris_layer"), "y": y}
-                                                  for y in (0, 90, 180, 270)]}})
-    item_model("debris_layer", rl("block/debris_layer"))
-
     # capa de ceniza (1-8 capas, plantillas de nieve)
     tex = rl("block/ash")
     variants = {}
@@ -1151,7 +1143,7 @@ def main():
     item_model("scrap_metal", layer=rl("item/scrap_metal"))
 
     # --- loot tables
-    for name in ("concrete", "cracked_concrete", "mossy_concrete", "debris_layer", "asphalt", "cracked_asphalt",
+    for name in ("concrete", "cracked_concrete", "mossy_concrete", "asphalt", "cracked_asphalt",
                  "asphalt_road_line", "rusted_metal_sheet", "rusted_metal_beam", "rusted_grate", "ash_block",
                  "vitrified_sand", "dead_log", "dead_planks"):
         loot_self(name)
@@ -1192,7 +1184,7 @@ def main():
     add_tag("minecraft/tags/blocks/mineable/pickaxe.json", [rl(n) for n in fam + [
         "asphalt", "cracked_asphalt", "asphalt_road_line", "rusted_metal_sheet", "rusted_metal_beam", "rusted_grate",
         "scrap_pile", "vitrified_sand", "cinetrite_cluster", "swarm_comb"]])
-    add_tag("minecraft/tags/blocks/mineable/shovel.json", [rl(n) for n in ("rubble", "debris_layer", "ash_block", "ash_layer")])
+    add_tag("minecraft/tags/blocks/mineable/shovel.json", [rl(n) for n in ("rubble", "ash_block", "ash_layer")])
     add_tag("minecraft/tags/blocks/mineable/axe.json", [rl("dead_log"), rl("dead_planks")])
     walls = [rl(f"{b}_wall") for b in ("concrete", "cracked_concrete", "mossy_concrete")]
     slabs = [rl(f"{b}_slab") for b in ("concrete", "cracked_concrete", "mossy_concrete")]
@@ -1217,7 +1209,6 @@ def main():
         cutting(f"{b}_slab_stonecutting", rl(b), rl(f"{b}_slab"), 2)
         cutting(f"{b}_stairs_stonecutting", rl(b), rl(f"{b}_stairs"))
         cutting(f"{b}_wall_stonecutting", rl(b), rl(f"{b}_wall"))
-    shaped("debris_layer", ["##"], {"#": rl("rubble")}, rl("debris_layer"), 3)
     shapeless("asphalt", ["minecraft:gravel", "minecraft:gravel", "minecraft:gravel", "minecraft:gravel", "minecraft:coal"],
               rl("asphalt"), 4)
     smelt("cracked_asphalt", rl("asphalt"), rl("cracked_asphalt"))
@@ -1235,7 +1226,7 @@ def main():
     names = {
         "concrete": ("Hormigón", "Concrete"), "cracked_concrete": ("Hormigón Agrietado", "Cracked Concrete"),
         "mossy_concrete": ("Hormigón Musgoso", "Mossy Concrete"),
-        "rubble": ("Escombros", "Rubble"), "debris_layer": ("Pedazos de Escombro", "Debris Bits"),
+        "rubble": ("Escombros", "Rubble"),
         "asphalt": ("Asfalto", "Asphalt"), "cracked_asphalt": ("Asfalto Agrietado", "Cracked Asphalt"),
         "asphalt_road_line": ("Asfalto con Línea", "Road Line Asphalt"),
         "rusted_metal_sheet": ("Chapa Oxidada", "Rusted Metal Sheet"), "rusted_metal_beam": ("Viga Oxidada", "Rusted Beam"),
