@@ -826,4 +826,4 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Técnica: access transformer activado en `build.gradle` para `EndDragonFight`; estado en `EndArenaData` (SavedData del End); partículas y daño en el servidor, temblor por paquete (id 20).
 - Arte de Codex: torreta (`EndRelayTurretModel`), textura del Dragón (sustituye `minecraft:textures/entity/enderdragon/dragon.png` y `dragon_eyes.png`, dibujo propio sobre el UV vanilla), `corrupted_end_stone`, objetos, iconos de efectos y superposición de corrupción (`tools/end_part2_gen.py`).
 - 83 pruebas pasan.
-
+- Arreglo (usuario: "el Dragón se acerca a las torretas y les hace daño"): las Torretas-repetidor ignoran todo daño del Dragón (cuerpo/alas, aliento, bolas de fuego y sus nubes) y no les afectan los efectos de pociones; los jugadores las siguen dañando. Prueba `dragonSparesTurrets`. 84 pruebas.

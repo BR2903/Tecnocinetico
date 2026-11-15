@@ -205,6 +205,31 @@ public class EndRelayTurretEntity extends Monster {
         return getEyePosition().add(Vec3.directionFromRotation(getXRot(), yHeadRot).scale(0.75D));   // boca del emisor
     }
 
+    // ------------------------------------------------------------------ aliada del Dragón
+
+    /** El Dragón no daña a sus torretas: ni su cuerpo y alas al pasar, ni su aliento ni sus bolas de fuego. */
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (fromDragon(source)) {
+            return false;
+        }
+        return super.hurt(source, amount);
+    }
+
+    public static boolean fromDragon(DamageSource source) {
+        Entity attacker = source.getEntity(), direct = source.getDirectEntity();
+        return attacker instanceof EnderDragon || direct instanceof EnderDragon
+                || direct instanceof net.minecraft.world.entity.boss.EnderDragonPart
+                || direct instanceof net.minecraft.world.entity.projectile.DragonFireball
+                || direct instanceof net.minecraft.world.entity.AreaEffectCloud cloud && cloud.getOwner() instanceof EnderDragon;
+    }
+
+    /** Es una máquina: las pociones y nubes (p. ej. el aliento del Dragón) no le hacen nada. */
+    @Override
+    public boolean canBeAffected(net.minecraft.world.effect.MobEffectInstance effect) {
+        return false;
+    }
+
     // ------------------------------------------------------------------ muerte: explota como un cristal
 
     @Override

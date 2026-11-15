@@ -131,4 +131,23 @@ public class EndArenaGameTests {
         h.assertTrue(NetherGadgetItem.level(mk3) == 3 && mk3.getMaxDamage() == base * 3, "El Mk III no triplica la batería");
         h.succeed();
     }
+
+    /** El Dragón no daña a sus torretas (golpe, aliento); los jugadores sí. */
+    @GameTest(template = "empty")
+    public static void dragonSparesTurrets(GameTestHelper h) {
+        var level = h.getLevel();
+        var turret = com.bryanamaya.tecnocinetico.entity.ModEntities.END_RELAY_TURRET.get().create(level);
+        var dragon = EntityType.ENDER_DRAGON.create(level);
+        turret.moveTo(h.absoluteVec(new Vec3(1.5, 2, 1.5)));
+        float hp = turret.getHealth();
+        turret.hurt(level.damageSources().mobAttack(dragon), 10.0F);
+        turret.hurt(level.damageSources().indirectMagic(dragon, dragon), 10.0F);
+        turret.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.HARM, 1, 1));
+        h.assertTrue(turret.getHealth() == hp, "El Dragón daña a su torreta: " + turret.getHealth());
+        var player = net.minecraftforge.common.util.FakePlayerFactory.get(level, new GameProfile(UUID.nameUUIDFromBytes("turret".getBytes()), "[turret]"));
+        turret.invulnerableTime = 0;
+        turret.hurt(level.damageSources().playerAttack(player), 10.0F);
+        h.assertTrue(turret.getHealth() < hp, "Los jugadores no pueden dañar la torreta");
+        h.succeed();
+    }
 }
