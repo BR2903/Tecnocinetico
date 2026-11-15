@@ -148,7 +148,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "tecnocinetico:rail_slug",
+          "name": "tecnocinetico:rifle_round",
           "functions": [
             {
               "function": "minecraft:set_count",

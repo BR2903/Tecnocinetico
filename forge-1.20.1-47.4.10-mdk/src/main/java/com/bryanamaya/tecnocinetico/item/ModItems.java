@@ -370,10 +370,10 @@ public class ModItems {
     public static final RegistryObject<Item> PUMP_SHOTGUN = ITEMS.register("pump_shotgun",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SHOTGUN, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.PUMP, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
                     6, () -> SHOTGUN_SHELL.get(), 8, 2.8F, 18.0D, 6.0F, 4.0F, 16, 12, 8.0F, 2.5F, 0.85F, 0.75F), new Item.Properties()));
-    /** Rifle semiautomático: cargador de 10, 13 de daño, 60 bloques, 6 ticks entre disparos. */
+    /** Rifle semiautomático: cargador de 10, 13 de daño, 60 bloques, 8 ticks entre disparos (33/s). */
     public static final RegistryObject<Item> SEMI_RIFLE = ITEMS.register("semi_rifle",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.RIFLE, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.SEMI, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
-                    10, () -> RIFLE_ROUND.get(), 1, 13.0F, 60.0D, 1.6F, 0.15F, 6, 50, 4.5F, 1.0F, 0.55F, 0.95F), new Item.Properties()));
+                    10, () -> RIFLE_ROUND.get(), 1, 13.0F, 60.0D, 1.6F, 0.15F, 8, 50, 4.5F, 1.0F, 0.55F, 0.95F), new Item.Properties()));
     /** Subfusil: automático, Cargador Ampliado (18 balas cinéticas), 3.5 de daño, 10 disparos/s; la ráfaga abre el grupo. */
     public static final RegistryObject<Item> KINETIC_SMG = ITEMS.register("kinetic_smg",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.SMG, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
@@ -382,7 +382,6 @@ public class ModItems {
     // ---------------------------------------------------------------- tier 3 (Ensamblador de Armas + Procesador del Núcleo)
     public static final RegistryObject<Item> CORE_PROCESSOR = ITEMS.register("core_processor",
             () -> new Item(new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
-    public static final RegistryObject<Item> RAIL_SLUG = ITEMS.register("rail_slug", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> KINETIC_GRENADE = ITEMS.register("kinetic_grenade",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.KineticGrenadeItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> PULSE_CELL = ITEMS.register("pulse_cell", () -> new Item(new Item.Properties().stacksTo(8)));
@@ -392,10 +391,10 @@ public class ModItems {
             () -> new com.bryanamaya.tecnocinetico.item.weapon.RailRifleItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
                     5, () -> RIFLE_ROUND.get(), 1, 32.0F, 100.0D, 0.6F, 0.0F, 20, 60, 6.0F, 1.0F, 0.45F, 0.5F),
                     new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
-    /** Fusil de asalto: automático, 30 balas de rifle, 7 de daño, 70 bloques, ~7 disparos/s. */
+    /** Fusil de asalto: automático, 30 balas de rifle, 8 de daño, 70 bloques, ~7 disparos/s (53/s). */
     public static final RegistryObject<Item> ASSAULT_RIFLE = ITEMS.register("assault_rifle",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem(com.bryanamaya.tecnocinetico.item.custom.WeaponModule.Family.HEAVY, com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Action.AUTO, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
-                    30, () -> RIFLE_ROUND.get(), 1, 7.0F, 70.0D, 2.8F, 0.7F, 3, 50, 1.8F, 1.2F, 0.7F, 1.05F),
+                    30, () -> RIFLE_ROUND.get(), 1, 8.0F, 70.0D, 2.8F, 0.7F, 3, 50, 1.8F, 1.2F, 0.7F, 1.05F),
                     new Item.Properties().rarity(net.minecraft.world.item.Rarity.RARE)));
     /** Lanzagranadas: tambor de 4 Granadas Cinéticas (rebotan, estallan sin romper bloques). */
     public static final RegistryObject<Item> GRENADE_LAUNCHER = ITEMS.register("grenade_launcher",
@@ -532,10 +531,10 @@ public class ModItems {
     public static final RegistryObject<Item> FLAMETHROWER = ITEMS.register("flamethrower",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.FlamethrowerItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
                     100, () -> FUEL_CANISTER.get(), 1, 1.5F, 7.0D, 0.0F, 0.0F, 2, 40, 0.2F, 0.3F, 0.95F, 1.0F), new Item.Properties()));
-    /** Ametralladora ligera (tier 2): 60 balas de rifle, 6 de daño, 10 disparos/s; frena un 15 % al llevarla. */
+    /** Ametralladora ligera (tier 2): 60 balas de rifle, 4 de daño, 10 disparos/s (40/s, por debajo del fusil de asalto); frena un 15 % al llevarla. */
     public static final RegistryObject<Item> LIGHT_MACHINE_GUN = ITEMS.register("light_machine_gun",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.HeavyGunItem(0.15, new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(
-                    60, () -> RIFLE_ROUND.get(), 1, 6.0F, 60.0D, 3.5F, 1.8F, 2, 80, 1.4F, 1.1F, 0.75F, 0.9F), new Item.Properties()));
+                    60, () -> RIFLE_ROUND.get(), 1, 4.0F, 60.0D, 3.5F, 1.8F, 2, 80, 1.4F, 1.1F, 0.75F, 0.9F), new Item.Properties()));
     /** Francotirador cinético (tier 2): cerrojo, 5 balas de rifle, 26 de daño, 150 bloques, mira integrada. */
     public static final RegistryObject<Item> KINETIC_SNIPER = ITEMS.register("kinetic_sniper",
             () -> new com.bryanamaya.tecnocinetico.item.weapon.SniperItem(new com.bryanamaya.tecnocinetico.item.weapon.LongGunItem.Stats(

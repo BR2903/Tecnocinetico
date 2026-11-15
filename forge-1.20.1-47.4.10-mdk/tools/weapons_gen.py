@@ -328,7 +328,6 @@ if __name__ == "__main__":
     model("dimensional_drive", dimensional_drive(), SMALL)
     model("dash_cell", dash_cell(), SMALL)
     model("core_missile", core_missile(), SMALL)
-    model("rail_slug", rail_slug(), SMALL)
     model("kinetic_grenade", kinetic_grenade(), SMALL)
     model("pulse_cell", pulse_cell(True), SMALL)
     model("empty_pulse_cell", pulse_cell(False), SMALL)

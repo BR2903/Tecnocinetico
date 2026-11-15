@@ -903,3 +903,10 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - Máquinas en reposo: Bomba de Extracción 5,4 → 0,2 µs (se salta secciones sin petróleo por la paleta y descansa 10 s tras recorrer la columna); Ensamblador de Armas 6,6 → 0,8 (sin buscar receta si está vacío). El resto, < 3 µs.
 - Generación de chunks: el código del mod es ~0 % del tiempo en Overworld, Nether y End (lo caro es el ruido vanilla).
 
+## 2026-11-15 — Claude — v2: revisión completa de recetas
+- Herramienta nueva: volcado de todas las recetas (`RecipeAuditGameTests`, con `TECNO_AUDIT=1`) + `tools/recipe_audit.py` (coste en hierro equivalente, usos, objetos sin origen). Ver HERRAMIENTAS.
+- Resultado: la progresión de materiales y máquinas es coherente (refinador ×2, laboratorio ×3 con ácido, menas más difíciles = más energía; titanio y uranio solo en la Cámara de Reacción; tier 3 con Procesador del Núcleo ≈ 35-55, tier 2 ≈ 5-18). Armaduras: cada tier protege más y cada set tiene su bono.
+- **Armas** (daño por segundo sostenido): dos de tier 2 igualaban o superaban al Fusil de Asalto de tier 3. Ametralladora Ligera 6 → 4 de daño (60 → 40/s), Rifle Semiautomático 6 → 8 ticks entre disparos (43 → 33/s), Fusil de Asalto 7 → 8 de daño (47 → 53/s).
+- Quitada la **Bala de Riel** (objeto muerto: el Rifle de Riel usa balas de rifle); la Araña de Asedio suelta balas de rifle en su lugar.
+- Pendiente de decidir con el usuario tras jugar: el Kit del Reactor de Fisión es lo más caro fabricable (16 bloques de plomo, 32 de titanio, 2 Procesadores).
+
