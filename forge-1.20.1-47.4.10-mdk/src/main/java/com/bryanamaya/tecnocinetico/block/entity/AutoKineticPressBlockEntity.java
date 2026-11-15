@@ -150,6 +150,8 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
         super(ModBlockEntities.AUTO_KINETIC_PRESS_BE.get(), pPos, pBlockState);
     }
 
+    private int lightPending;                                                 // luz de estado sin parpadeo (StatusLight)
+
     public static void tick(Level level, BlockPos pos, BlockState state, AutoKineticPressBlockEntity entity) {
         if (level.isClientSide()) {
             return;
@@ -160,9 +162,7 @@ public class AutoKineticPressBlockEntity extends BlockEntity implements MenuProv
         }
         // Luz de estado del bloque: encendida (cian) si hay electricidad suficiente
         boolean powered = entity.energy.getEnergyStored() >= ENERGY_PER_TICK;
-        if (state.getValue(AutoKineticPressBlock.POWERED) != powered) {
-            level.setBlock(pos, state.setValue(AutoKineticPressBlock.POWERED, powered), Block.UPDATE_CLIENTS);
-        }
+        entity.lightPending = com.bryanamaya.tecnocinetico.util.StatusLight.update(level, pos, state, AutoKineticPressBlock.POWERED, powered, entity.lightPending);
         ItemStack result = PressRecipes.findResult(entity.itemHandler, INPUT_SLOTS, true);
         if (result.isEmpty() || !entity.canOutput(result)) {
             entity.lastRecipe = null;

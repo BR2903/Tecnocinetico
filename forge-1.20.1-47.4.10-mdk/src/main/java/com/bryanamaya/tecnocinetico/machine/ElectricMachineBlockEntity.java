@@ -41,6 +41,7 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
     protected int progress, maxProgress, usage;
     /** Hay cambios que el cliente aún no ha visto. */
     private boolean syncDirty = true;
+    private int lightPending;                                                 // luz de estado sin parpadeo (StatusLight)
 
     @Override
     public void setChanged() {
@@ -190,9 +191,7 @@ public abstract class ElectricMachineBlockEntity extends BlockEntity implements 
             be.effects(server, level.getGameTime());                          // partículas y sonido de trabajo
         }
         boolean lit = be.isLit();
-        if (state.hasProperty(ElectricMachineBlock.POWERED) && state.getValue(ElectricMachineBlock.POWERED) != lit) {
-            level.setBlock(pos, state.setValue(ElectricMachineBlock.POWERED, lit), Block.UPDATE_CLIENTS);
-        }
+        be.lightPending = com.bryanamaya.tecnocinetico.util.StatusLight.update(level, pos, state, ElectricMachineBlock.POWERED, lit, be.lightPending);
     }
 
     // ---------------------------------------------------------------- ayudas para las máquinas

@@ -848,3 +848,8 @@ Añade una entrada al final cada vez que termines una tarea: fecha, quién (Clau
 - **Equilibrio**: balas de rifle y cartuchos de escopeta ya no piden cinetrita (eso queda para la Bala Cinética): a mano cobre/papel + pólvora + 3 pepitas de plomo; fabricador de rifle 5 pepitas + cobre + 2 pólvora → 2. El Acoplador Cinético Bruto sale de 2 en 2 por Bloque de Aleación Antigua (cada servo lleva uno: la exoarmadura costaba 9 bloques). Laboratorio: 2 chatarra → 2 polvos de hierro (antes 3).
 - `WorldgenGameTests.structuresGenerate`: más intentos para colocar las estructuras pequeñas (fallaba a veces según dónde caía la prueba). Prueba nueva `RecipeBalanceGameTests`. 87 pruebas.
 
+## 2026-11-14 — Claude — Más rendimiento: luces de máquinas y radiación
+- Revisión de lo que corre cada tick (mobs del Nether/End, drones, torretas, máquinas, HUD y renderizadores del cliente, generación): casi todo ya iba cada 10-20 ticks o con cachés.
+- **Luz de estado sin parpadeo** (`util/StatusLight`): máquinas eléctricas, prensa automática y ensamblador cambiaban POWERED en cuanto la energía bajaba del consumo; con la energía justa parpadeaba casi cada tick y cada cambio obliga al cliente a reconstruir la sección del chunk. Ahora el cambio tiene que mantenerse 10 ticks.
+- **Radiación**: antes de recorrer los ~400 bloques alrededor de cada jugador cada segundo, mira la paleta de las secciones; sin uranio se lo salta.
+- Pruebas nuevas `radiationSkipsCleanSections` y `statusLightDebounce`. 89 pruebas.

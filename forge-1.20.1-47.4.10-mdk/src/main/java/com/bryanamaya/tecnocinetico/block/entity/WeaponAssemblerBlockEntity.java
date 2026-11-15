@@ -143,15 +143,15 @@ public class WeaponAssemblerBlockEntity extends BlockEntity implements MenuProvi
         super(ModBlockEntities.WEAPON_ASSEMBLER_BE.get(), pPos, pBlockState);
     }
 
+    private int lightPending;                                                 // luz de estado sin parpadeo (StatusLight)
+
     public static void tick(Level level, BlockPos pos, BlockState state, WeaponAssemblerBlockEntity entity) {
         if (level.isClientSide()) {
             return;
         }
         // Luz de estado del bloque: encendida (cian) si hay electricidad suficiente
         boolean powered = entity.energy.getEnergyStored() >= ENERGY_PER_TICK;
-        if (state.getValue(WeaponAssemblerBlock.POWERED) != powered) {
-            level.setBlock(pos, state.setValue(WeaponAssemblerBlock.POWERED, powered), Block.UPDATE_CLIENTS);
-        }
+        entity.lightPending = com.bryanamaya.tecnocinetico.util.StatusLight.update(level, pos, state, WeaponAssemblerBlock.POWERED, powered, entity.lightPending);
         AssemblerRecipes.Recipe recipe = AssemblerRecipes.find(entity.itemHandler, INPUT_SLOTS);
         ItemStack result = recipe == null ? ItemStack.EMPTY : recipe.output().copy();
         if (result.isEmpty() || !entity.canOutput(result)) {

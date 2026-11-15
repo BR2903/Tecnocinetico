@@ -68,7 +68,9 @@ public final class RadiationEvents {
         Level level = p.level();
         BlockPos c = p.blockPosition();
         Block block = ModBlocks.URANIUM_BLOCK.get(), ore = ModBlocks.URANIUM_ORE.get(), deep = ModBlocks.DEEPSLATE_URANIUM_ORE.get();
-        for (BlockPos q : BlockPos.betweenClosed(c.offset(-RADIUS, -RADIUS, -RADIUS), c.offset(RADIUS, RADIUS + 1, RADIUS))) {
+        // la paleta de cada sección dice si puede haber uranio: casi siempre no, y se salta el recorrido de bloques
+        for (BlockPos q : uraniumNearby(level, c, block, ore, deep) ? BlockPos.betweenClosed(c.offset(-RADIUS, -RADIUS, -RADIUS), c.offset(RADIUS, RADIUS + 1, RADIUS))
+                : java.util.List.<BlockPos>of()) {
             var st = level.getBlockState(q);
             Block b = st.getBlock();
             float k = b == block ? 6.0F : (b == ore || b == deep) ? 0.6F : 0.0F;
@@ -77,6 +79,26 @@ public final class RadiationEvents {
             }
         }
         return dose + reactorDose(level, c);
+    }
+
+    /** ¿Alguna sección de chunk alrededor tiene bloques u menas de uranio en su paleta? */
+    private static boolean uraniumNearby(Level level, BlockPos c, Block block, Block ore, Block deep) {
+        for (int cx = (c.getX() - RADIUS) >> 4; cx <= (c.getX() + RADIUS) >> 4; cx++) {
+            for (int cz = (c.getZ() - RADIUS) >> 4; cz <= (c.getZ() + RADIUS) >> 4; cz++) {
+                if (!level.hasChunk(cx, cz)) {
+                    continue;
+                }
+                var chunk = level.getChunk(cx, cz);
+                for (int sy = (c.getY() - RADIUS) >> 4; sy <= (c.getY() + RADIUS + 1) >> 4; sy++) {
+                    int idx = chunk.getSectionIndexFromSectionY(sy);
+                    if (idx >= 0 && idx < chunk.getSectionsCount()
+                            && chunk.getSection(idx).maybeHas(st -> st.is(block) || st.is(ore) || st.is(deep))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /** Alcance de la radiación de un reactor encendido (desde su núcleo, que queda en el centro de la estructura 9x9). */
